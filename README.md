@@ -24,7 +24,7 @@ The details of the development and workings of the method, and its validation ca
 Installing can be done through pip and git: 
 
 ``` python
-pip install git+https://github.com/vmenger/deduce.git
+>>> pip install git+https://github.com/vmenger/deduce.git
 ```
 
 Or from source, simply download and use python to install:
