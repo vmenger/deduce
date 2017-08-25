@@ -30,7 +30,7 @@ pip install git+https://github.com/vmenger/deduce.git
 Or from source, simply download and use python to install:
 
 ``` python
->>> python setup.py
+>>> python setup.py install
 ```
 
 ## Getting started
@@ -39,26 +39,26 @@ The package has a method for annotating (`annotate_text`) and for removing the a
 
 ``` python
 deduce.annotate(
-		text, 					    # The text to be annotated
-		patient_first_names="", 	# First names (separated by whitespace)
-		patient_initials="", 		# Initial
-		patient_surname="", 		# Surname(s)
-		patient_given_name="", 		# Given name
-        names=True, 			    # Person names, including initials
-		locations=True, 		    # Geographical locations
-		institutions=True, 		    # Institutions
-		dates=True, 			    # Dates
-		ages=True, 				    # Ages
-        patient_numbers=True, 	    # Patient numbers
-		phone_numbers=True, 	    # Phone numbers
-		urls=True,				    # Urls and e-mail addresses
-		flatten=True			    # Debug option
-	)    
-	
+        text,                       # The text to be annotated
+        patient_first_names="",     # First names (separated by whitespace)
+        patient_initials="",        # Initial
+        patient_surname="",         # Surname(s)
+        patient_given_name="",      # Given name
+        names=True,                 # Person names, including initials
+        locations=True,             # Geographical locations
+        institutions=True,          # Institutions
+        dates=True,                 # Dates
+        ages=True,                  # Ages
+        patient_numbers=True,       # Patient numbers
+        phone_numbers=True,         # Phone numbers
+        urls=True,                  # Urls and e-mail addresses
+        flatten=True                # Debug option
+    )    
+    
 deduce.deidentify_annotations(
         text                        # The annotated text that should be de-identified
     )
-	
+    
 ```
 
 ## Examples
