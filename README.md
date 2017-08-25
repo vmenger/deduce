@@ -13,7 +13,7 @@ This project contains the code for DEDUCE: de-identification method for Dutch me
 
 The details of the development and workings of the method, and its validation can be found in: 
 
-[Menger, V.J., Scheepers, F., van Wijk, L.M., Spruit, M. (2017). DEDUCE: A pattern matching method for automatic de-identification of Dutch medical text, Telematics and Informatics, 2017, ISSN 0736-5853] (http://www.sciencedirect.com/science/article/pii/S0736585316307365)
+[Menger, V.J., Scheepers, F., van Wijk, L.M., Spruit, M. (2017). DEDUCE: A pattern matching method for automatic de-identification of Dutch medical text, Telematics and Informatics, 2017, ISSN 0736-5853](http://www.sciencedirect.com/science/article/pii/S0736585316307365)
 
 ### Prerequisites
 
