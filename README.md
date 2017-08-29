@@ -15,6 +15,10 @@ The details of the development and workings of the method, and its validation ca
 
 [Menger, V.J., Scheepers, F., van Wijk, L.M., Spruit, M. (2017). DEDUCE: A pattern matching method for automatic de-identification of Dutch medical text, Telematics and Informatics, 2017, ISSN 0736-5853](http://www.sciencedirect.com/science/article/pii/S0736585316307365)
 
+### Demo
+
+An interactive demo of the code can be found [here](http://ads.science.uu.nl/deduce/)
+
 ### Prerequisites
 
 * `nltk`
