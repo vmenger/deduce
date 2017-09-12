@@ -42,7 +42,7 @@ Or from source, simply download and use python to install:
 The package has a method for annotating (`annotate_text`) and for removing the annotations (`deidentify_annotations`).
 
 ``` python
-deduce.annotate(
+deduce.annotate_text(
         text,                       # The text to be annotated
         patient_first_names="",     # First names (separated by whitespace)
         patient_initials="",        # Initial
@@ -71,7 +71,7 @@ deduce.deidentify_annotations(
 
 >>> text = u"Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen (e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud 
     en woonachtig in Utrecht. Hij werd op 10 oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
->>> annotated = deduce.annotate(text, patient_first_names="Jan", patient_surname="Jansen")
+>>> annotated = deduce.annotate_text(text, patient_first_names="Jan", patient_surname="Jansen")
 >>> deidentified = deduce.deidentify_annotations(annotated)
 
 >>> print (annotated)
@@ -84,7 +84,7 @@ Hij werd op <DATUM-1> door arts <PERSOON-1> ontslagen van de kliniek van het <IN
 
 ### Configuring
 
-The lookup lists in the `data/` folder can be tailored to the users specific needs. This is especially recommended for the list of names of institutions, since they are by default tailored to location of development and testing of the method. Regular expressions can be modified in `annotated.py`, this is for the same reason recommended for detecting patient numbers. 
+The lookup lists in the `data/` folder can be tailored to the users specific needs. This is especially recommended for the list of names of institutions, since they are by default tailored to location of development and testing of the method. Regular expressions can be modified in `annotate.py`, this is for the same reason recommended for detecting patient numbers. 
 
 ## Contributing
 
