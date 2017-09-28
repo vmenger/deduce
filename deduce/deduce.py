@@ -43,6 +43,9 @@ def annotate_text(
     and a number of flags indicating which PHIs should be annotated
     """
 
+    if text == "" or not text:
+        return text
+
     # Replace < and > symbols
     text = text.replace("<", "(")
     text = text.replace(">", ")")
@@ -108,6 +111,9 @@ def deidentify_annotations(text):
     Deidentify the annotated tags - only makes sense if annotate() is used first -
     otherwise the normal text is simply returned
     """
+
+    if text == "" or not text:
+        return text
 
     # Patient tags are always simply deidentified (because there is only one patient
     text = re.sub("<PATIENT\s([^>]+)>", "<PATIENT>", text)
