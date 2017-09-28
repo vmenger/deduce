@@ -43,7 +43,7 @@ def annotate_text(
     and a number of flags indicating which PHIs should be annotated
     """
 
-    if text == "" or not text:
+    if not text:
         return text
 
     # Replace < and > symbols
@@ -112,7 +112,7 @@ def deidentify_annotations(text):
     otherwise the normal text is simply returned
     """
 
-    if text == "" or not text:
+    if not text:
         return text
 
     # Patient tags are always simply deidentified (because there is only one patient
