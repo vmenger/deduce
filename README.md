@@ -42,6 +42,9 @@ Or from source, simply download and use python to install:
 The package has a method for annotating (`annotate_text`) and for removing the annotations (`deidentify_annotations`).
 
 ``` python
+
+import deduce 
+
 deduce.annotate_text(
         text,                       # The text to be annotated
         patient_first_names="",     # First names (separated by whitespace)
@@ -67,7 +70,7 @@ deduce.deidentify_annotations(
 
 ## Examples
 ``` python
->>> from deduce import deduce
+>>> import deduce
 
 >>> text = u"Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen (e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud 
     en woonachtig in Utrecht. Hij werd op 10 oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
