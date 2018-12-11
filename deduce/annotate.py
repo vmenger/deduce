@@ -45,10 +45,6 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
             # Voornamen
             for patient_first_name in str(patient_first_names).split(" "):
 
-                    # Break the first names loop
-                    found = True
-                    break
-
                 # Check that either an exact match exists, or a fuzzy match
                 # if the token has more than 3 characters
                 first_name_condition = (token == patient_first_name or
