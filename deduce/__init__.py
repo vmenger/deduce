@@ -1,1 +1,1 @@
-from deduce.deduce_v2 import annotate_text, deidentify_annotations
+from deduce.deduce import annotate_text, deidentify_annotations
