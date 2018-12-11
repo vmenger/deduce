@@ -5,8 +5,8 @@ deidentify_annotations() methods can be imported
 import re
 
 from nltk.metrics import edit_distance
-from .annotate_v2 import *
-from .utility_v2 import flatten_text
+from .annotate import *
+from .utility import flatten_text
 
 def annotate_text(
         # The text to be annotated
