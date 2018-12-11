@@ -2,17 +2,17 @@
 import re
 
 from .listtrie import ListTrie
-from .utility_v2 import read_list
+from .utility import read_list
 from .tokenizer import tokenize_split
 
 #  Read first names
-FIRST_NAMES = read_list("voornaam_v2.lst", min_len=2)
+FIRST_NAMES = read_list("voornaam.lst", min_len=2)
 
 # Read last names
-SURNAMES = read_list("achternaam_v2.lst", encoding="utf-8", min_len=2, normalize=True)
+SURNAMES = read_list("achternaam.lst", encoding="utf-8", min_len=2, normalize=True)
 
 # Read interfixes (such as 'van der', etc)
-INTERFIXES = read_list("voorvoegsel_v2.lst")
+INTERFIXES = read_list("voorvoegsel.lst")
 
 # Read all surnames that frequently occur with an
 # interfix ('Jong', 'Vries' for 'de Jong', 'de Vries', etc)
@@ -20,17 +20,17 @@ INTERFIX_SURNAMES = set([line.strip().split(" ")[-1]
                               for line in read_list("achternaammetvv.lst")])
 
 # Read prefixes (such as mw, dhr, pt)
-PREFIXES = read_list("prefix_v2.lst")
+PREFIXES = read_list("prefix.lst")
 
 # Read a list of medical terms
 MEDTERM = read_list("medischeterm.lst", encoding="latin-1")
 
 # Read the top 1000 of most used words in Dutch, and then filter all surnames from it
-TOP1000 = read_list("top1000_v2.lst", encoding="latin-1")
-TOP1000 = set(TOP1000).difference(read_list("achternaam_v2.lst", lower=True))
+TOP1000 = read_list("top1000.lst", encoding="latin-1")
+TOP1000 = set(TOP1000).difference(read_list("achternaam.lst", lower=True))
 
 # A list of stop words
-STOPWORDS = read_list("stopwoord_v2.lst")
+STOPWORDS = read_list("stopwoord.lst")
 
 # The whitelist of words that are never annotated as names consists of
 # the medical terms, the top1000 words and the stopwords
@@ -40,7 +40,7 @@ WHITELIST = set([line.lower()
 ### Institutions
 
 # Read the list
-INSTITUTIONS = read_list("instellingen_v2.lst", min_len=3)
+INSTITUTIONS = read_list("instellingen.lst", min_len=3)
 
 # These words sometimes occur as the first or final word of the official names of institutions,
 # but are not usually referred to as such in the colloquial version
@@ -89,7 +89,7 @@ INSTITUTIONS = set(FILTERED_INSTITUTIONS).difference(WHITELIST)
 ### Residences
 
 # Read the list
-RESIDENCES = read_list("woonplaats_v2.lst", encoding="utf-8", normalize=True, lower = True)
+RESIDENCES = read_list("woonplaats.lst", encoding="utf-8", normalize=True, lower = True)
 
 # Remove parentheses from the names
 RESIDENCES = [re.sub("\(.+\)", "", residence) for residence in RESIDENCES]
