@@ -6,10 +6,10 @@ from nltk.metrics import edit_distance
 from .tokenizer import tokenize_split
 from .tokenizer import join_tokens
 
-from .utility_v2 import context
-from .utility_v2 import is_initial
+from .utility import context
+from .utility import is_initial
 
-from .lookup_lists_v2 import *
+from .lookup_lists import *
 
 
 def annotate_names(text, patient_first_names, patient_initial, patient_surname, patient_given_name):
