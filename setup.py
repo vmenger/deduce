@@ -13,7 +13,7 @@ setup(
 
     version=version['__version__'],
 
-    description="Deduce: de-identification method for Dutch medical text",
+    description='Deduce: de-identification method for Dutch medical text',
 
     # The project's main homepage.
     url='https://github.com/vmenger/deduce/',
@@ -28,7 +28,11 @@ setup(
     package_data={'deduce': ['data/*']},
 
     # Choose your license
-    license='GNU GPLv3',
+    license='GNU LGPLv3',
+
+    classifiers=[
+        'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)'
+    ],
 
     # What does your project relate to?
     keywords='de-identification',
