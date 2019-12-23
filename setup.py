@@ -8,12 +8,17 @@ version = {}
 with open(path.join(here, 'deduce', '__version__.py')) as fp:
     exec(fp.read(), version)
 
+with open("README.md", "r") as fh:
+    readme = fh.read()
+
 setup(
     name='deduce',
 
     version=version['__version__'],
 
     description='Deduce: de-identification method for Dutch medical text',
+    long_description=readme,
+    long_description_content_type="text/markdown",
 
     # The project's main homepage.
     url='https://github.com/vmenger/deduce/',
