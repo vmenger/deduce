@@ -1,19 +1,17 @@
-
-# Always prefer setuptools over distutils
-from setuptools import setup, find_packages
-# To use a consistent encoding
-# from codecs import open
 from os import path
 
+from setuptools import setup
+
 here = path.abspath(path.dirname(__file__))
+
+version = {}
+with open(path.join(here, 'deduce', '__version__.py')) as fp:
+    exec(fp.read(), version)
 
 setup(
     name='deduce',
 
-    # Versions should comply with PEP440.  For a discussion on single-sourcing
-    # the version across setup.py and the project code, see
-    # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.0.1',
+    version=version['__version__'],
 
     description="Deduce: de-identification method for Dutch medical text",
 
