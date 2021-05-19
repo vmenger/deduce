@@ -2,10 +2,12 @@
 import codecs
 
 from .utility import merge_triebased
+from .utilcls import Token
 from .utility import type_of
 from .utility import get_data
 
 from .listtrie import ListTrie
+
 
 def tokenize_split(text, merge=True):
     """
@@ -38,15 +40,15 @@ def tokenize_split(text, merge=True):
 
         # Split if we transition between alpha, hook and other
         if type_of(char) != type_of(text[index-1]):
-            tokens.append(text[last_split:index])
+            tokens.append(Token(text[last_split:index], last_split, index))
             last_split = index
 
     # Append the tokens
-    tokens.append(text[last_split:])
+    tokens.append(Token(text[last_split:], last_split, len(text)))
 
     # If we need to merge based on the nosplit_trie, so do
     if merge:
-        tokens = merge_triebased(tokens, NOSPLIT_TRIE)
+        return merge_triebased(tokens, NOSPLIT_TRIE)
 
     # Return
     return tokens
