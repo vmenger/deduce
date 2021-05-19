@@ -4,10 +4,25 @@ import re
 import codecs
 import os
 
-from nltk.metrics import edit_distance
+from deduce.listtrie import ListTrie
 from functools import reduce
 
-def merge_triebased(tokens, trie):
+from deduce.utilcls import Token, InvalidTokenError
+
+
+def merge_tokens(tokens: list[Token]) -> Token:
+    if len(tokens) == 0:
+        raise InvalidTokenError("empty")
+    text = "".join([el.text for el in tokens])
+    start_ix = tokens[0].start_ix
+    end_ix = tokens[-1].end_ix
+    if any([tokens[i].start_ix < tokens[i-1].end_ix for i in range(1, len(tokens))]):
+        raise InvalidTokenError("overlap")
+    if any([tokens[i].start_ix != tokens[i-1].end_ix for i in range(1, len(tokens))]):
+        raise InvalidTokenError("gap")
+    return Token(text, start_ix, end_ix)
+
+def merge_triebased(tokens: list[Token], trie: ListTrie) -> list[Token]:
     """
     This function merges all sublists of tokens that occur in the trie to one element
     in the list of tokens. For example: if the tree contains ["A", "1"],
@@ -24,7 +39,7 @@ def merge_triebased(tokens, trie):
     while i < len(tokens):
 
         # Check for each item until the end if there are prefixes of the list in the Trie
-        prefix_matches = trie.find_all_prefixes(tokens[i:])
+        prefix_matches = trie.find_all_prefixes([el.text for el in tokens[i:]])
 
         # If no prefixes are in the Trie, append the first token and move to the next one
         if len(prefix_matches) == 0:
@@ -35,7 +50,8 @@ def merge_triebased(tokens, trie):
         # and then skip all the tokens in the list
         else:
             max_list = max(prefix_matches, key=len)
-            tokens_merged.append("".join(max_list))
+            merged_token = merge_tokens(tokens[i:i+len(max_list)])
+            tokens_merged.append(merged_token)
             i += len(max_list)
 
     # Return the list
