@@ -148,7 +148,7 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
             surname_pattern = tokenize_split(patient_surname)
 
             # Iterate over all tokens in the pattern
-            iter = 0
+            my_iter = 0
             match = False
 
             # See if there is a fuzzy match, and if there are enough tokens left
@@ -161,17 +161,17 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
                 match = True
 
                 # Iterate over rest of pattern to see if every element matches (fuzzily)
-                while iter < len(surname_pattern):
+                while my_iter < len(surname_pattern):
 
                     # If the distance is too big, disgregard the match
-                    if edit_distance(tokens[token_index + iter].text,
-                                     surname_pattern[iter].text,
+                    if edit_distance(tokens[token_index + my_iter].text,
+                                     surname_pattern[my_iter].text,
                                      transpositions=True) > 1:
 
                         match = False
                         break
 
-                    iter += 1
+                    my_iter += 1
 
             # If a match was found, tag the appropriate tokens, and continue
             if match:
