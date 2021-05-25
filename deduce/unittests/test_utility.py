@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from deduce.listtrie import ListTrie
 
-from deduce.utility import merge_triebased, merge_tokens
+from deduce.utility import merge_triebased, merge_tokens, context
 from deduce.utilcls import Token, InvalidTokenError
 
 
@@ -57,6 +57,31 @@ class TestUtilityMethods(unittest.TestCase):
         with self.assertRaises(InvalidTokenError) as context:
             merge_tokens([])
         self.assertEqual("empty", context.exception.code)
+
+    def test_context_middle(self):
+        tokens = [Token("A0", 0, 2), Token("B", 2, 3), Token("C", 3, 4)]
+        prev_token, prev_token_ix, next_token, next_token_ix = context(tokens, 1)
+        self.assertEqual(tokens[0], prev_token)
+        self.assertEqual(0, prev_token_ix)
+        self.assertEqual(tokens[2], next_token)
+        self.assertEqual(2, next_token_ix)
+
+    def test_context_first(self):
+        tokens = [Token("A0", 0, 2), Token("B", 2, 3), Token("C", 3, 4)]
+        prev_token, prev_token_ix, next_token, next_token_ix = context(tokens, 0)
+        self.assertIsNone(prev_token)
+        self.assertEqual(-1, prev_token_ix)
+        self.assertEqual(tokens[1], next_token)
+        self.assertEqual(1, next_token_ix)
+
+    def test_context_last(self):
+        tokens = [Token("A0", 0, 2), Token("B", 2, 3), Token("C", 3, 4)]
+        prev_token, prev_token_ix, next_token, next_token_ix = context(tokens, 2)
+        self.assertEqual(tokens[1], prev_token)
+        self.assertEqual(1, prev_token_ix)
+        self.assertIsNone(next_token)
+        self.assertEqual(len(tokens), next_token_ix)
+
 
 if __name__ == "__main__":
     unittest.main()

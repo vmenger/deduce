@@ -76,18 +76,18 @@ def context(tokens, i):
 
     # Find the next token
     k = i+1
-    next_token = ""
+    next_token = None
 
     # Iterate over tokens after this one
     while k < len(tokens):
 
         # If any of these are found, no next token can be returned
-        if tokens[k][0] == ")" or any_in_text(["\n", "\r", "\t"], tokens[k]):
-            next_token = ""
+        if tokens[k].text[0] == ")" or any_in_text(["\n", "\r", "\t"], tokens[k].text):
+            next_token = None
             break
 
         # Else, this is the next token
-        if tokens[k][0].isalpha() or tokens[k][0] == "<":
+        if tokens[k].text[0].isalpha() or tokens[k].text[0] == "<":
             next_token = tokens[k]
             break
 
@@ -99,16 +99,16 @@ def context(tokens, i):
 
     # Find the previous token in a similar way
     k = i-1
-    previous_token = ""
+    previous_token = None
 
     # Iterate over all previous tokens
     while k >= 0:
 
-        if tokens[k][0] == "(" or any_in_text(["\n", "\r", "\t"], tokens[k]):
-            previous_token = ""
+        if tokens[k].text[0] == "(" or any_in_text(["\n", "\r", "\t"], tokens[k].text):
+            previous_token = None
             break
 
-        if tokens[k][0].isalpha() or tokens[k][0] == "<":
+        if tokens[k].text[0].isalpha() or tokens[k].text[0] == "<":
             previous_token = tokens[k]
             break
 
