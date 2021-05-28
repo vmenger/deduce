@@ -16,7 +16,6 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
 
     # Tokenize the text
     tokens = tokenize_split(text + " ")
-    tokens_deid = []
     token_index = -1
     annotations = []
 
@@ -28,7 +27,7 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
 
         # Current token, and number of tokens already deidentified (used to detect changes)
         token = tokens[token_index]
-        numtokens_deid = len(tokens_deid)
+        numtokens_deid = len(annotations)
 
         # The context of this token
         (previous_token, previous_token_index,
@@ -44,9 +43,6 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
 
         # If the condition is met, tag the tokens and continue to the next position
         if prefix_condition:
-            tokens_deid.append(
-                "<PREFIXNAAM {}>".format(join_tokens(tokens[token_index:next_token_index+1]))
-                )
             start_ix = tokens[token_index].start_ix
             end_ix = tokens[next_token_index].end_ix
             annotations.append(Annotation(start_ix, end_ix, "PREFIXNAAM", text[start_ix:end_ix]))
@@ -63,9 +59,6 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
 
         # If condition is met, tag the tokens and continue to the new position
         if interfix_condition:
-            tokens_deid.append(
-                "<INTERFIXNAAM {}>".format(join_tokens(tokens[token_index:next_token_index+1]))
-                )
             start_ix = tokens[token_index].start_ix
             end_ix = tokens[next_token_index].end_ix
             annotations.append(Annotation(start_ix, end_ix, "INTERFIXNAAM", text[start_ix:end_ix]))
@@ -88,11 +81,6 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
 
                     # If followed by a period, also annotate the period
                     if next_token != "" and tokens[token_index+1][0] == ".":
-                        tokens_deid.append(
-                            "<INITIAALPAT {}> ".format(
-                                join_tokens(tokens[token_index:token_index+2])
-                                )
-                            )
                         start_ix = tokens[token_index].start_ix
                         end_ix = tokens[token_index+1].end_ix
                         annotations.append(Annotation(start_ix, end_ix, "INITIAALPAT", text[start_ix:end_ix]))
@@ -100,7 +88,6 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
 
                     # Else, annotate the token itself
                     else:
-                        tokens_deid.append("<INITIAALPAT {}>".format(token))
                         start_ix = token.start_ix
                         end_ix = token.end_ix
                         annotations.append(Annotation(start_ix, end_ix, "INITIAALPAT", text[start_ix:end_ix]))
@@ -121,7 +108,6 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
 
                 # If the condition is met, tag the token and move on
                 if first_name_condition:
-                    tokens_deid.append("<VOORNAAMPAT {}>".format(token))
                     start_ix = token.start_ix
                     end_ix = token.end_ix
                     annotations.append(Annotation(start_ix, end_ix, "VOORNAAMPAT", text[start_ix:end_ix]))
@@ -135,7 +121,6 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
         ### Initial
         # If the initial is not empty, and the token matches the initial, tag it as an initial
         if len(patient_initial) > 0 and token == patient_initial:
-            tokens_deid.append("<INITIALENPAT {}>".format(token))
             start_ix = token.start_ix
             end_ix = token.end_ix
             annotations.append(Annotation(start_ix, end_ix, "INITIALENPAT", text[start_ix:end_ix]))
@@ -175,11 +160,6 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
 
             # If a match was found, tag the appropriate tokens, and continue
             if match:
-                tokens_deid.append(
-                    "<ACHTERNAAMPAT {}>".format(
-                        join_tokens([el.text for el in tokens[token_index:token_index + len(surname_pattern)]])
-                        )
-                    )
                 start_ix = tokens[token_index].start_ix
                 end_ix = tokens[token_index+len(surname_pattern)-1].end_ix
                 annotations.append(Annotation(start_ix, end_ix, "ACHTERNAAMPAT", text[start_ix:end_ix]))
@@ -201,7 +181,6 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
 
         # If match, tag the token and continue
         if given_name_condition:
-            tokens_deid.append("<ROEPNAAMPAT {}>".format(token))
             start_ix = token.start_ix
             end_ix = token.end_ix
             annotations.append(Annotation(start_ix, end_ix, "ROEPNAAMPAT", text[start_ix:end_ix]))
@@ -211,23 +190,15 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
         # For both first and last names, check if the token
         # is on the lookup list and not on the whitelist
         if token in FIRST_NAMES and token.lower() not in WHITELIST:
-            tokens_deid.append("<VOORNAAMONBEKEND {}>".format(token))
             start_ix = token.start_ix
             end_ix = token.end_ix
             annotations.append(Annotation(start_ix, end_ix, "VOORNAAMONBEKEND", text[start_ix:end_ix]))
             continue
 
         if token in SURNAMES and token.lower() not in WHITELIST:
-            tokens_deid.append("<ACHTERNAAMONBEKEND {}>".format(token))
             start_ix, end_ix = token.start_ix, token.end_ix
             annotations.append(Annotation(start_ix, end_ix, "ACHTERNAAMONBEKEND", text[start_ix:end_ix]))
             continue
-
-        ### Wrap up
-        # Nothing has been added (ie no deidentification tag) to tokens_deid,
-        # so we can safely add the token itself
-        if len(tokens_deid) == numtokens_deid:
-            tokens_deid.append(token.text)
 
     # Return the deidentified tokens as a piece of text
     return annotations

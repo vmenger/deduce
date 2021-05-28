@@ -53,7 +53,7 @@ def tokenize_split(text, merge=True):
     # Return
     return tokens
 
-def join_tokens(tokens):
+def join_tokens(tokens: list[str]) -> str:
     """ Join a list of tokens together, simple when using the custom tokenize method """
     return "".join(tokens)
 
