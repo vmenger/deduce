@@ -1,10 +1,12 @@
 import unittest
 from unittest.mock import Mock
 
+from deduce import utility
+
 from deduce.listtrie import ListTrie
 
-from deduce.utility import merge_triebased, merge_tokens, context
-from deduce.utilcls import Token, InvalidTokenError
+from deduce.utility import merge_triebased, merge_tokens, context, flatten_text, flatten
+from deduce.utilcls import Token, InvalidTokenError, Annotation
 
 
 def mock_find_all_prefixes(tokens: list[str]) -> list[list[str]]:
@@ -82,6 +84,55 @@ class TestUtilityMethods(unittest.TestCase):
         self.assertIsNone(next_token)
         self.assertEqual(len(tokens), next_token_ix)
 
+    def test_flatten_text(self):
+        raw_text = "A Surname"
+        annotations = [Annotation(2, 9, "NAME", "Surname"), Annotation(0, 9, "INITIAL", "A Surname")]
+        flattened_annotations = flatten_text(raw_text, annotations)
+        self.assertEqual([Annotation(0, 9, "PERSOON", "A Surname")], flattened_annotations)
+
+    def test_merge_consecutive(self):
+        raw_text = "Peter.Visser"
+        annotations = [Annotation(0, 5, "PERSOON", "Peter"), Annotation(6, 12, "PATIENT", "Visser")]
+        flattened = utility.merge_consecutive_names(raw_text, annotations)
+        self.assertEqual([Annotation(0, 12, "PERSOONPATIENT", "Peter.Visser")], flattened)
+
+    def test_flatten_consecutive(self):
+        raw_text = "Peter.Visser"
+        annotations = [Annotation(0, 5, "PERSOON", "Peter"), Annotation(6, 12, "PATIENT", "Visser")]
+        flattened = utility.flatten_text(raw_text, annotations)
+        self.assertEqual([Annotation(0, 12, "PATIENT", "Peter.Visser")], flattened)
+
+    def test_no_flatten_consecutive(self):
+        raw_text = "Peter/Visser"
+        annotations = [Annotation(0, 5, "PERSOON", "Peter"), Annotation(6, 12, "PATIENT", "Visser")]
+        flattened = utility.merge_consecutive_names(raw_text, annotations)
+        self.assertEqual(annotations, flattened)
+
+    def test_flatten(self):
+        annotations = [Annotation(0, 12, "PERSOON", "Peter Visser"),
+                       Annotation(0, 5, "VOORNAAM", "Peter"),
+                       Annotation(6, 12, "ACHTERNAAM", "Visser")]
+        flattened = flatten(annotations)
+        self.assertEqual(Annotation(0, 12, "PERSOONVOORNAAMACHTERNAAM", "Peter Visser"), flattened)
+
+    def test_group_tags(self):
+        annotations = [Annotation(13, 20, "PATIENT", "Vincent"),
+                       Annotation(0, 12, "PERSOON", "Peter Visser"),
+                       Annotation(0, 5, "VOORNAAM", "Peter"),
+                       Annotation(6, 12, "ACHTERNAAM", "Visser")]
+        groups = utility.group_tags(annotations)
+        self.assertEqual(2, len(groups))
+        self.assertEqual([Annotation(0, 12, "PERSOON", "Peter Visser"),
+                       Annotation(0, 5, "VOORNAAM", "Peter"),
+                       Annotation(6, 12, "ACHTERNAAM", "Visser")], groups[0])
+        self.assertEqual([Annotation(13, 20, "PATIENT", "Vincent")], groups[1])
+
+    def test_is_whitespace(self):
+        self.assertFalse(utility.is_blank_period_hyphen_comma("/"))
+        self.assertTrue(utility.is_blank_period_hyphen_comma("."))
+        self.assertTrue(utility.is_blank_period_hyphen_comma(".,"))
+        self.assertTrue(utility.is_blank_period_hyphen_comma(". "))
+        self.assertTrue(utility.is_blank_period_hyphen_comma(".."))
 
 if __name__ == "__main__":
     unittest.main()

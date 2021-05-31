@@ -4,10 +4,11 @@ import re
 import codecs
 import os
 
+from deduce import utilcls
 from deduce.listtrie import ListTrie
 from functools import reduce
 
-from deduce.utilcls import Token, InvalidTokenError
+from deduce.utilcls import Token, InvalidTokenError, Annotation
 
 
 def merge_tokens(tokens: list[Token]) -> Token:
@@ -129,7 +130,38 @@ def is_initial(token):
     return ((len(token) == 1 and token[0].isupper()) or
             "INITI" in token)
 
-def flatten_text(text):
+def is_blank_period_hyphen_comma(text: str) -> bool:
+    """
+    Asserts whether a given text is made up of only whitespaces, periods, hyphens or commas in between
+    :param text: the (short) text to be tested
+    :return: whether the test passes
+    """
+    return all([el.strip() in {'', '.', ',', '-'} for el in text])
+
+def merge_consecutive_names(text: str, annotations: list[Annotation]) -> list[Annotation]:
+    """
+    Make sure adjacent tags are joined together (like <INITIAL A><PATIENT Surname>),
+    optionally with a whitespace, period, hyphen or comma between them.
+    This works because all adjacent tags concern names
+    (remember that the function flatten_text() can only be used for names)!
+    :param text: the original text being annotated
+    :param annotations: the annotations that you want to potentially merge
+    :return: the condensed list of annotations
+    """
+    if len(annotations) < 2:
+        return annotations.copy()
+    merged_annotations = [annotations[0]]
+    for ann in annotations[1:]:
+        inter_text = text[merged_annotations[-1].end_ix:ann.start_ix]
+        if is_blank_period_hyphen_comma(inter_text):
+            merged_annotations[-1] = Annotation(merged_annotations[-1].start_ix, ann.end_ix,
+                                                merged_annotations[-1].tag + ann.tag,
+                                                text[merged_annotations[-1].start_ix:ann.end_ix])
+        else:
+            merged_annotations.append(ann)
+    return merged_annotations
+
+def flatten_text(text: str, annotations: list[Annotation]) -> list[Annotation]:
     """
     Flattens all tags in a piece of text; e.g. tags like <INITIAL A <NAME Surname>>
     are flattened to <INITIALNAME A Surname>. This function only works for text wich
@@ -139,90 +171,71 @@ def flatten_text(text):
     # Find all tags and sort them by length, so that the longest tags are flattened first
     # This makes sure that the replacing the tag with the flattened equivalent never
     # accidentally replaces a shorter tag, for example <NAME Surname> in the example.
-    to_flatten = find_tags(text)
-    to_flatten.sort(key=lambda x: -len(x))
+    to_flatten = annotations.copy()
 
-    # For each tag
-    for tag in to_flatten:
+    # Now group the tags that are overlapping
+    groups = group_tags(to_flatten)
+
+    # For each group
+    final_annotations = []
+    for grp in groups:
 
         # Use the flatten method to return a tuple of tagname and value
-        tagname, value = flatten(tag)
+        grouped_tag = flatten(grp)
 
         # If any of the tags contains "PAT" it concerns the patient,
         # otherwise it concerns a random person
-        if "PAT" in tagname:
+        if "PAT" in grouped_tag.tag:
             tagname = "PATIENT"
         else:
             tagname = "PERSOON"
 
         # Replace the found tag with the new, flattened tag
-        text = text.replace(tag, "<{} {}>".format(tagname, value.strip()))
+        final_annotations.append(Annotation(grouped_tag.start_ix, grouped_tag.end_ix, tagname, grouped_tag.text_))
 
     # Make sure adjacent tags are joined together (like <INITIAL A><PATIENT Surname>),
     # optionally with a whitespace, period, hyphen or comma between them.
     # This works because all adjacent tags concern names
     # (remember that the function flatten_text() can only be used for names)!
-    text = re.sub("<([A-Z]+)\s([\w\.\s,]+)>([\.\s\-,]+)[\.\s]*<([A-Z]+)\s([\w\.\s,]+)>",
-                  "<\\1\\4 \\2\\3\\5>",
-                  text)
+    merged_consecutive = merge_consecutive_names(text, final_annotations)
 
     # Find all names of tags, to replace them with either "PATIENT" or "PERSOON"
-    tagnames = re.findall("<([A-Z]+)", text)
+    return [utilcls.replace_tag(ann, "PATIENT" if "PATIENT" in ann.tag else "PERSOON") for ann in merged_consecutive]
 
-    # Iterate over all tags
-    for tag in tagnames:
-
-        # If "PATIENT" is in any of them, they concern a patient
-        if "PATIENT" in tag:
-            text = re.sub(tag, "PATIENT", text)
-
-        # Otherwise, they concern a person
+def group_tags(tags: list[Annotation]) -> list[list[Annotation]]:
+    """
+    Given a list of annotations, group them into lists of annotations that are overlapping
+    :param tags: tags you want to look through
+    :return: a list of lists, where each list is annotations that overlap with each other
+    """
+    sorted_tags = sorted(tags, key=lambda x: (x.start_ix, -x.end_ix))
+    groups = []
+    for tag in sorted_tags:
+        if len(groups) == 0 or tag.start_ix >= groups[-1][0].end_ix:
+            groups.append([tag])
         else:
-            text = re.sub(tag, "PERSOON", text)
+            groups[-1].append(tag)
+    return groups
 
-    # Return the text with all replacements
-    return text
+def flatten(tags: list[Annotation]) -> Annotation:
+    # There must be one and only one annotation that encompasses all the others
+    min_start_ix = min([el.start_ix for el in tags])
+    max_end_ix = max([el.end_ix for el in tags])
+    encompassing_ix = [i for i,el in enumerate(tags) if el.start_ix == min_start_ix and el.end_ix == max_end_ix]
+    if len(encompassing_ix) != 1:
+        raise ValueError("No tag encompasses all the others uniquely")
 
-def flatten(tag):
+    # Now group the remaining tags into groups that need to be flattened
+    tag_groups = group_tags([el for i,el in enumerate(tags) if i != encompassing_ix[0]])
 
-    """
-    Recursively flattens one tag to a tuple of name and value using splitTag() method.
-    For example, the tag <INITIAL A <NAME Surname>> will be returned (INITIALNAME, A Surname)
-    Returns a tuple (name, value).
-    """
+    # Now each group must be flattened into a single tag
+    flattened_tag_groups = [flatten(grp) for grp in tag_groups]
 
-    # Base case, where no fishhooks are present
-    if "<" not in tag:
-        return ("", tag)
-
-    # Otherwise
-    else:
-
-        # Remove fishhooks from tag
-        tag = tag[1:-1]
-
-        # Split on whitespaces
-        tagspl = tag.split(" ", 1)
-
-        # Split on the first whitespace, so we can distinguish between name and rest
-        tagname = tagspl[0]
-        tagrest = tagspl[1]
-
-        # Output is initially empty
-        tagvalue = ""
-
-        # Recurse on the rest of the tag
-        for tag_part in split_tags(tagrest):
-
-            # Flatten for each value in tagrest
-            flattened_tagname, flattened_tagvalue = flatten(tag_part)
-
-            # Simply append to tagnames and values
-            tagname += flattened_tagname
-            tagvalue += flattened_tagvalue
-
-        # Return pair
-        return (tagname, tagvalue)
+    # Now we have to join the "mother" tag with all the daughter flattened tags
+    encompassing_tag = tags[encompassing_ix[0]]
+    return Annotation(encompassing_tag.start_ix, encompassing_tag.end_ix,
+                      encompassing_tag.tag + "".join([el.tag for el in flattened_tag_groups]),
+                      encompassing_tag.text_)
 
 def find_tags(text):
     """ Finds and returns a list of all tags in a piece of text """

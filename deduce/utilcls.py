@@ -55,3 +55,6 @@ class InvalidTokenError(ValueError):
     def __init__(self, code: str):
         super().__init__()
         self.code = code
+
+def replace_tag(annotation: Annotation, new_tag: str) -> Annotation:
+    return Annotation(annotation.start_ix, annotation.end_ix, new_tag, annotation.text_)
