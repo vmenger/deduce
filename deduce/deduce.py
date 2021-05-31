@@ -2,9 +2,6 @@
 Deduce is the main module, from which the annotate and
 deidentify_annotations() methods can be imported
 """
-import re
-
-from nltk.metrics import edit_distance
 from .annotate import *
 from .utility import flatten_text
 
@@ -53,16 +50,16 @@ def annotate_text(
     # Deidentify names
     if names:
 
-		# First, based on the rules and lookup lists
-        text = annotate_names(text, patient_first_names, patient_initials,
+        # First, based on the rules and lookup lists
+        name_annotations = annotate_names(text, patient_first_names, patient_initials,
                               patient_surname, patient_given_name)
 
-		# Then, based on the context
-        text = annotate_names_context(text)
+        # Then, based on the context
+        context_name_annotations = annotate_names_context(text, name_annotations)
 
-		# Flatten possible nested tags
+        # Flatten possible nested tags
         if flatten:
-            text = flatten_text(text)
+            text = flatten_text(text, context_name_annotations)
 
     # Institutions
     if institutions:
@@ -87,7 +84,7 @@ def annotate_text(
     if dates:
         text = annotate_date(text)
 
-	# Ages
+    # Ages
     if ages:
         text = annotate_age(text)
 
@@ -130,7 +127,7 @@ def deidentify_annotations(text):
         dispenser = 1
 
         # Iterate over all the values in tags
-        while  len(phi_values) > 0:
+        while len(phi_values) > 0:
 
             # Compute which other values have edit distance <=1 (fuzzy matching)
             # compared to this value
