@@ -27,7 +27,6 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
 
         # Current token, and number of tokens already deidentified (used to detect changes)
         token = tokens[token_index]
-        numtokens_deid = len(annotations)
 
         # The context of this token
         (previous_token, previous_token_index,
@@ -189,13 +188,13 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
         ### Unknown first and last names
         # For both first and last names, check if the token
         # is on the lookup list and not on the whitelist
-        if token in FIRST_NAMES and token.lower() not in WHITELIST:
+        if token.text in FIRST_NAMES and token.text.lower() not in WHITELIST:
             start_ix = token.start_ix
             end_ix = token.end_ix
             annotations.append(Annotation(start_ix, end_ix, "VOORNAAMONBEKEND", text[start_ix:end_ix]))
             continue
 
-        if token in SURNAMES and token.lower() not in WHITELIST:
+        if token.text in SURNAMES and token.text.lower() not in WHITELIST:
             start_ix, end_ix = token.start_ix, token.end_ix
             annotations.append(Annotation(start_ix, end_ix, "ACHTERNAAMONBEKEND", text[start_ix:end_ix]))
             continue
@@ -203,13 +202,48 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
     # Return the deidentified tokens as a piece of text
     return annotations
 
-def annotate_names_context(text):
-    """ This function annotates person names, based on its context in the text """
+def insert_annotations(text: str, annotations: list[Annotation]) -> str:
+    """
+    Inserts the annotations in the list into the text in the appropriate locations
+    :param text: the raw text
+    :param annotations: the annotations to be inserted
+    :return: the text with the inserted annotations
+    """
+    sorted_annotations = sorted(annotations, key=lambda x: x.start_ix)
+    out_text = ""
+    last_end_ix = 0
+    for annotation in sorted_annotations:
+        out_text += (text[last_end_ix:annotation.start_ix] + annotation.to_text())
+        last_end_ix = annotation.end_ix
+    out_text += text[last_end_ix:]
+    return out_text
+
+def remove_annotations_in_range(annotations: list[Annotation], start_ix: int, end_ix: int) -> list[Annotation]:
+    """
+    Remove all annotations that occur within a given range
+    :param annotations: list of annotations
+    :param start_ix: starting index where we want to remove
+    :param end_ix: ending index where we want to remove
+    :return: the annotations excluding those occurring in the range specified
+    """
+    return [el for el in annotations if el.end_ix <= start_ix or el.start_ix >= end_ix]
+
+def annotate_names_context(text: str, old_annotations: list[Annotation]) -> list[Annotation]:
+    """
+    This function annotates person names, based on its context in the text
+    :param text: the raw (unannotated) text
+    :param old_annotations: the annotations found before looking at the context
+    :return: the new list of annotations including those found by context
+    """
+
+    # Annotate the text to look for context
+    annotated_text = insert_annotations(text, old_annotations)
 
     # Tokenize text and initiate a list of deidentified tokens
-    tokens = tokenize_split(text + " ")
-    tokens_deid = []
+    tokens = tokenize_split(annotated_text + " ")
+    new_annotations = []
     token_index = -1
+    old_annotations_copy = old_annotations.copy()
 
     # Iterate over all tokens
     while token_index < len(tokens)-1:
@@ -220,12 +254,8 @@ def annotate_names_context(text):
         # Current token
         token = tokens[token_index]
 
-        # Number of tokens, used to detect change
-        numtokens_deid = len(tokens_deid)
-
         # Context of the token
-        (previous_token, previous_token_index,
-         next_token, next_token_index) = context(tokens, token_index)
+        (previous_token, previous_token_index, next_token, next_token_index) = context(tokens, token_index)
 
         ### Initial or unknown capitalized word, detected by a name or surname that is behind it
                             # If the token is an initial, or starts with a capital
@@ -244,25 +274,24 @@ def annotate_names_context(text):
 
         # If match, tag the token and continue
         if initial_condition:
-            tokens_deid.append(
-                "<INITIAAL {}>".format(join_tokens(tokens[token_index:next_token_index+1]))
-                )
+            new_annotations.append(Annotation(tokens[token_index].start_ix, tokens[next_token_index].end_ix, "INITIAAL",
+                                              text[tokens[token_index].start_ix:tokens[next_token_index].end_ix]))
             token_index = next_token_index
             continue
 
         ### Interfix preceded by a name, and followed by a capitalized token
 
                               # If the token is an interfix
-        interfix_condition = (token in INTERFIXES and
+        interfix_condition = (token.text in INTERFIXES and
                               # And the token is preceded by an initial, found initial or found name
-                              (is_initial(previous_token) or
-                               "INITIAAL" in previous_token or
-                               "NAAM" in previous_token
+                              (is_initial(previous_token.text) or
+                               "INITIAAL" in previous_token.text or
+                               "NAAM" in previous_token.text
                               ) and
                               # And the next token must be capitalized
-                              next_token != "" and
-                              (next_token[0].isupper() or
-                               next_token[0] == "<"
+                              next_token.text != "" and
+                              (next_token.text[0].isupper() or
+                               next_token.text[0] == "<"
                               )
                              )
 
@@ -270,12 +299,11 @@ def annotate_names_context(text):
         # If the condition is met, tag the tokens and continue
         if interfix_condition:
             # Remove some already identified tokens, to prevent double tagging
-            tokens_deid = tokens_deid[:previous_token_index-1]
-            tokens_deid.append(
-                "<INTERFIXACHTERNAAM {}>".format(
-                    join_tokens(tokens[previous_token_index : next_token_index+1])
-                    )
-                )
+            start_ix = tokens[previous_token_index].start_ix
+            end_ix = tokens[next_token_index].end_ix
+            old_annotations_copy = remove_annotations_in_range(old_annotations_copy, start_ix, end_ix)
+            new_annotations = remove_annotations_in_range(new_annotations, start_ix, end_ix)
+            new_annotations.append(Annotation(start_ix, end_ix, "INTERFIXACHTERNAAM", text[start_ix:end_ix]))
             token_index = next_token_index
             continue
 
@@ -294,50 +322,39 @@ def annotate_names_context(text):
 
         # If a match is found, tag and continue
         if initial_name_condition:
-            tokens_deid.append(
-                "<INITIAALHOOFDLETTERNAAM {}>".format(
-                    join_tokens(tokens[token_index:next_token_index+1])
-                    )
-                )
+            start_ix = tokens[token_index].start_ix
+            end_ix = tokens[next_token_index].end_ix
+            new_annotations.append(Annotation(start_ix, end_ix, "INITIAALHOOFDLETTERNAAM", text[start_ix:end_ix]))
             token_index = next_token_index
             continue
 
         ### Patients A and B pattern
 
         # If the token is "en", and the previous token is tagged, and the next token is capitalized
-        and_pattern_condition = (token == "en" and
-                                 len(previous_token) > 0 and
-                                 len(next_token) > 0 and
-                                 "<" in previous_token and
-                                 next_token[0].isupper()
+        and_pattern_condition = (token.text == "en" and
+                                 len(previous_token.text) > 0 and
+                                 len(next_token.text) > 0 and
+                                 "<" in previous_token.text and
+                                 next_token.text[0].isupper()
                                 )
 
         # If a match is found, tag and continue
         if and_pattern_condition:
-            tokens_deid = tokens_deid[:previous_token_index-1]
-            tokens_deid.append(
-                "<MEERDEREPERSONEN {}>".format(
-                    join_tokens(tokens[previous_token_index:next_token_index+1])
-                    )
-                )
+            start_ix = tokens[previous_token_index].start_ix
+            end_ix = tokens[next_token_index].end_ix
+            old_annotations_copy = remove_annotations_in_range(old_annotations_copy, start_ix, end_ix)
+            new_annotations = remove_annotations_in_range(new_annotations, start_ix, end_ix)
+            new_annotations.append(Annotation(start_ix, end_ix, "MEERDEREPERSONEN", text[start_ix:end_ix]))
             token_index = next_token_index
             continue
 
-        # Nothing has been added (ie no deidentification tag) to tokens_deid,
-        # so we can safely add the token itself
-        if len(tokens_deid) == numtokens_deid:
-            tokens_deid.append(token.text)
-
-    # Join the tokens again to form the de-identified text
-    textdeid = join_tokens(tokens_deid).strip()
-
     # If nothing changed, we are done
-    if text == textdeid:
-        return textdeid
+    if len(new_annotations) == 0 and old_annotations_copy == old_annotations:
+        return old_annotations
 
     # Else, run the annotation based on context again
     else:
-        return annotate_names_context(textdeid)
+        return annotate_names_context(text, sorted(old_annotations_copy + new_annotations, key=lambda x: x.start_ix))
 
 def annotate_residence(text):
     """ Annotate residences """
