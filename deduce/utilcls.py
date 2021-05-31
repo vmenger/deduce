@@ -47,6 +47,9 @@ class Annotation:
     def __repr__(self):
         return self.tag + "[" + str(self.start_ix) + ":" + str(self.end_ix) + "]"
 
+    def to_text(self):
+        return "<" + self.tag + " " + self.text_ + ">"
+
 
 class InvalidTokenError(ValueError):
     def __init__(self, code: str):
