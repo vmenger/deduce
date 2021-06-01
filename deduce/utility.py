@@ -7,6 +7,21 @@ import os
 from nltk.metrics import edit_distance
 from functools import reduce
 
+
+class Annotation:
+    def __init__(self, start_ix: int, end_ix: int, tag: str, text: str):
+        self.start_ix = start_ix
+        self.end_ix = end_ix
+        self.tag = tag
+        self.text_ = text
+
+    def __eq__(self, other):
+        return isinstance(other, Annotation) and self.start_ix == other.start_ix and self.end_ix == other.end_ix and \
+               self.tag == other.tag and self.text_ == other.text_
+
+    def __repr__(self):
+        return self.tag + "[" + str(self.start_ix) + ":" + str(self.end_ix) + "]"
+
 def merge_triebased(tokens, trie):
     """
     This function merges all sublists of tokens that occur in the trie to one element
@@ -321,3 +336,30 @@ def read_list(list_name, encoding='utf-8', lower=False,
         data_nodoubles = list(set(data))
 
     return data_nodoubles
+
+def parse_tag(tag: str) -> tuple[str,str]:
+    """
+    Parse a Deduce-style tag into its tag proper and its text. Does not handle nested tags
+    :param tag: the Deduce-style tag, for example, <VOORNAAMONBEKEND Peter>
+    :return: the tag type and text, for example, ("VOORNAAMONBEKEND", "Peter")
+    """
+    split_ix = tag.index(" ")
+    return tag[1:split_ix], tag[split_ix+1:len(tag)-1]
+
+def get_annotations(text: str, tags: list[str]) -> list[Annotation]:
+    """
+    Find structured annotations from tags, with indices pointing to the original text. Does not handle nested tags
+    :param text: the annotated text
+    :param tags: the tags found in the text
+    :return: the annotations with indices corresponding to the original (raw) text
+    """
+    ix = 0
+    annotations = []
+    raw_text_ix = 0
+    for tag in tags:
+        tag_ix = text.index(tag, ix) - ix
+        tag_type, tag_text = parse_tag(tag)
+        annotations.append(Annotation(raw_text_ix + tag_ix, raw_text_ix + tag_ix + len(tag_text), tag_type, tag_text))
+        ix += (tag_ix + len(tag))
+        raw_text_ix += (tag_ix + len(tag_text))
+    return annotations
