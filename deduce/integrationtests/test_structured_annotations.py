@@ -4,7 +4,7 @@ import deduce
 
 
 def get_annotations(raw_text: str) -> bool:
-    annotations = deduce.deduce.annotate_text_structured(raw_text)
+    annotations = deduce.annotate_text_structured(raw_text)
     for annotation in annotations:
         if annotation.end_ix - annotation.start_ix != len(annotation.text_):
             return False
@@ -13,7 +13,7 @@ def get_annotations(raw_text: str) -> bool:
             return False
     return True
 
-def test_get_annotations(texts_list: list[str]) -> bool:
+def test_get_annotations(texts_list: list) -> bool:
     return all([get_annotations(text) for text in texts_list])
 
 if __name__ == "__main__":

@@ -337,7 +337,7 @@ def read_list(list_name, encoding='utf-8', lower=False,
 
     return data_nodoubles
 
-def parse_tag(tag: str) -> tuple[str,str]:
+def parse_tag(tag: str) -> tuple:
     """
     Parse a Deduce-style tag into its tag proper and its text. Does not handle nested tags
     :param tag: the Deduce-style tag, for example, <VOORNAAMONBEKEND Peter>
@@ -346,7 +346,7 @@ def parse_tag(tag: str) -> tuple[str,str]:
     split_ix = tag.index(" ")
     return tag[1:split_ix], tag[split_ix+1:len(tag)-1]
 
-def get_annotations(annotated_text: str, tags: list[str], n_leading_whitespaces=0) -> list[Annotation]:
+def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) -> list:
     """
     Find structured annotations from tags, with indices pointing to the original text. Does not handle nested tags
     :param annotated_text: the annotated text
