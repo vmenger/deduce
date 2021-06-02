@@ -346,20 +346,24 @@ def parse_tag(tag: str) -> tuple[str,str]:
     split_ix = tag.index(" ")
     return tag[1:split_ix], tag[split_ix+1:len(tag)-1]
 
-def get_annotations(text: str, tags: list[str]) -> list[Annotation]:
+def get_annotations(annotated_text: str, tags: list[str], n_leading_whitespaces=0) -> list[Annotation]:
     """
     Find structured annotations from tags, with indices pointing to the original text. Does not handle nested tags
-    :param text: the annotated text
+    :param annotated_text: the annotated text
     :param tags: the tags found in the text
+    :param n_leading_whitespaces: the number of leading whitespaces in the raw text
     :return: the annotations with indices corresponding to the original (raw) text
     """
     ix = 0
     annotations = []
-    raw_text_ix = 0
+    raw_text_ix = n_leading_whitespaces
     for tag in tags:
-        tag_ix = text.index(tag, ix) - ix
+        tag_ix = annotated_text.index(tag, ix) - ix
         tag_type, tag_text = parse_tag(tag)
         annotations.append(Annotation(raw_text_ix + tag_ix, raw_text_ix + tag_ix + len(tag_text), tag_type, tag_text))
         ix += (tag_ix + len(tag))
         raw_text_ix += (tag_ix + len(tag_text))
     return annotations
+
+def get_first_non_whitespace(text: str) -> int:
+    return text.index(text.strip()[0])

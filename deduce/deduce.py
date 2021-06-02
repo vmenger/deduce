@@ -4,6 +4,7 @@ deidentify_annotations() methods can be imported
 """
 import re
 
+from deduce import utility
 from nltk.metrics import edit_distance
 from .annotate import *
 from .utility import flatten_text
@@ -105,6 +106,38 @@ def annotate_text(
 
 	# Return text
     return text
+
+def annotate_text_structured(text: str, patient_first_names="", patient_initials="", patient_surname="",
+                             patient_given_name="", names=True, locations=True, institutions=True, dates=True,
+                             ages=True, patient_numbers=True, phone_numbers=True, urls=True, flatten=True):
+    """
+    This method annotates text based on the input that includes names of a patient,
+    and a number of flags indicating which PHIs should be annotated
+    :param text: The text to be annotated
+    :param patient_first_names: First name
+    :param patient_initials: Initial
+    :param patient_surname: Surname(s)
+    :param patient_given_name: Given name
+    :param names: Person names, including initials
+    :param locations: Geographical locations
+    :param institutions: Institutions
+    :param dates: Dates
+    :param ages: Ages
+    :param patient_numbers: Patient numbers
+    :param phone_numbers: Phone numbers
+    :param urls: Urls and e-mail addresses
+    :param flatten: Debug option
+    :return:
+    """
+    annotated_text = annotate_text(text, patient_first_names=patient_first_names, patient_initials=patient_initials,
+                                   patient_surname=patient_surname, patient_given_name=patient_given_name, names=names,
+                                   locations=locations, institutions=institutions, dates=dates, ages=ages,
+                                   patient_numbers=patient_numbers, phone_numbers=phone_numbers, urls=urls,
+                                   flatten=flatten)
+    tags = utility.find_tags(annotated_text)
+    first_non_whitespace_character_index = utility.get_first_non_whitespace(text)
+    annotations = utility.get_annotations(annotated_text, tags, first_non_whitespace_character_index)
+    return annotations
 
 def deidentify_annotations(text):
     """

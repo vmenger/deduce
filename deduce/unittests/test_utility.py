@@ -58,5 +58,15 @@ class TestUtilityMethods(unittest.TestCase):
                                 Annotation(234, 238, "INSTELLING", "umcu")]
         self.assertEqual(expected_annotations, annotations)
 
+    def test_get_annotations_leading_space(self):
+        annotated_text = 'Overleg gehad met <PERSOON Jan Jansen>'
+        tags = ['<PERSOON Jan Jansen>']
+        annotations = utility.get_annotations(annotated_text, tags, 1)
+        self.assertEqual(1, len(annotations))
+        self.assertEqual(19, annotations[0].start_ix)
+
+    def test_get_first_non_whitespace(self):
+        self.assertEqual(1, utility.get_first_non_whitespace(" Overleg"))
+
 if __name__ == "__main__":
     unittest.main()
