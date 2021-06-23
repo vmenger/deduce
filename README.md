@@ -1,6 +1,8 @@
 # Deduce: de-identification method for Dutch medical text
 
-This project contains the code for DEDUCE: de-identification method for Dutch medical text as described in [Menger et al (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365). De-identification of medical text is needed for using text data for analysis, to comply with legal requirements and to protect the privacy of patients. Our pattern matching based method removes Protected Health Information (PHI) in the following categories:
+> If you are looking for the version of DEDUCE as published with [Menger et al (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365), please visit [vmenger/deduce-classic](https://github.com/vmenger/deduce-classic/), where the original is archived. This version is maintained and improved, thus possibly differing from the validated original.
+
+This project contains the code for DEDUCE: de-identification method for Dutch medical text, initially described in [Menger et al (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365). De-identification of medical text is needed for using text data for analysis, to comply with legal requirements and to protect the privacy of patients. Our pattern matching based method removes Protected Health Information (PHI) in the following categories:
 
 1. Person names, including initials
 2. Geographical locations smaller than a country
@@ -11,13 +13,9 @@ This project contains the code for DEDUCE: de-identification method for Dutch me
 7. Telephone numbers
 8. E-mail addresses and URLs
 
-The details of the development and workings of the method, and its validation can be found in: 
+The details of the development and workings of the initial method, and its validation can be found in: 
 
 [Menger, V.J., Scheepers, F., van Wijk, L.M., Spruit, M. (2017). DEDUCE: A pattern matching method for automatic de-identification of Dutch medical text, Telematics and Informatics, 2017, ISSN 0736-5853](http://www.sciencedirect.com/science/article/pii/S0736585316307365)
-
-### Demo
-
-An interactive demo of the code can be found [here](http://ads.science.uu.nl/deduce/)
 
 ### Prerequisites
 
