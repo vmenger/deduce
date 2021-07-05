@@ -51,9 +51,9 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(expected_text, annotated_names)
 
     def test_coordinating_nexus(self):
-        text = """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Hersencentrum, <PREFIXNAAM GG NHN> en Youz"""
+        text = """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, <PREFIXNAAM PJ> en Pieter"""
         annotated_names = annotate.annotate_names_context(text)
-        expected_text = """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Hersencentrum, <MEERDEREPERSONEN <PREFIXNAAM GG NHN> en Youz>"""
+        expected_text = """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, <MEERDEREPERSONEN <PREFIXNAAM PJ> en Pieter>"""
         self.assertEqual(expected_text, annotated_names)
 
 if __name__ == "__main__":
