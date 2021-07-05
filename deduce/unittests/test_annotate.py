@@ -44,5 +44,11 @@ class TestAnnotateMethods(unittest.TestCase):
                         'Er is ook een andere <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez> hier'
         self.assertEqual(expected_text, annotated_names)
 
+    def test_simple_context(self):
+        text = 'V. <ACHTERNAAMONBEKEND Menger>'
+        annotated_names = annotate.annotate_names_context(text)
+        expected_text = '<INITIAAL V. <ACHTERNAAMONBEKEND Menger>>'
+        self.assertEqual(expected_text, annotated_names)
+
 if __name__ == "__main__":
     unittest.main()
