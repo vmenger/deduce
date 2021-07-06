@@ -25,7 +25,7 @@ setup(
 
     # Author details
     author='Vincent Menger',
-    author_email='v.j.menger@uu.nl',
+    author_email='vmenger@protonmail.com',
 
     packages=['deduce'],
 
