@@ -103,6 +103,7 @@ Contributions to the deduce project are very much welcomed - feel free to get in
 
 * **Vincent Menger** - *Initial work* 
 * **Jonathan de Bruin** - *Code review*
+* **Pablo Mosteiro** - *Bug fixes, structured annotations*
 
 ## License
 
