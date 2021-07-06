@@ -352,7 +352,8 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
     :param annotated_text: the annotated text
     :param tags: the tags found in the text
     :param n_leading_whitespaces: the number of leading whitespaces in the raw text
-    :return: the annotations with indices corresponding to the original (raw) text
+    :return: the annotations with indices corresponding to the original (raw) text;
+    this accounts for string stripping during annotation
     """
     ix = 0
     annotations = []

@@ -65,6 +65,11 @@ class TestDeduceMethods(unittest.TestCase):
                                                                             patient_surname="Jansen")
         self.assertEqual(mock_annotations, structured)
 
+    def test_leading_space(self):
+        text = '\t Vandaag is Jan gekomen'
+        annotations = deduce.annotate_text_structured(text, 'Jan', 'J.', 'Janssen', 'Jantinus')
+        self.assertEqual(1, len(annotations))
+        self.assertEqual(Annotation(13, 16, "PATIENT", "Jan"), annotations[0])
 
 if __name__ == "__main__":
     unittest.main()
