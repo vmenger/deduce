@@ -93,6 +93,8 @@ Contributions to the deduce project are very much welcomed - feel free to get in
 
 ## Versioning
 
+1.0.3 - Bugfix and added structured annotations
+
 1.0.2 - Release to PyPI
 
 1.0.1 - Small bugfix for None as input
