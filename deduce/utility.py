@@ -348,7 +348,7 @@ def parse_tag(tag: str) -> tuple:
 
 def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) -> list:
     """
-    Find structured annotations from tags, with indices pointing to the original text. Does not handle nested tags
+    Find structured annotations from tags, with indices pointing to the original text. ***Does not handle nested tags***
     :param annotated_text: the annotated text
     :param tags: the tags found in the text
     :param n_leading_whitespaces: the number of leading whitespaces in the raw text
