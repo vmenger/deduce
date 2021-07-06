@@ -137,6 +137,7 @@ def annotate_text_structured(text: str, patient_first_names="", patient_initials
     tags = utility.find_tags(annotated_text)
     first_non_whitespace_character_index = utility.get_first_non_whitespace(text)
     # utility.get_annotations does not handle nested tags, so make sure not to pass it text with nested tags
+    # Also, utility.get_annotations assumes that all tags are listed in the order they appear in the text
     annotations = utility.get_annotations(annotated_text, tags, first_non_whitespace_character_index)
     return annotations
 

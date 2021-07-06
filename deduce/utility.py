@@ -350,7 +350,7 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
     """
     Find structured annotations from tags, with indices pointing to the original text. ***Does not handle nested tags***
     :param annotated_text: the annotated text
-    :param tags: the tags found in the text
+    :param tags: the tags found in the text, listed in the order they appear in the text
     :param n_leading_whitespaces: the number of leading whitespaces in the raw text
     :return: the annotations with indices corresponding to the original (raw) text;
     this accounts for string stripping during annotation
