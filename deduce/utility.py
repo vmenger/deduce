@@ -366,4 +366,4 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
     return annotations
 
 def get_first_non_whitespace(text: str) -> int:
-    return text.index(text.strip()[0])
+    return text.index(text.lstrip()[0])
