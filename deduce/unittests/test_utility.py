@@ -68,5 +68,10 @@ class TestUtilityMethods(unittest.TestCase):
     def test_get_first_non_whitespace(self):
         self.assertEqual(1, utility.get_first_non_whitespace(" Overleg"))
 
+    def test_normalize_value(self):
+        ascii_str = 'Something about Vincent Menger!'
+        value = utility._normalize_value('¡' + ascii_str)
+        self.assertEqual(ascii_str, value)
+
 if __name__ == "__main__":
     unittest.main()

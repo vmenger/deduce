@@ -6,6 +6,7 @@ import os
 
 from nltk.metrics import edit_distance
 from functools import reduce
+import unicodedata
 
 
 class Annotation:
@@ -312,7 +313,8 @@ def get_data(path):
 
 def _normalize_value(line):
     """ Removes all non-ascii characters from a string """
-    return unicodedata.normalize('NFKD', unicode(line)).encode("ascii", "ignore")
+    s = str(bytes(line, encoding='ascii', errors='ignore'), encoding='ascii')
+    return unicodedata.normalize('NFKD', s)
 
 def read_list(list_name, encoding='utf-8', lower=False,
               strip=True, min_len=None, normalize=None, unique=True):
