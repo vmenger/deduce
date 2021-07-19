@@ -1,8 +1,8 @@
 import codecs
 import unittest
 
-from deduce import utility
-from deduce.utility import Annotation
+from deduce.deduce import utility
+from deduce.deduce.utility import Annotation
 from unittest.mock import patch
 
 
