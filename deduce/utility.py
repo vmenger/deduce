@@ -4,8 +4,8 @@ import re
 import codecs
 import os
 
-from nltk.metrics import edit_distance
 from functools import reduce
+import unicodedata
 
 
 class Annotation:
@@ -116,7 +116,7 @@ def context(tokens, i):
     previous_token_index = k
 
     # Return the appropriate information in a 4-tuple
-    return(previous_token, previous_token_index, next_token, next_token_index)
+    return previous_token, previous_token_index, next_token, next_token_index
 
 def is_initial(token):
     """
@@ -192,7 +192,7 @@ def flatten(tag):
 
     # Base case, where no fishhooks are present
     if "<" not in tag:
-        return ("", tag)
+        return "", tag
 
     # Otherwise
     else:
@@ -221,7 +221,7 @@ def flatten(tag):
             tagvalue += flattened_tagvalue
 
         # Return pair
-        return (tagname, tagvalue)
+        return tagname, tagvalue
 
 def find_tags(text):
     """ Finds and returns a list of all tags in a piece of text """
@@ -303,7 +303,7 @@ def split_tags(text):
     splitbytags.append(text[startpos:])
 
     # Filter empty elements in the list (happens for example when <tag><tag> occurs)
-    return([x for x in splitbytags if len(x) > 0])
+    return [x for x in splitbytags if len(x) > 0]
 
 
 def get_data(path):
@@ -312,7 +312,8 @@ def get_data(path):
 
 def _normalize_value(line):
     """ Removes all non-ascii characters from a string """
-    return unicodedata.normalize('NFKD', unicode(line)).encode("ascii", "ignore")
+    s = str(bytes(line, encoding='ascii', errors='ignore'), encoding='ascii')
+    return unicodedata.normalize('NFKD', s)
 
 def read_list(list_name, encoding='utf-8', lower=False,
               strip=True, min_len=None, normalize=None, unique=True):
@@ -334,6 +335,8 @@ def read_list(list_name, encoding='utf-8', lower=False,
 
     if unique:
         data_nodoubles = list(set(data))
+    else:
+        return data
 
     return data_nodoubles
 

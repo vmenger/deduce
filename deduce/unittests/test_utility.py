@@ -1,7 +1,9 @@
+import codecs
 import unittest
 
 from deduce import utility
 from deduce.utility import Annotation
+from unittest.mock import patch
 
 
 class TestUtilityMethods(unittest.TestCase):
@@ -67,6 +69,24 @@ class TestUtilityMethods(unittest.TestCase):
 
     def test_get_first_non_whitespace(self):
         self.assertEqual(1, utility.get_first_non_whitespace(" Overleg"))
+
+    def test_normalize_value(self):
+        ascii_str = 'Something about Vincent Menger!'
+        value = utility._normalize_value('¡' + ascii_str)
+        self.assertEqual(ascii_str, value)
+
+    def test_read_list_unique(self):
+        list_name = 'input_file_name'
+        with patch.object(codecs, "open", return_value=['item', 'item']) as _:
+            read_list = utility.read_list(list_name, unique=True)
+        self.assertEqual(['item'], read_list)
+
+
+    def test_read_list_non_unique(self):
+        list_name = 'input_file_name'
+        with patch.object(codecs, "open", return_value=['item', 'item']) as _:
+            read_list = utility.read_list(list_name, unique=False)
+        self.assertEqual(['item', 'item'], read_list)
 
 if __name__ == "__main__":
     unittest.main()
