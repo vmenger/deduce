@@ -83,7 +83,7 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
                     # If followed by a period, also annotate the period
                     if next_token != "" and tokens[token_index+1][0] == ".":
                         tokens_deid.append(
-                            "<INITIAALPAT {}> ".format(
+                            "<INITIAALPAT {}>".format(
                                 join_tokens(tokens[token_index:token_index+2])
                                 )
                             )
