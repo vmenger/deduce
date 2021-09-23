@@ -6,7 +6,7 @@ from nltk.metrics import edit_distance
 from .tokenizer import tokenize_split
 from .tokenizer import join_tokens
 
-from .utility import context
+from .utility import context, parse_tag
 from .utility import is_initial
 
 from .lookup_lists import *
@@ -83,11 +83,14 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
                     # If followed by a period, also annotate the period
                     if next_token != "" and tokens[token_index+1][0] == ".":
                         tokens_deid.append(
-                            "<INITIAALPAT {}> ".format(
-                                join_tokens(tokens[token_index:token_index+2])
+                            "<INITIAALPAT {}>".format(
+                                join_tokens([tokens[token_index], '.'])
                                 )
                             )
-                        token_index += 1
+                        if tokens[token_index+1] == '.':
+                            token_index += 1
+                        else:
+                            tokens[token_index+1] = tokens[token_index+1][1:]
 
                     # Else, annotate the token itself
                     else:
@@ -315,11 +318,11 @@ def annotate_names_context(text):
 
         # If a match is found, tag and continue
         if and_pattern_condition:
-            (_, previous_token_index_deid, _, _) = context(tokens_deid, len(tokens_deid))
+            (previous_token_deid, previous_token_index_deid, _, _) = context(tokens_deid, len(tokens_deid))
             tokens_deid = tokens_deid[:previous_token_index_deid]
             tokens_deid.append(
                 "<MEERDEREPERSONEN {}>".format(
-                    join_tokens(tokens[previous_token_index:next_token_index+1])
+                    join_tokens([previous_token_deid] + tokens[previous_token_index+1:next_token_index+1])
                     )
                 )
             token_index = next_token_index
@@ -472,12 +475,20 @@ def annotate_postalcode(text):
                   text)
     return text
 
+def get_address_match_replacement(match: re.Match) -> str:
+    text = match.group(0)
+    stripped = text.strip()
+    if len(text) == len(stripped):
+        return '<LOCATIE {}>'.format(text)
+    else:
+        return '<LOCATIE {}>{}'.format(stripped, ' ' * (len(text) - len(stripped)))
+
 def annotate_address(text):
     """ Annotate addresses """
-    text = re.sub(r"([A-Z]\w+(straat|laan|hof|plein|plantsoen|gracht|kade|weg|steeg|steeg|pad|dijk|baan|dam|dreef|kade|markt|park|plantsoen|singel|bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2}){0,1}|(\d+){0,6}))",
-                  "<LOCATIE \\1>",
+    text = re.sub(r"([A-Z]\w+(straat|laan|hof|plein|plantsoen|gracht|kade|weg|steeg|steeg|pad|dijk|baan|dam|dreef|"
+                  r"kade|markt|park|plantsoen|singel|bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2})?|(\d+){0,6}))",
+                  get_address_match_replacement,
                   text)
-
     return text
 
 def annotate_email(text):
