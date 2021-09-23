@@ -80,5 +80,20 @@ class TestAnnotateMethods(unittest.TestCase):
         expected_text = 'Toegangstijd: <INITIAALPAT N.>v.t.'
         self.assertEqual(expected_text, annotated_names)
 
+    def test_annotate_address_no_number(self):
+        text = 'I live in Havikstraat since my childhood'
+        address = annotate.annotate_address(text)
+        self.assertEqual('I live in <LOCATIE Havikstraat> since my childhood', address)
+
+    def test_annotate_address_with_number(self):
+        text = 'I live in Havikstraat 43 since my childhood'
+        address = annotate.annotate_address(text)
+        self.assertEqual('I live in <LOCATIE Havikstraat 43> since my childhood', address)
+
+    def test_annotate_address_long_number(self):
+        text = 'I live in Havikstraat 4324598 since my childhood'
+        address = annotate.annotate_address(text)
+        self.assertEqual('I live in <LOCATIE Havikstraat 4324598> since my childhood', address)
+
 if __name__ == "__main__":
     unittest.main()

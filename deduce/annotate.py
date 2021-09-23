@@ -475,12 +475,20 @@ def annotate_postalcode(text):
                   text)
     return text
 
+def get_address_match_replacement(match: re.Match) -> str:
+    text = match.group(0)
+    stripped = text.strip()
+    if len(text) == len(stripped):
+        return '<LOCATIE {}>'.format(text)
+    else:
+        return '<LOCATIE {}>{}'.format(stripped, ' ' * (len(text) - len(stripped)))
+
 def annotate_address(text):
     """ Annotate addresses """
-    text = re.sub(r"([A-Z]\w+(straat|laan|hof|plein|plantsoen|gracht|kade|weg|steeg|steeg|pad|dijk|baan|dam|dreef|kade|markt|park|plantsoen|singel|bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2}){0,1}|(\d+){0,6}))",
-                  "<LOCATIE \\1>",
+    text = re.sub(r"([A-Z]\w+(straat|laan|hof|plein|plantsoen|gracht|kade|weg|steeg|steeg|pad|dijk|baan|dam|dreef|"
+                  r"kade|markt|park|plantsoen|singel|bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2})?|(\d+){0,6}))",
+                  get_address_match_replacement,
                   text)
-
     return text
 
 def annotate_email(text):
