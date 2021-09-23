@@ -84,10 +84,13 @@ def annotate_names(text, patient_first_names, patient_initial, patient_surname, 
                     if next_token != "" and tokens[token_index+1][0] == ".":
                         tokens_deid.append(
                             "<INITIAALPAT {}>".format(
-                                join_tokens(tokens[token_index:token_index+2])
+                                join_tokens([tokens[token_index], '.'])
                                 )
                             )
-                        token_index += 1
+                        if tokens[token_index+1] == '.':
+                            token_index += 1
+                        else:
+                            tokens[token_index+1] = tokens[token_index+1][1:]
 
                     # Else, annotate the token itself
                     else:
