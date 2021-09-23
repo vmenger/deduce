@@ -6,7 +6,7 @@ from nltk.metrics import edit_distance
 from .tokenizer import tokenize_split
 from .tokenizer import join_tokens
 
-from .utility import context
+from .utility import context, parse_tag
 from .utility import is_initial
 
 from .lookup_lists import *
@@ -318,11 +318,11 @@ def annotate_names_context(text):
 
         # If a match is found, tag and continue
         if and_pattern_condition:
-            (_, previous_token_index_deid, _, _) = context(tokens_deid, len(tokens_deid))
+            (previous_token_deid, previous_token_index_deid, _, _) = context(tokens_deid, len(tokens_deid))
             tokens_deid = tokens_deid[:previous_token_index_deid]
             tokens_deid.append(
                 "<MEERDEREPERSONEN {}>".format(
-                    join_tokens(tokens[previous_token_index:next_token_index+1])
+                    join_tokens([previous_token_deid] + tokens[previous_token_index+1:next_token_index+1])
                     )
                 )
             token_index = next_token_index
