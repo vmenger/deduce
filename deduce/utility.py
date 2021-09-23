@@ -128,6 +128,22 @@ def is_initial(token):
     return ((len(token) == 1 and token[0].isupper()) or
             "INITI" in token)
 
+def flatten_text_all_phi(text: str) -> str:
+    """
+    This is inspired by flatten_text, but works for all PHI categories
+    :param text: the text in which you wish to flatten nested annotations
+    :return: the text with nested annotations replaced by a single annotation with the outermost category
+    """
+    to_flatten = find_tags(text)
+    to_flatten.sort(key=lambda x: -len(x))
+
+    for tag in to_flatten:
+        _, value = flatten(tag)
+        outermost_category = parse_tag(tag)[0]
+        text = text.replace(tag, "<{} {}>".format(outermost_category, value.strip()))
+
+    return text
+
 def flatten_text(text):
     """
     Flattens all tags in a piece of text; e.g. tags like <INITIAL A <NAME Surname>>

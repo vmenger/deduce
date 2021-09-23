@@ -88,5 +88,26 @@ class TestUtilityMethods(unittest.TestCase):
             read_list = utility.read_list(list_name, unique=False)
         self.assertEqual(['item', 'item'], read_list)
 
+    def test_flatten_text_all_phi(self):
+        text = '<INSTELLING UMC <LOCATIE Utrecht>>'
+        flattened = utility.flatten_text_all_phi(text)
+        self.assertEqual('<INSTELLING UMC Utrecht>', flattened)
+
+    def test_flatten_text_all_phi_no_nested(self):
+        text = '<PERSOON Peter> came today and said he loved the <INSTELLING UMC>'
+        flattened = utility.flatten_text_all_phi(text)
+        self.assertEqual(text, flattened)
+
+    def test_flatten_text_all_phi_extra_flat(self):
+        text = '<INSTELLING UMC <LOCATIE Utrecht>> is the best hospital in <LOCATIE Utrecht>'
+        flattened = utility.flatten_text_all_phi(text)
+        self.assertEqual('<INSTELLING UMC Utrecht> is the best hospital in <LOCATIE Utrecht>', flattened)
+
+    def test_flatten_text_all_phi_extra_nested(self):
+        text = '<INSTELLING UMC <LOCATIE Utrecht>> was founded by <PERSOON Jan van <LOCATIE Apeldoorn>>'
+        flattened = utility.flatten_text_all_phi(text)
+        self.assertEqual('<INSTELLING UMC Utrecht> was founded by <PERSOON Jan van Apeldoorn>', flattened)
+
+
 if __name__ == "__main__":
     unittest.main()
