@@ -91,17 +91,9 @@ The lookup lists in the `data/` folder can be tailored to the users specific nee
 
 Contributions to the deduce project are very much welcomed - feel free to get in touch with the author via issue or e-mail. 
 
-## Versioning
+## Changelog
 
-1.0.3 - Bugfix and added structured annotations
-
-1.0.2 - Release to PyPI
-
-1.0.1 - Small bugfix for None as input
-
-1.0.0 - Initial version
-
-You may find more detailed information in the [changelog](changelog.md).
+You may find detailed versioning information in the [changelog](changelog.md).
 
 ## Authors
 
