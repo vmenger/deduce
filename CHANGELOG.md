@@ -9,18 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Changelog
-- 
+- Additional unit tests for whitespace/punctuation
+
 ### Fixed
+- Various whitespace/punctuation bugs
 
 ## 1.0.3 (2021-07-07)
 
 ### Added
-- Structured annotations #7
+- Structured annotations
 - Some unit tests
 
 ### Fixed
 - Error with outdated unicode package
-- Bug with context #8
+- Bug with context
 
 ## 1.0.2 
 Release to PyPI
