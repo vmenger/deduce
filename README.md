@@ -101,6 +101,8 @@ Contributions to the deduce project are very much welcomed - feel free to get in
 
 1.0.0 - Initial version
 
+You may find more detailed information in the [changelog](changelog.md).
+
 ## Authors
 
 * **Vincent Menger** - *Initial work* 
