@@ -1,5 +1,6 @@
 import unittest
 
+import deduce
 from deduce import annotate
 
 
@@ -94,6 +95,12 @@ class TestAnnotateMethods(unittest.TestCase):
         text = 'I live in Havikstraat 4324598 since my childhood'
         address = annotate.annotate_address(text)
         self.assertEqual('I live in <LOCATIE Havikstraat 4324598> since my childhood', address)
+
+    def test_coordinating_nexus_with_preceding_name(self):
+        text = 'Adalberto <ACHTERNAAMONBEKEND Koning> en Mariangela'
+        annotated = annotate.annotate_names_context(text)
+        expected_text = '<MEERDEREPERSONEN <INITIAAL Adalberto <ACHTERNAAMONBEKEND Koning>> en Mariangela>'
+        self.assertEqual(expected_text, annotated)
 
 if __name__ == "__main__":
     unittest.main()
