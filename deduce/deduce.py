@@ -105,8 +105,12 @@ def annotate_text(
     # Merge adjacent tags
     text = merge_adjacent_tags(text)
 
+    # Flatten tags
+    if flatten and has_nested_tags(text):
+        flatten_text_all_phi(text)
+
 	# Return text
-    return flatten_text_all_phi(text) if flatten and has_nested_tags(text) else text
+    return text
 
 def get_adjacent_tags_replacement(match: re.Match) -> str:
     text = match.group(0)
