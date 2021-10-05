@@ -93,7 +93,7 @@ Contributions to the deduce project are very much welcomed - feel free to get in
 
 ## Changelog
 
-You may find detailed versioning information in the [changelog](changelog.md).
+You may find detailed versioning information in the [changelog](CHANGELOG.md).
 
 ## Authors
 
