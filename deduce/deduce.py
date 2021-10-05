@@ -107,7 +107,7 @@ def annotate_text(
 
     # Flatten tags
     if flatten and has_nested_tags(text):
-        flatten_text_all_phi(text)
+        text = flatten_text_all_phi(text)
 
 	# Return text
     return text
