@@ -466,7 +466,7 @@ def annotate_postalcode(text):
                   "<LOCATIE \\1> ",
                   text)
 
-    text = re.sub("<LOCATIE\s(.+mg)>",
+    text = re.sub("<LOCATIE\s(\d{4}mg)>",
                   "\\1",
                   text)
 
