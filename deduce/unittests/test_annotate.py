@@ -1,6 +1,5 @@
 import unittest
 
-import deduce
 from deduce import annotate
 
 

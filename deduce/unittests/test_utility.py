@@ -1,9 +1,9 @@
 import codecs
 import unittest
+from unittest.mock import patch
 
 from deduce import utility
 from deduce.utility import Annotation
-from unittest.mock import patch
 
 
 class TestUtilityMethods(unittest.TestCase):
