@@ -18,18 +18,18 @@ class ListTrie:
 
     def print_all(self):
         """Print all lists in the ListTrie"""
-        self.root.print_all(list())
+        self.root.print_all([])
 
     def find_all(self):
         """Find all lists in the ListTrie"""
         result = []
-        self.root.find_all(list(), result)
+        self.root.find_all([], result)
         return result
 
     def find_all_prefixes(self, prefix):
         """Find all lists in the ListTrie that are a prefix of the prefix argument"""
         result = []
-        self.root.find_all_prefixes(list(), prefix, 0, result)
+        self.root.find_all_prefixes([], prefix, 0, result)
         return result
 
 

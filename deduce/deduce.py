@@ -211,15 +211,20 @@ def annotate_text_structured(
 
 def has_nested_tags(text):
     open_brackets = 0
-    for i, ch in enumerate(text):
+    for _, ch in enumerate(text):
+
         if ch == "<":
             open_brackets += 1
+
         if ch == ">":
             open_brackets -= 1
+
         if open_brackets == 2:
             return True
-        elif open_brackets not in (0, 1):
+
+        if open_brackets not in (0, 1):
             raise ValueError("Incorrectly formatted string")
+
     return False
 
 
@@ -266,9 +271,7 @@ def deidentify_annotations(text):
             ]
 
             # Replace this occurence with the appropriate number from dispenser
-            text = text.replace(
-                "<{} {}>".format(tagname, thisval), "<{}-{}>".format(tagname, dispenser)
-            )
+            text = text.replace(f"<{tagname} {thisval}>", f"<{tagname}-{dispenser}>")
 
             # For all other values
             for index, value in enumerate(dist):
@@ -276,8 +279,8 @@ def deidentify_annotations(text):
                 # If the value matches, replace it as well
                 if dist[index]:
                     text = text.replace(
-                        "<{} {}>".format(tagname, phi_values[index + 1]),
-                        "<{}-{}>".format(tagname, str(dispenser)),
+                        f"<{tagname} {phi_values[index + 1]}>",
+                        f"<{tagname}-{str(dispenser)}>",
                     )
 
                 # Otherwise, carry it to the next iteration

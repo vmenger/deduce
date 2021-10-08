@@ -63,9 +63,9 @@ NOSPLIT_TRIE = ListTrie()
 
 # Read interfixes
 INTERFIXES = list(
-    set([line.strip() for line in codecs.open(get_data("voorvoegsel.lst"))])
+    set(line.strip() for line in codecs.open(get_data("voorvoegsel.lst")))
 )
-PREFIXES = list(set([line.strip() for line in codecs.open(get_data("prefix.lst"))]))
+PREFIXES = list(set(line.strip() for line in codecs.open(get_data("prefix.lst"))))
 
 # Fill trie
 for interfix in INTERFIXES:

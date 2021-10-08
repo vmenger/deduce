@@ -67,10 +67,11 @@ def type_of(char):
 
     if char.isalpha():
         return "alpha"
-    elif char == "<" or char == ">":
+
+    if char in ("<", ">"):
         return "hook"
-    else:
-        return "other"
+
+    return "other"
 
 
 def any_in_text(matchlist, token):
@@ -149,7 +150,7 @@ def flatten_text_all_phi(text: str) -> str:
     for tag in to_flatten:
         _, value = flatten(tag)
         outermost_category = parse_tag(tag)[0]
-        text = text.replace(tag, "<{} {}>".format(outermost_category, value.strip()))
+        text = text.replace(tag, f"<{outermost_category} {value.strip()}>")
 
     return text
 
@@ -181,7 +182,7 @@ def flatten_text(text):
             tagname = "PERSOON"
 
         # Replace the found tag with the new, flattened tag
-        text = text.replace(tag, "<{} {}>".format(tagname, value.strip()))
+        text = text.replace(tag, f"<{tagname} {value.strip()}>")
 
     # Make sure adjacent tags are joined together (like <INITIAL A><PATIENT Surname>),
     # optionally with a whitespace, period, hyphen or comma between them.
@@ -223,34 +224,31 @@ def flatten(tag):
     if "<" not in tag:
         return "", tag
 
-    # Otherwise
-    else:
+    # Remove fishhooks from tag
+    tag = tag[1:-1]
 
-        # Remove fishhooks from tag
-        tag = tag[1:-1]
+    # Split on whitespaces
+    tagspl = tag.split(" ", 1)
 
-        # Split on whitespaces
-        tagspl = tag.split(" ", 1)
+    # Split on the first whitespace, so we can distinguish between name and rest
+    tagname = tagspl[0]
+    tagrest = tagspl[1]
 
-        # Split on the first whitespace, so we can distinguish between name and rest
-        tagname = tagspl[0]
-        tagrest = tagspl[1]
+    # Output is initially empty
+    tagvalue = ""
 
-        # Output is initially empty
-        tagvalue = ""
+    # Recurse on the rest of the tag
+    for tag_part in split_tags(tagrest):
 
-        # Recurse on the rest of the tag
-        for tag_part in split_tags(tagrest):
+        # Flatten for each value in tagrest
+        flattened_tagname, flattened_tagvalue = flatten(tag_part)
 
-            # Flatten for each value in tagrest
-            flattened_tagname, flattened_tagvalue = flatten(tag_part)
+        # Simply append to tagnames and values
+        tagname += flattened_tagname
+        tagvalue += flattened_tagvalue
 
-            # Simply append to tagnames and values
-            tagname += flattened_tagname
-            tagvalue += flattened_tagvalue
-
-        # Return pair
-        return tagname, tagvalue
+    # Return pair
+    return tagname, tagvalue
 
 
 def find_tags(text):
@@ -264,7 +262,7 @@ def find_tags(text):
     toflatten = []
 
     # Iterate over all characters
-    for index, value in enumerate(text):
+    for index, _ in enumerate(text):
 
         # If an opening hook is encountered
         if text[index] == "<":
@@ -306,7 +304,7 @@ def split_tags(text):
     splitbytags = []
 
     # Iterate over all characters
-    for index, value in enumerate(text):
+    for index, _ in enumerate(text):
 
         # If an opening hook is encountered
         if text[index] == "<":
@@ -344,8 +342,8 @@ def get_data(path):
 
 def _normalize_value(line):
     """Removes all non-ascii characters from a string"""
-    s = str(bytes(line, encoding="ascii", errors="ignore"), encoding="ascii")
-    return unicodedata.normalize("NFKD", s)
+    line = str(bytes(line, encoding="ascii", errors="ignore"), encoding="ascii")
+    return unicodedata.normalize("NFKD", line)
 
 
 def read_list(

@@ -17,7 +17,7 @@ INTERFIXES = read_list("voorvoegsel.lst")
 # Read all surnames that frequently occur with an
 # interfix ('Jong', 'Vries' for 'de Jong', 'de Vries', etc)
 INTERFIX_SURNAMES = list(
-    set([line.strip().split(" ")[-1] for line in read_list("achternaammetvv.lst")])
+    set(line.strip().split(" ")[-1] for line in read_list("achternaammetvv.lst"))
 )
 
 # Read prefixes (such as mw, dhr, pt)
@@ -36,7 +36,7 @@ STOPWORDS = read_list("stopwoord.lst")
 # The whitelist of words that are never annotated as names consists of
 # the medical terms, the top1000 words and the stopwords
 WHITELIST = list(
-    set([line.lower() for line in MEDTERM + TOP1000 + STOPWORDS if len(line) >= 2])
+    set(line.lower() for line in MEDTERM + TOP1000 + STOPWORDS if len(line) >= 2)
 )
 
 ### Institutions
@@ -105,7 +105,7 @@ RESIDENCES = read_list("woonplaats.lst", encoding="utf-8", normalize=True)
 RESIDENCES = [re.sub("\(.+\)", "", residence) for residence in RESIDENCES]
 
 # Strip values and remove doubles again
-RESIDENCES_SET = set([residence.strip() for residence in RESIDENCES])
+RESIDENCES_SET = set(residence.strip() for residence in RESIDENCES)
 
 # New copy
 FILTERED_RESIDENCES = set(RESIDENCES_SET)
