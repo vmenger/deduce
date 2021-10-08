@@ -1,4 +1,5 @@
 # Deduce: de-identification method for Dutch medical text
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 > If you are looking for the version of DEDUCE as published with [Menger et al (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365), please visit [vmenger/deduce-classic](https://github.com/vmenger/deduce-classic/), where the original is archived. This version is maintained and improved, thus possibly differing from the validated original.
 
