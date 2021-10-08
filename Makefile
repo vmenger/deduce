@@ -3,6 +3,8 @@ test:
 
 format:
 	python -m black deduce/
+	pylint --max-line-length=140 deduce/
+
 
 publish:
 	pip install --upgrade setuptools wheel twine
