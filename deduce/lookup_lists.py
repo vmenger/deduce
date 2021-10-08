@@ -16,8 +16,9 @@ INTERFIXES = read_list("voorvoegsel.lst")
 
 # Read all surnames that frequently occur with an
 # interfix ('Jong', 'Vries' for 'de Jong', 'de Vries', etc)
-INTERFIX_SURNAMES = list(set([line.strip().split(" ")[-1]
-                              for line in read_list("achternaammetvv.lst")]))
+INTERFIX_SURNAMES = list(
+    set([line.strip().split(" ")[-1] for line in read_list("achternaammetvv.lst")])
+)
 
 # Read prefixes (such as mw, dhr, pt)
 PREFIXES = read_list("prefix.lst")
@@ -34,8 +35,9 @@ STOPWORDS = read_list("stopwoord.lst")
 
 # The whitelist of words that are never annotated as names consists of
 # the medical terms, the top1000 words and the stopwords
-WHITELIST = list(set([line.lower()
-                      for line in MEDTERM + TOP1000 + STOPWORDS if len(line) >= 2]))
+WHITELIST = list(
+    set([line.lower() for line in MEDTERM + TOP1000 + STOPWORDS if len(line) >= 2])
+)
 
 ### Institutions
 
@@ -52,24 +54,32 @@ FILTERED_INSTITUTIONS = []
 # Iterate over all institutions
 for institution in INSTITUTIONS:
 
-	# Convert to lower case (case matching does not work well for institutions)
+    # Convert to lower case (case matching does not work well for institutions)
     institution = institution.lower()
 
-	# Add stripped version to institutions
+    # Add stripped version to institutions
     FILTERED_INSTITUTIONS.append(institution.strip())
 
-	# Filter values at start or end of words
+    # Filter values at start or end of words
     for filter_value in FILTER_VALUES:
         institution = re.sub(
-            r"(^" + filter_value + r"\s|\s" + filter_value + r"\s|\s" + filter_value + r"$)",
-            "", institution)
+            r"(^"
+            + filter_value
+            + r"\s|\s"
+            + filter_value
+            + r"\s|\s"
+            + filter_value
+            + r"$)",
+            "",
+            institution,
+        )
 
-	# Again, also add the stripped versions and versions with full stops removed
+    # Again, also add the stripped versions and versions with full stops removed
     FILTERED_INSTITUTIONS.append(institution.strip())
     institution = institution.replace(".", "")
     FILTERED_INSTITUTIONS.append(institution.strip())
 
-	# "st", "st." and "ziekenhuis" have common abbreviations
+    # "st", "st." and "ziekenhuis" have common abbreviations
     if "st" in institution:
         FILTERED_INSTITUTIONS.append(institution.replace("st ", "sint "))
 
@@ -79,7 +89,7 @@ for institution in INSTITUTIONS:
     if "ziekenhuis" in institution:
         FILTERED_INSTITUTIONS.append(institution.replace("ziekenhuis", "zkh"))
 
-	# If the institution name contains 3 or more words, also add the acronym
+    # If the institution name contains 3 or more words, also add the acronym
     if len(institution.split(" ")) >= 3:
         FILTERED_INSTITUTIONS.append("".join(x[0] for x in institution.split(" ")))
 

@@ -16,11 +16,17 @@ class Annotation:
         self.text_ = text
 
     def __eq__(self, other):
-        return isinstance(other, Annotation) and self.start_ix == other.start_ix and self.end_ix == other.end_ix and \
-               self.tag == other.tag and self.text_ == other.text_
+        return (
+            isinstance(other, Annotation)
+            and self.start_ix == other.start_ix
+            and self.end_ix == other.end_ix
+            and self.tag == other.tag
+            and self.text_ == other.text_
+        )
 
     def __repr__(self):
         return self.tag + "[" + str(self.start_ix) + ":" + str(self.end_ix) + "]"
+
 
 def merge_triebased(tokens, trie):
     """
@@ -56,8 +62,9 @@ def merge_triebased(tokens, trie):
     # Return the list
     return tokens_merged
 
+
 def type_of(char):
-    """ Determines whether a character is alpha, a fish hook, or other """
+    """Determines whether a character is alpha, a fish hook, or other"""
 
     if char.isalpha():
         return "alpha"
@@ -66,15 +73,17 @@ def type_of(char):
     else:
         return "other"
 
+
 def any_in_text(matchlist, token):
-    """ Check if any of the strings in matchlist are in the string token """
-    return reduce(lambda x, y : x | y, map(lambda x : x in token, matchlist))
+    """Check if any of the strings in matchlist are in the string token"""
+    return reduce(lambda x, y: x | y, map(lambda x: x in token, matchlist))
+
 
 def context(tokens, i):
-    """ Determine next and previous tokens that start with an alpha character """
+    """Determine next and previous tokens that start with an alpha character"""
 
     # Find the next token
-    k = i+1
+    k = i + 1
     next_token = ""
 
     # Iterate over tokens after this one
@@ -97,7 +106,7 @@ def context(tokens, i):
     next_token_index = k
 
     # Find the previous token in a similar way
-    k = i-1
+    k = i - 1
     previous_token = ""
 
     # Iterate over all previous tokens
@@ -118,6 +127,7 @@ def context(tokens, i):
     # Return the appropriate information in a 4-tuple
     return previous_token, previous_token_index, next_token, next_token_index
 
+
 def is_initial(token):
     """
     Check if a token is an initial
@@ -125,8 +135,8 @@ def is_initial(token):
         - Length 1 and capital
         - Already annotated initial
     """
-    return ((len(token) == 1 and token[0].isupper()) or
-            "INITI" in token)
+    return (len(token) == 1 and token[0].isupper()) or "INITI" in token
+
 
 def flatten_text_all_phi(text: str) -> str:
     """
@@ -143,6 +153,7 @@ def flatten_text_all_phi(text: str) -> str:
         text = text.replace(tag, "<{} {}>".format(outermost_category, value.strip()))
 
     return text
+
 
 def flatten_text(text):
     """
@@ -177,9 +188,11 @@ def flatten_text(text):
     # optionally with a whitespace, period, hyphen or comma between them.
     # This works because all adjacent tags concern names
     # (remember that the function flatten_text() can only be used for names)!
-    text = re.sub("<([A-Z]+)\s([\w\.\s,]+)>([\.\s\-,]+)[\.\s]*<([A-Z]+)\s([\w\.\s,]+)>",
-                  "<\\1\\4 \\2\\3\\5>",
-                  text)
+    text = re.sub(
+        "<([A-Z]+)\s([\w\.\s,]+)>([\.\s\-,]+)[\.\s]*<([A-Z]+)\s([\w\.\s,]+)>",
+        "<\\1\\4 \\2\\3\\5>",
+        text,
+    )
 
     # Find all names of tags, to replace them with either "PATIENT" or "PERSOON"
     tagnames = re.findall("<([A-Z]+)", text)
@@ -197,6 +210,7 @@ def flatten_text(text):
 
     # Return the text with all replacements
     return text
+
 
 def flatten(tag):
 
@@ -239,8 +253,9 @@ def flatten(tag):
         # Return pair
         return tagname, tagvalue
 
+
 def find_tags(text):
-    """ Finds and returns a list of all tags in a piece of text """
+    """Finds and returns a list of all tags in a piece of text"""
 
     # Helper variables
     nest_depth = 0
@@ -270,10 +285,11 @@ def find_tags(text):
 
             # If the tag was not nested, add the tag to the return list
             if nest_depth == 0:
-                toflatten.append(text[startpos:index+1])
+                toflatten.append(text[startpos : index + 1])
 
     # Return list
     return toflatten
+
 
 def split_tags(text):
     """
@@ -312,8 +328,8 @@ def split_tags(text):
 
             # Split if the tag was not nested
             if nest_depth == 0:
-                splitbytags.append(text[startpos:index+1])
-                startpos = index+1
+                splitbytags.append(text[startpos : index + 1])
+                startpos = index + 1
 
     # Append the last characters
     splitbytags.append(text[startpos:])
@@ -323,17 +339,26 @@ def split_tags(text):
 
 
 def get_data(path):
-    """ Define where to find the data files """
-    return os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data', path)
+    """Define where to find the data files"""
+    return os.path.join(os.path.abspath(os.path.dirname(__file__)), "data", path)
+
 
 def _normalize_value(line):
-    """ Removes all non-ascii characters from a string """
-    s = str(bytes(line, encoding='ascii', errors='ignore'), encoding='ascii')
-    return unicodedata.normalize('NFKD', s)
+    """Removes all non-ascii characters from a string"""
+    s = str(bytes(line, encoding="ascii", errors="ignore"), encoding="ascii")
+    return unicodedata.normalize("NFKD", s)
 
-def read_list(list_name, encoding='utf-8', lower=False,
-              strip=True, min_len=None, normalize=None, unique=True):
-    """ Read a list from file and return the values. """
+
+def read_list(
+    list_name,
+    encoding="utf-8",
+    lower=False,
+    strip=True,
+    min_len=None,
+    normalize=None,
+    unique=True,
+):
+    """Read a list from file and return the values."""
 
     data = codecs.open(get_data(list_name), encoding=encoding)
 
@@ -356,6 +381,7 @@ def read_list(list_name, encoding='utf-8', lower=False,
 
     return data_nodoubles
 
+
 def parse_tag(tag: str) -> tuple:
     """
     Parse a Deduce-style tag into its tag proper and its text. Does not handle nested tags
@@ -363,7 +389,8 @@ def parse_tag(tag: str) -> tuple:
     :return: the tag type and text, for example, ("VOORNAAMONBEKEND", "Peter")
     """
     split_ix = tag.index(" ")
-    return tag[1:split_ix], tag[split_ix+1:len(tag)-1]
+    return tag[1:split_ix], tag[split_ix + 1 : len(tag) - 1]
+
 
 def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) -> list:
     """
@@ -380,10 +407,18 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
     for tag in tags:
         tag_ix = annotated_text.index(tag, ix) - ix
         tag_type, tag_text = parse_tag(tag)
-        annotations.append(Annotation(raw_text_ix + tag_ix, raw_text_ix + tag_ix + len(tag_text), tag_type, tag_text))
-        ix += (tag_ix + len(tag))
-        raw_text_ix += (tag_ix + len(tag_text))
+        annotations.append(
+            Annotation(
+                raw_text_ix + tag_ix,
+                raw_text_ix + tag_ix + len(tag_text),
+                tag_type,
+                tag_text,
+            )
+        )
+        ix += tag_ix + len(tag)
+        raw_text_ix += tag_ix + len(tag_text)
     return annotations
+
 
 def get_first_non_whitespace(text: str) -> int:
     return text.index(text.lstrip()[0])
