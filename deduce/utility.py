@@ -1,11 +1,10 @@
 """ This module contains all kinds of utility functionality """
 
-import re
 import codecs
 import os
-
-from functools import reduce
+import re
 import unicodedata
+from functools import reduce
 
 
 class Annotation:

@@ -1,15 +1,11 @@
 """ The annotate module contains the code for annotating text"""
-import re
 
 from nltk.metrics import edit_distance
 
-from .tokenizer import tokenize_split
-from .tokenizer import join_tokens
-
-from .utility import context, parse_tag
-from .utility import is_initial
-
 from .lookup_lists import *
+from .tokenizer import join_tokens
+from .utility import context
+from .utility import is_initial
 
 
 def annotate_names(

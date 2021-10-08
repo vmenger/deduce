@@ -2,10 +2,8 @@
 Deduce is the main module, from which the annotate and
 deidentify_annotations() methods can be imported
 """
-import re
 
 from deduce import utility
-from nltk.metrics import edit_distance
 from .annotate import *
 from .utility import flatten_text, flatten_text_all_phi
 

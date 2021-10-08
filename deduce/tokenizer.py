@@ -1,11 +1,10 @@
 """ This module contains all tokenizing functionality """
 import codecs
 
+from .listtrie import ListTrie
+from .utility import get_data
 from .utility import merge_triebased
 from .utility import type_of
-from .utility import get_data
-
-from .listtrie import ListTrie
 
 
 def tokenize_split(text, merge=True):
