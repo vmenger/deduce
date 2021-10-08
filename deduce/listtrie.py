@@ -103,4 +103,6 @@ class _ListTrieNode:
                 node = self.nodes[current_item]
                 key = current_item
 
-                node.find_all_prefixes(item_list + [key], prefix, prefix_pos + 1, result)
+                node.find_all_prefixes(
+                    item_list + [key], prefix, prefix_pos + 1, result
+                )
