@@ -12,9 +12,9 @@ class ListTrie:
         """Initiate ListTrie"""
         self.root = _ListTrieNode()
 
-    def add(self, list):
+    def add(self, item_list):
         """Add a list to the ListTrie"""
-        self.root.add(list, 0)
+        self.root.add(item_list, 0)
 
     def print_all(self):
         """Print all lists in the ListTrie"""
@@ -41,55 +41,55 @@ class _ListTrieNode:
         self.nodes = {}  # empty dict
         self.is_terminal = False
 
-    def add(self, list, position):
+    def add(self, item_list, position):
         """Add a list to the ListTrie by adding the current item
         in the list to this ListTrieNode"""
 
         # Last position of the list, make the node terminal
-        if position == len(list):
+        if position == len(item_list):
             self.is_terminal = True
 
         # Else recurse
         else:
 
             # Current item in the list
-            current_item = list[position]
+            current_item = item_list[position]
 
             # If the item is not yet in the dictionary, create a new empty ListTrieNode
             if current_item not in self.nodes:
                 self.nodes[current_item] = _ListTrieNode()
 
             # Recurse on the ListTrieNode corresponding to the current_item
-            self.nodes[current_item].add(list, position + 1)
+            self.nodes[current_item].add(item_list, position + 1)
 
-    def print_all(self, list):
+    def print_all(self, item_list):
         """Print all lists in the ListTrie"""
 
         # If the ListTrieNode is terminal, print the list
         if self.is_terminal:
-            print(list)
+            print(item_list)
 
         # Else recurse through the ListTrie
-        for key, node in self.nodes.iteritems():
-            node.print_all(list + [key])
+        for key, node in self.nodes:
+            node.print_all(item_list + [key])
 
-    def find_all(self, list, result):
+    def find_all(self, item_list, result):
         """Find all lists in the ListTrie"""
 
         # If the ListTrieNode is terminal, append the list to the list of results
         if self.is_terminal:
-            result.append(list)
+            result.append(item_list)
 
         # Else recurse through the ListTrie
-        for key, node in self.nodes.iteritems():
-            node.find_all(list + [key], result)
+        for key, node in self.nodes:
+            node.find_all(item_list + [key], result)
 
-    def find_all_prefixes(self, list, prefix, prefix_pos, result):
+    def find_all_prefixes(self, item_list, prefix, prefix_pos, result):
         """Find all lists in the ListTrie that are a prefix of the prefix argument"""
 
         # If the ListTrieNode is terminal, append the list so far to the results
         if self.is_terminal:
-            result.append(list)
+            result.append(item_list)
 
         # If we have not satisfied the prefix condition yet, continue
         if prefix_pos < len(prefix):
@@ -103,4 +103,4 @@ class _ListTrieNode:
                 node = self.nodes[current_item]
                 key = current_item
 
-                node.find_all_prefixes(list + [key], prefix, prefix_pos + 1, result)
+                node.find_all_prefixes(item_list + [key], prefix, prefix_pos + 1, result)

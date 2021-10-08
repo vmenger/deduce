@@ -26,7 +26,7 @@ def annotate_names(
 
         # Current token, and number of tokens already deidentified (used to detect changes)
         token = tokens[token_index]
-        numtokens_deid = len(tokens_deid)
+        num_tokens_deid = len(tokens_deid)
 
         # The context of this token
         (previous_token, previous_token_index, next_token, next_token_index) = context(
@@ -136,7 +136,7 @@ def annotate_names(
             surname_pattern = tokenize_split(patient_surname)
 
             # Iterate over all tokens in the pattern
-            iter = 0
+            counter = 0
             match = False
 
             # See if there is a fuzzy match, and if there are enough tokens left
@@ -149,13 +149,13 @@ def annotate_names(
                 match = True
 
                 # Iterate over rest of pattern to see if every element matches (fuzzily)
-                while iter < len(surname_pattern):
+                while counter < len(surname_pattern):
 
                     # If the distance is too big, disgregard the match
                     if (
                         edit_distance(
-                            tokens[token_index + iter],
-                            surname_pattern[iter],
+                            tokens[token_index + counter],
+                            surname_pattern[counter],
                             transpositions=True,
                         )
                         > 1
@@ -164,7 +164,7 @@ def annotate_names(
                         match = False
                         break
 
-                    iter += 1
+                    counter += 1
 
             # If a match was found, tag the appropriate tokens, and continue
             if match:
@@ -209,7 +209,7 @@ def annotate_names(
         ### Wrap up
         # Nothing has been added (ie no deidentification tag) to tokens_deid,
         # so we can safely add the token itself
-        if len(tokens_deid) == numtokens_deid:
+        if len(tokens_deid) == num_tokens_deid:
             tokens_deid.append(token)
 
     # Return the deidentified tokens as a piece of text
