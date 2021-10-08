@@ -1,8 +1,8 @@
 test:
-    python -m unittest discover
+	python -m unittest discover
 
-black:
-    python -m black deduce/
+format:
+	python -m black deduce/
 
 publish:
 	pip install --upgrade setuptools wheel twine
