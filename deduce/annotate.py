@@ -403,7 +403,8 @@ def annotate_institution(text):
         # Else annotate the longest sequence as institution
         else:
             max_list = max(prefix_matches, key=len)
-            tokens_deid.append("<INSTELLING {}>".format(join_tokens(max_list)))
+            joined_institution = join_tokens(tokens[token_index:token_index+len(max_list)])
+            tokens_deid.append("<INSTELLING {}>".format(joined_institution))
             token_index += len(max_list)-1
 
     # Return

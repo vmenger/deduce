@@ -102,5 +102,11 @@ class TestAnnotateMethods(unittest.TestCase):
         expected_text = '<MEERDEREPERSONEN <INITIAAL Adalberto <ACHTERNAAMONBEKEND Koning>> en Mariangela>'
         self.assertEqual(expected_text, annotated)
 
+    def test_preserve_institution_casing(self):
+        text = 'Ik ben in Altrecht geweest'
+        annotated_institutions_text = annotate.annotate_institution(text)
+        expected_text = 'Ik ben in <INSTELLING Altrecht> geweest'
+        self.assertEqual(expected_text, annotated_institutions_text)
+
 if __name__ == "__main__":
     unittest.main()
