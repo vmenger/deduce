@@ -16,7 +16,7 @@ class TestDeduceMethods(unittest.TestCase):
         expected_text = "Dit is stukje tekst met daarin de naam <PATIENT Jan Jansen>. De <PATIENT patient J. Jansen> " \
                         "(e: <URL j.jnsen@email.com>, t: <TELEFOONNUMMER 06-12345678>) is <LEEFTIJD 64> jaar oud en " \
                         "woonachtig in <LOCATIE Utrecht>. Hij werd op <DATUM 10 oktober> door arts " \
-                        "<PERSOON Peter de Visser> ontslagen van de kliniek van het <INSTELLING umcu>."
+                        "<PERSOON Peter de Visser> ontslagen van de kliniek van het <INSTELLING UMCU>."
         self.assertEqual(expected_text, annotated)
 
     def test_annotate_text_structured(self):
