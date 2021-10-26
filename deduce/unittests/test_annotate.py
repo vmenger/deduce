@@ -132,5 +132,12 @@ class TestAnnotateMethods(unittest.TestCase):
         expected = [text.replace('xxx', el[1]) for el in examples]
         self.assertEqual(expected, annotated)
 
+    def test_annotate_context_keep_initial(self):
+        text = 'Mijn naam is M <ACHTERNAAMONBEKEND Smid> de Vries'
+        annotated_context_names = annotate.annotate_names_context(text)
+        expected = 'Mijn naam is <INTERFIXACHTERNAAM <INITIAAL M <ACHTERNAAMONBEKEND Smid>> de Vries>'
+        self.assertEqual(expected, annotated_context_names)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -274,12 +274,13 @@ def annotate_names_context(text):
         if interfix_condition:
             # Remove some already identified tokens, to prevent double tagging
             (_, previous_token_index_deid, _, _) = context(tokens_deid, len(tokens_deid))
+            deid_tokens_to_keep = tokens_deid[previous_token_index_deid:]
             tokens_deid = tokens_deid[:previous_token_index_deid]
             tokens_deid.append(
                 "<INTERFIXACHTERNAAM {}>".format(
-                    join_tokens(tokens[previous_token_index : next_token_index+1])
-                    )
+                    join_tokens(deid_tokens_to_keep + tokens[token_index:next_token_index + 1])
                 )
+            )
             token_index = next_token_index
             continue
 
