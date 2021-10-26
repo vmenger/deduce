@@ -89,7 +89,10 @@ The lookup lists in the `data/` folder can be tailored to the users specific nee
 
 ## Contributing
 
-Contributions to the deduce project are very much welcomed - feel free to get in touch with the author via issue or e-mail. 
+Thanks a lot for considering to make a contribution to DEDUCE, we are very open to your help!
+
+* If you need support, have a question, or found a bug/error, please get in touch by [creating a New Issue](https://github.com/vmenger/deduce/issues). We don't have an issue template, just try to be specific and complete, so we can tackle it. 
+* If you want to make a contribution either to the code or the docs, please take a few minutes to read our [contribution guidelines](CONTRIBUTING.md). This greatly improve the chances of your work being merged into the repository.
 
 ## Changelog
 
