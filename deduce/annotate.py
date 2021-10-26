@@ -376,6 +376,15 @@ def annotate_residence(text):
     # Return the de-identified text
     return join_tokens(tokens_deid)
 
+def replace_altrecht_text(match: re.Match) -> str:
+    """
+    <INSTELLING Altrecht> (with Altrecht in any casing) followed by words that start with capital letters is annotated
+    as <INSTELLING Altrecht Those Words>, where Altrecht retains the original casing
+    :param match: the match object from a regular expression search
+    :return: the final string
+    """
+    return match.group(0)[:len(match.group(0)) - len(match.group(1)) - 1] + match.group(1) + '>'
+
 def annotate_institution(text):
     """ Annotate institutions """
 
@@ -411,8 +420,8 @@ def annotate_institution(text):
     text = join_tokens(tokens_deid)
 
     # Detect the word "Altrecht" followed by a capitalized word
-    text = re.sub("<INSTELLING altrecht>((\s[A-Z]{1}([\w]*))*)",
-                  "<INSTELLING altrecht" + "\\1".lower() + ">",
+    text = re.sub('<INSTELLING [aA][lL][tT][rR][eE][cC][hH][tT]>((\s[A-Z]([\w]*))*)',
+                  replace_altrecht_text,
                   text)
 
     # Return the text
@@ -464,7 +473,7 @@ def annotate_patientnumber(text):
 def annotate_postalcode(text):
     """ Annotate postal codes """
     text = re.sub("(((\d{4} [A-Z]{2})|(\d{4}[a-zA-Z]{2})))(?P<n>\W)(?![^<]*>)",
-                  "<LOCATIE \\1> ",
+                  "<LOCATIE \\1>\\5",
                   text)
 
     text = re.sub("<LOCATIE\s(\d{4}mg)>",

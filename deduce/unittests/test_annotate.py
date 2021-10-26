@@ -108,5 +108,29 @@ class TestAnnotateMethods(unittest.TestCase):
         expected_text = 'Ik ben in <INSTELLING Altrecht> geweest'
         self.assertEqual(expected_text, annotated_institutions_text)
 
+    def test_skip_mg(self):
+        text = '<LOCATIE Hoofdstraat> is mooi. (br)Lithiumcarbonaat 1600mg. Nog een zin'
+        annotated_postcodes_text = annotate.annotate_postalcode(text)
+        self.assertEqual(text, annotated_postcodes_text)
+
+    def test_annotate_postcode(self):
+        text = 'Mijn postcode is 3500LX, toch?'
+        annotated_postcodes_text = annotate.annotate_postalcode(text)
+        expected_text = text.replace('3500LX', '<LOCATIE 3500LX>')
+        self.assertEqual(expected_text, annotated_postcodes_text)
+
+    def test_annotate_altrecht(self):
+        text = 'Opname bij xxx afgerond'
+        examples = [('altrecht lunetten', '<INSTELLING altrecht> lunetten'),
+                    ('altrecht Lunetten', '<INSTELLING altrecht Lunetten>'),
+                    ('Altrecht lunetten', '<INSTELLING Altrecht> lunetten'),
+                    ('Altrecht Lunetten', '<INSTELLING Altrecht Lunetten>'),
+                    ('Altrecht Willem Arntszhuis', '<INSTELLING Altrecht Willem Arntszhuis>'),
+                    ('Altrecht Lunetten ziekenhuis', '<INSTELLING Altrecht Lunetten> ziekenhuis'),
+                    ('ALtrecht Lunetten', '<INSTELLING ALtrecht Lunetten>')]
+        annotated = [annotate.annotate_institution(text.replace('xxx', el[0])) for el in examples]
+        expected = [text.replace('xxx', el[1]) for el in examples]
+        self.assertEqual(expected, annotated)
+
 if __name__ == "__main__":
     unittest.main()
