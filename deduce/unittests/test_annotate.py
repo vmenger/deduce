@@ -144,5 +144,11 @@ class TestAnnotateMethods(unittest.TestCase):
         expected = text.replace('26-10', '<DATUM 26-10>')
         self.assertEqual(expected, annotated_dates)
 
+    def test_two_dates_with_comma(self):
+        text = '24 april, 1 mei: pt gaat geen constructief contact aan'
+        annotated_dates = annotate.annotate_date(text)
+        expected = '<DATUM 24 april>, <DATUM 1 mei>: pt gaat geen constructief contact aan'
+        self.assertEqual(expected, annotated_dates)
+
 if __name__ == "__main__":
     unittest.main()
