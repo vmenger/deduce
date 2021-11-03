@@ -2,10 +2,8 @@
 Deduce is the main module, from which the annotate and
 deidentify_annotations() methods can be imported
 """
-import re
 
 from deduce import utility
-from nltk.metrics import edit_distance
 from .annotate import *
 from .utility import flatten_text, flatten_text_all_phi
 
@@ -14,35 +12,37 @@ class NestedTagsError(Exception):
     def __init__(self, msg: str):
         super().__init__(str)
 
+
 def annotate_text(
-        # The text to be annotated
-        text,
-        # First name
-        patient_first_names="",
-        # Initial
-        patient_initials="",
-        # Surname(s)
-        patient_surname="",
-        # Given name`
-        patient_given_name="",
-        # Person names, including initials
-        names=True,
-        # Geographical locations
-        locations=True,
-        # Institutions
-        institutions=True,
-        # Dates
-        dates=True,
-        # Ages
-        ages=True,
-        # Patient numbers
-        patient_numbers=True,
-        # Phone numbers
-        phone_numbers=True,
-        # Urls and e-mail addresses
-        urls=True,
-        # Debug option
-        flatten=True):
+    # The text to be annotated
+    text,
+    # First name
+    patient_first_names="",
+    # Initial
+    patient_initials="",
+    # Surname(s)
+    patient_surname="",
+    # Given name`
+    patient_given_name="",
+    # Person names, including initials
+    names=True,
+    # Geographical locations
+    locations=True,
+    # Institutions
+    institutions=True,
+    # Dates
+    dates=True,
+    # Ages
+    ages=True,
+    # Patient numbers
+    patient_numbers=True,
+    # Phone numbers
+    phone_numbers=True,
+    # Urls and e-mail addresses
+    urls=True,
+    # Debug option
+    flatten=True,
+):
 
     """
     This method annotates text based on the input that includes names of a patient,
@@ -59,21 +59,25 @@ def annotate_text(
     # Deidentify names
     if names:
 
-		# First, based on the rules and lookup lists
-        text = annotate_names(text, patient_first_names, patient_initials,
-                              patient_surname, patient_given_name)
+        # First, based on the rules and lookup lists
+        text = annotate_names(
+            text,
+            patient_first_names,
+            patient_initials,
+            patient_surname,
+            patient_given_name,
+        )
 
-		# Then, based on the context
+        # Then, based on the context
         text = annotate_names_context(text)
 
-		# Flatten possible nested tags
+        # Flatten possible nested tags
         if flatten:
             text = flatten_text(text)
 
     # Institutions
     if institutions:
         text = annotate_institution(text)
-
 
     # Geographical locations
     if locations:
@@ -93,7 +97,7 @@ def annotate_text(
     if dates:
         text = annotate_date(text)
 
-	# Ages
+    # Ages
     if ages:
         text = annotate_age(text)
 
@@ -109,18 +113,20 @@ def annotate_text(
     if flatten and has_nested_tags(text):
         text = flatten_text_all_phi(text)
 
-	# Return text
+    # Return text
     return text
+
 
 def get_adjacent_tags_replacement(match: re.Match) -> str:
     text = match.group(0)
     tag = match.group(1)
     left = match.group(2)
     right = match.group(3)
-    start_ix = text.index('>') + 1
-    end_ix = text[1:].index('<') + 1
+    start_ix = text.index(">") + 1
+    end_ix = text[1:].index("<") + 1
     separator = text[start_ix:end_ix]
-    return '<' + tag + ' ' + left + separator + right + '>'
+    return "<" + tag + " " + left + separator + right + ">"
+
 
 def merge_adjacent_tags(text: str) -> str:
     """
@@ -130,14 +136,32 @@ def merge_adjacent_tags(text: str) -> str:
     """
     while True:
         oldtext = text
-        text = re.sub("<([A-Z]+)\s([^>]+)>[\.\s\-,]?[\.\s]?<\\1\s([^>]+)>", get_adjacent_tags_replacement, text)
+        text = re.sub(
+            "<([A-Z]+)\s([^>]+)>[\.\s\-,]?[\.\s]?<\\1\s([^>]+)>",
+            get_adjacent_tags_replacement,
+            text,
+        )
         if text == oldtext:
             break
     return text
 
-def annotate_text_structured(text: str, patient_first_names="", patient_initials="", patient_surname="",
-                             patient_given_name="", names=True, locations=True, institutions=True, dates=True,
-                             ages=True, patient_numbers=True, phone_numbers=True, urls=True, flatten=True):
+
+def annotate_text_structured(
+    text: str,
+    patient_first_names="",
+    patient_initials="",
+    patient_surname="",
+    patient_given_name="",
+    names=True,
+    locations=True,
+    institutions=True,
+    dates=True,
+    ages=True,
+    patient_numbers=True,
+    phone_numbers=True,
+    urls=True,
+    flatten=True,
+):
     """
     This method annotates text based on the input that includes names of a patient,
     and a number of flags indicating which PHIs should be annotated
@@ -157,32 +181,52 @@ def annotate_text_structured(text: str, patient_first_names="", patient_initials
     :param flatten: Debug option
     :return:
     """
-    annotated_text = annotate_text(text, patient_first_names=patient_first_names, patient_initials=patient_initials,
-                                   patient_surname=patient_surname, patient_given_name=patient_given_name, names=names,
-                                   locations=locations, institutions=institutions, dates=dates, ages=ages,
-                                   patient_numbers=patient_numbers, phone_numbers=phone_numbers, urls=urls,
-                                   flatten=flatten)
+    annotated_text = annotate_text(
+        text,
+        patient_first_names=patient_first_names,
+        patient_initials=patient_initials,
+        patient_surname=patient_surname,
+        patient_given_name=patient_given_name,
+        names=names,
+        locations=locations,
+        institutions=institutions,
+        dates=dates,
+        ages=ages,
+        patient_numbers=patient_numbers,
+        phone_numbers=phone_numbers,
+        urls=urls,
+        flatten=flatten,
+    )
     if has_nested_tags(annotated_text):
-        raise NestedTagsError('Text has nested tags')
+        raise NestedTagsError("Text has nested tags")
     tags = utility.find_tags(annotated_text)
     first_non_whitespace_character_index = utility.get_first_non_whitespace(text)
     # utility.get_annotations does not handle nested tags, so make sure not to pass it text with nested tags
     # Also, utility.get_annotations assumes that all tags are listed in the order they appear in the text
-    annotations = utility.get_annotations(annotated_text, tags, first_non_whitespace_character_index)
+    annotations = utility.get_annotations(
+        annotated_text, tags, first_non_whitespace_character_index
+    )
     return annotations
+
 
 def has_nested_tags(text):
     open_brackets = 0
-    for i, ch in enumerate(text):
-        if ch == '<':
+    for _, ch in enumerate(text):
+
+        if ch == "<":
             open_brackets += 1
-        if ch == '>':
+
+        if ch == ">":
             open_brackets -= 1
+
         if open_brackets == 2:
             return True
-        elif open_brackets not in (0, 1):
-            raise ValueError('Incorrectly formatted string')
+
+        if open_brackets not in (0, 1):
+            raise ValueError("Incorrectly formatted string")
+
     return False
+
 
 def deidentify_annotations(text):
     """
@@ -197,8 +241,16 @@ def deidentify_annotations(text):
     text = re.sub("<PATIENT\s([^>]+)>", "<PATIENT>", text)
 
     # For al the other types of tags
-    for tagname in ["PERSOON", "LOCATIE", "INSTELLING", "DATUM",
-                    "LEEFTIJD", "PATIENTNUMMER", "TELEFOONNUMMER", "URL"]:
+    for tagname in [
+        "PERSOON",
+        "LOCATIE",
+        "INSTELLING",
+        "DATUM",
+        "LEEFTIJD",
+        "PATIENTNUMMER",
+        "TELEFOONNUMMER",
+        "URL",
+    ]:
 
         # Find all values that occur within this type of tag
         phi_values = re.findall("<" + tagname + r"\s([^>]+)>", text)
@@ -208,28 +260,32 @@ def deidentify_annotations(text):
         dispenser = 1
 
         # Iterate over all the values in tags
-        while  len(phi_values) > 0:
+        while len(phi_values) > 0:
 
             # Compute which other values have edit distance <=1 (fuzzy matching)
             # compared to this value
             thisval = phi_values[0]
-            dist = [edit_distance(x, thisval, transpositions=True) <= 1 for x in phi_values[1:]]
+            dist = [
+                edit_distance(x, thisval, transpositions=True) <= 1
+                for x in phi_values[1:]
+            ]
 
             # Replace this occurence with the appropriate number from dispenser
-            text = text.replace("<{} {}>".format(tagname, thisval),
-                                "<{}-{}>".format(tagname, dispenser))
+            text = text.replace(f"<{tagname} {thisval}>", f"<{tagname}-{dispenser}>")
 
             # For all other values
             for index, value in enumerate(dist):
 
                 # If the value matches, replace it as well
                 if dist[index]:
-                    text = text.replace("<{} {}>".format(tagname, phi_values[index+1]),
-                                        "<{}-{}>".format(tagname, str(dispenser)))
+                    text = text.replace(
+                        f"<{tagname} {phi_values[index + 1]}>",
+                        f"<{tagname}-{str(dispenser)}>",
+                    )
 
                 # Otherwise, carry it to the next iteration
                 else:
-                    next_phi_values.append(phi_values[index+1])
+                    next_phi_values.append(phi_values[index + 1])
 
             # This is for the next iteration
             phi_values = next_phi_values
