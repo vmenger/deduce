@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Internal code formatting improvements
 
+### Added
+- Contributing guidelines
+
 ## 1.0.6 (2021-10-06)
 
 ### Fixed
