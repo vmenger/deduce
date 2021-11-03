@@ -1,11 +1,11 @@
 """ This module contains all tokenizing functionality """
 import codecs
 
+from .listtrie import ListTrie
+from .utility import get_data
 from .utility import merge_triebased
 from .utility import type_of
-from .utility import get_data
 
-from .listtrie import ListTrie
 
 def tokenize_split(text, merge=True):
     """
@@ -24,7 +24,7 @@ def tokenize_split(text, merge=True):
             continue
 
         # Keeps track of how deep in tags we are
-        if text[index-1] == "<":
+        if text[index - 1] == "<":
             nested_hook_counter += 1
             continue
 
@@ -37,7 +37,7 @@ def tokenize_split(text, merge=True):
             continue
 
         # Split if we transition between alpha, hook and other
-        if type_of(char) != type_of(text[index-1]):
+        if type_of(char) != type_of(text[index - 1]):
             tokens.append(text[last_split:index])
             last_split = index
 
@@ -51,17 +51,21 @@ def tokenize_split(text, merge=True):
     # Return
     return tokens
 
+
 def join_tokens(tokens):
-    """ Join a list of tokens together, simple when using the custom tokenize method """
+    """Join a list of tokens together, simple when using the custom tokenize method"""
     return "".join(tokens)
+
 
 # This trie contains all strings that should be regarded as a single token
 # These are: all interfixes, A1-A4, and some special characters like \n, \r and \t
 NOSPLIT_TRIE = ListTrie()
 
 # Read interfixes
-INTERFIXES = list(set([line.strip() for line in codecs.open(get_data("voorvoegsel.lst"))]))
-PREFIXES = list(set([line.strip() for line in codecs.open(get_data("prefix.lst"))]))
+INTERFIXES = list(
+    set(line.strip() for line in codecs.open(get_data("voorvoegsel.lst")))
+)
+PREFIXES = list(set(line.strip() for line in codecs.open(get_data("prefix.lst"))))
 
 # Fill trie
 for interfix in INTERFIXES:
