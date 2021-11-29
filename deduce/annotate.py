@@ -445,7 +445,7 @@ def annotate_date(text):
                   text)
 
     text = re.sub("(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)([- /.]{,2}(\d{4}|\d{2})){,1})(?P<n>\D)(?![^<]*>)",
-                  "<DATUM \\1> ",
+                  get_date_replacement,
                   text)
     return text
 
