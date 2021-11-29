@@ -439,13 +439,15 @@ def get_date_replacement_(date_match: re.Match, punctuation_name: str) -> str:
 def annotate_date(text):
     # Name the punctuation mark that comes after a date, for replacement purposes
     punctuation_name = 'n'
+
     text = re.sub("(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2})){,1})(?P<" +
                   punctuation_name + ">\D)(?![^<]*>)",
                   lambda date_match: get_date_replacement_(date_match, punctuation_name),
                   text)
 
-    text = re.sub("(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)([- /.]{,2}(\d{4}|\d{2})){,1})(?P<n>\D)(?![^<]*>)",
-                  get_date_replacement,
+    text = re.sub("(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)([- /.]{,2}(\d{4}|\d{2})){,1})(?P<" +
+                  punctuation_name + ">\D)(?![^<]*>)",
+                  lambda date_match: get_date_replacement_(date_match, punctuation_name),
                   text)
     return text
 
