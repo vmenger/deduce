@@ -1,6 +1,9 @@
 # Deduce: de-identification method for Dutch medical text
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-This project contains the code for DEDUCE: de-identification method for Dutch medical text as described in [Menger et al (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365). De-identification of medical text is needed for using text data for analysis, to comply with legal requirements and to protect the privacy of patients. Our pattern matching based method removes Protected Health Information (PHI) in the following categories:
+> If you are looking for the version of DEDUCE as published with [Menger et al (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365), please visit [vmenger/deduce-classic](https://github.com/vmenger/deduce-classic/), where the original is archived. This version is maintained and improved, thus possibly differing from the validated original.
+
+This project contains the code for DEDUCE: de-identification method for Dutch medical text, initially described in [Menger et al (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365). De-identification of medical text is needed for using text data for analysis, to comply with legal requirements and to protect the privacy of patients. Our pattern matching based method removes Protected Health Information (PHI) in the following categories:
 
 1. Person names, including initials
 2. Geographical locations smaller than a country
@@ -11,13 +14,9 @@ This project contains the code for DEDUCE: de-identification method for Dutch me
 7. Telephone numbers
 8. E-mail addresses and URLs
 
-The details of the development and workings of the method, and its validation can be found in: 
+The details of the development and workings of the initial method, and its validation can be found in: 
 
 [Menger, V.J., Scheepers, F., van Wijk, L.M., Spruit, M. (2017). DEDUCE: A pattern matching method for automatic de-identification of Dutch medical text, Telematics and Informatics, 2017, ISSN 0736-5853](http://www.sciencedirect.com/science/article/pii/S0736585316307365)
-
-### Demo
-
-An interactive demo of the code can be found [here](http://ads.science.uu.nl/deduce/)
 
 ### Prerequisites
 
@@ -91,20 +90,20 @@ The lookup lists in the `data/` folder can be tailored to the users specific nee
 
 ## Contributing
 
-Contributions to the deduce project are very much welcomed - feel free to get in touch with the author via issue or e-mail. 
+Thanks a lot for considering to make a contribution to DEDUCE, we are very open to your help!
 
-## Versioning
+* If you need support, have a question, or found a bug/error, please get in touch by [creating a New Issue](https://github.com/vmenger/deduce/issues). We don't have an issue template, just try to be specific and complete, so we can tackle it. 
+* If you want to make a contribution either to the code or the docs, please take a few minutes to read our [contribution guidelines](CONTRIBUTING.md). This greatly improve the chances of your work being merged into the repository.
 
-1.0.2 - Release to PyPI
+## Changelog
 
-1.0.1 - Small bugfix for None as input
-
-1.0.0 - Initial version
+You may find detailed versioning information in the [changelog](CHANGELOG.md).
 
 ## Authors
 
 * **Vincent Menger** - *Initial work* 
 * **Jonathan de Bruin** - *Code review*
+* **Pablo Mosteiro** - *Bug fixes, structured annotations*
 
 ## License
 

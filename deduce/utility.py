@@ -1,15 +1,34 @@
 """ This module contains all kinds of utility functionality """
 
-import re
 import codecs
 import os
-
 from deduce import utilcls
 from deduce.listtrie import ListTrie
 from functools import reduce
 
 from deduce.utilcls import Token, InvalidTokenError, Annotation
+import re
+import unicodedata
+from functools import reduce
 
+class Annotation:
+    def __init__(self, start_ix: int, end_ix: int, tag: str, text: str):
+        self.start_ix = start_ix
+        self.end_ix = end_ix
+        self.tag = tag
+        self.text_ = text
+
+    def __eq__(self, other):
+        return (
+            isinstance(other, Annotation)
+            and self.start_ix == other.start_ix
+            and self.end_ix == other.end_ix
+            and self.tag == other.tag
+            and self.text_ == other.text_
+        )
+
+    def __repr__(self):
+        return self.tag + "[" + str(self.start_ix) + ":" + str(self.end_ix) + "]"
 
 def merge_tokens(tokens: list[Token]) -> Token:
     if len(tokens) == 0:
@@ -23,7 +42,7 @@ def merge_tokens(tokens: list[Token]) -> Token:
         raise InvalidTokenError("gap")
     return Token(text, start_ix, end_ix)
 
-def merge_triebased(tokens: list[Token], trie: ListTrie) -> list[Token]:
+def merge_triebased(tokens, trie):
     """
     This function merges all sublists of tokens that occur in the trie to one element
     in the list of tokens. For example: if the tree contains ["A", "1"],
@@ -58,25 +77,29 @@ def merge_triebased(tokens: list[Token], trie: ListTrie) -> list[Token]:
     # Return the list
     return tokens_merged
 
+
 def type_of(char):
-    """ Determines whether a character is alpha, a fish hook, or other """
+    """Determines whether a character is alpha, a fish hook, or other"""
 
     if char.isalpha():
         return "alpha"
-    elif char == "<" or char == ">":
+
+    if char in ("<", ">"):
         return "hook"
-    else:
-        return "other"
+
+    return "other"
+
 
 def any_in_text(matchlist, token):
-    """ Check if any of the strings in matchlist are in the string token """
-    return reduce(lambda x, y : x | y, map(lambda x : x in token, matchlist))
+    """Check if any of the strings in matchlist are in the string token"""
+    return reduce(lambda x, y: x | y, map(lambda x: x in token, matchlist))
+
 
 def context(tokens, i):
-    """ Determine next and previous tokens that start with an alpha character """
+    """Determine next and previous tokens that start with an alpha character"""
 
     # Find the next token
-    k = i+1
+    k = i + 1
     next_token = None
 
     # Iterate over tokens after this one
@@ -99,7 +122,7 @@ def context(tokens, i):
     next_token_index = k
 
     # Find the previous token in a similar way
-    k = i-1
+    k = i - 1
     previous_token = None
 
     # Iterate over all previous tokens
@@ -118,7 +141,8 @@ def context(tokens, i):
     previous_token_index = k
 
     # Return the appropriate information in a 4-tuple
-    return(previous_token, previous_token_index, next_token, next_token_index)
+    return previous_token, previous_token_index, next_token, next_token_index
+
 
 def is_initial(token):
     """
@@ -127,8 +151,25 @@ def is_initial(token):
         - Length 1 and capital
         - Already annotated initial
     """
-    return ((len(token) == 1 and token[0].isupper()) or
-            "INITI" in token)
+    return (len(token) == 1 and token[0].isupper()) or "INITI" in token
+
+
+def flatten_text_all_phi(text: str) -> str:
+    """
+    This is inspired by flatten_text, but works for all PHI categories
+    :param text: the text in which you wish to flatten nested annotations
+    :return: the text with nested annotations replaced by a single annotation with the outermost category
+    """
+    to_flatten = find_tags(text)
+    to_flatten.sort(key=lambda x: -len(x))
+
+    for tag in to_flatten:
+        _, value = flatten(tag)
+        outermost_category = parse_tag(tag)[0]
+        text = text.replace(tag, f"<{outermost_category} {value.strip()}>")
+
+    return text
+
 
 def is_blank_period_hyphen_comma(text: str) -> bool:
     """
@@ -238,7 +279,7 @@ def flatten(tags: list[Annotation]) -> Annotation:
                       encompassing_tag.text_)
 
 def find_tags(text):
-    """ Finds and returns a list of all tags in a piece of text """
+    """Finds and returns a list of all tags in a piece of text"""
 
     # Helper variables
     nest_depth = 0
@@ -248,7 +289,7 @@ def find_tags(text):
     toflatten = []
 
     # Iterate over all characters
-    for index, value in enumerate(text):
+    for index, _ in enumerate(text):
 
         # If an opening hook is encountered
         if text[index] == "<":
@@ -268,10 +309,11 @@ def find_tags(text):
 
             # If the tag was not nested, add the tag to the return list
             if nest_depth == 0:
-                toflatten.append(text[startpos:index+1])
+                toflatten.append(text[startpos : index + 1])
 
     # Return list
     return toflatten
+
 
 def split_tags(text):
     """
@@ -289,7 +331,7 @@ def split_tags(text):
     splitbytags = []
 
     # Iterate over all characters
-    for index, value in enumerate(text):
+    for index, _ in enumerate(text):
 
         # If an opening hook is encountered
         if text[index] == "<":
@@ -310,27 +352,37 @@ def split_tags(text):
 
             # Split if the tag was not nested
             if nest_depth == 0:
-                splitbytags.append(text[startpos:index+1])
-                startpos = index+1
+                splitbytags.append(text[startpos : index + 1])
+                startpos = index + 1
 
     # Append the last characters
     splitbytags.append(text[startpos:])
 
     # Filter empty elements in the list (happens for example when <tag><tag> occurs)
-    return([x for x in splitbytags if len(x) > 0])
+    return [x for x in splitbytags if len(x) > 0]
 
 
 def get_data(path):
-    """ Define where to find the data files """
-    return os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data', path)
+    """Define where to find the data files"""
+    return os.path.join(os.path.abspath(os.path.dirname(__file__)), "data", path)
+
 
 def _normalize_value(line):
-    """ Removes all non-ascii characters from a string """
-    return unicodedata.normalize('NFKD', unicode(line)).encode("ascii", "ignore")
+    """Removes all non-ascii characters from a string"""
+    line = str(bytes(line, encoding="ascii", errors="ignore"), encoding="ascii")
+    return unicodedata.normalize("NFKD", line)
 
-def read_list(list_name, encoding='utf-8', lower=False,
-              strip=True, min_len=None, normalize=None, unique=True):
-    """ Read a list from file and return the values. """
+
+def read_list(
+    list_name,
+    encoding="utf-8",
+    lower=False,
+    strip=True,
+    min_len=None,
+    normalize=None,
+    unique=True,
+):
+    """Read a list from file and return the values."""
 
     data = codecs.open(get_data(list_name), encoding=encoding)
 
@@ -348,5 +400,49 @@ def read_list(list_name, encoding='utf-8', lower=False,
 
     if unique:
         data_nodoubles = list(set(data))
+    else:
+        return data
 
     return data_nodoubles
+
+
+def parse_tag(tag: str) -> tuple:
+    """
+    Parse a Deduce-style tag into its tag proper and its text. Does not handle nested tags
+    :param tag: the Deduce-style tag, for example, <VOORNAAMONBEKEND Peter>
+    :return: the tag type and text, for example, ("VOORNAAMONBEKEND", "Peter")
+    """
+    split_ix = tag.index(" ")
+    return tag[1:split_ix], tag[split_ix + 1 : len(tag) - 1]
+
+
+def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) -> list:
+    """
+    Find structured annotations from tags, with indices pointing to the original text. ***Does not handle nested tags***
+    :param annotated_text: the annotated text
+    :param tags: the tags found in the text, listed in the order they appear in the text
+    :param n_leading_whitespaces: the number of leading whitespaces in the raw text
+    :return: the annotations with indices corresponding to the original (raw) text;
+    this accounts for string stripping during annotation
+    """
+    ix = 0
+    annotations = []
+    raw_text_ix = n_leading_whitespaces
+    for tag in tags:
+        tag_ix = annotated_text.index(tag, ix) - ix
+        tag_type, tag_text = parse_tag(tag)
+        annotations.append(
+            Annotation(
+                raw_text_ix + tag_ix,
+                raw_text_ix + tag_ix + len(tag_text),
+                tag_type,
+                tag_text,
+            )
+        )
+        ix += tag_ix + len(tag)
+        raw_text_ix += tag_ix + len(tag_text)
+    return annotations
+
+
+def get_first_non_whitespace(text: str) -> int:
+    return text.index(text.lstrip()[0])

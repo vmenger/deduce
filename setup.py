@@ -25,7 +25,7 @@ setup(
 
     # Author details
     author='Vincent Menger',
-    author_email='v.j.menger@uu.nl',
+    author_email='vmenger@protonmail.com',
 
     packages=['deduce'],
 
@@ -38,9 +38,9 @@ setup(
     classifiers=[
         'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
     ],
 
     # What does your project relate to?
