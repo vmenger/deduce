@@ -428,8 +428,8 @@ def annotate_institution(text):
     # Return the text
     return text
 
-def get_date_replacement(date_match: re.Match) -> str:
-    punctuation = date_match['n']
+def get_date_replacement_(date_match: re.Match, punctuation_name: str) -> str:
+    punctuation = date_match[punctuation_name]
     if len(punctuation) != 1:
         punctuation = ' '
     return '<DATUM ' + date_match.group(1) + '>' + punctuation
@@ -437,9 +437,11 @@ def get_date_replacement(date_match: re.Match) -> str:
 ### Other annotation is done using a selection of finely crafted
 ### (but alas less finely documented) regular expressions.
 def annotate_date(text):
-    """ Annotate dates """
-    text = re.sub("(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2})){,1})(?P<n>\D)(?![^<]*>)",
-                  get_date_replacement,
+    # Name the punctuation mark that comes after a date, for replacement purposes
+    punctuation_name = 'n'
+    text = re.sub("(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2})){,1})(?P<" +
+                  punctuation_name + ">\D)(?![^<]*>)",
+                  lambda date_match: get_date_replacement_(date_match, punctuation_name),
                   text)
 
     text = re.sub("(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)([- /.]{,2}(\d{4}|\d{2})){,1})(?P<n>\D)(?![^<]*>)",
