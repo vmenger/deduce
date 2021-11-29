@@ -53,9 +53,12 @@ def tokenize_split(text, merge=True):
     # Return
     return tokens
 
-def join_tokens(tokens):
+def join_tokens(tokens: list) -> Token:
     """Join a list of tokens together, simple when using the custom tokenize method"""
-    return "".join(tokens)
+    if not tokens:
+        raise ValueError('Cannot join an empty list of tokens')
+    # Assume that the tokens are sorted by start_ix
+    return Token(''.join([token.text for token in tokens]), tokens[0].start_ix, tokens[-1].end_ix)
 
 
 # This trie contains all strings that should be regarded as a single token

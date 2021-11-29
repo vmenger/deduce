@@ -71,11 +71,11 @@ def annotate_text(
 
         # Flatten possible nested tags
         if flatten:
-            text = flatten_text(text, context_name_annotations)
+            context_name_annotations = flatten_text(text, context_name_annotations)
 
     # Institutions
     if institutions:
-        text = annotate_institution(text)
+        institution_annotations = annotate_institution(text)
 
     # Geographical locations
     if locations:

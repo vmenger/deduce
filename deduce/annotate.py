@@ -1,7 +1,6 @@
 """ The annotate module contains the code for annotating text"""
 
 from nltk.metrics import edit_distance
-from .tokenizer import join_tokens
 from .utilcls import Annotation
 from .lookup_lists import *
 from .tokenizer import join_tokens
@@ -258,8 +257,8 @@ def annotate_names_context(text: str, old_annotations: list[Annotation]) -> list
         ### Initial or unknown capitalized word, detected by a name or surname that is behind it
         # If the token is an initial, or starts with a capital
         initial_condition = (
-                                    is_initial(token.text)
-                                    or (token.text != "" and token.text[0].isupper() and token.text.lower() not in WHITELIST)
+                            is_initial(token.text)
+                            or (token.text != "" and token.text[0].isupper() and token.text.lower() not in WHITELIST)
                             ) and next_token and (
                                 # And the token is followed by either a
                                 # found surname, interfix or initial
@@ -295,11 +294,6 @@ def annotate_names_context(text: str, old_annotations: list[Annotation]) -> list
         # If the condition is met, tag the tokens and continue
         if interfix_condition:
             # Remove some already identified tokens, to prevent double tagging
-            (_, previous_token_index_deid, _, _) = context(
-                tokens_deid, len(tokens_deid)
-            )
-            deid_tokens_to_keep = tokens_deid[previous_token_index_deid:]
-            tokens_deid = tokens_deid[:previous_token_index_deid]
             start_ix = tokens[previous_token_index].start_ix
             end_ix = tokens[next_token_index].end_ix
             old_annotations_copy = remove_annotations_in_range(old_annotations_copy, start_ix, end_ix)
@@ -342,10 +336,6 @@ def annotate_names_context(text: str, old_annotations: list[Annotation]) -> list
         )
         # If a match is found, tag and continue
         if and_pattern_condition:
-            (previous_token_deid, previous_token_index_deid, _, _) = context(
-                tokens_deid, len(tokens_deid)
-            )
-            tokens_deid = tokens_deid[:previous_token_index_deid]
             start_ix = tokens[previous_token_index].start_ix
             end_ix = tokens[next_token_index].end_ix
             old_annotations_copy = remove_annotations_in_range(old_annotations_copy, start_ix, end_ix)
@@ -360,7 +350,7 @@ def annotate_names_context(text: str, old_annotations: list[Annotation]) -> list
 
     # Else, run the annotation based on context again
     else:
-        return annotate_names_context(text, sorted(old_annotations_copy + new_annotations, key=lambda x: x.start_ix))
+        return annotate_names_context(text, Annotation.join_and_sort(old_annotations_copy, new_annotations))
 
 def annotate_residence(text):
     """Annotate residences"""
@@ -393,55 +383,51 @@ def annotate_residence(text):
     # Return the de-identified text
     return join_tokens(tokens_deid)
 
-def replace_altrecht_text(match: re.Match) -> str:
-    """
-    <INSTELLING Altrecht> (with Altrecht in any casing) followed by words that start with capital letters is annotated
-    as <INSTELLING Altrecht Those Words>, where Altrecht retains the original casing
-    :param match: the match object from a regular expression search
-    :return: the final string
-    """
-    return match.group(0)[:len(match.group(0)) - len(match.group(1)) - 1] + match.group(1) + '>'
+def replace_altrecht_annotations(text: str, annotations: list) -> list:
+    new_annotations = []
+    for match in re.finditer('[aA][lL][tT][rR][eE][cC][hH][tT]((\s[A-Z]([\w]*))*)', text):
+        start_ix = match.start()
+        match_text = match.group(0)
+        new_annotations.append(Annotation(start_ix, start_ix + len(match_text), 'INSTELLING', match_text))
+    new_annotation_start_ixs = set([ann.start_ix for ann in new_annotations])
+    old_annotations_non_overlapping = [ann for ann in annotations if ann.start_ix not in new_annotation_start_ixs]
+    return Annotation.join_and_sort(old_annotations_non_overlapping, new_annotations)
 
-def annotate_institution(text):
+def annotate_institution(text: str) -> list:
     """Annotate institutions"""
 
     # Tokenize, and make a list of non-capitalized tokens (used for matching)
     tokens = tokenize_split(text)
-    tokens_lower = [x.lower() for x in tokens]
-    tokens_deid = []
+    tokens_lower = [x.text.lower() for x in tokens]
     token_index = -1
+    new_annotations = []
 
     # Iterate over all tokens
     while token_index < len(tokens) - 1:
 
         # Current token position and token
         token_index = token_index + 1
-        token = tokens[token_index]
 
         # Find all tokens that are prefixes of the remainder of the lowercasetext
         prefix_matches = INSTITUTION_TRIE.find_all_prefixes(tokens_lower[token_index:])
 
-        # If none, just append the current token and move to the next
+        # If none, just move to the next
         if len(prefix_matches) == 0:
-            tokens_deid.append(token)
             continue
 
         # Else annotate the longest sequence as institution
         max_list = max(prefix_matches, key=len)
         joined_institution = join_tokens(tokens[token_index:token_index + len(max_list)])
-        tokens_deid.append("<INSTELLING {}>".format(joined_institution))
+        annotation = Annotation(joined_institution.start_ix, joined_institution.end_ix, 'INSTELLING',
+                                joined_institution.text)
+        new_annotations.append(annotation)
         token_index += len(max_list) - 1
 
-    # Return
-    text = join_tokens(tokens_deid)
-
     # Detect the word "Altrecht" followed by a capitalized word
-    text = re.sub('<INSTELLING [aA][lL][tT][rR][eE][cC][hH][tT]>((\s[A-Z]([\w]*))*)',
-                  replace_altrecht_text,
-                  text)
+    new_annotations = replace_altrecht_annotations(text, new_annotations)
 
     # Return the text
-    return text
+    return new_annotations
 
 def get_date_replacement_(date_match: re.Match, punctuation_name: str) -> str:
     punctuation = date_match[punctuation_name]
@@ -454,14 +440,15 @@ def get_date_replacement_(date_match: re.Match, punctuation_name: str) -> str:
 def annotate_date(text):
     # Name the punctuation mark that comes after a date, for replacement purposes
     punctuation_name = 'n'
-    text = re.sub("(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2})){,1})(?P<" +
+    text = re.sub("(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2}))?)(?P<" +
                   punctuation_name + ">\D)(?![^<]*>)",
                   lambda date_match: get_date_replacement_(date_match, punctuation_name),
                   text)
-    text = re.sub("(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)([- /.]{,2}(\d{4}|\d{2})){,1})(?P<" +
-                  punctuation_name + ">\D)(?![^<]*>)",
-                  lambda date_match: get_date_replacement_(date_match, punctuation_name),
-                  text)
+    text = re.sub(
+        "(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)" +
+        "([- /.]{,2}(\d{4}|\d{2}))?)(?P<" + punctuation_name + ">\D)(?![^<]*>)",
+        lambda date_match: get_date_replacement_(date_match, punctuation_name),
+        text)
     return text
 
 
@@ -482,7 +469,7 @@ def annotate_phonenumber(text):
     )
 
     text = re.sub(
-        "(((\\+31|0|0031)6){1}[-]?[1-9]{1}[0-9]{7})(?![^<]*>)",
+        "(((\+31|0|0031)6)[-]?[1-9][0-9]{7})(?![^<]*>)",
         "<TELEFOONNUMMER \\1>",
         text,
     )
@@ -526,7 +513,7 @@ def get_address_match_replacement(match: re.Match) -> str:
 def annotate_address(text):
     """Annotate addresses"""
     text = re.sub(
-        r"([A-Z]\w+(straat|laan|hof|plein|plantsoen|gracht|kade|weg|steeg|steeg|pad|dijk|baan|dam|dreef|"
+        r"([A-Z]\w+(straat|laan|hof|plein|gracht|weg|steeg|pad|dijk|baan|dam|dreef|"
         r"kade|markt|park|plantsoen|singel|bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2})?|(\d+){0,6}))",
         get_address_match_replacement,
         text,
@@ -548,13 +535,17 @@ def annotate_email(text):
 def annotate_url(text):
     """Annotate urls"""
     text = re.sub(
-        "((?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?)(?![^<]*>)",
+        "((?!mailto:)(?:http|https|ftp)://(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])" +
+        "(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}\.(?:[0-9]\d?|1\d\d|2[0-4]\d|25[0-4])" +
+        "|(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)" +
+        "*[a-z\\u00a1-\\uffff0-9]+)*\.[a-z¡-￿]{2,})|localhost)(?::\\d{2,5})?(?:([/?#])" +
+        "[^\\s]*)?)(?![^<]*>)",
         "<URL \\1>",
         text,
     )
 
     text = re.sub(
-        "([\w\d\.-]{3,}(\.)(nl|com|net|be)(/[^\s]+){,1})(?![^<]*>)", "<URL \\1>", text
+        "([\w\d.-]{3,}(\.)(nl|com|net|be)(/[^\s]+)?)(?![^<]*>)", "<URL \\1>", text
     )
 
     return text

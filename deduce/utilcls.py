@@ -50,6 +50,10 @@ class Annotation:
     def to_text(self):
         return "<" + self.tag + " " + self.text_ + ">"
 
+    @staticmethod
+    def join_and_sort(old_annotations: list, new_annotations: list) -> list:
+        return sorted(old_annotations + new_annotations, key=lambda x: x.start_ix)
+
 
 class InvalidTokenError(ValueError):
     def __init__(self, code: str):
