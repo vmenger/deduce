@@ -172,7 +172,7 @@ def annotate_text_structured(text: str, patient_first_names="", patient_initials
 
     # Check if there are any annotations whose start+end do not correspond to the text in the annotation
     mismatched_annotations = [ann for ann in annotations if text[ann.start_ix:ann.end_ix] != ann.text_]
-    if len(mismatched_annotations):
+    if len(mismatched_annotations) > 0:
         print('WARNING:', len(mismatched_annotations), 'annotations have texts that do not match the original text')
 
     return annotations
