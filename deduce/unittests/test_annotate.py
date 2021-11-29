@@ -138,6 +138,17 @@ class TestAnnotateMethods(unittest.TestCase):
         expected = 'Mijn naam is <INTERFIXACHTERNAAM <INITIAAL M <ACHTERNAAMONBEKEND Smid>> de Vries>'
         self.assertEqual(expected, annotated_context_names)
 
+    def test_keep_punctuation_after_date(self):
+        text = 'Medicatie actueel	26-10, OXAZEPAM'
+        annotated_dates = annotate.annotate_date(text)
+        expected = text.replace('26-10', '<DATUM 26-10>')
+        self.assertEqual(expected, annotated_dates)
+
+    def test_two_dates_with_comma(self):
+        text = '24 april, 1 mei: pt gaat geen constructief contact aan'
+        annotated_dates = annotate.annotate_date(text)
+        expected = '<DATUM 24 april>, <DATUM 1 mei>: pt gaat geen constructief contact aan'
+        self.assertEqual(expected, annotated_dates)
 
 if __name__ == "__main__":
     unittest.main()
