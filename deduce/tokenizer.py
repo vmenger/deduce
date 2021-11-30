@@ -2,10 +2,26 @@
 import codecs
 
 from .listtrie import ListTrie
-from .utility import get_data
+from .utilcls import Token, TokenGroup
+from .utility import get_data, parse_tag
 from .utility import merge_triebased
 from .utility import type_of
 
+def tokenize(text: str, merge=True) -> list[Token]:
+    tokens = tokenize_split(text, merge)
+    start_ix = 0
+    out_tokens = []
+    for i in range(len(tokens)):
+        token = tokens[i]
+        end_ix = start_ix + len(token)
+        if token[0] == '<':
+            annotation, content = parse_tag(token)
+            out_tokens.append(TokenGroup(tokenize(content, merge), annotation) \
+                if '<' in content else Token(start_ix, end_ix, content, annotation))
+        else:
+            out_tokens.append(Token(start_ix, end_ix, token, ''))
+        start_ix = end_ix
+    return out_tokens
 
 def tokenize_split(text, merge=True):
     """

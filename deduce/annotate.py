@@ -205,11 +205,10 @@ def annotate_names(
     return tokens_deid
 
 
-def annotate_names_context(text):
+def annotate_names_context(tokens: list[Token]) -> list[Token]:
     """This function annotates person names, based on its context in the text"""
 
     # Tokenize text and initiate a list of deidentified tokens
-    tokens = tokenize_split(text + " ")
     tokens_deid = []
     token_index = -1
 
@@ -234,20 +233,19 @@ def annotate_names_context(text):
         # If the token is an initial, or starts with a capital
         initial_condition = (
             is_initial(token)
-            or (token != "" and token[0].isupper() and token.lower() not in WHITELIST)
+            or (not token.is_annotation() and token.text != '' and token.text[0].isupper()
+                and token.text.lower() not in WHITELIST)
         ) and (
             # And the token is followed by either a
             # found surname, interfix or initial
-            "ACHTERNAAM" in next_token
-            or "INTERFIX" in next_token
-            or "INITIAAL" in next_token
+            next_token is not None
+            and next_token.is_annotation()
+            and any([tag in next_token.get_full_annotation() for tag in ('ACHTERNAAM', 'INTERFIX', 'INITIAAL')])
         )
 
         # If match, tag the token and continue
         if initial_condition:
-            tokens_deid.append(
-                f"<INITIAAL {join_tokens(tokens[token_index: next_token_index + 1])}>"
-            )
+            tokens_deid.append(TokenGroup(tokens[token_index: next_token_index + 1], 'INITIAAL'))
             token_index = next_token_index
             continue
 
@@ -255,18 +253,21 @@ def annotate_names_context(text):
 
         # If the token is an interfix
         interfix_condition = (
-            token in INTERFIXES
+            not token.is_annotation()
+            and token.text in INTERFIXES
             and
             # And the token is preceded by an initial, found initial or found name
             (
                 is_initial(previous_token)
-                or "INITIAAL" in previous_token
-                or "NAAM" in previous_token
+                or (
+                        previous_token.is_annotation()
+                        and any([tag in previous_token.get_full_annotation() for tag in ('INITIAAL', 'NAAM')])
+                )
             )
             and
             # And the next token must be capitalized
-            next_token != ""
-            and (next_token[0].isupper() or next_token[0] == "<")
+            next_token is not None and next_token.text != ''
+            and (next_token.text[0].isupper() or next_token.is_annotation())
         )
 
         # If the condition is met, tag the tokens and continue
@@ -277,11 +278,8 @@ def annotate_names_context(text):
             )
             deid_tokens_to_keep = tokens_deid[previous_token_index_deid:]
             tokens_deid = tokens_deid[:previous_token_index_deid]
-            tokens_deid.append(
-                "<INTERFIXACHTERNAAM {}>".format(
-                    join_tokens(deid_tokens_to_keep + tokens[token_index:next_token_index + 1])
-                )
-            )
+            group = TokenGroup(deid_tokens_to_keep + tokens[token_index:next_token_index + 1], 'INTERFIXACHTERNAAM')
+            tokens_deid.append(group)
             token_index = next_token_index
             continue
 
@@ -290,21 +288,20 @@ def annotate_names_context(text):
         initial_name_condition = (
             (
                 is_initial(token)
-                or "VOORNAAM" in token
-                or "ROEPNAAM" in token
-                or "PREFIX" in token
+                or (
+                        token.is_annotation()
+                        and any([tag in token.get_full_annotation() for tag in ('VOORNAAM', 'ROEPNAAM', 'PREFIX')])
+                )
                 # And the next token is uppercase and has at least 3 characters
             )
-            and len(next_token) > 3
-            and next_token[0].isupper()
-            and next_token.lower() not in WHITELIST
+            and next_token is not None and len(next_token.text) > 3
+            and not next_token.is_annotation() and next_token.text[0].isupper()
+            and next_token.text.lower() not in WHITELIST
         )
 
         # If a match is found, tag and continue
         if initial_name_condition:
-            tokens_deid.append(
-                f"<INITIAALHOOFDLETTERNAAM {join_tokens(tokens[token_index: next_token_index + 1])}>"
-            )
+            tokens_deid.append(TokenGroup(tokens[token_index: next_token_index + 1], 'INITIAALHOOFDLETTERNAAM'))
             token_index = next_token_index
             continue
 
@@ -312,11 +309,11 @@ def annotate_names_context(text):
 
         # If the token is "en", and the previous token is tagged, and the next token is capitalized
         and_pattern_condition = (
-            token == "en"
-            and len(previous_token) > 0
-            and len(next_token) > 0
-            and "<" in previous_token
-            and next_token[0].isupper()
+            not token.is_annotation() and token.text == 'en'
+            and previous_token is not None and len(previous_token.text) > 0
+            and next_token is not None and len(next_token.text) > 0
+            and previous_token.is_annotation()
+            and not next_token.is_annotation() and next_token.text[0].isupper()
         )
 
         # If a match is found, tag and continue
@@ -325,9 +322,9 @@ def annotate_names_context(text):
                 tokens_deid, len(tokens_deid)
             )
             tokens_deid = tokens_deid[:previous_token_index_deid]
-            tokens_deid.append(
-                f"<MEERDEREPERSONEN {join_tokens([previous_token_deid] + tokens[previous_token_index + 1 : next_token_index + 1])}>"
-            )
+            token_group = TokenGroup([previous_token_deid] + tokens[previous_token_index + 1: next_token_index + 1],
+                                     'MEERDEREPERSONEN')
+            tokens_deid.append(token_group)
             token_index = next_token_index
             continue
 
@@ -336,15 +333,12 @@ def annotate_names_context(text):
         if len(tokens_deid) == numtokens_deid:
             tokens_deid.append(token)
 
-    # Join the tokens again to form the de-identified text
-    textdeid = join_tokens(tokens_deid).strip()
-
     # If nothing changed, we are done
-    if text == textdeid:
-        return textdeid
+    if tokens == tokens_deid:
+        return tokens
 
     # Else, run the annotation based on context again
-    return annotate_names_context(textdeid)
+    return annotate_names_context(tokens_deid)
 
 
 def annotate_residence(text):

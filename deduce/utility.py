@@ -6,7 +6,7 @@ import re
 import unicodedata
 from functools import reduce
 
-from deduce.utilcls import TokenGroup, Token
+from deduce.utilcls import Token
 
 
 class Annotation:
@@ -29,7 +29,7 @@ class Annotation:
         return self.tag + "[" + str(self.start_ix) + ":" + str(self.end_ix) + "]"
 
 
-def merge_triebased(tokens, trie):
+def merge_triebased(tokens: list[str], trie) -> list[str]:
     """
     This function merges all sublists of tokens that occur in the trie to one element
     in the list of tokens. For example: if the tree contains ["A", "1"],
@@ -137,7 +137,8 @@ def is_initial(token):
         - Length 1 and capital
         - Already annotated initial
     """
-    return (len(token) == 1 and token[0].isupper()) or "INITI" in token
+    return (token.is_annotation() and 'INITI' in token.get_full_annotation()) or \
+           (not token.is_annotation() and len(token.text) == 1 and token.text[0].isupper())
 
 
 def flatten_text_all_phi(text: str) -> str:
@@ -423,4 +424,4 @@ def get_first_non_whitespace(text: str) -> int:
     return text.index(text.lstrip()[0])
 
 def to_text(tokens: list[Token]) -> str:
-    return ''.join(['<' + t.annotation + ' ' + t.text + '>' if t.is_annotation() else t.text for t in tokens])
+    return ''.join([token.get_nested_text() for token in tokens])

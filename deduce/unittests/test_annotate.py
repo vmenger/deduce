@@ -1,7 +1,7 @@
 import unittest
 
 from deduce import annotate
-from deduce.tokenizer import tokenize_split
+from deduce.tokenizer import tokenize_split, tokenize
 from deduce.utilcls import Token, TokenGroup
 from deduce.utility import to_text
 
@@ -38,51 +38,53 @@ class TestAnnotateMethods(unittest.TestCase):
             "Dank je <VOORNAAMONBEKEND Peter> van Gonzalez. Met vriendelijke groet, "
             "<VOORNAAMONBEKEND Peter> van Gonzalez"
         )
-        annotated_names = annotate.annotate_names_context(text)
+        annotated_names = annotate.annotate_names_context(tokenize(text))
         expected_text = (
             "Dank je <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
             "Met vriendelijke groet, <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>"
         )
-        self.assertEqual(expected_text, annotated_names)
+        self.assertEqual(expected_text, to_text(annotated_names))
 
     def test_duplicated_names_longer(self):
         text = (
             "Dank je <VOORNAAMONBEKEND Peter> van Gonzalez. Met vriendelijke groet, "
             "<VOORNAAMONBEKEND Peter> van Gonzalez. Er is ook een Pieter de Visser hier"
         )
-        annotated_names = annotate.annotate_names_context(text)
+        annotated_names = annotate.annotate_names_context(tokenize(text))
         expected_text = (
             "Dank je <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
             "Met vriendelijke groet, <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
             "Er is ook een Pieter de Visser hier"
         )
-        self.assertEqual(expected_text, annotated_names)
+        self.assertEqual(expected_text, to_text(annotated_names))
 
     def test_duplicated_names_triple(self):
         text = (
             "Dank je <VOORNAAMONBEKEND Peter> van Gonzalez. Met vriendelijke groet, "
             "<VOORNAAMONBEKEND Peter> van Gonzalez. Er is ook een andere <VOORNAAMONBEKEND Peter> van Gonzalez hier"
         )
-        annotated_names = annotate.annotate_names_context(text)
+        annotated_names = annotate.annotate_names_context(tokenize(text))
         expected_text = (
             "Dank je <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
             "Met vriendelijke groet, <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
             "Er is ook een andere <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez> hier"
         )
-        self.assertEqual(expected_text, annotated_names)
+        self.assertEqual(expected_text, to_text(annotated_names))
 
     def test_simple_context(self):
         text = "V. <ACHTERNAAMONBEKEND Menger>"
-        annotated_names = annotate.annotate_names_context(text)
+        annotated_names = annotate.annotate_names_context(tokenize(text))
         expected_text = "<INITIAAL V. <ACHTERNAAMONBEKEND Menger>>"
-        self.assertEqual(expected_text, annotated_names)
+        self.assertEqual(expected_text, to_text(annotated_names))
 
     def test_coordinating_nexus(self):
         text = """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, <PREFIXNAAM PJ> en Pieter"""
-        annotated_names = annotate.annotate_names_context(text)
-        expected_text = """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, 
-        <MEERDEREPERSONEN <PREFIXNAAM PJ> en Pieter>"""
-        self.assertEqual(expected_text, annotated_names)
+        tokens = tokenize(text)
+        annotated_names = annotate.annotate_names_context(tokens)
+        annotated_text = to_text(annotated_names)
+        expected_text = "We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, " \
+                        "<MEERDEREPERSONEN <PREFIXNAAM PJ> en Pieter>"
+        self.assertEqual(expected_text, annotated_text)
 
     def test_annotate_initials(self):
         parts = ['C', '.', ' ', 'geeft', ' ', 'aan', ' ', 'dood', ' ', 'te', ' ', 'willen', '.', ' ', 'C', '.', ' ',
@@ -149,9 +151,11 @@ class TestAnnotateMethods(unittest.TestCase):
 
     def test_coordinating_nexus_with_preceding_name(self):
         text = "Adalberto <ACHTERNAAMONBEKEND Koning> en Mariangela"
-        annotated = annotate.annotate_names_context(text)
+        tokens = tokenize(text)
+        annotated = annotate.annotate_names_context(tokens)
+        annotated_text = to_text(annotated)
         expected_text = "<MEERDEREPERSONEN <INITIAAL Adalberto <ACHTERNAAMONBEKEND Koning>> en Mariangela>"
-        self.assertEqual(expected_text, annotated)
+        self.assertEqual(expected_text, annotated_text)
 
     def test_preserve_institution_casing(self):
         text = 'Ik ben in Altrecht geweest'
@@ -185,9 +189,11 @@ class TestAnnotateMethods(unittest.TestCase):
 
     def test_annotate_context_keep_initial(self):
         text = 'Mijn naam is M <ACHTERNAAMONBEKEND Smid> de Vries'
-        annotated_context_names = annotate.annotate_names_context(text)
+        tokens = tokenize(text)
+        annotated_context_names = annotate.annotate_names_context(tokens)
+        annotated_text = to_text(annotated_context_names)
         expected = 'Mijn naam is <INTERFIXACHTERNAAM <INITIAAL M <ACHTERNAAMONBEKEND Smid>> de Vries>'
-        self.assertEqual(expected, annotated_context_names)
+        self.assertEqual(expected, annotated_text)
 
     def test_keep_punctuation_after_date(self):
         text = 'Medicatie actueel	26-10, OXAZEPAM'

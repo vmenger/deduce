@@ -75,11 +75,11 @@ def annotate_text(
         )
 
         # Then, based on the context
-        text = annotate_names_context(names_token_groups)
+        context_names_token_groups = annotate_names_context(names_token_groups)
 
         # Flatten possible nested tags
         if flatten:
-            text = flatten_text(text)
+            text = flatten_text(context_names_token_groups)
 
     # Institutions
     if institutions:
