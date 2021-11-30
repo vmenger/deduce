@@ -1,6 +1,9 @@
 import unittest
 
 from deduce import annotate
+from deduce.tokenizer import tokenize_split
+from deduce.utilcls import Token, TokenGroup
+from deduce.utility import to_text
 
 
 class TestAnnotateMethods(unittest.TestCase):
@@ -10,8 +13,13 @@ class TestAnnotateMethods(unittest.TestCase):
             u"(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
             u"oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
         )
+        tokens = tokenize_split(text)
+        start_ix = 0
+        for i, token in enumerate(tokens):
+            end_ix = start_ix + len(token)
+            tokens[i] = Token(start_ix, end_ix, token, '')
         annotated_names = annotate.annotate_names(
-            text,
+            tokens,
             patient_first_names="Jan",
             patient_surname="Jansen",
             patient_initial="",
@@ -23,7 +31,7 @@ class TestAnnotateMethods(unittest.TestCase):
             "jaar oud en woonachtig in Utrecht. Hij werd op 10 oktober door arts <VOORNAAMONBEKEND "
             "Peter> <INTERFIXNAAM de Visser> ontslagen van de kliniek van het UMCU."
         )
-        self.assertEqual(expected_text, annotated_names)
+        self.assertEqual(expected_text, to_text(annotated_names))
 
     def test_duplicated_names(self):
         text = (
@@ -72,38 +80,53 @@ class TestAnnotateMethods(unittest.TestCase):
     def test_coordinating_nexus(self):
         text = """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, <PREFIXNAAM PJ> en Pieter"""
         annotated_names = annotate.annotate_names_context(text)
-        expected_text = """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, <MEERDEREPERSONEN <PREFIXNAAM PJ> en Pieter>"""
+        expected_text = """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, 
+        <MEERDEREPERSONEN <PREFIXNAAM PJ> en Pieter>"""
         self.assertEqual(expected_text, annotated_names)
 
     def test_annotate_initials(self):
-        text = "C. geeft aan dood te willen. C. tot op nu blij"
+        parts = ['C', '.', ' ', 'geeft', ' ', 'aan', ' ', 'dood', ' ', 'te', ' ', 'willen', '.', ' ', 'C', '.', ' ',
+                 'tot', ' ', 'op', ' ', 'nu', ' ', 'blij']
+        start_ix = 0
+        tokens = []
+        for part in parts:
+            tokens.append(Token(start_ix, start_ix + len(part), part, ''))
+            start_ix = start_ix + len(part)
         annotated_names = annotate.annotate_names(
-            text,
+            tokens,
             patient_first_names="Peter Charles",
             patient_surname="de Jong",
             patient_initial="PC",
             patient_given_name="Charlie",
         )
-        expected_text = (
+        '''expected_text = (
             "<INITIAALPAT C.> geeft aan dood te willen. <INITIAALPAT C.> tot op nu blij"
-        )
-        self.assertEqual(expected_text, annotated_names)
+        )'''
+        # noinspection PyTypeChecker
+        expected = [TokenGroup(tokens[:2], 'INITIAALPAT')] + tokens[2:14] \
+                   + [TokenGroup(tokens[14:16], 'INITIAALPAT')] + tokens[16:]
+        self.assertEqual(expected, annotated_names)
 
     def test_annotate_initials_attached(self):
-        text = "Toegangstijd: N.v.t."
         patient_first_names = "Nicholas David"
         patient_initials = "ND"
         patient_surname = "de Jong"
         patient_given_name = "Niek"
+        tokens = ['Toegangstijd', ':', ' ', 'N', '.', 'v', '.', 't', '.']
+        start_ix = 0
+        for i, token in enumerate(tokens):
+            tokens[i] = Token(start_ix, start_ix + len(token), token, '')
+            start_ix = start_ix + len(token)
         annotated_names = annotate.annotate_names(
-            text,
+            tokens,
             patient_first_names=patient_first_names,
             patient_surname=patient_surname,
             patient_initial=patient_initials,
             patient_given_name=patient_given_name,
         )
-        expected_text = "Toegangstijd: <INITIAALPAT N.>v.t."
-        self.assertEqual(expected_text, annotated_names)
+        # expected_text = "Toegangstijd: <INITIAALPAT N.>v.t."
+        expected = tokens[:3] + [TokenGroup(tokens[3:5], 'INITIAALPAT')] + tokens[5:]
+        self.assertEqual(expected, annotated_names)
 
     def test_annotate_address_no_number(self):
         text = "I live in Havikstraat since my childhood"

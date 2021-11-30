@@ -4,17 +4,17 @@ from nltk.metrics import edit_distance
 
 from .lookup_lists import *
 from .tokenizer import join_tokens
+from .utilcls import Token, TokenGroup
 from .utility import context
 from .utility import is_initial
 
 
 def annotate_names(
-    text, patient_first_names, patient_initial, patient_surname, patient_given_name
-):
+    tokens: list[Token], patient_first_names, patient_initial, patient_surname, patient_given_name
+) -> list[Token]:
     """This function annotates person names, based on several rules."""
 
     # Tokenize the text
-    tokens = tokenize_split(text + " ")
     tokens_deid = []
     token_index = -1
 
@@ -34,34 +34,30 @@ def annotate_names(
         ### Prefix based detection
         # Check if the token is a prefix, and the next token starts with a capital
         prefix_condition = (
-            token.lower() in PREFIXES
-            and next_token != ""
-            and next_token[0].isupper()
-            and next_token.lower() not in WHITELIST
+            not token.is_annotation() and token.text.lower() in PREFIXES
+            and next_token is not None and next_token.text != ''
+            and next_token.text[0].isupper()
+            and next_token.text.lower() not in WHITELIST
         )
 
         # If the condition is met, tag the tokens and continue to the next position
         if prefix_condition:
-            tokens_deid.append(
-                f"<PREFIXNAAM {join_tokens(tokens[token_index: next_token_index + 1])}>"
-            )
+            tokens_deid.append(TokenGroup(tokens[token_index:next_token_index+1], 'PREFIXNAAM'))
             token_index = next_token_index
             continue
 
         ### Interfix based detection
         # Check if the token is an interfix, and the next token is in the list of interfix surnames
         interfix_condition = (
-            token.lower() in INTERFIXES
-            and next_token != ""
-            and next_token in INTERFIX_SURNAMES
-            and next_token.lower() not in WHITELIST
+            not token.is_annotation() and token.text.lower() in INTERFIXES
+            and next_token is not None and next_token.text != ''
+            and not next_token.is_annotation() and next_token.text in INTERFIX_SURNAMES
+            and next_token.text.lower() not in WHITELIST
         )
 
         # If condition is met, tag the tokens and continue to the new position
         if interfix_condition:
-            tokens_deid.append(
-                f"<INTERFIXNAAM {join_tokens(tokens[token_index: next_token_index + 1])}>"
-            )
+            tokens_deid.append(TokenGroup(tokens[token_index: next_token_index + 1], 'INTERFIXNAAM'))
             token_index = next_token_index
             continue
 
@@ -77,21 +73,23 @@ def annotate_names(
             for patient_first_name in str(patient_first_names).split(" "):
 
                 # Check if the initials match
-                if token == patient_first_name[0]:
+                if not token.is_annotation() and token.text == patient_first_name[0]:
 
                     # If followed by a period, also annotate the period
-                    if next_token != "" and tokens[token_index + 1][0] == ".":
-                        tokens_deid.append(
-                            f"<INITIAALPAT {join_tokens([tokens[token_index], '.'])}>"
-                        )
-                        if tokens[token_index + 1] == ".":
+                    if next_token is not None and next_token.text != "" \
+                            and not tokens[token_index + 1].is_annotation() and tokens[token_index + 1].text[0] == ".":
+                        tokens_deid.append(TokenGroup(
+                            [tokens[token_index],
+                             Token(tokens[token_index].end_ix, tokens[token_index].end_ix + 1, '.', '')],
+                            'INITIAALPAT'))
+                        if not tokens[token_index + 1].is_annotation() and tokens[token_index + 1].text == ".":
                             token_index += 1
                         else:
-                            tokens[token_index + 1] = tokens[token_index + 1][1:]
+                            tokens[token_index + 1] = tokens[token_index + 1].subset(start_ix=1)
 
                     # Else, annotate the token itself
                     else:
-                        tokens_deid.append(f"<INITIAALPAT {token}>")
+                        tokens_deid.append(TokenGroup([token], 'INITIAALPAT'))
 
                     # Break the first names loop
                     found = True
@@ -99,15 +97,15 @@ def annotate_names(
 
                 # Check that either an exact match exists, or a fuzzy match
                 # if the token has more than 3 characters
-                first_name_condition = token == patient_first_name or (
-                    len(token) > 3
-                    and edit_distance(token, patient_first_name, transpositions=True)
+                first_name_condition = token.text == patient_first_name or (
+                    len(token.text) > 3
+                    and edit_distance(token.text, patient_first_name, transpositions=True)
                     <= 1
                 )
 
                 # If the condition is met, tag the token and move on
                 if first_name_condition:
-                    tokens_deid.append(f"<VOORNAAMPAT {token}>")
+                    tokens_deid.append(TokenGroup([token], 'VOORNAAMPAT'))
                     found = True
                     break
 
@@ -117,8 +115,8 @@ def annotate_names(
 
         ### Initial
         # If the initial is not empty, and the token matches the initial, tag it as an initial
-        if len(patient_initial) > 0 and token == patient_initial:
-            tokens_deid.append(f"<INITIALENPAT {token}>")
+        if len(patient_initial) > 0 and not token.is_annotation() and token.text == patient_initial:
+            tokens_deid.append(TokenGroup([token], 'INITIALENPAT'))
             continue
 
         ### Surname
@@ -133,7 +131,8 @@ def annotate_names(
 
             # See if there is a fuzzy match, and if there are enough tokens left
             # to match the rest of the pattern
-            if edit_distance(token, surname_pattern[0], transpositions=True) <= 1 and (
+            if not token.is_annotation() and edit_distance(token.text, surname_pattern[0], transpositions=True) <= 1 \
+                    and (
                 token_index + len(surname_pattern)
             ) < len(tokens):
 
@@ -145,8 +144,9 @@ def annotate_names(
 
                     # If the distance is too big, disgregard the match
                     if (
-                        edit_distance(
-                            tokens[token_index + counter],
+                        not tokens[token_index + counter].is_annotation()
+                        and edit_distance(
+                            tokens[token_index + counter].text,
                             surname_pattern[counter],
                             transpositions=True,
                         )
@@ -160,9 +160,8 @@ def annotate_names(
 
             # If a match was found, tag the appropriate tokens, and continue
             if match:
-                tokens_deid.append(
-                    f"<ACHTERNAAMPAT {join_tokens(tokens[token_index : token_index + len(surname_pattern)])}>"
-                )
+                group = TokenGroup(tokens[token_index: token_index + len(surname_pattern)], 'ACHTERNAAMPAT')
+                tokens_deid.append(group)
                 token_index = token_index + len(surname_pattern) - 1
                 continue
 
@@ -170,28 +169,30 @@ def annotate_names(
         # Match if the given name is not empty, and either the token matches exactly
         # or fuzzily when more than 3 characters long
         given_name_condition = len(patient_given_name) > 1 and (
-            token == patient_given_name
+            not token.is_annotation() and
+            token.text == patient_given_name
             or (
-                len(token) > 3
-                and edit_distance(token, str(patient_given_name), transpositions=True)
+                not token.is_annotation()
+                and len(token.text) > 3
+                and edit_distance(token.text, str(patient_given_name), transpositions=True)
                 <= 1
             )
         )
 
         # If match, tag the token and continue
         if given_name_condition:
-            tokens_deid.append(f"<ROEPNAAMPAT {token}>")
+            tokens_deid.append(TokenGroup([token], 'ROEPNAAMPAT'))
             continue
 
         ### Unknown first and last names
         # For both first and last names, check if the token
         # is on the lookup list and not on the whitelist
-        if token in FIRST_NAMES and token.lower() not in WHITELIST:
-            tokens_deid.append(f"<VOORNAAMONBEKEND {token}>")
+        if not token.is_annotation() and token.text in FIRST_NAMES and token.text.lower() not in WHITELIST:
+            tokens_deid.append(TokenGroup([token], 'VOORNAAMONBEKEND'))
             continue
 
-        if token in SURNAMES and token.lower() not in WHITELIST:
-            tokens_deid.append(f"<ACHTERNAAMONBEKEND {token}>")
+        if not token.is_annotation() and token.text in SURNAMES and token.text.lower() not in WHITELIST:
+            tokens_deid.append(TokenGroup([token], 'ACHTERNAAMONBEKEND'))
             continue
 
         ### Wrap up
@@ -201,7 +202,7 @@ def annotate_names(
             tokens_deid.append(token)
 
     # Return the deidentified tokens as a piece of text
-    return join_tokens(tokens_deid).strip()
+    return tokens_deid
 
 
 def annotate_names_context(text):

@@ -56,12 +56,18 @@ def annotate_text(
     text = text.replace("<", "(")
     text = text.replace(">", ")")
 
+    tokens = tokenize_split(text)
+    start_ix = 0
+    for i, token in enumerate(tokens):
+        end_ix = start_ix + len(token)
+        tokens[i] = Token(start_ix, end_ix, token, '')
+
     # Deidentify names
     if names:
 
         # First, based on the rules and lookup lists
-        text = annotate_names(
-            text,
+        names_token_groups = annotate_names(
+            tokens,
             patient_first_names,
             patient_initials,
             patient_surname,
@@ -69,7 +75,7 @@ def annotate_text(
         )
 
         # Then, based on the context
-        text = annotate_names_context(text)
+        text = annotate_names_context(names_token_groups)
 
         # Flatten possible nested tags
         if flatten:

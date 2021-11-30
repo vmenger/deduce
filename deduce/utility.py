@@ -6,6 +6,8 @@ import re
 import unicodedata
 from functools import reduce
 
+from deduce.utilcls import TokenGroup, Token
+
 
 class Annotation:
     def __init__(self, start_ix: int, end_ix: int, tag: str, text: str):
@@ -79,23 +81,23 @@ def any_in_text(matchlist, token):
     return reduce(lambda x, y: x | y, map(lambda x: x in token, matchlist))
 
 
-def context(tokens, i):
+def context(tokens: list[Token], i):
     """Determine next and previous tokens that start with an alpha character"""
 
     # Find the next token
     k = i + 1
-    next_token = ""
+    next_token = None
 
     # Iterate over tokens after this one
     while k < len(tokens):
 
         # If any of these are found, no next token can be returned
-        if tokens[k][0] == ")" or any_in_text(["\n", "\r", "\t"], tokens[k]):
-            next_token = ""
+        if tokens[k].text[0] == ")" or any_in_text(["\n", "\r", "\t"], tokens[k].text):
+            next_token = None
             break
 
         # Else, this is the next token
-        if tokens[k][0].isalpha() or tokens[k][0] == "<":
+        if tokens[k].text[0].isalpha() or tokens[k].is_annotation():
             next_token = tokens[k]
             break
 
@@ -107,16 +109,16 @@ def context(tokens, i):
 
     # Find the previous token in a similar way
     k = i - 1
-    previous_token = ""
+    previous_token = None
 
     # Iterate over all previous tokens
     while k >= 0:
 
-        if tokens[k][0] == "(" or any_in_text(["\n", "\r", "\t"], tokens[k]):
-            previous_token = ""
+        if tokens[k].text[0] == "(" or any_in_text(["\n", "\r", "\t"], tokens[k].text):
+            previous_token = None
             break
 
-        if tokens[k][0].isalpha() or tokens[k][0] == "<":
+        if tokens[k].text[0].isalpha() or tokens[k].is_annotation():
             previous_token = tokens[k]
             break
 
@@ -419,3 +421,6 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
 
 def get_first_non_whitespace(text: str) -> int:
     return text.index(text.lstrip()[0])
+
+def to_text(tokens: list[Token]) -> str:
+    return ''.join(['<' + t.annotation + ' ' + t.text + '>' if t.is_annotation() else t.text for t in tokens])
