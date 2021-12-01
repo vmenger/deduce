@@ -341,23 +341,27 @@ def annotate_names_context(tokens: list[Token]) -> list[Token]:
     return annotate_names_context(tokens_deid)
 
 
-def annotate_residence(text):
+def annotate_residence(spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """Annotate residences"""
 
     # Tokenize text
-    tokens = tokenize_split(text)
     tokens_deid = []
     token_index = -1
 
     # Iterate over tokens
-    while token_index < len(tokens) - 1:
+    while token_index < len(spans) - 1:
 
         # Current token position and token
         token_index = token_index + 1
-        token = tokens[token_index]
+        token = spans[token_index]
+
+        # If this is an annotation, it cannot also be a residence
+        if token.is_annotation():
+            tokens_deid.append(token)
+            continue
 
         # Find all tokens that are prefixes of the remainder of the text
-        prefix_matches = RESIDENCES_TRIE.find_all_prefixes(tokens[token_index:])
+        prefix_matches = RESIDENCES_TRIE.find_all_prefixes([s.as_text() for s in spans[token_index:]])
 
         # If none, just append the current token and move to the next
         if len(prefix_matches) == 0:
@@ -366,11 +370,11 @@ def annotate_residence(text):
 
         # Else annotate the longest sequence as residence
         max_list = max(prefix_matches, key=len)
-        tokens_deid.append(f"<LOCATIE {join_tokens(max_list)}>")
+        tokens_deid.append(TokenGroup(tokens_deid[token_index:token_index + len(max_list)], 'LOCATIE'))
         token_index += len(max_list) - 1
 
     # Return the de-identified text
-    return join_tokens(tokens_deid)
+    return tokens_deid
 
 def annotate_institution(annotated_spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """Annotate institutions"""

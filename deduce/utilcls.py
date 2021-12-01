@@ -29,6 +29,12 @@ class AbstractSpan:
         # Return a new instance with a different annotation
         raise NotImplementedError('Abstract class')
 
+    def as_text(self) -> str:
+        """
+        :return: the text plus annotation. If it's a TokenGroup, include nested tags
+        """
+        raise NotImplementedError('Abstract class')
+
 class Token(AbstractSpan):
     def __init__(self, start_ix: int, end_ix: int, text: str, annotation: str):
         super().__init__(start_ix, end_ix, text, annotation)
@@ -65,7 +71,7 @@ class Token(AbstractSpan):
         """
         return Token(start_ix, self.end_ix, self.text[start_ix:], self.annotation)
 
-    def get_nested_text(self):
+    def as_text(self) -> str:
         return '<' + self.annotation + ' ' + self.text + '>' if self.is_annotation() else self.text
 
 class TokenGroup(AbstractSpan):
@@ -94,9 +100,6 @@ class TokenGroup(AbstractSpan):
         return self.annotation + \
                ''.join([token.get_full_annotation() for token in self.tokens if token.is_annotation()])
 
-    def get_nested_text(self):
-        return '<' + self.annotation + ' ' + self.text + '>' if self.is_annotation() else self.text
-
     def get_flat_token_list(self, remove_annotations: bool) -> list:
         """
         Given a list of nested spans, return a flat token list
@@ -112,3 +115,7 @@ class TokenGroup(AbstractSpan):
             else:
                 raise NotImplementedError('Unknown type', type(span))
         return tokens
+
+    def as_text(self) -> str:
+        text = ''.join([s.as_text() for s in self.tokens])
+        return '<' + self.annotation + ' ' + text + '>' if self.is_annotation() else text

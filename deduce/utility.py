@@ -408,5 +408,5 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
 def get_first_non_whitespace(text: str) -> int:
     return text.index(text.lstrip()[0])
 
-def to_text(tokens: list[Token]) -> str:
-    return ''.join([token.get_nested_text() for token in tokens])
+def to_text(tokens: list[AbstractSpan]) -> str:
+    return ''.join([token.as_text() for token in tokens])

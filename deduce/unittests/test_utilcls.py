@@ -65,6 +65,19 @@ class TestUtilityMethods(unittest.TestCase):
         new_token_group = TokenGroup(tokens, 'SINGER')
         self.assertEqual(new_token_group, token_group.with_annotation('SINGER'))
 
+    def test_as_text_token(self):
+        token = Token(0, 3, 'Raf', '')
+        self.assertEqual('Raf', token.as_text())
+
+    def test_as_text_token_annotated(self):
+        token = Token(0, 3, 'Raf', 'LEGEND')
+        self.assertEqual('<LEGEND Raf>', token.as_text())
+
+    def test_as_text_token_group(self):
+        tokens = [Token(0, 3, 'Raf', 'LEGEND'), Token(3, 9, ' Carra', '')]
+        token_group = TokenGroup(tokens, 'PERSOON')
+        self.assertEqual('<PERSOON <LEGEND Raf> Carra>', token_group.as_text())
+
 
 if __name__ == "__main__":
     unittest.main()
