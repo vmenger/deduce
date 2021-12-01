@@ -5,6 +5,11 @@ class AbstractSpan:
         self.text = text
         self.annotation = annotation
 
+    def __repr__(self):
+        return self.text + \
+               '[' + str(self.start_ix) + ':' + str(self.end_ix) + ']' + \
+               (' (' + self.annotation + ')' if self.is_annotation() else '')
+
     def flatten(self, with_annotation=None):
         """
         Flatten nested annotations
@@ -19,6 +24,10 @@ class AbstractSpan:
     def is_annotation(self) -> bool:
         raise NotImplementedError('Abstract class')
 
+    def with_annotation(self, new_annotation: str):
+        # Return a new instance with a different annotation
+        raise NotImplementedError('Abstract class')
+
 class Token(AbstractSpan):
     def __init__(self, start_ix: int, end_ix: int, text: str, annotation: str):
         super().__init__(start_ix, end_ix, text, annotation)
@@ -30,11 +39,6 @@ class Token(AbstractSpan):
                and self.text == other.text \
                and self.annotation == other.annotation
 
-    def __repr__(self):
-        return self.text + \
-               '[' + str(self.start_ix) + ':' + str(self.end_ix) + ']' + \
-               (' (ann)' if self.is_annotation() else '')
-
     def flatten(self, with_annotation=None):
         return Token(self.start_ix, self.end_ix, self.text, with_annotation) \
             if with_annotation and with_annotation.strip() \
@@ -45,6 +49,9 @@ class Token(AbstractSpan):
 
     def is_annotation(self):
         return self.annotation is not None and self.annotation.strip() != ''
+
+    def with_annotation(self, new_annotation: str):
+        return Token(self.start_ix, self.end_ix, self.text, new_annotation)
 
     def get_full_annotation(self):
         return self.annotation
@@ -71,11 +78,6 @@ class TokenGroup(AbstractSpan):
                and len(self.tokens) == len(other.tokens) \
                and all([self.tokens[i] == other.tokens[i] for i in range(len(self.tokens))])
 
-    def __repr__(self):
-        return self.text + \
-               '[' + str(self.start_ix) + ':' + str(self.end_ix) + ']' + \
-               (' (ann)' if self.is_annotation() else '')
-
     def flatten(self, with_annotation=None):
         annotation = with_annotation if with_annotation and with_annotation.strip() else self.get_full_annotation()
         daughter_spans = self.get_flat_token_list(remove_annotations=True)
@@ -83,6 +85,9 @@ class TokenGroup(AbstractSpan):
 
     def is_annotation(self):
         return self.annotation.strip() != ''
+
+    def with_annotation(self, new_annotation: str):
+        return TokenGroup(self.tokens, new_annotation)
 
     def get_full_annotation(self):
         return self.annotation + \

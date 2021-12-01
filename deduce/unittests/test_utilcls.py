@@ -54,6 +54,17 @@ class TestUtilityMethods(unittest.TestCase):
         expected = [hospital, tokens[0]] + [Token(13, 17, 'Smid', ''), Token(19, 27, 'de Vries', '')]
         self.assertEqual(expected, flat_tokens)
 
+    def test_token_with_annotation(self):
+        token = Token(0, 3, 'Raf', 'PERSOON')
+        new_token = Token(0, 3, 'Raf', 'LEGEND')
+        self.assertEqual(new_token, token.with_annotation('LEGEND'))
+
+    def test_token_group_with_annotation(self):
+        tokens = [Token(0, 3, 'Raf', 'PERSOON'), Token(3, 9, ' Carra', 'LEGEND')]
+        token_group = TokenGroup(tokens, 'LEGEND')
+        new_token_group = TokenGroup(tokens, 'SINGER')
+        self.assertEqual(new_token_group, token_group.with_annotation('SINGER'))
+
 
 if __name__ == "__main__":
     unittest.main()

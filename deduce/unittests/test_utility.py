@@ -3,6 +3,7 @@ import unittest
 from unittest.mock import patch
 
 from deduce import utility
+from deduce.utilcls import Token, TokenGroup
 from deduce.utility import Annotation
 
 
@@ -134,6 +135,14 @@ class TestUtilityMethods(unittest.TestCase):
             flattened,
         )
 
+    def test_flatten_text_people(self):
+        """<INITIAL A <NAME Surname>> are flattened to <INITIALNAME A Surname>"""
+        original_tokens = [Token(0, 2, 'A ', ''), Token(2, 9, 'Surname', 'NAME')]
+        token_group = TokenGroup(original_tokens, 'INITIAL')
+        new_tokens = [Token(0, 2, 'A ', ''), Token(2, 9, 'Surname', '')]
+        new_token_group = TokenGroup(new_tokens, 'PERSOON')
+        flattened = utility.flatten_text([token_group])
+        self.assertEqual([new_token_group], flattened)
 
 if __name__ == "__main__":
     unittest.main()

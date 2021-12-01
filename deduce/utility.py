@@ -6,7 +6,7 @@ import re
 import unicodedata
 from functools import reduce
 
-from deduce.utilcls import Token, TokenGroup
+from deduce.utilcls import Token, TokenGroup, AbstractSpan
 
 
 class Annotation:
@@ -158,7 +158,7 @@ def flatten_text_all_phi(text: str) -> str:
     return text
 
 
-def flatten_text(tokens: list[Token]) -> list[Token]:
+def flatten_text(tokens: list[AbstractSpan]) -> list[AbstractSpan]:
     """
     Flattens nested tags; e.g. tags like <INITIAL A <NAME Surname>>
     are flattened to <INITIALNAME A Surname>. This function only works for text wich
@@ -166,7 +166,6 @@ def flatten_text(tokens: list[Token]) -> list[Token]:
     :param tokens: the list of tokens containing the annotations that need to be flattened
     :return: a new list of tokens containing only non-nested annotations
     """
-    # Todo: define the flatten method
     flattened = [token.flatten(with_annotation='PATIENT' if 'PAT' in token.get_full_annotation() else 'PERSOON')
                  for token in tokens]
 
