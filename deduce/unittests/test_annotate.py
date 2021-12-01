@@ -2,7 +2,7 @@ import unittest
 
 from deduce import annotate
 from deduce.tokenizer import tokenize_split, tokenize
-from deduce.utilcls import Token, TokenGroup
+from deduce.utilcls import Token, TokenGroup, AbstractSpan
 from deduce.utility import to_text
 
 
@@ -158,9 +158,8 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(expected_text, annotated_text)
 
     def test_preserve_institution_casing(self):
-        text = 'Ik ben in Altrecht geweest'
-        annotated_institutions_text = annotate.annotate_institution(text)
-        expected_text = 'Ik ben in <INSTELLING Altrecht> geweest'
+        annotated_institutions_text = annotate.annotate_institution([Token(0, 8, 'Altrecht', '')])
+        expected_text = [TokenGroup([Token(0, 8, 'Altrecht', '')], 'INSTELLING')]
         self.assertEqual(expected_text, annotated_institutions_text)
 
     def test_skip_mg(self):
@@ -176,15 +175,58 @@ class TestAnnotateMethods(unittest.TestCase):
 
     def test_annotate_altrecht(self):
         text = 'Opname bij xxx afgerond'
-        examples = [('altrecht lunetten', '<INSTELLING altrecht> lunetten'),
-                    ('altrecht Lunetten', '<INSTELLING altrecht Lunetten>'),
-                    ('Altrecht lunetten', '<INSTELLING Altrecht> lunetten'),
-                    ('Altrecht Lunetten', '<INSTELLING Altrecht Lunetten>'),
-                    ('Altrecht Willem Arntszhuis', '<INSTELLING Altrecht Willem Arntszhuis>'),
-                    ('Altrecht Lunetten ziekenhuis', '<INSTELLING Altrecht Lunetten> ziekenhuis'),
-                    ('ALtrecht Lunetten', '<INSTELLING ALtrecht Lunetten>')]
-        annotated = [annotate.annotate_institution(text.replace('xxx', el[0])) for el in examples]
-        expected = [text.replace('xxx', el[1]) for el in examples]
+        start_ix = text.index('xxx')
+        len_wd = len('altrecht')
+        len_lun = len('lunetten')
+        ann = 'INSTELLING'
+        examples = [('altrecht lunetten',
+                     [TokenGroup([Token(start_ix, start_ix + len_wd, 'altrecht', '')], ann),
+                      Token(start_ix + len_wd, start_ix + len_wd + 1, ' ', ''),
+                      Token(start_ix + len_wd + 1, start_ix + len_wd + 1 + len_lun, 'lunetten', '')]),
+                    ('altrecht Lunetten',
+                     [TokenGroup([Token(start_ix, start_ix + len_wd, 'altrecht', ''),
+                                  Token(start_ix + len_wd, start_ix + len_wd + 1, ' ', ''),
+                                  Token(start_ix + len_wd + 1, start_ix + len_wd + 1 + len_lun, 'Lunetten', '')],
+                                 ann)]),
+                    ('Altrecht lunetten',
+                     [TokenGroup([Token(start_ix, start_ix + len_wd, 'Altrecht', '')], ann),
+                      Token(start_ix + len_wd, start_ix + len_wd + 1, ' ', ''),
+                      Token(start_ix + len_wd + 1, start_ix + len_wd + 1 + len_lun, 'lunetten', '')]),
+                    ('Altrecht Lunetten',
+                     [TokenGroup([Token(start_ix, start_ix + len_wd, 'Altrecht', ''),
+                                  Token(start_ix + len_wd, start_ix + len_wd + 1, ' ', ''),
+                                  Token(start_ix + len_wd + 1, start_ix + len_wd + 1 + len_lun, 'Lunetten', '')],
+                                 ann)]),
+                    ('Altrecht Lunetten Lunetten',
+                     [TokenGroup([Token(start_ix, start_ix + len_wd, 'Altrecht', ''),
+                                  Token(start_ix + len_wd, start_ix + len_wd + 1, ' ', ''),
+                                  Token(start_ix + len_wd + 1, start_ix + len_wd + 1 + len_lun, 'Lunetten', ''),
+                                  Token(start_ix + len_wd + 1 + len_lun, start_ix + len_wd + 1 + len_lun + 1, ' ', ''),
+                                  Token(start_ix + len_wd + 2 + len_lun,
+                                        start_ix + len_wd + 2 + 2 * len_lun,
+                                        'Lunetten',
+                                        '')],
+                                 ann)]),
+                    ('Altrecht Lunetten lunetten',
+                     [TokenGroup([Token(start_ix, start_ix + len_wd, 'Altrecht', ''),
+                                  Token(start_ix + len_wd, start_ix + len_wd + 1, ' ', ''),
+                                  Token(start_ix + len_wd + 1, start_ix + len_wd + 1 + len_lun, 'Lunetten', '')],
+                                 ann),
+                      Token(start_ix + len_wd + 1 + len_lun, start_ix + len_wd + 1 + len_lun + 1, ' ', ''),
+                      Token(start_ix + len_wd + 1 + len_lun + 1, start_ix + len_wd + 2 + len_lun * 2, 'lunetten', '')]),
+                    ('ALtrecht Lunetten',
+                     [TokenGroup([Token(start_ix, start_ix + len_wd, 'ALtrecht', ''),
+                                  Token(start_ix + len_wd, start_ix + len_wd + 1, ' ', ''),
+                                  Token(start_ix + len_wd + 1, start_ix + len_wd + 1 + len_lun, 'Lunetten', '')],
+                                 ann)])]
+        annotated = []
+        tails = []
+        for i, el in enumerate(examples):
+            tokenized = tokenize(text.replace('xxx', el[0]))
+            tails.append(tokenized[[i for i, t in enumerate(tokenized) if t.text == 'afgerond'][0] - 1:])
+            annotated.append(annotate.annotate_institution(tokenized))
+        # noinspection PyTypeChecker
+        expected = [tokenize('Opname bij ') + el[1] + tails[i] for i, el in enumerate(examples)]
         self.assertEqual(expected, annotated)
 
     def test_annotate_context_keep_initial(self):

@@ -58,14 +58,14 @@ def annotate_text(
     text = text.replace(">", ")")
 
     # Tokenize the text
-    tokens = tokenize(text)
+    spans = tokenize(text)
 
     # Deidentify names
     if names:
 
         # First, based on the rules and lookup lists
-        names_token_groups = annotate_names(
-            tokens,
+        spans = annotate_names(
+            spans,
             patient_first_names,
             patient_initials,
             patient_surname,
@@ -73,19 +73,19 @@ def annotate_text(
         )
 
         # Then, based on the context
-        context_names_token_groups = annotate_names_context(names_token_groups)
+        spans = annotate_names_context(spans)
 
         # Flatten possible nested tags
         if flatten:
-            text = flatten_text(context_names_token_groups)
+            spans = flatten_text(spans)
 
     # Institutions
     if institutions:
-        text = annotate_institution(text)
+        spans = annotate_institution(spans)
 
     # Geographical locations
     if locations:
-        text = annotate_residence(text)
+        text = annotate_residence(spans)
         text = annotate_address(text)
         text = annotate_postalcode(text)
 
