@@ -86,8 +86,8 @@ def annotate_text(
     # Geographical locations
     if locations:
         spans = annotate_residence(spans)
-        text = annotate_address(spans)
-        text = annotate_postalcode(text)
+        spans = annotate_address(text, spans)
+        text = annotate_postalcode(spans)
 
     # Phone numbers
     if phone_numbers:

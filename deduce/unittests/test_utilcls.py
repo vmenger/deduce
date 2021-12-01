@@ -78,6 +78,17 @@ class TestUtilityMethods(unittest.TestCase):
         token_group = TokenGroup(tokens, 'PERSOON')
         self.assertEqual('<PERSOON <LEGEND Raf> Carra>', token_group.as_text())
 
+    def test_subset_token(self):
+        token = Token(0, 3, 'Raf', 'LEGEND')
+        subset = token.subset(1, 2)
+        self.assertEqual(Token(1, 2, 'a', 'LEGEND'), subset)
+
+    def test_subset_token_group(self):
+        token = TokenGroup([Token(0, 3, 'Raf', 'LEGEND'), Token(3, 9, ' Carra', '')], 'PERSOON')
+        subset = token.subset(1, 8)
+        new_group = TokenGroup([Token(1, 3, 'af', 'LEGEND'), Token(3, 8, ' Carr', '')], 'PERSOON')
+        self.assertEqual(new_group, subset)
+
 
 if __name__ == "__main__":
     unittest.main()

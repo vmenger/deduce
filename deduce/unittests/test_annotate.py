@@ -2,7 +2,7 @@ import unittest
 
 from deduce import annotate
 from deduce.tokenizer import tokenize_split, tokenize
-from deduce.utilcls import Token, TokenGroup, AbstractSpan
+from deduce.utilcls import Token, TokenGroup
 from deduce.utility import to_text
 
 
@@ -132,21 +132,31 @@ class TestAnnotateMethods(unittest.TestCase):
 
     def test_annotate_address_no_number(self):
         text = "I live in Havikstraat since my childhood"
-        address = annotate.annotate_address(text)
-        self.assertEqual("I live in <LOCATIE Havikstraat> since my childhood", address)
+        tokens = tokenize(text)
+        address = annotate.annotate_address(text, tokens)
+        expected = tokens[:6] + [Token(10, 21, 'Havikstraat', 'LOCATIE')] + tokens[7:]
+        self.assertEqual(expected, address)
 
     def test_annotate_address_with_number(self):
         text = "I live in Havikstraat 43 since my childhood"
-        address = annotate.annotate_address(text)
-        self.assertEqual(
-            "I live in <LOCATIE Havikstraat 43> since my childhood", address
-        )
+        tokens = tokenize(text)
+        address = annotate.annotate_address(text, tokens)
+        expected = tokens[:6] + \
+                   [TokenGroup([Token(10, 21, 'Havikstraat', ''), Token(21, 24, ' 43', '')], 'LOCATIE'),
+                    Token(24, 25, ' ', '')] + \
+                   tokens[8:]
+        self.assertEqual(expected, address)
 
     def test_annotate_address_long_number(self):
         text = "I live in Havikstraat 4324598 since my childhood"
-        address = annotate.annotate_address(text)
+        tokens = tokenize(text)
+        address = annotate.annotate_address(text, tokens)
+        # noinspection PyTypeChecker
+        expected = tokens[:6] + \
+                   [TokenGroup([tokens[6], Token(21, 29, ' 4324598', '')], 'LOCATIE'), Token(29, 30, ' ', '')] + \
+                   tokens[8:]
         self.assertEqual(
-            "I live in <LOCATIE Havikstraat 4324598> since my childhood", address
+            expected, address
         )
 
     def test_coordinating_nexus_with_preceding_name(self):
@@ -248,6 +258,44 @@ class TestAnnotateMethods(unittest.TestCase):
         annotated_dates = annotate.annotate_date(text)
         expected = '<DATUM 24 april>, <DATUM 1 mei>: pt gaat geen constructief contact aan'
         self.assertEqual(expected, annotated_dates)
+
+    def test_strip_match(self):
+        token = annotate.strip_match_(' peter', 10)
+        self.assertEqual(Token(11, 16, 'peter', ''), token)
+
+    def test_intersect(self):
+        span = Token(0, 2, 'la', '')
+        token = Token(0, 2, 'la', '')
+        self.assertTrue(annotate.intersect_(span, token))
+
+    def test_intersect_before(self):
+        span = Token(2, 4, 'la', '')
+        token = Token(0, 2, 'la', '')
+        self.assertFalse(annotate.intersect_(span, token))
+
+    def test_intersect_before_overlap(self):
+        span = Token(2, 4, 'la', '')
+        token = Token(1, 3, 'la', '')
+        self.assertTrue(annotate.intersect_(span, token))
+
+    def test_intersect_after_overlap(self):
+        span = Token(2, 4, 'la', '')
+        token = Token(3, 5, 'la', '')
+        self.assertTrue(annotate.intersect_(span, token))
+
+    def test_intersect_after(self):
+        span = Token(0, 2, 'la', '')
+        token = Token(2, 4, 'la', '')
+        self.assertFalse(annotate.intersect_(span, token))
+
+    def test_split_at_match_boundaries(self):
+        spans = [Token(0, 2, 'la', ''), Token(2, 4, 'pa', ''), Token(4, 6, 'ra', '')]
+        match = Token(1, 5, 'apar', '')
+        token_group = TokenGroup([Token(1, 2, 'a', ''), Token(2, 4, 'pa', ''), Token(4, 5, 'r', '')], 'LOCATIE')
+        expected_spans = [Token(0, 1, 'l', ''), token_group, Token(5, 6, 'a', '')]
+        new_spans = annotate.split_at_match_boundaries_(spans, match, 'LOCATIE')
+        self.assertEqual(expected_spans, new_spans)
+
 
 if __name__ == "__main__":
     unittest.main()

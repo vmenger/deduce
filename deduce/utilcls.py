@@ -35,6 +35,15 @@ class AbstractSpan:
         """
         raise NotImplementedError('Abstract class')
 
+    def subset(self, start_ix=None, end_ix=None):
+        """
+        Produce a new AbstractSpan, with smaller scope than the original
+        :param start_ix: a new start index (optional, defaults to current)
+        :param end_ix: a new end index (optional, defaults to current)
+        :return: a truncated AbstractSpan
+        """
+        raise NotImplementedError('Abstract class')
+
 class Token(AbstractSpan):
     def __init__(self, start_ix: int, end_ix: int, text: str, annotation: str):
         super().__init__(start_ix, end_ix, text, annotation)
@@ -63,13 +72,14 @@ class Token(AbstractSpan):
     def get_full_annotation(self):
         return self.annotation
 
-    def subset(self, start_ix: int):
-        """
-
-        :param start_ix:
-        :return: a new token whose start_ix is the one specified
-        """
-        return Token(start_ix, self.end_ix, self.text[start_ix:], self.annotation)
+    def subset(self, start_ix=None, end_ix=None):
+        if not start_ix and not end_ix:
+            return self
+        new_start_ix = start_ix if start_ix is not None else self.start_ix
+        new_end_ix = end_ix if end_ix is not None else self.end_ix
+        return Token(new_start_ix,
+                     new_end_ix,
+                     self.text[new_start_ix-self.start_ix:new_end_ix-self.start_ix], self.annotation)
 
     def as_text(self) -> str:
         return '<' + self.annotation + ' ' + self.text + '>' if self.is_annotation() else self.text
@@ -119,3 +129,14 @@ class TokenGroup(AbstractSpan):
     def as_text(self) -> str:
         text = ''.join([s.as_text() for s in self.tokens])
         return '<' + self.annotation + ' ' + text + '>' if self.is_annotation() else text
+
+    def subset(self, start_ix=None, end_ix=None):
+        start_ix = start_ix if start_ix is not None else self.start_ix
+        end_ix = end_ix if end_ix is not None else self.end_ix
+        subset_groups = [g for g in self.tokens if g.end_ix > start_ix or g.start_ix < end_ix]
+        if subset_groups[0].start_ix < start_ix:
+            subset_groups[0] = subset_groups[0].subset(start_ix=start_ix)
+        if subset_groups[-1].end_ix > end_ix:
+            subset_groups[-1] = subset_groups[-1].subset(end_ix=end_ix)
+        return TokenGroup(subset_groups, self.annotation)
+

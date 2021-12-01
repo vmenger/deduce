@@ -510,25 +510,69 @@ def annotate_postalcode(text):
     text = re.sub("([Pp]ostbus\s\d{5})", "<LOCATIE \\1>", text)
     return text
 
+def intersect_(span: AbstractSpan, match_token: Token) -> bool:
+    return match_token.start_ix < span.end_ix and match_token.end_ix > span.start_ix
 
-def get_address_match_replacement(match: re.Match) -> str:
-    text = match.group(0)
+def strip_match_(text: str, start_ix: int) -> Token:
     stripped = text.strip()
-    if len(text) == len(stripped):
-        return f"<LOCATIE {text}>"
+    new_start_ix = text.index(stripped[0]) + start_ix
+    return Token(new_start_ix, new_start_ix + len(stripped), stripped, '')
 
-    return f"<LOCATIE {stripped}>{' ' * (len(text) - len(stripped))}"
+def split_at_match_boundaries_(spans: list[AbstractSpan], match_token: Token, annotation_type: str) -> list[TokenGroup]:
+    if len(spans) == 1:
+        return [spans[0].subset(start_ix=match_token.start_ix, end_ix=match_token.end_ix).with_annotation(annotation_type)]
+    split_spans = []
+    component_spans = []
+    if match_token.start_ix > spans[0].start_ix:
+        split_spans.append(spans[0].subset(end_ix=match_token.start_ix))
+        component_spans.append(spans[0].subset(start_ix=match_token.start_ix))
+    else:
+        component_spans.append(spans[0])
+    if len(spans) >= 3:
+        component_spans += spans[1:len(spans)-1]
+    if match_token.end_ix < spans[-1].end_ix:
+        component_spans.append(spans[-1].subset(end_ix=match_token.end_ix))
+        last_span = spans[-1].subset(start_ix=match_token.end_ix)
+    else:
+        component_spans.append(spans[-1])
+        last_span = None
+    split_spans.append(TokenGroup(component_spans, annotation_type))
+    if last_span:
+        split_spans.append(last_span)
+    return split_spans
+
+def get_address_match_replacement(match: re.Match, spans: list[AbstractSpan]) -> list[AbstractSpan]:
+    """
+    Given a match in the text corresponding to an address, and the entire list of spans in the text,
+    update the list of spans to include the new annotation
+    :param match: a regular expression match
+    :param spans: the list of previously computed spans
+    :return: the new list of spans, including the newly found annotation
+    """
+    match_token = strip_match_(match.group(0), match.start(0))
+    span_ixs = [ix for ix, span in enumerate(spans) if intersect_(span, match_token)]
+    if len(span_ixs) == 0:
+        raise ValueError('The match does not correspond to the spans')
+    if any([spans[ix].is_annotation() for ix in span_ixs]):
+        raise ValueError('The spans corresponding to the match belong to annotations')
+    if span_ixs != list(range(span_ixs[0], len(span_ixs) + span_ixs[0])):
+        raise ValueError('The match corresponds to non-consecutive spans')
+    new_spans = split_at_match_boundaries_([spans[ix] for ix in span_ixs], match_token, 'LOCATIE')
+    return spans[:span_ixs[0]] + new_spans + spans[span_ixs[-1]+1:]
 
 
-def annotate_address(text):
-    """Annotate addresses"""
-    text = re.sub(
-        r"([A-Z]\w+(straat|laan|hof|plein|plantsoen|gracht|kade|weg|steeg|steeg|pad|dijk|baan|dam|dreef|"
-        r"kade|markt|park|plantsoen|singel|bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2})?|(\d+){0,6}))",
-        get_address_match_replacement,
-        text,
-    )
-    return text
+def annotate_address(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
+    """
+    Annotate addresses. This is much easier if we use the original text, so we take two inputs
+    :param text: The original text
+    :param spans: The spans previously computed for this text
+    :return: a new list of spans, potentially with address annotations
+    """
+    new_spans = spans.copy()
+    for match in re.finditer(r"([A-Z]\w+(straat|laan|hof|plein|gracht|weg|pad|dijk|baan|dam|dreef|"
+        r"kade|markt|park|plantsoen|singel|bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2})?|(\d+){0,6}))", text):
+        new_spans = get_address_match_replacement(match, new_spans)
+    return new_spans
 
 
 def annotate_email(text):
