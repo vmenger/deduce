@@ -4,7 +4,7 @@ from nltk.metrics import edit_distance
 
 from .lookup_lists import *
 from .tokenizer import join_tokens
-from .utilcls import Token, TokenGroup
+from .utilcls import Token, TokenGroup, AbstractSpan
 from .utility import context
 from .utility import is_initial
 
@@ -372,32 +372,22 @@ def annotate_residence(text):
     # Return the de-identified text
     return join_tokens(tokens_deid)
 
-def replace_altrecht_text(match: re.Match) -> str:
-    """
-    <INSTELLING Altrecht> (with Altrecht in any casing) followed by words that start with capital letters is annotated
-    as <INSTELLING Altrecht Those Words>, where Altrecht retains the original casing
-    :param match: the match object from a regular expression search
-    :return: the final string
-    """
-    return match.group(0)[:len(match.group(0)) - len(match.group(1)) - 1] + match.group(1) + '>'
-
-def annotate_institution(text):
+def annotate_institution(annotated_spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """Annotate institutions"""
 
     # Tokenize, and make a list of non-capitalized tokens (used for matching)
-    tokens = tokenize_split(text)
-    tokens_lower = [x.lower() for x in tokens]
+    tokens_lower = [x.text.lower() for x in annotated_spans]
     tokens_deid = []
     token_index = -1
 
     # Iterate over all tokens
-    while token_index < len(tokens) - 1:
+    while token_index < len(annotated_spans) - 1:
 
         # Current token position and token
         token_index = token_index + 1
-        token = tokens[token_index]
+        token = annotated_spans[token_index]
 
-        # Find all tokens that are prefixes of the remainder of the lowercasetext
+        # Find all tokens that are prefixes of the remainder of the lowercase text
         prefix_matches = INSTITUTION_TRIE.find_all_prefixes(tokens_lower[token_index:])
 
         # If none, just append the current token and move to the next
@@ -407,20 +397,44 @@ def annotate_institution(text):
 
         # Else annotate the longest sequence as institution
         max_list = max(prefix_matches, key=len)
-        joined_institution = join_tokens(tokens[token_index:token_index + len(max_list)])
-        tokens_deid.append("<INSTELLING {}>".format(joined_institution))
+        joined_institution = TokenGroup(annotated_spans[token_index:token_index + len(max_list)], 'INSTELLING')
+        tokens_deid.append(joined_institution)
         token_index += len(max_list) - 1
 
-    # Return
-    text = join_tokens(tokens_deid)
-
     # Detect the word "Altrecht" followed by a capitalized word
-    text = re.sub('<INSTELLING [aA][lL][tT][rR][eE][cC][hH][tT]>((\s[A-Z]([\w]*))*)',
-                  replace_altrecht_text,
-                  text)
+    ix = 0
+    final_spans = []
+    while ix < len(tokens_deid):
+        annotated_span = tokens_deid[ix]
+        # See if this is an annotation with type INSTELLING and lowercased text altrecht
+        if not annotated_span.is_annotation() \
+                or annotated_span.get_full_annotation() != 'INSTELLING' \
+                or annotated_span.text.lower() != 'altrecht':
+            final_spans.append(annotated_span)
+            ix += 1
+            continue
+        # Now look for iterations of the pattern (space, capital)
+        jx = ix
+        while jx < len(tokens_deid) - 2:
+            space = tokens_deid[jx+1]
+            capital = tokens_deid[jx+2]
+            if space.is_annotation() or not re.fullmatch('\s', space.text):
+                break
+            if capital.is_annotation() or not capital.text[0].isupper():
+                break
+            jx += 2
+        if jx == ix:
+            final_spans.append(annotated_span)
+            ix += 1
+            continue
+        stripped_altrecht = Token(annotated_span.start_ix, annotated_span.end_ix, annotated_span.text, '')
+        # noinspection PyTypeChecker
+        altrecht_with_capitals = [stripped_altrecht] + tokens_deid[ix+1:jx+1]
+        final_spans.append(TokenGroup(altrecht_with_capitals, 'INSTELLING'))
+        ix = jx + 1
 
     # Return the text
-    return text
+    return final_spans
 
 def get_date_replacement_(date_match: re.Match, punctuation_name: str) -> str:
     punctuation = date_match[punctuation_name]
