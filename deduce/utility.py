@@ -6,7 +6,7 @@ import re
 import unicodedata
 from functools import reduce
 
-from deduce.utilcls import Token
+from deduce.utilcls import Token, TokenGroup
 
 
 class Annotation:
@@ -158,61 +158,47 @@ def flatten_text_all_phi(text: str) -> str:
     return text
 
 
-def flatten_text(text):
+def flatten_text(tokens: list[Token]) -> list[Token]:
     """
-    Flattens all tags in a piece of text; e.g. tags like <INITIAL A <NAME Surname>>
+    Flattens nested tags; e.g. tags like <INITIAL A <NAME Surname>>
     are flattened to <INITIALNAME A Surname>. This function only works for text wich
     has annotated person names, and not for other PHI categories!
+    :param tokens: the list of tokens containing the annotations that need to be flattened
+    :return: a new list of tokens containing only non-nested annotations
     """
-
-    # Find all tags and sort them by length, so that the longest tags are flattened first
-    # This makes sure that the replacing the tag with the flattened equivalent never
-    # accidentally replaces a shorter tag, for example <NAME Surname> in the example.
-    to_flatten = find_tags(text)
-    to_flatten.sort(key=lambda x: -len(x))
-
-    # For each tag
-    for tag in to_flatten:
-
-        # Use the flatten method to return a tuple of tagname and value
-        tagname, value = flatten(tag)
-
-        # If any of the tags contains "PAT" it concerns the patient,
-        # otherwise it concerns a random person
-        if "PAT" in tagname:
-            tagname = "PATIENT"
-        else:
-            tagname = "PERSOON"
-
-        # Replace the found tag with the new, flattened tag
-        text = text.replace(tag, f"<{tagname} {value.strip()}>")
+    # Todo: define the flatten method
+    flattened = [token.flatten(with_annotation='PATIENT' if 'PAT' in token.get_full_annotation() else 'PERSOON')
+                 for token in tokens]
 
     # Make sure adjacent tags are joined together (like <INITIAL A><PATIENT Surname>),
     # optionally with a whitespace, period, hyphen or comma between them.
     # This works because all adjacent tags concern names
     # (remember that the function flatten_text() can only be used for names)!
-    text = re.sub(
-        "<([A-Z]+)\s([\w\.\s,]+)>([\.\s\-,]+)[\.\s]*<([A-Z]+)\s([\w\.\s,]+)>",
-        "<\\1\\4 \\2\\3\\5>",
-        text,
-    )
+    end_ann_ix = None
+    for i in range(len(flattened)-1, -1, -1):
+        token = flattened[i]
+        if not token.is_annotation():
+            continue
+        if end_ann_ix is None:
+            end_ann_ix = i
+            continue
+        start_ann_ix = i
+        joined_span = to_text(flattened[start_ann_ix:end_ann_ix+1])
+        if re.fullmatch("<([A-Z]+)\s([\w.\s,]+)>([.\s\-,]+)[.\s]*<([A-Z]+)\s([\w.\s,]+)>", joined_span):
+            group = TokenGroup([t.without_annotation() for t in flattened[start_ann_ix:end_ann_ix]],
+                               token.annotation + flattened[end_ann_ix].annotation)
+            tail = flattened[end_ann_ix + 1:] if end_ann_ix < len(flattened-1) else []
+            flattened = flattened[:i] + [group] + tail
+        end_ann_ix = start_ann_ix
 
     # Find all names of tags, to replace them with either "PATIENT" or "PERSOON"
-    tagnames = re.findall("<([A-Z]+)", text)
-
-    # Iterate over all tags
-    for tag in tagnames:
-
-        # If "PATIENT" is in any of them, they concern a patient
-        if "PATIENT" in tag:
-            text = re.sub(tag, "PATIENT", text)
-
-        # Otherwise, they concern a person
-        else:
-            text = re.sub(tag, "PERSOON", text)
+    replaced = [token.with_annotation('PATIENT' if 'PATIENT' in token.get_full_annotation() else 'PERSOON')
+                if token.is_annotation()
+                else token
+                for token in flattened]
 
     # Return the text with all replacements
-    return text
+    return replaced
 
 
 def flatten(tag):

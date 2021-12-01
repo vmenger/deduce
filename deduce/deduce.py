@@ -5,6 +5,7 @@ deidentify_annotations() methods can be imported
 
 from deduce import utility
 from .annotate import *
+from .tokenizer import tokenize
 from .utility import flatten_text, flatten_text_all_phi
 
 
@@ -56,11 +57,8 @@ def annotate_text(
     text = text.replace("<", "(")
     text = text.replace(">", ")")
 
-    tokens = tokenize_split(text)
-    start_ix = 0
-    for i, token in enumerate(tokens):
-        end_ix = start_ix + len(token)
-        tokens[i] = Token(start_ix, end_ix, token, '')
+    # Tokenize the text
+    tokens = tokenize(text)
 
     # Deidentify names
     if names:
