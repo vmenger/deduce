@@ -470,27 +470,16 @@ def annotate_age(text):
     return text
 
 
-def annotate_phonenumber(text):
+def annotate_phone_number(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """Annotate phone numbers"""
-    text = re.sub(
-        "(((0)[1-9]{2}[0-9][-]?[1-9][0-9]{5})|((\\+31|0|0031)[1-9][0-9][-]?[1-9][0-9]{6}))(?![^<]*>)",
-        "<TELEFOONNUMMER \\1>",
-        text,
-    )
-
-    text = re.sub(
-        "(((\\+31|0|0031)6){1}[-]?[1-9]{1}[0-9]{7})(?![^<]*>)",
-        "<TELEFOONNUMMER \\1>",
-        text,
-    )
-
-    text = re.sub(
-        "((\(\d{3}\)|\d{3})\s?\d{3}\s?\d{2}\s?\d{2})(?![^<]*>)",
-        "<TELEFOONNUMMER \\1>",
-        text,
-    )
-
-    return text
+    patterns = ["(((0)[1-9]{2}[0-9][-]?[1-9][0-9]{5})|((\\+31|0|0031)[1-9][0-9][-]?[1-9][0-9]{6}))(?![^<]*>)",
+                "(((\\+31|0|0031)6){1}[-]?[1-9]{1}[0-9]{7})(?![^<]*>)",
+                "((\(\d{3}\)|\d{3})\s?\d{3}\s?\d{2}\s?\d{2})(?![^<]*>)"]
+    for pattern in patterns:
+        matches = [strip_match_and_tag_(match.group(1), match.start(1), 'TELEFOONNUMMER')
+                   for match in re.finditer(pattern, text)]
+        spans = insert_matches_(matches, spans)
+    return spans
 
 
 def annotate_patientnumber(text):
@@ -542,10 +531,10 @@ def annotate_postcode(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan
 def intersect_(span: AbstractSpan, match_token: AbstractSpan) -> bool:
     return match_token.start_ix < span.end_ix and match_token.end_ix > span.start_ix
 
-def strip_match_(text: str, start_ix: int) -> AbstractSpan:
+def strip_match_and_tag_(text: str, start_ix: int, annotation: str) -> AbstractSpan:
     stripped = text.strip()
     new_start_ix = text.index(stripped[0]) + start_ix
-    return Token(new_start_ix, new_start_ix + len(stripped), stripped, 'LOCATIE')
+    return Token(new_start_ix, new_start_ix + len(stripped), stripped, annotation)
 
 def split_at_match_boundaries_(
         spans: list[AbstractSpan],
@@ -611,7 +600,7 @@ def annotate_address(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]
     :return: a new list of spans, potentially with address annotations
     """
     pattern = r"([A-Z]\w+(straat|laan|hof|plein|gracht|weg|pad|dijk|baan|dam|dreef|kade|markt|park|plantsoen|singel|bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2})?|(\d+){0,6}))"
-    matches = [strip_match_(match.group(0), match.start(0)) for match in re.finditer(pattern, text)]
+    matches = [strip_match_and_tag_(match.group(0), match.start(0), 'LOCATIE') for match in re.finditer(pattern, text)]
     return insert_matches_(matches, spans)
 
 

@@ -271,7 +271,7 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(expected, annotated_dates)
 
     def test_strip_match(self):
-        token = annotate.strip_match_(' peter', 10)
+        token = annotate.strip_match_and_tag_(' peter', 10, '')
         self.assertEqual(Token(11, 16, 'peter', ''), token)
 
     def test_intersect(self):

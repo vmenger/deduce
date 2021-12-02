@@ -91,11 +91,11 @@ def annotate_text(
 
     # Phone numbers
     if phone_numbers:
-        text = annotate_phonenumber(spans)
+        spans = annotate_phone_number(text, spans)
 
     # Patient numbers
     if patient_numbers:
-        text = annotate_patientnumber(text)
+        text = annotate_patientnumber(spans)
 
     # Dates
     if dates:
