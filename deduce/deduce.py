@@ -99,11 +99,11 @@ def annotate_text(
 
     # Dates
     if dates:
-        text = annotate_date(spans)
+        spans = annotate_date(text, spans)
 
     # Ages
     if ages:
-        text = annotate_age(text)
+        text = annotate_age(spans)
 
     # Urls
     if urls:

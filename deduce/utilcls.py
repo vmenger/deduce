@@ -48,6 +48,14 @@ class AbstractSpan:
         """
         raise NotImplementedError('Abstract class')
 
+    def matches(self, other) -> bool:
+        if not isinstance(other, AbstractSpan):
+            return False
+        return self.start_ix == other.start_ix \
+               and self.end_ix == other.end_ix \
+               and self.text == other.text \
+               and self.get_full_annotation() == other.get_full_annotation()
+
 class Token(AbstractSpan):
     def __init__(self, start_ix: int, end_ix: int, text: str, annotation: str):
         super().__init__(start_ix, end_ix, text, annotation)

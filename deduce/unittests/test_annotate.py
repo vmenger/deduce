@@ -260,15 +260,17 @@ class TestAnnotateMethods(unittest.TestCase):
 
     def test_keep_punctuation_after_date(self):
         text = 'Medicatie actueel	26-10, OXAZEPAM'
-        annotated_dates = annotate.annotate_date(text)
-        expected = text.replace('26-10', '<DATUM 26-10>')
-        self.assertEqual(expected, annotated_dates)
+        annotated_dates = annotate.annotate_date(text, tokenize(text))
+        expected = Token(text.index('2'), text.index('2') + 5, '26-10', 'DATUM')
+        self.assertEqual(1, len([span for span in annotated_dates if span.is_annotation() and span.matches(expected)]))
 
     def test_two_dates_with_comma(self):
         text = '24 april, 1 mei: pt gaat geen constructief contact aan'
-        annotated_dates = annotate.annotate_date(text)
-        expected = '<DATUM 24 april>, <DATUM 1 mei>: pt gaat geen constructief contact aan'
-        self.assertEqual(expected, annotated_dates)
+        annotated_dates = annotate.annotate_date(text, tokenize(text))
+        found_annotations = [span for span in annotated_dates if span.is_annotation()]
+        expected = [TokenGroup([Token(0, 3, '24 ', ''), Token(3, 8, 'april', '')], 'DATUM'),
+                    TokenGroup([Token(10, 12, '1 ', ''), Token(12, 15, 'mei', '')], 'DATUM')]
+        self.assertEqual(expected, found_annotations)
 
     def test_strip_match(self):
         token = annotate.strip_match_and_tag_(' peter', 10, '')
