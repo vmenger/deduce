@@ -460,12 +460,10 @@ def annotate_date(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
         spans = insert_matches_(matches, spans)
     return spans
 
-def annotate_age(text):
-    """Annotate ages"""
-    text = re.sub(
-        "(\d{1,3})([ -](jarige|jarig|jaar))(?![^<]*>)", "<LEEFTIJD \\1>\\2", text
-    )
-    return text
+def annotate_age(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
+    matches = [strip_match_and_tag_(match.group(1), match.start(1), 'LEEFTIJD')
+               for match in re.finditer("(\d{1,3})([ -](jarige|jarig|jaar))(?![^<]*>)", text)]
+    return insert_matches_(matches, spans)
 
 
 def annotate_phone_number(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:

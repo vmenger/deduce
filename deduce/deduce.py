@@ -103,11 +103,11 @@ def annotate_text(
 
     # Ages
     if ages:
-        text = annotate_age(spans)
+        spans = annotate_age(spans)
 
     # Urls
     if urls:
-        text = annotate_email(text)
+        text = annotate_email(spans)
         text = annotate_url(text)
 
     # Merge adjacent tags
