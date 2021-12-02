@@ -603,15 +603,11 @@ def annotate_address(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]
     return insert_matches_(matches, spans)
 
 
-def annotate_email(text):
+def annotate_email(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """Annotate emails"""
-    text = re.sub(
-        "(([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?))(?![^<]*>)",
-        "<URL \\1>",
-        text,
-    )
-
-    return text
+    pattern = "(([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?))(?![^<]*>)"
+    matches = [strip_match_and_tag_(match.group(1), match.start(1), 'URL') for match in re.finditer(pattern, text)]
+    return insert_matches_(matches, spans)
 
 
 def annotate_url(text):
