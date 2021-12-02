@@ -95,11 +95,11 @@ def annotate_text(
 
     # Patient numbers
     if patient_numbers:
-        text = annotate_patientnumber(spans)
+        spans = annotate_patient_number(text, spans)
 
     # Dates
     if dates:
-        text = annotate_date(text)
+        text = annotate_date(spans)
 
     # Ages
     if ages:

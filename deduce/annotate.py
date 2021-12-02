@@ -482,10 +482,13 @@ def annotate_phone_number(text: str, spans: list[AbstractSpan]) -> list[Abstract
     return spans
 
 
-def annotate_patientnumber(text):
+def annotate_patient_number(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """Annotate patient numbers"""
-    text = re.sub("(\d{7})(?![^<]*>)", "<PATIENTNUMMER \\1>", text)
-    return text
+    return insert_matches_(
+        [strip_match_and_tag_(match.group(1), match.start(1), 'PATIENTNUMMER')
+         for match in re.finditer("(\d{7})(?![^<]*>)", text)],
+        spans
+    )
 
 def remove_mg_(spans: list[AbstractSpan]) -> list[AbstractSpan]:
     return [span.without_annotation()
