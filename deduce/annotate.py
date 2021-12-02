@@ -498,29 +498,65 @@ def annotate_patientnumber(text):
     text = re.sub("(\d{7})(?![^<]*>)", "<PATIENTNUMMER \\1>", text)
     return text
 
+def remove_mg_(spans: list[AbstractSpan]) -> list[AbstractSpan]:
+    return [span.without_annotation()
+            if span.is_annotation() and span.annotation == 'LOCATIE' and re.fullmatch('(\d{4}mg)', span.text)
+            else span
+            for span in spans]
 
-def annotate_postalcode(text):
+def parse_postal_code_(match: re.Match) -> Token:
+    return Token(match.start(1), match.end(1), match.group(1), 'LOCATIE')
+
+
+def annotate_postcode(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
+    """
+    Annotate postal codes
+    :param text: the entire text to look in
+    :param spans: a list of previously found spans that cover the entire text
+    :return: a list of spans covering the entire text including the new annotations
+    """
+    # Annotate everything that looks like a postcode
+    pattern = "(((\d{4} [A-Z]{2})|(\d{4}[a-zA-Z]{2})))(?P<n>\W)(?![^<]*>)"
+    post_box_matches = [parse_postal_code_(match) for match in re.finditer(pattern, text)]
+    new_spans = insert_matches_(post_box_matches, spans)
+
+    # Remove "postcodes" that are really milligrams
+    new_spans = remove_mg_(new_spans)
+
+    # Annotate post boxes
+    post_box_matches = [Token(match.start(0), match.end(0), match.group(0), 'LOCATIE')
+                        for match in re.finditer("([Pp]ostbus\s\d{5})", text)]
+    new_spans = insert_matches_(post_box_matches, new_spans)
+
+    return new_spans
     """Annotate postal codes"""
-    text = re.sub(
-        "(((\d{4} [A-Z]{2})|(\d{4}[a-zA-Z]{2})))(?P<n>\W)(?![^<]*>)",
+    """text = re.sub(
+        ,
         "<LOCATIE \\1>\\5",
         text,
     )
     text = re.sub("<LOCATIE\s(\d{4}mg)>", "\\1", text)
-    text = re.sub("([Pp]ostbus\s\d{5})", "<LOCATIE \\1>", text)
-    return text
+    text = re.sub(, "<LOCATIE \\1>", text)
+    return text"""
 
-def intersect_(span: AbstractSpan, match_token: Token) -> bool:
+def intersect_(span: AbstractSpan, match_token: AbstractSpan) -> bool:
     return match_token.start_ix < span.end_ix and match_token.end_ix > span.start_ix
 
-def strip_match_(text: str, start_ix: int) -> Token:
+def strip_match_(text: str, start_ix: int) -> AbstractSpan:
     stripped = text.strip()
     new_start_ix = text.index(stripped[0]) + start_ix
-    return Token(new_start_ix, new_start_ix + len(stripped), stripped, '')
+    return Token(new_start_ix, new_start_ix + len(stripped), stripped, 'LOCATIE')
 
-def split_at_match_boundaries_(spans: list[AbstractSpan], match_token: Token, annotation_type: str) -> list[TokenGroup]:
+def split_at_match_boundaries_(
+        spans: list[AbstractSpan],
+        match_token: AbstractSpan
+) -> list[TokenGroup]:
+    assert spans, 'The match does not correspond to the spans'
+    assert not any([span.is_annotation() for span in spans]), \
+        'The spans corresponding to the match belong to annotations'
+    assert match_token.is_annotation(), 'The matched token is not annotated'
     if len(spans) == 1:
-        return [spans[0].subset(start_ix=match_token.start_ix, end_ix=match_token.end_ix).with_annotation(annotation_type)]
+        return [spans[0].subset(start_ix=match_token.start_ix, end_ix=match_token.end_ix).with_annotation(match_token.annotation)]
     split_spans = []
     component_spans = []
     if match_token.start_ix > spans[0].start_ix:
@@ -536,12 +572,12 @@ def split_at_match_boundaries_(spans: list[AbstractSpan], match_token: Token, an
     else:
         component_spans.append(spans[-1])
         last_span = None
-    split_spans.append(TokenGroup(component_spans, annotation_type))
+    split_spans.append(TokenGroup(component_spans, match_token.annotation))
     if last_span:
         split_spans.append(last_span)
     return split_spans
 
-def get_address_match_replacement(match: re.Match, spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def insert_match_(match: AbstractSpan, spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """
     Given a match in the text corresponding to an address, and the entire list of spans in the text,
     update the list of spans to include the new annotation
@@ -549,17 +585,23 @@ def get_address_match_replacement(match: re.Match, spans: list[AbstractSpan]) ->
     :param spans: the list of previously computed spans
     :return: the new list of spans, including the newly found annotation
     """
-    match_token = strip_match_(match.group(0), match.start(0))
-    span_ixs = [ix for ix, span in enumerate(spans) if intersect_(span, match_token)]
-    if len(span_ixs) == 0:
-        raise ValueError('The match does not correspond to the spans')
-    if any([spans[ix].is_annotation() for ix in span_ixs]):
-        raise ValueError('The spans corresponding to the match belong to annotations')
+    span_ixs = [ix for ix, span in enumerate(spans) if intersect_(span, match)]
     if span_ixs != list(range(span_ixs[0], len(span_ixs) + span_ixs[0])):
         raise ValueError('The match corresponds to non-consecutive spans')
-    new_spans = split_at_match_boundaries_([spans[ix] for ix in span_ixs], match_token, 'LOCATIE')
+    new_spans = split_at_match_boundaries_([spans[ix] for ix in span_ixs], match)
     return spans[:span_ixs[0]] + new_spans + spans[span_ixs[-1]+1:]
 
+def insert_matches_(matches: list[AbstractSpan], spans: list[AbstractSpan]) -> list[AbstractSpan]:
+    """
+    Create annotations for the patterns found
+    :param matches: the matches found in the text
+    :param spans: a list of previously found spans that cover the entire text
+    :return: a new list of spans covering the entire text, with the new annotations embedded in them
+    """
+    new_spans = spans.copy()
+    for match in matches:
+        new_spans = insert_match_(match, new_spans)
+    return new_spans
 
 def annotate_address(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """
@@ -568,11 +610,9 @@ def annotate_address(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]
     :param spans: The spans previously computed for this text
     :return: a new list of spans, potentially with address annotations
     """
-    new_spans = spans.copy()
-    for match in re.finditer(r"([A-Z]\w+(straat|laan|hof|plein|gracht|weg|pad|dijk|baan|dam|dreef|"
-        r"kade|markt|park|plantsoen|singel|bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2})?|(\d+){0,6}))", text):
-        new_spans = get_address_match_replacement(match, new_spans)
-    return new_spans
+    pattern = r"([A-Z]\w+(straat|laan|hof|plein|gracht|weg|pad|dijk|baan|dam|dreef|kade|markt|park|plantsoen|singel|bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2})?|(\d+){0,6}))"
+    matches = [strip_match_(match.group(0), match.start(0)) for match in re.finditer(pattern, text)]
+    return insert_matches_(matches, spans)
 
 
 def annotate_email(text):

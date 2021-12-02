@@ -87,11 +87,11 @@ def annotate_text(
     if locations:
         spans = annotate_residence(spans)
         spans = annotate_address(text, spans)
-        text = annotate_postalcode(spans)
+        spans = annotate_postcode(text, spans)
 
     # Phone numbers
     if phone_numbers:
-        text = annotate_phonenumber(text)
+        text = annotate_phonenumber(spans)
 
     # Patient numbers
     if patient_numbers:

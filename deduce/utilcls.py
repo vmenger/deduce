@@ -29,6 +29,10 @@ class AbstractSpan:
         # Return a new instance with a different annotation
         raise NotImplementedError('Abstract class')
 
+    def without_annotation(self):
+        # Return a new instance without annotations
+        raise NotImplementedError('Abstract class')
+
     def as_text(self) -> str:
         """
         :return: the text plus annotation. If it's a TokenGroup, include nested tags
@@ -60,7 +64,7 @@ class Token(AbstractSpan):
             if with_annotation and with_annotation.strip() \
             else self
 
-    def remove_annotation(self):
+    def without_annotation(self):
         return Token(self.start_ix, self.end_ix, self.text, '')
 
     def is_annotation(self):
@@ -106,6 +110,10 @@ class TokenGroup(AbstractSpan):
     def with_annotation(self, new_annotation: str):
         return TokenGroup(self.tokens, new_annotation)
 
+    def without_annotation(self):
+        tokens = self.get_flat_token_list(remove_annotations=True)
+        return TokenGroup(tokens, '')
+
     def get_full_annotation(self):
         return self.annotation + \
                ''.join([token.get_full_annotation() for token in self.tokens if token.is_annotation()])
@@ -121,7 +129,7 @@ class TokenGroup(AbstractSpan):
             if isinstance(span, TokenGroup):
                 tokens += span.get_flat_token_list(remove_annotations)
             elif isinstance(span, Token):
-                tokens.append(span.remove_annotation() if remove_annotations else span)
+                tokens.append(span.without_annotation() if remove_annotations else span)
             else:
                 raise NotImplementedError('Unknown type', type(span))
         return tokens

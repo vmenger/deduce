@@ -28,7 +28,7 @@ class TestUtilityMethods(unittest.TestCase):
 
     def test_token_remove_annotation(self):
         token = Token(0, 7, 'pedrito', 'PERSOON')
-        no_ann = token.remove_annotation()
+        no_ann = token.without_annotation()
         self.assertEqual(Token(0, 7, 'pedrito', ''), no_ann)
 
     def test_get_flat_token_list(self):

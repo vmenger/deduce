@@ -173,15 +173,26 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(expected_text, annotated_institutions_text)
 
     def test_skip_mg(self):
-        text = '<LOCATIE Hoofdstraat> is mooi. (br)Lithiumcarbonaat 1600mg. Nog een zin'
-        annotated_postcodes_text = annotate.annotate_postalcode(text)
-        self.assertEqual(text, annotated_postcodes_text)
+        text = 'Hoofdstraat is mooi. (br)Lithiumcarbonaat 1600mg. Nog een zin'
+        spans = tokenize(text)
+        spans[0] = Token(0, len('Hoofdstraat'), 'Hoofdstraat', 'LOCATIE')
+        annotated_postcodes_text = annotate.annotate_postcode(text, spans)
+        self.assertTrue(all([not span.is_annotation() or span.text == 'Hoofdstraat'
+                        for span in annotated_postcodes_text]))
 
     def test_annotate_postcode(self):
         text = 'Mijn postcode is 3500LX, toch?'
-        annotated_postcodes_text = annotate.annotate_postalcode(text)
-        expected_text = text.replace('3500LX', '<LOCATIE 3500LX>')
-        self.assertEqual(expected_text, annotated_postcodes_text)
+        spans = tokenize(text)
+        annotated_postcodes_text = annotate.annotate_postcode(text, spans)
+        expected_token = Token(text.index('3500LX'), text.index('3500LX') + len('3500LX'), '3500LX', 'LOCATIE')
+        expected_text = spans[:5] + [Token(text.index('3') - 1, text.index('3'), ' ', ''), expected_token] + spans[7:]
+        self.assertEqual(len(expected_text), len(annotated_postcodes_text))
+        self.assertTrue(all([expected_text[i] == annotated_postcodes_text[i] for i in range(len(expected_text)) if i != 6]))
+        found_token = annotated_postcodes_text[6]
+        self.assertTrue(expected_token.start_ix == found_token.start_ix
+                        and expected_token.end_ix == found_token.end_ix
+                        and expected_token.text == found_token.text
+                        and expected_token.annotation == found_token.annotation)
 
     def test_annotate_altrecht(self):
         text = 'Opname bij xxx afgerond'
@@ -290,12 +301,29 @@ class TestAnnotateMethods(unittest.TestCase):
 
     def test_split_at_match_boundaries(self):
         spans = [Token(0, 2, 'la', ''), Token(2, 4, 'pa', ''), Token(4, 6, 'ra', '')]
-        match = Token(1, 5, 'apar', '')
+        match = Token(1, 5, 'apar', 'LOCATIE')
         token_group = TokenGroup([Token(1, 2, 'a', ''), Token(2, 4, 'pa', ''), Token(4, 5, 'r', '')], 'LOCATIE')
         expected_spans = [Token(0, 1, 'l', ''), token_group, Token(5, 6, 'a', '')]
-        new_spans = annotate.split_at_match_boundaries_(spans, match, 'LOCATIE')
+        new_spans = annotate.split_at_match_boundaries_(spans, match)
         self.assertEqual(expected_spans, new_spans)
 
+    def test_annotate_pattern(self):
+        pattern = 'pablo'
+        text = 'this is a text about pablo picasso'
+        spans = tokenize(text)
+        annotation = 'PERSOON'
+        start_ix = text.index(pattern)
+        new_spans = annotate.insert_matches_([Token(start_ix, start_ix + len(pattern), pattern, annotation)], spans)
+        expected = [span
+                    if span.text != pattern
+                    else Token(start_ix, start_ix + len(pattern), pattern, annotation)
+                    for span in spans]
+        self.assertEqual(expected, new_spans)
+
+    def test_remove_mg(self):
+        no_mg = annotate.remove_mg_([Token(0, 6, '3500mg', 'LOCATIE')])
+        expected = [Token(0, 6, '3500mg', '')]
+        self.assertEqual(expected, no_mg)
 
 if __name__ == "__main__":
     unittest.main()
