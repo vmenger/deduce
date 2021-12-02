@@ -3,7 +3,6 @@
 from nltk.metrics import edit_distance
 
 from .lookup_lists import *
-from .tokenizer import join_tokens
 from .utilcls import Token, TokenGroup, AbstractSpan
 from .utility import context
 from .utility import is_initial
@@ -455,15 +454,11 @@ def annotate_date(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
                 r"(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)"
                 r"([- /.]{,2}(\d{4}|\d{2})){,1})(?P<n>\D)(?![^<]*>)"]
     for pattern in patterns:
-        matches = [strip_match_and_tag_(match.group(1), match.start(1), 'DATUM')
-                   for match in re.finditer(pattern, text)]
-        spans = insert_matches_(matches, spans)
+        spans = match_by_pattern_(text, spans, pattern, group=1, tag='DATUM')
     return spans
 
 def annotate_age(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
-    matches = [strip_match_and_tag_(match.group(1), match.start(1), 'LEEFTIJD')
-               for match in re.finditer("(\d{1,3})([ -](jarige|jarig|jaar))(?![^<]*>)", text)]
-    return insert_matches_(matches, spans)
+    return match_by_pattern_(text, spans, "(\d{1,3})([ -](jarige|jarig|jaar))(?![^<]*>)", group=1, tag='LEEFTIJD')
 
 
 def annotate_phone_number(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
@@ -472,19 +467,13 @@ def annotate_phone_number(text: str, spans: list[AbstractSpan]) -> list[Abstract
                 "(((\\+31|0|0031)6){1}[-]?[1-9]{1}[0-9]{7})(?![^<]*>)",
                 "((\(\d{3}\)|\d{3})\s?\d{3}\s?\d{2}\s?\d{2})(?![^<]*>)"]
     for pattern in patterns:
-        matches = [strip_match_and_tag_(match.group(1), match.start(1), 'TELEFOONNUMMER')
-                   for match in re.finditer(pattern, text)]
-        spans = insert_matches_(matches, spans)
+        spans = match_by_pattern_(text, spans, pattern, group=1, tag='TELEFOONNUMMER')
     return spans
 
 
 def annotate_patient_number(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """Annotate patient numbers"""
-    return insert_matches_(
-        [strip_match_and_tag_(match.group(1), match.start(1), 'PATIENTNUMMER')
-         for match in re.finditer("(\d{7})(?![^<]*>)", text)],
-        spans
-    )
+    return match_by_pattern_(text, spans, "(\d{7})(?![^<]*>)", group=1, tag='PATIENTNUMMER')
 
 def remove_mg_(spans: list[AbstractSpan]) -> list[AbstractSpan]:
     return [span.without_annotation()
@@ -517,15 +506,6 @@ def annotate_postcode(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan
     new_spans = insert_matches_(post_box_matches, new_spans)
 
     return new_spans
-    """Annotate postal codes"""
-    """text = re.sub(
-        ,
-        "<LOCATIE \\1>\\5",
-        text,
-    )
-    text = re.sub("<LOCATIE\s(\d{4}mg)>", "\\1", text)
-    text = re.sub(, "<LOCATIE \\1>", text)
-    return text"""
 
 def intersect_(span: AbstractSpan, match_token: AbstractSpan) -> bool:
     return match_token.start_ix < span.end_ix and match_token.end_ix > span.start_ix
@@ -544,7 +524,9 @@ def split_at_match_boundaries_(
         'The spans corresponding to the match belong to annotations'
     assert match_token.is_annotation(), 'The matched token is not annotated'
     if len(spans) == 1:
-        return [spans[0].subset(start_ix=match_token.start_ix, end_ix=match_token.end_ix).with_annotation(match_token.annotation)]
+        return [spans[0].subset(start_ix=match_token.start_ix, end_ix=match_token.end_ix).with_annotation(
+            match_token.annotation
+        )]
     split_spans = []
     component_spans = []
     if match_token.start_ix > spans[0].start_ix:
@@ -598,16 +580,15 @@ def annotate_address(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]
     :param spans: The spans previously computed for this text
     :return: a new list of spans, potentially with address annotations
     """
-    pattern = r"([A-Z]\w+(straat|laan|hof|plein|gracht|weg|pad|dijk|baan|dam|dreef|kade|markt|park|plantsoen|singel|bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2})?|(\d+){0,6}))"
-    matches = [strip_match_and_tag_(match.group(0), match.start(0), 'LOCATIE') for match in re.finditer(pattern, text)]
-    return insert_matches_(matches, spans)
+    pattern = r"([A-Z]\w+(straat|laan|hof|plein|gracht|weg|pad|dijk|baan|dam|dreef|kade|markt|park|plantsoen|singel|" \
+              r"bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2})?|(\d+){0,6}))"
+    return match_by_pattern_(text, spans, pattern, group=0, tag='LOCATIE')
 
 
 def annotate_email(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """Annotate emails"""
     pattern = "(([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?))(?![^<]*>)"
-    matches = [strip_match_and_tag_(match.group(1), match.start(1), 'URL') for match in re.finditer(pattern, text)]
-    return insert_matches_(matches, spans)
+    return match_by_pattern_(text, spans, pattern, group=1, tag='URL')
 
 
 def annotate_url(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
@@ -619,6 +600,10 @@ def annotate_url(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
                 r"(?:(/|\\?|#)[^\\s]*)?)(?![^<]*>)",
                 r"([\w\d\.-]{3,}(\.)(nl|com|net|be)(/[^\s]+){,1})(?![^<]*>)"]
     for pattern in patterns:
-        matches = [strip_match_and_tag_(match.group(1), match.start(1), 'URL') for match in re.finditer(pattern, text)]
-        spans = insert_matches_(matches, spans)
+        spans = match_by_pattern_(text, spans, pattern, group=1, tag='URL')
     return spans
+
+def match_by_pattern_(text: str, spans: list[AbstractSpan], pattern: str, group: int, tag: str) -> list[AbstractSpan]:
+    matches = [strip_match_and_tag_(match.group(group), match.start(group), tag)
+               for match in re.finditer(pattern, text)]
+    return insert_matches_(matches, spans)

@@ -187,7 +187,8 @@ class TestAnnotateMethods(unittest.TestCase):
         expected_token = Token(text.index('3500LX'), text.index('3500LX') + len('3500LX'), '3500LX', 'LOCATIE')
         expected_text = spans[:5] + [Token(text.index('3') - 1, text.index('3'), ' ', ''), expected_token] + spans[7:]
         self.assertEqual(len(expected_text), len(annotated_postcodes_text))
-        self.assertTrue(all([expected_text[i] == annotated_postcodes_text[i] for i in range(len(expected_text)) if i != 6]))
+        self.assertTrue(all([expected_text[i] == annotated_postcodes_text[i]
+                             for i in range(len(expected_text)) if i != 6]))
         found_token = annotated_postcodes_text[6]
         self.assertTrue(expected_token.start_ix == found_token.start_ix
                         and expected_token.end_ix == found_token.end_ix
