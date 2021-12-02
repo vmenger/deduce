@@ -439,12 +439,6 @@ def annotate_institution(annotated_spans: list[AbstractSpan]) -> list[AbstractSp
     # Return the text
     return final_spans
 
-def get_date_replacement_(date_match: re.Match, punctuation_name: str) -> str:
-    punctuation = date_match[punctuation_name]
-    if len(punctuation) != 1:
-        punctuation = ' '
-    return '<DATUM ' + date_match.group(1) + '>' + punctuation
-
 ### Other annotation is done using a selection of finely crafted
 ### (but alas less finely documented) regular expressions.
 def annotate_date(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
