@@ -108,10 +108,10 @@ def annotate_text(
     # Urls
     if urls:
         spans = annotate_email(text, spans)
-        text = annotate_url(spans)
+        spans = annotate_url(text, spans)
 
     # Merge adjacent tags
-    text = merge_adjacent_tags(text)
+    text = merge_adjacent_tags(spans)
 
     # Flatten tags
     if flatten and has_nested_tags(text):

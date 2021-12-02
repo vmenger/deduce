@@ -610,16 +610,15 @@ def annotate_email(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
     return insert_matches_(matches, spans)
 
 
-def annotate_url(text):
+def annotate_url(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """Annotate urls"""
-    text = re.sub(
-        "((?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?)(?![^<]*>)",
-        "<URL \\1>",
-        text,
-    )
-
-    text = re.sub(
-        "([\w\d\.-]{3,}(\.)(nl|com|net|be)(/[^\s]+){,1})(?![^<]*>)", "<URL \\1>", text
-    )
-
-    return text
+    patterns = [r"((?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])"
+                r"(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|"
+                r"(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)"
+                r"*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?"
+                r"(?:(/|\\?|#)[^\\s]*)?)(?![^<]*>)",
+                r"([\w\d\.-]{3,}(\.)(nl|com|net|be)(/[^\s]+){,1})(?![^<]*>)"]
+    for pattern in patterns:
+        matches = [strip_match_and_tag_(match.group(1), match.start(1), 'URL') for match in re.finditer(pattern, text)]
+        spans = insert_matches_(matches, spans)
+    return spans
