@@ -164,7 +164,7 @@ def flatten_text(tokens: list[AbstractSpan]) -> list[AbstractSpan]:
         if re.fullmatch("<([A-Z]+)\s([\w.\s,]+)>([.\s\-,]+)[.\s]*<([A-Z]+)\s([\w.\s,]+)>", joined_span):
             group = TokenGroup([t.without_annotation() for t in flattened[start_ann_ix:end_ann_ix]],
                                token.annotation + flattened[end_ann_ix].annotation)
-            tail = flattened[end_ann_ix + 1:] if end_ann_ix < len(flattened-1) else []
+            tail = flattened[end_ann_ix + 1:] if end_ann_ix < len(flattened)-1 else []
             flattened = flattened[:i] + [group] + tail
         end_ann_ix = start_ann_ix
 
