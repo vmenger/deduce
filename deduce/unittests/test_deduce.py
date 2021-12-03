@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 
 import deduce
+from deduce.utilcls import Token, TokenGroup
 from deduce.utility import Annotation
 
 
@@ -133,19 +134,26 @@ class TestDeduceMethods(unittest.TestCase):
         self.assertRaises(ValueError, lambda: deduce.deduce.has_nested_tags(text))
 
     def test_merge_adjacent_tags(self):
-        text = "<PATIENT Jorge><PATIENT Ramos>"
+        spans = [Token(0, 5, 'Jorge', 'PATIENT'), Token(5, 10, 'Ramos', 'PATIENT')]
+        merged = deduce.deduce.merge_adjacent_tags(spans)
+        expected = [TokenGroup([Token(0, 5, 'Jorge', ''), Token(5, 10, 'Ramos', '')], 'PATIENT')]
         self.assertEqual(
-            "<PATIENT JorgeRamos>", deduce.deduce.merge_adjacent_tags(text)
+            expected, merged
         )
 
     def test_do_not_merge_adjacent_tags_with_different_categories(self):
-        text = "<PATIENT Jorge><LOCATIE Ramos>"
-        self.assertEqual(text, deduce.deduce.merge_adjacent_tags(text))
+        spans = [Token(0, 5, 'Jorge', 'PATIENT'), Token(5, 10, 'Ramos', 'LOCATIE')]
+        merged = deduce.deduce.merge_adjacent_tags(spans)
+        expected = spans
+        self.assertEqual(expected, merged)
 
     def test_merge_almost_adjacent_tags(self):
         text = "<PATIENT Jorge> <PATIENT Ramos>"
+        spans = [Token(0, 5, 'Jorge', 'PATIENT'), Token(5, 6, ' ', ''), Token(6, 11, 'Ramos', 'PATIENT')]
+        merged = deduce.deduce.merge_adjacent_tags(spans)
+        expected = [TokenGroup([Token(0, 5, 'Jorge', ''), Token(5, 6, ' ', ''), Token(6, 11, 'Ramos', '')], 'PATIENT')]
         self.assertEqual(
-            "<PATIENT Jorge Ramos>", deduce.deduce.merge_adjacent_tags(text)
+            expected, merged
         )
 
 

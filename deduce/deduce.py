@@ -6,7 +6,7 @@ deidentify_annotations() methods can be imported
 from deduce import utility
 from .annotate import *
 from .tokenizer import tokenize
-from .utility import flatten_text, flatten_text_all_phi
+from .utility import flatten_text, flatten_text_all_phi, to_text
 
 
 class NestedTagsError(Exception):
@@ -111,10 +111,12 @@ def annotate_text(
         spans = annotate_url(text, spans)
 
     # Merge adjacent tags
-    text = merge_adjacent_tags(spans)
+    spans = merge_adjacent_tags(spans)
+
+    annotations = [span for span in spans if span.is_annotation()]
 
     # Flatten tags
-    if flatten and has_nested_tags(text):
+    if flatten and has_nested_tags(annotations):
         text = flatten_text_all_phi(text)
 
     # Return text
@@ -131,23 +133,32 @@ def get_adjacent_tags_replacement(match: re.Match) -> str:
     separator = text[start_ix:end_ix]
     return "<" + tag + " " + left + separator + right + ">"
 
-
-def merge_adjacent_tags(text: str) -> str:
+def merge_adjacent_tags(spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """
     Adjacent tags are merged into a single tag
-    :param text: the text from which you want to merge adjacent tags
-    :return: the text with adjacent tags merged
+    :param spans: the spans containing the whole text, including annotations
+    :return: the new list of spans containing the whole text, and merged annotations
     """
-    while True:
-        oldtext = text
-        text = re.sub(
-            "<([A-Z]+)\s([^>]+)>[\.\s\-,]?[\.\s]?<\\1\s([^>]+)>",
-            get_adjacent_tags_replacement,
-            text,
-        )
-        if text == oldtext:
-            break
-    return text
+    end_ann_ix = None
+    for i in range(len(spans)-1, -1, -1):
+        token = spans[i]
+        if not token.is_annotation():
+            continue
+        if end_ann_ix is None:
+            end_ann_ix = i
+            continue
+        if token.annotation != spans[end_ann_ix].annotation:
+            end_ann_ix = i
+            continue
+        start_ann_ix = i
+        joined_span = to_text(spans[start_ann_ix+1:end_ann_ix])
+        if re.fullmatch("[.\s\-,]?[.\s]?", joined_span):
+            group = TokenGroup([t.without_annotation(recursive=False) for t in spans[start_ann_ix:end_ann_ix+1]],
+                               token.annotation)
+            tail = spans[end_ann_ix + 1:] if end_ann_ix < len(spans)-1 else []
+            spans = spans[:i] + [group] + tail
+        end_ann_ix = start_ann_ix
+    return spans
 
 
 def annotate_text_structured(

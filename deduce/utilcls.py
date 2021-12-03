@@ -29,7 +29,7 @@ class AbstractSpan:
         # Return a new instance with a different annotation
         raise NotImplementedError('Abstract class')
 
-    def without_annotation(self):
+    def without_annotation(self, recursive=True):
         # Return a new instance without annotations
         raise NotImplementedError('Abstract class')
 
@@ -72,7 +72,7 @@ class Token(AbstractSpan):
             if with_annotation and with_annotation.strip() \
             else self
 
-    def without_annotation(self):
+    def without_annotation(self, recursive=True):
         return Token(self.start_ix, self.end_ix, self.text, '')
 
     def is_annotation(self):
@@ -118,8 +118,8 @@ class TokenGroup(AbstractSpan):
     def with_annotation(self, new_annotation: str):
         return TokenGroup(self.tokens, new_annotation)
 
-    def without_annotation(self):
-        tokens = self.get_flat_token_list(remove_annotations=True)
+    def without_annotation(self, recursive=True):
+        tokens = self.get_flat_token_list(remove_annotations=True) if recursive else self.tokens
         return TokenGroup(tokens, '')
 
     def get_full_annotation(self):

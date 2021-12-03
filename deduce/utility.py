@@ -157,7 +157,7 @@ def flatten_text_all_phi(text: str) -> str:
 
     return text
 
-
+# TODO: re-use deduce.merge_adjacent_tags in this method
 def flatten_text(tokens: list[AbstractSpan]) -> list[AbstractSpan]:
     """
     Flattens nested tags; e.g. tags like <INITIAL A <NAME Surname>>
