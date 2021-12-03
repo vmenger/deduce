@@ -130,7 +130,7 @@ def annotate_text_structured(
     spans = annotate_text_spans_(text, patient_first_names, patient_initials, patient_surname, patient_given_name,
                                  names, locations, institutions, dates, ages, patient_numbers, phone_numbers, urls,
                                  flatten)
-    return [span.as_annotation() for span in spans]
+    return [span.as_annotation() for span in spans if span.is_annotation()]
 
 def annotate_text_spans_(
         text: str,

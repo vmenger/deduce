@@ -79,6 +79,8 @@ class AbstractSpan:
         raise NotImplementedError('Abstract class')
 
     def as_annotation(self) -> Annotation:
+        if not self.is_annotation():
+            raise AnnotationError('A span cannot be an Annotation if it is not annotated')
         return Annotation(self.start_ix, self.end_ix, self.annotation, self.text)
 
 class Token(AbstractSpan):
