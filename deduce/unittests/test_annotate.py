@@ -382,5 +382,14 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(1, len(annotated))
         self.assertEqual(expected_text, annotated[0].as_text())
 
+    def test_annotate_url_ignore_email(self):
+        address = 'j.jnsen@email.com'
+        spans = tokenize(address)
+        expected_text = '<URL ' + address + '>'
+        token_group = TokenGroup(spans, 'URL') # Previously annotated email address
+        annotated = annotate.annotate_url(address, [token_group])
+        self.assertEqual(1, len(annotated))
+        self.assertEqual(expected_text, annotated[0].as_text())
+
 if __name__ == "__main__":
     unittest.main()
