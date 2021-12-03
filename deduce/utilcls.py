@@ -126,6 +126,7 @@ class Token(AbstractSpan):
 
 class TokenGroup(AbstractSpan):
     def __init__(self, tokens: list[AbstractSpan], annotation: str):
+        assert tokens, 'Cannot instantiate a token group with no spans within it'
         super().__init__(tokens[0].start_ix, tokens[-1].end_ix, ''.join([token.text for token in tokens]), annotation)
         self.tokens = tokens
 

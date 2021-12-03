@@ -369,7 +369,7 @@ def annotate_residence(spans: list[AbstractSpan]) -> list[AbstractSpan]:
 
         # Else annotate the longest sequence as residence
         max_list = max(prefix_matches, key=len)
-        tokens_deid.append(TokenGroup(tokens_deid[token_index:token_index + len(max_list)], 'LOCATIE'))
+        tokens_deid.append(TokenGroup(spans[token_index:token_index + len(max_list)], 'LOCATIE'))
         token_index += len(max_list) - 1
 
     # Return the de-identified text

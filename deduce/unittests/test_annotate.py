@@ -328,5 +328,10 @@ class TestAnnotateMethods(unittest.TestCase):
         expected = [Token(0, 6, '3500mg', '')]
         self.assertEqual(expected, no_mg)
 
+    def test_annotate_residence(self):
+        spans = tokenize('Lage Vuursche')
+        expected = [TokenGroup(spans, 'LOCATIE')]
+        self.assertEqual(expected, annotate.annotate_residence(spans))
+
 if __name__ == "__main__":
     unittest.main()
