@@ -50,16 +50,6 @@ def annotate_text(
     return ''.join([span.as_text() for span in spans])
 
 
-def get_adjacent_tags_replacement(match: re.Match) -> str:
-    text = match.group(0)
-    tag = match.group(1)
-    left = match.group(2)
-    right = match.group(3)
-    start_ix = text.index(">") + 1
-    end_ix = text[1:].index("<") + 1
-    separator = text[start_ix:end_ix]
-    return "<" + tag + " " + left + separator + right + ">"
-
 def merge_adjacent_tags(spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """
     Adjacent tags are merged into a single tag
@@ -227,6 +217,7 @@ def has_nested_tags(spans: list[AbstractSpan]) -> bool:
     return any([span.is_nested() for span in spans])
 
 
+# TODO: this could also be rewritten to use structured annotations
 def deidentify_annotations(text):
     """
     Deidentify the annotated tags - only makes sense if annotate() is used first -
