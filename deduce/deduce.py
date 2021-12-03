@@ -113,10 +113,10 @@ def annotate_text(
     # Merge adjacent tags
     spans = merge_adjacent_tags(spans)
 
-    annotations = [span for span in spans if span.is_annotation()]
+    annotation_spans = [span for span in spans if span.is_annotation()]
 
     # Flatten tags
-    if flatten and has_nested_tags(annotations):
+    if flatten and has_nested_tags(annotation_spans):
         text = flatten_text_all_phi(text)
 
     # Return text
@@ -228,23 +228,8 @@ def annotate_text_structured(
     return annotations
 
 
-def has_nested_tags(text):
-    open_brackets = 0
-    for _, ch in enumerate(text):
-
-        if ch == "<":
-            open_brackets += 1
-
-        if ch == ">":
-            open_brackets -= 1
-
-        if open_brackets == 2:
-            return True
-
-        if open_brackets not in (0, 1):
-            raise ValueError("Incorrectly formatted string")
-
-    return False
+def has_nested_tags(spans: list[AbstractSpan]) -> bool:
+    return any([span.is_nested() for span in spans])
 
 
 def deidentify_annotations(text):

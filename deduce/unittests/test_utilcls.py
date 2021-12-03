@@ -89,6 +89,14 @@ class TestUtilityMethods(unittest.TestCase):
         new_group = TokenGroup([Token(1, 3, 'af', 'LEGEND'), Token(3, 8, ' Carr', '')], 'PERSOON')
         self.assertEqual(new_group, subset)
 
+    def test_is_nested(self):
+        token = Token(0, 1, 'l', 'PATIENT')
+        self.assertFalse(token.is_nested())
+
+    def test_is_nested_token_group(self):
+        token_group = TokenGroup([Token(0, 2, 'A ', ''), Token(2, 7, 'House', 'LOCATIE')], 'LOCATIE')
+        self.assertTrue(token_group.is_nested())
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -56,6 +56,9 @@ class AbstractSpan:
                and self.text == other.text \
                and self.get_full_annotation() == other.get_full_annotation()
 
+    def is_nested(self) -> bool:
+        raise NotImplementedError('Abstract class')
+
 class Token(AbstractSpan):
     def __init__(self, start_ix: int, end_ix: int, text: str, annotation: str):
         super().__init__(start_ix, end_ix, text, annotation)
@@ -95,6 +98,9 @@ class Token(AbstractSpan):
 
     def as_text(self) -> str:
         return '<' + self.annotation + ' ' + self.text + '>' if self.is_annotation() else self.text
+
+    def is_nested(self) -> bool:
+        return False
 
 class TokenGroup(AbstractSpan):
     def __init__(self, tokens: list[AbstractSpan], annotation: str):
@@ -156,3 +162,5 @@ class TokenGroup(AbstractSpan):
             subset_groups[-1] = subset_groups[-1].subset(end_ix=end_ix)
         return TokenGroup(subset_groups, self.annotation)
 
+    def is_nested(self) -> bool:
+        return any([span.is_annotation() for span in self.tokens])

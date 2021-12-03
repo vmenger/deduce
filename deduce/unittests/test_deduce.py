@@ -122,16 +122,13 @@ class TestDeduceMethods(unittest.TestCase):
         self.assertEqual(Annotation(13, 16, "PATIENT", "Jan"), annotations[0])
 
     def test_has_nested_tags_true(self):
-        text = "<PERSOON Peter <INSTELLING Altrecht>>"
-        self.assertTrue(deduce.deduce.has_nested_tags(text))
+        spans = [TokenGroup([Token(0, 5, 'Peter', ''), Token(5, 6, ' ', ''), Token(6, 14, 'Altrecht', 'INSTELLING')],
+                            'PERSOON')]
+        self.assertTrue(deduce.deduce.has_nested_tags(spans))
 
     def test_has_nested_tags_false(self):
-        text = "<PERSOON Peter> from <INSTELLING Altrecht>"
-        self.assertFalse(deduce.deduce.has_nested_tags(text))
-
-    def test_has_nested_tags_error(self):
-        text = "> Peter from Altrecht"
-        self.assertRaises(ValueError, lambda: deduce.deduce.has_nested_tags(text))
+        spans = [Token(0, 5, 'Peter', 'PERSOON'), Token(5, 11, ' from ', ''), Token(11, 19, 'Altrecht', 'INSTELLING')]
+        self.assertFalse(deduce.deduce.has_nested_tags(spans))
 
     def test_merge_adjacent_tags(self):
         spans = [Token(0, 5, 'Jorge', 'PATIENT'), Token(5, 10, 'Ramos', 'PATIENT')]
