@@ -138,8 +138,14 @@ def flatten_text(tokens: list[AbstractSpan]) -> list[AbstractSpan]:
     :param tokens: the list of tokens containing the annotations that need to be flattened
     :return: a new list of tokens containing only non-nested annotations
     """
-    flattened = [token.flatten(with_annotation='PATIENT' if 'PAT' in token.get_full_annotation() else 'PERSOON')
-                 for token in tokens]
+    flattened = []
+    for token in tokens:
+        if not token.is_annotation():
+            flattened.append(token)
+        else:
+            flattened.append(
+                token.flatten(with_annotation='PATIENT' if 'PAT' in token.get_full_annotation() else 'PERSOON')
+            )
 
     # Make sure adjacent tags are joined together (like <INITIAL A><PATIENT Surname>),
     # optionally with a whitespace, period, hyphen or comma between them.

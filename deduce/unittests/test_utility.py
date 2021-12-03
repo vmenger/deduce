@@ -155,5 +155,16 @@ class TestUtilityMethods(unittest.TestCase):
         flattened = utility.flatten_text([token_group])
         self.assertEqual([new_token_group], flattened)
 
+    def test_flatten_text_including_non_annotated_tokens(self):
+        # <INITIAL A <NAME Surname>> kwam
+        original_tokens = [Token(0, 2, 'A ', ''), Token(2, 9, 'Surname', 'NAME')]
+        token_group = TokenGroup(original_tokens, 'INITIAL')
+        spans = [token_group, Token(9, 10, ' ', ''), Token(10, 14, 'kwam', '')]
+        flattened = utility.flatten_text(spans)
+        new_tokens = [Token(0, 2, 'A ', ''), Token(2, 9, 'Surname', '')]
+        new_token_group = TokenGroup(new_tokens, 'PERSOON')
+        new_spans = [new_token_group, Token(9, 10, ' ', ''), Token(10, 14, 'kwam', '')]
+        self.assertEqual(new_spans, flattened)
+
 if __name__ == "__main__":
     unittest.main()
