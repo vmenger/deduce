@@ -6,10 +6,10 @@ import re
 import unicodedata
 from functools import reduce
 
-from deduce.utilcls import Token, TokenGroup, AbstractSpan, Annotation
+from deduce.utilcls import TokenGroup, Annotation
 
 
-def merge_triebased(tokens: list[str], trie) -> list[str]:
+def merge_triebased(tokens: list, trie) -> list:
     """
     This function merges all sublists of tokens that occur in the trie to one element
     in the list of tokens. For example: if the tree contains ["A", "1"],
@@ -61,7 +61,7 @@ def any_in_text(matchlist, token):
     return reduce(lambda x, y: x | y, map(lambda x: x in token, matchlist))
 
 
-def context(tokens: list[Token], i):
+def context(tokens: list, i):
     """Determine next and previous tokens that start with an alpha character"""
 
     # Find the next token
@@ -121,7 +121,7 @@ def is_initial(token):
            (not token.is_annotation() and len(token.text) == 1 and token.text[0].isupper())
 
 
-def flatten_text_all_phi(spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def flatten_text_all_phi(spans: list) -> list:
     """
     This is inspired by flatten_text, but works for all PHI categories
     :param spans: the spans in which you wish to flatten nested annotations
@@ -130,7 +130,7 @@ def flatten_text_all_phi(spans: list[AbstractSpan]) -> list[AbstractSpan]:
     return [span.flatten(with_annotation=span.annotation) if span.is_annotation() else span for span in spans]
 
 # TODO: re-use deduce.merge_adjacent_tags in this method
-def flatten_text(tokens: list[AbstractSpan]) -> list[AbstractSpan]:
+def flatten_text(tokens: list) -> list:
     """
     Flattens nested tags; e.g. tags like <INITIAL A <NAME Surname>>
     are flattened to <INITIALNAME A Surname>. This function only works for text wich
@@ -297,5 +297,5 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
     return annotations
 
 
-def to_text(tokens: list[AbstractSpan]) -> str:
+def to_text(tokens: list) -> str:
     return ''.join([token.as_text() for token in tokens])

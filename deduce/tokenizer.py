@@ -7,7 +7,7 @@ from .utility import get_data, parse_tag
 from .utility import merge_triebased
 from .utility import type_of
 
-def tokenize(text: str, merge=True) -> list[Token]:
+def tokenize(text: str, merge=True) -> list:
     tokens = tokenize_split(text, merge)
     start_ix = 0
     out_tokens = []

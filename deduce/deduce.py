@@ -6,7 +6,6 @@ deidentify_annotations() methods can be imported
 from .annotate import *
 from .tokenizer import tokenize
 from .utility import flatten_text, flatten_text_all_phi, to_text
-from .utilcls import Annotation
 
 
 def annotate_text(
@@ -45,7 +44,7 @@ def annotate_text(
     return ''.join([span.as_text() for span in spans])
 
 
-def merge_adjacent_tags(spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def merge_adjacent_tags(spans: list) -> list:
     """
     Adjacent tags are merged into a single tag
     :param spans: the spans containing the whole text, including annotations
@@ -88,7 +87,7 @@ def annotate_text_structured(
     phone_numbers=True,
     urls=True,
     flatten=True,
-) -> list[Annotation]:
+) -> list:
     """
     This method annotates text based on the input that includes names of a patient,
     and a number of flags indicating which PHIs should be annotated
@@ -132,7 +131,7 @@ def annotate_text_spans_(
         phone_numbers=True,
         urls=True,
         flatten=True,
-) -> list[AbstractSpan]:
+) -> list:
     if not text:
         return []
 
@@ -208,7 +207,7 @@ def annotate_text_spans_(
     return spans
 
 # TODO: I think this call can be ignored, simply calling flatten_text_all_phi regardless of whether there are nested tags
-def has_nested_tags(spans: list[AbstractSpan]) -> bool:
+def has_nested_tags(spans: list) -> bool:
     return any([span.is_nested() for span in spans])
 
 

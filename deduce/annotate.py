@@ -9,8 +9,8 @@ from .utility import is_initial
 
 
 def annotate_names(
-    tokens: list[Token], patient_first_names, patient_initial, patient_surname, patient_given_name
-) -> list[Token]:
+    tokens: list, patient_first_names, patient_initial, patient_surname, patient_given_name
+) -> list:
     """This function annotates person names, based on several rules."""
 
     # Tokenize the text
@@ -204,7 +204,7 @@ def annotate_names(
     return tokens_deid
 
 
-def annotate_names_context(tokens: list[Token]) -> list[Token]:
+def annotate_names_context(tokens: list) -> list:
     """This function annotates person names, based on its context in the text"""
 
     # Tokenize text and initiate a list of deidentified tokens
@@ -340,7 +340,7 @@ def annotate_names_context(tokens: list[Token]) -> list[Token]:
     return annotate_names_context(tokens_deid)
 
 
-def annotate_residence(spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def annotate_residence(spans: list) -> list:
     """Annotate residences"""
 
     # Tokenize text
@@ -375,7 +375,7 @@ def annotate_residence(spans: list[AbstractSpan]) -> list[AbstractSpan]:
     # Return the de-identified text
     return tokens_deid
 
-def annotate_institution(annotated_spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def annotate_institution(annotated_spans: list) -> list:
     """Annotate institutions"""
 
     # Tokenize, and make a list of non-capitalized tokens (used for matching)
@@ -441,7 +441,7 @@ def annotate_institution(annotated_spans: list[AbstractSpan]) -> list[AbstractSp
 
 ### Other annotation is done using a selection of finely crafted
 ### (but alas less finely documented) regular expressions.
-def annotate_date(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def annotate_date(text: str, spans: list) -> list:
     patterns = [r"(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2})){,1})(?P<n>\D)"
                 r"(?![^<]*>)",
                 r"(\d{1,2}[^\w]{,2}"
@@ -451,11 +451,11 @@ def annotate_date(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
         spans = match_by_pattern_(text, spans, pattern, group=1, tag='DATUM')
     return spans
 
-def annotate_age(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def annotate_age(text: str, spans: list) -> list:
     return match_by_pattern_(text, spans, "(\d{1,3})([ -](jarige|jarig|jaar))(?![^<]*>)", group=1, tag='LEEFTIJD')
 
 
-def annotate_phone_number(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def annotate_phone_number(text: str, spans: list) -> list:
     """Annotate phone numbers"""
     patterns = ["(((0)[1-9]{2}[0-9][-]?[1-9][0-9]{5})|((\\+31|0|0031)[1-9][0-9][-]?[1-9][0-9]{6}))(?![^<]*>)",
                 "(((\\+31|0|0031)6){1}[-]?[1-9]{1}[0-9]{7})(?![^<]*>)",
@@ -465,11 +465,11 @@ def annotate_phone_number(text: str, spans: list[AbstractSpan]) -> list[Abstract
     return spans
 
 
-def annotate_patient_number(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def annotate_patient_number(text: str, spans: list) -> list:
     """Annotate patient numbers"""
     return match_by_pattern_(text, spans, "(\d{7})(?![^<]*>)", group=1, tag='PATIENTNUMMER')
 
-def remove_mg_(spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def remove_mg_(spans: list) -> list:
     return [span.without_annotation()
             if span.is_annotation() and span.annotation == 'LOCATIE' and re.fullmatch('(\d{4}mg)', span.text)
             else span
@@ -479,7 +479,7 @@ def parse_postal_code_(match: re.Match) -> Token:
     return Token(match.start(1), match.end(1), match.group(1), 'LOCATIE')
 
 
-def annotate_postcode(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def annotate_postcode(text: str, spans: list) -> list:
     """
     Annotate postal codes
     :param text: the entire text to look in
@@ -510,9 +510,9 @@ def strip_match_and_tag_(text: str, start_ix: int, annotation: str) -> AbstractS
     return Token(new_start_ix, new_start_ix + len(stripped), stripped, annotation)
 
 def split_at_match_boundaries_(
-        spans: list[AbstractSpan],
+        spans: list,
         match_token: AbstractSpan
-) -> list[TokenGroup]:
+) -> list:
     assert spans, 'The match does not correspond to the spans'
     assert match_token.is_annotation(), 'The matched token is not annotated'
     if len(spans) == 1:
@@ -549,7 +549,7 @@ def split_at_match_boundaries_(
         split_spans.append(last_span)
     return split_spans
 
-def insert_match_(match: AbstractSpan, spans: list[AbstractSpan], reject_annotation_spans: bool) -> list[AbstractSpan]:
+def insert_match_(match: AbstractSpan, spans: list, reject_annotation_spans: bool) -> list:
     """
     Given a match in the text corresponding to an address, and the entire list of spans in the text,
     update the list of spans to include the new annotation
@@ -567,10 +567,10 @@ def insert_match_(match: AbstractSpan, spans: list[AbstractSpan], reject_annotat
     return spans[:span_ixs[0]] + new_spans + spans[span_ixs[-1]+1:]
 
 def insert_matches_(
-        matches: list[AbstractSpan],
-        spans: list[AbstractSpan],
+        matches: list,
+        spans: list,
         reject_annotation_spans=False
-) -> list[AbstractSpan]:
+) -> list:
     """
     Create annotations for the patterns found
     :param matches: the matches found in the text
@@ -584,7 +584,7 @@ def insert_matches_(
         new_spans = insert_match_(match, new_spans, reject_annotation_spans=reject_annotation_spans)
     return new_spans
 
-def annotate_address(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def annotate_address(text: str, spans: list) -> list:
     """
     Annotate addresses. This is much easier if we use the original text, so we take two inputs
     :param text: The original text
@@ -596,13 +596,13 @@ def annotate_address(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]
     return match_by_pattern_(text, spans, pattern, group=0, tag='LOCATIE')
 
 
-def annotate_email(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def annotate_email(text: str, spans: list) -> list:
     """Annotate emails"""
     pattern = "(([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?))(?![^<]*>)"
     return match_by_pattern_(text, spans, pattern, group=1, tag='URL', ignore_matches_with_annotations=True)
 
 
-def annotate_url(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def annotate_url(text: str, spans: list) -> list:
     """Annotate urls"""
     patterns = [r"((?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])"
                 r"(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|"
@@ -616,12 +616,12 @@ def annotate_url(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
 
 def match_by_pattern_(
         text: str,
-        spans: list[AbstractSpan],
+        spans: list,
         pattern: str,
         group: int,
         tag: str,
         ignore_matches_with_annotations=False
-) -> list[AbstractSpan]:
+) -> list:
     matches = [strip_match_and_tag_(match.group(group), match.start(group), tag)
                for match in re.finditer(pattern, text)]
     return insert_matches_(matches, spans, ignore_matches_with_annotations)
