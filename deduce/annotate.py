@@ -254,7 +254,7 @@ def annotate_names_context(tokens: list[Token]) -> list[Token]:
         interfix_condition = (
             not token.is_annotation()
             and token.text in INTERFIXES
-            and
+            and previous_token and
             # And the token is preceded by an initial, found initial or found name
             (
                 is_initial(previous_token)
