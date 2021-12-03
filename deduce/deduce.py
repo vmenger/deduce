@@ -212,7 +212,7 @@ def annotate_text_spans_(
 
     return spans
 
-
+# TODO: I think this call can be ignored, simply calling flatten_text_all_phi regardless of whether there are nested tags
 def has_nested_tags(spans: list[AbstractSpan]) -> bool:
     return any([span.is_nested() for span in spans])
 

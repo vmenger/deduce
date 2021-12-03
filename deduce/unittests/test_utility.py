@@ -89,9 +89,6 @@ class TestUtilityMethods(unittest.TestCase):
         self.assertEqual(1, len(annotations))
         self.assertEqual(19, annotations[0].start_ix)
 
-    def test_get_first_non_whitespace(self):
-        self.assertEqual(1, utility.get_first_non_whitespace(" Overleg"))
-
     def test_normalize_value(self):
         ascii_str = "Something about Vincent Menger!"
         value = utility._normalize_value("¡" + ascii_str)

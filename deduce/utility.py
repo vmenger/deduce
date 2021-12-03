@@ -178,45 +178,6 @@ def flatten_text(tokens: list[AbstractSpan]) -> list[AbstractSpan]:
     return replaced
 
 
-def flatten(tag):
-
-    """
-    Recursively flattens one tag to a tuple of name and value using splitTag() method.
-    For example, the tag <INITIAL A <NAME Surname>> will be returned (INITIALNAME, A Surname)
-    Returns a tuple (name, value).
-    """
-
-    # Base case, where no fishhooks are present
-    if "<" not in tag:
-        return "", tag
-
-    # Remove fishhooks from tag
-    tag = tag[1:-1]
-
-    # Split on whitespaces
-    tagspl = tag.split(" ", 1)
-
-    # Split on the first whitespace, so we can distinguish between name and rest
-    tagname = tagspl[0]
-    tagrest = tagspl[1]
-
-    # Output is initially empty
-    tagvalue = ""
-
-    # Recurse on the rest of the tag
-    for tag_part in split_tags(tagrest):
-
-        # Flatten for each value in tagrest
-        flattened_tagname, flattened_tagvalue = flatten(tag_part)
-
-        # Simply append to tagnames and values
-        tagname += flattened_tagname
-        tagvalue += flattened_tagvalue
-
-    # Return pair
-    return tagname, tagvalue
-
-
 def find_tags(text):
     """Finds and returns a list of all tags in a piece of text"""
 
@@ -252,53 +213,6 @@ def find_tags(text):
 
     # Return list
     return toflatten
-
-
-def split_tags(text):
-    """
-    Splits a text on normal text and tags, for example "This is text with a <NAME name> in it"
-    will     return: ["This is text with a ", "<NAME name>", " in it"]. Nested tags will be
-    regarded as one tag.  This function can be used on text as a whole,
-    but is more appropriately used in the value part of nested tags
-    """
-
-    # Helper variables
-    nest_depth = 0
-    startpos = 0
-
-    # Return this list
-    splitbytags = []
-
-    # Iterate over all characters
-    for index, _ in enumerate(text):
-
-        # If an opening hook is encountered
-        if text[index] == "<":
-
-            # Split if the tag is not nested
-            if nest_depth == 0:
-                splitbytags.append(text[startpos:index])
-                startpos = index
-
-            # Increase the nest_depth
-            nest_depth += 1
-
-        # If a closing hook is encountered
-        if text[index] == ">":
-
-            # First decrease the nest_depth
-            nest_depth -= 1
-
-            # Split if the tag was not nested
-            if nest_depth == 0:
-                splitbytags.append(text[startpos : index + 1])
-                startpos = index + 1
-
-    # Append the last characters
-    splitbytags.append(text[startpos:])
-
-    # Filter empty elements in the list (happens for example when <tag><tag> occurs)
-    return [x for x in splitbytags if len(x) > 0]
 
 
 def get_data(path):
@@ -382,9 +296,6 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
         raw_text_ix += tag_ix + len(tag_text)
     return annotations
 
-
-def get_first_non_whitespace(text: str) -> int:
-    return text.index(text.lstrip()[0])
 
 def to_text(tokens: list[AbstractSpan]) -> str:
     return ''.join([token.as_text() for token in tokens])

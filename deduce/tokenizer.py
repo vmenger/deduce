@@ -68,11 +68,6 @@ def tokenize_split(text, merge=True):
     return tokens
 
 
-def join_tokens(tokens):
-    """Join a list of tokens together, simple when using the custom tokenize method"""
-    return "".join(tokens)
-
-
 # This trie contains all strings that should be regarded as a single token
 # These are: all interfixes, A1-A4, and some special characters like \n, \r and \t
 NOSPLIT_TRIE = ListTrie()

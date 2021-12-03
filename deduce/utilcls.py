@@ -67,14 +67,6 @@ class AbstractSpan:
         """
         raise NotImplementedError('Abstract class')
 
-    def matches(self, other) -> bool:
-        if not isinstance(other, AbstractSpan):
-            return False
-        return self.start_ix == other.start_ix \
-               and self.end_ix == other.end_ix \
-               and self.text == other.text \
-               and self.get_full_annotation() == other.get_full_annotation()
-
     def is_nested(self) -> bool:
         raise NotImplementedError('Abstract class')
 
