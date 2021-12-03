@@ -374,5 +374,13 @@ class TestAnnotateMethods(unittest.TestCase):
         annotated = annotate.annotate_patient_number(' ' * 98 + '06-12345678', spans)
         self.assertEqual(expected, annotated)
 
+    def test_annotate_email(self):
+        address = 'j.jnsen@email.com'
+        spans = tokenize(address)
+        expected_text = '<URL ' + address + '>'
+        annotated = annotate.annotate_email(address, spans)
+        self.assertEqual(1, len(annotated))
+        self.assertEqual(expected_text, annotated[0].as_text())
+
 if __name__ == "__main__":
     unittest.main()
