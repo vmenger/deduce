@@ -166,5 +166,17 @@ class TestUtilityMethods(unittest.TestCase):
         new_spans = [new_token_group, Token(9, 10, ' ', ''), Token(10, 14, 'kwam', '')]
         self.assertEqual(new_spans, flattened)
 
+    def test_flatten_text_join_adjacent(self):
+        spans = [Token(0, 2, 'de', ''), Token(2, 3, ' ', ''), Token(3, 7, 'naam', ''), Token(7, 8, ' ', ''),
+                 Token(8, 11, 'Jan', 'VOORNAAMPAT'), Token(11, 12, ' ', ''), Token(12, 18, 'Jansen', 'ACHTERNAAMPAT')]
+        flattened = utility.flatten_text(spans)
+        expected_group = TokenGroup(
+            [Token(8, 11, 'Jan', ''), Token(11, 12, ' ', ''), Token(12, 18, 'Jansen', '')],
+            'PATIENT'
+        )
+        # noinspection PyTypeChecker
+        expected = spans[:4] + [expected_group]
+        self.assertEqual(expected, flattened)
+
 if __name__ == "__main__":
     unittest.main()

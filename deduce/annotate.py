@@ -3,7 +3,7 @@
 from nltk.metrics import edit_distance
 
 from .lookup_lists import *
-from .utilcls import Token, TokenGroup, AbstractSpan
+from .utilcls import Token, TokenGroup, AbstractSpan, AnnotationError
 from .utility import context
 from .utility import is_initial
 
@@ -514,13 +514,21 @@ def split_at_match_boundaries_(
         match_token: AbstractSpan
 ) -> list[TokenGroup]:
     assert spans, 'The match does not correspond to the spans'
-    assert not any([span.is_annotation() for span in spans]), \
-        'The spans corresponding to the match belong to annotations'
     assert match_token.is_annotation(), 'The matched token is not annotated'
     if len(spans) == 1:
-        return [spans[0].subset(start_ix=match_token.start_ix, end_ix=match_token.end_ix).with_annotation(
+        new_spans = []
+        if match_token.start_ix > spans[0].start_ix:
+            new_spans.append(spans[0].subset(end_ix=match_token.start_ix).without_annotation(recursive=False))
+        new_spans.append(spans[0].subset(start_ix=match_token.start_ix, end_ix=match_token.end_ix).with_annotation(
             match_token.annotation
-        )]
+        ))
+        if match_token.end_ix < spans[0].end_ix:
+            new_spans.append(spans[0].subset(start_ix=match_token.end_ix).without_annotation(recursive=False))
+        if spans[0].is_annotation():
+            new_spans = [TokenGroup(new_spans, spans[0].annotation)]
+        return new_spans
+    if any([span.is_annotation() for span in spans]):
+        raise AnnotationError('The spans corresponding to the match belong to annotations')
     split_spans = []
     component_spans = []
     if match_token.start_ix > spans[0].start_ix:

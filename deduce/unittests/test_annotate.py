@@ -2,7 +2,7 @@ import unittest
 
 from deduce import annotate
 from deduce.tokenizer import tokenize_split, tokenize
-from deduce.utilcls import Token, TokenGroup
+from deduce.utilcls import Token, TokenGroup, AnnotationError
 from deduce.utility import to_text
 
 
@@ -310,6 +310,38 @@ class TestAnnotateMethods(unittest.TestCase):
         new_spans = annotate.split_at_match_boundaries_(spans, match)
         self.assertEqual(expected_spans, new_spans)
 
+    def test_split_at_match_boundaries_single(self):
+        # 1 span that coincides with the match
+        spans = [Token(0, 3, 'Raf', '')]
+        match = Token(0, 3, 'Raf', 'LEGEND')
+        expected_result = [Token(0, 3, 'Raf', 'LEGEND')]
+        self.assertEqual(expected_result, annotate.split_at_match_boundaries_(spans, match))
+
+    def test_split_at_match_boundaries_single_subset(self):
+        # 1 span that is bigger than the match
+        spans = [Token(0, 9, 'Raffaella', '')]
+        match = Token(0, 3, 'Raf', 'LEGEND')
+        expected_result = [Token(0, 3, 'Raf', 'LEGEND'), Token(3, 9, 'faella', '')]
+        self.assertEqual(expected_result, annotate.split_at_match_boundaries_(spans, match))
+
+    def test_split_at_match_boundaries_single_subset_tag(self):
+        # 1 span that is bigger than the match, and the span is an annotation
+        spans = [Token(0, 9, 'Raffaella', 'SINGER')]
+        match = Token(0, 3, 'Raf', 'LEGEND')
+        expected_result = [TokenGroup([match, Token(3, 9, 'faella', '')], 'SINGER')]
+        self.assertEqual(expected_result, annotate.split_at_match_boundaries_(spans, match))
+
+    def test_split_at_match_boundaries_two_annotations(self):
+        # 2 spans that correspond to the match; one of the spans is an annotation
+        # This should result in an error, as you can't find a raw text in "<TAG text> text" if you look at "texttext"
+        spans = [Token(0, 9, 'Raffaella', 'SINGER'), Token(9, 10, ' ', ''), Token(10, 15, 'Carra', '')]
+        match = TokenGroup([Token(0, 9, 'Raffaella', ''), Token(9, 10, ' ', ''), Token(10, 15, 'Carra', '')], 'LEGEND')
+        self.assertRaisesRegex(
+            AnnotationError,
+            'The spans corresponding to the match belong to annotations',
+            lambda: annotate.split_at_match_boundaries_(spans, match)
+        )
+
     def test_annotate_pattern(self):
         pattern = 'pablo'
         text = 'this is a text about pablo picasso'
@@ -332,6 +364,15 @@ class TestAnnotateMethods(unittest.TestCase):
         spans = tokenize('Lage Vuursche')
         expected = [TokenGroup(spans, 'LOCATIE')]
         self.assertEqual(expected, annotate.annotate_residence(spans))
+
+    def test_annotate_patient_number(self):
+        spans = [Token(98, 109, '06-12345678', 'TELEFOONNUMMER')]
+        expected_tokens = [Token(98, 101, '06-', ''),
+                           Token(101, 108, '1234567', 'PATIENTNUMMER'),
+                           Token(108, 109, '8', '')]
+        expected = [TokenGroup(expected_tokens, 'TELEFOONNUMMER')]
+        annotated = annotate.annotate_patient_number(' ' * 98 + '06-12345678', spans)
+        self.assertEqual(expected, annotated)
 
 if __name__ == "__main__":
     unittest.main()

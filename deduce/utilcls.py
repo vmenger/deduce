@@ -187,3 +187,7 @@ class TokenGroup(AbstractSpan):
 
     def is_nested(self) -> bool:
         return any([span.is_annotation() for span in self.tokens])
+
+class AnnotationError(AssertionError):
+    def __init__(self, description: str):
+        super(AnnotationError, self).__init__(description)
