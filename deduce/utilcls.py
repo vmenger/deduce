@@ -1,3 +1,22 @@
+class Annotation:
+    def __init__(self, start_ix: int, end_ix: int, tag: str, text: str):
+        self.start_ix = start_ix
+        self.end_ix = end_ix
+        self.tag = tag
+        self.text_ = text
+
+    def __eq__(self, other):
+        return (
+                isinstance(other, Annotation)
+                and self.start_ix == other.start_ix
+                and self.end_ix == other.end_ix
+                and self.tag == other.tag
+                and self.text_ == other.text_
+        )
+
+    def __repr__(self):
+        return self.tag + "[" + str(self.start_ix) + ":" + str(self.end_ix) + "]"
+
 class AbstractSpan:
     # TODO: turn this into an interface by removing the member variables and creating getters instead
     def __init__(self, start_ix: int, end_ix: int, text: str, annotation=None):
@@ -58,6 +77,9 @@ class AbstractSpan:
 
     def is_nested(self) -> bool:
         raise NotImplementedError('Abstract class')
+
+    def as_annotation(self) -> Annotation:
+        return Annotation(self.start_ix, self.end_ix, self.annotation, self.text)
 
 class Token(AbstractSpan):
     def __init__(self, start_ix: int, end_ix: int, text: str, annotation: str):

@@ -6,27 +6,7 @@ import re
 import unicodedata
 from functools import reduce
 
-from deduce.utilcls import Token, TokenGroup, AbstractSpan
-
-
-class Annotation:
-    def __init__(self, start_ix: int, end_ix: int, tag: str, text: str):
-        self.start_ix = start_ix
-        self.end_ix = end_ix
-        self.tag = tag
-        self.text_ = text
-
-    def __eq__(self, other):
-        return (
-            isinstance(other, Annotation)
-            and self.start_ix == other.start_ix
-            and self.end_ix == other.end_ix
-            and self.tag == other.tag
-            and self.text_ == other.text_
-        )
-
-    def __repr__(self):
-        return self.tag + "[" + str(self.start_ix) + ":" + str(self.end_ix) + "]"
+from deduce.utilcls import Token, TokenGroup, AbstractSpan, Annotation
 
 
 def merge_triebased(tokens: list[str], trie) -> list[str]:
@@ -141,21 +121,13 @@ def is_initial(token):
            (not token.is_annotation() and len(token.text) == 1 and token.text[0].isupper())
 
 
-def flatten_text_all_phi(text: str) -> str:
+def flatten_text_all_phi(spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """
     This is inspired by flatten_text, but works for all PHI categories
-    :param text: the text in which you wish to flatten nested annotations
+    :param spans: the spans in which you wish to flatten nested annotations
     :return: the text with nested annotations replaced by a single annotation with the outermost category
     """
-    to_flatten = find_tags(text)
-    to_flatten.sort(key=lambda x: -len(x))
-
-    for tag in to_flatten:
-        _, value = flatten(tag)
-        outermost_category = parse_tag(tag)[0]
-        text = text.replace(tag, f"<{outermost_category} {value.strip()}>")
-
-    return text
+    return [span.flatten(with_annotation=span.annotation) if span.is_annotation() else span for span in spans]
 
 # TODO: re-use deduce.merge_adjacent_tags in this method
 def flatten_text(tokens: list[AbstractSpan]) -> list[AbstractSpan]:

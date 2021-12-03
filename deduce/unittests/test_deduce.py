@@ -2,8 +2,7 @@ import unittest
 from unittest.mock import patch
 
 import deduce
-from deduce.utilcls import Token, TokenGroup
-from deduce.utility import Annotation
+from deduce.utilcls import Token, TokenGroup, Annotation
 
 
 class TestDeduceMethods(unittest.TestCase):
@@ -145,7 +144,6 @@ class TestDeduceMethods(unittest.TestCase):
         self.assertEqual(expected, merged)
 
     def test_merge_almost_adjacent_tags(self):
-        text = "<PATIENT Jorge> <PATIENT Ramos>"
         spans = [Token(0, 5, 'Jorge', 'PATIENT'), Token(5, 6, ' ', ''), Token(6, 11, 'Ramos', 'PATIENT')]
         merged = deduce.deduce.merge_adjacent_tags(spans)
         expected = [TokenGroup([Token(0, 5, 'Jorge', ''), Token(5, 6, ' ', ''), Token(6, 11, 'Ramos', '')], 'PATIENT')]

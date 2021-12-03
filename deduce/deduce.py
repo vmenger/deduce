@@ -3,10 +3,10 @@ Deduce is the main module, from which the annotate and
 deidentify_annotations() methods can be imported
 """
 
-from deduce import utility
 from .annotate import *
 from .tokenizer import tokenize
 from .utility import flatten_text, flatten_text_all_phi, to_text
+from .utilcls import Annotation
 
 
 class NestedTagsError(Exception):
@@ -44,14 +44,112 @@ def annotate_text(
     # Debug option
     flatten=True,
 ):
+    spans = annotate_text_spans_(text, patient_first_names, patient_initials, patient_surname, patient_given_name,
+                                 names, locations, institutions, dates, ages, patient_numbers, phone_numbers, urls,
+                                 flatten)
+    return ''.join([span.as_text() for span in spans])
 
+
+def get_adjacent_tags_replacement(match: re.Match) -> str:
+    text = match.group(0)
+    tag = match.group(1)
+    left = match.group(2)
+    right = match.group(3)
+    start_ix = text.index(">") + 1
+    end_ix = text[1:].index("<") + 1
+    separator = text[start_ix:end_ix]
+    return "<" + tag + " " + left + separator + right + ">"
+
+def merge_adjacent_tags(spans: list[AbstractSpan]) -> list[AbstractSpan]:
+    """
+    Adjacent tags are merged into a single tag
+    :param spans: the spans containing the whole text, including annotations
+    :return: the new list of spans containing the whole text, and merged annotations
+    """
+    end_ann_ix = None
+    for i in range(len(spans)-1, -1, -1):
+        token = spans[i]
+        if not token.is_annotation():
+            continue
+        if end_ann_ix is None:
+            end_ann_ix = i
+            continue
+        if token.annotation != spans[end_ann_ix].annotation:
+            end_ann_ix = i
+            continue
+        start_ann_ix = i
+        joined_span = to_text(spans[start_ann_ix+1:end_ann_ix])
+        if re.fullmatch("[.\s\-,]?[.\s]?", joined_span):
+            group = TokenGroup([t.without_annotation(recursive=False) for t in spans[start_ann_ix:end_ann_ix+1]],
+                               token.annotation)
+            tail = spans[end_ann_ix + 1:] if end_ann_ix < len(spans)-1 else []
+            spans = spans[:i] + [group] + tail
+        end_ann_ix = start_ann_ix
+    return spans
+
+
+def annotate_text_structured(
+    text: str,
+    patient_first_names="",
+    patient_initials="",
+    patient_surname="",
+    patient_given_name="",
+    names=True,
+    locations=True,
+    institutions=True,
+    dates=True,
+    ages=True,
+    patient_numbers=True,
+    phone_numbers=True,
+    urls=True,
+    flatten=True,
+) -> list[Annotation]:
+    """
+    This method annotates text based on the input that includes names of a patient,
+    and a number of flags indicating which PHIs should be annotated
+    :param text: The text to be annotated
+    :param patient_first_names: First name
+    :param patient_initials: Initial
+    :param patient_surname: Surname(s)
+    :param patient_given_name: Given name
+    :param names: Person names, including initials
+    :param locations: Geographical locations
+    :param institutions: Institutions
+    :param dates: Dates
+    :param ages: Ages
+    :param patient_numbers: Patient numbers
+    :param phone_numbers: Phone numbers
+    :param urls: Urls and e-mail addresses
+    :param flatten: Debug option
+    :return:
+    """
     """
     This method annotates text based on the input that includes names of a patient,
     and a number of flags indicating which PHIs should be annotated
     """
+    spans = annotate_text_spans_(text, patient_first_names, patient_initials, patient_surname, patient_given_name,
+                                 names, locations, institutions, dates, ages, patient_numbers, phone_numbers, urls,
+                                 flatten)
+    return [span.as_annotation() for span in spans]
 
+def annotate_text_spans_(
+        text: str,
+        patient_first_names="",
+        patient_initials="",
+        patient_surname="",
+        patient_given_name="",
+        names=True,
+        locations=True,
+        institutions=True,
+        dates=True,
+        ages=True,
+        patient_numbers=True,
+        phone_numbers=True,
+        urls=True,
+        flatten=True,
+) -> list[AbstractSpan]:
     if not text:
-        return text
+        return []
 
     # Replace < and > symbols
     text = text.replace("<", "(")
@@ -113,119 +211,16 @@ def annotate_text(
     # Merge adjacent tags
     spans = merge_adjacent_tags(spans)
 
-    annotation_spans = [span for span in spans if span.is_annotation()]
-
     # Flatten tags
-    if flatten and has_nested_tags(annotation_spans):
-        text = flatten_text_all_phi(text)
-
-    # Return text
-    return text
-
-
-def get_adjacent_tags_replacement(match: re.Match) -> str:
-    text = match.group(0)
-    tag = match.group(1)
-    left = match.group(2)
-    right = match.group(3)
-    start_ix = text.index(">") + 1
-    end_ix = text[1:].index("<") + 1
-    separator = text[start_ix:end_ix]
-    return "<" + tag + " " + left + separator + right + ">"
-
-def merge_adjacent_tags(spans: list[AbstractSpan]) -> list[AbstractSpan]:
-    """
-    Adjacent tags are merged into a single tag
-    :param spans: the spans containing the whole text, including annotations
-    :return: the new list of spans containing the whole text, and merged annotations
-    """
-    end_ann_ix = None
-    for i in range(len(spans)-1, -1, -1):
-        token = spans[i]
-        if not token.is_annotation():
-            continue
-        if end_ann_ix is None:
-            end_ann_ix = i
-            continue
-        if token.annotation != spans[end_ann_ix].annotation:
-            end_ann_ix = i
-            continue
-        start_ann_ix = i
-        joined_span = to_text(spans[start_ann_ix+1:end_ann_ix])
-        if re.fullmatch("[.\s\-,]?[.\s]?", joined_span):
-            group = TokenGroup([t.without_annotation(recursive=False) for t in spans[start_ann_ix:end_ann_ix+1]],
-                               token.annotation)
-            tail = spans[end_ann_ix + 1:] if end_ann_ix < len(spans)-1 else []
-            spans = spans[:i] + [group] + tail
-        end_ann_ix = start_ann_ix
-    return spans
-
-
-def annotate_text_structured(
-    text: str,
-    patient_first_names="",
-    patient_initials="",
-    patient_surname="",
-    patient_given_name="",
-    names=True,
-    locations=True,
-    institutions=True,
-    dates=True,
-    ages=True,
-    patient_numbers=True,
-    phone_numbers=True,
-    urls=True,
-    flatten=True,
-):
-    """
-    This method annotates text based on the input that includes names of a patient,
-    and a number of flags indicating which PHIs should be annotated
-    :param text: The text to be annotated
-    :param patient_first_names: First name
-    :param patient_initials: Initial
-    :param patient_surname: Surname(s)
-    :param patient_given_name: Given name
-    :param names: Person names, including initials
-    :param locations: Geographical locations
-    :param institutions: Institutions
-    :param dates: Dates
-    :param ages: Ages
-    :param patient_numbers: Patient numbers
-    :param phone_numbers: Phone numbers
-    :param urls: Urls and e-mail addresses
-    :param flatten: Debug option
-    :return:
-    """
-    annotated_text = annotate_text(
-        text,
-        patient_first_names=patient_first_names,
-        patient_initials=patient_initials,
-        patient_surname=patient_surname,
-        patient_given_name=patient_given_name,
-        names=names,
-        locations=locations,
-        institutions=institutions,
-        dates=dates,
-        ages=ages,
-        patient_numbers=patient_numbers,
-        phone_numbers=phone_numbers,
-        urls=urls,
-        flatten=flatten,
-    )
-    if has_nested_tags(annotated_text):
-        raise NestedTagsError("Text has nested tags")
-    tags = utility.find_tags(annotated_text)
-    first_non_whitespace_character_index = utility.get_first_non_whitespace(text)
-    # utility.get_annotations does not handle nested tags, so make sure not to pass it text with nested tags
-    # Also, utility.get_annotations assumes that all tags are listed in the order they appear in the text
-    annotations = utility.get_annotations(annotated_text, tags, first_non_whitespace_character_index)
+    if flatten and has_nested_tags(spans):
+        spans = flatten_text_all_phi(spans)
 
     # Check if there are any annotations whose start+end do not correspond to the text in the annotation
-    mismatched_annotations = [ann for ann in annotations if text[ann.start_ix:ann.end_ix] != ann.text_]
+    mismatched_annotations = [ann for ann in spans if text[ann.start_ix:ann.end_ix] != ann.text]
     if len(mismatched_annotations) > 0:
         print('WARNING:', len(mismatched_annotations), 'annotations have texts that do not match the original text')
 
-    return annotations
+    return spans
 
 
 def has_nested_tags(spans: list[AbstractSpan]) -> bool:

@@ -3,8 +3,8 @@ import unittest
 from unittest.mock import patch
 
 from deduce import utility
-from deduce.utilcls import Token, TokenGroup
-from deduce.utility import Annotation
+from deduce.tokenizer import tokenize
+from deduce.utilcls import Token, TokenGroup, Annotation
 
 
 class TestUtilityMethods(unittest.TestCase):
@@ -110,28 +110,39 @@ class TestUtilityMethods(unittest.TestCase):
         self.assertEqual(["item", "item"], read_list)
 
     def test_flatten_text_all_phi(self):
-        text = "<INSTELLING UMC <LOCATIE Utrecht>>"
-        flattened = utility.flatten_text_all_phi(text)
-        self.assertEqual("<INSTELLING UMC Utrecht>", flattened)
+        spans = [TokenGroup([Token(0, 4, 'UMC ', ''), Token(4, 11, 'Utrecht', 'LOCATIE')], 'INSTELLING')]
+        flattened = utility.flatten_text_all_phi(spans)
+        self.assertEqual([TokenGroup([Token(0, 4, 'UMC ', ''), Token(4, 11, 'Utrecht', '')], 'INSTELLING')], flattened)
 
     def test_flatten_text_all_phi_no_nested(self):
-        text = "<PERSOON Peter> came today and said he loved the <INSTELLING UMC>"
-        flattened = utility.flatten_text_all_phi(text)
-        self.assertEqual(text, flattened)
+        text = "Peter came today and said he loved the UMC"
+        spans = tokenize(text)
+        spans[0] = Token(0, 5, 'Peter', 'PERSOON')
+        spans[-1] = Token(len(text)-3, len(text), 'UMC', 'INSTELLING')
+        flattened = utility.flatten_text_all_phi(spans)
+        self.assertEqual(spans, flattened)
 
     def test_flatten_text_all_phi_extra_flat(self):
-        text = "<INSTELLING UMC <LOCATIE Utrecht>> is the best hospital in <LOCATIE Utrecht>"
-        flattened = utility.flatten_text_all_phi(text)
+        spans = [TokenGroup([Token(0, 4, 'UMC ', ''), Token(4, 11, 'Utrecht', 'LOCATIE')], 'INSTELLING'),
+                 Token(11, 36, ' is the best hospital in ', ''),
+                 Token(36, 43, 'Utrecht', 'LOCATIE')]
+        flattened = utility.flatten_text_all_phi(spans)
+        expected = [TokenGroup([Token(0, 4, 'UMC ', ''), Token(4, 11, 'Utrecht', '')], 'INSTELLING')] + spans[1:]
         self.assertEqual(
-            "<INSTELLING UMC Utrecht> is the best hospital in <LOCATIE Utrecht>",
+            expected,
             flattened,
         )
 
     def test_flatten_text_all_phi_extra_nested(self):
-        text = "<INSTELLING UMC <LOCATIE Utrecht>> was founded by <PERSOON Jan van <LOCATIE Apeldoorn>>"
-        flattened = utility.flatten_text_all_phi(text)
+        spans = [TokenGroup([Token(0, 4, 'UMC ', ''), Token(4, 11, 'Utrecht', 'LOCATIE')], 'INSTELLING'),
+                 Token(11, 27, ' was founded by ', ''),
+                 TokenGroup([Token(27, 35, 'Jan van ', ''), Token(35, 44, 'Apeldoorn', 'LOCATIE')], 'PERSOON')]
+        flattened = utility.flatten_text_all_phi(spans)
+        expected = [TokenGroup([Token(0, 4, 'UMC ', ''), Token(4, 11, 'Utrecht', '')], 'INSTELLING')] + \
+                   spans[1:len(spans)-1] + \
+                   [TokenGroup([Token(27, 35, 'Jan van ', ''), Token(35, 44, 'Apeldoorn', '')], 'PERSOON')]
         self.assertEqual(
-            "<INSTELLING UMC Utrecht> was founded by <PERSOON Jan van Apeldoorn>",
+            expected,
             flattened,
         )
 
