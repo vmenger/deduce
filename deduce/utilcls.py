@@ -18,7 +18,6 @@ class Annotation:
         return self.tag + "[" + str(self.start_ix) + ":" + str(self.end_ix) + "]"
 
 class AbstractSpan:
-    # TODO: turn this into an interface by removing the member variables and creating getters instead
     def __init__(self, start_ix: int, end_ix: int, text: str, annotation=None):
         self.start_ix = start_ix
         self.end_ix = end_ix

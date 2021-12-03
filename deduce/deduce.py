@@ -9,11 +9,6 @@ from .utility import flatten_text, flatten_text_all_phi, to_text
 from .utilcls import Annotation
 
 
-class NestedTagsError(Exception):
-    def __init__(self, msg: str):
-        super().__init__(str)
-
-
 def annotate_text(
     # The text to be annotated
     text,

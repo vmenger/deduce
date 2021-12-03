@@ -555,6 +555,7 @@ def insert_match_(match: AbstractSpan, spans: list[AbstractSpan], reject_annotat
     update the list of spans to include the new annotation
     :param match: a regular expression match
     :param spans: the list of previously computed spans
+    :param reject_annotation_spans: if True, avoid inserting a match if the original spans are annotated
     :return: the new list of spans, including the newly found annotation
     """
     span_ixs = [ix for ix, span in enumerate(spans) if intersect_(span, match)]

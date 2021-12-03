@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import patch
 
 import deduce
 from deduce.utilcls import Token, TokenGroup, Annotation
