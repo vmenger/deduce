@@ -178,7 +178,7 @@ class TokenGroup(AbstractSpan):
     def subset(self, start_ix=None, end_ix=None):
         start_ix = start_ix if start_ix is not None else self.start_ix
         end_ix = end_ix if end_ix is not None else self.end_ix
-        subset_groups = [g for g in self.tokens if g.end_ix > start_ix or g.start_ix < end_ix]
+        subset_groups = [g for g in self.tokens if g.end_ix > start_ix and g.start_ix < end_ix]
         if subset_groups[0].start_ix < start_ix:
             subset_groups[0] = subset_groups[0].subset(start_ix=start_ix)
         if subset_groups[-1].end_ix > end_ix:

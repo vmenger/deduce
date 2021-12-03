@@ -317,7 +317,7 @@ class TestAnnotateMethods(unittest.TestCase):
         expected_result = [Token(0, 3, 'Raf', 'LEGEND')]
         self.assertEqual(expected_result, annotate.split_at_match_boundaries_(spans, match))
 
-    def test_split_at_match_boundaries_single_subset(self):
+    def test_split_at_match_boundaries_single_subset_early(self):
         # 1 span that is bigger than the match
         spans = [Token(0, 9, 'Raffaella', '')]
         match = Token(0, 3, 'Raf', 'LEGEND')

@@ -1,5 +1,6 @@
 import unittest
 
+from deduce.tokenizer import tokenize
 from deduce.utilcls import Token, TokenGroup
 
 
@@ -88,6 +89,12 @@ class TestUtilityMethods(unittest.TestCase):
         subset = token.subset(1, 8)
         new_group = TokenGroup([Token(1, 3, 'af', 'LEGEND'), Token(3, 8, ' Carr', '')], 'PERSOON')
         self.assertEqual(new_group, subset)
+
+    def test_subset_token_group_2(self):
+        address = 'j.jnsen@email.com'
+        span = TokenGroup(tokenize(address), 'URL') # Previously annotated email address
+        subset = span.subset(start_ix=8)
+        self.assertEqual('email.com', subset.text)
 
     def test_is_nested(self):
         token = Token(0, 1, 'l', 'PATIENT')
