@@ -549,7 +549,7 @@ def split_at_match_boundaries_(
         split_spans.append(last_span)
     return split_spans
 
-def insert_match_(match: AbstractSpan, spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def insert_match_(match: AbstractSpan, spans: list[AbstractSpan], reject_annotation_spans: bool) -> list[AbstractSpan]:
     """
     Given a match in the text corresponding to an address, and the entire list of spans in the text,
     update the list of spans to include the new annotation
@@ -560,19 +560,27 @@ def insert_match_(match: AbstractSpan, spans: list[AbstractSpan]) -> list[Abstra
     span_ixs = [ix for ix, span in enumerate(spans) if intersect_(span, match)]
     if span_ixs != list(range(span_ixs[0], len(span_ixs) + span_ixs[0])):
         raise ValueError('The match corresponds to non-consecutive spans')
+    if reject_annotation_spans and any([spans[ix].is_annotation() for ix in span_ixs]):
+        return spans
     new_spans = split_at_match_boundaries_([spans[ix] for ix in span_ixs], match)
     return spans[:span_ixs[0]] + new_spans + spans[span_ixs[-1]+1:]
 
-def insert_matches_(matches: list[AbstractSpan], spans: list[AbstractSpan]) -> list[AbstractSpan]:
+def insert_matches_(
+        matches: list[AbstractSpan],
+        spans: list[AbstractSpan],
+        reject_annotation_spans=False
+) -> list[AbstractSpan]:
     """
     Create annotations for the patterns found
     :param matches: the matches found in the text
     :param spans: a list of previously found spans that cover the entire text
+    :param reject_annotation_spans: if True,
+    matches corresponding to spans where there are annotations will not be inserted
     :return: a new list of spans covering the entire text, with the new annotations embedded in them
     """
     new_spans = spans.copy()
     for match in matches:
-        new_spans = insert_match_(match, new_spans)
+        new_spans = insert_match_(match, new_spans, reject_annotation_spans=reject_annotation_spans)
     return new_spans
 
 def annotate_address(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
@@ -590,7 +598,7 @@ def annotate_address(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]
 def annotate_email(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
     """Annotate emails"""
     pattern = "(([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?))(?![^<]*>)"
-    return match_by_pattern_(text, spans, pattern, group=1, tag='URL')
+    return match_by_pattern_(text, spans, pattern, group=1, tag='URL', ignore_matches_with_annotations=True)
 
 
 def annotate_url(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
@@ -605,7 +613,14 @@ def annotate_url(text: str, spans: list[AbstractSpan]) -> list[AbstractSpan]:
         spans = match_by_pattern_(text, spans, pattern, group=1, tag='URL')
     return spans
 
-def match_by_pattern_(text: str, spans: list[AbstractSpan], pattern: str, group: int, tag: str) -> list[AbstractSpan]:
+def match_by_pattern_(
+        text: str,
+        spans: list[AbstractSpan],
+        pattern: str,
+        group: int,
+        tag: str,
+        ignore_matches_with_annotations=False
+) -> list[AbstractSpan]:
     matches = [strip_match_and_tag_(match.group(group), match.start(group), tag)
                for match in re.finditer(pattern, text)]
-    return insert_matches_(matches, spans)
+    return insert_matches_(matches, spans, ignore_matches_with_annotations)

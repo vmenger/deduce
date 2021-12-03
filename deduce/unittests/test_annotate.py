@@ -392,5 +392,29 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(1, len(flattened))
         self.assertEqual(expected_text, flattened[0].as_text())
 
+    def test_insert_match_reject_annotation(self):
+        # If I give you a match that corresponds to an annotation, sometimes you want to ignore it, e.g., emails
+        tokens = [Token(0, 6, 'Jansen', 'PATIENT'),
+                  Token(6, 7, '@', ''),
+                  Token(7, 12, 'email', ''),
+                  Token(12, 13, '.', ''),
+                  Token(13, 16, 'com', '')]
+        match = Token(0, 16, 'Jansen@email.com', 'URL')
+        inserted = annotate.insert_match_(match, tokens, reject_annotation_spans=True)
+        self.assertEqual(tokens, inserted)
+
+    def test_insert_match_reject_annotation_error(self):
+        tokens = [Token(0, 6, 'Jansen', 'PATIENT'),
+                  Token(6, 7, '@', ''),
+                  Token(7, 12, 'email', ''),
+                  Token(12, 13, '.', ''),
+                  Token(13, 16, 'com', '')]
+        match = Token(0, 16, 'Jansen@email.com', 'URL')
+        self.assertRaisesRegex(
+            AnnotationError,
+            'The spans corresponding to the match belong to annotations',
+            lambda: annotate.insert_match_(match, tokens, reject_annotation_spans=False)
+        )
+
 if __name__ == "__main__":
     unittest.main()
