@@ -3,7 +3,7 @@ import unittest
 from deduce import annotate
 from deduce.tokenizer import tokenize_split, tokenize
 from deduce.utilcls import Token, TokenGroup, AnnotationError
-from deduce.utility import to_text
+from deduce.utility import to_text, flatten_text_all_phi
 
 
 class TestAnnotateMethods(unittest.TestCase):
@@ -380,7 +380,7 @@ class TestAnnotateMethods(unittest.TestCase):
         expected_text = '<URL ' + address + '>'
         annotated = annotate.annotate_email(address, spans)
         self.assertEqual(1, len(annotated))
-        self.assertEqual(expected_text, annotated[0].as_text())
+        self.assertEqual(expected_text, annotated[0].flatten().as_text())
 
     def test_annotate_url_ignore_email(self):
         address = 'j.jnsen@email.com'
@@ -388,8 +388,9 @@ class TestAnnotateMethods(unittest.TestCase):
         expected_text = '<URL ' + address + '>'
         token_group = TokenGroup(spans, 'URL') # Previously annotated email address
         annotated = annotate.annotate_url(address, [token_group])
-        self.assertEqual(1, len(annotated))
-        self.assertEqual(expected_text, annotated[0].as_text())
+        flattened = flatten_text_all_phi(annotated)
+        self.assertEqual(1, len(flattened))
+        self.assertEqual(expected_text, flattened[0].as_text())
 
 if __name__ == "__main__":
     unittest.main()
