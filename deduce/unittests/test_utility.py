@@ -175,5 +175,26 @@ class TestUtilityMethods(unittest.TestCase):
         expected = spans[:4] + [expected_group]
         self.assertEqual(expected, flattened)
 
+    def test_flatten_text_overlapping(self):
+        # P. Gomez, G. Perez -> <PERSOON P. Gomez>, <PERSOON G. Perez>
+        # [Drs. K[0:6] (PREFIXNAAM), . [6:8], Maijer[8:14] (ACHTERNAAMONBEKEND), ,                                 [14:48], Drs. P[48:54] (PREFIXNAAM), .[54:55], K.H. Deschamps[55:69] (INITIAAL)]
+        spans = [TokenGroup([Token(0, 3, 'Drs', ''), Token(3, 5, '. ', ''), Token(5, 6, 'K', '')], 'PREFIXNAAM'),
+                 Token(6, 8, '. ', ''),
+                 Token(8, 14, 'Suarez', 'ACHTERNAAMONBEKEND'),
+                 Token(14, 16, ', ', ''),
+                 TokenGroup([Token(0, 3, 'Drs', ''), Token(3, 5, '. ', ''), Token(5, 6, 'K', '')], 'PREFIXNAAM'),
+                 Token(6, 8, '. ', ''),
+                 Token(8, 14, 'Romero', 'ACHTERNAAMONBEKEND')]
+        flattened = utility.flatten_text(spans)
+        expected = [TokenGroup([TokenGroup([Token(0, 3, 'Drs', ''), Token(3, 5, '. ', ''), Token(5, 6, 'K', '')], ''),
+                                Token(6, 8, '. ', ''),
+                                Token(8, 14, 'Suarez', '')], 'PERSOON'),
+                    Token(14, 16, ', ', ''),
+                    TokenGroup([TokenGroup([Token(0, 3, 'Drs', ''), Token(3, 5, '. ', ''), Token(5, 6, 'K', '')], ''),
+                                Token(6, 8, '. ', ''),
+                                Token(8, 14, 'Romero', '')], 'PERSOON')]
+        self.assertEqual(expected, flattened)
+
+
 if __name__ == "__main__":
     unittest.main()

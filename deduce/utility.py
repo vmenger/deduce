@@ -129,7 +129,6 @@ def flatten_text_all_phi(spans: list) -> list:
     """
     return [span.flatten(with_annotation=span.annotation) if span.is_annotation() else span for span in spans]
 
-# TODO: re-use deduce.merge_adjacent_tags in this method
 def flatten_text(tokens: list) -> list:
     """
     Flattens nested tags; e.g. tags like <INITIAL A <NAME Surname>>
@@ -147,32 +146,39 @@ def flatten_text(tokens: list) -> list:
                 token.flatten(with_annotation='PATIENT' if 'PAT' in token.get_full_annotation() else 'PERSOON')
             )
 
+    # TODO: re-use deduce.merge_adjacent_tags in this method
     # Make sure adjacent tags are joined together (like <INITIAL A><PATIENT Surname>),
     # optionally with a whitespace, period, hyphen or comma between them.
     # This works because all adjacent tags concern names
     # (remember that the function flatten_text() can only be used for names)!
-    end_ann_ix = None
-    for i in range(len(flattened)-1, -1, -1):
-        token = flattened[i]
-        if not token.is_annotation():
+    attached = []
+    i = 0
+    while i < len(flattened):
+        span = flattened[i]
+        if not span.is_annotation():
+            attached.append(span)
+            i += 1
             continue
-        if end_ann_ix is None:
-            end_ann_ix = i
+        next_annotations = [j for j in range(i + 1, len(flattened)) if flattened[j].is_annotation()]
+        if not next_annotations:
+            attached.append(span)
+            i += 1
             continue
-        start_ann_ix = i
-        joined_span = to_text(flattened[start_ann_ix:end_ann_ix+1])
-        if re.fullmatch("<([A-Z]+)\s([\w.\s,]+)>([.\s\-,]+)[.\s]*<([A-Z]+)\s([\w.\s,]+)>", joined_span):
-            group = TokenGroup([t.without_annotation() for t in flattened[start_ann_ix:end_ann_ix+1]],
-                               token.annotation + flattened[end_ann_ix].annotation)
-            tail = flattened[end_ann_ix + 1:] if end_ann_ix < len(flattened)-1 else []
-            flattened = flattened[:i] + [group] + tail
-        end_ann_ix = start_ann_ix
+        j = next_annotations[0]
+        if re.fullmatch("<([A-Z]+)\s([\w.\s,]+)>([.\s\-,]+)[.\s]*<([A-Z]+)\s([\w.\s,]+)>", to_text(flattened[i:j+1])):
+            group = TokenGroup([t.without_annotation() for t in flattened[i:j+1]],
+                               flattened[i].annotation + flattened[j].annotation)
+            attached.append(group)
+            i = j + 1
+        else:
+            attached.append(span)
+            i += 1
 
     # Find all names of tags, to replace them with either "PATIENT" or "PERSOON"
     replaced = [token.with_annotation('PATIENT' if 'PATIENT' in token.get_full_annotation() else 'PERSOON')
                 if token.is_annotation()
                 else token
-                for token in flattened]
+                for token in attached]
 
     # Return the text with all replacements
     return replaced
