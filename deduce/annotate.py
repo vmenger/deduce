@@ -453,31 +453,26 @@ def split_at_annotations_(spans: list) -> tuple:
 
 ### Other annotation is done using a selection of finely crafted
 ### (but alas less finely documented) regular expressions.
-def annotate_date(text: str, spans: list) -> list:
+def annotate_date(spans: list) -> list:
     patterns = [r"(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2})){,1})(?P<n>\D)"
                 r"(?![^<]*>)",
                 r"(\d{1,2}[^\w]{,2}"
                 r"(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)"
                 r"([- /.]{,2}(\d{4}|\d{2})){,1})(?P<n>\D)(?![^<]*>)"]
+    for pattern in patterns:
+        # Only do matching in the segments that do not have annotations
+        non_annotated_groups, annotations = split_at_annotations_(spans)
 
-    # Only do matching in the segments that do not have annotations
-    non_annotated_groups, annotations = split_at_annotations_(spans)
+        # Find date annotations in the chunks occurring between annotations
+        # TODO: make this code reusable
+        annotated_groups = [match_by_pattern_(''.join([span.text for span in grp]), grp, pattern, group=1, tag='DATUM')
+                            for grp in non_annotated_groups]
 
-    # Find date annotations in the chunks occurring between annotations
-    # TODO: make this code reusable
-    annotated_groups = []
-    for grp in non_annotated_groups:
-        annotated_grp = grp.copy()
-        for pattern in patterns:
-            grp_text = ''.join([span.text for span in annotated_grp])
-            annotated_grp = match_by_pattern_(grp_text, annotated_grp, pattern, group=1, tag='DATUM')
-        annotated_groups.append(annotated_grp)
+        # Re-join the annotation groups
+        spans = [el for lis in [annotated_groups[i] + [ann] for i, ann in enumerate(annotations)] for el in lis] \
+                + annotated_groups[-1]
 
-    # Re-join the annotation groups
-    annotated_spans = [el for lis in [annotated_groups[i] + [ann] for i, ann in enumerate(annotations)] for el in lis] \
-                      + annotated_groups[-1]
-
-    return annotated_spans
+    return spans
 
 def annotate_age(text: str, spans: list) -> list:
     return match_by_pattern_(text, spans, "(\d{1,3})([ -](jarige|jarig|jaar))(?![^<]*>)", group=1, tag='LEEFTIJD')

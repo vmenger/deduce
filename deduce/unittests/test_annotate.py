@@ -267,13 +267,13 @@ class TestAnnotateMethods(unittest.TestCase):
                    and span1.get_full_annotation() == span2.get_full_annotation()
 
         text = 'Medicatie actueel	26-10, OXAZEPAM'
-        annotated_dates = annotate.annotate_date(text, tokenize(text))
+        annotated_dates = annotate.annotate_date(tokenize(text))
         expected = Token(text.index('2'), text.index('2') + 5, '26-10', 'DATUM')
         self.assertEqual(1, len([span for span in annotated_dates if span.is_annotation() and matches(span, expected)]))
 
     def test_two_dates_with_comma(self):
         text = '24 april, 1 mei: pt gaat geen constructief contact aan'
-        annotated_dates = annotate.annotate_date(text, tokenize(text))
+        annotated_dates = annotate.annotate_date(tokenize(text))
         found_annotations = [span for span in annotated_dates if span.is_annotation()]
         expected = [TokenGroup([Token(0, 3, '24 ', ''), Token(3, 8, 'april', '')], 'DATUM'),
                     TokenGroup([Token(10, 12, '1 ', ''), Token(12, 15, 'mei', '')], 'DATUM')]
@@ -289,7 +289,7 @@ class TestAnnotateMethods(unittest.TestCase):
             end_ix = start_ix + len(span)
             spans[i] = Token(start_ix, end_ix, span, 'LOCATIE' if i == 1 else '')
             start_ix = end_ix
-        annotated_spans = annotate.annotate_date(text, spans)
+        annotated_spans = annotate.annotate_date(spans)
         expected = [Token(0, 5, '17-07', 'DATUM'), Token(5, 6, '-', '')] + spans[1:]
         self.assertEqual(expected, annotated_spans)
 

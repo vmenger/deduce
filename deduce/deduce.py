@@ -185,7 +185,7 @@ def annotate_text_spans_(
 
     # Dates
     if dates:
-        spans = annotate_date(text, spans)
+        spans = annotate_date(spans)
 
     # Ages
     if ages:
