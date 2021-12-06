@@ -1,7 +1,7 @@
 import unittest
 
 from deduce.tokenizer import tokenize
-from deduce.utilcls import Token, TokenGroup
+from deduce.utilcls import Token, TokenGroup, AnnotationError
 
 
 class TestUtilityMethods(unittest.TestCase):
@@ -95,6 +95,20 @@ class TestUtilityMethods(unittest.TestCase):
         span = TokenGroup(tokenize(address), 'URL') # Previously annotated email address
         subset = span.subset(start_ix=8)
         self.assertEqual('email.com', subset.text)
+
+    def test_subset_out_of_range(self):
+        self.assertRaisesRegex(
+            AnnotationError,
+            'The given indices are out of range',
+            lambda: Token(10, 11, ' ', 'P').subset(start_ix=1)
+        )
+
+    def test_subset_inverted(self):
+        self.assertRaisesRegex(
+            AnnotationError,
+            'The given indices are out of range',
+            lambda: Token(10, 12, '  ', '').subset(start_ix=13)
+        )
 
     def test_is_nested(self):
         token = Token(0, 1, 'l', 'PATIENT')

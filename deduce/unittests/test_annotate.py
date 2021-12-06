@@ -101,9 +101,6 @@ class TestAnnotateMethods(unittest.TestCase):
             patient_initial="PC",
             patient_given_name="Charlie",
         )
-        '''expected_text = (
-            "<INITIAALPAT C.> geeft aan dood te willen. <INITIAALPAT C.> tot op nu blij"
-        )'''
         # noinspection PyTypeChecker
         expected = [TokenGroup(tokens[:2], 'INITIAALPAT')] + tokens[2:14] \
                    + [TokenGroup(tokens[14:16], 'INITIAALPAT')] + tokens[16:]
@@ -126,9 +123,19 @@ class TestAnnotateMethods(unittest.TestCase):
             patient_initial=patient_initials,
             patient_given_name=patient_given_name,
         )
-        # expected_text = "Toegangstijd: <INITIAALPAT N.>v.t."
         expected = tokens[:3] + [TokenGroup(tokens[3:5], 'INITIAALPAT')] + tokens[5:]
         self.assertEqual(expected, annotated_names)
+
+    def test_annotate_names_initial_space(self):
+        spans = [Token(0, 8, 'Huisarts', ''),
+                 Token(8, 9, ' ', ''),
+                 Token(9, 10, 'E', ''),
+                 Token(10, 12, '. ', ''),
+                 Token(12, 20, 'Gonzale', '')]
+        annotated = annotate.annotate_names(spans, 'Ernestina', 'E', 'Perez', 'Ernes')
+        annotation = TokenGroup([Token(9, 10, 'E', ''), Token(10, 11, '.', '')], 'INITIAALPAT')
+        expected = spans[:2] + [annotation, Token(11, 12, ' ', ''), spans[-1]]
+        self.assertEqual(expected, annotated)
 
     def test_annotate_address_no_number(self):
         text = "I live in Havikstraat since my childhood"

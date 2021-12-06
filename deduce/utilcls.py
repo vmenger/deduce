@@ -103,10 +103,12 @@ class Token(AbstractSpan):
         return self.annotation
 
     def subset(self, start_ix=None, end_ix=None):
-        if not start_ix and not end_ix:
-            return self
         new_start_ix = start_ix if start_ix is not None else self.start_ix
         new_end_ix = end_ix if end_ix is not None else self.end_ix
+        if new_start_ix == self.start_ix and new_end_ix == self.end_ix:
+            return self
+        if new_start_ix < self.start_ix or new_end_ix > self.end_ix or new_end_ix <= new_start_ix:
+            raise AnnotationError('The given indices are out of range')
         return Token(new_start_ix,
                      new_end_ix,
                      self.text[new_start_ix-self.start_ix:new_end_ix-self.start_ix], self.annotation)

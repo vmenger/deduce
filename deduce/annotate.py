@@ -75,16 +75,17 @@ def annotate_names(
                 if not token.is_annotation() and token.text == patient_first_name[0]:
 
                     # If followed by a period, also annotate the period
+                    subsequent_token = tokens[token_index + 1]
                     if next_token is not None and next_token.text != "" \
-                            and not tokens[token_index + 1].is_annotation() and tokens[token_index + 1].text[0] == ".":
+                            and not subsequent_token.is_annotation() and subsequent_token.text[0] == ".":
                         tokens_deid.append(TokenGroup(
                             [tokens[token_index],
                              Token(tokens[token_index].end_ix, tokens[token_index].end_ix + 1, '.', '')],
                             'INITIAALPAT'))
-                        if not tokens[token_index + 1].is_annotation() and tokens[token_index + 1].text == ".":
+                        if subsequent_token.text == ".":
                             token_index += 1
                         else:
-                            tokens[token_index + 1] = tokens[token_index + 1].subset(start_ix=1)
+                            tokens[token_index + 1] = subsequent_token.subset(start_ix=subsequent_token.start_ix + 1)
 
                     # Else, annotate the token itself
                     else:
