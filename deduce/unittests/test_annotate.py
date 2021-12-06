@@ -279,6 +279,20 @@ class TestAnnotateMethods(unittest.TestCase):
                     TokenGroup([Token(10, 12, '1 ', ''), Token(12, 15, 'mei', '')], 'DATUM')]
         self.assertEqual(expected, found_annotations)
 
+    # TODO: the following text reproduces current behaviour, but it's actually incorrect annotation
+    # 17-07-2015 HB should be annotated as <DATUM 17-07-2015> HB, not <DATUM 17-07>-<LOCATIE 2015 HB>
+    def test_annotate_date_postcode_conflict(self):
+        text = '17-07-2015 HB   hemoglobine (Hb) 10,0  '
+        spans = ['17-07-', '2015 HB', '   ', 'hemoglobine', ' (', 'Hb', ') 10,0  ']
+        start_ix = 0
+        for i, span in enumerate(spans):
+            end_ix = start_ix + len(span)
+            spans[i] = Token(start_ix, end_ix, span, 'LOCATIE' if i == 1 else '')
+            start_ix = end_ix
+        annotated_spans = annotate.annotate_date(text, spans)
+        expected = [Token(0, 5, '17-07', 'DATUM'), Token(5, 6, '-', '')] + spans[1:]
+        self.assertEqual(expected, annotated_spans)
+
     def test_strip_match(self):
         token = annotate.strip_match_and_tag_(' peter', 10, '')
         self.assertEqual(Token(11, 16, 'peter', ''), token)
@@ -372,11 +386,11 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(expected, annotate.annotate_residence(spans))
 
     def test_annotate_patient_number(self):
-        spans = [Token(98, 109, '06-12345678', 'TELEFOONNUMMER')]
+        spans = [Token(0, 98, ' ' * 98, ''), Token(98, 109, '06-12345678', 'TELEFOONNUMMER')]
         expected_tokens = [Token(98, 101, '06-', ''),
                            Token(101, 108, '1234567', 'PATIENTNUMMER'),
                            Token(108, 109, '8', '')]
-        expected = [TokenGroup(expected_tokens, 'TELEFOONNUMMER')]
+        expected = [Token(0, 98, ' ' * 98, ''), TokenGroup(expected_tokens, 'TELEFOONNUMMER')]
         annotated = annotate.annotate_patient_number(' ' * 98 + '06-12345678', spans)
         self.assertEqual(expected, annotated)
 
@@ -421,6 +435,40 @@ class TestAnnotateMethods(unittest.TestCase):
             'The spans corresponding to the match belong to annotations',
             lambda: annotate.insert_match_(match, tokens, reject_annotation_spans=False)
         )
+
+    def test_match_by_pattern_shift(self):
+        # Test that, if spans don't start from index 0, we still recover the correct spans
+        text = 'I love'
+        spans = [Token(10, 11, 'I', ''), Token(11, 12, ' ', ''), Token(12, 16, 'love', '')]
+        pattern = 'love'
+        group = 0
+        tag = 'VERB'
+        ignore_matches_with_annotations = False
+        annotated_spans = annotate.match_by_pattern_(text, spans, pattern, group, tag, ignore_matches_with_annotations)
+        expected = [Token(10, 11, 'I', ''), Token(11, 12, ' ', ''), Token(12, 16, 'love', 'VERB')]
+        self.assertEqual(expected, annotated_spans)
+
+    def test_split_at_annotations(self):
+        # Non-annotations at both ends
+        spans = [Token(0, 1, ' ', ''), Token(1, 2, ' ', 'a'), Token(2, 3, ' ', '')]
+        split = annotate.split_at_annotations_(spans)
+        expected = [[spans[0]], [spans[2]]], [spans[1]]
+        self.assertEqual(expected, split)
+        # Annotation at beginning
+        spans = [Token(0, 1, ' ', 'a'), Token(1, 2, ' ', ''), Token(2, 3, ' ', '')]
+        split = annotate.split_at_annotations_(spans)
+        expected = [[], spans[1:]], [spans[0]]
+        self.assertEqual(expected, split)
+        # Annotation at end
+        spans = [Token(0, 1, ' ', ''), Token(1, 2, ' ', ''), Token(2, 3, ' ', 'a')]
+        split = annotate.split_at_annotations_(spans)
+        expected = [spans[:2], []], [spans[2]]
+        self.assertEqual(expected, split)
+        # Two annotations together
+        spans = [Token(0, 1, ' ', ''), Token(1, 2, ' ', 'a'), Token(2, 3, ' ', 'b'), Token(3, 4, ' ', '')]
+        split = annotate.split_at_annotations_(spans)
+        expected = [[spans[0]], [], [spans[3]]], spans[1:3]
+        self.assertEqual(expected, split)
 
 if __name__ == "__main__":
     unittest.main()

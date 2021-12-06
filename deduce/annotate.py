@@ -439,6 +439,18 @@ def annotate_institution(annotated_spans: list) -> list:
     # Return the text
     return final_spans
 
+def split_at_annotations_(spans: list) -> tuple:
+    # Return the list of lists of spans between annotations, and the list of annotations
+    groups = [[]]
+    annotations = []
+    for span in spans:
+        if span.is_annotation():
+            annotations.append(span)
+            groups.append([])
+        else:
+            groups[-1].append(span)
+    return groups, annotations
+
 ### Other annotation is done using a selection of finely crafted
 ### (but alas less finely documented) regular expressions.
 def annotate_date(text: str, spans: list) -> list:
@@ -447,9 +459,25 @@ def annotate_date(text: str, spans: list) -> list:
                 r"(\d{1,2}[^\w]{,2}"
                 r"(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)"
                 r"([- /.]{,2}(\d{4}|\d{2})){,1})(?P<n>\D)(?![^<]*>)"]
-    for pattern in patterns:
-        spans = match_by_pattern_(text, spans, pattern, group=1, tag='DATUM')
-    return spans
+
+    # Only do matching in the segments that do not have annotations
+    non_annotated_groups, annotations = split_at_annotations_(spans)
+
+    # Find date annotations in the chunks occurring between annotations
+    # TODO: make this code reusable
+    annotated_groups = []
+    for grp in non_annotated_groups:
+        annotated_grp = grp.copy()
+        for pattern in patterns:
+            grp_text = ''.join([span.text for span in annotated_grp])
+            annotated_grp = match_by_pattern_(grp_text, annotated_grp, pattern, group=1, tag='DATUM')
+        annotated_groups.append(annotated_grp)
+
+    # Re-join the annotation groups
+    annotated_spans = [el for lis in [annotated_groups[i] + [ann] for i, ann in enumerate(annotations)] for el in lis] \
+                      + annotated_groups[-1]
+
+    return annotated_spans
 
 def annotate_age(text: str, spans: list) -> list:
     return match_by_pattern_(text, spans, "(\d{1,3})([ -](jarige|jarig|jaar))(?![^<]*>)", group=1, tag='LEEFTIJD')
@@ -466,7 +494,16 @@ def annotate_phone_number(text: str, spans: list) -> list:
 
 
 def annotate_patient_number(text: str, spans: list) -> list:
-    """Annotate patient numbers"""
+    """
+    Annotate the patient numbers appearing in the text
+    :param text: the entire text being annotated
+    :param spans: the list of spans covering the entire text
+    :return: a new list of annotated spans
+    """
+    if not spans:
+        return []
+    if spans[0].start_ix != 0 or spans[-1].end_ix != len(text):
+        raise ValueError('The spans must cover the entire text')
     return match_by_pattern_(text, spans, "(\d{7})(?![^<]*>)", group=1, tag='PATIENTNUMMER')
 
 def remove_mg_(spans: list) -> list:
@@ -622,6 +659,10 @@ def match_by_pattern_(
         tag: str,
         ignore_matches_with_annotations=False
 ) -> list:
-    matches = [strip_match_and_tag_(match.group(group), match.start(group), tag)
+    if not spans:
+        if text.strip():
+            print('WARNING: non-empty text, but empty spans')
+        return []
+    matches = [strip_match_and_tag_(match.group(group), match.start(group) + spans[0].start_ix, tag)
                for match in re.finditer(pattern, text)]
     return insert_matches_(matches, spans, ignore_matches_with_annotations)
