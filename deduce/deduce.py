@@ -114,7 +114,11 @@ def annotate_text_structured(
     spans = annotate_text_spans_(text, patient_first_names, patient_initials, patient_surname, patient_given_name,
                                  names, locations, institutions, dates, ages, patient_numbers, phone_numbers, urls,
                                  flatten)
-    return [span.as_annotation() for span in spans if span.is_annotation()]
+    annotations = [span.as_annotation() for span in spans if span.is_annotation()]
+    mismatches = [anno for anno in annotations if text[anno.start_ix:anno.end_ix] != anno.text_]
+    if len(mismatches) > 0:
+        print('WARNING: there are mismatches', mismatches)
+    return annotations
 
 def annotate_text_spans_(
         text: str,
