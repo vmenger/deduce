@@ -117,7 +117,7 @@ def annotate_text_structured(
     annotations = [span.as_annotation() for span in spans if span.is_annotation()]
     mismatches = [anno for anno in annotations if text[anno.start_ix:anno.end_ix] != anno.text_]
     if len(mismatches) > 0:
-        print('WARNING: there are mismatches', mismatches)
+        raise AnnotationError('There are mismatches')
     return annotations
 
 def annotate_text_spans_(
