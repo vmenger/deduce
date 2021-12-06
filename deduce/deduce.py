@@ -114,11 +114,7 @@ def annotate_text_structured(
     spans = annotate_text_spans_(text, patient_first_names, patient_initials, patient_surname, patient_given_name,
                                  names, locations, institutions, dates, ages, patient_numbers, phone_numbers, urls,
                                  flatten)
-    annotations = [span.as_annotation() for span in spans if span.is_annotation()]
-    mismatches = [anno for anno in annotations if text[anno.start_ix:anno.end_ix] != anno.text_]
-    if len(mismatches) > 0:
-        raise AnnotationError('There are mismatches')
-    return annotations
+    return [span.as_annotation() for span in spans if span.is_annotation()]
 
 def annotate_text_spans_(
         text: str,
@@ -206,7 +202,7 @@ def annotate_text_spans_(
     # Check if there are any annotations whose start+end do not correspond to the text in the annotation
     mismatched_annotations = [ann for ann in spans if text[ann.start_ix:ann.end_ix] != ann.text]
     if len(mismatched_annotations) > 0:
-        print('WARNING:', len(mismatched_annotations), 'annotations have texts that do not match the original text')
+        raise AnnotationError('annotations have texts that do not match the original text')
 
     return spans
 
