@@ -461,17 +461,7 @@ def annotate_date(spans: list) -> list:
                 r"(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)"
                 r"([- /.]{,2}(\d{4}|\d{2})){,1})(?P<n>\D)(?![^<]*>)"]
     for pattern in patterns:
-        # Only do matching in the segments that do not have annotations
-        non_annotated_groups, annotations = split_at_annotations_(spans)
-
-        # Find date annotations in the chunks occurring between annotations
-        # TODO: make this code reusable
-        annotated_groups = [match_by_pattern_(''.join([span.text for span in grp]), grp, pattern, group=1, tag='DATUM')
-                            for grp in non_annotated_groups]
-
-        # Re-join the annotation groups
-        spans = [el for lis in [annotated_groups[i] + [ann] for i, ann in enumerate(annotations)] for el in lis] \
-                + annotated_groups[-1]
+        spans = match_between_annotations_(spans, pattern, 1, 'DATUM')
 
     return spans
 
@@ -637,14 +627,10 @@ def annotate_email(text: str, spans: list) -> list:
 
 def annotate_url(text: str, spans: list) -> list:
     """Annotate urls"""
-    patterns = [r"((?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])"
-                r"(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|"
-                r"(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)"
-                r"*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?"
-                r"(?:(/|\\?|#)[^\\s]*)?)(?![^<]*>)",
-                r"([\w\d\.-]{3,}(\.)(nl|com|net|be)(/[^\s]+){,1})(?![^<]*>)"]
+    patterns = ["((?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?)(?![^<]*>)",
+                "([\w\d\.-]{3,}(\.)(nl|com|net|be)(/[^\s]+){,1})(?![^<]*>)"]
     for pattern in patterns:
-        spans = match_by_pattern_(text, spans, pattern, group=1, tag='URL', ignore_matches_with_annotations=True)
+        spans = match_between_annotations_(spans, pattern, 1, 'URL')
     return spans
 
 def match_by_pattern_(
@@ -662,3 +648,17 @@ def match_by_pattern_(
     matches = [strip_match_and_tag_(match.group(group), match.start(group) + spans[0].start_ix, tag)
                for match in re.finditer(pattern, text)]
     return insert_matches_(matches, spans, ignore_matches_with_annotations)
+
+def match_between_annotations_(spans: list, pattern: str, group: int, tag: str) -> list:
+    # Only do matching in the segments that do not have annotations
+    non_annotated_groups, annotations = split_at_annotations_(spans)
+
+    # Find date annotations in the chunks occurring between annotations
+    annotated_groups = [match_by_pattern_(''.join([span.text for span in grp]), grp, pattern, group=group, tag=tag)
+                        for grp in non_annotated_groups]
+
+    # Re-join the annotation groups
+    spans = [el for lis in [annotated_groups[i] + [ann] for i, ann in enumerate(annotations)] for el in lis] \
+            + annotated_groups[-1]
+
+    return spans
