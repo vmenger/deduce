@@ -522,7 +522,7 @@ def annotate_postcode(text: str, spans: list) -> list:
     # Annotate everything that looks like a postcode
     pattern = "(((\d{4} [A-Z]{2})|(\d{4}[a-zA-Z]{2})))(?P<n>\W)(?![^<]*>)"
     post_box_matches = [parse_postal_code_(match) for match in re.finditer(pattern, text)]
-    new_spans = insert_matches_(post_box_matches, spans)
+    new_spans = insert_matches_(post_box_matches, spans, reject_annotation_spans=True)
 
     # Remove "postcodes" that are really milligrams
     new_spans = remove_mg_(new_spans)
@@ -626,7 +626,7 @@ def annotate_address(text: str, spans: list) -> list:
     """
     pattern = r"([A-Z]\w+(straat|laan|hof|plein|gracht|weg|pad|dijk|baan|dam|dreef|kade|markt|park|plantsoen|singel|" \
               r"bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2})?|(\d+){0,6}))"
-    return match_by_pattern_(text, spans, pattern, group=0, tag='LOCATIE')
+    return match_by_pattern_(text, spans, pattern, group=0, tag='LOCATIE', ignore_matches_with_annotations=True)
 
 
 def annotate_email(text: str, spans: list) -> list:
