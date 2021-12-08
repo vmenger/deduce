@@ -644,7 +644,7 @@ def annotate_url(text: str, spans: list) -> list:
                 r"(?:(/|\\?|#)[^\\s]*)?)(?![^<]*>)",
                 r"([\w\d\.-]{3,}(\.)(nl|com|net|be)(/[^\s]+){,1})(?![^<]*>)"]
     for pattern in patterns:
-        spans = match_by_pattern_(text, spans, pattern, group=1, tag='URL')
+        spans = match_by_pattern_(text, spans, pattern, group=1, tag='URL', ignore_matches_with_annotations=True)
     return spans
 
 def match_by_pattern_(
