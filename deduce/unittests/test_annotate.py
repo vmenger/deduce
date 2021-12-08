@@ -435,6 +435,13 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(1, len(flattened))
         self.assertEqual(expected_text, flattened[0].as_text())
 
+    def test_annotate_url_with_institution(self):
+        url = 'youke.nl'
+        spans = [Token(0, 5, 'youke', 'INSTELLING'), Token(5, 6, '.', ''), Token(6, 8, 'nl', '')]
+        expected = spans
+        annotated = annotate.annotate_url(url, spans)
+        self.assertEqual(expected, annotated)
+
     def test_insert_match_reject_annotation(self):
         # If I give you a match that corresponds to an annotation, sometimes you want to ignore it, e.g., emails
         tokens = [Token(0, 6, 'Jansen', 'PATIENT'),
