@@ -166,6 +166,14 @@ class TestAnnotateMethods(unittest.TestCase):
             expected, address
         )
 
+    def test_annotate_address_like_name(self):
+        text = 'Het betreft Ludwik Zamenhof 3534 HB'
+        spans = tokenize(text)
+        spans = spans[:4] + [TokenGroup(spans[4:7], 'PATIENT')] + spans[7:]
+        expected = spans
+        annotated = annotate.annotate_address(text, spans)
+        self.assertEqual(expected, annotated)
+
     def test_coordinating_nexus_with_preceding_name(self):
         text = "Adalberto <ACHTERNAAMONBEKEND Koning> en Mariangela"
         tokens = tokenize(text)
@@ -201,6 +209,14 @@ class TestAnnotateMethods(unittest.TestCase):
                         and expected_token.end_ix == found_token.end_ix
                         and expected_token.text == found_token.text
                         and expected_token.annotation == found_token.annotation)
+
+    def test_annotate_postcode_as_person(self):
+        text = '7325 NE Gomez' # where NE Gomez is a person
+        spans = [Token(0, 5, '7325 ', ''),
+                 TokenGroup([Token(5, 7, 'NE', ''), Token(7, 8, ' ', ''), Token(8, 13, 'Gomez', '')], 'PERSOON')]
+        expected = spans
+        annotated = annotate.annotate_postcode(text, spans)
+        self.assertEqual(expected, annotated)
 
     def test_annotate_altrecht(self):
         text = 'Opname bij xxx afgerond'
