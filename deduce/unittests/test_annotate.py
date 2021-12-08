@@ -442,6 +442,23 @@ class TestAnnotateMethods(unittest.TestCase):
         annotated = annotate.annotate_url(url, spans)
         self.assertEqual(expected, annotated)
 
+    def test_annotate_url_https(self):
+        text = 'https://www.jellinek.nl'
+        tokens = tokenize(text)
+        spans = tokens
+        expected = [TokenGroup(tokens, 'URL')]
+        annotated = annotate.annotate_url(text, spans)
+        self.assertEqual(expected, annotated)
+
+    def test_annotate_url_attached(self):
+        # TODO: a better solution might be to interpret (br) as a newline, which it is originally
+        text = 'https://www.jellinek.nl/(br)T'
+        tokens = tokenize(text)
+        spans = tokens[:len(tokens)-1] + [tokens[-1].with_annotation('PATIENT')]
+        annotated = annotate.annotate_url(text, spans)
+        expected = [TokenGroup(spans[:len(spans)-1], 'URL'), spans[-1]]
+        self.assertEqual(expected, annotated)
+
     def test_insert_match_reject_annotation(self):
         # If I give you a match that corresponds to an annotation, sometimes you want to ignore it, e.g., emails
         tokens = [Token(0, 6, 'Jansen', 'PATIENT'),
