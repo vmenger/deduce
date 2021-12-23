@@ -274,9 +274,12 @@ def annotate_names_context(text):
             (_, previous_token_index_deid, _, _) = context(
                 tokens_deid, len(tokens_deid)
             )
+            deid_tokens_to_keep = tokens_deid[previous_token_index_deid:]
             tokens_deid = tokens_deid[:previous_token_index_deid]
             tokens_deid.append(
-                f"<INTERFIXACHTERNAAM {join_tokens(tokens[previous_token_index: next_token_index + 1])}>"
+                "<INTERFIXACHTERNAAM {}>".format(
+                    join_tokens(deid_tokens_to_keep + tokens[token_index:next_token_index + 1])
+                )
             )
             token_index = next_token_index
             continue
@@ -374,6 +377,14 @@ def annotate_residence(text):
     # Return the de-identified text
     return join_tokens(tokens_deid)
 
+def replace_altrecht_text(match: re.Match) -> str:
+    """
+    <INSTELLING Altrecht> (with Altrecht in any casing) followed by words that start with capital letters is annotated
+    as <INSTELLING Altrecht Those Words>, where Altrecht retains the original casing
+    :param match: the match object from a regular expression search
+    :return: the final string
+    """
+    return match.group(0)[:len(match.group(0)) - len(match.group(1)) - 1] + match.group(1) + '>'
 
 def annotate_institution(text):
     """Annotate institutions"""
@@ -401,38 +412,40 @@ def annotate_institution(text):
 
         # Else annotate the longest sequence as institution
         max_list = max(prefix_matches, key=len)
-        tokens_deid.append(f"<INSTELLING {join_tokens(max_list)}>")
+        joined_institution = join_tokens(tokens[token_index:token_index + len(max_list)])
+        tokens_deid.append("<INSTELLING {}>".format(joined_institution))
         token_index += len(max_list) - 1
 
     # Return
     text = join_tokens(tokens_deid)
 
     # Detect the word "Altrecht" followed by a capitalized word
-    text = re.sub(
-        "<INSTELLING altrecht>((\s[A-Z]{1}([\w]*))*)",
-        "<INSTELLING altrecht" + "\\1".lower() + ">",
-        text,
-    )
+    text = re.sub('<INSTELLING [aA][lL][tT][rR][eE][cC][hH][tT]>((\s[A-Z]([\w]*))*)',
+                  replace_altrecht_text,
+                  text)
 
     # Return the text
     return text
 
+def get_date_replacement_(date_match: re.Match, punctuation_name: str) -> str:
+    punctuation = date_match[punctuation_name]
+    if len(punctuation) != 1:
+        punctuation = ' '
+    return '<DATUM ' + date_match.group(1) + '>' + punctuation
 
 ### Other annotation is done using a selection of finely crafted
 ### (but alas less finely documented) regular expressions.
 def annotate_date(text):
-    """Annotate dates"""
-    text = re.sub(
-        "(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2})){,1})(?P<n>\D)(?![^<]*>)",
-        "<DATUM \\1> ",
-        text,
-    )
-
-    text = re.sub(
-        "(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)([- /.]{,2}(\d{4}|\d{2})){,1})(?P<n>\D)(?![^<]*>)",
-        "<DATUM \\1> ",
-        text,
-    )
+    # Name the punctuation mark that comes after a date, for replacement purposes
+    punctuation_name = 'n'
+    text = re.sub("(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2})){,1})(?P<" +
+                  punctuation_name + ">\D)(?![^<]*>)",
+                  lambda date_match: get_date_replacement_(date_match, punctuation_name),
+                  text)
+    text = re.sub("(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)([- /.]{,2}(\d{4}|\d{2})){,1})(?P<" +
+                  punctuation_name + ">\D)(?![^<]*>)",
+                  lambda date_match: get_date_replacement_(date_match, punctuation_name),
+                  text)
     return text
 
 
@@ -477,12 +490,10 @@ def annotate_postalcode(text):
     """Annotate postal codes"""
     text = re.sub(
         "(((\d{4} [A-Z]{2})|(\d{4}[a-zA-Z]{2})))(?P<n>\W)(?![^<]*>)",
-        "<LOCATIE \\1> ",
+        "<LOCATIE \\1>\\5",
         text,
     )
-
     text = re.sub("<LOCATIE\s(\d{4}mg)>", "\\1", text)
-
     text = re.sub("([Pp]ostbus\s\d{5})", "<LOCATIE \\1>", text)
     return text
 

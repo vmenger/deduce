@@ -203,9 +203,13 @@ def annotate_text_structured(
     first_non_whitespace_character_index = utility.get_first_non_whitespace(text)
     # utility.get_annotations does not handle nested tags, so make sure not to pass it text with nested tags
     # Also, utility.get_annotations assumes that all tags are listed in the order they appear in the text
-    annotations = utility.get_annotations(
-        annotated_text, tags, first_non_whitespace_character_index
-    )
+    annotations = utility.get_annotations(annotated_text, tags, first_non_whitespace_character_index)
+
+    # Check if there are any annotations whose start+end do not correspond to the text in the annotation
+    mismatched_annotations = [ann for ann in annotations if text[ann.start_ix:ann.end_ix] != ann.text_]
+    if len(mismatched_annotations) > 0:
+        print('WARNING:', len(mismatched_annotations), 'annotations have texts that do not match the original text')
+
     return annotations
 
 
