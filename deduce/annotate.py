@@ -391,6 +391,11 @@ def annotate_institution(annotated_spans: list) -> list:
         token_index = token_index + 1
         token = annotated_spans[token_index]
 
+        # If this token has already been annotated, skip it
+        if token.is_annotation():
+            tokens_deid.append(token)
+            continue
+
         # Find all tokens that are prefixes of the remainder of the lowercase text
         prefix_matches = INSTITUTION_TRIE.find_all_prefixes(tokens_lower[token_index:])
 
@@ -625,6 +630,7 @@ def annotate_email(text: str, spans: list) -> list:
     return match_by_pattern_(text, spans, pattern, group=1, tag='URL', ignore_matches_with_annotations=True)
 
 
+# Todo: remove the "text" parameter, which is not used
 def annotate_url(text: str, spans: list) -> list:
     """Annotate urls"""
     patterns = ["((?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?)(?![^<]*>)",

@@ -517,5 +517,11 @@ class TestAnnotateMethods(unittest.TestCase):
         expected = [[spans[0]], [], [spans[3]]], spans[1:3]
         self.assertEqual(expected, split)
 
+    def test_skip_annotated_spans(self):
+        spans = [Token(0, 1, 'Altrecht', 'PATIENT')]
+        institutions = annotate.annotate_institution(spans)
+        self.assertEqual(spans, institutions)
+
+
 if __name__ == "__main__":
     unittest.main()
