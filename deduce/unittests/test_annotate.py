@@ -537,36 +537,5 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(1, len(annotated))
         self.assertEqual('ACHTERNAAMPAT', annotated[0].annotation)
 
-    def test_annotate_names_context_initials(self):
-        # This is an edge case; it's not even clear this is expected behaviour, but I'm emulating old behaviour
-        annotated = [Token(0, 2, 'J.', 'INITIAALPAT'),
-                     Token(2, 4, 'A.', 'INITIAALPAT'),
-                     Token(4, 5, 'M', ''),
-                     Token(5, 7, '. ', ''),
-                     Token(7, 12, 'Witte', 'ACHTERNAAMONBEKEND')]
-        expected = '<INITIAALPAT J.><INITIAALPAT A.><INITIAAL M. <ACHTERNAAMONBEKEND Witte>>'
-        contexted = ''.join([el.as_text() for el in annotate.annotate_names_context(annotated)])
-        self.assertEqual(expected, contexted)
-
-    def test_group_adjacent_tags(self):
-        group1 = [Token(0, 1, 'a', ''), Token(1, 2, 'b', 'PERSOON'), Token(2, 3, 'c', 'LOCATIE'), Token(3, 4, 'd', '')]
-        group2 = [Token(0, 1, 'b', 'PERSOON'), Token(1, 2, 'c', 'LOCATIE'), Token(2, 3, 'd', '')]
-        group3 = [Token(0, 1, 'a', ''), Token(1, 2, 'b', 'PERSOON'), Token(2, 3, 'c', 'LOCATIE')]
-        group4 = [Token(0, 1, 'a', ''), Token(1, 2, 'b', 'PERSOON'), Token(2, 3, 'c', 'LOCATIE'), Token(3, 4, 'd', ''),
-                  Token(4, 5, 'e', 'PERSOON'), Token(5, 6, 'f', 'LOCATIE')]
-        grouped = [annotate.group_adjacent_tags_(el) for el in (group1, group2, group3, group4)]
-        assert len(grouped[0]) == 3 and grouped[0][1].as_text() == '<PERSOON b><LOCATIE c>'
-        assert len(grouped[1]) == 2 and grouped[1][0].as_text() == '<PERSOON b><LOCATIE c>'
-        assert len(grouped[2]) == 2 and grouped[2][1].as_text() == '<PERSOON b><LOCATIE c>'
-        assert len(grouped[3]) == 4 and grouped[3][3].as_text() == '<PERSOON e><LOCATIE f>'
-
-    def test_group_adjacent_tags_single(self):
-        spans = [Token(0, 1, 'a', 'a')]
-        expected = spans
-        output = annotate.group_adjacent_tags_(spans)
-        self.assertEqual(expected, output)
-
-
-
 if __name__ == "__main__":
     unittest.main()
