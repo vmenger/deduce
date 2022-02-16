@@ -627,7 +627,8 @@ def annotate_address(text: str, spans: list) -> list:
 def annotate_email(text: str, spans: list) -> list:
     """Annotate emails"""
     pattern = "(([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?))(?![^<]*>)"
-    return match_by_pattern_(text, spans, pattern, group=1, tag='URL', ignore_matches_with_annotations=True)
+    return match_between_annotations_(spans, pattern, group=1, tag='URL')
+    #return match_by_pattern_(text, spans, pattern, group=1, tag='URL', ignore_matches_with_annotations=True)
 
 
 # Todo: remove the "text" parameter, which is not used
@@ -639,6 +640,7 @@ def annotate_url(text: str, spans: list) -> list:
         spans = match_between_annotations_(spans, pattern, 1, 'URL')
     return spans
 
+# Todo: check if there are any calls to ignore_matches_with_annotations; they might be invalid
 def match_by_pattern_(
         text: str,
         spans: list,

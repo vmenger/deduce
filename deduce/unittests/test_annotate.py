@@ -123,6 +123,7 @@ class TestAnnotateMethods(unittest.TestCase):
             patient_initial=patient_initials,
             patient_given_name=patient_given_name,
         )
+        # noinspection PyTypeChecker
         expected = tokens[:3] + [TokenGroup(tokens[3:5], 'INITIAALPAT')] + tokens[5:]
         self.assertEqual(expected, annotated_names)
 
@@ -424,6 +425,15 @@ class TestAnnotateMethods(unittest.TestCase):
         annotated = annotate.annotate_email(address, spans)
         self.assertEqual(1, len(annotated))
         self.assertEqual(expected_text, annotated[0].flatten().as_text())
+
+    def test_annotate_email_tag_overlap(self):
+        address = 'j.jnsen@email.com'
+        spans = tokenize(address)
+        spans[0] = spans[0].with_annotation('PERSOON')
+        expected_text = '<PERSOON j>.<URL jnsen@email.com>'
+        annotated = annotate.annotate_email(address, spans)
+        self.assertEqual(3, len(annotated))
+        self.assertEqual(expected_text, ''.join([el.flatten().as_text() for el in annotated]))
 
     def test_annotate_url_ignore_email(self):
         address = 'j.jnsen@email.com'
