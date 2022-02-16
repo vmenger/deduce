@@ -205,8 +205,53 @@ def annotate_names(
     return tokens_deid
 
 
-def annotate_names_context(tokens: list) -> list:
+def group_adjacent_tags_(spans: list) -> list:
+    """
+    For the purpose of annotate_names_context
+    :param spans: a list of spans
+    :return: the same list of spans, but adjacent spans that are annotations are grouped together, without annotation
+    """
+    grouped = []
+    group = []
+    for token in spans:
+        if token.is_annotation():
+            group.append(token)
+        else:
+            if group:
+                if len(group) > 1:
+                    grouped.append(TokenGroup(group, ''))
+                else:
+                    grouped.append(group[0])
+                group = []
+            grouped.append(token)
+    if group:
+        if len(group) > 1:
+            grouped.append(TokenGroup(group, ''))
+        else:
+            grouped.append(group[0])
+    return grouped
+
+
+def expand_non_annotated_groups_(spans: list) -> list:
+    """
+    For the purpose of annotate_names_context
+    :param spans: a list of spans, some of which might be groups without an annotation
+    :return: the same list of spans, but non-annotated groups are expanded
+    """
+    out_spans = []
+    for span in spans:
+        if type(span) == TokenGroup and span.annotation == '':
+            out_spans += span.tokens
+        else:
+            out_spans.append(span)
+    return out_spans
+
+
+def annotate_names_context(orig_tokens: list) -> list:
     """This function annotates person names, based on its context in the text"""
+
+    # Group adjacent annotations together for the purpose of this method
+    tokens = group_adjacent_tags_(orig_tokens)
 
     # Tokenize text and initiate a list of deidentified tokens
     tokens_deid = []
@@ -245,7 +290,8 @@ def annotate_names_context(tokens: list) -> list:
 
         # If match, tag the token and continue
         if initial_condition:
-            tokens_deid.append(TokenGroup(tokens[token_index: next_token_index + 1], 'INITIAAL'))
+            tokens_deid.append(TokenGroup(expand_non_annotated_groups_(tokens[token_index: next_token_index + 1]),
+                                          'INITIAAL'))
             token_index = next_token_index
             continue
 
@@ -278,7 +324,8 @@ def annotate_names_context(tokens: list) -> list:
             )
             deid_tokens_to_keep = tokens_deid[previous_token_index_deid:]
             tokens_deid = tokens_deid[:previous_token_index_deid]
-            group = TokenGroup(deid_tokens_to_keep + tokens[token_index:next_token_index + 1], 'INTERFIXACHTERNAAM')
+            group = TokenGroup(expand_non_annotated_groups_(deid_tokens_to_keep + tokens[token_index:next_token_index + 1]),
+                               'INTERFIXACHTERNAAM')
             tokens_deid.append(group)
             token_index = next_token_index
             continue
@@ -301,7 +348,8 @@ def annotate_names_context(tokens: list) -> list:
 
         # If a match is found, tag and continue
         if initial_name_condition:
-            tokens_deid.append(TokenGroup(tokens[token_index: next_token_index + 1], 'INITIAALHOOFDLETTERNAAM'))
+            tokens_deid.append(TokenGroup(expand_non_annotated_groups_(tokens[token_index: next_token_index + 1]),
+                                          'INITIAALHOOFDLETTERNAAM'))
             token_index = next_token_index
             continue
 
@@ -322,7 +370,7 @@ def annotate_names_context(tokens: list) -> list:
                 tokens_deid, len(tokens_deid)
             )
             tokens_deid = tokens_deid[:previous_token_index_deid]
-            token_group = TokenGroup([previous_token_deid] + tokens[previous_token_index + 1: next_token_index + 1],
+            token_group = TokenGroup(expand_non_annotated_groups_([previous_token_deid] + tokens[previous_token_index + 1: next_token_index + 1]),
                                      'MEERDEREPERSONEN')
             tokens_deid.append(token_group)
             token_index = next_token_index
@@ -331,11 +379,11 @@ def annotate_names_context(tokens: list) -> list:
         # Nothing has been added (ie no deidentification tag) to tokens_deid,
         # so we can safely add the token itself
         if len(tokens_deid) == numtokens_deid:
-            tokens_deid.append(token)
+            tokens_deid += expand_non_annotated_groups_([token])
 
     # If nothing changed, we are done
-    if tokens == tokens_deid:
-        return tokens
+    if orig_tokens == tokens_deid:
+        return orig_tokens
 
     # Else, run the annotation based on context again
     return annotate_names_context(tokens_deid)
