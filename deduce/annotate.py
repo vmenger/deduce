@@ -134,7 +134,7 @@ def annotate_names(
             if not token.is_annotation() and edit_distance(token.text, surname_pattern[0], transpositions=True) <= 1 \
                     and (
                 token_index + len(surname_pattern)
-            ) < len(tokens):
+            ) < len(tokens) + 1:
 
                 # Found a match
                 match = True

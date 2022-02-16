@@ -522,6 +522,10 @@ class TestAnnotateMethods(unittest.TestCase):
         institutions = annotate.annotate_institution(spans)
         self.assertEqual(spans, institutions)
 
+    def test_annotate_last_patient_surname(self):
+        annotated = annotate.annotate_names([Token(0, 6, 'Peters', '')], '', '', 'Peters', '')
+        self.assertEqual(1, len(annotated))
+        self.assertEqual('ACHTERNAAMPAT', annotated[0].annotation)
 
 if __name__ == "__main__":
     unittest.main()
