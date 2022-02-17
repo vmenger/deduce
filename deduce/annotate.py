@@ -391,11 +391,6 @@ def annotate_institution(annotated_spans: list) -> list:
         token_index = token_index + 1
         token = annotated_spans[token_index]
 
-        # If this token has already been annotated, skip it
-        if token.is_annotation():
-            tokens_deid.append(token)
-            continue
-
         # Find all tokens that are prefixes of the remainder of the lowercase text
         prefix_matches = INSTITUTION_TRIE.find_all_prefixes(tokens_lower[token_index:])
 
@@ -406,7 +401,15 @@ def annotate_institution(annotated_spans: list) -> list:
 
         # Else annotate the longest sequence as institution
         max_list = max(prefix_matches, key=len)
-        joined_institution = TokenGroup(annotated_spans[token_index:token_index + len(max_list)], 'INSTELLING')
+        matched_spans = annotated_spans[token_index:token_index + len(max_list)]
+
+        # If any of these spans have already been annotated, skip this span
+        # Todo: this means St. <PERSOON Antonius> stays as it is, which is a bug. This should be revisited
+        if any([span.is_annotation() for span in matched_spans]):
+            tokens_deid.append(token)
+            continue
+
+        joined_institution = TokenGroup(matched_spans, 'INSTELLING')
         tokens_deid.append(joined_institution)
         token_index += len(max_list) - 1
 

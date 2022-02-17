@@ -537,5 +537,12 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(1, len(annotated))
         self.assertEqual('ACHTERNAAMPAT', annotated[0].annotation)
 
+    # St. <PERSOON Antonius> should not get reannotated as <INSTELLING St. Antonius>
+    # Todo: actually, it should, but I'm trying to reproduce existing behaviour
+    def test_institution_does_not_override_name(self):
+        annotated_spans = [Token(0, 2, 'St', ''), Token(2, 4, '. ', ''), Token(4, 12, 'Antonius', 'PERSOON')]
+        with_inst = annotate.annotate_institution(annotated_spans)
+        self.assertEqual(annotated_spans, with_inst)
+
 if __name__ == "__main__":
     unittest.main()
