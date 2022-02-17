@@ -189,8 +189,8 @@ def annotate_text_spans_(
 
     # Urls
     if urls:
-        spans = annotate_email(text, spans)
-        spans = annotate_url(text, spans)
+        spans = annotate_email(spans)
+        spans = annotate_url(spans)
 
     # Merge adjacent tags
     spans = merge_adjacent_tags(spans)

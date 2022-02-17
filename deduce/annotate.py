@@ -520,7 +520,7 @@ def annotate_postcode(text: str, spans: list) -> list:
     # Annotate everything that looks like a postcode
     pattern = "(((\d{4} [A-Z]{2})|(\d{4}[a-zA-Z]{2})))(?P<n>\W)(?![^<]*>)"
     post_box_matches = [parse_postal_code_(match) for match in re.finditer(pattern, text)]
-    new_spans = insert_matches_(post_box_matches, spans, reject_annotation_spans=True)
+    new_spans = insert_matches_(post_box_matches, spans)
 
     # Remove "postcodes" that are really milligrams
     new_spans = remove_mg_(new_spans)
@@ -559,6 +559,7 @@ def split_at_match_boundaries_(
             new_spans = [TokenGroup(new_spans, spans[0].annotation)]
         return new_spans
     if any([span.is_annotation() for span in spans]):
+        # Todo: handle this exception
         raise AnnotationError('The spans corresponding to the match belong to annotations')
     split_spans = []
     component_spans = []
@@ -580,39 +581,35 @@ def split_at_match_boundaries_(
         split_spans.append(last_span)
     return split_spans
 
-def insert_match_(match: AbstractSpan, spans: list, reject_annotation_spans: bool) -> list:
+def insert_match_(match: AbstractSpan, spans: list) -> list:
     """
     Given a match in the text corresponding to an address, and the entire list of spans in the text,
     update the list of spans to include the new annotation
     :param match: a regular expression match
     :param spans: the list of previously computed spans
-    :param reject_annotation_spans: if True, avoid inserting a match if the original spans are annotated
     :return: the new list of spans, including the newly found annotation
     """
     span_ixs = [ix for ix, span in enumerate(spans) if intersect_(span, match)]
     if span_ixs != list(range(span_ixs[0], len(span_ixs) + span_ixs[0])):
         raise ValueError('The match corresponds to non-consecutive spans')
-    if reject_annotation_spans and any([spans[ix].is_annotation() for ix in span_ixs]):
+    selected_spans = [spans[ix] for ix in span_ixs]
+    if any([span.is_annotation() for span in selected_spans]):
         return spans
-    new_spans = split_at_match_boundaries_([spans[ix] for ix in span_ixs], match)
+    new_spans = split_at_match_boundaries_(selected_spans, match)
     return spans[:span_ixs[0]] + new_spans + spans[span_ixs[-1]+1:]
 
 def insert_matches_(
         matches: list,
-        spans: list,
-        reject_annotation_spans=False
-) -> list:
+        spans: list) -> list:
     """
     Create annotations for the patterns found
     :param matches: the matches found in the text
     :param spans: a list of previously found spans that cover the entire text
-    :param reject_annotation_spans: if True,
-    matches corresponding to spans where there are annotations will not be inserted
     :return: a new list of spans covering the entire text, with the new annotations embedded in them
     """
     new_spans = spans.copy()
     for match in matches:
-        new_spans = insert_match_(match, new_spans, reject_annotation_spans=reject_annotation_spans)
+        new_spans = insert_match_(match, new_spans)
     return new_spans
 
 def annotate_address(text: str, spans: list) -> list:
@@ -624,18 +621,17 @@ def annotate_address(text: str, spans: list) -> list:
     """
     pattern = r"([A-Z]\w+(straat|laan|hof|plein|gracht|weg|pad|dijk|baan|dam|dreef|kade|markt|park|plantsoen|singel|" \
               r"bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2})?|(\d+){0,6}))"
-    return match_by_pattern_(text, spans, pattern, group=0, tag='LOCATIE', ignore_matches_with_annotations=True)
+    return match_by_pattern_(text, spans, pattern, group=0, tag='LOCATIE')
 
 
-def annotate_email(text: str, spans: list) -> list:
+def annotate_email(spans: list) -> list:
     """Annotate emails"""
     pattern = "(([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?))(?![^<]*>)"
     return match_between_annotations_(spans, pattern, group=1, tag='URL')
     #return match_by_pattern_(text, spans, pattern, group=1, tag='URL', ignore_matches_with_annotations=True)
 
 
-# Todo: remove the "text" parameter, which is not used
-def annotate_url(text: str, spans: list) -> list:
+def annotate_url(spans: list) -> list:
     """Annotate urls"""
     patterns = ["((?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?)(?![^<]*>)",
                 "([\w\d\.-]{3,}(\.)(nl|com|net|be)(/[^\s]+){,1})(?![^<]*>)"]
@@ -643,14 +639,12 @@ def annotate_url(text: str, spans: list) -> list:
         spans = match_between_annotations_(spans, pattern, 1, 'URL')
     return spans
 
-# Todo: check if there are any calls to ignore_matches_with_annotations; they might be invalid
 def match_by_pattern_(
         text: str,
         spans: list,
         pattern: str,
         group: int,
-        tag: str,
-        ignore_matches_with_annotations=False
+        tag: str
 ) -> list:
     if not spans:
         if text.strip():
@@ -658,7 +652,7 @@ def match_by_pattern_(
         return []
     matches = [strip_match_and_tag_(match.group(group), match.start(group) + spans[0].start_ix, tag)
                for match in re.finditer(pattern, text)]
-    return insert_matches_(matches, spans, ignore_matches_with_annotations)
+    return insert_matches_(matches, spans)
 
 def match_between_annotations_(spans: list, pattern: str, group: int, tag: str) -> list:
     # Only do matching in the segments that do not have annotations

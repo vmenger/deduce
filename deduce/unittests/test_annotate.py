@@ -306,7 +306,6 @@ class TestAnnotateMethods(unittest.TestCase):
     # TODO: the following text reproduces current behaviour, but it's actually incorrect annotation
     # 17-07-2015 HB should be annotated as <DATUM 17-07-2015> HB, not <DATUM 17-07>-<LOCATIE 2015 HB>
     def test_annotate_date_postcode_conflict(self):
-        text = '17-07-2015 HB   hemoglobine (Hb) 10,0  '
         spans = ['17-07-', '2015 HB', '   ', 'hemoglobine', ' (', 'Hb', ') 10,0  ']
         start_ix = 0
         for i, span in enumerate(spans):
@@ -409,20 +408,11 @@ class TestAnnotateMethods(unittest.TestCase):
         expected = [TokenGroup(spans, 'LOCATIE')]
         self.assertEqual(expected, annotate.annotate_residence(spans))
 
-    def test_annotate_patient_number(self):
-        spans = [Token(0, 98, ' ' * 98, ''), Token(98, 109, '06-12345678', 'TELEFOONNUMMER')]
-        expected_tokens = [Token(98, 101, '06-', ''),
-                           Token(101, 108, '1234567', 'PATIENTNUMMER'),
-                           Token(108, 109, '8', '')]
-        expected = [Token(0, 98, ' ' * 98, ''), TokenGroup(expected_tokens, 'TELEFOONNUMMER')]
-        annotated = annotate.annotate_patient_number(' ' * 98 + '06-12345678', spans)
-        self.assertEqual(expected, annotated)
-
     def test_annotate_email(self):
         address = 'j.jnsen@email.com'
         spans = tokenize(address)
         expected_text = '<URL ' + address + '>'
-        annotated = annotate.annotate_email(address, spans)
+        annotated = annotate.annotate_email(spans)
         self.assertEqual(1, len(annotated))
         self.assertEqual(expected_text, annotated[0].flatten().as_text())
 
@@ -431,7 +421,7 @@ class TestAnnotateMethods(unittest.TestCase):
         spans = tokenize(address)
         spans[0] = spans[0].with_annotation('PERSOON')
         expected_text = '<PERSOON j>.<URL jnsen@email.com>'
-        annotated = annotate.annotate_email(address, spans)
+        annotated = annotate.annotate_email(spans)
         self.assertEqual(3, len(annotated))
         self.assertEqual(expected_text, ''.join([el.flatten().as_text() for el in annotated]))
 
@@ -440,16 +430,15 @@ class TestAnnotateMethods(unittest.TestCase):
         spans = tokenize(address)
         expected_text = '<URL ' + address + '>'
         token_group = TokenGroup(spans, 'URL') # Previously annotated email address
-        annotated = annotate.annotate_url(address, [token_group])
+        annotated = annotate.annotate_url([token_group])
         flattened = flatten_text_all_phi(annotated)
         self.assertEqual(1, len(flattened))
         self.assertEqual(expected_text, flattened[0].as_text())
 
     def test_annotate_url_with_institution(self):
-        url = 'youke.nl'
         spans = [Token(0, 5, 'youke', 'INSTELLING'), Token(5, 6, '.', ''), Token(6, 8, 'nl', '')]
         expected = spans
-        annotated = annotate.annotate_url(url, spans)
+        annotated = annotate.annotate_url(spans)
         self.assertEqual(expected, annotated)
 
     def test_annotate_url_https(self):
@@ -457,7 +446,7 @@ class TestAnnotateMethods(unittest.TestCase):
         tokens = tokenize(text)
         spans = tokens
         expected = [TokenGroup(tokens, 'URL')]
-        annotated = annotate.annotate_url(text, spans)
+        annotated = annotate.annotate_url(spans)
         self.assertEqual(expected, annotated)
 
     def test_annotate_url_attached(self):
@@ -465,7 +454,7 @@ class TestAnnotateMethods(unittest.TestCase):
         text = 'https://www.jellinek.nl/(br)T'
         tokens = tokenize(text)
         spans = tokens[:len(tokens)-1] + [tokens[-1].with_annotation('PATIENT')]
-        annotated = annotate.annotate_url(text, spans)
+        annotated = annotate.annotate_url(spans)
         expected = [TokenGroup(spans[:len(spans)-1], 'URL'), spans[-1]]
         self.assertEqual(expected, annotated)
 
@@ -477,21 +466,8 @@ class TestAnnotateMethods(unittest.TestCase):
                   Token(12, 13, '.', ''),
                   Token(13, 16, 'com', '')]
         match = Token(0, 16, 'Jansen@email.com', 'URL')
-        inserted = annotate.insert_match_(match, tokens, reject_annotation_spans=True)
+        inserted = annotate.insert_match_(match, tokens)
         self.assertEqual(tokens, inserted)
-
-    def test_insert_match_reject_annotation_error(self):
-        tokens = [Token(0, 6, 'Jansen', 'PATIENT'),
-                  Token(6, 7, '@', ''),
-                  Token(7, 12, 'email', ''),
-                  Token(12, 13, '.', ''),
-                  Token(13, 16, 'com', '')]
-        match = Token(0, 16, 'Jansen@email.com', 'URL')
-        self.assertRaisesRegex(
-            AnnotationError,
-            'The spans corresponding to the match belong to annotations',
-            lambda: annotate.insert_match_(match, tokens, reject_annotation_spans=False)
-        )
 
     def test_match_by_pattern_shift(self):
         # Test that, if spans don't start from index 0, we still recover the correct spans
@@ -500,8 +476,7 @@ class TestAnnotateMethods(unittest.TestCase):
         pattern = 'love'
         group = 0
         tag = 'VERB'
-        ignore_matches_with_annotations = False
-        annotated_spans = annotate.match_by_pattern_(text, spans, pattern, group, tag, ignore_matches_with_annotations)
+        annotated_spans = annotate.match_by_pattern_(text, spans, pattern, group, tag)
         expected = [Token(10, 11, 'I', ''), Token(11, 12, ' ', ''), Token(12, 16, 'love', 'VERB')]
         self.assertEqual(expected, annotated_spans)
 
