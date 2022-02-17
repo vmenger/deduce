@@ -232,7 +232,7 @@ def annotate_names_context(tokens: list) -> list:
         ### Initial or unknown capitalized word, detected by a name or surname that is behind it
         # If the token is an initial, or starts with a capital
         initial_condition = (
-            is_initial(token) and not token.is_annotation()
+            is_initial(token)
             or (not token.is_annotation() and token.text != '' and token.text[0].isupper()
                 and token.text.lower() not in WHITELIST)
         ) and (
