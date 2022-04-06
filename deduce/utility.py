@@ -353,7 +353,6 @@ def read_list(
     strip=True,
     min_len=None,
     normalize=None,
-    unique=True,
 ):
     """Read a list from file and return the values."""
 
@@ -371,12 +370,14 @@ def read_list(
     if min_len:
         data = [line for line in data if len(line) >= min_len]
 
-    if unique:
-        data_nodoubles = list(set(data))
-    else:
-        return data
+    # if unique:
+    #     data_nodoubles = list(set(data))
+    # else:
+    #     return data
 
-    return data_nodoubles
+    # return data_nodoubles
+
+    return set(data)
 
 
 def parse_tag(tag: str) -> tuple:
