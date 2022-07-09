@@ -1,9 +1,6 @@
 """ This module contains all kinds of utility functionality """
 
-import codecs
-import os
 import re
-import unicodedata
 from functools import reduce
 
 
@@ -333,50 +330,6 @@ def split_tags(text):
 
     # Filter empty elements in the list (happens for example when <tag><tag> occurs)
     return [x for x in splitbytags if len(x) > 0]
-
-
-def get_data(path):
-    """Define where to find the data files"""
-    return os.path.join(os.path.abspath(os.path.dirname(__file__)), "data", path)
-
-
-def _normalize_value(line):
-    """Removes all non-ascii characters from a string"""
-    line = str(bytes(line, encoding="ascii", errors="ignore"), encoding="ascii")
-    return unicodedata.normalize("NFKD", line)
-
-
-def read_list(
-    list_name,
-    encoding="utf-8",
-    lower=False,
-    strip=True,
-    min_len=None,
-    normalize=None,
-    unique=True,
-):
-    """Read a list from file and return the values."""
-
-    data = codecs.open(get_data(list_name), encoding=encoding)
-
-    if normalize == "ascii":
-        data = [_normalize_value(line) for line in data]
-
-    if lower:
-        data = [line.lower() for line in data]
-
-    if strip:
-        data = [line.strip() for line in data]
-
-    if min_len:
-        data = [line for line in data if len(line) >= min_len]
-
-    if unique:
-        data_nodoubles = list(set(data))
-    else:
-        return data
-
-    return data_nodoubles
 
 
 def parse_tag(tag: str) -> tuple:

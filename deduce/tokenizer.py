@@ -1,10 +1,9 @@
 """ This module contains all tokenizing functionality """
-import codecs
+from ddt.datastructures import LookupTrie
 
-from .listtrie import ListTrie
-from .utility import get_data
-from .utility import merge_triebased
-from .utility import type_of
+from deduce.lookup.lookup_lists import get_lookup_lists
+
+from .utility import merge_triebased, type_of
 
 
 def tokenize_split(text, merge=True):
@@ -59,19 +58,14 @@ def join_tokens(tokens):
 
 # This trie contains all strings that should be regarded as a single token
 # These are: all interfixes, A1-A4, and some special characters like \n, \r and \t
-NOSPLIT_TRIE = ListTrie()
-
-# Read interfixes
-INTERFIXES = list(
-    set(line.strip() for line in codecs.open(get_data("voorvoegsel.lst")))
-)
-PREFIXES = list(set(line.strip() for line in codecs.open(get_data("prefix.lst"))))
+lookup_lists = get_lookup_lists()
+NOSPLIT_TRIE = LookupTrie()
 
 # Fill trie
-for interfix in INTERFIXES:
+for interfix in lookup_lists["interfixes"]:
     NOSPLIT_TRIE.add(tokenize_split(interfix, False))
 
-for prefix in PREFIXES:
+for prefix in lookup_lists["prefixes"]:
     NOSPLIT_TRIE.add(tokenize_split(prefix, False))
 
 for value in ["A1", "A2", "A3", "A4", "\n", "\r", "\t"]:

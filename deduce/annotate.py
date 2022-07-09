@@ -1,11 +1,17 @@
 """ The annotate module contains the code for annotating text"""
 
+import re
+
 from nltk.metrics import edit_distance
 
-from .lookup_lists import *
-from .tokenizer import join_tokens
-from .utility import context
-from .utility import is_initial
+from deduce.lookup.lookup_lists import get_lookup_lists
+from deduce.lookup.lookup_tries import get_lookup_tries
+
+from .tokenizer import join_tokens, tokenize_split
+from .utility import context, is_initial
+
+LOOKUP_LISTS = get_lookup_lists()
+LOOKUP_TRIES = get_lookup_tries()
 
 
 def annotate_names(
@@ -34,10 +40,10 @@ def annotate_names(
         ### Prefix based detection
         # Check if the token is a prefix, and the next token starts with a capital
         prefix_condition = (
-            token.lower() in PREFIXES
+            token.lower() in LOOKUP_LISTS["prefixes"]
             and next_token != ""
             and next_token[0].isupper()
-            and next_token.lower() not in WHITELIST
+            and next_token.lower() not in LOOKUP_LISTS["whitelist"]
         )
 
         # If the condition is met, tag the tokens and continue to the next position
@@ -51,10 +57,10 @@ def annotate_names(
         ### Interfix based detection
         # Check if the token is an interfix, and the next token is in the list of interfix surnames
         interfix_condition = (
-            token.lower() in INTERFIXES
+            token.lower() in LOOKUP_LISTS["interfixes"]
             and next_token != ""
-            and next_token in INTERFIX_SURNAMES
-            and next_token.lower() not in WHITELIST
+            and next_token in LOOKUP_LISTS["interfix_surnames"]
+            and next_token.lower() not in LOOKUP_LISTS["whitelist"]
         )
 
         # If condition is met, tag the tokens and continue to the new position
@@ -186,11 +192,17 @@ def annotate_names(
         ### Unknown first and last names
         # For both first and last names, check if the token
         # is on the lookup list and not on the whitelist
-        if token in FIRST_NAMES and token.lower() not in WHITELIST:
+        if (
+            token in LOOKUP_LISTS["first_names"]
+            and token.lower() not in LOOKUP_LISTS["whitelist"]
+        ):
             tokens_deid.append(f"<VOORNAAMONBEKEND {token}>")
             continue
 
-        if token in SURNAMES and token.lower() not in WHITELIST:
+        if (
+            token in LOOKUP_LISTS["surnames"]
+            and token.lower() not in LOOKUP_LISTS["whitelist"]
+        ):
             tokens_deid.append(f"<ACHTERNAAMONBEKEND {token}>")
             continue
 
@@ -233,7 +245,11 @@ def annotate_names_context(text):
         # If the token is an initial, or starts with a capital
         initial_condition = (
             is_initial(token)
-            or (token != "" and token[0].isupper() and token.lower() not in WHITELIST)
+            or (
+                token != ""
+                and token[0].isupper()
+                and token.lower() not in LOOKUP_LISTS["whitelist"]
+            )
         ) and (
             # And the token is followed by either a
             # found surname, interfix or initial
@@ -254,7 +270,7 @@ def annotate_names_context(text):
 
         # If the token is an interfix
         interfix_condition = (
-            token in INTERFIXES
+            token in LOOKUP_LISTS["interfixes"]
             and
             # And the token is preceded by an initial, found initial or found name
             (
@@ -278,7 +294,9 @@ def annotate_names_context(text):
             tokens_deid = tokens_deid[:previous_token_index_deid]
             tokens_deid.append(
                 "<INTERFIXACHTERNAAM {}>".format(
-                    join_tokens(deid_tokens_to_keep + tokens[token_index:next_token_index + 1])
+                    join_tokens(
+                        deid_tokens_to_keep + tokens[token_index : next_token_index + 1]
+                    )
                 )
             )
             token_index = next_token_index
@@ -296,7 +314,7 @@ def annotate_names_context(text):
             )
             and len(next_token) > 3
             and next_token[0].isupper()
-            and next_token.lower() not in WHITELIST
+            and next_token.lower() not in LOOKUP_LISTS["whitelist"]
         )
 
         # If a match is found, tag and continue
@@ -362,7 +380,9 @@ def annotate_residence(text):
         token = tokens[token_index]
 
         # Find all tokens that are prefixes of the remainder of the text
-        prefix_matches = RESIDENCES_TRIE.find_all_prefixes(tokens[token_index:])
+        prefix_matches = LOOKUP_TRIES["residences"].find_all_prefixes(
+            tokens[token_index:]
+        )
 
         # If none, just append the current token and move to the next
         if len(prefix_matches) == 0:
@@ -377,6 +397,7 @@ def annotate_residence(text):
     # Return the de-identified text
     return join_tokens(tokens_deid)
 
+
 def replace_altrecht_text(match: re.Match) -> str:
     """
     <INSTELLING Altrecht> (with Altrecht in any casing) followed by words that start with capital letters is annotated
@@ -384,7 +405,12 @@ def replace_altrecht_text(match: re.Match) -> str:
     :param match: the match object from a regular expression search
     :return: the final string
     """
-    return match.group(0)[:len(match.group(0)) - len(match.group(1)) - 1] + match.group(1) + '>'
+    return (
+        match.group(0)[: len(match.group(0)) - len(match.group(1)) - 1]
+        + match.group(1)
+        + ">"
+    )
+
 
 def annotate_institution(text):
     """Annotate institutions"""
@@ -403,7 +429,9 @@ def annotate_institution(text):
         token = tokens[token_index]
 
         # Find all tokens that are prefixes of the remainder of the lowercasetext
-        prefix_matches = INSTITUTION_TRIE.find_all_prefixes(tokens_lower[token_index:])
+        prefix_matches = LOOKUP_TRIES["institutions"].find_all_prefixes(
+            tokens_lower[token_index:]
+        )
 
         # If none, just append the current token and move to the next
         if len(prefix_matches) == 0:
@@ -412,7 +440,9 @@ def annotate_institution(text):
 
         # Else annotate the longest sequence as institution
         max_list = max(prefix_matches, key=len)
-        joined_institution = join_tokens(tokens[token_index:token_index + len(max_list)])
+        joined_institution = join_tokens(
+            tokens[token_index : token_index + len(max_list)]
+        )
         tokens_deid.append("<INSTELLING {}>".format(joined_institution))
         token_index += len(max_list) - 1
 
@@ -420,32 +450,42 @@ def annotate_institution(text):
     text = join_tokens(tokens_deid)
 
     # Detect the word "Altrecht" followed by a capitalized word
-    text = re.sub('<INSTELLING [aA][lL][tT][rR][eE][cC][hH][tT]>((\s[A-Z]([\w]*))*)',
-                  replace_altrecht_text,
-                  text)
+    text = re.sub(
+        "<INSTELLING [aA][lL][tT][rR][eE][cC][hH][tT]>((\s[A-Z]([\w]*))*)",
+        replace_altrecht_text,
+        text,
+    )
 
     # Return the text
     return text
 
+
 def get_date_replacement_(date_match: re.Match, punctuation_name: str) -> str:
     punctuation = date_match[punctuation_name]
     if len(punctuation) != 1:
-        punctuation = ' '
-    return '<DATUM ' + date_match.group(1) + '>' + punctuation
+        punctuation = " "
+    return "<DATUM " + date_match.group(1) + ">" + punctuation
+
 
 ### Other annotation is done using a selection of finely crafted
 ### (but alas less finely documented) regular expressions.
 def annotate_date(text):
     # Name the punctuation mark that comes after a date, for replacement purposes
-    punctuation_name = 'n'
-    text = re.sub("(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2})){,1})(?P<" +
-                  punctuation_name + ">\D)(?![^<]*>)",
-                  lambda date_match: get_date_replacement_(date_match, punctuation_name),
-                  text)
-    text = re.sub("(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)([- /.]{,2}(\d{4}|\d{2})){,1})(?P<" +
-                  punctuation_name + ">\D)(?![^<]*>)",
-                  lambda date_match: get_date_replacement_(date_match, punctuation_name),
-                  text)
+    punctuation_name = "n"
+    text = re.sub(
+        "(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2})){,1})(?P<"
+        + punctuation_name
+        + ">\D)(?![^<]*>)",
+        lambda date_match: get_date_replacement_(date_match, punctuation_name),
+        text,
+    )
+    text = re.sub(
+        "(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)([- /.]{,2}(\d{4}|\d{2})){,1})(?P<"
+        + punctuation_name
+        + ">\D)(?![^<]*>)",
+        lambda date_match: get_date_replacement_(date_match, punctuation_name),
+        text,
+    )
     return text
 
 

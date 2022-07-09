@@ -9,9 +9,9 @@ class TestDeduceMethods(unittest.TestCase):
     def test_annotate_text(self):
 
         text = (
-            u"Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
-            u"(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
-            u"oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
+            "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
+            "(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
+            "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
         )
 
         annotated = deduce.annotate_text(
@@ -28,9 +28,9 @@ class TestDeduceMethods(unittest.TestCase):
 
     def test_annotate_text_structured(self):
         text = (
-            u"Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
-            u"(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
-            u"oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
+            "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
+            "(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
+            "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
         )
         annotated_text = (
             "Dit is stukje tekst met daarin de naam <PERSOON Jan Jansen>. De "

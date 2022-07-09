@@ -6,9 +6,9 @@ from deduce import annotate
 class TestAnnotateMethods(unittest.TestCase):
     def test_annotate_names(self):
         text = (
-            u"Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
-            u"(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
-            u"oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
+            "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
+            "(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
+            "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
         )
         annotated_names = annotate.annotate_names(
             text,
@@ -131,52 +131,62 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(expected_text, annotated)
 
     def test_preserve_institution_casing(self):
-        text = 'Ik ben in Altrecht geweest'
+        text = "Ik ben in Altrecht geweest"
         annotated_institutions_text = annotate.annotate_institution(text)
-        expected_text = 'Ik ben in <INSTELLING Altrecht> geweest'
+        expected_text = "Ik ben in <INSTELLING Altrecht> geweest"
         self.assertEqual(expected_text, annotated_institutions_text)
 
     def test_skip_mg(self):
-        text = '<LOCATIE Hoofdstraat> is mooi. (br)Lithiumcarbonaat 1600mg. Nog een zin'
+        text = "<LOCATIE Hoofdstraat> is mooi. (br)Lithiumcarbonaat 1600mg. Nog een zin"
         annotated_postcodes_text = annotate.annotate_postalcode(text)
         self.assertEqual(text, annotated_postcodes_text)
 
     def test_annotate_postcode(self):
-        text = 'Mijn postcode is 3500LX, toch?'
+        text = "Mijn postcode is 3500LX, toch?"
         annotated_postcodes_text = annotate.annotate_postalcode(text)
-        expected_text = text.replace('3500LX', '<LOCATIE 3500LX>')
+        expected_text = text.replace("3500LX", "<LOCATIE 3500LX>")
         self.assertEqual(expected_text, annotated_postcodes_text)
 
     def test_annotate_altrecht(self):
-        text = 'Opname bij xxx afgerond'
-        examples = [('altrecht lunetten', '<INSTELLING altrecht> lunetten'),
-                    ('altrecht Lunetten', '<INSTELLING altrecht Lunetten>'),
-                    ('Altrecht lunetten', '<INSTELLING Altrecht> lunetten'),
-                    ('Altrecht Lunetten', '<INSTELLING Altrecht Lunetten>'),
-                    ('Altrecht Willem Arntszhuis', '<INSTELLING Altrecht Willem Arntszhuis>'),
-                    ('Altrecht Lunetten ziekenhuis', '<INSTELLING Altrecht Lunetten> ziekenhuis'),
-                    ('ALtrecht Lunetten', '<INSTELLING ALtrecht Lunetten>')]
-        annotated = [annotate.annotate_institution(text.replace('xxx', el[0])) for el in examples]
-        expected = [text.replace('xxx', el[1]) for el in examples]
+        text = "Opname bij xxx afgerond"
+        examples = [
+            ("altrecht lunetten", "<INSTELLING altrecht> lunetten"),
+            ("altrecht Lunetten", "<INSTELLING altrecht Lunetten>"),
+            ("Altrecht lunetten", "<INSTELLING Altrecht> lunetten"),
+            ("Altrecht Lunetten", "<INSTELLING Altrecht Lunetten>"),
+            ("Altrecht Willem Arntszhuis", "<INSTELLING Altrecht Willem Arntszhuis>"),
+            (
+                "Altrecht Lunetten ziekenhuis",
+                "<INSTELLING Altrecht Lunetten> ziekenhuis",
+            ),
+            ("ALtrecht Lunetten", "<INSTELLING ALtrecht Lunetten>"),
+        ]
+        annotated = [
+            annotate.annotate_institution(text.replace("xxx", el[0])) for el in examples
+        ]
+        expected = [text.replace("xxx", el[1]) for el in examples]
         self.assertEqual(expected, annotated)
 
     def test_annotate_context_keep_initial(self):
-        text = 'Mijn naam is M <ACHTERNAAMONBEKEND Smid> de Vries'
+        text = "Mijn naam is M <ACHTERNAAMONBEKEND Smid> de Vries"
         annotated_context_names = annotate.annotate_names_context(text)
-        expected = 'Mijn naam is <INTERFIXACHTERNAAM <INITIAAL M <ACHTERNAAMONBEKEND Smid>> de Vries>'
+        expected = "Mijn naam is <INTERFIXACHTERNAAM <INITIAAL M <ACHTERNAAMONBEKEND Smid>> de Vries>"
         self.assertEqual(expected, annotated_context_names)
 
     def test_keep_punctuation_after_date(self):
-        text = 'Medicatie actueel	26-10, OXAZEPAM'
+        text = "Medicatie actueel	26-10, OXAZEPAM"
         annotated_dates = annotate.annotate_date(text)
-        expected = text.replace('26-10', '<DATUM 26-10>')
+        expected = text.replace("26-10", "<DATUM 26-10>")
         self.assertEqual(expected, annotated_dates)
 
     def test_two_dates_with_comma(self):
-        text = '24 april, 1 mei: pt gaat geen constructief contact aan'
+        text = "24 april, 1 mei: pt gaat geen constructief contact aan"
         annotated_dates = annotate.annotate_date(text)
-        expected = '<DATUM 24 april>, <DATUM 1 mei>: pt gaat geen constructief contact aan'
+        expected = (
+            "<DATUM 24 april>, <DATUM 1 mei>: pt gaat geen constructief contact aan"
+        )
         self.assertEqual(expected, annotated_dates)
+
 
 if __name__ == "__main__":
     unittest.main()
