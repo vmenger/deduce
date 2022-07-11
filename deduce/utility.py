@@ -24,53 +24,6 @@ class Annotation:
         return self.tag + "[" + str(self.start_ix) + ":" + str(self.end_ix) + "]"
 
 
-def merge_triebased(tokens, trie):
-    """
-    This function merges all sublists of tokens that occur in the trie to one element
-    in the list of tokens. For example: if the tree contains ["A", "1"],
-    then in the list of tokens ["Patient", "is", "opgenomen", "op", "A", "1"]  the sublist
-    ["A", "1"] can be found in the Trie and will thus be merged,
-    resulting in ["Patient", "is", "opgenomen", "op", "A1"]
-    """
-
-    # Return this list
-    tokens_merged = []
-    i = 0
-
-    # Iterate over tokens
-    while i < len(tokens):
-
-        # Check for each item until the end if there are prefixes of the list in the Trie
-        prefix_matches = trie.find_all_prefixes(tokens[i:])
-
-        # If no prefixes are in the Trie, append the first token and move to the next one
-        if len(prefix_matches) == 0:
-            tokens_merged.append(tokens[i])
-            i += 1
-
-        # Else check the maximum length list of tokens, append it to the list that will be returned,
-        # and then skip all the tokens in the list
-        else:
-            max_list = max(prefix_matches, key=len)
-            tokens_merged.append("".join(max_list))
-            i += len(max_list)
-
-    # Return the list
-    return tokens_merged
-
-
-def type_of(char):
-    """Determines whether a character is alpha, a fish hook, or other"""
-
-    if char.isalpha():
-        return "alpha"
-
-    if char in ("<", ">"):
-        return "hook"
-
-    return "other"
-
-
 def any_in_text(matchlist, token):
     """Check if any of the strings in matchlist are in the string token"""
     return reduce(lambda x, y: x | y, map(lambda x: x in token, matchlist))

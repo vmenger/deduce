@@ -2,16 +2,33 @@
 
 import re
 
+from ddt.datastructures import LookupList
 from nltk.metrics import edit_distance
 
 from deduce.lookup.lookup_lists import get_lookup_lists
 from deduce.lookup.lookup_tries import get_lookup_tries
+from deduce.tokenizer import Tokenizer
 
-from .tokenizer import join_tokens, tokenize_split
 from .utility import context, is_initial
 
-LOOKUP_LISTS = get_lookup_lists()
-LOOKUP_TRIES = get_lookup_tries()
+
+def _initialize():
+
+    lookup_lists = get_lookup_lists()
+
+    merge_terms = LookupList()
+    merge_terms.add_items_from_iterable(["A1", "A2", "A3", "A4", "\n", "\r", "\t"])
+    merge_terms += lookup_lists["interfixes"]
+    merge_terms += lookup_lists["prefixes"]
+
+    tokenizer = Tokenizer(merge_terms=merge_terms)
+
+    lookup_tries = get_lookup_tries(tokenizer)
+
+    return lookup_lists, lookup_tries, tokenizer
+
+
+lookup_lists, lookup_tries, tokenizer = _initialize()
 
 
 def annotate_names(
@@ -20,7 +37,7 @@ def annotate_names(
     """This function annotates person names, based on several rules."""
 
     # Tokenize the text
-    tokens = tokenize_split(text + " ")
+    tokens = tokenizer.tokenize(text + " ")
     tokens_deid = []
     token_index = -1
 
@@ -40,16 +57,16 @@ def annotate_names(
         ### Prefix based detection
         # Check if the token is a prefix, and the next token starts with a capital
         prefix_condition = (
-            token.lower() in LOOKUP_LISTS["prefixes"]
+            token.lower() in lookup_lists["prefixes"]
             and next_token != ""
             and next_token[0].isupper()
-            and next_token.lower() not in LOOKUP_LISTS["whitelist"]
+            and next_token.lower() not in lookup_lists["whitelist"]
         )
 
         # If the condition is met, tag the tokens and continue to the next position
         if prefix_condition:
             tokens_deid.append(
-                f"<PREFIXNAAM {join_tokens(tokens[token_index: next_token_index + 1])}>"
+                f"<PREFIXNAAM {tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
             )
             token_index = next_token_index
             continue
@@ -57,16 +74,16 @@ def annotate_names(
         ### Interfix based detection
         # Check if the token is an interfix, and the next token is in the list of interfix surnames
         interfix_condition = (
-            token.lower() in LOOKUP_LISTS["interfixes"]
+            token.lower() in lookup_lists["interfixes"]
             and next_token != ""
-            and next_token in LOOKUP_LISTS["interfix_surnames"]
-            and next_token.lower() not in LOOKUP_LISTS["whitelist"]
+            and next_token in lookup_lists["interfix_surnames"]
+            and next_token.lower() not in lookup_lists["whitelist"]
         )
 
         # If condition is met, tag the tokens and continue to the new position
         if interfix_condition:
             tokens_deid.append(
-                f"<INTERFIXNAAM {join_tokens(tokens[token_index: next_token_index + 1])}>"
+                f"<INTERFIXNAAM {tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
             )
             token_index = next_token_index
             continue
@@ -88,7 +105,7 @@ def annotate_names(
                     # If followed by a period, also annotate the period
                     if next_token != "" and tokens[token_index + 1][0] == ".":
                         tokens_deid.append(
-                            f"<INITIAALPAT {join_tokens([tokens[token_index], '.'])}>"
+                            f"<INITIAALPAT {tokenizer.join_tokens([tokens[token_index], '.'])}>"
                         )
                         if tokens[token_index + 1] == ".":
                             token_index += 1
@@ -131,7 +148,7 @@ def annotate_names(
         if len(patient_surname) > 1:
 
             # Surname can consist of multiple tokens, so we will match for that
-            surname_pattern = tokenize_split(patient_surname)
+            surname_pattern = tokenizer.tokenize(patient_surname)
 
             # Iterate over all tokens in the pattern
             counter = 0
@@ -167,7 +184,7 @@ def annotate_names(
             # If a match was found, tag the appropriate tokens, and continue
             if match:
                 tokens_deid.append(
-                    f"<ACHTERNAAMPAT {join_tokens(tokens[token_index : token_index + len(surname_pattern)])}>"
+                    f"<ACHTERNAAMPAT {tokenizer.join_tokens(tokens[token_index : token_index + len(surname_pattern)])}>"
                 )
                 token_index = token_index + len(surname_pattern) - 1
                 continue
@@ -193,15 +210,15 @@ def annotate_names(
         # For both first and last names, check if the token
         # is on the lookup list and not on the whitelist
         if (
-            token in LOOKUP_LISTS["first_names"]
-            and token.lower() not in LOOKUP_LISTS["whitelist"]
+            token in lookup_lists["first_names"]
+            and token.lower() not in lookup_lists["whitelist"]
         ):
             tokens_deid.append(f"<VOORNAAMONBEKEND {token}>")
             continue
 
         if (
-            token in LOOKUP_LISTS["surnames"]
-            and token.lower() not in LOOKUP_LISTS["whitelist"]
+            token in lookup_lists["surnames"]
+            and token.lower() not in lookup_lists["whitelist"]
         ):
             tokens_deid.append(f"<ACHTERNAAMONBEKEND {token}>")
             continue
@@ -213,14 +230,14 @@ def annotate_names(
             tokens_deid.append(token)
 
     # Return the deidentified tokens as a piece of text
-    return join_tokens(tokens_deid).strip()
+    return tokenizer.join_tokens(tokens_deid).strip()
 
 
 def annotate_names_context(text):
     """This function annotates person names, based on its context in the text"""
 
     # Tokenize text and initiate a list of deidentified tokens
-    tokens = tokenize_split(text + " ")
+    tokens = tokenizer.tokenize(text + " ")
     tokens_deid = []
     token_index = -1
 
@@ -248,7 +265,7 @@ def annotate_names_context(text):
             or (
                 token != ""
                 and token[0].isupper()
-                and token.lower() not in LOOKUP_LISTS["whitelist"]
+                and token.lower() not in lookup_lists["whitelist"]
             )
         ) and (
             # And the token is followed by either a
@@ -261,7 +278,7 @@ def annotate_names_context(text):
         # If match, tag the token and continue
         if initial_condition:
             tokens_deid.append(
-                f"<INITIAAL {join_tokens(tokens[token_index: next_token_index + 1])}>"
+                f"<INITIAAL {tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
             )
             token_index = next_token_index
             continue
@@ -270,7 +287,7 @@ def annotate_names_context(text):
 
         # If the token is an interfix
         interfix_condition = (
-            token in LOOKUP_LISTS["interfixes"]
+            token in lookup_lists["interfixes"]
             and
             # And the token is preceded by an initial, found initial or found name
             (
@@ -294,7 +311,7 @@ def annotate_names_context(text):
             tokens_deid = tokens_deid[:previous_token_index_deid]
             tokens_deid.append(
                 "<INTERFIXACHTERNAAM {}>".format(
-                    join_tokens(
+                    tokenizer.join_tokens(
                         deid_tokens_to_keep + tokens[token_index : next_token_index + 1]
                     )
                 )
@@ -314,13 +331,13 @@ def annotate_names_context(text):
             )
             and len(next_token) > 3
             and next_token[0].isupper()
-            and next_token.lower() not in LOOKUP_LISTS["whitelist"]
+            and next_token.lower() not in lookup_lists["whitelist"]
         )
 
         # If a match is found, tag and continue
         if initial_name_condition:
             tokens_deid.append(
-                f"<INITIAALHOOFDLETTERNAAM {join_tokens(tokens[token_index: next_token_index + 1])}>"
+                f"<INITIAALHOOFDLETTERNAAM {tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
             )
             token_index = next_token_index
             continue
@@ -343,7 +360,7 @@ def annotate_names_context(text):
             )
             tokens_deid = tokens_deid[:previous_token_index_deid]
             tokens_deid.append(
-                f"<MEERDEREPERSONEN {join_tokens([previous_token_deid] + tokens[previous_token_index + 1 : next_token_index + 1])}>"
+                f"<MEERDEREPERSONEN {tokenizer.join_tokens([previous_token_deid] + tokens[previous_token_index + 1 : next_token_index + 1])}>"
             )
             token_index = next_token_index
             continue
@@ -354,7 +371,7 @@ def annotate_names_context(text):
             tokens_deid.append(token)
 
     # Join the tokens again to form the de-identified text
-    textdeid = join_tokens(tokens_deid).strip()
+    textdeid = tokenizer.join_tokens(tokens_deid).strip()
 
     # If nothing changed, we are done
     if text == textdeid:
@@ -368,7 +385,7 @@ def annotate_residence(text):
     """Annotate residences"""
 
     # Tokenize text
-    tokens = tokenize_split(text)
+    tokens = tokenizer.tokenize(text)
     tokens_deid = []
     token_index = -1
 
@@ -380,7 +397,7 @@ def annotate_residence(text):
         token = tokens[token_index]
 
         # Find all tokens that are prefixes of the remainder of the text
-        prefix_matches = LOOKUP_TRIES["residences"].find_all_prefixes(
+        prefix_matches = lookup_tries["residences"].find_all_prefixes(
             tokens[token_index:]
         )
 
@@ -391,11 +408,11 @@ def annotate_residence(text):
 
         # Else annotate the longest sequence as residence
         max_list = max(prefix_matches, key=len)
-        tokens_deid.append(f"<LOCATIE {join_tokens(max_list)}>")
+        tokens_deid.append(f"<LOCATIE {tokenizer.join_tokens(max_list)}>")
         token_index += len(max_list) - 1
 
     # Return the de-identified text
-    return join_tokens(tokens_deid)
+    return tokenizer.join_tokens(tokens_deid)
 
 
 def replace_altrecht_text(match: re.Match) -> str:
@@ -416,7 +433,7 @@ def annotate_institution(text):
     """Annotate institutions"""
 
     # Tokenize, and make a list of non-capitalized tokens (used for matching)
-    tokens = tokenize_split(text)
+    tokens = tokenizer.tokenize(text)
     tokens_lower = [x.lower() for x in tokens]
     tokens_deid = []
     token_index = -1
@@ -429,7 +446,7 @@ def annotate_institution(text):
         token = tokens[token_index]
 
         # Find all tokens that are prefixes of the remainder of the lowercasetext
-        prefix_matches = LOOKUP_TRIES["institutions"].find_all_prefixes(
+        prefix_matches = lookup_tries["institutions"].find_all_prefixes(
             tokens_lower[token_index:]
         )
 
@@ -440,14 +457,14 @@ def annotate_institution(text):
 
         # Else annotate the longest sequence as institution
         max_list = max(prefix_matches, key=len)
-        joined_institution = join_tokens(
+        joined_institution = tokenizer.join_tokens(
             tokens[token_index : token_index + len(max_list)]
         )
         tokens_deid.append("<INSTELLING {}>".format(joined_institution))
         token_index += len(max_list) - 1
 
     # Return
-    text = join_tokens(tokens_deid)
+    text = tokenizer.join_tokens(tokens_deid)
 
     # Detect the word "Altrecht" followed by a capitalized word
     text = re.sub(
