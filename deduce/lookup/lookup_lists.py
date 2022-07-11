@@ -87,7 +87,7 @@ def _get_whitelist_lookuplist():
 
     top1000 = LookupList()
     top1000.add_items_from_file(
-        os.path.join(data_path, "medischeterm.lst"),
+        os.path.join(data_path, "top1000.lst"),
         encoding="latin-1",
     )
 
@@ -112,6 +112,8 @@ def _get_whitelist_lookuplist():
         med_terms + top1000 + stopwords,
         cleaning_pipeline=[LowercaseString(), FilterByLength(min_len=2)],
     )
+
+    # return whitelist
     return whitelist
 
 
