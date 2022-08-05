@@ -1,9 +1,6 @@
 """ This module contains all kinds of utility functionality """
 
-import codecs
-import os
 import re
-import unicodedata
 from functools import reduce
 
 
@@ -25,53 +22,6 @@ class Annotation:
 
     def __repr__(self):
         return self.tag + "[" + str(self.start_ix) + ":" + str(self.end_ix) + "]"
-
-
-def merge_triebased(tokens, trie):
-    """
-    This function merges all sublists of tokens that occur in the trie to one element
-    in the list of tokens. For example: if the tree contains ["A", "1"],
-    then in the list of tokens ["Patient", "is", "opgenomen", "op", "A", "1"]  the sublist
-    ["A", "1"] can be found in the Trie and will thus be merged,
-    resulting in ["Patient", "is", "opgenomen", "op", "A1"]
-    """
-
-    # Return this list
-    tokens_merged = []
-    i = 0
-
-    # Iterate over tokens
-    while i < len(tokens):
-
-        # Check for each item until the end if there are prefixes of the list in the Trie
-        prefix_matches = trie.find_all_prefixes(tokens[i:])
-
-        # If no prefixes are in the Trie, append the first token and move to the next one
-        if len(prefix_matches) == 0:
-            tokens_merged.append(tokens[i])
-            i += 1
-
-        # Else check the maximum length list of tokens, append it to the list that will be returned,
-        # and then skip all the tokens in the list
-        else:
-            max_list = max(prefix_matches, key=len)
-            tokens_merged.append("".join(max_list))
-            i += len(max_list)
-
-    # Return the list
-    return tokens_merged
-
-
-def type_of(char):
-    """Determines whether a character is alpha, a fish hook, or other"""
-
-    if char.isalpha():
-        return "alpha"
-
-    if char in ("<", ">"):
-        return "hook"
-
-    return "other"
 
 
 def any_in_text(matchlist, token):
@@ -333,50 +283,6 @@ def split_tags(text):
 
     # Filter empty elements in the list (happens for example when <tag><tag> occurs)
     return [x for x in splitbytags if len(x) > 0]
-
-
-def get_data(path):
-    """Define where to find the data files"""
-    return os.path.join(os.path.abspath(os.path.dirname(__file__)), "data", path)
-
-
-def _normalize_value(line):
-    """Removes all non-ascii characters from a string"""
-    line = str(bytes(line, encoding="ascii", errors="ignore"), encoding="ascii")
-    return unicodedata.normalize("NFKD", line)
-
-
-def read_list(
-    list_name,
-    encoding="utf-8",
-    lower=False,
-    strip=True,
-    min_len=None,
-    normalize=None,
-    unique=True,
-):
-    """Read a list from file and return the values."""
-
-    data = codecs.open(get_data(list_name), encoding=encoding)
-
-    if normalize == "ascii":
-        data = [_normalize_value(line) for line in data]
-
-    if lower:
-        data = [line.lower() for line in data]
-
-    if strip:
-        data = [line.strip() for line in data]
-
-    if min_len:
-        data = [line for line in data if len(line) >= min_len]
-
-    if unique:
-        data_nodoubles = list(set(data))
-    else:
-        return data
-
-    return data_nodoubles
 
 
 def parse_tag(tag: str) -> tuple:
