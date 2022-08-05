@@ -2,7 +2,7 @@
 
 import re
 
-from ddt.datastructures import LookupList
+from docdeid.datastructures import LookupList
 from nltk.metrics import edit_distance
 
 from deduce.lookup.lookup_lists import get_lookup_lists

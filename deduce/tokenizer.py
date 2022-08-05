@@ -2,7 +2,7 @@
 from enum import Enum, auto
 from typing import Iterable
 
-from ddt.datastructures import LookupTrie
+from docdeid.datastructures import LookupTrie
 
 
 class _CharType(Enum):

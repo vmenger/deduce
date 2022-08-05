@@ -1,8 +1,8 @@
 """ This module contains all list reading functionality """
 import os
 
-from ddt.datastructures import DatastructCollection, LookupList
-from ddt.datastructures.string_processor import (
+from docdeid.datastructures import DatastructCollection, LookupList
+from docdeid.string.processor import (
     FilterByLength,
     LowercaseString,
     ReplaceValue,

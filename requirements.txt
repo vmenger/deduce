@@ -1,2 +1,2 @@
 nltk
-ddt==0.0.1
+docdeid==0.0.1

@@ -1,4 +1,4 @@
-from ddt.datastructures import DatastructCollection, LookupTrie
+from docdeid.datastructures import DatastructCollection, LookupTrie
 
 from deduce.lookup.lookup_lists import get_lookup_lists
 from deduce.tokenizer import Tokenizer
