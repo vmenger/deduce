@@ -21,8 +21,47 @@ from deduce.annotate import (
     PostalcodeAnnotator,
     ResidenceAnnotator,
     UrlAnnotator,
+    tokenizer
 )
 from deduce.exception import NestedTagsError
+
+import docdeid
+from docdeid.annotation.redactor import SimpleRedactor
+from docdeid.annotation.annotation_processor import LeftRightOverlapResolver
+
+annotators = {
+    "names": NamesAnnotator(),
+    "names_context": NamesContextAnnotator(),
+    "institutions": InstitutionAnnotator(),
+    "residences": ResidenceAnnotator(),
+    "addresses": AddressAnnotator(),
+    "postal_codes": PostalcodeAnnotator(),
+    "phone_numbers": PhoneNumberAnnotator(),
+    "patient_numbers": PatientNumerAnnotator(),
+    "dates": DateAnnotator(),
+    "ages": AgeAnnotator(),
+    "emails": EmailAnnotator(),
+    "urls": UrlAnnotator()
+}
+
+
+class Deduce(docdeid.DocDeid):
+    pass
+
+
+def _initialize_deduce() -> docdeid.DocDeid:
+
+    _deduce = Deduce(tokenizer=tokenizer, redactor=SimpleRedactor())
+
+    for name, annotator in annotators.items():
+        _deduce.add_annotator(name, annotator)
+
+    _deduce.add_annotation_postprocessor("overlap_resolver", LeftRightOverlapResolver())
+
+    return _deduce
+
+
+deduce = _initialize_deduce()
 
 
 def annotate_text(
@@ -49,15 +88,11 @@ def annotate_text(
     if not text:
         return text
 
-    # Replace < and > symbols
     text = text.replace("<", "(").replace(">", ")")
 
     if names:
 
-        names_annotator = NamesAnnotator()
-        names_context_annotator = NamesContextAnnotator()
-
-        text = names_annotator.annotate_intext(
+        text = annotators['names'].annotate_intext(
             text=text,
             patient_first_names=patient_first_names,
             patient_initials=patient_initials,
@@ -65,47 +100,34 @@ def annotate_text(
             patient_given_name=patient_given_name,
         )
 
-        text = names_context_annotator.annotate_intext(text=text)
+        text = annotators['names_context'].annotate_intext(text=text)
 
         text = utility.flatten_text(text)
 
     if institutions:
-        institution_annotator = InstitutionAnnotator()
-        text = institution_annotator.annotate_intext(text)
+        text = annotators['institutions'].annotate_intext(text)
 
     if locations:
 
-        residence_annotator = ResidenceAnnotator()
-        address_annotator = AddressAnnotator()
-        postalcode_annotator = PostalcodeAnnotator()
-
-        text = residence_annotator.annotate_intext(text)
-        text = address_annotator.annotate_intext(text)
-        text = postalcode_annotator.annotate_intext(text)
+        text = annotators['residences'].annotate_intext(text)
+        text = annotators['addresses'].annotate_intext(text)
+        text = annotators['postal_codes'].annotate_intext(text)
 
     if phone_numbers:
-        phone_number_annotator = PhoneNumberAnnotator()
-        text = phone_number_annotator.annotate_intext(text)
+        text = annotators['phone_numbers'].annotate_intext(text)
 
     if patient_numbers:
-        patient_number_annotator = PatientNumerAnnotator()
-        text = patient_number_annotator.annotate_intext(text)
+        text = annotators['patient_numbers'].annotate_intext(text)
 
     if dates:
-        date_annotator = DateAnnotator()
-        text = date_annotator.annotate_intext(text)
+        text = annotators['dates'].annotate_intext(text)
 
     if ages:
-        age_annotator = AgeAnnotator()
-        text = age_annotator.annotate_intext(text)
+        text = annotators['ages'].annotate_intext(text)
 
     if urls:
-
-        email_annotator = EmailAnnotator()
-        url_annotator = UrlAnnotator()
-
-        text = email_annotator.annotate_intext(text)
-        text = url_annotator.annotate_intext(text)
+        text = annotators['emails'].annotate_intext(text)
+        text = annotators['urls'].annotate_intext(text)
 
     text = utility.merge_adjacent_tags(text)
 
@@ -134,7 +156,7 @@ def annotate_text_structured(text: str, *args, **kwargs):
 
     # Check if there are any annotations whose start+end do not correspond to the text in the annotation
     mismatched_annotations = [
-        ann for ann in annotations if text[ann.start_ix : ann.end_ix] != ann.text_
+        ann for ann in annotations if text[ann.start_char: ann.end_char] != ann.text
     ]
     if len(mismatched_annotations) > 0:
         print(

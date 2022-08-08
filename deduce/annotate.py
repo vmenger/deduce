@@ -1,10 +1,10 @@
 """ The annotate module contains the code for annotating text"""
 
 import re
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import Callable
 
-from docdeid.annotation.annotation import Annotation as DocDeidAnnotation
+import docdeid
 from docdeid.datastructures import LookupList
 from nltk.metrics import edit_distance
 
@@ -30,16 +30,20 @@ def _initialize():
     return lookup_lists, lookup_tries, tokenizer
 
 
-_lookup_lists, _lookup_tries, _tokenizer = _initialize()
+_lookup_lists, _lookup_tries, tokenizer = _initialize()
 
 
-class Annotator(ABC):
+class DeduceAnnotator(docdeid.BaseAnnotator):
     @abstractmethod
-    def annotate_structured(self, text: str) -> list[DocDeidAnnotation]:
+    def annotate_structured(self, text: str) -> list[docdeid.Annotation]:
         pass
 
+    def annotate(self, document: docdeid.Document):
+        annotations = self.annotate_structured(document.text)
+        document.add_annotations(annotations)
 
-class InTextAnnotator(Annotator):
+
+class InTextAnnotator(DeduceAnnotator):
 
     flatten_func: Callable
 
@@ -47,12 +51,13 @@ class InTextAnnotator(Annotator):
     def annotate_intext(self, text: str, **kwargs) -> str:
         pass
 
-    def annotate_structured(
-        self, text: str, *args, **kwargs
-    ) -> list[utility.Annotation]:
+    def flatten(self, text: str):
+        return self.flatten_func(text)
+
+    def annotate_structured(self, text: str, *args, **kwargs) -> list[docdeid.Annotation]:
 
         intext_annotated = self.annotate_intext(text, **kwargs)
-        intext_annotated = self.flatten_func(intext_annotated)
+        intext_annotated = utility.flatten_text(intext_annotated)
 
         tags = utility.find_tags(intext_annotated)
         first_non_whitespace_character_index = utility.get_first_non_whitespace(text)
@@ -64,7 +69,7 @@ class InTextAnnotator(Annotator):
 
         # Check if there are any annotations whose start+end do not correspond to the text in the annotation
         mismatched_annotations = [
-            ann for ann in annotations if text[ann.start_ix : ann.end_ix] != ann.text_
+            ann for ann in annotations if text[ann.start_char: ann.end_char] != ann.text
         ]
         if len(mismatched_annotations) > 0:
             print(
@@ -78,18 +83,18 @@ class InTextAnnotator(Annotator):
 
 
 class NamesAnnotator(InTextAnnotator):
-    def __init__(self):
-        self.flatten_func = utility.flatten_text
+
+    flatten_func = utility.flatten_text
 
     def annotate_intext(self, text: str, **kwargs) -> str:
 
         patient_first_names = kwargs.get("patient_first_names", "")
-        patient_initial = kwargs.get("patient_initial", "")
+        patient_initials = kwargs.get("patient_initials", "")
         patient_surname = kwargs.get("patient_surname", "")
         patient_given_name = kwargs.get("patient_given_name", "")
 
         # Tokenize the text
-        tokens = _tokenizer.tokenize(text + " ")
+        tokens = tokenizer.tokenize(text + " ")
         tokens_deid = []
         token_index = -1
 
@@ -118,7 +123,7 @@ class NamesAnnotator(InTextAnnotator):
             # If the condition is met, tag the tokens and continue to the next position
             if prefix_condition:
                 tokens_deid.append(
-                    f"<PREFIXNAAM {_tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
+                    f"<PREFIXNAAM {tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
                 )
                 token_index = next_token_index
                 continue
@@ -135,7 +140,7 @@ class NamesAnnotator(InTextAnnotator):
             # If condition is met, tag the tokens and continue to the new position
             if interfix_condition:
                 tokens_deid.append(
-                    f"<INTERFIXNAAM {_tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
+                    f"<INTERFIXNAAM {tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
                 )
                 token_index = next_token_index
                 continue
@@ -157,7 +162,7 @@ class NamesAnnotator(InTextAnnotator):
                         # If followed by a period, also annotate the period
                         if next_token != "" and tokens[token_index + 1][0] == ".":
                             tokens_deid.append(
-                                f"<INITIAALPAT {_tokenizer.join_tokens([tokens[token_index], '.'])}>"
+                                f"<INITIAALPAT {tokenizer.join_tokens([tokens[token_index], '.'])}>"
                             )
                             if tokens[token_index + 1] == ".":
                                 token_index += 1
@@ -194,7 +199,7 @@ class NamesAnnotator(InTextAnnotator):
 
             ### Initial
             # If the initial is not empty, and the token matches the initial, tag it as an initial
-            if len(patient_initial) > 0 and token == patient_initial:
+            if len(patient_initials) > 0 and token == patient_initials:
                 tokens_deid.append(f"<INITIALENPAT {token}>")
                 continue
 
@@ -202,7 +207,7 @@ class NamesAnnotator(InTextAnnotator):
             if len(patient_surname) > 1:
 
                 # Surname can consist of multiple tokens, so we will match for that
-                surname_pattern = _tokenizer.tokenize(patient_surname)
+                surname_pattern = tokenizer.tokenize(patient_surname)
 
                 # Iterate over all tokens in the pattern
                 counter = 0
@@ -237,7 +242,7 @@ class NamesAnnotator(InTextAnnotator):
                 # If a match was found, tag the appropriate tokens, and continue
                 if match:
                     tokens_deid.append(
-                        f"<ACHTERNAAMPAT {_tokenizer.join_tokens(tokens[token_index: token_index + len(surname_pattern)])}>"
+                        f"<ACHTERNAAMPAT {tokenizer.join_tokens(tokens[token_index: token_index + len(surname_pattern)])}>"
                     )
                     token_index = token_index + len(surname_pattern) - 1
                     continue
@@ -285,7 +290,7 @@ class NamesAnnotator(InTextAnnotator):
                 tokens_deid.append(token)
 
         # Return the deidentified tokens as a piece of text
-        return _tokenizer.join_tokens(tokens_deid).strip()
+        return tokenizer.join_tokens(tokens_deid).strip()
 
 
 class NamesContextAnnotator(InTextAnnotator):
@@ -295,7 +300,7 @@ class NamesContextAnnotator(InTextAnnotator):
     def annotate_intext(self, text: str, **kwargs) -> str:
 
         # Tokenize text and initiate a list of deidentified tokens
-        tokens = _tokenizer.tokenize(text + " ")
+        tokens = tokenizer.tokenize(text + " ")
         tokens_deid = []
         token_index = -1
 
@@ -339,7 +344,7 @@ class NamesContextAnnotator(InTextAnnotator):
             # If match, tag the token and continue
             if initial_condition:
                 tokens_deid.append(
-                    f"<INITIAAL {_tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
+                    f"<INITIAAL {tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
                 )
                 token_index = next_token_index
                 continue
@@ -372,7 +377,7 @@ class NamesContextAnnotator(InTextAnnotator):
                 tokens_deid = tokens_deid[:previous_token_index_deid]
                 tokens_deid.append(
                     "<INTERFIXACHTERNAAM {}>".format(
-                        _tokenizer.join_tokens(
+                        tokenizer.join_tokens(
                             deid_tokens_to_keep
                             + tokens[token_index : next_token_index + 1]
                         )
@@ -399,7 +404,7 @@ class NamesContextAnnotator(InTextAnnotator):
             # If a match is found, tag and continue
             if initial_name_condition:
                 tokens_deid.append(
-                    f"<INITIAALHOOFDLETTERNAAM {_tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
+                    f"<INITIAALHOOFDLETTERNAAM {tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
                 )
                 token_index = next_token_index
                 continue
@@ -425,7 +430,7 @@ class NamesContextAnnotator(InTextAnnotator):
                 ) = utility.context(tokens_deid, len(tokens_deid))
                 tokens_deid = tokens_deid[:previous_token_index_deid]
                 tokens_deid.append(
-                    f"<MEERDEREPERSONEN {_tokenizer.join_tokens([previous_token_deid] + tokens[previous_token_index + 1: next_token_index + 1])}>"
+                    f"<MEERDEREPERSONEN {tokenizer.join_tokens([previous_token_deid] + tokens[previous_token_index + 1: next_token_index + 1])}>"
                 )
                 token_index = next_token_index
                 continue
@@ -436,7 +441,7 @@ class NamesContextAnnotator(InTextAnnotator):
                 tokens_deid.append(token)
 
         # Join the tokens again to form the de-identified text
-        textdeid = _tokenizer.join_tokens(tokens_deid).strip()
+        textdeid = tokenizer.join_tokens(tokens_deid).strip()
 
         # If nothing changed, we are done
         if text == textdeid:
@@ -469,7 +474,7 @@ class InstitutionAnnotator(InTextAnnotator):
         """Annotate institutions"""
 
         # Tokenize, and make a list of non-capitalized tokens (used for matching)
-        tokens = _tokenizer.tokenize(text)
+        tokens = tokenizer.tokenize(text)
         tokens_lower = [x.lower() for x in tokens]
         tokens_deid = []
         token_index = -1
@@ -493,14 +498,14 @@ class InstitutionAnnotator(InTextAnnotator):
 
             # Else annotate the longest sequence as institution
             max_list = max(prefix_matches, key=len)
-            joined_institution = _tokenizer.join_tokens(
+            joined_institution = tokenizer.join_tokens(
                 tokens[token_index : token_index + len(max_list)]
             )
             tokens_deid.append("<INSTELLING {}>".format(joined_institution))
             token_index += len(max_list) - 1
 
         # Return
-        text = _tokenizer.join_tokens(tokens_deid)
+        text = tokenizer.join_tokens(tokens_deid)
 
         # Detect the word "Altrecht" followed by a capitalized word
         text = re.sub(
@@ -522,7 +527,7 @@ class ResidenceAnnotator(InTextAnnotator):
         """Annotate residences"""
 
         # Tokenize text
-        tokens = _tokenizer.tokenize(text)
+        tokens = tokenizer.tokenize(text)
         tokens_deid = []
         token_index = -1
 
@@ -545,11 +550,11 @@ class ResidenceAnnotator(InTextAnnotator):
 
             # Else annotate the longest sequence as residence
             max_list = max(prefix_matches, key=len)
-            tokens_deid.append(f"<LOCATIE {_tokenizer.join_tokens(max_list)}>")
+            tokens_deid.append(f"<LOCATIE {tokenizer.join_tokens(max_list)}>")
             token_index += len(max_list) - 1
 
         # Return the de-identified text
-        return _tokenizer.join_tokens(tokens_deid)
+        return tokenizer.join_tokens(tokens_deid)
 
 
 class AddressAnnotator(InTextAnnotator):

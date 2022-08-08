@@ -3,8 +3,8 @@ from unittest.mock import patch
 
 import deduce
 import deduce.utility
-from deduce.utility import Annotation
 
+import docdeid
 
 class TestDeduceMethods(unittest.TestCase):
     def test_annotate_text(self):
@@ -52,15 +52,15 @@ class TestDeduceMethods(unittest.TestCase):
             "<INSTELLING UMCU>",
         ]
         mock_annotations = [
-            Annotation(39, 49, "PATIENT", "Jan Jansen"),
-            Annotation(62, 71, "PATIENT", "J. Jansen"),
-            Annotation(76, 93, "URL", "j.jnsen@email.com"),
-            Annotation(98, 109, "TELEFOONNUMMER", "06-12345678"),
-            Annotation(114, 116, "LEEFTIJD", "64"),
-            Annotation(143, 150, "LOCATIE", "Utrecht"),
-            Annotation(164, 174, "DATUM", "10 oktober"),
-            Annotation(185, 200, "PERSOON", "Peter de Visser"),
-            Annotation(234, 238, "INSTELLING", "UMCU"),
+            docdeid.Annotation("Jan Jansen", 39, 49, "PATIENT"),
+            docdeid.Annotation("patient J. Jansen", 54, 71, "PATIENT"),
+            docdeid.Annotation("j.jnsen@email.com", 76, 93, "URL"),
+            docdeid.Annotation("06-12345678", 98, 109, "TELEFOONNUMMER"),
+            docdeid.Annotation("64", 114, 116, "LEEFTIJD"),
+            docdeid.Annotation("Utrecht", 143, 150, "LOCATIE"),
+            docdeid.Annotation("10 oktober", 164, 174, "DATUM"),
+            docdeid.Annotation("Peter de Visser", 185, 200, "PERSOON"),
+            docdeid.Annotation("UMCU", 234, 238, "INSTELLING"),
         ]
 
         def mock_annotate_text(
@@ -123,7 +123,7 @@ class TestDeduceMethods(unittest.TestCase):
             patient_given_name="Jantinus",
         )
         self.assertEqual(1, len(annotations))
-        self.assertEqual(Annotation(13, 16, "PATIENT", "Jan"), annotations[0])
+        self.assertEqual(docdeid.Annotation("Jan", 13, 16, "PATIENT"), annotations[0])
 
     def test_has_nested_tags_true(self):
         text = "<PERSOON Peter <INSTELLING Altrecht>>"

@@ -3,25 +3,7 @@
 import re
 from functools import reduce
 
-
-class Annotation:
-    def __init__(self, start_ix: int, end_ix: int, tag: str, text: str):
-        self.start_ix = start_ix
-        self.end_ix = end_ix
-        self.tag = tag
-        self.text_ = text
-
-    def __eq__(self, other):
-        return (
-            isinstance(other, Annotation)
-            and self.start_ix == other.start_ix
-            and self.end_ix == other.end_ix
-            and self.tag == other.tag
-            and self.text_ == other.text_
-        )
-
-    def __repr__(self):
-        return self.tag + "[" + str(self.start_ix) + ":" + str(self.end_ix) + "]"
+import docdeid
 
 
 def any_in_text(matchlist, token):
@@ -310,14 +292,14 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
     for tag in tags:
         tag_ix = annotated_text.index(tag, ix) - ix
         tag_type, tag_text = parse_tag(tag)
-        annotations.append(
-            Annotation(
-                raw_text_ix + tag_ix,
-                raw_text_ix + tag_ix + len(tag_text),
-                tag_type,
-                tag_text,
-            )
-        )
+
+        annotations.append(docdeid.Annotation(
+            tag_text,
+            raw_text_ix + tag_ix,
+            raw_text_ix + tag_ix + len(tag_text),
+            tag_type
+        ))
+
         ix += tag_ix + len(tag)
         raw_text_ix += tag_ix + len(tag_text)
     return annotations
