@@ -325,3 +325,51 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
 
 def get_first_non_whitespace(text: str) -> int:
     return text.index(text.lstrip()[0])
+
+
+def get_adjacent_tags_replacement(match: re.Match) -> str:
+    text = match.group(0)
+    tag = match.group(1)
+    left = match.group(2)
+    right = match.group(3)
+    start_ix = text.index(">") + 1
+    end_ix = text[1:].index("<") + 1
+    separator = text[start_ix:end_ix]
+    return "<" + tag + " " + left + separator + right + ">"
+
+
+def merge_adjacent_tags(text: str) -> str:
+    """
+    Adjacent tags are merged into a single tag
+    :param text: the text from which you want to merge adjacent tags
+    :return: the text with adjacent tags merged
+    """
+    while True:
+        oldtext = text
+        text = re.sub(
+            "<([A-Z]+)\s([^>]+)>[\.\s\-,]?[\.\s]?<\\1\s([^>]+)>",
+            get_adjacent_tags_replacement,
+            text,
+        )
+        if text == oldtext:
+            break
+    return text
+
+
+def has_nested_tags(text):
+    open_brackets = 0
+    for _, ch in enumerate(text):
+
+        if ch == "<":
+            open_brackets += 1
+
+        if ch == ">":
+            open_brackets -= 1
+
+        if open_brackets == 2:
+            return True
+
+        if open_brackets not in (0, 1):
+            raise ValueError("Incorrectly formatted string")
+
+    return False

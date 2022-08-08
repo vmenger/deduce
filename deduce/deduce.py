@@ -6,43 +6,29 @@ deidentify_annotations() methods can be imported
 from deduce import utility
 
 from .annotate import *
-from .utility import flatten_text, flatten_text_all_phi
-
-
-class NestedTagsError(Exception):
-    def __init__(self, msg: str):
-        super().__init__(str)
+from .exception import NestedTagsError
+from .utility import (
+    flatten_text,
+    flatten_text_all_phi,
+    has_nested_tags,
+    merge_adjacent_tags,
+)
 
 
 def annotate_text(
-    # The text to be annotated
     text,
-    # First name
     patient_first_names="",
-    # Initial
     patient_initials="",
-    # Surname(s)
     patient_surname="",
-    # Given name`
     patient_given_name="",
-    # Person names, including initials
     names=True,
-    # Geographical locations
-    locations=True,
-    # Institutions
     institutions=True,
-    # Dates
-    dates=True,
-    # Ages
-    ages=True,
-    # Patient numbers
-    patient_numbers=True,
-    # Phone numbers
+    locations=True,
     phone_numbers=True,
-    # Urls and e-mail addresses
+    patient_numbers=True,
+    dates=True,
+    ages=True,
     urls=True,
-    # Debug option
-    flatten=True,
 ):
 
     """
@@ -54,150 +40,78 @@ def annotate_text(
         return text
 
     # Replace < and > symbols
-    text = text.replace("<", "(")
-    text = text.replace(">", ")")
+    text = text.replace("<", "(").replace(">", ")")
 
-    # Deidentify names
     if names:
 
-        # First, based on the rules and lookup lists
-        text = annotate_names(
-            text,
-            patient_first_names,
-            patient_initials,
-            patient_surname,
-            patient_given_name,
+        names_annotator = NamesAnnotator()
+        names_context_annotator = NamesContextAnnotator()
+
+        text = names_annotator.annotate_intext(
+            text=text,
+            patient_first_names=patient_first_names,
+            patient_initials=patient_initials,
+            patient_surname=patient_surname,
+            patient_given_name=patient_given_name,
         )
 
-        # Then, based on the context
-        text = annotate_names_context(text)
+        text = names_context_annotator.annotate_intext(text=text)
 
-        # Flatten possible nested tags
-        if flatten:
-            text = flatten_text(text)
+        text = flatten_text(text)
 
-    # Institutions
     if institutions:
-        text = annotate_institution(text)
+        institution_annotator = InstitutionAnnotator()
+        text = institution_annotator.annotate_intext(text)
 
-    # Geographical locations
     if locations:
-        text = annotate_residence(text)
-        text = annotate_address(text)
-        text = annotate_postalcode(text)
 
-    # Phone numbers
+        residence_annotator = ResidenceAnnotator()
+        address_annotator = AddressAnnotator()
+        postalcode_annotator = PostalcodeAnnotator()
+
+        text = residence_annotator.annotate_intext(text)
+        text = address_annotator.annotate_intext(text)
+        text = postalcode_annotator.annotate_intext(text)
+
     if phone_numbers:
-        text = annotate_phonenumber(text)
+        phone_number_annotator = PhoneNumberAnnotator()
+        text = phone_number_annotator.annotate_intext(text)
 
-    # Patient numbers
     if patient_numbers:
-        text = annotate_patientnumber(text)
+        patient_number_annotator = PatientNumerAnnotator()
+        text = patient_number_annotator.annotate_intext(text)
 
-    # Dates
     if dates:
-        text = annotate_date(text)
+        date_annotator = DateAnnotator()
+        text = date_annotator.annotate_intext(text)
 
-    # Ages
     if ages:
-        text = annotate_age(text)
+        age_annotator = AgeAnnotator()
+        text = age_annotator.annotate_intext(text)
 
-    # Urls
     if urls:
-        text = annotate_email(text)
-        text = annotate_url(text)
 
-    # Merge adjacent tags
+        email_annotator = EmailAnnotator()
+        url_annotator = UrlAnnotator()
+
+        text = email_annotator.annotate_intext(text)
+        text = url_annotator.annotate_intext(text)
+
     text = merge_adjacent_tags(text)
 
-    # Flatten tags
-    if flatten and has_nested_tags(text):
+    if has_nested_tags(text):
         text = flatten_text_all_phi(text)
 
-    # Return text
     return text
 
 
-def get_adjacent_tags_replacement(match: re.Match) -> str:
-    text = match.group(0)
-    tag = match.group(1)
-    left = match.group(2)
-    right = match.group(3)
-    start_ix = text.index(">") + 1
-    end_ix = text[1:].index("<") + 1
-    separator = text[start_ix:end_ix]
-    return "<" + tag + " " + left + separator + right + ">"
-
-
-def merge_adjacent_tags(text: str) -> str:
-    """
-    Adjacent tags are merged into a single tag
-    :param text: the text from which you want to merge adjacent tags
-    :return: the text with adjacent tags merged
-    """
-    while True:
-        oldtext = text
-        text = re.sub(
-            "<([A-Z]+)\s([^>]+)>[\.\s\-,]?[\.\s]?<\\1\s([^>]+)>",
-            get_adjacent_tags_replacement,
-            text,
-        )
-        if text == oldtext:
-            break
-    return text
-
-
-def annotate_text_structured(
-    text: str,
-    patient_first_names="",
-    patient_initials="",
-    patient_surname="",
-    patient_given_name="",
-    names=True,
-    locations=True,
-    institutions=True,
-    dates=True,
-    ages=True,
-    patient_numbers=True,
-    phone_numbers=True,
-    urls=True,
-    flatten=True,
-):
+def annotate_text_structured(text: str, *args, **kwargs):
     """
     This method annotates text based on the input that includes names of a patient,
     and a number of flags indicating which PHIs should be annotated
-    :param text: The text to be annotated
-    :param patient_first_names: First name
-    :param patient_initials: Initial
-    :param patient_surname: Surname(s)
-    :param patient_given_name: Given name
-    :param names: Person names, including initials
-    :param locations: Geographical locations
-    :param institutions: Institutions
-    :param dates: Dates
-    :param ages: Ages
-    :param patient_numbers: Patient numbers
-    :param phone_numbers: Phone numbers
-    :param urls: Urls and e-mail addresses
-    :param flatten: Debug option
-    :return:
     """
-    annotated_text = annotate_text(
-        text,
-        patient_first_names=patient_first_names,
-        patient_initials=patient_initials,
-        patient_surname=patient_surname,
-        patient_given_name=patient_given_name,
-        names=names,
-        locations=locations,
-        institutions=institutions,
-        dates=dates,
-        ages=ages,
-        patient_numbers=patient_numbers,
-        phone_numbers=phone_numbers,
-        urls=urls,
-        flatten=flatten,
-    )
+    annotated_text = annotate_text(text, *args, **kwargs)
+
     if has_nested_tags(annotated_text):
         raise NestedTagsError("Text has nested tags")
     tags = utility.find_tags(annotated_text)
@@ -220,25 +134,6 @@ def annotate_text_structured(
         )
 
     return annotations
-
-
-def has_nested_tags(text):
-    open_brackets = 0
-    for _, ch in enumerate(text):
-
-        if ch == "<":
-            open_brackets += 1
-
-        if ch == ">":
-            open_brackets -= 1
-
-        if open_brackets == 2:
-            return True
-
-        if open_brackets not in (0, 1):
-            raise ValueError("Incorrectly formatted string")
-
-    return False
 
 
 def deidentify_annotations(text):
