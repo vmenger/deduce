@@ -3,16 +3,26 @@ Deduce is the main module, from which the annotate and
 deidentify_annotations() methods can be imported
 """
 
-from deduce import utility
+import re
 
-from .annotate import *
-from .exception import NestedTagsError
-from .utility import (
-    flatten_text,
-    flatten_text_all_phi,
-    has_nested_tags,
-    merge_adjacent_tags,
+from nltk.metrics import edit_distance
+
+from deduce import utility
+from deduce.annotate import (
+    AddressAnnotator,
+    AgeAnnotator,
+    DateAnnotator,
+    EmailAnnotator,
+    InstitutionAnnotator,
+    NamesAnnotator,
+    NamesContextAnnotator,
+    PatientNumerAnnotator,
+    PhoneNumberAnnotator,
+    PostalcodeAnnotator,
+    ResidenceAnnotator,
+    UrlAnnotator,
 )
+from deduce.exception import NestedTagsError
 
 
 def annotate_text(
@@ -57,7 +67,7 @@ def annotate_text(
 
         text = names_context_annotator.annotate_intext(text=text)
 
-        text = flatten_text(text)
+        text = utility.flatten_text(text)
 
     if institutions:
         institution_annotator = InstitutionAnnotator()
@@ -97,10 +107,10 @@ def annotate_text(
         text = email_annotator.annotate_intext(text)
         text = url_annotator.annotate_intext(text)
 
-    text = merge_adjacent_tags(text)
+    text = utility.merge_adjacent_tags(text)
 
-    if has_nested_tags(text):
-        text = flatten_text_all_phi(text)
+    if utility.has_nested_tags(text):
+        text = utility.flatten_text_all_phi(text)
 
     return text
 
@@ -112,7 +122,7 @@ def annotate_text_structured(text: str, *args, **kwargs):
     """
     annotated_text = annotate_text(text, *args, **kwargs)
 
-    if has_nested_tags(annotated_text):
+    if utility.has_nested_tags(annotated_text):
         raise NestedTagsError("Text has nested tags")
     tags = utility.find_tags(annotated_text)
     first_non_whitespace_character_index = utility.get_first_non_whitespace(text)
@@ -178,7 +188,7 @@ def deidentify_annotations(text):
                 for x in phi_values[1:]
             ]
 
-            # Replace this occurence with the appropriate number from dispenser
+            # Replace this occurrence with the appropriate number from dispenser
             text = text.replace(f"<{tagname} {thisval}>", f"<{tagname}-{dispenser}>")
 
             # For all other values

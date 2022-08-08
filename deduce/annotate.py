@@ -8,17 +8,10 @@ from docdeid.annotation.annotation import Annotation as DocDeidAnnotation
 from docdeid.datastructures import LookupList
 from nltk.metrics import edit_distance
 
-import deduce.utility
+from deduce import utility
 from deduce.lookup.lookup_lists import get_lookup_lists
 from deduce.lookup.lookup_tries import get_lookup_tries
 from deduce.tokenizer import Tokenizer
-from deduce.utility import (
-    context,
-    find_tags,
-    get_annotations,
-    get_first_non_whitespace,
-    is_initial,
-)
 
 
 def _initialize():
@@ -56,16 +49,16 @@ class InTextAnnotator(Annotator):
 
     def annotate_structured(
         self, text: str, *args, **kwargs
-    ) -> list[deduce.utility.Annotation]:
+    ) -> list[utility.Annotation]:
 
         intext_annotated = self.annotate_intext(text, **kwargs)
         intext_annotated = self.flatten_func(intext_annotated)
 
-        tags = find_tags(intext_annotated)
-        first_non_whitespace_character_index = get_first_non_whitespace(text)
+        tags = utility.find_tags(intext_annotated)
+        first_non_whitespace_character_index = utility.get_first_non_whitespace(text)
         # utility.get_annotations does not handle nested tags, so make sure not to pass it text with nested tags
         # Also, utility.get_annotations assumes that all tags are listed in the order they appear in the text
-        annotations = get_annotations(
+        annotations = utility.get_annotations(
             intext_annotated, tags, first_non_whitespace_character_index
         )
 
@@ -86,7 +79,7 @@ class InTextAnnotator(Annotator):
 
 class NamesAnnotator(InTextAnnotator):
     def __init__(self):
-        self.flatten_func = deduce.utility.flatten_text
+        self.flatten_func = utility.flatten_text
 
     def annotate_intext(self, text: str, **kwargs) -> str:
 
@@ -111,7 +104,7 @@ class NamesAnnotator(InTextAnnotator):
             num_tokens_deid = len(tokens_deid)
 
             # The context of this token
-            (_, _, next_token, next_token_index) = context(tokens, token_index)
+            (_, _, next_token, next_token_index) = utility.context(tokens, token_index)
 
             ### Prefix based detection
             # Check if the token is a prefix, and the next token starts with a capital
@@ -227,7 +220,7 @@ class NamesAnnotator(InTextAnnotator):
                     # Iterate over rest of pattern to see if every element matches (fuzzily)
                     while counter < len(surname_pattern):
 
-                        # If the distance is too big, disgregard the match
+                        # If the distance is too big, disregard the match
                         if (
                             edit_distance(
                                 tokens[token_index + counter],
@@ -297,7 +290,7 @@ class NamesAnnotator(InTextAnnotator):
 
 class NamesContextAnnotator(InTextAnnotator):
 
-    flatten_func = deduce.utility.flatten_text
+    flatten_func = utility.flatten_text
 
     def annotate_intext(self, text: str, **kwargs) -> str:
 
@@ -324,12 +317,12 @@ class NamesContextAnnotator(InTextAnnotator):
                 previous_token_index,
                 next_token,
                 next_token_index,
-            ) = context(tokens, token_index)
+            ) = utility.context(tokens, token_index)
 
             ### Initial or unknown capitalized word, detected by a name or surname that is behind it
             # If the token is an initial, or starts with a capital
             initial_condition = (
-                is_initial(token)
+                utility.is_initial(token)
                 or (
                     token != ""
                     and token[0].isupper()
@@ -359,7 +352,7 @@ class NamesContextAnnotator(InTextAnnotator):
                 and
                 # And the token is preceded by an initial, found initial or found name
                 (
-                    is_initial(previous_token)
+                    utility.is_initial(previous_token)
                     or "INITIAAL" in previous_token
                     or "NAAM" in previous_token
                 )
@@ -372,7 +365,7 @@ class NamesContextAnnotator(InTextAnnotator):
             # If the condition is met, tag the tokens and continue
             if interfix_condition:
                 # Remove some already identified tokens, to prevent double tagging
-                (_, previous_token_index_deid, _, _) = context(
+                (_, previous_token_index_deid, _, _) = utility.context(
                     tokens_deid, len(tokens_deid)
                 )
                 deid_tokens_to_keep = tokens_deid[previous_token_index_deid:]
@@ -392,7 +385,7 @@ class NamesContextAnnotator(InTextAnnotator):
             # If the token is an initial, or found name or prefix
             initial_name_condition = (
                 (
-                    is_initial(token)
+                    utility.is_initial(token)
                     or "VOORNAAM" in token
                     or "ROEPNAAM" in token
                     or "PREFIX" in token
@@ -424,9 +417,12 @@ class NamesContextAnnotator(InTextAnnotator):
 
             # If a match is found, tag and continue
             if and_pattern_condition:
-                (previous_token_deid, previous_token_index_deid, _, _) = context(
-                    tokens_deid, len(tokens_deid)
-                )
+                (
+                    previous_token_deid,
+                    previous_token_index_deid,
+                    _,
+                    _,
+                ) = utility.context(tokens_deid, len(tokens_deid))
                 tokens_deid = tokens_deid[:previous_token_index_deid]
                 tokens_deid.append(
                     f"<MEERDEREPERSONEN {tokenizer.join_tokens([previous_token_deid] + tokens[previous_token_index + 1: next_token_index + 1])}>"
@@ -452,7 +448,7 @@ class NamesContextAnnotator(InTextAnnotator):
 
 class InstitutionAnnotator(InTextAnnotator):
 
-    flatten_func = deduce.utility.flatten_text_all_phi
+    flatten_func = utility.flatten_text_all_phi
 
     @staticmethod
     def replace_altrecht_text(match: re.Match) -> str:
@@ -485,7 +481,7 @@ class InstitutionAnnotator(InTextAnnotator):
             token_index = token_index + 1
             token = tokens[token_index]
 
-            # Find all tokens that are prefixes of the remainder of the lowercasetext
+            # Find all tokens that are prefixes of the remainder of the lowercase text
             prefix_matches = lookup_tries["institutions"].find_all_prefixes(
                 tokens_lower[token_index:]
             )
@@ -519,7 +515,7 @@ class InstitutionAnnotator(InTextAnnotator):
 
 class ResidenceAnnotator(InTextAnnotator):
 
-    flatten_func = deduce.utility.flatten_text_all_phi
+    flatten_func = utility.flatten_text_all_phi
 
     def annotate_intext(self, text: str, **kwargs) -> str:
 
@@ -558,7 +554,7 @@ class ResidenceAnnotator(InTextAnnotator):
 
 class AddressAnnotator(InTextAnnotator):
 
-    flatten_func = deduce.utility.flatten_text_all_phi
+    flatten_func = utility.flatten_text_all_phi
 
     @staticmethod
     def _get_address_match_replacement(match: re.Match) -> str:
@@ -582,7 +578,7 @@ class AddressAnnotator(InTextAnnotator):
 
 class PostalcodeAnnotator(InTextAnnotator):
 
-    flatten_func = deduce.utility.flatten_text_all_phi
+    flatten_func = utility.flatten_text_all_phi
 
     def annotate_intext(self, text: str, **kwargs) -> str:
 
@@ -599,7 +595,7 @@ class PostalcodeAnnotator(InTextAnnotator):
 
 class PhoneNumberAnnotator(InTextAnnotator):
 
-    flatten_func = deduce.utility.flatten_text_all_phi
+    flatten_func = utility.flatten_text_all_phi
 
     def annotate_intext(self, text: str, **kwargs) -> str:
         """Annotate phone numbers"""
@@ -626,7 +622,7 @@ class PhoneNumberAnnotator(InTextAnnotator):
 
 class PatientNumerAnnotator(InTextAnnotator):
 
-    flatten_func = deduce.utility.flatten_text_all_phi
+    flatten_func = utility.flatten_text_all_phi
 
     def annotate_intext(self, text: str, **kwargs) -> str:
         """Annotate patient numbers"""
@@ -636,7 +632,7 @@ class PatientNumerAnnotator(InTextAnnotator):
 
 class DateAnnotator(InTextAnnotator):
 
-    flatten_func = deduce.utility.flatten_text_all_phi
+    flatten_func = utility.flatten_text_all_phi
 
     @staticmethod
     def _get_date_replacement_(date_match: re.Match, punctuation_name: str) -> str:
@@ -671,7 +667,7 @@ class DateAnnotator(InTextAnnotator):
 
 
 class AgeAnnotator(InTextAnnotator):
-    flatten_func = deduce.utility.flatten_text_all_phi
+    flatten_func = utility.flatten_text_all_phi
 
     def annotate_intext(self, text: str, **kwargs) -> str:
 
@@ -684,7 +680,7 @@ class AgeAnnotator(InTextAnnotator):
 
 class UrlAnnotator(InTextAnnotator):
 
-    flatten_func = deduce.utility.flatten_text_all_phi
+    flatten_func = utility.flatten_text_all_phi
 
     def annotate_intext(self, text: str, **kwargs) -> str:
         """Annotate urls"""
@@ -705,7 +701,7 @@ class UrlAnnotator(InTextAnnotator):
 
 class EmailAnnotator(InTextAnnotator):
 
-    flatten_func = deduce.utility.flatten_text_all_phi
+    flatten_func = utility.flatten_text_all_phi
 
     def annotate_intext(self, text: str, **kwargs) -> str:
 

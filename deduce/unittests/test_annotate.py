@@ -80,7 +80,12 @@ class TestAnnotateMethods(unittest.TestCase):
         text = """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, <PREFIXNAAM PJ> en Pieter"""
         annotator = annotate.NamesContextAnnotator()
         annotated_names = annotator.annotate_intext(text)
-        expected_text = """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, <MEERDEREPERSONEN <PREFIXNAAM PJ> en Pieter>"""
+
+        expected_text = (
+            """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, """
+            """<MEERDEREPERSONEN <PREFIXNAAM PJ> en Pieter>"""
+        )
+
         self.assertEqual(expected_text, annotated_names)
 
     def test_annotate_initials(self):
