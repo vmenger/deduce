@@ -48,7 +48,7 @@ class TestDeduceMethods(unittest.TestCase):
             "<LOCATIE Utrecht>",
             "<DATUM 10 oktober>",
             "<PERSOON Peter de Visser>",
-            "<INSTELLING umcu>",
+            "<INSTELLING UMCU>",
         ]
         mock_annotations = [
             Annotation(39, 49, "PATIENT", "Jan Jansen"),
@@ -59,7 +59,7 @@ class TestDeduceMethods(unittest.TestCase):
             Annotation(143, 150, "LOCATIE", "Utrecht"),
             Annotation(164, 174, "DATUM", "10 oktober"),
             Annotation(185, 200, "PERSOON", "Peter de Visser"),
-            Annotation(234, 238, "INSTELLING", "umcu"),
+            Annotation(234, 238, "INSTELLING", "UMCU"),
         ]
 
         def mock_annotate_text(
