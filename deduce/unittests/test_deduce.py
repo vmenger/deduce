@@ -1,10 +1,11 @@
 import unittest
 from unittest.mock import patch
 
+import docdeid
+
 import deduce
 import deduce.utility
 
-import docdeid
 
 class TestDeduceMethods(unittest.TestCase):
     def test_annotate_text(self):

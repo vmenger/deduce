@@ -1,7 +1,9 @@
 import unittest
 
-from deduce import utility
 import docdeid
+
+from deduce import utility
+
 
 class TestUtilityMethods(unittest.TestCase):
     def test_parse_tag(self):

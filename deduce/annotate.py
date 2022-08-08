@@ -54,7 +54,9 @@ class InTextAnnotator(DeduceAnnotator):
     def flatten(self, text: str):
         return self.flatten_func(text)
 
-    def annotate_structured(self, text: str, *args, **kwargs) -> list[docdeid.Annotation]:
+    def annotate_structured(
+        self, text: str, *args, **kwargs
+    ) -> list[docdeid.Annotation]:
 
         intext_annotated = self.annotate_intext(text, **kwargs)
         intext_annotated = utility.flatten_text(intext_annotated)
@@ -69,7 +71,9 @@ class InTextAnnotator(DeduceAnnotator):
 
         # Check if there are any annotations whose start+end do not correspond to the text in the annotation
         mismatched_annotations = [
-            ann for ann in annotations if text[ann.start_char: ann.end_char] != ann.text
+            ann
+            for ann in annotations
+            if text[ann.start_char : ann.end_char] != ann.text
         ]
         if len(mismatched_annotations) > 0:
             print(
@@ -114,10 +118,10 @@ class NamesAnnotator(InTextAnnotator):
             ### Prefix based detection
             # Check if the token is a prefix, and the next token starts with a capital
             prefix_condition = (
-                    token.lower() in _lookup_lists["prefixes"]
-                    and next_token != ""
-                    and next_token[0].isupper()
-                    and next_token.lower() not in _lookup_lists["whitelist"]
+                token.lower() in _lookup_lists["prefixes"]
+                and next_token != ""
+                and next_token[0].isupper()
+                and next_token.lower() not in _lookup_lists["whitelist"]
             )
 
             # If the condition is met, tag the tokens and continue to the next position
@@ -131,10 +135,10 @@ class NamesAnnotator(InTextAnnotator):
             ### Interfix based detection
             # Check if the token is an interfix, and the next token is in the list of interfix surnames
             interfix_condition = (
-                    token.lower() in _lookup_lists["interfixes"]
-                    and next_token != ""
-                    and next_token in _lookup_lists["interfix_surnames"]
-                    and next_token.lower() not in _lookup_lists["whitelist"]
+                token.lower() in _lookup_lists["interfixes"]
+                and next_token != ""
+                and next_token in _lookup_lists["interfix_surnames"]
+                and next_token.lower() not in _lookup_lists["whitelist"]
             )
 
             # If condition is met, tag the tokens and continue to the new position
@@ -329,9 +333,9 @@ class NamesContextAnnotator(InTextAnnotator):
             initial_condition = (
                 utility.is_initial(token)
                 or (
-                        token != ""
-                        and token[0].isupper()
-                        and token.lower() not in _lookup_lists["whitelist"]
+                    token != ""
+                    and token[0].isupper()
+                    and token.lower() not in _lookup_lists["whitelist"]
                 )
             ) and (
                 # And the token is followed by either a
@@ -353,18 +357,18 @@ class NamesContextAnnotator(InTextAnnotator):
 
             # If the token is an interfix
             interfix_condition = (
-                    token in _lookup_lists["interfixes"]
-                    and
-                    # And the token is preceded by an initial, found initial or found name
-                    (
+                token in _lookup_lists["interfixes"]
+                and
+                # And the token is preceded by an initial, found initial or found name
+                (
                     utility.is_initial(previous_token)
                     or "INITIAAL" in previous_token
                     or "NAAM" in previous_token
                 )
-                    and
+                and
                 # And the next token must be capitalized
-                    next_token != ""
-                    and (next_token[0].isupper() or next_token[0] == "<")
+                next_token != ""
+                and (next_token[0].isupper() or next_token[0] == "<")
             )
 
             # If the condition is met, tag the tokens and continue
@@ -389,16 +393,16 @@ class NamesContextAnnotator(InTextAnnotator):
             ### Initial or name, followed by a capitalized word
             # If the token is an initial, or found name or prefix
             initial_name_condition = (
-                    (
+                (
                     utility.is_initial(token)
                     or "VOORNAAM" in token
                     or "ROEPNAAM" in token
                     or "PREFIX" in token
                     # And the next token is uppercase and has at least 3 characters
                 )
-                    and len(next_token) > 3
-                    and next_token[0].isupper()
-                    and next_token.lower() not in _lookup_lists["whitelist"]
+                and len(next_token) > 3
+                and next_token[0].isupper()
+                and next_token.lower() not in _lookup_lists["whitelist"]
             )
 
             # If a match is found, tag and continue

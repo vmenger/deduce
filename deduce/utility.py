@@ -293,12 +293,14 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
         tag_ix = annotated_text.index(tag, ix) - ix
         tag_type, tag_text = parse_tag(tag)
 
-        annotations.append(docdeid.Annotation(
-            tag_text,
-            raw_text_ix + tag_ix,
-            raw_text_ix + tag_ix + len(tag_text),
-            tag_type
-        ))
+        annotations.append(
+            docdeid.Annotation(
+                tag_text,
+                raw_text_ix + tag_ix,
+                raw_text_ix + tag_ix + len(tag_text),
+                tag_type,
+            )
+        )
 
         ix += tag_ix + len(tag)
         raw_text_ix += tag_ix + len(tag_text)
