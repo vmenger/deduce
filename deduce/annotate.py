@@ -2,7 +2,6 @@
 
 import re
 from abc import abstractmethod
-from typing import Callable
 
 import docdeid
 from docdeid.datastructures import LookupList
@@ -12,6 +11,8 @@ from deduce import utility
 from deduce.lookup.lookup_lists import get_lookup_lists
 from deduce.lookup.lookup_tries import get_lookup_tries
 from deduce.tokenizer import Tokenizer
+
+from typing import Callable
 
 
 def _initialize():
@@ -35,31 +36,33 @@ _lookup_lists, _lookup_tries, tokenizer = _initialize()
 
 class DeduceAnnotator(docdeid.BaseAnnotator):
     @abstractmethod
-    def annotate_structured(self, text: str) -> list[docdeid.Annotation]:
+    def annotate_structured(self, text: str, *args, **kwargs) -> list[docdeid.Annotation]:
         pass
 
     def annotate(self, document: docdeid.Document):
-        annotations = self.annotate_structured(document.text)
+        annotations = self.annotate_structured(document.text, **document.get_meta_data())
+        print(annotations)
         document.add_annotations(annotations)
 
 
 class InTextAnnotator(DeduceAnnotator):
 
-    flatten_func: Callable
+    flatten_function: Callable = None  # Todo: this could use a better solution
+
+    def __init__(self):
+        if self.flatten_function is None:
+            self.flatten_function = utility.flatten_text_all_phi
 
     @abstractmethod
     def annotate_intext(self, text: str, **kwargs) -> str:
         pass
-
-    def flatten(self, text: str):
-        return self.flatten_func(text)
 
     def annotate_structured(
         self, text: str, *args, **kwargs
     ) -> list[docdeid.Annotation]:
 
         intext_annotated = self.annotate_intext(text, **kwargs)
-        intext_annotated = utility.flatten_text(intext_annotated)
+        intext_annotated = self.flatten_function(intext_annotated)
 
         tags = utility.find_tags(intext_annotated)
         first_non_whitespace_character_index = utility.get_first_non_whitespace(text)
@@ -88,7 +91,9 @@ class InTextAnnotator(DeduceAnnotator):
 
 class NamesAnnotator(InTextAnnotator):
 
-    flatten_func = utility.flatten_text
+    def __init__(self):
+        self.flatten_function = utility.flatten_text
+        super().__init__()
 
     def annotate_intext(self, text: str, **kwargs) -> str:
 
@@ -299,7 +304,9 @@ class NamesAnnotator(InTextAnnotator):
 
 class NamesContextAnnotator(InTextAnnotator):
 
-    flatten_func = utility.flatten_text
+    def __init__(self):
+        self.flatten_function = utility.flatten_text
+        super().__init__()
 
     def annotate_intext(self, text: str, **kwargs) -> str:
 
@@ -457,8 +464,6 @@ class NamesContextAnnotator(InTextAnnotator):
 
 class InstitutionAnnotator(InTextAnnotator):
 
-    flatten_func = utility.flatten_text_all_phi
-
     @staticmethod
     def _replace_altrecht_text(match: re.Match) -> str:
         """
@@ -524,8 +529,6 @@ class InstitutionAnnotator(InTextAnnotator):
 
 class ResidenceAnnotator(InTextAnnotator):
 
-    flatten_func = utility.flatten_text_all_phi
-
     def annotate_intext(self, text: str, **kwargs) -> str:
 
         """Annotate residences"""
@@ -563,8 +566,6 @@ class ResidenceAnnotator(InTextAnnotator):
 
 class AddressAnnotator(InTextAnnotator):
 
-    flatten_func = utility.flatten_text_all_phi
-
     @staticmethod
     def _get_address_match_replacement(match: re.Match) -> str:
         text = match.group(0)
@@ -587,8 +588,6 @@ class AddressAnnotator(InTextAnnotator):
 
 class PostalcodeAnnotator(InTextAnnotator):
 
-    flatten_func = utility.flatten_text_all_phi
-
     def annotate_intext(self, text: str, **kwargs) -> str:
 
         """Annotate postal codes"""
@@ -603,8 +602,6 @@ class PostalcodeAnnotator(InTextAnnotator):
 
 
 class PhoneNumberAnnotator(InTextAnnotator):
-
-    flatten_func = utility.flatten_text_all_phi
 
     def annotate_intext(self, text: str, **kwargs) -> str:
         """Annotate phone numbers"""
@@ -631,8 +628,6 @@ class PhoneNumberAnnotator(InTextAnnotator):
 
 class PatientNumerAnnotator(InTextAnnotator):
 
-    flatten_func = utility.flatten_text_all_phi
-
     def annotate_intext(self, text: str, **kwargs) -> str:
         """Annotate patient numbers"""
         text = re.sub("(\d{7})(?![^<]*>)", "<PATIENTNUMMER \\1>", text)
@@ -640,8 +635,6 @@ class PatientNumerAnnotator(InTextAnnotator):
 
 
 class DateAnnotator(InTextAnnotator):
-
-    flatten_func = utility.flatten_text_all_phi
 
     @staticmethod
     def _get_date_replacement_(date_match: re.Match, punctuation_name: str) -> str:
@@ -676,7 +669,6 @@ class DateAnnotator(InTextAnnotator):
 
 
 class AgeAnnotator(InTextAnnotator):
-    flatten_func = utility.flatten_text_all_phi
 
     def annotate_intext(self, text: str, **kwargs) -> str:
 
@@ -688,8 +680,6 @@ class AgeAnnotator(InTextAnnotator):
 
 
 class UrlAnnotator(InTextAnnotator):
-
-    flatten_func = utility.flatten_text_all_phi
 
     def annotate_intext(self, text: str, **kwargs) -> str:
         """Annotate urls"""
@@ -709,8 +699,6 @@ class UrlAnnotator(InTextAnnotator):
 
 
 class EmailAnnotator(InTextAnnotator):
-
-    flatten_func = utility.flatten_text_all_phi
 
     def annotate_intext(self, text: str, **kwargs) -> str:
 

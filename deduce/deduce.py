@@ -6,7 +6,8 @@ deidentify_annotations() methods can be imported
 import re
 
 import docdeid
-from docdeid.annotation.annotation_processor import LeftRightOverlapResolver
+from docdeid.annotation.annotation_processor import LongestFirstOverlapResolver, MergeAdjacentAnnotations
+from docdeid.annotation.redactor import BaseRedactor
 from docdeid.annotation.redactor import SimpleRedactor
 from nltk.metrics import edit_distance
 
@@ -44,25 +45,72 @@ annotators = {
 }
 
 
+class DeduceRedactor(BaseRedactor):
+    """
+    A simple redactor that replaces an annotation by [CATEGORY-n], with n being a counter.
+    """
+
+    def redact(self, text: str, annotations: list[docdeid.Annotation]):
+        # TODO Implement this according to the logic in deidentify_annotations()
+
+        annotations = sorted(annotations, key=lambda x: x.end_char)
+        annotations_to_replacement = {}
+
+        patient_annotations = [annotation for annotation in annotations if "PATIENT" in annotation.category]
+
+        annotation_text_to_counter = {}
+
+        for annotation in annotations:
+
+            if annotation.text not in annotation_text_to_counter:
+                annotation_text_to_counter[annotation.text] = (
+                        len(annotation_text_to_counter) + 1
+                )
+
+        for annotation in annotations[::-1]:  # back to front
+            text = (
+                    text[: annotation.start_char]
+                    + f"<"
+                      f"{annotation.category.upper()}"
+                      f"-"
+                      f"{annotation_text_to_counter[annotation.text]}"
+                      f">"
+                    + text[annotation.end_char:]
+            )
+
+        return text
+
+
 class Deduce(docdeid.DocDeid):
-    pass
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._initialize_deduce()
+
+    def _initialize_deduce(self):
+
+        self.tokenizer = tokenizer
+        self.redactor = SimpleRedactor(open_char="<", close_char=">")
+
+        for name, annotator in annotators.items():
+            self.add_annotator(name, annotator)
+
+        self.add_annotation_postprocessor(
+            "overlap_resolver",
+            LongestFirstOverlapResolver()
+        )
+
+        self.add_annotation_postprocessor(
+            "merge_adjacent_annotations",
+            MergeAdjacentAnnotations(slack_regexp="[\.\s\-,]?[\.\s]?")
+        )
 
 
 def _initialize_deduce() -> docdeid.DocDeid:
-
-    _deduce = Deduce(
-        tokenizer=tokenizer, redactor=SimpleRedactor(open_char="<", close_char=">")
-    )
-
-    for name, annotator in annotators.items():
-        _deduce.add_annotator(name, annotator)
-
-    _deduce.add_annotation_postprocessor("overlap_resolver", LeftRightOverlapResolver())
-
-    return _deduce
+    return Deduce()
 
 
-deduce = _initialize_deduce()
+deduce_model = _initialize_deduce()
 
 
 def annotate_text(
