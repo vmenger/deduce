@@ -2,6 +2,7 @@
 
 import re
 from abc import abstractmethod
+from typing import Callable
 
 import docdeid
 from docdeid.datastructures import LookupList
@@ -11,8 +12,6 @@ from deduce import utility
 from deduce.lookup.lookup_lists import get_lookup_lists
 from deduce.lookup.lookup_tries import get_lookup_tries
 from deduce.tokenizer import Tokenizer
-
-from typing import Callable
 
 
 def _initialize():
@@ -36,11 +35,15 @@ _lookup_lists, _lookup_tries, tokenizer = _initialize()
 
 class DeduceAnnotator(docdeid.BaseAnnotator):
     @abstractmethod
-    def annotate_structured(self, text: str, *args, **kwargs) -> list[docdeid.Annotation]:
+    def annotate_structured(
+        self, text: str, *args, **kwargs
+    ) -> list[docdeid.Annotation]:
         pass
 
     def annotate(self, document: docdeid.Document):
-        annotations = self.annotate_structured(document.text, **document.get_meta_data())
+        annotations = self.annotate_structured(
+            document.text, **document.get_meta_data()
+        )
         print(annotations)
         document.add_annotations(annotations)
 
@@ -90,7 +93,6 @@ class InTextAnnotator(DeduceAnnotator):
 
 
 class NamesAnnotator(InTextAnnotator):
-
     def __init__(self):
         self.flatten_function = utility.flatten_text
         super().__init__()
@@ -303,7 +305,6 @@ class NamesAnnotator(InTextAnnotator):
 
 
 class NamesContextAnnotator(InTextAnnotator):
-
     def __init__(self):
         self.flatten_function = utility.flatten_text
         super().__init__()
@@ -463,7 +464,6 @@ class NamesContextAnnotator(InTextAnnotator):
 
 
 class InstitutionAnnotator(InTextAnnotator):
-
     @staticmethod
     def _replace_altrecht_text(match: re.Match) -> str:
         """
@@ -528,7 +528,6 @@ class InstitutionAnnotator(InTextAnnotator):
 
 
 class ResidenceAnnotator(InTextAnnotator):
-
     def annotate_intext(self, text: str, **kwargs) -> str:
 
         """Annotate residences"""
@@ -565,7 +564,6 @@ class ResidenceAnnotator(InTextAnnotator):
 
 
 class AddressAnnotator(InTextAnnotator):
-
     @staticmethod
     def _get_address_match_replacement(match: re.Match) -> str:
         text = match.group(0)
@@ -587,7 +585,6 @@ class AddressAnnotator(InTextAnnotator):
 
 
 class PostalcodeAnnotator(InTextAnnotator):
-
     def annotate_intext(self, text: str, **kwargs) -> str:
 
         """Annotate postal codes"""
@@ -602,7 +599,6 @@ class PostalcodeAnnotator(InTextAnnotator):
 
 
 class PhoneNumberAnnotator(InTextAnnotator):
-
     def annotate_intext(self, text: str, **kwargs) -> str:
         """Annotate phone numbers"""
         text = re.sub(
@@ -627,7 +623,6 @@ class PhoneNumberAnnotator(InTextAnnotator):
 
 
 class PatientNumerAnnotator(InTextAnnotator):
-
     def annotate_intext(self, text: str, **kwargs) -> str:
         """Annotate patient numbers"""
         text = re.sub("(\d{7})(?![^<]*>)", "<PATIENTNUMMER \\1>", text)
@@ -635,7 +630,6 @@ class PatientNumerAnnotator(InTextAnnotator):
 
 
 class DateAnnotator(InTextAnnotator):
-
     @staticmethod
     def _get_date_replacement_(date_match: re.Match, punctuation_name: str) -> str:
         punctuation = date_match[punctuation_name]
@@ -669,7 +663,6 @@ class DateAnnotator(InTextAnnotator):
 
 
 class AgeAnnotator(InTextAnnotator):
-
     def annotate_intext(self, text: str, **kwargs) -> str:
 
         """Annotate ages"""
@@ -680,7 +673,6 @@ class AgeAnnotator(InTextAnnotator):
 
 
 class UrlAnnotator(InTextAnnotator):
-
     def annotate_intext(self, text: str, **kwargs) -> str:
         """Annotate urls"""
         text = re.sub(
@@ -699,7 +691,6 @@ class UrlAnnotator(InTextAnnotator):
 
 
 class EmailAnnotator(InTextAnnotator):
-
     def annotate_intext(self, text: str, **kwargs) -> str:
 
         """Annotate emails"""

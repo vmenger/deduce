@@ -6,9 +6,11 @@ deidentify_annotations() methods can be imported
 import re
 
 import docdeid
-from docdeid.annotation.annotation_processor import LongestFirstOverlapResolver, MergeAdjacentAnnotations
-from docdeid.annotation.redactor import BaseRedactor
-from docdeid.annotation.redactor import SimpleRedactor
+from docdeid.annotation.annotation_processor import (
+    LongestFirstOverlapResolver,
+    MergeAdjacentAnnotations,
+)
+from docdeid.annotation.redactor import BaseRedactor, SimpleRedactor
 from nltk.metrics import edit_distance
 
 from deduce import utility
@@ -56,7 +58,9 @@ class DeduceRedactor(BaseRedactor):
         annotations = sorted(annotations, key=lambda x: x.end_char)
         annotations_to_replacement = {}
 
-        patient_annotations = [annotation for annotation in annotations if "PATIENT" in annotation.category]
+        patient_annotations = [
+            annotation for annotation in annotations if "PATIENT" in annotation.category
+        ]
 
         annotation_text_to_counter = {}
 
@@ -64,25 +68,22 @@ class DeduceRedactor(BaseRedactor):
 
             if annotation.text not in annotation_text_to_counter:
                 annotation_text_to_counter[annotation.text] = (
-                        len(annotation_text_to_counter) + 1
+                    len(annotation_text_to_counter) + 1
                 )
 
         for annotation in annotations[::-1]:  # back to front
             text = (
-                    text[: annotation.start_char]
-                    + f"<"
-                      f"{annotation.category.upper()}"
-                      f"-"
-                      f"{annotation_text_to_counter[annotation.text]}"
-                      f">"
-                    + text[annotation.end_char:]
+                text[: annotation.start_char] + f"<"
+                f"{annotation.category.upper()}"
+                f"-"
+                f"{annotation_text_to_counter[annotation.text]}"
+                f">" + text[annotation.end_char :]
             )
 
         return text
 
 
 class Deduce(docdeid.DocDeid):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._initialize_deduce()
@@ -96,13 +97,12 @@ class Deduce(docdeid.DocDeid):
             self.add_annotator(name, annotator)
 
         self.add_annotation_postprocessor(
-            "overlap_resolver",
-            LongestFirstOverlapResolver()
+            "overlap_resolver", LongestFirstOverlapResolver()
         )
 
         self.add_annotation_postprocessor(
             "merge_adjacent_annotations",
-            MergeAdjacentAnnotations(slack_regexp="[\.\s\-,]?[\.\s]?")
+            MergeAdjacentAnnotations(slack_regexp="[\.\s\-,]?[\.\s]?"),
         )
 
 
