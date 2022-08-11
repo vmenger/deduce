@@ -52,33 +52,66 @@ class DeduceRedactor(BaseRedactor):
     A simple redactor that replaces an annotation by [CATEGORY-n], with n being a counter.
     """
 
+    @staticmethod
+    def _get_annotations_by_category(annotations: list[docdeid.Annotation], category: str):
+        return [annotation for annotation in annotations if annotation.category == category]
+
     def redact(self, text: str, annotations: list[docdeid.Annotation]):
         # TODO Implement this according to the logic in deidentify_annotations()
 
         annotations = sorted(annotations, key=lambda x: x.end_char)
         annotations_to_replacement = {}
 
-        patient_annotations = [
-            annotation for annotation in annotations if "PATIENT" in annotation.category
-        ]
-
-        annotation_text_to_counter = {}
+        other_annotations = []
 
         for annotation in annotations:
 
-            if annotation.text not in annotation_text_to_counter:
-                annotation_text_to_counter[annotation.text] = (
-                    len(annotation_text_to_counter) + 1
-                )
+            if annotation.category == "PATIENT":
+                annotations_to_replacement[annotation] = "<PATIENT>"
 
-        for annotation in annotations[::-1]:  # back to front
-            text = (
-                text[: annotation.start_char] + f"<"
-                f"{annotation.category.upper()}"
-                f"-"
-                f"{annotation_text_to_counter[annotation.text]}"
-                f">" + text[annotation.end_char :]
-            )
+            else:
+                other_annotations.append(annotation)
+
+        for tagname in [
+            "PERSOON",
+            "LOCATIE",
+            "INSTELLING",
+            "DATUM",
+            "LEEFTIJD",
+            "PATIENTNUMMER",
+            "TELEFOONNUMMER",
+            "URL",
+        ]:
+
+            annotations_subset = self._get_annotations_by_category(annotations, tagname)
+            annotations_to_replacement_tag = {}
+            dispenser = 1
+
+            for annotation in annotations_subset:
+
+                match = False
+
+                # Check match with any
+                for annotation_match in annotations_to_replacement_tag.keys():
+
+                    if edit_distance(annotation.text, annotation_match.text) <= 1:
+                        annotations_to_replacement_tag[annotation] = annotations_to_replacement_tag[annotation_match]
+                        match = True
+                        break
+
+                if not match:
+                    annotations_to_replacement_tag[annotation] = f"<{tagname}-{dispenser}>"
+                    dispenser += 1
+
+            annotations_to_replacement |= annotations_to_replacement_tag
+
+        assert len(annotations_to_replacement) == len(annotations)
+
+        sorted_annotations = sorted(annotations, key=lambda a: -a.end_char)
+
+        for annotation in sorted_annotations:
+
+            text = text[:annotation.start_char] + annotations_to_replacement[annotation] + text[annotation.end_char:]
 
         return text
 
@@ -90,20 +123,22 @@ class Deduce(docdeid.DocDeid):
 
     def _initialize_deduce(self):
 
-        self.tokenizer = tokenizer
-        self.redactor = SimpleRedactor(open_char="<", close_char=">")
+        self._tokenizer = tokenizer
+        self._redactor = DeduceRedactor()
 
         for name, annotator in annotators.items():
             self.add_annotator(name, annotator)
 
         self.add_annotation_postprocessor(
-            "overlap_resolver", LongestFirstOverlapResolver()
+            "overlap_resolver",
+            LongestFirstOverlapResolver()
         )
 
         self.add_annotation_postprocessor(
             "merge_adjacent_annotations",
             MergeAdjacentAnnotations(slack_regexp="[\.\s\-,]?[\.\s]?"),
         )
+
 
 
 def _initialize_deduce() -> docdeid.DocDeid:

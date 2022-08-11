@@ -44,7 +44,6 @@ class DeduceAnnotator(docdeid.BaseAnnotator):
         annotations = self.annotate_structured(
             document.text, **document.get_meta_data()
         )
-        print(annotations)
         document.add_annotations(annotations)
 
 
