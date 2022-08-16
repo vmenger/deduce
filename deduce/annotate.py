@@ -594,35 +594,40 @@ class PostalcodeAnnotator(InTextAnnotator):
         return text
 
 
-class PhoneNumberAnnotator(InTextAnnotator):
-    def annotate_intext(self, text: str, **kwargs) -> str:
-        """Annotate phone numbers"""
-        text = re.sub(
-            "(((0)[1-9]{2}[0-9][-]?[1-9][0-9]{5})|((\\+31|0|0031)[1-9][0-9][-]?[1-9][0-9]{6}))(?![^<]*>)",
-            "<TELEFOONNUMMER \\1>",
-            text,
+class PhoneNumberAnnotator(RegexpAnnotator):
+
+    def __init__(self):
+
+        phone_pattern_1 = re.compile(
+            "(((0)[1-9]{2}[0-9][-]?[1-9][0-9]{5})|((\\+31|0|0031)[1-9][0-9][-]?[1-9][0-9]{6}))"
         )
 
-        text = re.sub(
-            "(((\\+31|0|0031)6){1}[-]?[1-9]{1}[0-9]{7})(?![^<]*>)",
-            "<TELEFOONNUMMER \\1>",
-            text,
+        phone_pattern_2 = re.compile(
+            "(((\\+31|0|0031)6){1}[-]?[1-9]{1}[0-9]{7})"
         )
 
-        text = re.sub(
-            "((\(\d{3}\)|\d{3})\s?\d{3}\s?\d{2}\s?\d{2})(?![^<]*>)",
-            "<TELEFOONNUMMER \\1>",
-            text,
+        phone_pattern_3 = re.compile(
+            "((\(\d{3}\)|\d{3})\s?\d{3}\s?\d{2}\s?\d{2})"
         )
 
-        return text
+        super().__init__(
+            regexp_patterns=[phone_pattern_1, phone_pattern_2, phone_pattern_3],
+            category="TELEFOONNUMMER"
+        )
 
 
-class PatientNumerAnnotator(InTextAnnotator):
-    def annotate_intext(self, text: str, **kwargs) -> str:
-        """Annotate patient numbers"""
-        text = re.sub("(\d{7})(?![^<]*>)", "<PATIENTNUMMER \\1>", text)
-        return text
+class PatientNumerAnnotator(RegexpAnnotator):
+
+    def __init__(self):
+
+        patientnumber_pattern = re.compile(
+            "\d{7}"
+        )
+
+        super().__init__(
+            regexp_patterns=[patientnumber_pattern],
+            category="PATIENTNUMMER"
+        )
 
 
 class DateAnnotator(InTextAnnotator):
