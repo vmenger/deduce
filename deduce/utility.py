@@ -311,7 +311,13 @@ def get_annotations(
 
 
 def get_first_non_whitespace(text: str) -> int:
-    return text.index(text.lstrip()[0])
+
+    stripped_text = text.lstrip()
+
+    if len(stripped_text) == 0:
+        return len(text)
+    else:
+        return text.index(stripped_text[0])
 
 
 def get_shift(text: str, intext_annotated: str) -> int:
