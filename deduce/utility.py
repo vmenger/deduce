@@ -3,25 +3,7 @@
 import re
 from functools import reduce
 
-
-class Annotation:
-    def __init__(self, start_ix: int, end_ix: int, tag: str, text: str):
-        self.start_ix = start_ix
-        self.end_ix = end_ix
-        self.tag = tag
-        self.text_ = text
-
-    def __eq__(self, other):
-        return (
-            isinstance(other, Annotation)
-            and self.start_ix == other.start_ix
-            and self.end_ix == other.end_ix
-            and self.tag == other.tag
-            and self.text_ == other.text_
-        )
-
-    def __repr__(self):
-        return self.tag + "[" + str(self.start_ix) + ":" + str(self.end_ix) + "]"
+import docdeid
 
 
 def any_in_text(matchlist, token):
@@ -295,7 +277,9 @@ def parse_tag(tag: str) -> tuple:
     return tag[1:split_ix], tag[split_ix + 1 : len(tag) - 1]
 
 
-def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) -> list:
+def get_annotations(
+    annotated_text: str, tags: list, n_leading_whitespaces=0
+) -> list[docdeid.Annotation]:
     """
     Find structured annotations from tags, with indices pointing to the original text. ***Does not handle nested tags***
     :param annotated_text: the annotated text
@@ -304,20 +288,23 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
     :return: the annotations with indices corresponding to the original (raw) text;
     this accounts for string stripping during annotation
     """
+
     ix = 0
     annotations = []
     raw_text_ix = n_leading_whitespaces
     for tag in tags:
         tag_ix = annotated_text.index(tag, ix) - ix
         tag_type, tag_text = parse_tag(tag)
+
         annotations.append(
-            Annotation(
+            docdeid.Annotation(
+                tag_text,
                 raw_text_ix + tag_ix,
                 raw_text_ix + tag_ix + len(tag_text),
                 tag_type,
-                tag_text,
             )
         )
+
         ix += tag_ix + len(tag)
         raw_text_ix += tag_ix + len(tag_text)
     return annotations
@@ -325,3 +312,55 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
 
 def get_first_non_whitespace(text: str) -> int:
     return text.index(text.lstrip()[0])
+
+
+def get_shift(text: str, intext_annotated: str) -> int:
+    return get_first_non_whitespace(text) - get_first_non_whitespace(intext_annotated)
+
+
+def get_adjacent_tags_replacement(match: re.Match) -> str:
+    text = match.group(0)
+    tag = match.group(1)
+    left = match.group(2)
+    right = match.group(3)
+    start_ix = text.index(">") + 1
+    end_ix = text[1:].index("<") + 1
+    separator = text[start_ix:end_ix]
+    return "<" + tag + " " + left + separator + right + ">"
+
+
+def merge_adjacent_tags(text: str) -> str:
+    """
+    Adjacent tags are merged into a single tag
+    :param text: the text from which you want to merge adjacent tags
+    :return: the text with adjacent tags merged
+    """
+    while True:
+        oldtext = text
+        text = re.sub(
+            "<([A-Z]+)\s([^>]+)>[\.\s\-,]?[\.\s]?<\\1\s([^>]+)>",
+            get_adjacent_tags_replacement,
+            text,
+        )
+        if text == oldtext:
+            break
+    return text
+
+
+def has_nested_tags(text):
+    open_brackets = 0
+    for _, ch in enumerate(text):
+
+        if ch == "<":
+            open_brackets += 1
+
+        if ch == ">":
+            open_brackets -= 1
+
+        if open_brackets == 2:
+            return True
+
+        if open_brackets not in (0, 1):
+            raise ValueError("Incorrectly formatted string")
+
+    return False

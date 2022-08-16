@@ -1,7 +1,8 @@
 import unittest
 
+import docdeid
+
 from deduce import utility
-from deduce.utility import Annotation
 
 
 class TestUtilityMethods(unittest.TestCase):
@@ -45,12 +46,12 @@ class TestUtilityMethods(unittest.TestCase):
             "<INTERFIXNAAM de Visser>",
         ]
         expected_annotations = [
-            Annotation(39, 42, "VOORNAAMPAT", "Jan"),
-            Annotation(43, 49, "ACHTERNAAMPAT", "Jansen"),
-            Annotation(54, 63, "PREFIXNAAM", "patient J"),
-            Annotation(65, 71, "ACHTERNAAMPAT", "Jansen"),
-            Annotation(185, 190, "VOORNAAMONBEKEND", "Peter"),
-            Annotation(191, 200, "INTERFIXNAAM", "de Visser"),
+            docdeid.Annotation("Jan", 39, 42, "VOORNAAMPAT"),
+            docdeid.Annotation("Jansen", 43, 49, "ACHTERNAAMPAT"),
+            docdeid.Annotation("patient J", 54, 63, "PREFIXNAAM"),
+            docdeid.Annotation("Jansen", 65, 71, "ACHTERNAAMPAT"),
+            docdeid.Annotation("Peter", 185, 190, "VOORNAAMONBEKEND"),
+            docdeid.Annotation("de Visser", 191, 200, "INTERFIXNAAM"),
         ]
         found_annotations = utility.get_annotations(text, tags)
         self.assertEqual(expected_annotations, found_annotations)
@@ -67,15 +68,15 @@ class TestUtilityMethods(unittest.TestCase):
         tags = utility.find_tags(annotated_text)
         annotations = utility.get_annotations(annotated_text, tags)
         expected_annotations = [
-            Annotation(39, 49, "PATIENT", "Jan Jansen"),
-            Annotation(54, 71, "PATIENT", "patient J. Jansen"),
-            Annotation(76, 93, "URL", "j.jnsen@email.com"),
-            Annotation(98, 109, "TELEFOONNUMMER", "06-12345678"),
-            Annotation(114, 116, "LEEFTIJD", "64"),
-            Annotation(143, 150, "LOCATIE", "Utrecht"),
-            Annotation(164, 174, "DATUM", "10 oktober"),
-            Annotation(185, 200, "PERSOON", "Peter de Visser"),
-            Annotation(234, 238, "INSTELLING", "umcu"),
+            docdeid.Annotation("Jan Jansen", 39, 49, "PATIENT"),
+            docdeid.Annotation("patient J. Jansen", 54, 71, "PATIENT"),
+            docdeid.Annotation("j.jnsen@email.com", 76, 93, "URL"),
+            docdeid.Annotation("06-12345678", 98, 109, "TELEFOONNUMMER"),
+            docdeid.Annotation("64", 114, 116, "LEEFTIJD"),
+            docdeid.Annotation("Utrecht", 143, 150, "LOCATIE"),
+            docdeid.Annotation("10 oktober", 164, 174, "DATUM"),
+            docdeid.Annotation("Peter de Visser", 185, 200, "PERSOON"),
+            docdeid.Annotation("umcu", 234, 238, "INSTELLING"),
         ]
         self.assertEqual(expected_annotations, annotations)
 
@@ -84,7 +85,7 @@ class TestUtilityMethods(unittest.TestCase):
         tags = ["<PERSOON Jan Jansen>"]
         annotations = utility.get_annotations(annotated_text, tags, 1)
         self.assertEqual(1, len(annotations))
-        self.assertEqual(19, annotations[0].start_ix)
+        self.assertEqual(19, annotations[0].start_char)
 
     def test_get_first_non_whitespace(self):
         self.assertEqual(1, utility.get_first_non_whitespace(" Overleg"))
