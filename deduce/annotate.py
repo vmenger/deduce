@@ -66,10 +66,6 @@ class InTextAnnotator(DeduceAnnotator):
         tags = utility.find_tags(intext_annotated)
         shift = utility.get_shift(text, intext_annotated)
 
-        print(f"{self.__class__}: {intext_annotated}")
-        print(f"{self.__class__}: {tags}")
-        print(f"{self.__class__}: {shift}")
-
         # utility.get_annotations does not handle nested tags, so make sure not to pass it text with nested tags
         # Also, utility.get_annotations assumes that all tags are listed in the order they appear in the text
         annotations = utility.get_annotations(intext_annotated, tags, shift)
