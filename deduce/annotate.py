@@ -54,6 +54,9 @@ class InTextAnnotator(DeduceAnnotator):
 
     def annotate_structured(self, text: str, **kwargs) -> list[docdeid.Annotation]:
 
+        text = text.replace("<", "(")
+        text = text.replace(">", ")")
+
         intext_annotated = self.annotate_intext(text, **kwargs)
         intext_annotated = self.flatten_function(intext_annotated)
 

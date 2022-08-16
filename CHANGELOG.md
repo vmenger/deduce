@@ -12,6 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - use lookup sets instead of lookup lists
 - refactor tokenizer
 - deprecate automated github testing for python 3.7 and 3.8, added for python 3.10
+- refactor annotators into separate classes
+
+### Added
+- introduced new interface for deidentification, using `Deduce()` class
+
+### Fixed
+- `<` and `>` are no longer replaced by `(` and `)` respectively
+- deduce does not strip text (whitespaces, tabs at beginning/end of text) anymore
 
 ## 1.0.8 (2021-11-29)
 

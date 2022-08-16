@@ -82,10 +82,6 @@ def annotate_text_backwardscompat(
 
     text = "" or text
 
-    text = text.replace("<", "(").replace(
-        ">", ")"
-    )  # Todo this must go in annotator_intext
-
     meta_data = {
         "patient_first_names": patient_first_names,
         "patient_initials": patient_initials,
@@ -129,14 +125,13 @@ def annotate_text_backwardscompat(
 def annotate_text(text: str, *args, **kwargs):
 
     doc = annotate_text_backwardscompat(text=text, *args, **kwargs)
-    text = doc.text
 
     annotations = list(sorted(doc.annotations, key=lambda a: -a.end_char))
 
     for annotation in annotations:
         text = f"{text[:annotation.start_char]}<{annotation.category.upper()} {annotation.text}>{text[annotation.end_char:]}"
 
-    return text.strip()
+    return text
 
 
 def annotate_text_structured(text: str, *args, **kwargs) -> list[docdeid.Annotation]:
