@@ -2,7 +2,7 @@
 
 import re
 from abc import abstractmethod
-from typing import Callable
+from typing import Callable, Optional
 
 import docdeid
 from docdeid.datastructures import LookupList
@@ -34,45 +34,42 @@ _lookup_lists, _lookup_tries, tokenizer = _initialize()
 
 
 class DeduceAnnotator(docdeid.BaseAnnotator):
-    @abstractmethod
-    def annotate_structured(
-        self, text: str, *args, **kwargs
-    ) -> list[docdeid.Annotation]:
-        pass
-
     def annotate(self, document: docdeid.Document):
+
         annotations = self.annotate_structured(
             document.text, **document.get_meta_data()
         )
+
         document.add_annotations(annotations)
+
+    @abstractmethod
+    def annotate_structured(self, text: str, **kwargs) -> list[docdeid.Annotation]:
+        pass
 
 
 class InTextAnnotator(DeduceAnnotator):
+    def __init__(self, flatten_function: Optional[Callable] = None):
 
-    flatten_function: Callable = None  # Todo: this could use a better solution
+        self.flatten_function = flatten_function or utility.flatten_text_all_phi
 
-    def __init__(self):
-        if self.flatten_function is None:
-            self.flatten_function = utility.flatten_text_all_phi
-
-    @abstractmethod
-    def annotate_intext(self, text: str, **kwargs) -> str:
-        pass
-
-    def annotate_structured(
-        self, text: str, *args, **kwargs
-    ) -> list[docdeid.Annotation]:
+    def annotate_structured(self, text: str, **kwargs) -> list[docdeid.Annotation]:
 
         intext_annotated = self.annotate_intext(text, **kwargs)
         intext_annotated = self.flatten_function(intext_annotated)
 
+        if intext_annotated == text:
+            return list()
+
         tags = utility.find_tags(intext_annotated)
-        first_non_whitespace_character_index = utility.get_first_non_whitespace(text)
+        shift = utility.get_shift(text, intext_annotated)
+
+        print(f"{self.__class__}: {intext_annotated}")
+        print(f"{self.__class__}: {tags}")
+        print(f"{self.__class__}: {shift}")
+
         # utility.get_annotations does not handle nested tags, so make sure not to pass it text with nested tags
         # Also, utility.get_annotations assumes that all tags are listed in the order they appear in the text
-        annotations = utility.get_annotations(
-            intext_annotated, tags, first_non_whitespace_character_index
-        )
+        annotations = utility.get_annotations(intext_annotated, tags, shift)
 
         # Check if there are any annotations whose start+end do not correspond to the text in the annotation
         mismatched_annotations = [
@@ -80,23 +77,30 @@ class InTextAnnotator(DeduceAnnotator):
             for ann in annotations
             if text[ann.start_char : ann.end_char] != ann.text
         ]
+
         if len(mismatched_annotations) > 0:
             print(
                 "WARNING:",
                 len(mismatched_annotations),
                 "annotations have texts that do not match the original text",
             )
-            print(mismatched_annotations)
 
         return annotations
 
+    @abstractmethod
+    def annotate_intext(self, text: str, **kwargs) -> str:
+        pass
+
 
 class NamesAnnotator(InTextAnnotator):
-    def __init__(self):
-        self.flatten_function = utility.flatten_text
-        super().__init__()
-
     def annotate_intext(self, text: str, **kwargs) -> str:
+
+        text = self.annotate_names(text, **kwargs)
+        text = self.annotate_names_context(text)
+
+        return text
+
+    def annotate_names(self, text: str, **kwargs) -> str:
 
         patient_first_names = kwargs.get("patient_first_names", "")
         patient_initials = kwargs.get("patient_initials", "")
@@ -302,13 +306,7 @@ class NamesAnnotator(InTextAnnotator):
         # Return the deidentified tokens as a piece of text
         return tokenizer.join_tokens(tokens_deid).strip()
 
-
-class NamesContextAnnotator(InTextAnnotator):
-    def __init__(self):
-        self.flatten_function = utility.flatten_text
-        super().__init__()
-
-    def annotate_intext(self, text: str, **kwargs) -> str:
+    def annotate_names_context(self, text: str) -> str:
 
         # Tokenize text and initiate a list of deidentified tokens
         tokens = tokenizer.tokenize(text + " ")
@@ -454,12 +452,10 @@ class NamesContextAnnotator(InTextAnnotator):
         # Join the tokens again to form the de-identified text
         textdeid = tokenizer.join_tokens(tokens_deid).strip()
 
-        # If nothing changed, we are done
-        if text == textdeid:
-            return textdeid
+        if textdeid == text:
+            return text
 
-        # Else, run the annotation based on context again
-        return self.annotate_intext(textdeid)
+        return self.annotate_names_context(textdeid)
 
 
 class InstitutionAnnotator(InTextAnnotator):

@@ -34,25 +34,8 @@ class TestDeduceMethods(unittest.TestCase):
             "(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
             "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
         )
-        annotated_text = (
-            "Dit is stukje tekst met daarin de naam <PERSOON Jan Jansen>. De "
-            "<PERSOON patient J. Jansen> (e: <URL j.jnsen@email.com>, t: <TELEFOONNUMMER 06-12345678>) "
-            "is <LEEFTIJD 64> jaar oud en woonachtig in <LOCATIE Utrecht>. Hij werd op "
-            "<DATUM 10 oktober> door arts <PERSOON Peter de Visser> ontslagen van de kliniek van het "
-            "<INSTELLING umcu>."
-        )
-        mock_tags = [
-            "<PERSOON Jan Jansen>",
-            "<PERSOON patient J. Jansen>",
-            "<URL j.jnsen@email.com>",
-            "<TELEFOONNUMMER 06-12345678>",
-            "<LEEFTIJD 64>",
-            "<LOCATIE Utrecht>",
-            "<DATUM 10 oktober>",
-            "<PERSOON Peter de Visser>",
-            "<INSTELLING UMCU>",
-        ]
-        mock_annotations = [
+
+        expected_annotations = {
             docdeid.Annotation("Jan Jansen", 39, 49, "PATIENT"),
             docdeid.Annotation("patient J. Jansen", 54, 71, "PATIENT"),
             docdeid.Annotation("j.jnsen@email.com", 76, 93, "URL"),
@@ -62,57 +45,14 @@ class TestDeduceMethods(unittest.TestCase):
             docdeid.Annotation("10 oktober", 164, 174, "DATUM"),
             docdeid.Annotation("Peter de Visser", 185, 200, "PERSOON"),
             docdeid.Annotation("UMCU", 234, 238, "INSTELLING"),
-        ]
+        }
 
-        def mock_annotate_text(
-            mock_text: str,
-            patient_first_names="",
-            patient_initials="",
-            patient_surname="",
-            patient_given_name="",
-            names=True,
-            locations=True,
-            institutions=True,
-            dates=True,
-            ages=True,
-            patient_numbers=True,
-            phone_numbers=True,
-            urls=True,
-            flatten=True,
-        ):
-            return annotated_text if mock_text == text else ""
+        structured = deduce.deduce.annotate_text_structured(
+            text, patient_first_names="Jan", patient_surname="Jansen"
+        )
 
-        def mock_find_tags(tt):
-            return mock_tags if tt == annotated_text else []
-
-        def mock_get_annotations(ttext, ttags, tn):
-            return (
-                mock_annotations
-                if ttext == annotated_text and ttags == mock_tags and tn == 0
-                else []
-            )
-
-        def mock_get_first_non_whitespace(tt):
-            return 0 if tt == text else -1
-
-        with patch.object(
-            deduce.deduce, "annotate_text", side_effect=mock_annotate_text
-        ) as _:
-            with patch.object(
-                deduce.utility, "find_tags", side_effect=mock_find_tags
-            ) as _:
-                with patch.object(
-                    deduce.utility, "get_annotations", side_effect=mock_get_annotations
-                ) as _:
-                    with patch.object(
-                        deduce.utility,
-                        "get_first_non_whitespace",
-                        side_effect=mock_get_first_non_whitespace,
-                    ) as _:
-                        structured = deduce.deduce.annotate_text_structured(
-                            text, patient_first_names="Jan", patient_surname="Jansen"
-                        )
-        self.assertEqual(mock_annotations, structured)
+        assert len(expected_annotations) == len(structured)
+        assert expected_annotations.symmetric_difference(structured) == set()
 
     def test_leading_space(self):
         text = "\t Vandaag is Jan gekomen"
@@ -123,6 +63,9 @@ class TestDeduceMethods(unittest.TestCase):
             patient_surname="Janssen",
             patient_given_name="Jantinus",
         )
+
+        print(f"annotations={annotations}")
+
         self.assertEqual(1, len(annotations))
         self.assertEqual(docdeid.Annotation("Jan", 13, 16, "PATIENT"), annotations[0])
 

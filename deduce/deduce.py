@@ -1,8 +1,3 @@
-"""
-Deduce is the main module, from which the annotate and
-deidentify_annotations() methods can be imported
-"""
-
 import re
 
 import docdeid
@@ -10,7 +5,6 @@ from docdeid.annotation.annotation_processor import (
     LongestFirstOverlapResolver,
     MergeAdjacentAnnotations,
 )
-from docdeid.annotation.redactor import BaseRedactor, SimpleRedactor
 from nltk.metrics import edit_distance
 
 from deduce import utility
@@ -21,7 +15,6 @@ from deduce.annotate import (
     EmailAnnotator,
     InstitutionAnnotator,
     NamesAnnotator,
-    NamesContextAnnotator,
     PatientNumerAnnotator,
     PhoneNumberAnnotator,
     PostalcodeAnnotator,
@@ -30,10 +23,10 @@ from deduce.annotate import (
     tokenizer,
 )
 from deduce.exception import NestedTagsError
+from deduce.redact import DeduceRedactor
 
 annotators = {
-    "names": NamesAnnotator(),
-    "names_context": NamesContextAnnotator(),
+    "names": NamesAnnotator(flatten_function=utility.flatten_text),
     "institutions": InstitutionAnnotator(),
     "residences": ResidenceAnnotator(),
     "addresses": AddressAnnotator(),
@@ -47,91 +40,18 @@ annotators = {
 }
 
 
-class DeduceRedactor(BaseRedactor):
-    """
-    A simple redactor that replaces an annotation by [CATEGORY-n], with n being a counter.
-    """
-
-    @staticmethod
-    def _get_annotations_by_category(annotations: list[docdeid.Annotation], category: str):
-        return [annotation for annotation in annotations if annotation.category == category]
-
-    def redact(self, text: str, annotations: list[docdeid.Annotation]):
-        # TODO Implement this according to the logic in deidentify_annotations()
-
-        annotations = sorted(annotations, key=lambda x: x.end_char)
-        annotations_to_replacement = {}
-
-        other_annotations = []
-
-        for annotation in annotations:
-
-            if annotation.category == "PATIENT":
-                annotations_to_replacement[annotation] = "<PATIENT>"
-
-            else:
-                other_annotations.append(annotation)
-
-        for tagname in [
-            "PERSOON",
-            "LOCATIE",
-            "INSTELLING",
-            "DATUM",
-            "LEEFTIJD",
-            "PATIENTNUMMER",
-            "TELEFOONNUMMER",
-            "URL",
-        ]:
-
-            annotations_subset = self._get_annotations_by_category(annotations, tagname)
-            annotations_to_replacement_tag = {}
-            dispenser = 1
-
-            for annotation in annotations_subset:
-
-                match = False
-
-                # Check match with any
-                for annotation_match in annotations_to_replacement_tag.keys():
-
-                    if edit_distance(annotation.text, annotation_match.text) <= 1:
-                        annotations_to_replacement_tag[annotation] = annotations_to_replacement_tag[annotation_match]
-                        match = True
-                        break
-
-                if not match:
-                    annotations_to_replacement_tag[annotation] = f"<{tagname}-{dispenser}>"
-                    dispenser += 1
-
-            annotations_to_replacement |= annotations_to_replacement_tag
-
-        assert len(annotations_to_replacement) == len(annotations)
-
-        sorted_annotations = sorted(annotations, key=lambda a: -a.end_char)
-
-        for annotation in sorted_annotations:
-
-            text = text[:annotation.start_char] + annotations_to_replacement[annotation] + text[annotation.end_char:]
-
-        return text
-
-
 class Deduce(docdeid.DocDeid):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self):
+        super().__init__(tokenizer=tokenizer, redactor=DeduceRedactor())
         self._initialize_deduce()
 
     def _initialize_deduce(self):
-
-        self._tokenizer = tokenizer
-        self._redactor = DeduceRedactor()
 
         for name, annotator in annotators.items():
             self.add_annotator(name, annotator)
 
         self.add_annotation_postprocessor(
-            "overlap_resolver",
-            LongestFirstOverlapResolver()
+            "overlap_resolver", LongestFirstOverlapResolver()
         )
 
         self.add_annotation_postprocessor(
@@ -140,15 +60,10 @@ class Deduce(docdeid.DocDeid):
         )
 
 
-
-def _initialize_deduce() -> docdeid.DocDeid:
-    return Deduce()
+deduce_model = Deduce()
 
 
-deduce_model = _initialize_deduce()
-
-
-def annotate_text(
+def annotate_text_backwardscompat(
     text,
     patient_first_names="",
     patient_initials="",
@@ -162,100 +77,79 @@ def annotate_text(
     dates=True,
     ages=True,
     urls=True,
-):
+) -> docdeid.Document:
+    """Backwards compatibility only. Use Deduce().deidentify() instead."""
 
-    """
-    This method annotates text based on the input that includes names of a patient,
-    and a number of flags indicating which PHIs should be annotated
-    """
+    text = "" or text
 
-    if not text:
-        return text
+    text = text.replace("<", "(").replace(
+        ">", ")"
+    )  # Todo this must go in annotator_intext
 
-    text = text.replace("<", "(").replace(">", ")")
+    meta_data = {
+        "patient_first_names": patient_first_names,
+        "patient_initials": patient_initials,
+        "patient_surname": patient_surname,
+        "patient_given_name": patient_given_name,
+    }
+
+    annotators_enabled = []
 
     if names:
-
-        text = annotators["names"].annotate_intext(
-            text=text,
-            patient_first_names=patient_first_names,
-            patient_initials=patient_initials,
-            patient_surname=patient_surname,
-            patient_given_name=patient_given_name,
-        )
-
-        text = annotators["names_context"].annotate_intext(text=text)
-
-        text = utility.flatten_text(text)
+        annotators_enabled += ["names"]
 
     if institutions:
-        text = annotators["institutions"].annotate_intext(text)
+        annotators_enabled += ["institutions"]
 
     if locations:
-
-        text = annotators["residences"].annotate_intext(text)
-        text = annotators["addresses"].annotate_intext(text)
-        text = annotators["postal_codes"].annotate_intext(text)
+        annotators_enabled += ["residences", "addresses", "postal_codes"]
 
     if phone_numbers:
-        text = annotators["phone_numbers"].annotate_intext(text)
+        annotators_enabled += ["phone_numbers"]
 
     if patient_numbers:
-        text = annotators["patient_numbers"].annotate_intext(text)
+        annotators_enabled += ["patient_numbers"]
 
     if dates:
-        text = annotators["dates"].annotate_intext(text)
+        annotators_enabled += ["dates"]
 
     if ages:
-        text = annotators["ages"].annotate_intext(text)
+        annotators_enabled += ["ages"]
 
     if urls:
-        text = annotators["emails"].annotate_intext(text)
-        text = annotators["urls"].annotate_intext(text)
+        annotators_enabled += ["emails", "urls"]
 
-    text = utility.merge_adjacent_tags(text)
-
-    if utility.has_nested_tags(text):
-        text = utility.flatten_text_all_phi(text)
-
-    return text
-
-
-def annotate_text_structured(text: str, *args, **kwargs):
-    """
-    This method annotates text based on the input that includes names of a patient,
-    and a number of flags indicating which PHIs should be annotated
-    """
-    annotated_text = annotate_text(text, *args, **kwargs)
-
-    if utility.has_nested_tags(annotated_text):
-        raise NestedTagsError("Text has nested tags")
-    tags = utility.find_tags(annotated_text)
-    first_non_whitespace_character_index = utility.get_first_non_whitespace(text)
-    # utility.get_annotations does not handle nested tags, so make sure not to pass it text with nested tags
-    # Also, utility.get_annotations assumes that all tags are listed in the order they appear in the text
-    annotations = utility.get_annotations(
-        annotated_text, tags, first_non_whitespace_character_index
+    doc = deduce_model.deidentify(
+        text=text, annotators_enabled=annotators_enabled, meta_data=meta_data
     )
 
-    # Check if there are any annotations whose start+end do not correspond to the text in the annotation
-    mismatched_annotations = [
-        ann for ann in annotations if text[ann.start_char : ann.end_char] != ann.text
-    ]
-    if len(mismatched_annotations) > 0:
-        print(
-            "WARNING:",
-            len(mismatched_annotations),
-            "annotations have texts that do not match the original text",
-        )
+    return doc
 
-    return annotations
+
+def annotate_text(text: str, *args, **kwargs):
+
+    doc = annotate_text_backwardscompat(text=text, *args, **kwargs)
+    text = doc.text
+
+    annotations = list(sorted(doc.annotations, key=lambda a: -a.end_char))
+
+    for annotation in annotations:
+        text = f"{text[:annotation.start_char]}<{annotation.category.upper()} {annotation.text}>{text[annotation.end_char:]}"
+
+    return text.strip()
+
+
+def annotate_text_structured(text: str, *args, **kwargs) -> list[docdeid.Annotation]:
+
+    doc = annotate_text_backwardscompat(text=text, *args, **kwargs)
+
+    return list(doc.annotations)
 
 
 def deidentify_annotations(text):
     """
-    Deidentify the annotated tags - only makes sense if annotate() is used first -
-    otherwise the normal text is simply returned
+    Deidentify the annotated tags - only makes sense if annotate() is used first.
+    Backwards compatibility only. Use Deduce().deidentify() instead.
     """
 
     if not text:

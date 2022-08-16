@@ -33,8 +33,8 @@ class TestAnnotateMethods(unittest.TestCase):
             "Dank je <VOORNAAMONBEKEND Peter> van Gonzalez. Met vriendelijke groet, "
             "<VOORNAAMONBEKEND Peter> van Gonzalez"
         )
-        annotator = annotate.NamesContextAnnotator()
-        annotated_names = annotator.annotate_intext(text)
+        annotator = annotate.NamesAnnotator()
+        annotated_names = annotator.annotate_names_context(text)
         expected_text = (
             "Dank je <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
             "Met vriendelijke groet, <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>"
@@ -46,8 +46,8 @@ class TestAnnotateMethods(unittest.TestCase):
             "Dank je <VOORNAAMONBEKEND Peter> van Gonzalez. Met vriendelijke groet, "
             "<VOORNAAMONBEKEND Peter> van Gonzalez. Er is ook een Pieter de Visser hier"
         )
-        annotator = annotate.NamesContextAnnotator()
-        annotated_names = annotator.annotate_intext(text)
+        annotator = annotate.NamesAnnotator()
+        annotated_names = annotator.annotate_names_context(text)
         expected_text = (
             "Dank je <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
             "Met vriendelijke groet, <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
@@ -60,8 +60,8 @@ class TestAnnotateMethods(unittest.TestCase):
             "Dank je <VOORNAAMONBEKEND Peter> van Gonzalez. Met vriendelijke groet, "
             "<VOORNAAMONBEKEND Peter> van Gonzalez. Er is ook een andere <VOORNAAMONBEKEND Peter> van Gonzalez hier"
         )
-        annotator = annotate.NamesContextAnnotator()
-        annotated_names = annotator.annotate_intext(text)
+        annotator = annotate.NamesAnnotator()
+        annotated_names = annotator.annotate_names_context(text)
         expected_text = (
             "Dank je <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
             "Met vriendelijke groet, <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
@@ -71,15 +71,15 @@ class TestAnnotateMethods(unittest.TestCase):
 
     def test_simple_context(self):
         text = "V. <ACHTERNAAMONBEKEND Menger>"
-        annotator = annotate.NamesContextAnnotator()
-        annotated_names = annotator.annotate_intext(text)
+        annotator = annotate.NamesAnnotator()
+        annotated_names = annotator.annotate_names_context(text)
         expected_text = "<INITIAAL V. <ACHTERNAAMONBEKEND Menger>>"
         self.assertEqual(expected_text, annotated_names)
 
     def test_coordinating_nexus(self):
         text = """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, <PREFIXNAAM PJ> en Pieter"""
-        annotator = annotate.NamesContextAnnotator()
-        annotated_names = annotator.annotate_intext(text)
+        annotator = annotate.NamesAnnotator()
+        annotated_names = annotator.annotate_names_context(text)
 
         expected_text = (
             """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, """
@@ -113,7 +113,7 @@ class TestAnnotateMethods(unittest.TestCase):
         patient_given_name = "Niek"
 
         annotator = annotate.NamesAnnotator()
-        annotated_names = annotator.annotate_intext(
+        annotated_names = annotator.annotate_names(
             text,
             patient_first_names=patient_first_names,
             patient_surname=patient_surname,
@@ -147,8 +147,8 @@ class TestAnnotateMethods(unittest.TestCase):
 
     def test_coordinating_nexus_with_preceding_name(self):
         text = "Adalberto <ACHTERNAAMONBEKEND Koning> en Mariangela"
-        annotator = annotate.NamesContextAnnotator()
-        annotated = annotator.annotate_intext(text)
+        annotator = annotate.NamesAnnotator()
+        annotated = annotator.annotate_names_context(text)
         expected_text = "<MEERDEREPERSONEN <INITIAAL Adalberto <ACHTERNAAMONBEKEND Koning>> en Mariangela>"
         self.assertEqual(expected_text, annotated)
 
@@ -195,8 +195,8 @@ class TestAnnotateMethods(unittest.TestCase):
 
     def test_annotate_context_keep_initial(self):
         text = "Mijn naam is M <ACHTERNAAMONBEKEND Smid> de Vries"
-        annotator = annotate.NamesContextAnnotator()
-        annotated_context_names = annotator.annotate_intext(text)
+        annotator = annotate.NamesAnnotator()
+        annotated_context_names = annotator.annotate_names_context(text)
         expected = "Mijn naam is <INTERFIXACHTERNAAM <INITIAAL M <ACHTERNAAMONBEKEND Smid>> de Vries>"
         self.assertEqual(expected, annotated_context_names)
 

@@ -277,7 +277,9 @@ def parse_tag(tag: str) -> tuple:
     return tag[1:split_ix], tag[split_ix + 1 : len(tag) - 1]
 
 
-def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) -> list:
+def get_annotations(
+    annotated_text: str, tags: list, n_leading_whitespaces=0
+) -> list[docdeid.Annotation]:
     """
     Find structured annotations from tags, with indices pointing to the original text. ***Does not handle nested tags***
     :param annotated_text: the annotated text
@@ -286,6 +288,7 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
     :return: the annotations with indices corresponding to the original (raw) text;
     this accounts for string stripping during annotation
     """
+
     ix = 0
     annotations = []
     raw_text_ix = n_leading_whitespaces
@@ -309,6 +312,10 @@ def get_annotations(annotated_text: str, tags: list, n_leading_whitespaces=0) ->
 
 def get_first_non_whitespace(text: str) -> int:
     return text.index(text.lstrip()[0])
+
+
+def get_shift(text: str, intext_annotated: str) -> int:
+    return get_first_non_whitespace(text) - get_first_non_whitespace(intext_annotated)
 
 
 def get_adjacent_tags_replacement(match: re.Match) -> str:
