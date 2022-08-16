@@ -13,6 +13,8 @@ from deduce.lookup.lookup_lists import get_lookup_lists
 from deduce.lookup.lookup_tries import get_lookup_tries
 from deduce.tokenizer import Tokenizer
 
+from docdeid.annotation.annotator import RegexpAnnotator
+
 
 def _initialize():
 
@@ -656,42 +658,49 @@ class DateAnnotator(InTextAnnotator):
         return text
 
 
-class AgeAnnotator(InTextAnnotator):
-    def annotate_intext(self, text: str, **kwargs) -> str:
+class AgeAnnotator(RegexpAnnotator):
 
-        """Annotate ages"""
-        text = re.sub(
-            "(\d{1,3})([ -](jarige|jarig|jaar))(?![^<]*>)", "<LEEFTIJD \\1>\\2", text
-        )
-        return text
+    def __init__(self):
 
-
-class UrlAnnotator(InTextAnnotator):
-    def annotate_intext(self, text: str, **kwargs) -> str:
-        """Annotate urls"""
-        text = re.sub(
-            "((?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?)(?![^<]*>)",
-            "<URL \\1>",
-            text,
+        age_pattern = re.compile(
+            "(\d{1,3})([ -](jarige|jarig|jaar))"
         )
 
-        text = re.sub(
-            "([\w\d\.-]{3,}(\.)(nl|com|net|be)(/[^\s]+){,1})(?![^<]*>)",
-            "<URL \\1>",
-            text,
+        super().__init__(
+            regexp_patterns=[age_pattern],
+            category="LEEFTIJD",
+            capturing_group=1
         )
 
-        return text
 
+class UrlAnnotator(RegexpAnnotator):
 
-class EmailAnnotator(InTextAnnotator):
-    def annotate_intext(self, text: str, **kwargs) -> str:
+    def __init__(self):
 
-        """Annotate emails"""
-        text = re.sub(
-            "(([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?))(?![^<]*>)",
-            "<URL \\1>",
-            text,
+        url_pattern_1 = re.compile(
+            "((?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?)"
         )
 
-        return text
+        url_pattern_2 = re.compile(
+            "([\w\d\.-]{3,}(\.)(nl|com|net|be)(/[^\s]+){,1})"
+        )
+
+        super().__init__(
+            regexp_patterns=[url_pattern_1, url_pattern_2],
+            category="URL"
+        )
+
+
+class EmailAnnotator(RegexpAnnotator):
+
+    def __init__(self):
+
+        email_pattern = re.compile(
+            r'([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)'
+        )
+
+        super().__init__(
+            regexp_patterns=[email_pattern],
+            category="URL"
+        )
+

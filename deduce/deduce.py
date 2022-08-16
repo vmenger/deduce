@@ -22,7 +22,7 @@ from deduce.annotate import (
     UrlAnnotator,
     tokenizer,
 )
-from deduce.exception import NestedTagsError
+
 from deduce.redact import DeduceRedactor
 
 annotators = {
@@ -126,7 +126,7 @@ def annotate_text(text: str, *args, **kwargs):
 
     doc = annotate_text_backwardscompat(text=text, *args, **kwargs)
 
-    annotations = list(sorted(doc.annotations, key=lambda a: -a.end_char))
+    annotations = list(sorted(doc.annotations, key=lambda a: (-a.end_char, a.category)))   # secondary sort makes it deterministic
 
     for annotation in annotations:
         text = f"{text[:annotation.start_char]}<{annotation.category.upper()} {annotation.text}>{text[annotation.end_char:]}"
