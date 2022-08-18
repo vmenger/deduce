@@ -162,17 +162,30 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(expected_text, annotated_institutions_text)
 
     def test_skip_mg(self):
+
         text = "<LOCATIE Hoofdstraat> is mooi. (br)Lithiumcarbonaat 1600mg. Nog een zin"
-        annotator = annotate.PostalcodeAnnotator()
-        annotated_postcodes_text = annotator.annotate_intext(text)
-        self.assertEqual(text, annotated_postcodes_text)
+
+        doc = docdeid.Document(text=text)
+        annotate.PostalcodeAnnotator().annotate(doc)
+
+        expected = set()
+
+        self.assertEqual(expected, doc.annotations)
+
 
     def test_annotate_postcode(self):
+
         text = "Mijn postcode is 3500LX, toch?"
-        annotator = annotate.PostalcodeAnnotator()
-        annotated_postcodes_text = annotator.annotate_intext(text)
-        expected_text = text.replace("3500LX", "<LOCATIE 3500LX>")
-        self.assertEqual(expected_text, annotated_postcodes_text)
+
+        doc = docdeid.Document(text=text)
+        annotate.PostalcodeAnnotator().annotate(doc)
+
+        expected = {
+            docdeid.Annotation(text='3500LX', start_char=17, end_char=23, category='LOCATIE')
+        }
+
+        self.assertEqual(expected, doc.annotations)
+
 
     def test_annotate_altrecht(self):
         text = "Opname bij xxx afgerond"

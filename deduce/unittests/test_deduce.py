@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import patch
 
 import docdeid
 
@@ -63,8 +62,6 @@ class TestDeduceMethods(unittest.TestCase):
             patient_surname="Janssen",
             patient_given_name="Jantinus",
         )
-
-        print(f"annotations={annotations}")
 
         self.assertEqual(1, len(annotations))
         self.assertEqual(docdeid.Annotation("Jan", 13, 16, "PATIENT"), annotations[0])
