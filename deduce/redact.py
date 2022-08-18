@@ -16,7 +16,7 @@ class DeduceRedactor(BaseRedactor):
 
     def redact(self, text: str, annotations: list[docdeid.Annotation]):
 
-        annotations = sorted(annotations, key=lambda x: x.end_char)
+        annotations = sorted(annotations, key=lambda x: (x.end_char, x.category))
         annotations_to_replacement = {}
 
         other_annotations = []
@@ -70,7 +70,7 @@ class DeduceRedactor(BaseRedactor):
 
         assert len(annotations_to_replacement) == len(annotations)
 
-        sorted_annotations = sorted(annotations, key=lambda a: -a.end_char)
+        sorted_annotations = sorted(annotations, key=lambda a: (-a.end_char, a.category))
 
         for annotation in sorted_annotations:
 
