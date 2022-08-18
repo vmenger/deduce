@@ -18,6 +18,7 @@ from deduce.annotate import (
     PatientNumerAnnotator,
     PhoneNumberAnnotator,
     PostalcodeAnnotator,
+    PostbusAnnotator,
     ResidenceAnnotator,
     UrlAnnotator,
     tokenizer,
@@ -31,6 +32,7 @@ annotators = {
     "residences": ResidenceAnnotator(),
     "addresses": AddressAnnotator(),
     "postal_codes": PostalcodeAnnotator(),
+    "postbussen": PostbusAnnotator(),
     "phone_numbers": PhoneNumberAnnotator(),
     "patient_numbers": PatientNumerAnnotator(),
     "dates": DateAnnotator(),
@@ -98,7 +100,7 @@ def annotate_text_backwardscompat(
         annotators_enabled += ["institutions"]
 
     if locations:
-        annotators_enabled += ["residences", "addresses", "postal_codes"]
+        annotators_enabled += ["residences", "addresses", "postal_codes", "postbussen"]
 
     if phone_numbers:
         annotators_enabled += ["phone_numbers"]

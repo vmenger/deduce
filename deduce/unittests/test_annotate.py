@@ -2,6 +2,8 @@ import unittest
 
 from deduce import annotate
 
+import docdeid
+
 
 class TestAnnotateMethods(unittest.TestCase):
     def test_annotate_names(self):
@@ -201,20 +203,30 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(expected, annotated_context_names)
 
     def test_keep_punctuation_after_date(self):
+
         text = "Medicatie actueel	26-10, OXAZEPAM"
-        annotator = annotate.DateAnnotator()
-        annotated_dates = annotator.annotate_intext(text)
-        expected = text.replace("26-10", "<DATUM 26-10>")
-        self.assertEqual(expected, annotated_dates)
+        doc = docdeid.Document(text=text)
+        annotate.DateAnnotator().annotate(doc)
+
+        expected = {
+            docdeid.Annotation(text='26-10', start_char=18, end_char=23, category='DATUM')
+        }
+
+        self.assertEqual(expected, doc.annotations)
 
     def test_two_dates_with_comma(self):
+
         text = "24 april, 1 mei: pt gaat geen constructief contact aan"
-        annotator = annotate.DateAnnotator()
-        annotated_dates = annotator.annotate_intext(text)
-        expected = (
-            "<DATUM 24 april>, <DATUM 1 mei>: pt gaat geen constructief contact aan"
-        )
-        self.assertEqual(expected, annotated_dates)
+
+        doc = docdeid.Document(text=text)
+        annotate.DateAnnotator().annotate(doc)
+
+        expected = {
+            docdeid.Annotation(text='24 april', start_char=0, end_char=8, category='DATUM'),
+            docdeid.Annotation(text='1 mei', start_char=10, end_char=15, category='DATUM')
+        }
+
+        self.assertEqual(expected, doc.annotations)
 
 
 if __name__ == "__main__":

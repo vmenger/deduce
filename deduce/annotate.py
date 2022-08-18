@@ -580,18 +580,33 @@ class AddressAnnotator(InTextAnnotator):
         return text
 
 
-class PostalcodeAnnotator(InTextAnnotator):
-    def annotate_intext(self, text: str, **kwargs) -> str:
+class PostalcodeAnnotator(RegexpAnnotator):
 
-        """Annotate postal codes"""
-        text = re.sub(
-            "(((\d{4} [A-Z]{2})|(\d{4}[a-zA-Z]{2})))(?P<n>\W)(?![^<]*>)",
-            "<LOCATIE \\1>\\5",
-            text,
+    def __init__(self):
+
+        date_pattern = re.compile(
+            r"(\d{4}\s(?!MG)[A-Z]{2}|\d{4}(?!mg|MG)[a-zA-Z]{2})\W"
         )
-        text = re.sub("<LOCATIE\s(\d{4}mg)>", "\\1", text)
-        text = re.sub("([Pp]ostbus\s\d{5})", "<LOCATIE \\1>", text)
-        return text
+
+        super().__init__(
+            regexp_patterns=[date_pattern],
+            category="LOCATIE",
+            capturing_group=1
+        )
+
+
+class PostbusAnnotator(RegexpAnnotator):
+
+    def __init__(self):
+
+        postbus_pattern = re.compile(
+            r"([Pp]ostbus\s\d{5})"
+        )
+
+        super().__init__(
+            regexp_patterns=[postbus_pattern],
+            category="LOCATIE",
+        )
 
 
 class PhoneNumberAnnotator(RegexpAnnotator):
@@ -630,37 +645,23 @@ class PatientNumerAnnotator(RegexpAnnotator):
         )
 
 
-class DateAnnotator(InTextAnnotator):
-    @staticmethod
-    def _get_date_replacement_(date_match: re.Match, punctuation_name: str) -> str:
-        punctuation = date_match[punctuation_name]
-        if len(punctuation) != 1:
-            punctuation = " "
-        return "<DATUM " + date_match.group(1) + ">" + punctuation
+class DateAnnotator(RegexpAnnotator):
 
-    def annotate_intext(self, text: str, **kwargs) -> str:
+    def __init__(self):
 
-        # Name the punctuation mark that comes after a date, for replacement purposes
-        punctuation_name = "n"
-        text = re.sub(
-            "(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2})){,1})(?P<"
-            + punctuation_name
-            + ">\D)(?![^<]*>)",
-            lambda date_match: self._get_date_replacement_(
-                date_match, punctuation_name
-            ),
-            text,
+        date_pattern_1 = re.compile(
+            "(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2})){,1})(?P<punct>\D)"
         )
-        text = re.sub(
-            "(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)([- /.]{,2}(\d{4}|\d{2})){,1})(?P<"
-            + punctuation_name
-            + ">\D)(?![^<]*>)",
-            lambda date_match: self._get_date_replacement_(
-                date_match, punctuation_name
-            ),
-            text,
+
+        date_pattern_2 = re.compile(
+            "(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)([- /.]{,2}(\d{4}|\d{2})){,1})(?P<punct>\D)"
         )
-        return text
+
+        super().__init__(
+            regexp_patterns=[date_pattern_1, date_pattern_2],
+            category="DATUM",
+            capturing_group=1
+        )
 
 
 class AgeAnnotator(RegexpAnnotator):
