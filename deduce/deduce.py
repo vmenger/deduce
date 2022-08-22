@@ -15,7 +15,7 @@ from deduce.annotate import (
     EmailAnnotator,
     InstitutionAnnotator,
     NamesAnnotator,
-    PatientNumerAnnotator,
+    PatientNumberAnnotator,
     PhoneNumberAnnotator,
     PostalcodeAnnotator,
     PostbusAnnotator,
@@ -23,7 +23,6 @@ from deduce.annotate import (
     UrlAnnotator,
     tokenizer,
 )
-
 from deduce.redact import DeduceRedactor
 
 annotators = {
@@ -34,7 +33,7 @@ annotators = {
     "postal_codes": PostalcodeAnnotator(),
     "postbussen": PostbusAnnotator(),
     "phone_numbers": PhoneNumberAnnotator(),
-    "patient_numbers": PatientNumerAnnotator(),
+    "patient_numbers": PatientNumberAnnotator(),
     "dates": DateAnnotator(),
     "ages": AgeAnnotator(),
     "emails": EmailAnnotator(),
@@ -44,7 +43,7 @@ annotators = {
 
 class Deduce(docdeid.DocDeid):
     def __init__(self):
-        super().__init__(tokenizer=tokenizer, redactor=DeduceRedactor())
+        super().__init__(redactor=DeduceRedactor())
         self._initialize_deduce()
 
     def _initialize_deduce(self):
@@ -128,7 +127,9 @@ def annotate_text(text: str, *args, **kwargs):
 
     doc = annotate_text_backwardscompat(text=text, *args, **kwargs)
 
-    annotations = list(sorted(doc.annotations, key=lambda a: (-a.end_char, a.category)))   # secondary sort makes it deterministic
+    annotations = list(
+        sorted(doc.annotations, key=lambda a: (-a.end_char, a.category))
+    )  # secondary sort makes it deterministic
 
     for annotation in annotations:
         text = f"{text[:annotation.start_char]}<{annotation.category.upper()} {annotation.text}>{text[annotation.end_char:]}"

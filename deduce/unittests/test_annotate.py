@@ -1,8 +1,8 @@
 import unittest
 
-from deduce import annotate
-
 import docdeid
+
+from deduce import annotate
 
 
 class TestAnnotateMethods(unittest.TestCase):
@@ -172,7 +172,6 @@ class TestAnnotateMethods(unittest.TestCase):
 
         self.assertEqual(expected, doc.annotations)
 
-
     def test_annotate_postcode(self):
 
         text = "Mijn postcode is 3500LX, toch?"
@@ -181,11 +180,12 @@ class TestAnnotateMethods(unittest.TestCase):
         annotate.PostalcodeAnnotator().annotate(doc)
 
         expected = {
-            docdeid.Annotation(text='3500LX', start_char=17, end_char=23, category='LOCATIE')
+            docdeid.Annotation(
+                text="3500LX", start_char=17, end_char=23, category="LOCATIE"
+            )
         }
 
         self.assertEqual(expected, doc.annotations)
-
 
     def test_annotate_altrecht(self):
         text = "Opname bij xxx afgerond"
@@ -222,7 +222,9 @@ class TestAnnotateMethods(unittest.TestCase):
         annotate.DateAnnotator().annotate(doc)
 
         expected = {
-            docdeid.Annotation(text='26-10', start_char=18, end_char=23, category='DATUM')
+            docdeid.Annotation(
+                text="26-10", start_char=18, end_char=23, category="DATUM"
+            )
         }
 
         self.assertEqual(expected, doc.annotations)
@@ -235,8 +237,12 @@ class TestAnnotateMethods(unittest.TestCase):
         annotate.DateAnnotator().annotate(doc)
 
         expected = {
-            docdeid.Annotation(text='24 april', start_char=0, end_char=8, category='DATUM'),
-            docdeid.Annotation(text='1 mei', start_char=10, end_char=15, category='DATUM')
+            docdeid.Annotation(
+                text="24 april", start_char=0, end_char=8, category="DATUM"
+            ),
+            docdeid.Annotation(
+                text="1 mei", start_char=10, end_char=15, category="DATUM"
+            ),
         }
 
         self.assertEqual(expected, doc.annotations)
