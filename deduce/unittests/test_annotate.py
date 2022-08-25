@@ -133,12 +133,12 @@ class TestAnnotateMethods(unittest.TestCase):
         annotate.AddressAnnotator().annotate(doc)
 
         expected = {
-            docdeid.Annotation(text='Havikstraat', start_char=10, end_char=21, category='LOCATIE')
+            docdeid.Annotation(
+                text="Havikstraat", start_char=10, end_char=21, category="LOCATIE"
+            )
         }
 
-        self.assertEqual(
-            expected, doc.annotations
-        )
+        self.assertEqual(expected, doc.annotations)
 
     def test_annotate_address_with_number(self):
 
@@ -148,12 +148,12 @@ class TestAnnotateMethods(unittest.TestCase):
         annotate.AddressAnnotator().annotate(doc)
 
         expected = {
-            docdeid.Annotation(text='Havikstraat 43', start_char=10, end_char=24, category='LOCATIE')
+            docdeid.Annotation(
+                text="Havikstraat 43", start_char=10, end_char=24, category="LOCATIE"
+            )
         }
 
-        self.assertEqual(
-            expected, doc.annotations
-        )
+        self.assertEqual(expected, doc.annotations)
 
     def test_annotate_address_long_number(self):
 
@@ -163,12 +163,15 @@ class TestAnnotateMethods(unittest.TestCase):
         annotate.AddressAnnotator().annotate(doc)
 
         expected = {
-            docdeid.Annotation(text='Havikstraat 4324598', start_char=10, end_char=29, category='LOCATIE')
+            docdeid.Annotation(
+                text="Havikstraat 4324598",
+                start_char=10,
+                end_char=29,
+                category="LOCATIE",
+            )
         }
 
-        self.assertEqual(
-            expected, doc.annotations
-        )
+        self.assertEqual(expected, doc.annotations)
 
     def test_coordinating_nexus_with_preceding_name(self):
         text = "Adalberto <ACHTERNAAMONBEKEND Koning> en Mariangela"

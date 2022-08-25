@@ -566,13 +566,17 @@ class AddressAnnotator(RegexpAnnotator):
             r"plantsoen|plein|singel|steeg|straat|weg)(\s(\d+){1,6}\w{0,2})?)(\W|$)"
         )
 
-        super().__init__(regexp_patterns=[address_pattern], category="LOCATIE", capturing_group=1)
+        super().__init__(
+            regexp_patterns=[address_pattern], category="LOCATIE", capturing_group=1
+        )
 
 
 class PostalcodeAnnotator(RegexpAnnotator):
     def __init__(self):
 
-        date_pattern = re.compile(r"(\d{4} (?!MG)[A-Z]{2}|\d{4}(?!mg|MG)[a-zA-Z]{2})(\W|$)")
+        date_pattern = re.compile(
+            r"(\d{4} (?!MG)[A-Z]{2}|\d{4}(?!mg|MG)[a-zA-Z]{2})(\W|$)"
+        )
 
         super().__init__(
             regexp_patterns=[date_pattern], category="LOCATIE", capturing_group=1
