@@ -1,5 +1,7 @@
 import unittest
 
+import docdeid
+
 from deduce import annotate
 
 
@@ -124,26 +126,52 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(expected_text, annotated_names)
 
     def test_annotate_address_no_number(self):
+
         text = "I live in Havikstraat since my childhood"
-        annotator = annotate.AddressAnnotator()
-        address = annotator.annotate_intext(text)
-        self.assertEqual("I live in <LOCATIE Havikstraat> since my childhood", address)
+
+        doc = docdeid.Document(text=text)
+        annotate.AddressAnnotator().annotate(doc)
+
+        expected = {
+            docdeid.Annotation(
+                text="Havikstraat", start_char=10, end_char=21, category="LOCATIE"
+            )
+        }
+
+        self.assertEqual(expected, doc.annotations)
 
     def test_annotate_address_with_number(self):
+
         text = "I live in Havikstraat 43 since my childhood"
-        annotator = annotate.AddressAnnotator()
-        address = annotator.annotate_intext(text)
-        self.assertEqual(
-            "I live in <LOCATIE Havikstraat 43> since my childhood", address
-        )
+
+        doc = docdeid.Document(text=text)
+        annotate.AddressAnnotator().annotate(doc)
+
+        expected = {
+            docdeid.Annotation(
+                text="Havikstraat 43", start_char=10, end_char=24, category="LOCATIE"
+            )
+        }
+
+        self.assertEqual(expected, doc.annotations)
 
     def test_annotate_address_long_number(self):
+
         text = "I live in Havikstraat 4324598 since my childhood"
-        annotator = annotate.AddressAnnotator()
-        address = annotator.annotate_intext(text)
-        self.assertEqual(
-            "I live in <LOCATIE Havikstraat 4324598> since my childhood", address
-        )
+
+        doc = docdeid.Document(text=text)
+        annotate.AddressAnnotator().annotate(doc)
+
+        expected = {
+            docdeid.Annotation(
+                text="Havikstraat 4324598",
+                start_char=10,
+                end_char=29,
+                category="LOCATIE",
+            )
+        }
+
+        self.assertEqual(expected, doc.annotations)
 
     def test_coordinating_nexus_with_preceding_name(self):
         text = "Adalberto <ACHTERNAAMONBEKEND Koning> en Mariangela"
@@ -160,17 +188,30 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(expected_text, annotated_institutions_text)
 
     def test_skip_mg(self):
+
         text = "<LOCATIE Hoofdstraat> is mooi. (br)Lithiumcarbonaat 1600mg. Nog een zin"
-        annotator = annotate.PostalcodeAnnotator()
-        annotated_postcodes_text = annotator.annotate_intext(text)
-        self.assertEqual(text, annotated_postcodes_text)
+
+        doc = docdeid.Document(text=text)
+        annotate.PostalcodeAnnotator().annotate(doc)
+
+        expected = set()
+
+        self.assertEqual(expected, doc.annotations)
 
     def test_annotate_postcode(self):
+
         text = "Mijn postcode is 3500LX, toch?"
-        annotator = annotate.PostalcodeAnnotator()
-        annotated_postcodes_text = annotator.annotate_intext(text)
-        expected_text = text.replace("3500LX", "<LOCATIE 3500LX>")
-        self.assertEqual(expected_text, annotated_postcodes_text)
+
+        doc = docdeid.Document(text=text)
+        annotate.PostalcodeAnnotator().annotate(doc)
+
+        expected = {
+            docdeid.Annotation(
+                text="3500LX", start_char=17, end_char=23, category="LOCATIE"
+            )
+        }
+
+        self.assertEqual(expected, doc.annotations)
 
     def test_annotate_altrecht(self):
         text = "Opname bij xxx afgerond"
@@ -201,20 +242,36 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(expected, annotated_context_names)
 
     def test_keep_punctuation_after_date(self):
+
         text = "Medicatie actueel	26-10, OXAZEPAM"
-        annotator = annotate.DateAnnotator()
-        annotated_dates = annotator.annotate_intext(text)
-        expected = text.replace("26-10", "<DATUM 26-10>")
-        self.assertEqual(expected, annotated_dates)
+        doc = docdeid.Document(text=text)
+        annotate.DateAnnotator().annotate(doc)
+
+        expected = {
+            docdeid.Annotation(
+                text="26-10", start_char=18, end_char=23, category="DATUM"
+            )
+        }
+
+        self.assertEqual(expected, doc.annotations)
 
     def test_two_dates_with_comma(self):
+
         text = "24 april, 1 mei: pt gaat geen constructief contact aan"
-        annotator = annotate.DateAnnotator()
-        annotated_dates = annotator.annotate_intext(text)
-        expected = (
-            "<DATUM 24 april>, <DATUM 1 mei>: pt gaat geen constructief contact aan"
-        )
-        self.assertEqual(expected, annotated_dates)
+
+        doc = docdeid.Document(text=text)
+        annotate.DateAnnotator().annotate(doc)
+
+        expected = {
+            docdeid.Annotation(
+                text="24 april", start_char=0, end_char=8, category="DATUM"
+            ),
+            docdeid.Annotation(
+                text="1 mei", start_char=10, end_char=15, category="DATUM"
+            ),
+        }
+
+        self.assertEqual(expected, doc.annotations)
 
 
 if __name__ == "__main__":

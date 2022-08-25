@@ -5,6 +5,7 @@ from abc import abstractmethod
 from typing import Callable, Optional
 
 import docdeid
+from docdeid.annotation.annotator import RegexpAnnotator
 from docdeid.datastructures import LookupList
 from nltk.metrics import edit_distance
 
@@ -512,7 +513,7 @@ class InstitutionAnnotator(InTextAnnotator):
 
         # Detect the word "Altrecht" followed by a capitalized word
         text = re.sub(
-            "<INSTELLING [aA][lL][tT][rR][eE][cC][hH][tT]>((\s[A-Z]([\w]*))*)",
+            r"<INSTELLING [aA][lL][tT][rR][eE][cC][hH][tT]>((\s[A-Z]([\w]*))*)",
             self._replace_altrecht_text,
             text,
         )
@@ -557,141 +558,120 @@ class ResidenceAnnotator(InTextAnnotator):
         return tokenizer.join_tokens(tokens_deid)
 
 
-class AddressAnnotator(InTextAnnotator):
-    @staticmethod
-    def _get_address_match_replacement(match: re.Match) -> str:
-        text = match.group(0)
-        stripped = text.strip()
-        if len(text) == len(stripped):
-            return f"<LOCATIE {text}>"
+class AddressAnnotator(RegexpAnnotator):
+    def __init__(self):
 
-        return f"<LOCATIE {stripped}>{' ' * (len(text) - len(stripped))}"
-
-    def annotate_intext(self, text: str, **kwargs) -> str:
-        """Annotate addresses"""
-        text = re.sub(
-            r"([A-Z]\w+(straat|laan|hof|plein|plantsoen|gracht|kade|weg|steeg|steeg|pad|dijk|baan|dam|dreef|"
-            r"kade|markt|park|plantsoen|singel|bolwerk)[\s\n\r]((\d+){1,6}(\w{0,2})?|(\d+){0,6}))",
-            self._get_address_match_replacement,
-            text,
-        )
-        return text
-
-
-class PostalcodeAnnotator(InTextAnnotator):
-    def annotate_intext(self, text: str, **kwargs) -> str:
-
-        """Annotate postal codes"""
-        text = re.sub(
-            "(((\d{4} [A-Z]{2})|(\d{4}[a-zA-Z]{2})))(?P<n>\W)(?![^<]*>)",
-            "<LOCATIE \\1>\\5",
-            text,
-        )
-        text = re.sub("<LOCATIE\s(\d{4}mg)>", "\\1", text)
-        text = re.sub("([Pp]ostbus\s\d{5})", "<LOCATIE \\1>", text)
-        return text
-
-
-class PhoneNumberAnnotator(InTextAnnotator):
-    def annotate_intext(self, text: str, **kwargs) -> str:
-        """Annotate phone numbers"""
-        text = re.sub(
-            "(((0)[1-9]{2}[0-9][-]?[1-9][0-9]{5})|((\\+31|0|0031)[1-9][0-9][-]?[1-9][0-9]{6}))(?![^<]*>)",
-            "<TELEFOONNUMMER \\1>",
-            text,
+        address_pattern = re.compile(
+            r"([A-Z]\w+(baan|bolwerk|dam|dijk|dreef|gracht|hof|kade|laan|markt|pad|park|"
+            r"plantsoen|plein|singel|steeg|straat|weg)(\s(\d+){1,6}\w{0,2})?)(\W|$)"
         )
 
-        text = re.sub(
-            "(((\\+31|0|0031)6){1}[-]?[1-9]{1}[0-9]{7})(?![^<]*>)",
-            "<TELEFOONNUMMER \\1>",
-            text,
+        super().__init__(
+            regexp_patterns=[address_pattern], category="LOCATIE", capturing_group=1
         )
 
-        text = re.sub(
-            "((\(\d{3}\)|\d{3})\s?\d{3}\s?\d{2}\s?\d{2})(?![^<]*>)",
-            "<TELEFOONNUMMER \\1>",
-            text,
+
+class PostalcodeAnnotator(RegexpAnnotator):
+    def __init__(self):
+
+        date_pattern = re.compile(
+            r"(\d{4} (?!MG)[A-Z]{2}|\d{4}(?!mg|MG)[a-zA-Z]{2})(\W|$)"
         )
 
-        return text
-
-
-class PatientNumerAnnotator(InTextAnnotator):
-    def annotate_intext(self, text: str, **kwargs) -> str:
-        """Annotate patient numbers"""
-        text = re.sub("(\d{7})(?![^<]*>)", "<PATIENTNUMMER \\1>", text)
-        return text
-
-
-class DateAnnotator(InTextAnnotator):
-    @staticmethod
-    def _get_date_replacement_(date_match: re.Match, punctuation_name: str) -> str:
-        punctuation = date_match[punctuation_name]
-        if len(punctuation) != 1:
-            punctuation = " "
-        return "<DATUM " + date_match.group(1) + ">" + punctuation
-
-    def annotate_intext(self, text: str, **kwargs) -> str:
-
-        # Name the punctuation mark that comes after a date, for replacement purposes
-        punctuation_name = "n"
-        text = re.sub(
-            "(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2})){,1})(?P<"
-            + punctuation_name
-            + ">\D)(?![^<]*>)",
-            lambda date_match: self._get_date_replacement_(
-                date_match, punctuation_name
-            ),
-            text,
-        )
-        text = re.sub(
-            "(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)([- /.]{,2}(\d{4}|\d{2})){,1})(?P<"
-            + punctuation_name
-            + ">\D)(?![^<]*>)",
-            lambda date_match: self._get_date_replacement_(
-                date_match, punctuation_name
-            ),
-            text,
-        )
-        return text
-
-
-class AgeAnnotator(InTextAnnotator):
-    def annotate_intext(self, text: str, **kwargs) -> str:
-
-        """Annotate ages"""
-        text = re.sub(
-            "(\d{1,3})([ -](jarige|jarig|jaar))(?![^<]*>)", "<LEEFTIJD \\1>\\2", text
-        )
-        return text
-
-
-class UrlAnnotator(InTextAnnotator):
-    def annotate_intext(self, text: str, **kwargs) -> str:
-        """Annotate urls"""
-        text = re.sub(
-            "((?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?)(?![^<]*>)",
-            "<URL \\1>",
-            text,
+        super().__init__(
+            regexp_patterns=[date_pattern], category="LOCATIE", capturing_group=1
         )
 
-        text = re.sub(
-            "([\w\d\.-]{3,}(\.)(nl|com|net|be)(/[^\s]+){,1})(?![^<]*>)",
-            "<URL \\1>",
-            text,
+
+class PostbusAnnotator(RegexpAnnotator):
+    def __init__(self):
+
+        postbus_pattern = re.compile(r"([Pp]ostbus\s\d{5})")
+
+        super().__init__(
+            regexp_patterns=[postbus_pattern],
+            category="LOCATIE",
         )
 
-        return text
 
+class PhoneNumberAnnotator(RegexpAnnotator):
+    def __init__(self):
 
-class EmailAnnotator(InTextAnnotator):
-    def annotate_intext(self, text: str, **kwargs) -> str:
-
-        """Annotate emails"""
-        text = re.sub(
-            "(([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?))(?![^<]*>)",
-            "<URL \\1>",
-            text,
+        phone_pattern_1 = re.compile(
+            r"(((0)[1-9]{2}[0-9][-]?[1-9][0-9]{5})|((\+31|0|0031)[1-9][0-9][-]?[1-9][0-9]{6}))"
         )
 
-        return text
+        phone_pattern_2 = re.compile(r"(((\+31|0|0031)6)[-]?[1-9][0-9]{7})")
+
+        phone_pattern_3 = re.compile(r"((\(\d{3}\)|\d{3})\s?\d{3}\s?\d{2}\s?\d{2})")
+
+        super().__init__(
+            regexp_patterns=[phone_pattern_1, phone_pattern_2, phone_pattern_3],
+            category="TELEFOONNUMMER",
+        )
+
+
+class PatientNumberAnnotator(RegexpAnnotator):
+    def __init__(self):
+
+        patientnumber_pattern = re.compile(r"\d{7}")
+
+        super().__init__(
+            regexp_patterns=[patientnumber_pattern], category="PATIENTNUMMER"
+        )
+
+
+class DateAnnotator(RegexpAnnotator):
+    def __init__(self):
+
+        date_pattern_1 = re.compile(
+            r"(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2}))?)(\D|$)"
+        )
+
+        date_pattern_2 = re.compile(
+            r"(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|"
+            r"november|december)([- /.]{,2}(\d{4}|\d{2}))?)(\D|$)"
+        )
+
+        super().__init__(
+            regexp_patterns=[date_pattern_1, date_pattern_2],
+            category="DATUM",
+            capturing_group=1,
+        )
+
+
+class AgeAnnotator(RegexpAnnotator):
+    def __init__(self):
+
+        age_pattern = re.compile(r"(\d{1,3})([ -](jarige|jarig|jaar))")
+
+        super().__init__(
+            regexp_patterns=[age_pattern], category="LEEFTIJD", capturing_group=1
+        )
+
+
+class UrlAnnotator(RegexpAnnotator):
+    def __init__(self):
+
+        url_pattern_1 = re.compile(
+            r"((?!mailto:)"
+            r"((?:http|https|ftp)://)"
+            r"(?:\S+(?::\S*)?@)?(?:(?:(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}"
+            r"(\.(?:[0-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|((?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)"
+            r"(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*(\.([a-z\u00a1-\uffff]{2,})))|localhost)"
+            r"(?::\d{2,5})?(?:([/?#])[^\s]*)?)"
+        )
+
+        url_pattern_2 = re.compile(r"([\w\d.-]{3,}(\.)(nl|com|net|be)(/[^\s]+)?)")
+
+        super().__init__(regexp_patterns=[url_pattern_1, url_pattern_2], category="URL")
+
+
+class EmailAnnotator(RegexpAnnotator):
+    def __init__(self):
+
+        email_pattern = re.compile(
+            r"([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)"
+        )
+
+        super().__init__(regexp_patterns=[email_pattern], category="URL")
