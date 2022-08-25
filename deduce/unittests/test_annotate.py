@@ -126,25 +126,48 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(expected_text, annotated_names)
 
     def test_annotate_address_no_number(self):
+
         text = "I live in Havikstraat since my childhood"
-        annotator = annotate.AddressAnnotator()
-        address = annotator.annotate_intext(text)
-        self.assertEqual("I live in <LOCATIE Havikstraat> since my childhood", address)
+
+        doc = docdeid.Document(text=text)
+        annotate.AddressAnnotator().annotate(doc)
+
+        expected = {
+            docdeid.Annotation(text='Havikstraat', start_char=10, end_char=21, category='LOCATIE')
+        }
+
+        self.assertEqual(
+            expected, doc.annotations
+        )
 
     def test_annotate_address_with_number(self):
+
         text = "I live in Havikstraat 43 since my childhood"
-        annotator = annotate.AddressAnnotator()
-        address = annotator.annotate_intext(text)
+
+        doc = docdeid.Document(text=text)
+        annotate.AddressAnnotator().annotate(doc)
+
+        expected = {
+            docdeid.Annotation(text='Havikstraat 43', start_char=10, end_char=24, category='LOCATIE')
+        }
+
         self.assertEqual(
-            "I live in <LOCATIE Havikstraat 43> since my childhood", address
+            expected, doc.annotations
         )
 
     def test_annotate_address_long_number(self):
+
         text = "I live in Havikstraat 4324598 since my childhood"
-        annotator = annotate.AddressAnnotator()
-        address = annotator.annotate_intext(text)
+
+        doc = docdeid.Document(text=text)
+        annotate.AddressAnnotator().annotate(doc)
+
+        expected = {
+            docdeid.Annotation(text='Havikstraat 4324598', start_char=10, end_char=29, category='LOCATIE')
+        }
+
         self.assertEqual(
-            "I live in <LOCATIE Havikstraat 4324598> since my childhood", address
+            expected, doc.annotations
         )
 
     def test_coordinating_nexus_with_preceding_name(self):
