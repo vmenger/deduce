@@ -37,33 +37,21 @@ class Tokenizer(docdeid.BaseTokenizer):
         return _CharType.OTHER
 
     def _merge_triebased(self, tokens: list[docdeid.Token]) -> list[docdeid.Token]:
-        """
-        This function merges all sublists of tokens that occur in the trie to one element
-        in the list of tokens. For example: if the tree contains ["A", "1"],
-        then in the list of tokens ["Patient", "is", "opgenomen", "op", "A", "1"]  the sublist
-        ["A", "1"] can be found in the Trie and will thus be merged,
-        resulting in ["Patient", "is", "opgenomen", "op", "A1"]
-        """
 
         tokens_text = [token.text for token in tokens]
         tokens_merged = []
         i = 0
 
-        # Iterate over tokens
         while i < len(tokens):
 
-            # Check for each item until the end if there are prefixes of the list in the Trie
             longest_matching_prefix = self._trie.longest_matching_prefix(
                 tokens_text[i:]
             )
 
-            # If no prefixes are in the Trie, append the first token and move to the next one
             if longest_matching_prefix is None:
                 tokens_merged.append(tokens[i])
                 i += 1
 
-            # Else check the maximum length list of tokens, append it to the list that will be returned,
-            # and then skip all the tokens in the list
             else:
                 num_tokens_to_merge = len(longest_matching_prefix)
                 tokens_merged.append(
@@ -82,7 +70,7 @@ class Tokenizer(docdeid.BaseTokenizer):
             end_char=tokens[-1].end_char,
         )
 
-    def tokenize(self, text: str, merge: bool = True) -> list[docdeid.Token]:
+    def tokenize(self, text: str, merge: bool = True, keep_tags_together: bool = False) -> list[docdeid.Token]:
 
         if merge and self._trie is None:
             raise AttributeError(
@@ -99,18 +87,20 @@ class Tokenizer(docdeid.BaseTokenizer):
             if index == 0:
                 continue
 
-            # Keeps track of how deep in tags we are
-            if text[index - 1] == "<":
-                nested_hook_counter += 1
-                continue
+            if keep_tags_together:
 
-            if text[index] == ">":
-                nested_hook_counter -= 1
-                continue
+                # Keeps track of how deep in tags we are
+                if text[index - 1] == "<":
+                    nested_hook_counter += 1
+                    continue
 
-            # Never split if we are in a tag
-            if nested_hook_counter > 0:
-                continue
+                if text[index] == ">":
+                    nested_hook_counter -= 1
+                    continue
+
+                # Never split if we are in a tag
+                if nested_hook_counter > 0:
+                    continue
 
             # Split if we transition between alpha, hook and other
             if self._character_type(char) != self._character_type(text[index - 1]):
@@ -140,6 +130,6 @@ class Tokenizer(docdeid.BaseTokenizer):
 
         return "".join(tokens)
 
-    def tokenize_as_text(self, text: str, merge: bool = True) -> list[str]:
+    def tokenize_as_text(self, text: str, *args, **kwargs) -> list[str]:
 
-        return [token.text for token in self.tokenize(text=text, merge=merge)]
+        return [token.text for token in self.tokenize(text=text, *args, **kwargs)]

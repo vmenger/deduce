@@ -9,6 +9,8 @@ from docdeid.annotation.annotator import RegexpAnnotator, TrieAnnotator
 from docdeid.datastructures import LookupList
 from nltk.metrics import edit_distance
 
+from docdeid.string.processor import LowercaseString
+
 from deduce import utility
 from deduce.lookup.lookup_lists import get_lookup_lists
 from deduce.lookup.lookup_tries import get_lookup_tries
@@ -55,8 +57,7 @@ class InTextAnnotator(DeduceAnnotator):
 
     def annotate_structured(self, text: str, **kwargs) -> list[docdeid.Annotation]:
 
-        text = text.replace("<", "(")
-        text = text.replace(">", ")")
+        text = text.replace("<", "(").replace(">", ")")
 
         intext_annotated = self.annotate_intext(text, **kwargs)
         intext_annotated = self.flatten_function(intext_annotated)
@@ -108,7 +109,7 @@ class NamesAnnotator(InTextAnnotator):
         patient_given_name = kwargs.get("patient_given_name", "")
 
         # Tokenize the text
-        tokens = tokenizer.tokenize_as_text(text + " ")
+        tokens = tokenizer.tokenize_as_text(text + " ", keep_tags_together=True)
         tokens_deid = []
         token_index = -1
 
@@ -221,7 +222,7 @@ class NamesAnnotator(InTextAnnotator):
             if len(patient_surname) > 1:
 
                 # Surname can consist of multiple tokens, so we will match for that
-                surname_pattern = tokenizer.tokenize_as_text(patient_surname)
+                surname_pattern = tokenizer.tokenize_as_text(patient_surname, keep_tags_together=True)
 
                 # Iterate over all tokens in the pattern
                 counter = 0
@@ -309,7 +310,7 @@ class NamesAnnotator(InTextAnnotator):
     def annotate_names_context(self, text: str) -> str:
 
         # Tokenize text and initiate a list of deidentified tokens
-        tokens = tokenizer.tokenize_as_text(text + " ")
+        tokens = tokenizer.tokenize_as_text(text + " ", keep_tags_together=True)
         tokens_deid = []
         token_index = -1
 
@@ -461,13 +462,8 @@ class NamesAnnotator(InTextAnnotator):
 class InstitutionAnnotator(TrieAnnotator):
     def __init__(self):
         super().__init__(
-            trie=_lookup_tries["institutions"], category="INSTELLING", lowercase=True
+            trie=_lookup_tries["institutions"], category="INSTELLING", string_processors=[LowercaseString()]
         )
-
-
-class ResidenceAnnotator(TrieAnnotator):
-    def __init__(self):
-        super().__init__(trie=_lookup_tries["residences"], category="LOCATIE")
 
 
 class AltrechtAnnotator(RegexpAnnotator):
@@ -478,6 +474,11 @@ class AltrechtAnnotator(RegexpAnnotator):
         )
 
         super().__init__(regexp_patterns=[altrecht_pattern], category="INSTELLING")
+
+
+class ResidenceAnnotator(TrieAnnotator):
+    def __init__(self):
+        super().__init__(trie=_lookup_tries["residences"], category="LOCATIE")
 
 
 class AddressAnnotator(RegexpAnnotator):
