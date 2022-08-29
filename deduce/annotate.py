@@ -5,8 +5,9 @@ from abc import abstractmethod
 from typing import Callable, Optional
 
 import docdeid
-from docdeid.annotation.annotator import RegexpAnnotator
+from docdeid.annotation.annotator import RegexpAnnotator, TrieAnnotator
 from docdeid.datastructures import LookupList
+from docdeid.string.processor import LowercaseString
 from nltk.metrics import edit_distance
 
 from deduce import utility
@@ -55,8 +56,7 @@ class InTextAnnotator(DeduceAnnotator):
 
     def annotate_structured(self, text: str, **kwargs) -> list[docdeid.Annotation]:
 
-        text = text.replace("<", "(")
-        text = text.replace(">", ")")
+        text = text.replace("<", "(").replace(">", ")")
 
         intext_annotated = self.annotate_intext(text, **kwargs)
         intext_annotated = self.flatten_function(intext_annotated)
@@ -108,7 +108,7 @@ class NamesAnnotator(InTextAnnotator):
         patient_given_name = kwargs.get("patient_given_name", "")
 
         # Tokenize the text
-        tokens = tokenizer.tokenize(text + " ")
+        tokens = tokenizer.tokenize_as_text(text + " ", keep_tags_together=True)
         tokens_deid = []
         token_index = -1
 
@@ -137,7 +137,7 @@ class NamesAnnotator(InTextAnnotator):
             # If the condition is met, tag the tokens and continue to the next position
             if prefix_condition:
                 tokens_deid.append(
-                    f"<PREFIXNAAM {tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
+                    f"<PREFIXNAAM {tokenizer.join_tokens_as_text(tokens[token_index: next_token_index + 1])}>"
                 )
                 token_index = next_token_index
                 continue
@@ -154,7 +154,7 @@ class NamesAnnotator(InTextAnnotator):
             # If condition is met, tag the tokens and continue to the new position
             if interfix_condition:
                 tokens_deid.append(
-                    f"<INTERFIXNAAM {tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
+                    f"<INTERFIXNAAM {tokenizer.join_tokens_as_text(tokens[token_index: next_token_index + 1])}>"
                 )
                 token_index = next_token_index
                 continue
@@ -176,7 +176,7 @@ class NamesAnnotator(InTextAnnotator):
                         # If followed by a period, also annotate the period
                         if next_token != "" and tokens[token_index + 1][0] == ".":
                             tokens_deid.append(
-                                f"<INITIAALPAT {tokenizer.join_tokens([tokens[token_index], '.'])}>"
+                                f"<INITIAALPAT {tokenizer.join_tokens_as_text([tokens[token_index], '.'])}>"
                             )
                             if tokens[token_index + 1] == ".":
                                 token_index += 1
@@ -221,7 +221,9 @@ class NamesAnnotator(InTextAnnotator):
             if len(patient_surname) > 1:
 
                 # Surname can consist of multiple tokens, so we will match for that
-                surname_pattern = tokenizer.tokenize(patient_surname)
+                surname_pattern = tokenizer.tokenize_as_text(
+                    patient_surname, keep_tags_together=True
+                )
 
                 # Iterate over all tokens in the pattern
                 counter = 0
@@ -256,7 +258,7 @@ class NamesAnnotator(InTextAnnotator):
                 # If a match was found, tag the appropriate tokens, and continue
                 if match:
                     tokens_deid.append(
-                        f"<ACHTERNAAMPAT {tokenizer.join_tokens(tokens[token_index: token_index + len(surname_pattern)])}>"
+                        f"<ACHTERNAAMPAT {tokenizer.join_tokens_as_text(tokens[token_index: token_index + len(surname_pattern)])}>"
                     )
                     token_index = token_index + len(surname_pattern) - 1
                     continue
@@ -304,12 +306,12 @@ class NamesAnnotator(InTextAnnotator):
                 tokens_deid.append(token)
 
         # Return the deidentified tokens as a piece of text
-        return tokenizer.join_tokens(tokens_deid).strip()
+        return tokenizer.join_tokens_as_text(tokens_deid).strip()
 
     def annotate_names_context(self, text: str) -> str:
 
         # Tokenize text and initiate a list of deidentified tokens
-        tokens = tokenizer.tokenize(text + " ")
+        tokens = tokenizer.tokenize_as_text(text + " ", keep_tags_together=True)
         tokens_deid = []
         token_index = -1
 
@@ -353,7 +355,7 @@ class NamesAnnotator(InTextAnnotator):
             # If match, tag the token and continue
             if initial_condition:
                 tokens_deid.append(
-                    f"<INITIAAL {tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
+                    f"<INITIAAL {tokenizer.join_tokens_as_text(tokens[token_index: next_token_index + 1])}>"
                 )
                 token_index = next_token_index
                 continue
@@ -386,7 +388,7 @@ class NamesAnnotator(InTextAnnotator):
                 tokens_deid = tokens_deid[:previous_token_index_deid]
                 tokens_deid.append(
                     "<INTERFIXACHTERNAAM {}>".format(
-                        tokenizer.join_tokens(
+                        tokenizer.join_tokens_as_text(
                             deid_tokens_to_keep
                             + tokens[token_index : next_token_index + 1]
                         )
@@ -413,7 +415,7 @@ class NamesAnnotator(InTextAnnotator):
             # If a match is found, tag and continue
             if initial_name_condition:
                 tokens_deid.append(
-                    f"<INITIAALHOOFDLETTERNAAM {tokenizer.join_tokens(tokens[token_index: next_token_index + 1])}>"
+                    f"<INITIAALHOOFDLETTERNAAM {tokenizer.join_tokens_as_text(tokens[token_index: next_token_index + 1])}>"
                 )
                 token_index = next_token_index
                 continue
@@ -439,7 +441,7 @@ class NamesAnnotator(InTextAnnotator):
                 ) = utility.context(tokens_deid, len(tokens_deid))
                 tokens_deid = tokens_deid[:previous_token_index_deid]
                 tokens_deid.append(
-                    f"<MEERDEREPERSONEN {tokenizer.join_tokens([previous_token_deid] + tokens[previous_token_index + 1: next_token_index + 1])}>"
+                    f"<MEERDEREPERSONEN {tokenizer.join_tokens_as_text([previous_token_deid] + tokens[previous_token_index + 1: next_token_index + 1])}>"
                 )
                 token_index = next_token_index
                 continue
@@ -450,7 +452,7 @@ class NamesAnnotator(InTextAnnotator):
                 tokens_deid.append(token)
 
         # Join the tokens again to form the de-identified text
-        textdeid = tokenizer.join_tokens(tokens_deid).strip()
+        textdeid = tokenizer.join_tokens_as_text(tokens_deid).strip()
 
         if textdeid == text:
             return text
@@ -458,104 +460,28 @@ class NamesAnnotator(InTextAnnotator):
         return self.annotate_names_context(textdeid)
 
 
-class InstitutionAnnotator(InTextAnnotator):
-    @staticmethod
-    def _replace_altrecht_text(match: re.Match) -> str:
-        """
-        <INSTELLING Altrecht> (with Altrecht in any casing) followed by words that start with capital letters is annotated
-        as <INSTELLING Altrecht Those Words>, where Altrecht retains the original casing
-        :param match: the match object from a regular expression search
-        :return: the final string
-        """
-        return (
-            match.group(0)[: len(match.group(0)) - len(match.group(1)) - 1]
-            + match.group(1)
-            + ">"
+class InstitutionAnnotator(TrieAnnotator):
+    def __init__(self):
+        super().__init__(
+            trie=_lookup_tries["institutions"],
+            category="INSTELLING",
+            string_processors=[LowercaseString()],
         )
 
-    def annotate_intext(self, text: str, **kwargs) -> str:
 
-        """Annotate institutions"""
+class AltrechtAnnotator(RegexpAnnotator):
+    def __init__(self):
 
-        # Tokenize, and make a list of non-capitalized tokens (used for matching)
-        tokens = tokenizer.tokenize(text)
-        tokens_lower = [x.lower() for x in tokens]
-        tokens_deid = []
-        token_index = -1
-
-        # Iterate over all tokens
-        while token_index < len(tokens) - 1:
-
-            # Current token position and token
-            token_index = token_index + 1
-            token = tokens[token_index]
-
-            # Find all tokens that are prefixes of the remainder of the lowercase text
-            prefix_matches = _lookup_tries["institutions"].find_all_prefixes(
-                tokens_lower[token_index:]
-            )
-
-            # If none, just append the current token and move to the next
-            if len(prefix_matches) == 0:
-                tokens_deid.append(token)
-                continue
-
-            # Else annotate the longest sequence as institution
-            max_list = max(prefix_matches, key=len)
-            joined_institution = tokenizer.join_tokens(
-                tokens[token_index : token_index + len(max_list)]
-            )
-            tokens_deid.append("<INSTELLING {}>".format(joined_institution))
-            token_index += len(max_list) - 1
-
-        # Return
-        text = tokenizer.join_tokens(tokens_deid)
-
-        # Detect the word "Altrecht" followed by a capitalized word
-        text = re.sub(
-            r"<INSTELLING [aA][lL][tT][rR][eE][cC][hH][tT]>((\s[A-Z]([\w]*))*)",
-            self._replace_altrecht_text,
-            text,
+        altrecht_pattern = re.compile(
+            r"[aA][lL][tT][rR][eE][cC][hH][tT]((\s[A-Z][\w]*)*)"
         )
 
-        # Return the text
-        return text
+        super().__init__(regexp_patterns=[altrecht_pattern], category="INSTELLING")
 
 
-class ResidenceAnnotator(InTextAnnotator):
-    def annotate_intext(self, text: str, **kwargs) -> str:
-
-        """Annotate residences"""
-
-        # Tokenize text
-        tokens = tokenizer.tokenize(text)
-        tokens_deid = []
-        token_index = -1
-
-        # Iterate over tokens
-        while token_index < len(tokens) - 1:
-
-            # Current token position and token
-            token_index = token_index + 1
-            token = tokens[token_index]
-
-            # Find all tokens that are prefixes of the remainder of the text
-            prefix_matches = _lookup_tries["residences"].find_all_prefixes(
-                tokens[token_index:]
-            )
-
-            # If none, just append the current token and move to the next
-            if len(prefix_matches) == 0:
-                tokens_deid.append(token)
-                continue
-
-            # Else annotate the longest sequence as residence
-            max_list = max(prefix_matches, key=len)
-            tokens_deid.append(f"<LOCATIE {tokenizer.join_tokens(max_list)}>")
-            token_index += len(max_list) - 1
-
-        # Return the de-identified text
-        return tokenizer.join_tokens(tokens_deid)
+class ResidenceAnnotator(TrieAnnotator):
+    def __init__(self):
+        super().__init__(trie=_lookup_tries["residences"], category="LOCATIE")
 
 
 class AddressAnnotator(RegexpAnnotator):

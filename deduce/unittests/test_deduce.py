@@ -51,7 +51,7 @@ class TestDeduceMethods(unittest.TestCase):
         )
 
         assert len(expected_annotations) == len(structured)
-        assert expected_annotations.symmetric_difference(structured) == set()
+        self.assertEqual(expected_annotations, set(structured))
 
     def test_leading_space(self):
         text = "\t Vandaag is Jan gekomen"
