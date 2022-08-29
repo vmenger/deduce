@@ -3,6 +3,7 @@ import unittest
 import docdeid
 
 from deduce import annotate
+from deduce.annotate import tokenizer
 
 
 class TestAnnotateMethods(unittest.TestCase):
@@ -181,11 +182,19 @@ class TestAnnotateMethods(unittest.TestCase):
         self.assertEqual(expected_text, annotated)
 
     def test_preserve_institution_casing(self):
+
         text = "Ik ben in Altrecht geweest"
-        annotator = annotate.InstitutionAnnotator()
-        annotated_institutions_text = annotator.annotate_intext(text)
-        expected_text = "Ik ben in <INSTELLING Altrecht> geweest"
-        self.assertEqual(expected_text, annotated_institutions_text)
+
+        doc = docdeid.Document(text=text, tokenizer=tokenizer)
+        annotate.InstitutionAnnotator().annotate(doc)
+
+        expected = {
+            docdeid.Annotation(
+                text="Altrecht", start_char=10, end_char=18, category="INSTELLING"
+            )
+        }
+
+        self.assertEqual(expected, doc.annotations)
 
     def test_skip_mg(self):
 
@@ -212,27 +221,6 @@ class TestAnnotateMethods(unittest.TestCase):
         }
 
         self.assertEqual(expected, doc.annotations)
-
-    def test_annotate_altrecht(self):
-        text = "Opname bij xxx afgerond"
-        examples = [
-            ("altrecht lunetten", "<INSTELLING altrecht> lunetten"),
-            ("altrecht Lunetten", "<INSTELLING altrecht Lunetten>"),
-            ("Altrecht lunetten", "<INSTELLING Altrecht> lunetten"),
-            ("Altrecht Lunetten", "<INSTELLING Altrecht Lunetten>"),
-            ("Altrecht Willem Arntszhuis", "<INSTELLING Altrecht Willem Arntszhuis>"),
-            (
-                "Altrecht Lunetten ziekenhuis",
-                "<INSTELLING Altrecht Lunetten> ziekenhuis",
-            ),
-            ("ALtrecht Lunetten", "<INSTELLING ALtrecht Lunetten>"),
-        ]
-        annotator = annotate.InstitutionAnnotator()
-        annotated = [
-            annotator.annotate_intext(text.replace("xxx", el[0])) for el in examples
-        ]
-        expected = [text.replace("xxx", el[1]) for el in examples]
-        self.assertEqual(expected, annotated)
 
     def test_annotate_context_keep_initial(self):
         text = "Mijn naam is M <ACHTERNAAMONBEKEND Smid> de Vries"

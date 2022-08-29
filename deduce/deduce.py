@@ -11,6 +11,7 @@ from deduce import utility
 from deduce.annotate import (
     AddressAnnotator,
     AgeAnnotator,
+    AltrechtAnnotator,
     DateAnnotator,
     EmailAnnotator,
     InstitutionAnnotator,
@@ -28,6 +29,7 @@ from deduce.redact import DeduceRedactor
 annotators = {
     "names": NamesAnnotator(flatten_function=utility.flatten_text),
     "institutions": InstitutionAnnotator(),
+    "altrecht": AltrechtAnnotator(),
     "residences": ResidenceAnnotator(),
     "addresses": AddressAnnotator(),
     "postal_codes": PostalcodeAnnotator(),
@@ -43,7 +45,7 @@ annotators = {
 
 class Deduce(docdeid.DocDeid):
     def __init__(self):
-        super().__init__(redactor=DeduceRedactor())
+        super().__init__(tokenizer=tokenizer, redactor=DeduceRedactor())
         self._initialize_deduce()
 
     def _initialize_deduce(self):
@@ -96,7 +98,7 @@ def annotate_text_backwardscompat(
         annotators_enabled += ["names"]
 
     if institutions:
-        annotators_enabled += ["institutions"]
+        annotators_enabled += ["institutions", "altrecht"]
 
     if locations:
         annotators_enabled += ["residences", "addresses", "postal_codes", "postbussen"]
