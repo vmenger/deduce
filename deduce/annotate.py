@@ -7,9 +7,8 @@ from typing import Callable, Optional
 import docdeid
 from docdeid.annotation.annotator import RegexpAnnotator, TrieAnnotator
 from docdeid.datastructures import LookupList
-from nltk.metrics import edit_distance
-
 from docdeid.string.processor import LowercaseString
+from nltk.metrics import edit_distance
 
 from deduce import utility
 from deduce.lookup.lookup_lists import get_lookup_lists
@@ -222,7 +221,9 @@ class NamesAnnotator(InTextAnnotator):
             if len(patient_surname) > 1:
 
                 # Surname can consist of multiple tokens, so we will match for that
-                surname_pattern = tokenizer.tokenize_as_text(patient_surname, keep_tags_together=True)
+                surname_pattern = tokenizer.tokenize_as_text(
+                    patient_surname, keep_tags_together=True
+                )
 
                 # Iterate over all tokens in the pattern
                 counter = 0
@@ -462,7 +463,9 @@ class NamesAnnotator(InTextAnnotator):
 class InstitutionAnnotator(TrieAnnotator):
     def __init__(self):
         super().__init__(
-            trie=_lookup_tries["institutions"], category="INSTELLING", string_processors=[LowercaseString()]
+            trie=_lookup_tries["institutions"],
+            category="INSTELLING",
+            string_processors=[LowercaseString()],
         )
 
 

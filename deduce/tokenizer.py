@@ -70,7 +70,9 @@ class Tokenizer(docdeid.BaseTokenizer):
             end_char=tokens[-1].end_char,
         )
 
-    def tokenize(self, text: str, merge: bool = True, keep_tags_together: bool = False) -> list[docdeid.Token]:
+    def tokenize(
+        self, text: str, merge: bool = True, keep_tags_together: bool = False
+    ) -> list[docdeid.Token]:
 
         if merge and self._trie is None:
             raise AttributeError(
