@@ -2,7 +2,7 @@
 
 import re
 from functools import reduce
-
+from typing import Union
 import docdeid
 
 
@@ -11,53 +11,36 @@ def any_in_text(matchlist, token):
     return reduce(lambda x, y: x | y, map(lambda x: x in token, matchlist))
 
 
-def context(tokens, i):
-    """Determine next and previous tokens that start with an alpha character"""
+def get_next_token(tokens: list[docdeid.Token], i: int) -> Union[docdeid.Token, None]:
 
-    # Find the next token
-    k = i + 1
-    next_token = ""
+    if i == len(tokens):
+        return None
 
-    # Iterate over tokens after this one
-    while k < len(tokens):
+    for token in tokens[i + 1 :]:
 
-        # If any of these are found, no next token can be returned
-        if tokens[k][0] == ")" or any_in_text(["\n", "\r", "\t"], tokens[k]):
-            next_token = ""
-            break
+        if token.text[0] == ")" or token.text[0] == '>' or any_in_text(["\n", "\r", "\t"], token.text):
+            return None
 
-        # Else, this is the next token
-        if tokens[k][0].isalpha() or tokens[k][0] == "<":
-            next_token = tokens[k]
-            break
+        if token.text[0].isalpha():
+            return token
 
-        # If no token is found at this position, check the next
-        k += 1
+    return None
 
-    # Index of the next token is simply the last checked position
-    next_token_index = k
 
-    # Find the previous token in a similar way
-    k = i - 1
-    previous_token = ""
+def get_previous_token(tokens: list[docdeid.Token], i: int) -> Union[docdeid.Token, None]:
 
-    # Iterate over all previous tokens
-    while k >= 0:
+    if i == 0:
+        return None
 
-        if tokens[k][0] == "(" or any_in_text(["\n", "\r", "\t"], tokens[k]):
-            previous_token = ""
-            break
+    for token in tokens[i-1::-1]:
 
-        if tokens[k][0].isalpha() or tokens[k][0] == "<":
-            previous_token = tokens[k]
-            break
+        if token.text[0] == "(" or token.text[0] == '<' or any_in_text(["\n", "\r", "\t"], token.text):
+            return None
 
-        k -= 1
+        if token.text[0].isalpha():
+            return token
 
-    previous_token_index = k
-
-    # Return the appropriate information in a 4-tuple
-    return previous_token, previous_token_index, next_token, next_token_index
+    return None
 
 
 def is_initial(token):
@@ -68,119 +51,6 @@ def is_initial(token):
         - Already annotated initial
     """
     return (len(token) == 1 and token[0].isupper()) or "INITI" in token
-
-
-def flatten_text_all_phi(text: str) -> str:
-    """
-    This is inspired by flatten_text, but works for all PHI categories
-    :param text: the text in which you wish to flatten nested annotations
-    :return: the text with nested annotations replaced by a single annotation with the outermost category
-    """
-    to_flatten = find_tags(text)
-    to_flatten.sort(key=lambda x: -len(x))
-
-    for tag in to_flatten:
-        _, value = flatten(tag)
-        outermost_category = parse_tag(tag)[0]
-        text = text.replace(tag, f"<{outermost_category} {value.strip()}>")
-
-    return text
-
-
-def flatten_text(text):
-    """
-    Flattens all tags in a piece of text; e.g. tags like <INITIAL A <NAME Surname>>
-    are flattened to <INITIALNAME A Surname>. This function only works for text wich
-    has annotated person names, and not for other PHI categories!
-    """
-
-    # Find all tags and sort them by length, so that the longest tags are flattened first
-    # This makes sure that the replacing the tag with the flattened equivalent never
-    # accidentally replaces a shorter tag, for example <NAME Surname> in the example.
-    to_flatten = find_tags(text)
-    to_flatten.sort(key=lambda x: -len(x))
-
-    # For each tag
-    for tag in to_flatten:
-
-        # Use the flatten method to return a tuple of tagname and value
-        tagname, value = flatten(tag)
-
-        # If any of the tags contains "PAT" it concerns the patient,
-        # otherwise it concerns a random person
-        if "PAT" in tagname:
-            tagname = "PATIENT"
-        else:
-            tagname = "PERSOON"
-
-        # Replace the found tag with the new, flattened tag
-        text = text.replace(tag, f"<{tagname} {value.strip()}>")
-
-    # Make sure adjacent tags are joined together (like <INITIAL A><PATIENT Surname>),
-    # optionally with a whitespace, period, hyphen or comma between them.
-    # This works because all adjacent tags concern names
-    # (remember that the function flatten_text() can only be used for names)!
-    text = re.sub(
-        "<([A-Z]+)\s([\w\.\s,]+)>([\.\s\-,]+)[\.\s]*<([A-Z]+)\s([\w\.\s,]+)>",
-        "<\\1\\4 \\2\\3\\5>",
-        text,
-    )
-
-    # Find all names of tags, to replace them with either "PATIENT" or "PERSOON"
-    tagnames = re.findall("<([A-Z]+)", text)
-
-    # Iterate over all tags
-    for tag in tagnames:
-
-        # If "PATIENT" is in any of them, they concern a patient
-        if "PATIENT" in tag:
-            text = re.sub(tag, "PATIENT", text)
-
-        # Otherwise, they concern a person
-        else:
-            text = re.sub(tag, "PERSOON", text)
-
-    # Return the text with all replacements
-    return text
-
-
-def flatten(tag):
-
-    """
-    Recursively flattens one tag to a tuple of name and value using splitTag() method.
-    For example, the tag <INITIAL A <NAME Surname>> will be returned (INITIALNAME, A Surname)
-    Returns a tuple (name, value).
-    """
-
-    # Base case, where no fishhooks are present
-    if "<" not in tag:
-        return "", tag
-
-    # Remove fishhooks from tag
-    tag = tag[1:-1]
-
-    # Split on whitespaces
-    tagspl = tag.split(" ", 1)
-
-    # Split on the first whitespace, so we can distinguish between name and rest
-    tagname = tagspl[0]
-    tagrest = tagspl[1]
-
-    # Output is initially empty
-    tagvalue = ""
-
-    # Recurse on the rest of the tag
-    for tag_part in split_tags(tagrest):
-
-        # Flatten for each value in tagrest
-        flattened_tagname, flattened_tagvalue = flatten(tag_part)
-
-        # Simply append to tagnames and values
-        tagname += flattened_tagname
-        tagvalue += flattened_tagvalue
-
-    # Return pair
-    return tagname, tagvalue
 
 
 def find_tags(text):

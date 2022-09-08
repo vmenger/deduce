@@ -7,7 +7,17 @@ from deduce.annotate import tokenizer
 
 
 class TestAnnotateMethods(unittest.TestCase):
+    def apply_annotator_to_text(
+        self, annotator: docdeid.BaseAnnotator, text: str
+    ) -> set[docdeid.Annotation]:
+
+        document = docdeid.Document(text=text, tokenizer=tokenizer)
+        annotator.annotate(document)
+
+        return document.annotations
+
     def test_annotate_names(self):
+
         text = (
             "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
             "(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "

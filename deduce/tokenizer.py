@@ -5,6 +5,7 @@ from typing import Iterable
 import docdeid
 import docdeid.tokenizer.tokenizer
 
+import itertools
 
 class _CharType(Enum):
 
@@ -68,6 +69,7 @@ class Tokenizer(docdeid.BaseTokenizer):
             text="".join(token.text for token in tokens),
             start_char=tokens[0].start_char,
             end_char=tokens[-1].end_char,
+            index=tokens[0].index
         )
 
     def tokenize(
@@ -111,6 +113,7 @@ class Tokenizer(docdeid.BaseTokenizer):
                         start_char=last_split,
                         end_char=index,
                         text=text[last_split:index],
+                        index=0
                     )
                 )
                 last_split = index
@@ -118,14 +121,17 @@ class Tokenizer(docdeid.BaseTokenizer):
         # Append the tokens
         tokens.append(
             docdeid.Token(
-                start_char=last_split, end_char=len(text), text=text[last_split:]
+                start_char=last_split, end_char=len(text), text=text[last_split:], index=0
             )
         )
 
         if merge:
             tokens = self._merge_triebased(tokens)
 
-        return tokens
+        return [
+            docdeid.Token(text=token.text, start_char=token.start_char, end_char=token.end_char, index=i)
+            for token, i in zip(tokens, itertools.count())
+        ]
 
     @staticmethod
     def join_tokens_as_text(tokens: list[str]) -> str:
