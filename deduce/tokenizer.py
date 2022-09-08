@@ -5,6 +5,7 @@ from typing import Iterable
 
 import docdeid
 import docdeid.tokenizer.tokenizer
+from docdeid.datastructures.lookup import LookupTrie
 
 
 class _CharType(Enum):
@@ -20,7 +21,7 @@ class Tokenizer(docdeid.BaseTokenizer):
         self._trie = None
 
         if merge_terms is not None:
-            self._trie = docdeid.datastructures.LookupTrie()
+            self._trie = LookupTrie()
 
             for term in merge_terms:
                 tokens = [token.text for token in self.tokenize(text=term, merge=False)]
@@ -140,12 +141,3 @@ class Tokenizer(docdeid.BaseTokenizer):
             )
             for token, i in zip(tokens, itertools.count())
         ]
-
-    @staticmethod
-    def join_tokens_as_text(tokens: list[str]) -> str:
-
-        return "".join(tokens)
-
-    def tokenize_as_text(self, text: str, *args, **kwargs) -> list[str]:
-
-        return [token.text for token in self.tokenize(text=text, *args, **kwargs)]

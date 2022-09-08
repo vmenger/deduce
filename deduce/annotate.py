@@ -1,12 +1,11 @@
 """ The annotate module contains the code for annotating text"""
 
 import re
-from abc import abstractmethod
-from typing import Callable, Optional, Union
+from typing import Union
 
 import docdeid
 from docdeid.annotation.annotator import RegexpAnnotator, TrieAnnotator
-from docdeid.datastructures import LookupList
+from docdeid.datastructures.lookup import LookupList
 from docdeid.string.processor import LowercaseString
 from nltk.metrics import edit_distance
 
@@ -33,63 +32,6 @@ def _initialize():
 
 
 _lookup_lists, _lookup_tries, tokenizer = _initialize()
-
-
-class DeduceAnnotator(docdeid.BaseAnnotator):
-    def annotate(self, document: docdeid.Document):
-
-        annotations = self.annotate_structured(
-            document.text, **document.get_meta_data()
-        )
-
-        document.add_annotations(annotations)
-
-    @abstractmethod
-    def annotate_structured(self, text: str, **kwargs) -> list[docdeid.Annotation]:
-        pass
-
-
-class InTextAnnotator(DeduceAnnotator):
-    def __init__(self, flatten_function: Optional[Callable] = None):
-
-        self.flatten_function = flatten_function or utility.flatten_text_all_phi
-
-    def annotate_structured(self, text: str, **kwargs) -> list[docdeid.Annotation]:
-
-        text = text.replace("<", "(").replace(">", ")")
-
-        intext_annotated = self.annotate_intext(text, **kwargs)
-        intext_annotated = self.flatten_function(intext_annotated)
-
-        if intext_annotated == text:
-            return list()
-
-        tags = utility.find_tags(intext_annotated)
-        shift = utility.get_shift(text, intext_annotated)
-
-        # utility.get_annotations does not handle nested tags, so make sure not to pass it text with nested tags
-        # Also, utility.get_annotations assumes that all tags are listed in the order they appear in the text
-        annotations = utility.get_annotations(intext_annotated, tags, shift)
-
-        # Check if there are any annotations whose start+end do not correspond to the text in the annotation
-        mismatched_annotations = [
-            ann
-            for ann in annotations
-            if text[ann.start_char : ann.end_char] != ann.text
-        ]
-
-        if len(mismatched_annotations) > 0:
-            print(
-                "WARNING:",
-                len(mismatched_annotations),
-                "annotations have texts that do not match the original text",
-            )
-
-        return annotations
-
-    @abstractmethod
-    def annotate_intext(self, text: str, **kwargs) -> str:
-        pass
 
 
 class NamesAnnotator(docdeid.BaseAnnotator):
@@ -375,10 +317,6 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
         return annotation_tuples
 
-    @staticmethod
-    def _any_category_matches(match_list: list[str], category: str):
-        return any(m in category for m in match_list)
-
     def _match_initials_context(self, previous_token, category, end_token):
 
         previous_token_is_initial = all(
@@ -395,9 +333,7 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
         initial_condition = all(
             [
-                self._any_category_matches(
-                    ["ACHTERNAAM", "INTERFIX", "INITIAAL"], category.split("|")[0]
-                ),
+                utility.any_in_text(["ACHTERNAAM", "INTERFIX", "INITIAAL"], category),
                 any([previous_token_is_initial, previous_token_is_name]),
             ]
         )
@@ -405,16 +341,13 @@ class NamesAnnotator(docdeid.BaseAnnotator):
         if initial_condition:
             return previous_token, end_token, f"INITIAAL|{category}"
 
-    def is_initial(self, token):
-        return (len(token) == 1 and token[0].isupper()) or "INITI" in token
-
     def _match_interfix_context(
         self, category, start_token, next_token, next_next_token
     ):
 
         condition = all(
             [
-                self._any_category_matches(["INITI", "NAAM"], category),
+                utility.any_in_text(["INITI", "NAAM"], category),
                 next_token.text in _lookup_lists["interfixes"],
                 next_next_token.text[0].isupper(),
             ]
@@ -427,7 +360,7 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
         condition = all(
             [
-                self._any_category_matches(
+                utility.any_in_text(
                     ["INITI", "VOORNAAM", "ROEPNAAM", "PREFIX"], category
                 ),
                 len(next_token.text) > 3,
