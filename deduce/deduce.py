@@ -2,9 +2,9 @@ import re
 
 import docdeid
 from docdeid.annotation.annotation_processor import (
-    OverlapResolver, MergeAdjacentAnnotations,
+    MergeAdjacentAnnotations,
+    OverlapResolver,
 )
-
 from nltk.metrics import edit_distance
 
 from deduce.annotate import (
@@ -54,7 +54,9 @@ class Deduce(docdeid.DocDeid):
 
         self.add_annotation_postprocessor(
             "overlap_resolver",
-            OverlapResolver(sort_by=['length'], sort_by_callbacks={'length': lambda x: -x})
+            OverlapResolver(
+                sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
+            ),
         )
 
         self.add_annotation_postprocessor(
@@ -217,10 +219,12 @@ def deidentify_annotations(text):
 
 
 class DeduceMergeAdjacentAnnotations(MergeAdjacentAnnotations):
-
     def _matching_categories(self, left_category: str, right_category: str):
 
-        return (left_category == right_category) or {left_category, right_category} == {"PATIENT", "PERSOON"}
+        return (left_category == right_category) or {left_category, right_category} == {
+            "PATIENT",
+            "PERSOON",
+        }
 
     def _adjacent_annotations_replacement(
         self,
@@ -235,7 +239,7 @@ class DeduceMergeAdjacentAnnotations(MergeAdjacentAnnotations):
             replacement_category = left_annotation.category
 
         return docdeid.Annotation(
-            text=text[left_annotation.start_char: right_annotation.end_char],
+            text=text[left_annotation.start_char : right_annotation.end_char],
             start_char=left_annotation.start_char,
             end_char=right_annotation.end_char,
             category=replacement_category,

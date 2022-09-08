@@ -3,6 +3,7 @@
 import re
 from functools import reduce
 from typing import Union
+
 import docdeid
 
 
@@ -18,7 +19,11 @@ def get_next_token(tokens: list[docdeid.Token], i: int) -> Union[docdeid.Token, 
 
     for token in tokens[i + 1 :]:
 
-        if token.text[0] == ")" or token.text[0] == '>' or any_in_text(["\n", "\r", "\t"], token.text):
+        if (
+            token.text[0] == ")"
+            or token.text[0] == ">"
+            or any_in_text(["\n", "\r", "\t"], token.text)
+        ):
             return None
 
         if token.text[0].isalpha():
@@ -27,14 +32,20 @@ def get_next_token(tokens: list[docdeid.Token], i: int) -> Union[docdeid.Token, 
     return None
 
 
-def get_previous_token(tokens: list[docdeid.Token], i: int) -> Union[docdeid.Token, None]:
+def get_previous_token(
+    tokens: list[docdeid.Token], i: int
+) -> Union[docdeid.Token, None]:
 
     if i == 0:
         return None
 
-    for token in tokens[i-1::-1]:
+    for token in tokens[i - 1 :: -1]:
 
-        if token.text[0] == "(" or token.text[0] == '<' or any_in_text(["\n", "\r", "\t"], token.text):
+        if (
+            token.text[0] == "("
+            or token.text[0] == "<"
+            or any_in_text(["\n", "\r", "\t"], token.text)
+        ):
             return None
 
         if token.text[0].isalpha():

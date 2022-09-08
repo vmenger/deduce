@@ -93,7 +93,6 @@ class InTextAnnotator(DeduceAnnotator):
 
 
 class NamesAnnotator(docdeid.BaseAnnotator):
-
     @staticmethod
     def _match_prefix(
         token: docdeid.Token, next_token: docdeid.Token
@@ -119,24 +118,24 @@ class NamesAnnotator(docdeid.BaseAnnotator):
             [
                 token.text.lower() in _lookup_lists["interfixes"],
                 next_token.text in _lookup_lists["interfix_surnames"],
-                next_token.text.lower() not in _lookup_lists["whitelist"]
+                next_token.text.lower() not in _lookup_lists["whitelist"],
             ]
         )
 
         if condition:
             return token, next_token, "INTERFIXNAAM"
 
-    def _match_initial_with_capital(self, token: docdeid.Token, next_token: docdeid.Token) -> tuple[docdeid.Token, docdeid.Token, str]:
+    def _match_initial_with_capital(
+        self, token: docdeid.Token, next_token: docdeid.Token
+    ) -> tuple[docdeid.Token, docdeid.Token, str]:
 
         condition = all(
             [
                 token.text[0].isupper(),
                 len(token.text) == 1,
-
                 len(next_token.text) > 3,
                 next_token.text[0].isupper(),
-                next_token.text.lower() not in _lookup_lists['whitelist']
-
+                next_token.text.lower() not in _lookup_lists["whitelist"],
             ]
         )
 
@@ -144,7 +143,12 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
             return token, next_token, "INITIAALHOOFDLETTERNAAM"
 
-    def _match_interfix_with_initial(self, token: docdeid.Token, next_token: docdeid.Token, previous_token: docdeid.Token) -> tuple[docdeid.Token, docdeid.Token, str]:
+    def _match_interfix_with_initial(
+        self,
+        token: docdeid.Token,
+        next_token: docdeid.Token,
+        previous_token: docdeid.Token,
+    ) -> tuple[docdeid.Token, docdeid.Token, str]:
 
         print(previous_token, token, next_token)
 
@@ -152,10 +156,8 @@ class NamesAnnotator(docdeid.BaseAnnotator):
             [
                 previous_token.text[0].isupper(),
                 len(previous_token.text) == 1,
-
                 token.text in _lookup_lists["interfixes"],
-
-                next_token.text[0].isupper()
+                next_token.text[0].isupper(),
             ]
         )
 
@@ -254,7 +256,9 @@ class NamesAnnotator(docdeid.BaseAnnotator):
             return token, token, "ROEPNAAMPAT"
 
     @staticmethod
-    def _match_lookup_name(token: docdeid.Token) -> Union[tuple[docdeid.Token, docdeid.Token, str], None]:
+    def _match_lookup_name(
+        token: docdeid.Token,
+    ) -> Union[tuple[docdeid.Token, docdeid.Token, str], None]:
 
         first_name_condition = all(
             [
@@ -338,10 +342,16 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
                 annotation_tuples.append(self._match_prefix(token, next_token))
                 annotation_tuples.append(self._match_interfix(token, next_token))
-                annotation_tuples.append(self._match_initial_with_capital(token, next_token))
+                annotation_tuples.append(
+                    self._match_initial_with_capital(token, next_token)
+                )
 
                 if previous_token is not None:
-                    annotation_tuples.append(self._match_interfix_with_initial(token, next_token, previous_token))
+                    annotation_tuples.append(
+                        self._match_interfix_with_initial(
+                            token, next_token, previous_token
+                        )
+                    )
 
             if patient_first_names is not None:
                 annotation_tuples.append(
@@ -372,27 +382,25 @@ class NamesAnnotator(docdeid.BaseAnnotator):
     def _match_initials_context(self, previous_token, category, end_token):
 
         previous_token_is_initial = all(
-            [
-                len(previous_token.text) == 1,
-                previous_token.text[0].isupper()
-            ]
+            [len(previous_token.text) == 1, previous_token.text[0].isupper()]
         )
 
         previous_token_is_name = all(
             [
                 previous_token.text != "",
                 previous_token.text[0].isupper(),
-                previous_token.text.lower() not in _lookup_lists['whitelist']
+                previous_token.text.lower() not in _lookup_lists["whitelist"],
             ]
         )
 
-        initial_condition = all([
-            self._any_category_matches(["ACHTERNAAM", "INTERFIX", "INITIAAL"], category.split("|")[0]),
-            any([
-                previous_token_is_initial,
-                previous_token_is_name
-            ])
-        ])
+        initial_condition = all(
+            [
+                self._any_category_matches(
+                    ["ACHTERNAAM", "INTERFIX", "INITIAAL"], category.split("|")[0]
+                ),
+                any([previous_token_is_initial, previous_token_is_name]),
+            ]
+        )
 
         if initial_condition:
             return previous_token, end_token, f"INITIAAL|{category}"
@@ -400,13 +408,15 @@ class NamesAnnotator(docdeid.BaseAnnotator):
     def is_initial(self, token):
         return (len(token) == 1 and token[0].isupper()) or "INITI" in token
 
-    def _match_interfix_context(self, category, start_token, next_token, next_next_token):
+    def _match_interfix_context(
+        self, category, start_token, next_token, next_next_token
+    ):
 
         condition = all(
             [
                 self._any_category_matches(["INITI", "NAAM"], category),
-                next_token.text in _lookup_lists['interfixes'],
-                next_next_token.text[0].isupper()
+                next_token.text in _lookup_lists["interfixes"],
+                next_next_token.text[0].isupper(),
             ]
         )
 
@@ -417,10 +427,12 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
         condition = all(
             [
-                self._any_category_matches(["INITI", "VOORNAAM", "ROEPNAAM", "PREFIX"], category),
+                self._any_category_matches(
+                    ["INITI", "VOORNAAM", "ROEPNAAM", "PREFIX"], category
+                ),
                 len(next_token.text) > 3,
                 next_token.text[0].isupper(),
-                next_token.text.lower() not in _lookup_lists['whitelist']
+                next_token.text.lower() not in _lookup_lists["whitelist"],
             ]
         )
 
@@ -429,17 +441,16 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
     def _match_nexus(self, category, start_token, next_token, next_next_token):
 
-        condition = all(
-            [
-                next_token.text == "en",
-                next_next_token.text[0].isupper()
-            ]
-        )
+        condition = all([next_token.text == "en", next_next_token.text[0].isupper()])
 
         if condition:
             return start_token, next_next_token, f"{category}|MEERDERPERSONEN"
 
-    def annotate_context(self, annotation_tuples: list[tuple[docdeid.Token, docdeid.Token, str]], document: docdeid.Document) -> list[tuple[docdeid.Token, docdeid.Token, str]]:
+    def annotate_context(
+        self,
+        annotation_tuples: list[tuple[docdeid.Token, docdeid.Token, str]],
+        document: docdeid.Document,
+    ) -> list[tuple[docdeid.Token, docdeid.Token, str]]:
 
         print(annotation_tuples)
 
@@ -469,7 +480,9 @@ class NamesAnnotator(docdeid.BaseAnnotator):
                 if next_next_token is not None:
 
                     # 2
-                    r = self._match_interfix_context(category, start_token, next_token, next_next_token)
+                    r = self._match_interfix_context(
+                        category, start_token, next_token, next_next_token
+                    )
 
                     if r is not None:
                         next_annotation_tuples.append(r)
@@ -487,7 +500,9 @@ class NamesAnnotator(docdeid.BaseAnnotator):
                 if next_next_token is not None:
 
                     # 4
-                    r = self._match_nexus(category, start_token, next_token, next_next_token)
+                    r = self._match_nexus(
+                        category, start_token, next_token, next_next_token
+                    )
 
                     if r is not None:
                         next_annotation_tuples.append(r)
@@ -497,7 +512,9 @@ class NamesAnnotator(docdeid.BaseAnnotator):
             next_annotation_tuples.append((start_token, end_token, category))
 
         if changes:
-            next_annotation_tuples = self.annotate_context(next_annotation_tuples, document)
+            next_annotation_tuples = self.annotate_context(
+                next_annotation_tuples, document
+            )
 
         return next_annotation_tuples
 
@@ -525,13 +542,16 @@ class NamesAnnotator(docdeid.BaseAnnotator):
                         start_char=r[0].start_char,
                         end_char=r[1].end_char,
                         category="PERSOON",
-                        is_patient="PAT" in r[2]
+                        is_patient="PAT" in r[2],
                     )
                 )
 
         from docdeid.annotation.annotation_processor import OverlapResolver
 
-        ov = OverlapResolver(sort_by=['is_patient', 'length'], sort_by_callbacks={'is_patient': lambda x: -x, 'length': lambda x: -x})
+        ov = OverlapResolver(
+            sort_by=["is_patient", "length"],
+            sort_by_callbacks={"is_patient": lambda x: -x, "length": lambda x: -x},
+        )
 
         annotations = ov.process(annotations, text=document.text)
 
@@ -541,7 +561,9 @@ class NamesAnnotator(docdeid.BaseAnnotator):
                     text=annotation.text,
                     start_char=annotation.start_char,
                     end_char=annotation.end_char,
-                    category="PATIENT" if getattr(annotation, 'is_patient', False) else "PERSOON"
+                    category="PATIENT"
+                    if getattr(annotation, "is_patient", False)
+                    else "PERSOON",
                 )
             )
 
