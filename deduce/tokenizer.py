@@ -1,78 +1,143 @@
 """ This module contains all tokenizing functionality """
-import codecs
+import itertools
+from enum import Enum, auto
+from typing import Iterable
 
-from .listtrie import ListTrie
-from .utility import get_data
-from .utility import merge_triebased
-from .utility import type_of
-
-
-def tokenize_split(text, merge=True):
-    """
-    Tokenize a piece of text, where splits are when going from alpha to other,
-    and tokens witin < > tags are never split
-    """
-
-    tokens = []
-    last_split = 0
-    nested_hook_counter = 0
-
-    # Iterate over all chars in the text
-    for index, char in enumerate(text):
-
-        if index == 0:
-            continue
-
-        # Keeps track of how deep in tags we are
-        if text[index - 1] == "<":
-            nested_hook_counter += 1
-            continue
-
-        if text[index] == ">":
-            nested_hook_counter -= 1
-            continue
-
-        # Never split if we are in a tag
-        if nested_hook_counter > 0:
-            continue
-
-        # Split if we transition between alpha, hook and other
-        if type_of(char) != type_of(text[index - 1]):
-            tokens.append(text[last_split:index])
-            last_split = index
-
-    # Append the tokens
-    tokens.append(text[last_split:])
-
-    # If we need to merge based on the nosplit_trie, so do
-    if merge:
-        tokens = merge_triebased(tokens, NOSPLIT_TRIE)
-
-    # Return
-    return tokens
+import docdeid
+import docdeid.tokenizer.tokenizer
+from docdeid.datastructures.lookup import LookupTrie
 
 
-def join_tokens(tokens):
-    """Join a list of tokens together, simple when using the custom tokenize method"""
-    return "".join(tokens)
+class _CharType(Enum):
+
+    ALPHA = auto()
+    HOOK = auto()
+    OTHER = auto()
 
 
-# This trie contains all strings that should be regarded as a single token
-# These are: all interfixes, A1-A4, and some special characters like \n, \r and \t
-NOSPLIT_TRIE = ListTrie()
+class Tokenizer(docdeid.BaseTokenizer):
+    def __init__(self, merge_terms: Iterable = None):
 
-# Read interfixes
-INTERFIXES = list(
-    set(line.strip() for line in codecs.open(get_data("voorvoegsel.lst")))
-)
-PREFIXES = list(set(line.strip() for line in codecs.open(get_data("prefix.lst"))))
+        self._trie = None
 
-# Fill trie
-for interfix in INTERFIXES:
-    NOSPLIT_TRIE.add(tokenize_split(interfix, False))
+        if merge_terms is not None:
+            self._trie = LookupTrie()
 
-for prefix in PREFIXES:
-    NOSPLIT_TRIE.add(tokenize_split(prefix, False))
+            for term in merge_terms:
+                tokens = [token.text for token in self.tokenize(text=term, merge=False)]
+                self._trie.add(tokens)
 
-for value in ["A1", "A2", "A3", "A4", "\n", "\r", "\t"]:
-    NOSPLIT_TRIE.add(tokenize_split(value, False))
+    @staticmethod
+    def _character_type(char: str) -> _CharType:
+
+        if char.isalpha():
+            return _CharType.ALPHA
+
+        if char in ("<", ">"):
+            return _CharType.HOOK
+
+        return _CharType.OTHER
+
+    def _merge_triebased(self, tokens: list[docdeid.Token]) -> list[docdeid.Token]:
+
+        tokens_text = [token.text for token in tokens]
+        tokens_merged = []
+        i = 0
+
+        while i < len(tokens):
+
+            longest_matching_prefix = self._trie.longest_matching_prefix(
+                tokens_text[i:]
+            )
+
+            if longest_matching_prefix is None:
+                tokens_merged.append(tokens[i])
+                i += 1
+
+            else:
+                num_tokens_to_merge = len(longest_matching_prefix)
+                tokens_merged.append(
+                    self.join_tokens(tokens[i : i + num_tokens_to_merge])
+                )
+                i += num_tokens_to_merge
+
+        return tokens_merged
+
+    @staticmethod
+    def join_tokens(tokens: list[docdeid.Token]):
+
+        return docdeid.Token(
+            text="".join(token.text for token in tokens),
+            start_char=tokens[0].start_char,
+            end_char=tokens[-1].end_char,
+            index=tokens[0].index,
+        )
+
+    def tokenize(
+        self, text: str, merge: bool = True, keep_tags_together: bool = False
+    ) -> list[docdeid.Token]:
+
+        if merge and self._trie is None:
+            raise AttributeError(
+                "Trying to use the tokenize with merging, but no merge terms specified."
+            )
+
+        tokens = []
+        last_split = 0
+        nested_hook_counter = 0
+
+        # Iterate over all chars in the text
+        for index, char in enumerate(text):
+
+            if index == 0:
+                continue
+
+            if keep_tags_together:
+
+                # Keeps track of how deep in tags we are
+                if text[index - 1] == "<":
+                    nested_hook_counter += 1
+                    continue
+
+                if text[index] == ">":
+                    nested_hook_counter -= 1
+                    continue
+
+                # Never split if we are in a tag
+                if nested_hook_counter > 0:
+                    continue
+
+            # Split if we transition between alpha, hook and other
+            if self._character_type(char) != self._character_type(text[index - 1]):
+                tokens.append(
+                    docdeid.Token(
+                        start_char=last_split,
+                        end_char=index,
+                        text=text[last_split:index],
+                        index=0,
+                    )
+                )
+                last_split = index
+
+        # Append the tokens
+        tokens.append(
+            docdeid.Token(
+                start_char=last_split,
+                end_char=len(text),
+                text=text[last_split:],
+                index=0,
+            )
+        )
+
+        if merge:
+            tokens = self._merge_triebased(tokens)
+
+        return [
+            docdeid.Token(
+                text=token.text,
+                start_char=token.start_char,
+                end_char=token.end_char,
+                index=i,
+            )
+            for token, i in zip(tokens, itertools.count())
+        ]

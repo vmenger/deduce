@@ -1,241 +1,174 @@
-"""
-Deduce is the main module, from which the annotate and
-deidentify_annotations() methods can be imported
-"""
+import re
 
-from deduce import utility
-from .annotate import *
-from .utility import flatten_text, flatten_text_all_phi
+import docdeid
+from docdeid.annotation.annotation_processor import OverlapResolver
+from nltk.metrics import edit_distance
+
+from deduce.annotate import (
+    AddressAnnotator,
+    AgeAnnotator,
+    AltrechtAnnotator,
+    DateAnnotator,
+    EmailAnnotator,
+    InstitutionAnnotator,
+    NamesAnnotator,
+    PatientNumberAnnotator,
+    PhoneNumberAnnotator,
+    PostalcodeAnnotator,
+    PostbusAnnotator,
+    ResidenceAnnotator,
+    UrlAnnotator,
+    tokenizer,
+)
+from deduce.annotation_processing import DeduceMergeAdjacentAnnotations
+from deduce.redact import DeduceRedactor
+
+annotators = {
+    "names": NamesAnnotator(),
+    "institutions": InstitutionAnnotator(),
+    "altrecht": AltrechtAnnotator(),
+    "residences": ResidenceAnnotator(),
+    "addresses": AddressAnnotator(),
+    "postal_codes": PostalcodeAnnotator(),
+    "postbussen": PostbusAnnotator(),
+    "phone_numbers": PhoneNumberAnnotator(),
+    "patient_numbers": PatientNumberAnnotator(),
+    "dates": DateAnnotator(),
+    "ages": AgeAnnotator(),
+    "emails": EmailAnnotator(),
+    "urls": UrlAnnotator(),
+}
 
 
-class NestedTagsError(Exception):
-    def __init__(self, msg: str):
-        super().__init__(str)
+class Deduce(docdeid.DocDeid):
+    def __init__(self):
+        super().__init__(tokenizer=tokenizer, redactor=DeduceRedactor())
+        self._initialize_deduce()
+
+    def _initialize_deduce(self):
+
+        for name, annotator in annotators.items():
+            self.add_annotator(name, annotator)
+
+        self.add_annotation_postprocessor(
+            "overlap_resolver",
+            OverlapResolver(
+                sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
+            ),
+        )
+
+        self.add_annotation_postprocessor(
+            "merge_adjacent_annotations",
+            DeduceMergeAdjacentAnnotations(slack_regexp="[\.\s\-,]?[\.\s]?"),
+        )
 
 
-def annotate_text(
-    # The text to be annotated
+deduce_model = Deduce()
+
+
+def annotate_text_backwardscompat(
     text,
-    # First name
     patient_first_names="",
-    # Initial
     patient_initials="",
-    # Surname(s)
     patient_surname="",
-    # Given name`
     patient_given_name="",
-    # Person names, including initials
     names=True,
-    # Geographical locations
-    locations=True,
-    # Institutions
     institutions=True,
-    # Dates
-    dates=True,
-    # Ages
-    ages=True,
-    # Patient numbers
-    patient_numbers=True,
-    # Phone numbers
+    locations=True,
     phone_numbers=True,
-    # Urls and e-mail addresses
+    patient_numbers=True,
+    dates=True,
+    ages=True,
     urls=True,
-    # Debug option
-    flatten=True,
-):
+) -> docdeid.Document:
+    """Backwards compatibility only. Use Deduce().deidentify() instead."""
 
-    """
-    This method annotates text based on the input that includes names of a patient,
-    and a number of flags indicating which PHIs should be annotated
-    """
+    text = "" or text
 
-    if not text:
-        return text
+    meta_data = {
+        "patient_first_names": patient_first_names,
+        "patient_initials": patient_initials,
+        "patient_surname": patient_surname,
+        "patient_given_name": patient_given_name,
+    }
 
-    # Replace < and > symbols
-    text = text.replace("<", "(")
-    text = text.replace(">", ")")
+    annotators_enabled = []
 
-    # Deidentify names
     if names:
+        annotators_enabled += ["names"]
 
-        # First, based on the rules and lookup lists
-        text = annotate_names(
-            text,
-            patient_first_names,
-            patient_initials,
-            patient_surname,
-            patient_given_name,
-        )
-
-        # Then, based on the context
-        text = annotate_names_context(text)
-
-        # Flatten possible nested tags
-        if flatten:
-            text = flatten_text(text)
-
-    # Institutions
     if institutions:
-        text = annotate_institution(text)
+        annotators_enabled += ["institutions", "altrecht"]
 
-    # Geographical locations
     if locations:
-        text = annotate_residence(text)
-        text = annotate_address(text)
-        text = annotate_postalcode(text)
+        annotators_enabled += ["residences", "addresses", "postal_codes", "postbussen"]
 
-    # Phone numbers
     if phone_numbers:
-        text = annotate_phonenumber(text)
+        annotators_enabled += ["phone_numbers"]
 
-    # Patient numbers
     if patient_numbers:
-        text = annotate_patientnumber(text)
+        annotators_enabled += ["patient_numbers"]
 
-    # Dates
     if dates:
-        text = annotate_date(text)
+        annotators_enabled += ["dates"]
 
-    # Ages
     if ages:
-        text = annotate_age(text)
+        annotators_enabled += ["ages"]
 
-    # Urls
     if urls:
-        text = annotate_email(text)
-        text = annotate_url(text)
+        annotators_enabled += ["emails", "urls"]
 
-    # Merge adjacent tags
-    text = merge_adjacent_tags(text)
-
-    # Flatten tags
-    if flatten and has_nested_tags(text):
-        text = flatten_text_all_phi(text)
-
-    # Return text
-    return text
-
-
-def get_adjacent_tags_replacement(match: re.Match) -> str:
-    text = match.group(0)
-    tag = match.group(1)
-    left = match.group(2)
-    right = match.group(3)
-    start_ix = text.index(">") + 1
-    end_ix = text[1:].index("<") + 1
-    separator = text[start_ix:end_ix]
-    return "<" + tag + " " + left + separator + right + ">"
-
-
-def merge_adjacent_tags(text: str) -> str:
-    """
-    Adjacent tags are merged into a single tag
-    :param text: the text from which you want to merge adjacent tags
-    :return: the text with adjacent tags merged
-    """
-    while True:
-        oldtext = text
-        text = re.sub(
-            "<([A-Z]+)\s([^>]+)>[\.\s\-,]?[\.\s]?<\\1\s([^>]+)>",
-            get_adjacent_tags_replacement,
-            text,
-        )
-        if text == oldtext:
-            break
-    return text
-
-
-def annotate_text_structured(
-    text: str,
-    patient_first_names="",
-    patient_initials="",
-    patient_surname="",
-    patient_given_name="",
-    names=True,
-    locations=True,
-    institutions=True,
-    dates=True,
-    ages=True,
-    patient_numbers=True,
-    phone_numbers=True,
-    urls=True,
-    flatten=True,
-):
-    """
-    This method annotates text based on the input that includes names of a patient,
-    and a number of flags indicating which PHIs should be annotated
-    :param text: The text to be annotated
-    :param patient_first_names: First name
-    :param patient_initials: Initial
-    :param patient_surname: Surname(s)
-    :param patient_given_name: Given name
-    :param names: Person names, including initials
-    :param locations: Geographical locations
-    :param institutions: Institutions
-    :param dates: Dates
-    :param ages: Ages
-    :param patient_numbers: Patient numbers
-    :param phone_numbers: Phone numbers
-    :param urls: Urls and e-mail addresses
-    :param flatten: Debug option
-    :return:
-    """
-    annotated_text = annotate_text(
-        text,
-        patient_first_names=patient_first_names,
-        patient_initials=patient_initials,
-        patient_surname=patient_surname,
-        patient_given_name=patient_given_name,
-        names=names,
-        locations=locations,
-        institutions=institutions,
-        dates=dates,
-        ages=ages,
-        patient_numbers=patient_numbers,
-        phone_numbers=phone_numbers,
-        urls=urls,
-        flatten=flatten,
+    doc = deduce_model.deidentify(
+        text=text, annotators_enabled=annotators_enabled, meta_data=meta_data
     )
-    if has_nested_tags(annotated_text):
-        raise NestedTagsError("Text has nested tags")
-    tags = utility.find_tags(annotated_text)
-    first_non_whitespace_character_index = utility.get_first_non_whitespace(text)
-    # utility.get_annotations does not handle nested tags, so make sure not to pass it text with nested tags
-    # Also, utility.get_annotations assumes that all tags are listed in the order they appear in the text
-    annotations = utility.get_annotations(annotated_text, tags, first_non_whitespace_character_index)
 
-    # Check if there are any annotations whose start+end do not correspond to the text in the annotation
-    mismatched_annotations = [ann for ann in annotations if text[ann.start_ix:ann.end_ix] != ann.text_]
-    if len(mismatched_annotations) > 0:
-        print('WARNING:', len(mismatched_annotations), 'annotations have texts that do not match the original text')
-
-    return annotations
+    return doc
 
 
-def has_nested_tags(text):
-    open_brackets = 0
-    for _, ch in enumerate(text):
+def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
 
-        if ch == "<":
-            open_brackets += 1
+    annotations = sorted(
+        list(annotations),
+        key=lambda a: a.get_sort_key(
+            by=["end_char"], callbacks={"end_char": lambda x: -x}
+        ),
+    )
 
-        if ch == ">":
-            open_brackets -= 1
+    for annotation in annotations:
+        text = (
+            f"{text[:annotation.start_char]}"
+            f"<{annotation.category}>{annotation.text}</{annotation.category}>"
+            f"{text[annotation.end_char:]}"
+        )
 
-        if open_brackets == 2:
-            return True
+    return text
 
-        if open_brackets not in (0, 1):
-            raise ValueError("Incorrectly formatted string")
 
-    return False
+def annotate_text(text: str, *args, **kwargs):
+
+    doc = annotate_text_backwardscompat(text=text, *args, **kwargs)
+
+    annotations = doc.get_annotations_sorted(
+        by=["end_char", "category"], callbacks={"end_char": lambda x: -x}
+    )
+
+    for annotation in annotations:
+
+        text = f"{text[:annotation.start_char]}<{annotation.category.upper()} {annotation.text}>{text[annotation.end_char:]}"
+
+    return text
+
+
+def annotate_text_structured(text: str, *args, **kwargs) -> list[docdeid.Annotation]:
+
+    doc = annotate_text_backwardscompat(text=text, *args, **kwargs)
+
+    return list(doc.annotations)
 
 
 def deidentify_annotations(text):
     """
-    Deidentify the annotated tags - only makes sense if annotate() is used first -
-    otherwise the normal text is simply returned
+    Deidentify intext annotated text (call annotate_text first).
     """
 
     if not text:
@@ -274,7 +207,7 @@ def deidentify_annotations(text):
                 for x in phi_values[1:]
             ]
 
-            # Replace this occurence with the appropriate number from dispenser
+            # Replace this occurrence with the appropriate number from dispenser
             text = text.replace(f"<{tagname} {thisval}>", f"<{tagname}-{dispenser}>")
 
             # For all other values
