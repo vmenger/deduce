@@ -326,6 +326,7 @@ class NamesAnnotator(docdeid.BaseAnnotator):
                 previous_token.text != "",
                 previous_token.text[0].isupper(),
                 previous_token.text.lower() not in _lookup_lists["whitelist"],
+                previous_token.text.lower() not in _lookup_lists["prefixes"]
             ]
         )
 
@@ -382,8 +383,6 @@ class NamesAnnotator(docdeid.BaseAnnotator):
         annotation_tuples: list[tuple[docdeid.Token, docdeid.Token, str]],
         document: docdeid.Document,
     ) -> list[tuple[docdeid.Token, docdeid.Token, str]]:
-
-        print(annotation_tuples)
 
         tokens = document.tokens
         next_annotation_tuples = []
