@@ -66,34 +66,6 @@ class TestDeduceMethods(unittest.TestCase):
         self.assertEqual(1, len(annotations))
         self.assertEqual(docdeid.Annotation("Jan", 13, 16, "PATIENT"), annotations[0])
 
-    def test_has_nested_tags_true(self):
-        text = "<PERSOON Peter <INSTELLING Altrecht>>"
-        self.assertTrue(deduce.utility.has_nested_tags(text))
-
-    def test_has_nested_tags_false(self):
-        text = "<PERSOON Peter> from <INSTELLING Altrecht>"
-        self.assertFalse(deduce.utility.has_nested_tags(text))
-
-    def test_has_nested_tags_error(self):
-        text = "> Peter from Altrecht"
-        self.assertRaises(ValueError, lambda: deduce.utility.has_nested_tags(text))
-
-    def test_merge_adjacent_tags(self):
-        text = "<PATIENT Jorge><PATIENT Ramos>"
-        self.assertEqual(
-            "<PATIENT JorgeRamos>", deduce.utility.merge_adjacent_tags(text)
-        )
-
-    def test_do_not_merge_adjacent_tags_with_different_categories(self):
-        text = "<PATIENT Jorge><LOCATIE Ramos>"
-        self.assertEqual(text, deduce.utility.merge_adjacent_tags(text))
-
-    def test_merge_almost_adjacent_tags(self):
-        text = "<PATIENT Jorge> <PATIENT Ramos>"
-        self.assertEqual(
-            "<PATIENT Jorge Ramos>", deduce.utility.merge_adjacent_tags(text)
-        )
-
 
 if __name__ == "__main__":
     unittest.main()

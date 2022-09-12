@@ -1,2 +1,2 @@
 nltk
-docdeid==0.0.7
+docdeid==0.0.8

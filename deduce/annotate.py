@@ -1,12 +1,11 @@
 """ The annotate module contains the code for annotating text"""
 
 import re
-from abc import abstractmethod
-from typing import Callable, Optional
+from typing import Union
 
 import docdeid
 from docdeid.annotation.annotator import RegexpAnnotator, TrieAnnotator
-from docdeid.datastructures import LookupList
+from docdeid.datastructures.lookup import LookupList
 from docdeid.string.processor import LowercaseString
 from nltk.metrics import edit_distance
 
@@ -35,429 +34,468 @@ def _initialize():
 _lookup_lists, _lookup_tries, tokenizer = _initialize()
 
 
-class DeduceAnnotator(docdeid.BaseAnnotator):
-    def annotate(self, document: docdeid.Document):
+class NamesAnnotator(docdeid.BaseAnnotator):
+    @staticmethod
+    def _match_prefix(
+        token: docdeid.Token, next_token: docdeid.Token
+    ) -> tuple[docdeid.Token, docdeid.Token, str]:
 
-        annotations = self.annotate_structured(
-            document.text, **document.get_meta_data()
+        condition = all(
+            [
+                token.text.lower() in _lookup_lists["prefixes"],
+                next_token.text[0].isupper(),
+                next_token.text.lower() not in _lookup_lists["whitelist"],
+            ]
         )
 
-        document.add_annotations(annotations)
+        if condition:
+            return token, next_token, "PREFIXNAAM"
 
-    @abstractmethod
-    def annotate_structured(self, text: str, **kwargs) -> list[docdeid.Annotation]:
-        pass
+    @staticmethod
+    def _match_interfix(
+        token: docdeid.Token, next_token: docdeid.Token
+    ) -> tuple[docdeid.Token, docdeid.Token, str]:
 
+        condition = all(
+            [
+                token.text.lower() in _lookup_lists["interfixes"],
+                next_token.text in _lookup_lists["interfix_surnames"],
+                next_token.text.lower() not in _lookup_lists["whitelist"],
+            ]
+        )
 
-class InTextAnnotator(DeduceAnnotator):
-    def __init__(self, flatten_function: Optional[Callable] = None):
+        if condition:
+            return token, next_token, "INTERFIXNAAM"
 
-        self.flatten_function = flatten_function or utility.flatten_text_all_phi
+    def _match_initial_with_capital(
+        self, token: docdeid.Token, next_token: docdeid.Token
+    ) -> tuple[docdeid.Token, docdeid.Token, str]:
 
-    def annotate_structured(self, text: str, **kwargs) -> list[docdeid.Annotation]:
+        condition = all(
+            [
+                token.text[0].isupper(),
+                len(token.text) == 1,
+                len(next_token.text) > 3,
+                next_token.text[0].isupper(),
+                next_token.text.lower() not in _lookup_lists["whitelist"],
+            ]
+        )
 
-        text = text.replace("<", "(").replace(">", ")")
+        if condition:
 
-        intext_annotated = self.annotate_intext(text, **kwargs)
-        intext_annotated = self.flatten_function(intext_annotated)
+            return token, next_token, "INITIAALHOOFDLETTERNAAM"
 
-        if intext_annotated == text:
-            return list()
+    def _match_interfix_with_initial(
+        self,
+        token: docdeid.Token,
+        next_token: docdeid.Token,
+        previous_token: docdeid.Token,
+    ) -> tuple[docdeid.Token, docdeid.Token, str]:
 
-        tags = utility.find_tags(intext_annotated)
-        shift = utility.get_shift(text, intext_annotated)
+        condition = all(
+            [
+                previous_token.text[0].isupper(),
+                len(previous_token.text) == 1,
+                token.text in _lookup_lists["interfixes"],
+                next_token.text[0].isupper(),
+            ]
+        )
 
-        # utility.get_annotations does not handle nested tags, so make sure not to pass it text with nested tags
-        # Also, utility.get_annotations assumes that all tags are listed in the order they appear in the text
-        annotations = utility.get_annotations(intext_annotated, tags, shift)
+        if condition:
+            return previous_token, next_token, "INITIAALINTERFIXNAAM"
 
-        # Check if there are any annotations whose start+end do not correspond to the text in the annotation
-        mismatched_annotations = [
-            ann
-            for ann in annotations
-            if text[ann.start_char : ann.end_char] != ann.text
-        ]
+    @staticmethod
+    def _match_first_names(
+        token: docdeid.Token, next_token: docdeid.Token, patient_first_names: list[str]
+    ) -> tuple[docdeid.Token, docdeid.Token, str]:
 
-        if len(mismatched_annotations) > 0:
-            print(
-                "WARNING:",
-                len(mismatched_annotations),
-                "annotations have texts that do not match the original text",
-            )
+        for patient_first_name in patient_first_names:
 
-        return annotations
+            # Check if the initial matches
+            if token.text == patient_first_name[0]:
 
-    @abstractmethod
-    def annotate_intext(self, text: str, **kwargs) -> str:
-        pass
+                # If followed by a period, also annotate the period
+                if (next_token is not None) and next_token.text == ".":
+                    return token, next_token, "INITIAALPAT"
+                else:
+                    return token, token, "INITIAALPAT"
 
-
-class NamesAnnotator(InTextAnnotator):
-    def annotate_intext(self, text: str, **kwargs) -> str:
-
-        text = self.annotate_names(text, **kwargs)
-        text = self.annotate_names_context(text)
-
-        return text
-
-    def annotate_names(self, text: str, **kwargs) -> str:
-
-        patient_first_names = kwargs.get("patient_first_names", "")
-        patient_initials = kwargs.get("patient_initials", "")
-        patient_surname = kwargs.get("patient_surname", "")
-        patient_given_name = kwargs.get("patient_given_name", "")
-
-        # Tokenize the text
-        tokens = tokenizer.tokenize_as_text(text + " ", keep_tags_together=True)
-        tokens_deid = []
-        token_index = -1
-
-        # Iterate over all tokens
-        while token_index < len(tokens) - 1:
-
-            # Current position
-            token_index = token_index + 1
-
-            # Current token, and number of tokens already deidentified (used to detect changes)
-            token = tokens[token_index]
-            num_tokens_deid = len(tokens_deid)
-
-            # The context of this token
-            (_, _, next_token, next_token_index) = utility.context(tokens, token_index)
-
-            ### Prefix based detection
-            # Check if the token is a prefix, and the next token starts with a capital
-            prefix_condition = (
-                token.lower() in _lookup_lists["prefixes"]
-                and next_token != ""
-                and next_token[0].isupper()
-                and next_token.lower() not in _lookup_lists["whitelist"]
-            )
-
-            # If the condition is met, tag the tokens and continue to the next position
-            if prefix_condition:
-                tokens_deid.append(
-                    f"<PREFIXNAAM {tokenizer.join_tokens_as_text(tokens[token_index: next_token_index + 1])}>"
-                )
-                token_index = next_token_index
-                continue
-
-            ### Interfix based detection
-            # Check if the token is an interfix, and the next token is in the list of interfix surnames
-            interfix_condition = (
-                token.lower() in _lookup_lists["interfixes"]
-                and next_token != ""
-                and next_token in _lookup_lists["interfix_surnames"]
-                and next_token.lower() not in _lookup_lists["whitelist"]
-            )
-
-            # If condition is met, tag the tokens and continue to the new position
-            if interfix_condition:
-                tokens_deid.append(
-                    f"<INTERFIXNAAM {tokenizer.join_tokens_as_text(tokens[token_index: next_token_index + 1])}>"
-                )
-                token_index = next_token_index
-                continue
-
-            ### First name
-            # Check if there is any information in the first_names variable
-            if len(patient_first_names) > 1:
-
-                # Because of the extra nested loop over first_names,
-                # we can decide if the token has been tagged
-                found = False
-
-                # Voornamen
-                for patient_first_name in str(patient_first_names).split(" "):
-
-                    # Check if the initials match
-                    if token == patient_first_name[0]:
-
-                        # If followed by a period, also annotate the period
-                        if next_token != "" and tokens[token_index + 1][0] == ".":
-                            tokens_deid.append(
-                                f"<INITIAALPAT {tokenizer.join_tokens_as_text([tokens[token_index], '.'])}>"
-                            )
-                            if tokens[token_index + 1] == ".":
-                                token_index += 1
-                            else:
-                                tokens[token_index + 1] = tokens[token_index + 1][1:]
-
-                        # Else, annotate the token itself
-                        else:
-                            tokens_deid.append(f"<INITIAALPAT {token}>")
-
-                        # Break the first names loop
-                        found = True
-                        break
-
-                    # Check that either an exact match exists, or a fuzzy match
-                    # if the token has more than 3 characters
-                    first_name_condition = token == patient_first_name or (
-                        len(token) > 3
-                        and edit_distance(
-                            token, patient_first_name, transpositions=True
-                        )
-                        <= 1
-                    )
-
-                    # If the condition is met, tag the token and move on
-                    if first_name_condition:
-                        tokens_deid.append(f"<VOORNAAMPAT {token}>")
-                        found = True
-                        break
-
-                # If a match was found, continue
-                if found:
-                    continue
-
-            ### Initial
-            # If the initial is not empty, and the token matches the initial, tag it as an initial
-            if len(patient_initials) > 0 and token == patient_initials:
-                tokens_deid.append(f"<INITIALENPAT {token}>")
-                continue
-
-            ### Surname
-            if len(patient_surname) > 1:
-
-                # Surname can consist of multiple tokens, so we will match for that
-                surname_pattern = tokenizer.tokenize_as_text(
-                    patient_surname, keep_tags_together=True
-                )
-
-                # Iterate over all tokens in the pattern
-                counter = 0
-                match = False
-
-                # See if there is a fuzzy match, and if there are enough tokens left
-                # to match the rest of the pattern
-                if edit_distance(
-                    token, surname_pattern[0], transpositions=True
-                ) <= 1 and (token_index + len(surname_pattern)) < len(tokens):
-
-                    # Found a match
-                    match = True
-
-                    # Iterate over rest of pattern to see if every element matches (fuzzily)
-                    while counter < len(surname_pattern):
-
-                        # If the distance is too big, disregard the match
-                        if (
+            # Check if full name matches
+            condition = any(
+                [
+                    token.text == patient_first_name,
+                    all(
+                        [
+                            len(token.text) > 3,
                             edit_distance(
-                                tokens[token_index + counter],
-                                surname_pattern[counter],
-                                transpositions=True,
+                                token.text, patient_first_name, transpositions=True
                             )
-                            > 1
-                        ):
-                            match = False
-                            break
-
-                        counter += 1
-
-                # If a match was found, tag the appropriate tokens, and continue
-                if match:
-                    tokens_deid.append(
-                        f"<ACHTERNAAMPAT {tokenizer.join_tokens_as_text(tokens[token_index: token_index + len(surname_pattern)])}>"
-                    )
-                    token_index = token_index + len(surname_pattern) - 1
-                    continue
-
-            ### Given name
-            # Match if the given name is not empty, and either the token matches exactly
-            # or fuzzily when more than 3 characters long
-            given_name_condition = len(patient_given_name) > 1 and (
-                token == patient_given_name
-                or (
-                    len(token) > 3
-                    and edit_distance(
-                        token, str(patient_given_name), transpositions=True
-                    )
-                    <= 1
-                )
+                            <= 1,
+                        ]
+                    ),
+                ]
             )
 
-            # If match, tag the token and continue
-            if given_name_condition:
-                tokens_deid.append(f"<ROEPNAAMPAT {token}>")
-                continue
+            if condition:
+                return token, token, "VOORNAAMPAT"
 
-            ### Unknown first and last names
-            # For both first and last names, check if the token
-            # is on the lookup list and not on the whitelist
-            if (
-                token in _lookup_lists["first_names"]
-                and token.lower() not in _lookup_lists["whitelist"]
-            ):
-                tokens_deid.append(f"<VOORNAAMONBEKEND {token}>")
-                continue
+    @staticmethod
+    def _match_initials(
+        token: docdeid.Token, patient_initials: str
+    ) -> Union[tuple[docdeid.Token, docdeid.Token, str], None]:
 
-            if (
-                token in _lookup_lists["surnames"]
-                and token.lower() not in _lookup_lists["whitelist"]
-            ):
-                tokens_deid.append(f"<ACHTERNAAMONBEKEND {token}>")
-                continue
+        if token.text == patient_initials:
+            return token, token, "INITIALENPAT"
 
-            ### Wrap up
-            # Nothing has been added (ie no deidentification tag) to tokens_deid,
-            # so we can safely add the token itself
-            if len(tokens_deid) == num_tokens_deid:
-                tokens_deid.append(token)
+    @staticmethod
+    def _match_surnames(
+        tokens: list[docdeid.Token], patient_surname: str
+    ) -> Union[tuple[docdeid.Token, docdeid.Token, str], None]:
 
-        # Return the deidentified tokens as a piece of text
-        return tokenizer.join_tokens_as_text(tokens_deid).strip()
+        surname_pattern = [token.text for token in tokenizer.tokenize(patient_surname)]
 
-    def annotate_names_context(self, text: str) -> str:
+        if len(surname_pattern) > len(tokens):
+            return None
 
-        # Tokenize text and initiate a list of deidentified tokens
-        tokens = tokenizer.tokenize_as_text(text + " ", keep_tags_together=True)
-        tokens_deid = []
-        token_index = -1
+        condition = all(
+            [
+                edit_distance(token.text, surname_token, transpositions=True) <= 1
+                for token, surname_token in zip(tokens, surname_pattern)
+            ]
+        )
 
-        # Iterate over all tokens
-        while token_index < len(tokens) - 1:
-
-            # Current token position
-            token_index = token_index + 1
-
-            # Current token
-            token = tokens[token_index]
-
-            # Number of tokens, used to detect change
-            numtokens_deid = len(tokens_deid)
-
-            # Context of the token
-            (
-                previous_token,
-                previous_token_index,
-                next_token,
-                next_token_index,
-            ) = utility.context(tokens, token_index)
-
-            ### Initial or unknown capitalized word, detected by a name or surname that is behind it
-            # If the token is an initial, or starts with a capital
-            initial_condition = (
-                utility.is_initial(token)
-                or (
-                    token != ""
-                    and token[0].isupper()
-                    and token.lower() not in _lookup_lists["whitelist"]
-                )
-            ) and (
-                # And the token is followed by either a
-                # found surname, interfix or initial
-                "ACHTERNAAM" in next_token
-                or "INTERFIX" in next_token
-                or "INITIAAL" in next_token
+        if condition:
+            return (
+                tokens[0],
+                tokens[len(surname_pattern) - 1],
+                "ACHTERNAAMPAT",
             )
 
-            # If match, tag the token and continue
-            if initial_condition:
-                tokens_deid.append(
-                    f"<INITIAAL {tokenizer.join_tokens_as_text(tokens[token_index: next_token_index + 1])}>"
-                )
-                token_index = next_token_index
-                continue
+    @staticmethod
+    def _match_given_name(
+        token: docdeid.Token, patient_given_name: str
+    ) -> Union[tuple[docdeid.Token, docdeid.Token, str], None]:
 
-            ### Interfix preceded by a name, and followed by a capitalized token
+        # Check if full name matches
+        condition = any(
+            [
+                token.text == patient_given_name,
+                all(
+                    [
+                        len(token.text) > 3,
+                        edit_distance(
+                            token.text, patient_given_name, transpositions=True
+                        )
+                        <= 1,
+                    ]
+                ),
+            ]
+        )
 
-            # If the token is an interfix
-            interfix_condition = (
-                token in _lookup_lists["interfixes"]
-                and
-                # And the token is preceded by an initial, found initial or found name
-                (
-                    utility.is_initial(previous_token)
-                    or "INITIAAL" in previous_token
-                    or "NAAM" in previous_token
-                )
-                and
-                # And the next token must be capitalized
-                next_token != ""
-                and (next_token[0].isupper() or next_token[0] == "<")
-            )
+        if condition:
+            return token, token, "ROEPNAAMPAT"
 
-            # If the condition is met, tag the tokens and continue
-            if interfix_condition:
-                # Remove some already identified tokens, to prevent double tagging
-                (_, previous_token_index_deid, _, _) = utility.context(
-                    tokens_deid, len(tokens_deid)
+    @staticmethod
+    def _match_lookup_name(
+        token: docdeid.Token,
+    ) -> Union[tuple[docdeid.Token, docdeid.Token, str], None]:
+
+        first_name_condition = all(
+            [
+                token.text in _lookup_lists["first_names"],
+                token.text.lower() not in _lookup_lists["whitelist"],
+            ]
+        )
+
+        last_name_condition = all(
+            [
+                token.text in _lookup_lists["surnames"],
+                token.text.lower() not in _lookup_lists["whitelist"],
+            ]
+        )
+
+        if first_name_condition:
+            return token, token, "VOORNAAMONBEKEND"
+
+        if last_name_condition:
+            return token, token, "ACHTERNAAMONBEKEND"
+
+        return None
+
+    @staticmethod
+    def _parse_first_names(document: docdeid.Document) -> Union[list[str], None]:
+
+        patient_first_names = document.get_meta_data_item("patient_first_names")
+
+        if patient_first_names is None or patient_first_names == "":
+            return None
+
+        return patient_first_names.split(" ")
+
+    @staticmethod
+    def _parse_initials(document: docdeid.Document) -> Union[str, None]:
+
+        patient_initials = document.get_meta_data_item("patient_initials")
+
+        if patient_initials is None or patient_initials == "":
+            return None
+
+        return patient_initials
+
+    @staticmethod
+    def _parse_surname(document: docdeid.Document) -> Union[str, None]:
+
+        patient_surname = document.get_meta_data_item("patient_surname")
+
+        if patient_surname is None or patient_surname == "":
+            return None
+
+        return patient_surname
+
+    @staticmethod
+    def _parse_given_name(document: docdeid.Document) -> Union[str, None]:
+
+        patient_given_name = document.get_meta_data_item("patient_given_name")
+
+        if patient_given_name is None or patient_given_name == "":
+            return None
+
+        return patient_given_name
+
+    def annotate_raw(self, document: docdeid.Document):
+
+        patient_first_names = self._parse_first_names(document)
+        patient_initials = self._parse_initials(document)
+        patient_surname = self._parse_surname(document)
+        patient_given_name = self._parse_given_name(document)
+
+        tokens = document.tokens
+
+        annotation_tuples = []
+
+        for i, token in enumerate(tokens):
+
+            next_token = utility.get_next_token(tokens, i)
+            previous_token = utility.get_previous_token(tokens, i)
+
+            if next_token is not None:
+
+                annotation_tuples.append(self._match_prefix(token, next_token))
+                annotation_tuples.append(self._match_interfix(token, next_token))
+                annotation_tuples.append(
+                    self._match_initial_with_capital(token, next_token)
                 )
-                deid_tokens_to_keep = tokens_deid[previous_token_index_deid:]
-                tokens_deid = tokens_deid[:previous_token_index_deid]
-                tokens_deid.append(
-                    "<INTERFIXACHTERNAAM {}>".format(
-                        tokenizer.join_tokens_as_text(
-                            deid_tokens_to_keep
-                            + tokens[token_index : next_token_index + 1]
+
+                if previous_token is not None:
+                    annotation_tuples.append(
+                        self._match_interfix_with_initial(
+                            token, next_token, previous_token
                         )
                     )
-                )
-                token_index = next_token_index
-                continue
 
-            ### Initial or name, followed by a capitalized word
-            # If the token is an initial, or found name or prefix
-            initial_name_condition = (
-                (
-                    utility.is_initial(token)
-                    or "VOORNAAM" in token
-                    or "ROEPNAAM" in token
-                    or "PREFIX" in token
-                    # And the next token is uppercase and has at least 3 characters
+            if patient_first_names is not None:
+                annotation_tuples.append(
+                    self._match_first_names(token, next_token, patient_first_names)
                 )
-                and len(next_token) > 3
-                and next_token[0].isupper()
-                and next_token.lower() not in _lookup_lists["whitelist"]
+
+            if patient_initials is not None:
+                annotation_tuples.append(self._match_initials(token, patient_initials))
+
+            if patient_surname is not None:
+                annotation_tuples.append(
+                    self._match_surnames(tokens[i:], patient_surname)
+                )
+
+            if patient_given_name is not None:
+                annotation_tuples.append(
+                    self._match_given_name(token, patient_given_name)
+                )
+
+            annotation_tuples.append(self._match_lookup_name(token))
+
+        return annotation_tuples
+
+    def _match_initials_context(self, previous_token, category, end_token):
+
+        previous_token_is_initial = all(
+            [len(previous_token.text) == 1, previous_token.text[0].isupper()]
+        )
+
+        previous_token_is_name = all(
+            [
+                previous_token.text != "",
+                previous_token.text[0].isupper(),
+                previous_token.text.lower() not in _lookup_lists["whitelist"],
+                previous_token.text.lower() not in _lookup_lists["prefixes"],
+            ]
+        )
+
+        initial_condition = all(
+            [
+                utility.any_in_text(["ACHTERNAAM", "INTERFIX", "INITIAAL"], category),
+                any([previous_token_is_initial, previous_token_is_name]),
+            ]
+        )
+
+        if initial_condition:
+            return previous_token, end_token, f"INITIAAL|{category}"
+
+    def _match_interfix_context(
+        self, category, start_token, next_token, next_next_token
+    ):
+
+        condition = all(
+            [
+                utility.any_in_text(["INITI", "NAAM"], category),
+                next_token.text in _lookup_lists["interfixes"],
+                next_next_token.text[0].isupper(),
+            ]
+        )
+
+        if condition:
+            return start_token, next_next_token, f"{category}|INTERFIXACHTERNAAM"
+
+    def _match_initial_name_context(self, category, start_token, next_token):
+
+        condition = all(
+            [
+                utility.any_in_text(
+                    ["INITI", "VOORNAAM", "ROEPNAAM", "PREFIX"], category
+                ),
+                len(next_token.text) > 3,
+                next_token.text[0].isupper(),
+                next_token.text.lower() not in _lookup_lists["whitelist"],
+            ]
+        )
+
+        if condition:
+            return start_token, next_token, f"{category}|INITIAALHOOFDLETTERNAAM"
+
+    def _match_nexus(self, category, start_token, next_token, next_next_token):
+
+        condition = all([next_token.text == "en", next_next_token.text[0].isupper()])
+
+        if condition:
+            return start_token, next_next_token, f"{category}|MEERDERPERSONEN"
+
+    def annotate_context(
+        self,
+        annotation_tuples: list[tuple[docdeid.Token, docdeid.Token, str]],
+        document: docdeid.Document,
+    ) -> list[tuple[docdeid.Token, docdeid.Token, str]]:
+
+        tokens = document.tokens
+        next_annotation_tuples = []
+        changes = False
+
+        for start_token, end_token, category in annotation_tuples:
+
+            previous_token = utility.get_previous_token(tokens, start_token.index)
+            next_token = utility.get_next_token(tokens, end_token.index)
+
+            if previous_token is not None:
+
+                # 1
+                r = self._match_initials_context(previous_token, category, end_token)
+
+                if r is not None:
+                    next_annotation_tuples.append(r)
+                    changes = True
+                    continue
+
+            if next_token is not None:
+
+                next_next_token = utility.get_next_token(tokens, next_token.index)
+
+                if next_next_token is not None:
+
+                    # 2
+                    r = self._match_interfix_context(
+                        category, start_token, next_token, next_next_token
+                    )
+
+                    if r is not None:
+                        next_annotation_tuples.append(r)
+                        changes = True
+                        continue
+
+                # 3
+                r = self._match_initial_name_context(category, start_token, next_token)
+
+                if r is not None:
+                    next_annotation_tuples.append(r)
+                    changes = True
+                    continue
+
+                if next_next_token is not None:
+
+                    # 4
+                    r = self._match_nexus(
+                        category, start_token, next_token, next_next_token
+                    )
+
+                    if r is not None:
+                        next_annotation_tuples.append(r)
+                        changes = True
+                        continue
+
+            next_annotation_tuples.append((start_token, end_token, category))
+
+        if changes:
+            next_annotation_tuples = self.annotate_context(
+                next_annotation_tuples, document
             )
 
-            # If a match is found, tag and continue
-            if initial_name_condition:
-                tokens_deid.append(
-                    f"<INITIAALHOOFDLETTERNAAM {tokenizer.join_tokens_as_text(tokens[token_index: next_token_index + 1])}>"
+        return next_annotation_tuples
+
+    def annotate(self, document: docdeid.Document):
+
+        annotation_tuples = self.annotate_raw(document)
+
+        annotation_tuples = [a for a in annotation_tuples if a is not None]
+        annotation_tuples = self.annotate_context(annotation_tuples, document)
+
+        annotations = set()
+
+        from dataclasses import dataclass
+
+        @dataclass(frozen=True)
+        class DeduceAnnotation(docdeid.Annotation):
+            is_patient: bool
+
+        # TODO: This needs implementation.
+        for r in annotation_tuples:
+            if r is not None:
+                annotations.add(
+                    DeduceAnnotation(
+                        text=document.text[r[0].start_char : r[1].end_char],
+                        start_char=r[0].start_char,
+                        end_char=r[1].end_char,
+                        category="PERSOON",
+                        is_patient="PAT" in r[2],
+                    )
                 )
-                token_index = next_token_index
-                continue
 
-            ### Patients A and B pattern
+        from docdeid.annotation.annotation_processor import OverlapResolver
 
-            # If the token is "en", and the previous token is tagged, and the next token is capitalized
-            and_pattern_condition = (
-                token == "en"
-                and len(previous_token) > 0
-                and len(next_token) > 0
-                and "<" in previous_token
-                and next_token[0].isupper()
+        ov = OverlapResolver(
+            sort_by=["is_patient", "length"],
+            sort_by_callbacks={"is_patient": lambda x: -x, "length": lambda x: -x},
+        )
+
+        annotations = ov.process(annotations, text=document.text)
+
+        for annotation in annotations:
+            document.add_annotation(
+                docdeid.Annotation(
+                    text=annotation.text,
+                    start_char=annotation.start_char,
+                    end_char=annotation.end_char,
+                    category="PATIENT"
+                    if getattr(annotation, "is_patient", False)
+                    else "PERSOON",
+                )
             )
-
-            # If a match is found, tag and continue
-            if and_pattern_condition:
-                (
-                    previous_token_deid,
-                    previous_token_index_deid,
-                    _,
-                    _,
-                ) = utility.context(tokens_deid, len(tokens_deid))
-                tokens_deid = tokens_deid[:previous_token_index_deid]
-                tokens_deid.append(
-                    f"<MEERDEREPERSONEN {tokenizer.join_tokens_as_text([previous_token_deid] + tokens[previous_token_index + 1: next_token_index + 1])}>"
-                )
-                token_index = next_token_index
-                continue
-
-            # Nothing has been added (ie no deidentification tag) to tokens_deid,
-            # so we can safely add the token itself
-            if len(tokens_deid) == numtokens_deid:
-                tokens_deid.append(token)
-
-        # Join the tokens again to form the de-identified text
-        textdeid = tokenizer.join_tokens_as_text(tokens_deid).strip()
-
-        if textdeid == text:
-            return text
-
-        return self.annotate_names_context(textdeid)
 
 
 class InstitutionAnnotator(TrieAnnotator):

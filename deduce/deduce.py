@@ -1,13 +1,9 @@
 import re
 
 import docdeid
-from docdeid.annotation.annotation_processor import (
-    LongestFirstOverlapResolver,
-    MergeAdjacentAnnotations,
-)
+from docdeid.annotation.annotation_processor import OverlapResolver
 from nltk.metrics import edit_distance
 
-from deduce import utility
 from deduce.annotate import (
     AddressAnnotator,
     AgeAnnotator,
@@ -24,10 +20,11 @@ from deduce.annotate import (
     UrlAnnotator,
     tokenizer,
 )
+from deduce.annotation_processing import DeduceMergeAdjacentAnnotations
 from deduce.redact import DeduceRedactor
 
 annotators = {
-    "names": NamesAnnotator(flatten_function=utility.flatten_text),
+    "names": NamesAnnotator(),
     "institutions": InstitutionAnnotator(),
     "altrecht": AltrechtAnnotator(),
     "residences": ResidenceAnnotator(),
@@ -54,12 +51,15 @@ class Deduce(docdeid.DocDeid):
             self.add_annotator(name, annotator)
 
         self.add_annotation_postprocessor(
-            "overlap_resolver", LongestFirstOverlapResolver()
+            "overlap_resolver",
+            OverlapResolver(
+                sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
+            ),
         )
 
         self.add_annotation_postprocessor(
             "merge_adjacent_annotations",
-            MergeAdjacentAnnotations(slack_regexp="[\.\s\-,]?[\.\s]?"),
+            DeduceMergeAdjacentAnnotations(slack_regexp="[\.\s\-,]?[\.\s]?"),
         )
 
 
@@ -129,11 +129,12 @@ def annotate_text(text: str, *args, **kwargs):
 
     doc = annotate_text_backwardscompat(text=text, *args, **kwargs)
 
-    annotations = list(
-        sorted(doc.annotations, key=lambda a: (-a.end_char, a.category))
-    )  # secondary sort makes it deterministic
+    annotations = doc.get_annotations_sorted(
+        by=["end_char", "category"], callbacks={"end_char": lambda x: -x}
+    )
 
     for annotation in annotations:
+
         text = f"{text[:annotation.start_char]}<{annotation.category.upper()} {annotation.text}>{text[annotation.end_char:]}"
 
     return text
@@ -148,8 +149,7 @@ def annotate_text_structured(text: str, *args, **kwargs) -> list[docdeid.Annotat
 
 def deidentify_annotations(text):
     """
-    Deidentify the annotated tags - only makes sense if annotate() is used first.
-    Backwards compatibility only. Use Deduce().deidentify() instead.
+    Deidentify intext annotated text (call annotate_text first).
     """
 
     if not text:
