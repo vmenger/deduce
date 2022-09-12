@@ -92,8 +92,6 @@ def annotate_text_backwardscompat(
         "patient_given_name": patient_given_name,
     }
 
-    print(meta_data)
-
     annotators_enabled = []
 
     if names:

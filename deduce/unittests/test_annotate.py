@@ -5,16 +5,17 @@ import docdeid
 from deduce import annotate
 from deduce.annotate import tokenizer
 
+from typing import Optional
+
 
 class TestAnnotateMethods(unittest.TestCase):
-    def apply_annotator_to_text(
-        self, annotator: docdeid.BaseAnnotator, text: str
-    ) -> set[docdeid.Annotation]:
 
-        document = docdeid.Document(text=text, tokenizer=tokenizer)
+    def _test_annotator(self, annotator: docdeid.BaseAnnotator, text: str, expected_annotations: set[docdeid.Annotation], meta_data: Optional[dict] = None):
+
+        document = docdeid.Document(text=text, tokenizer=tokenizer, meta_data=meta_data or {})
         annotator.annotate(document)
 
-        return document.annotations
+        self.assertEqual(document.annotations, expected_annotations)
 
     def test_annotate_names(self):
 
@@ -26,154 +27,91 @@ class TestAnnotateMethods(unittest.TestCase):
 
         annotator = annotate.NamesAnnotator()
 
-        annotated_names = annotator.annotate_intext(
-            text,
-            patient_first_names="Jan",
-            patient_surname="Jansen",
-            patient_initial="",
-            patient_given_name="",
-        )
-        expected_text = (
-            "Dit is stukje tekst met daarin de naam <VOORNAAMPAT Jan> <ACHTERNAAMPAT Jansen>. De "
-            "<PREFIXNAAM patient J>. <ACHTERNAAMPAT Jansen> (e: j.jnsen@email.com, t: 06-12345678) is 64 "
-            "jaar oud en woonachtig in Utrecht. Hij werd op 10 oktober door arts <VOORNAAMONBEKEND "
-            "Peter> <INTERFIXNAAM de Visser> ontslagen van de kliniek van het UMCU."
-        )
-        self.assertEqual(expected_text, annotated_names)
+        meta_data = {
+            'patient_first_names': "Jan",
+            'patient_surname': "Jansen",
+            'patient_initial': "",
+            'patient_given_name': "",
+        }
 
-    def test_duplicated_names(self):
-        text = (
-            "Dank je <VOORNAAMONBEKEND Peter> van Gonzalez. Met vriendelijke groet, "
-            "<VOORNAAMONBEKEND Peter> van Gonzalez"
-        )
-        annotator = annotate.NamesAnnotator()
-        annotated_names = annotator.annotate_names_context(text)
-        expected_text = (
-            "Dank je <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
-            "Met vriendelijke groet, <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>"
-        )
-        self.assertEqual(expected_text, annotated_names)
+        expected_annotations = {
+            docdeid.Annotation(text='J. Jansen', start_char=62, end_char=71, category='PATIENT'),
+            docdeid.Annotation(text='Peter de Visser', start_char=185, end_char=200, category='PERSOON'),
+            docdeid.Annotation(text='patient ', start_char=54, end_char=62, category='PERSOON'),
+            docdeid.Annotation(text='Jan Jansen', start_char=39, end_char=49, category='PATIENT')
+        }
 
-    def test_duplicated_names_longer(self):
-        text = (
-            "Dank je <VOORNAAMONBEKEND Peter> van Gonzalez. Met vriendelijke groet, "
-            "<VOORNAAMONBEKEND Peter> van Gonzalez. Er is ook een Pieter de Visser hier"
-        )
-        annotator = annotate.NamesAnnotator()
-        annotated_names = annotator.annotate_names_context(text)
-        expected_text = (
-            "Dank je <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
-            "Met vriendelijke groet, <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
-            "Er is ook een Pieter de Visser hier"
-        )
-        self.assertEqual(expected_text, annotated_names)
-
-    def test_duplicated_names_triple(self):
-        text = (
-            "Dank je <VOORNAAMONBEKEND Peter> van Gonzalez. Met vriendelijke groet, "
-            "<VOORNAAMONBEKEND Peter> van Gonzalez. Er is ook een andere <VOORNAAMONBEKEND Peter> van Gonzalez hier"
-        )
-        annotator = annotate.NamesAnnotator()
-        annotated_names = annotator.annotate_names_context(text)
-        expected_text = (
-            "Dank je <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
-            "Met vriendelijke groet, <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez>. "
-            "Er is ook een andere <INTERFIXACHTERNAAM <VOORNAAMONBEKEND Peter> van Gonzalez> hier"
-        )
-        self.assertEqual(expected_text, annotated_names)
-
-    def test_simple_context(self):
-        text = "V. <ACHTERNAAMONBEKEND Menger>"
-        annotator = annotate.NamesAnnotator()
-        annotated_names = annotator.annotate_names_context(text)
-        expected_text = "<INITIAAL V. <ACHTERNAAMONBEKEND Menger>>"
-        self.assertEqual(expected_text, annotated_names)
-
-    def test_coordinating_nexus(self):
-        text = """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, <PREFIXNAAM PJ> en Pieter"""
-        annotator = annotate.NamesAnnotator()
-        annotated_names = annotator.annotate_names_context(text)
-
-        expected_text = (
-            """We hebben o.a. gesproken om een verwijsbrief te verzorgen naar Ajax, """
-            """<MEERDEREPERSONEN <PREFIXNAAM PJ> en Pieter>"""
-        )
-
-        self.assertEqual(expected_text, annotated_names)
+        self._test_annotator(annotator, text, expected_annotations, meta_data)
 
     def test_annotate_initials(self):
-        text = "C. geeft aan dood te willen. C. tot op nu blij"
 
+        text = "C. geeft aan dood te willen. C. tot op nu blij"
         annotator = annotate.NamesAnnotator()
 
-        annotated_names = annotator.annotate_intext(
-            text=text,
-            patient_first_names="Peter Charles",
-            patient_surname="de Jong",
-            patient_initial="PC",
-            patient_given_name="Charlie",
-        )
-        expected_text = (
-            "<INITIAALPAT C.> geeft aan dood te willen. <INITIAALPAT C.> tot op nu blij"
-        )
-        self.assertEqual(expected_text, annotated_names)
+        meta_data = {
+            'patient_first_names': "Peter Charles",
+            'patient_surname': "de Jong",
+            'patient_initial': "PC",
+            'patient_given_name': "Charlie",
+        }
+
+        expected_annotations = {
+            docdeid.Annotation(text='C', start_char=29, end_char=30, category='PATIENT'),
+            docdeid.Annotation(text='C', start_char=0, end_char=1, category='PATIENT')
+        }
+
+        self._test_annotator(annotator, text, expected_annotations, meta_data)
 
     def test_annotate_initials_attached(self):
-        text = "Toegangstijd: N.v.t."
-        patient_first_names = "Nicholas David"
-        patient_initials = "ND"
-        patient_surname = "de Jong"
-        patient_given_name = "Niek"
 
+        text = "toegangstijd: N.v.t."
         annotator = annotate.NamesAnnotator()
-        annotated_names = annotator.annotate_names(
-            text,
-            patient_first_names=patient_first_names,
-            patient_surname=patient_surname,
-            patient_initial=patient_initials,
-            patient_given_name=patient_given_name,
-        )
-        expected_text = "Toegangstijd: <INITIAALPAT N.>v.t."
-        self.assertEqual(expected_text, annotated_names)
+
+        meta_data = {
+            'patient_first_names': "Nicholas David",
+            'patient_initials': "ND",
+            'patient_surname': "de Jong",
+            'patient_given_name': "Niek",
+        }
+
+        expected_annotations = {
+            docdeid.Annotation(text='N', start_char=14, end_char=15, category='PATIENT')
+        }
+
+        self._test_annotator(annotator, text, expected_annotations, meta_data)
 
     def test_annotate_address_no_number(self):
 
         text = "I live in Havikstraat since my childhood"
+        annotator = annotate.AddressAnnotator()
 
-        doc = docdeid.Document(text=text)
-        annotate.AddressAnnotator().annotate(doc)
-
-        expected = {
+        expected_annotations = {
             docdeid.Annotation(
                 text="Havikstraat", start_char=10, end_char=21, category="LOCATIE"
             )
         }
 
-        self.assertEqual(expected, doc.annotations)
+        self._test_annotator(annotator, text, expected_annotations)
 
     def test_annotate_address_with_number(self):
 
         text = "I live in Havikstraat 43 since my childhood"
+        annotator = annotate.AddressAnnotator()
 
-        doc = docdeid.Document(text=text)
-        annotate.AddressAnnotator().annotate(doc)
-
-        expected = {
+        expected_annotations = {
             docdeid.Annotation(
                 text="Havikstraat 43", start_char=10, end_char=24, category="LOCATIE"
             )
         }
 
-        self.assertEqual(expected, doc.annotations)
+        self._test_annotator(annotator, text, expected_annotations)
 
     def test_annotate_address_long_number(self):
 
         text = "I live in Havikstraat 4324598 since my childhood"
+        annotator = annotate.AddressAnnotator()
 
-        doc = docdeid.Document(text=text)
-        annotate.AddressAnnotator().annotate(doc)
-
-        expected = {
+        expected_annotations = {
             docdeid.Annotation(
                 text="Havikstraat 4324598",
                 start_char=10,
@@ -182,85 +120,62 @@ class TestAnnotateMethods(unittest.TestCase):
             )
         }
 
-        self.assertEqual(expected, doc.annotations)
-
-    def test_coordinating_nexus_with_preceding_name(self):
-        text = "Adalberto <ACHTERNAAMONBEKEND Koning> en Mariangela"
-        annotator = annotate.NamesAnnotator()
-        annotated = annotator.annotate_names_context(text)
-        expected_text = "<MEERDEREPERSONEN <INITIAAL Adalberto <ACHTERNAAMONBEKEND Koning>> en Mariangela>"
-        self.assertEqual(expected_text, annotated)
+        self._test_annotator(annotator, text, expected_annotations)
 
     def test_preserve_institution_casing(self):
 
         text = "Ik ben in Altrecht geweest"
+        annotator = annotate.InstitutionAnnotator()
 
-        doc = docdeid.Document(text=text, tokenizer=tokenizer)
-        annotate.InstitutionAnnotator().annotate(doc)
-
-        expected = {
+        expected_annotations = {
             docdeid.Annotation(
                 text="Altrecht", start_char=10, end_char=18, category="INSTELLING"
             )
         }
 
-        self.assertEqual(expected, doc.annotations)
+        self._test_annotator(annotator, text, expected_annotations)
 
     def test_skip_mg(self):
 
         text = "<LOCATIE Hoofdstraat> is mooi. (br)Lithiumcarbonaat 1600mg. Nog een zin"
+        annotator = annotate.PostalcodeAnnotator()
 
-        doc = docdeid.Document(text=text)
-        annotate.PostalcodeAnnotator().annotate(doc)
+        expected_annotations = set()
 
-        expected = set()
-
-        self.assertEqual(expected, doc.annotations)
+        self._test_annotator(annotator, text, expected_annotations)
 
     def test_annotate_postcode(self):
 
         text = "Mijn postcode is 3500LX, toch?"
+        annotator = annotate.PostalcodeAnnotator()
 
-        doc = docdeid.Document(text=text)
-        annotate.PostalcodeAnnotator().annotate(doc)
-
-        expected = {
+        expected_annotations = {
             docdeid.Annotation(
                 text="3500LX", start_char=17, end_char=23, category="LOCATIE"
             )
         }
 
-        self.assertEqual(expected, doc.annotations)
-
-    def test_annotate_context_keep_initial(self):
-        text = "Mijn naam is M <ACHTERNAAMONBEKEND Smid> de Vries"
-        annotator = annotate.NamesAnnotator()
-        annotated_context_names = annotator.annotate_names_context(text)
-        expected = "Mijn naam is <INTERFIXACHTERNAAM <INITIAAL M <ACHTERNAAMONBEKEND Smid>> de Vries>"
-        self.assertEqual(expected, annotated_context_names)
+        self._test_annotator(annotator, text, expected_annotations)
 
     def test_keep_punctuation_after_date(self):
 
         text = "Medicatie actueel	26-10, OXAZEPAM"
-        doc = docdeid.Document(text=text)
-        annotate.DateAnnotator().annotate(doc)
+        annotator = annotate.DateAnnotator()
 
-        expected = {
+        expected_annotations = {
             docdeid.Annotation(
                 text="26-10", start_char=18, end_char=23, category="DATUM"
             )
         }
 
-        self.assertEqual(expected, doc.annotations)
+        self._test_annotator(annotator, text, expected_annotations)
 
     def test_two_dates_with_comma(self):
 
         text = "24 april, 1 mei: pt gaat geen constructief contact aan"
+        annotator = annotate.DateAnnotator()
 
-        doc = docdeid.Document(text=text)
-        annotate.DateAnnotator().annotate(doc)
-
-        expected = {
+        expected_annotations = {
             docdeid.Annotation(
                 text="24 april", start_char=0, end_char=8, category="DATUM"
             ),
@@ -269,7 +184,7 @@ class TestAnnotateMethods(unittest.TestCase):
             ),
         }
 
-        self.assertEqual(expected, doc.annotations)
+        self._test_annotator(annotator, text, expected_annotations)
 
 
 if __name__ == "__main__":

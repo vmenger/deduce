@@ -92,8 +92,6 @@ class NamesAnnotator(docdeid.BaseAnnotator):
         previous_token: docdeid.Token,
     ) -> tuple[docdeid.Token, docdeid.Token, str]:
 
-        print(previous_token, token, next_token)
-
         condition = all(
             [
                 previous_token.text[0].isupper(),
