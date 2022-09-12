@@ -125,6 +125,25 @@ def annotate_text_backwardscompat(
     return doc
 
 
+def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
+
+    annotations = sorted(
+        list(annotations),
+        key=lambda a: a.get_sort_key(
+            by=["end_char"], callbacks={"end_char": lambda x: -x}
+        ),
+    )
+
+    for annotation in annotations:
+        text = (
+            f"{text[:annotation.start_char]}"
+            f"<{annotation.category}>{annotation.text}</{annotation.category}>"
+            f"{text[annotation.end_char:]}"
+        )
+
+    return text
+
+
 def annotate_text(text: str, *args, **kwargs):
 
     doc = annotate_text_backwardscompat(text=text, *args, **kwargs)
