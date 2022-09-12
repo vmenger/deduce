@@ -1,18 +1,24 @@
 import unittest
+from typing import Optional
 
 import docdeid
 
 from deduce import annotate
 from deduce.annotate import tokenizer
 
-from typing import Optional
-
 
 class TestAnnotateMethods(unittest.TestCase):
+    def _test_annotator(
+        self,
+        annotator: docdeid.BaseAnnotator,
+        text: str,
+        expected_annotations: set[docdeid.Annotation],
+        meta_data: Optional[dict] = None,
+    ):
 
-    def _test_annotator(self, annotator: docdeid.BaseAnnotator, text: str, expected_annotations: set[docdeid.Annotation], meta_data: Optional[dict] = None):
-
-        document = docdeid.Document(text=text, tokenizer=tokenizer, meta_data=meta_data or {})
+        document = docdeid.Document(
+            text=text, tokenizer=tokenizer, meta_data=meta_data or {}
+        )
         annotator.annotate(document)
 
         self.assertEqual(document.annotations, expected_annotations)
@@ -28,17 +34,25 @@ class TestAnnotateMethods(unittest.TestCase):
         annotator = annotate.NamesAnnotator()
 
         meta_data = {
-            'patient_first_names': "Jan",
-            'patient_surname': "Jansen",
-            'patient_initial': "",
-            'patient_given_name': "",
+            "patient_first_names": "Jan",
+            "patient_surname": "Jansen",
+            "patient_initial": "",
+            "patient_given_name": "",
         }
 
         expected_annotations = {
-            docdeid.Annotation(text='J. Jansen', start_char=62, end_char=71, category='PATIENT'),
-            docdeid.Annotation(text='Peter de Visser', start_char=185, end_char=200, category='PERSOON'),
-            docdeid.Annotation(text='patient ', start_char=54, end_char=62, category='PERSOON'),
-            docdeid.Annotation(text='Jan Jansen', start_char=39, end_char=49, category='PATIENT')
+            docdeid.Annotation(
+                text="J. Jansen", start_char=62, end_char=71, category="PATIENT"
+            ),
+            docdeid.Annotation(
+                text="Peter de Visser", start_char=185, end_char=200, category="PERSOON"
+            ),
+            docdeid.Annotation(
+                text="patient ", start_char=54, end_char=62, category="PERSOON"
+            ),
+            docdeid.Annotation(
+                text="Jan Jansen", start_char=39, end_char=49, category="PATIENT"
+            ),
         }
 
         self._test_annotator(annotator, text, expected_annotations, meta_data)
@@ -49,15 +63,17 @@ class TestAnnotateMethods(unittest.TestCase):
         annotator = annotate.NamesAnnotator()
 
         meta_data = {
-            'patient_first_names': "Peter Charles",
-            'patient_surname': "de Jong",
-            'patient_initial': "PC",
-            'patient_given_name': "Charlie",
+            "patient_first_names": "Peter Charles",
+            "patient_surname": "de Jong",
+            "patient_initial": "PC",
+            "patient_given_name": "Charlie",
         }
 
         expected_annotations = {
-            docdeid.Annotation(text='C', start_char=29, end_char=30, category='PATIENT'),
-            docdeid.Annotation(text='C', start_char=0, end_char=1, category='PATIENT')
+            docdeid.Annotation(
+                text="C", start_char=29, end_char=30, category="PATIENT"
+            ),
+            docdeid.Annotation(text="C", start_char=0, end_char=1, category="PATIENT"),
         }
 
         self._test_annotator(annotator, text, expected_annotations, meta_data)
@@ -68,14 +84,14 @@ class TestAnnotateMethods(unittest.TestCase):
         annotator = annotate.NamesAnnotator()
 
         meta_data = {
-            'patient_first_names': "Nicholas David",
-            'patient_initials': "ND",
-            'patient_surname': "de Jong",
-            'patient_given_name': "Niek",
+            "patient_first_names": "Nicholas David",
+            "patient_initials": "ND",
+            "patient_surname": "de Jong",
+            "patient_given_name": "Niek",
         }
 
         expected_annotations = {
-            docdeid.Annotation(text='N', start_char=14, end_char=15, category='PATIENT')
+            docdeid.Annotation(text="N", start_char=14, end_char=15, category="PATIENT")
         }
 
         self._test_annotator(annotator, text, expected_annotations, meta_data)

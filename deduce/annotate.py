@@ -326,7 +326,7 @@ class NamesAnnotator(docdeid.BaseAnnotator):
                 previous_token.text != "",
                 previous_token.text[0].isupper(),
                 previous_token.text.lower() not in _lookup_lists["whitelist"],
-                previous_token.text.lower() not in _lookup_lists["prefixes"]
+                previous_token.text.lower() not in _lookup_lists["prefixes"],
             ]
         )
 
