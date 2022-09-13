@@ -1,6 +1,6 @@
 from os import path
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 here = path.abspath(path.dirname(__file__))
 
@@ -27,7 +27,7 @@ setup(
     author='Vincent Menger',
     author_email='vmenger@protonmail.com',
 
-    packages=find_packages(include=['deduce', 'deduce.*']),
+    packages=['deduce'],
 
     # Data files
     package_data={'deduce': ['data/*']},
@@ -46,5 +46,5 @@ setup(
     # What does your project relate to?
     keywords='de-identification',
 
-    install_requires=['nltk', 'docdeid==0.0.8'],
+    install_requires=['nltk'],
 )

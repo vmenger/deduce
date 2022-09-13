@@ -2,7 +2,6 @@ test:
 	python -m unittest discover
 
 format:
-	isort deduce/ --profile black
 	python -m black deduce/
 	pylint --max-line-length=140 deduce/
 
