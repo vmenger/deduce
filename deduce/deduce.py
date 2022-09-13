@@ -59,7 +59,7 @@ class Deduce(docdeid.DocDeid):
 
         self.add_annotation_postprocessor(
             "merge_adjacent_annotations",
-            DeduceMergeAdjacentAnnotations(slack_regexp="[\.\s\-,]?[\.\s]?"),
+            DeduceMergeAdjacentAnnotations(slack_regexp=r"[\.\s\-,]?[\.\s]?"),
         )
 
 
@@ -154,7 +154,9 @@ def annotate_text(text: str, *args, **kwargs):
 
     for annotation in annotations:
 
-        text = f"{text[:annotation.start_char]}<{annotation.category.upper()} {annotation.text}>{text[annotation.end_char:]}"
+        text = f"{text[:annotation.start_char]}" \
+               f"<{annotation.category.upper()} {annotation.text}>" \
+               f"{text[annotation.end_char:]}"
 
     return text
 
@@ -175,7 +177,7 @@ def deidentify_annotations(text):
         return text
 
     # Patient tags are always simply deidentified (because there is only one patient
-    text = re.sub("<PATIENT\s([^>]+)>", "<PATIENT>", text)
+    text = re.sub(r"<PATIENT\s([^>]+)>", "<PATIENT>", text)
 
     # For al the other types of tags
     for tagname in [

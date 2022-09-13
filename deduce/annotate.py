@@ -1,9 +1,10 @@
 """ The annotate module contains the code for annotating text"""
-
 import re
+from dataclasses import dataclass
 from typing import Union
 
 import docdeid
+from docdeid.annotation.annotation_processor import OverlapResolver
 from docdeid.annotation.annotator import RegexpAnnotator, TrieAnnotator
 from docdeid.datastructures.lookup import LookupList
 from docdeid.string.processor import LowercaseString
@@ -67,8 +68,9 @@ class NamesAnnotator(docdeid.BaseAnnotator):
         if condition:
             return token, next_token, "INTERFIXNAAM"
 
+    @staticmethod
     def _match_initial_with_capital(
-        self, token: docdeid.Token, next_token: docdeid.Token
+        token: docdeid.Token, next_token: docdeid.Token
     ) -> tuple[docdeid.Token, docdeid.Token, str]:
 
         condition = all(
@@ -85,8 +87,8 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
             return token, next_token, "INITIAALHOOFDLETTERNAAM"
 
+    @staticmethod
     def _match_interfix_with_initial(
-        self,
         token: docdeid.Token,
         next_token: docdeid.Token,
         previous_token: docdeid.Token,
@@ -315,7 +317,8 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
         return annotation_tuples
 
-    def _match_initials_context(self, previous_token, category, end_token):
+    @staticmethod
+    def _match_initials_context(previous_token, category, end_token):
 
         previous_token_is_initial = all(
             [len(previous_token.text) == 1, previous_token.text[0].isupper()]
@@ -340,9 +343,8 @@ class NamesAnnotator(docdeid.BaseAnnotator):
         if initial_condition:
             return previous_token, end_token, f"INITIAAL|{category}"
 
-    def _match_interfix_context(
-        self, category, start_token, next_token, next_next_token
-    ):
+    @staticmethod
+    def _match_interfix_context(category, start_token, next_token, next_next_token):
 
         condition = all(
             [
@@ -355,7 +357,8 @@ class NamesAnnotator(docdeid.BaseAnnotator):
         if condition:
             return start_token, next_next_token, f"{category}|INTERFIXACHTERNAAM"
 
-    def _match_initial_name_context(self, category, start_token, next_token):
+    @staticmethod
+    def _match_initial_name_context(category, start_token, next_token):
 
         condition = all(
             [
@@ -371,7 +374,8 @@ class NamesAnnotator(docdeid.BaseAnnotator):
         if condition:
             return start_token, next_token, f"{category}|INITIAALHOOFDLETTERNAAM"
 
-    def _match_nexus(self, category, start_token, next_token, next_next_token):
+    @staticmethod
+    def _match_nexus(category, start_token, next_token, next_next_token):
 
         condition = all([next_token.text == "en", next_next_token.text[0].isupper()])
 
@@ -457,8 +461,6 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
         annotations = set()
 
-        from dataclasses import dataclass
-
         @dataclass(frozen=True)
         class DeduceAnnotation(docdeid.Annotation):
             is_patient: bool
@@ -475,8 +477,6 @@ class NamesAnnotator(docdeid.BaseAnnotator):
                         is_patient="PAT" in r[2],
                     )
                 )
-
-        from docdeid.annotation.annotation_processor import OverlapResolver
 
         ov = OverlapResolver(
             sort_by=["is_patient", "length"],
