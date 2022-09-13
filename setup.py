@@ -46,5 +46,5 @@ setup(
     # What does your project relate to?
     keywords='de-identification',
 
-    install_requires=['nltk', 'docdeid==0.0.8'],
+    install_requires=['nltk', 'docdeid==0.0.9'],
 )
