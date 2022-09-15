@@ -1,5 +1,5 @@
 test:
-	python -m unittest discover tests.unittests
+	python -m unittest discover -s ./tests/unittests  -p 'test_*.py'
 
 format:
 	isort deduce/ --profile black
