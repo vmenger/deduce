@@ -213,6 +213,7 @@ class InterfixWithNamePattern(TokenContextPattern):
 class InitialWithCapitalPattern(TokenContextPattern):
 
     def precondition(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+
         return token_context.next_token is not None
 
     def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
@@ -229,12 +230,14 @@ class InitialWithCapitalPattern(TokenContextPattern):
         )
 
     def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
+
         return token_context.token, token_context.next_token, self._category
 
 
 class InitiaalInterfixCapitalPattern(TokenContextPattern):
 
     def precondition(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+
         return all(
             [
                 token_context.previous_token is not None,
@@ -261,7 +264,6 @@ class InitiaalInterfixCapitalPattern(TokenContextPattern):
 
 
 class FirstNameLookupPattern(TokenContextPattern):
-    """ Todo: make this a lookup annotator? """
 
     def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
 
@@ -278,7 +280,6 @@ class FirstNameLookupPattern(TokenContextPattern):
 
 
 class SurnameLookupPattern(TokenContextPattern):
-    """ Todo: make this a lookup annotator? """
 
     def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
         return all(
