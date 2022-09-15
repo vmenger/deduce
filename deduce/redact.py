@@ -25,20 +25,20 @@ class DeduceRedactor(BaseRedactor):
 
         for annotation in annotations:
 
-            if annotation.category == "PATIENT":
+            if annotation.category == "patient":
                 annotations_to_replacement[annotation] = "<PATIENT>"
             else:
                 other_annotations.append(annotation)
 
         for tagname in [
-            "PERSOON",
-            "LOCATIE",
-            "INSTELLING",
-            "DATUM",
-            "LEEFTIJD",
-            "PATIENTNUMMER",
-            "TELEFOONNUMMER",
-            "URL",
+            "persoon",
+            "locatie",
+            "instelling",
+            "datum",
+            "leeftijd",
+            "patientnummer",
+            "telefoonnummer",
+            "url",
         ]:
 
             annotations_subset = self._filter_annotations_by_category(
@@ -64,7 +64,7 @@ class DeduceRedactor(BaseRedactor):
                 if not match:
                     annotations_to_replacement_tag[
                         annotation
-                    ] = f"<{tagname}-{dispenser}>"
+                    ] = f"<{tagname.upper()}-{dispenser}>"
                     dispenser += 1
 
             annotations_to_replacement |= annotations_to_replacement_tag

@@ -141,7 +141,7 @@ def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
     for annotation in annotations:
         text = (
             f"{text[:annotation.start_char]}"
-            f"<{annotation.category}>{annotation.text}</{annotation.category}>"
+            f"<{annotation.category.upper()}>{annotation.text}</{annotation.category.upper()}>"
             f"{text[annotation.end_char:]}"
         )
 
@@ -181,18 +181,18 @@ def deidentify_annotations(text):
         return text
 
     # Patient tags are always simply deidentified (because there is only one patient
-    text = re.sub(r"<PATIENT\s([^>]+)>", "<PATIENT>", text)
+    text = re.sub(r"<patient\s([^>]+)>", "<patient>", text)
 
     # For al the other types of tags
     for tagname in [
-        "PERSOON",
-        "LOCATIE",
-        "INSTELLING",
-        "DATUM",
-        "LEEFTIJD",
-        "PATIENTNUMMER",
-        "TELEFOONNUMMER",
-        "URL",
+        "persoon",
+        "locatie",
+        "instelling",
+        "datum",
+        "leeftijd",
+        "patientnummer",
+        "telefoonnummer",
+        "url",
     ]:
 
         # Find all values that occur within this type of tag

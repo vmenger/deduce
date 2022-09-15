@@ -141,6 +141,9 @@ class TokenContext:
 
 class TokenContextPattern(ABC):
 
+    def __init__(self, category: str):
+        self._category = category
+
     def precondition(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
         return True
 
@@ -148,9 +151,8 @@ class TokenContextPattern(ABC):
     def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> Union[bool, tuple[bool, Any]]:
         pass
 
-    @abstractmethod
     def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
-        pass
+        return token_context.token, token_context.token, self._category
 
     def apply(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> Union[None, tuple]:
 
@@ -185,7 +187,7 @@ class PrefixWithNamePattern(TokenContextPattern):
 
     def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
 
-        return token_context.token, token_context.next_token, "PREFIXNAAM"
+        return token_context.token, token_context.next_token, self._category
 
 
 class InterfixWithNamePattern(TokenContextPattern):
@@ -205,7 +207,7 @@ class InterfixWithNamePattern(TokenContextPattern):
 
     def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
 
-        return token_context.token, token_context.next_token, "INTERFIXNAAM"
+        return token_context.token, token_context.next_token, self._category
 
 
 class InitialWithCapitalPattern(TokenContextPattern):
@@ -227,10 +229,10 @@ class InitialWithCapitalPattern(TokenContextPattern):
         )
 
     def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
-        return token_context.token, token_context.next_token, "INITIAALHOOFDLETTERNAAM"
+        return token_context.token, token_context.next_token, self._category
 
 
-class InterfixWithInitialPattern(TokenContextPattern):
+class InitiaalInterfixCapitalPattern(TokenContextPattern):
 
     def precondition(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
         return all(
@@ -255,7 +257,7 @@ class InterfixWithInitialPattern(TokenContextPattern):
 
     def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
 
-        return token_context.previous_token, token_context.next_token, "INITIAALINTERFIXNAAM"
+        return token_context.previous_token, token_context.next_token, self._category
 
 
 class FirstNameLookupPattern(TokenContextPattern):
@@ -272,7 +274,7 @@ class FirstNameLookupPattern(TokenContextPattern):
 
     def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
 
-        return token_context.token, token_context.token, "VOORNAAMONBEKEND"
+        return token_context.token, token_context.token, self._category
 
 
 class SurnameLookupPattern(TokenContextPattern):
@@ -287,7 +289,7 @@ class SurnameLookupPattern(TokenContextPattern):
         )
 
     def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
-        return token_context.token, token_context.token, "ACHTERNAAMONBEKEND"
+        return token_context.token, token_context.token, self._category
 
 
 class PersonFirstNamePattern(TokenContextPattern):
@@ -324,7 +326,7 @@ class PersonFirstNamePattern(TokenContextPattern):
         return (
             token_context.get_token(pos=match_info),
             token_context.get_token(pos=match_info),
-            "VOORNAAMPAT"
+            self._category
         )
 
 
@@ -359,7 +361,7 @@ class PersonInitialFromNamePattern(TokenContextPattern):
         return (
             token_context.get_token(pos=match_info[0]),
             token_context.get_token(pos=match_info[1]),
-            "INITIAALPAT"
+            self._category
         )
 
 
@@ -394,7 +396,7 @@ class PersonSurnamePattern(TokenContextPattern):
         return (
             token_context.get_token_at_num_from_position(0),
             token_context.get_token_at_num_from_position(match_info),
-            "ACHTERNAAMPAT",
+            self._category,
         )
 
 
@@ -416,7 +418,7 @@ class PersonInitialsPattern(TokenContextPattern):
 
     def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
 
-        return token_context.token, token_context.token, "INITIALENPAT"
+        return token_context.token, token_context.token, self._category
 
 
 class PersonGivenNamePattern(TokenContextPattern):
@@ -443,7 +445,7 @@ class PersonGivenNamePattern(TokenContextPattern):
 
     def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
 
-        return token_context.token, token_context.token, "ROEPNAAMPAT"
+        return token_context.token, token_context.token, self._category
 
 
 class NamesAnnotator(docdeid.BaseAnnotator):
@@ -451,17 +453,17 @@ class NamesAnnotator(docdeid.BaseAnnotator):
     def __init__(self):
 
         self._patterns = [
-            PrefixWithNamePattern(),
-            InterfixWithNamePattern(),
-            InitialWithCapitalPattern(),
-            InterfixWithInitialPattern(),
-            FirstNameLookupPattern(),
-            SurnameLookupPattern(),
-            PersonFirstNamePattern(),
-            PersonInitialFromNamePattern(),
-            PersonInitialsPattern(),
-            PersonGivenNamePattern(),
-            PersonSurnamePattern()
+            PrefixWithNamePattern(category="prefix+naam"),
+            InterfixWithNamePattern(category="interfix+naam"),
+            InitialWithCapitalPattern(category="initiaal+naam"),
+            InitiaalInterfixCapitalPattern(category="initiaal+interfix+naam"),
+            FirstNameLookupPattern(category="voornaam_onbekend"),
+            SurnameLookupPattern(category="achternaam_onbekend"),
+            PersonFirstNamePattern(category="voornaam_patient"),
+            PersonInitialFromNamePattern(category="initiaal_patient"),
+            PersonInitialsPattern(category="initialen_patient"),
+            PersonGivenNamePattern(category="roepnaam_patient"),
+            PersonSurnamePattern(category="achternaam_patient")
         ]
 
     @staticmethod
@@ -518,27 +520,27 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
         initial_condition = all(
             [
-                utility.any_in_text(["ACHTERNAAM", "INTERFIX", "INITIAAL"], category),
+                utility.any_in_text(["achternaam", "interfix", "initia"], category),
                 any([previous_token_is_initial, previous_token_is_name]),
             ]
         )
 
         if initial_condition:
-            return previous_token, end_token, f"INITIAAL|{category}"
+            return previous_token, end_token, f"initiaal+{category}"
 
     @staticmethod
     def _match_interfix_context(category, start_token, next_token, next_next_token):
 
         condition = all(
             [
-                utility.any_in_text(["INITI", "NAAM"], category),
+                utility.any_in_text(["initia", "naam"], category),
                 next_token.text in _lookup_lists["interfixes"],
                 next_next_token.text[0].isupper(),
             ]
         )
 
         if condition:
-            return start_token, next_next_token, f"{category}|INTERFIXACHTERNAAM"
+            return start_token, next_next_token, f"{category}+interfix+achternaam"
 
     @staticmethod
     def _match_initial_name_context(category, start_token, next_token):
@@ -546,7 +548,7 @@ class NamesAnnotator(docdeid.BaseAnnotator):
         condition = all(
             [
                 utility.any_in_text(
-                    ["INITI", "VOORNAAM", "ROEPNAAM", "PREFIX"], category
+                    ["initia", "voornaam", "roepnaam", "prefix"], category
                 ),
                 len(next_token.text) > 3,
                 next_token.text[0].isupper(),
@@ -555,7 +557,7 @@ class NamesAnnotator(docdeid.BaseAnnotator):
         )
 
         if condition:
-            return start_token, next_token, f"{category}|INITIAALHOOFDLETTERNAAM"
+            return start_token, next_token, f"{category}+initiaalhoofdletternaam"  # TODO drop initiaal here
 
     @staticmethod
     def _match_nexus(category, start_token, next_token, next_next_token):
@@ -563,13 +565,15 @@ class NamesAnnotator(docdeid.BaseAnnotator):
         condition = all([next_token.text == "en", next_next_token.text[0].isupper()])
 
         if condition:
-            return start_token, next_next_token, f"{category}|MEERDERPERSONEN"
+            return start_token, next_next_token, f"{category}+en+hoofdletternaam"
 
     def annotate_context(
         self,
         annotation_tuples: list[tuple[docdeid.Token, docdeid.Token, str]],
         document: docdeid.Document,
     ) -> list[tuple[docdeid.Token, docdeid.Token, str]]:
+
+        # print(annotation_tuples)
 
         tokens = document.tokens
         next_annotation_tuples = []
@@ -656,8 +660,8 @@ class NamesAnnotator(docdeid.BaseAnnotator):
                         text=document.text[r[0].start_char : r[1].end_char],
                         start_char=r[0].start_char,
                         end_char=r[1].end_char,
-                        category="PERSOON",
-                        is_patient="PAT" in r[2],
+                        category="persoon",
+                        is_patient="patient" in r[2],
                     )
                 )
 
@@ -674,9 +678,9 @@ class NamesAnnotator(docdeid.BaseAnnotator):
                     text=annotation.text,
                     start_char=annotation.start_char,
                     end_char=annotation.end_char,
-                    category="PATIENT"
+                    category="patient"
                     if getattr(annotation, "is_patient", False)
-                    else "PERSOON",
+                    else "persoon",
                 )
             )
 
@@ -685,7 +689,7 @@ class InstitutionAnnotator(TrieAnnotator):
     def __init__(self):
         super().__init__(
             trie=_lookup_tries["institutions"],
-            category="INSTELLING",
+            category="instelling",
             string_processors=[LowercaseString()],
         )
 
@@ -697,12 +701,12 @@ class AltrechtAnnotator(RegexpAnnotator):
             r"[aA][lL][tT][rR][eE][cC][hH][tT]((\s[A-Z][\w]*)*)"
         )
 
-        super().__init__(regexp_patterns=[altrecht_pattern], category="INSTELLING")
+        super().__init__(regexp_patterns=[altrecht_pattern], category="instelling")
 
 
 class ResidenceAnnotator(TrieAnnotator):
     def __init__(self):
-        super().__init__(trie=_lookup_tries["residences"], category="LOCATIE")
+        super().__init__(trie=_lookup_tries["residences"], category="locatie")
 
 
 class AddressAnnotator(RegexpAnnotator):
@@ -714,7 +718,7 @@ class AddressAnnotator(RegexpAnnotator):
         )
 
         super().__init__(
-            regexp_patterns=[address_pattern], category="LOCATIE", capturing_group=1
+            regexp_patterns=[address_pattern], category="locatie", capturing_group=1
         )
 
 
@@ -726,7 +730,7 @@ class PostalcodeAnnotator(RegexpAnnotator):
         )
 
         super().__init__(
-            regexp_patterns=[date_pattern], category="LOCATIE", capturing_group=1
+            regexp_patterns=[date_pattern], category="locatie", capturing_group=1
         )
 
 
@@ -737,7 +741,7 @@ class PostbusAnnotator(RegexpAnnotator):
 
         super().__init__(
             regexp_patterns=[postbus_pattern],
-            category="LOCATIE",
+            category="locatie",
         )
 
 
@@ -754,7 +758,7 @@ class PhoneNumberAnnotator(RegexpAnnotator):
 
         super().__init__(
             regexp_patterns=[phone_pattern_1, phone_pattern_2, phone_pattern_3],
-            category="TELEFOONNUMMER",
+            category="telefoonnummer",
         )
 
 
@@ -764,7 +768,7 @@ class PatientNumberAnnotator(RegexpAnnotator):
         patientnumber_pattern = re.compile(r"\d{7}")
 
         super().__init__(
-            regexp_patterns=[patientnumber_pattern], category="PATIENTNUMMER"
+            regexp_patterns=[patientnumber_pattern], category="patientnummer"
         )
 
 
@@ -782,7 +786,7 @@ class DateAnnotator(RegexpAnnotator):
 
         super().__init__(
             regexp_patterns=[date_pattern_1, date_pattern_2],
-            category="DATUM",
+            category="datum",
             capturing_group=1,
         )
 
@@ -793,7 +797,7 @@ class AgeAnnotator(RegexpAnnotator):
         age_pattern = re.compile(r"(\d{1,3})([ -](jarige|jarig|jaar))")
 
         super().__init__(
-            regexp_patterns=[age_pattern], category="LEEFTIJD", capturing_group=1
+            regexp_patterns=[age_pattern], category="leeftijd", capturing_group=1
         )
 
 
@@ -811,7 +815,7 @@ class UrlAnnotator(RegexpAnnotator):
 
         url_pattern_2 = re.compile(r"([\w\d.-]{3,}(\.)(nl|com|net|be)(/[^\s]+)?)")
 
-        super().__init__(regexp_patterns=[url_pattern_1, url_pattern_2], category="URL")
+        super().__init__(regexp_patterns=[url_pattern_1, url_pattern_2], category="url")
 
 
 class EmailAnnotator(RegexpAnnotator):
@@ -821,4 +825,4 @@ class EmailAnnotator(RegexpAnnotator):
             r"([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)"
         )
 
-        super().__init__(regexp_patterns=[email_pattern], category="URL")
+        super().__init__(regexp_patterns=[email_pattern], category="url")
