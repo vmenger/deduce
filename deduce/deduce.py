@@ -23,6 +23,10 @@ from deduce.annotate import (
 from deduce.annotation_processing import DeduceMergeAdjacentAnnotations
 from deduce.redact import DeduceRedactor
 
+annotator_info = {
+
+}
+
 annotators = {
     "names": NamesAnnotator(),
     "institutions": InstitutionAnnotator(),
