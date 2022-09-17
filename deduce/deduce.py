@@ -20,12 +20,12 @@ from deduce.annotate import (
     UrlAnnotator,
     tokenizer,
 )
+
 from deduce.annotation_processing import DeduceMergeAdjacentAnnotations
 from deduce.redact import DeduceRedactor
 
-annotator_info = {
-
-}
+import warnings
+warnings.simplefilter(action="once")
 
 annotators = {
     "names": NamesAnnotator(),
@@ -67,10 +67,32 @@ class Deduce(docdeid.DocDeid):
         )
 
 
+def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
+    """ TODO This should go somewhere else, not sure yet. """
+
+    annotations = sorted(
+        list(annotations),
+        key=lambda a: a.get_sort_key(
+            by=["end_char"], callbacks={"end_char": lambda x: -x}
+        ),
+    )
+
+    for annotation in annotations:
+        text = (
+            f"{text[:annotation.start_char]}"
+            f"<{annotation.category.upper()}>{annotation.text}</{annotation.category.upper()}>"
+            f"{text[annotation.end_char:]}"
+        )
+
+    return text
+
+
+# Backwards compatibility stuff beneath this line.
+
 deduce_model = Deduce()
 
 
-def annotate_text_backwardscompat(
+def _annotate_text_backwardscompat(
     text,
     patient_first_names="",
     patient_initials="",
@@ -85,7 +107,9 @@ def annotate_text_backwardscompat(
     ages=True,
     urls=True,
 ) -> docdeid.Document:
-    """Backwards compatibility only. Use Deduce().deidentify() instead."""
+
+    warnings.warn(message="The _annotate_text_backwardscompat function will disappear in a future version. "
+                          "Please use Deduce().deidenitfy(text) instead.", category=DeprecationWarning)
 
     text = "" or text
 
@@ -129,28 +153,13 @@ def annotate_text_backwardscompat(
     return doc
 
 
-def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
-
-    annotations = sorted(
-        list(annotations),
-        key=lambda a: a.get_sort_key(
-            by=["end_char"], callbacks={"end_char": lambda x: -x}
-        ),
-    )
-
-    for annotation in annotations:
-        text = (
-            f"{text[:annotation.start_char]}"
-            f"<{annotation.category.upper()}>{annotation.text}</{annotation.category.upper()}>"
-            f"{text[annotation.end_char:]}"
-        )
-
-    return text
-
-
 def annotate_text(text: str, *args, **kwargs):
 
-    doc = annotate_text_backwardscompat(text=text, *args, **kwargs)
+    warnings.warn(message="The annotate_text function will disappear in a future version. "
+                          "Please use Deduce().deidenitfy(text) instead.", category=DeprecationWarning)
+
+
+    doc = _annotate_text_backwardscompat(text=text, *args, **kwargs)
 
     annotations = doc.get_annotations_sorted(
         by=["end_char", "category"], callbacks={"end_char": lambda x: -x}
@@ -167,15 +176,18 @@ def annotate_text(text: str, *args, **kwargs):
 
 def annotate_text_structured(text: str, *args, **kwargs) -> list[docdeid.Annotation]:
 
-    doc = annotate_text_backwardscompat(text=text, *args, **kwargs)
+    warnings.warn(message="The annotate_text_structured function will disappear in a future version. "
+                          "Please use Deduce().deidenitfy(text) instead.", category=DeprecationWarning)
+
+    doc = _annotate_text_backwardscompat(text=text, *args, **kwargs)
 
     return list(doc.annotations)
 
 
 def deidentify_annotations(text):
-    """
-    Deidentify intext annotated text (call annotate_text first).
-    """
+
+    warnings.warn(message="The deidentify_annotations function will disappear in a future version. "
+                          "Please use Deduce().deidenitfy(text) instead.", category=DeprecationWarning)
 
     if not text:
         return text
