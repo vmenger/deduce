@@ -1,20 +1,19 @@
 """ This module contains all list reading functionality """
 import os
 
-from docdeid.datastructures import DatastructCollection, LookupList
-from docdeid.string.processor import (
+from deduce.str.processor import (
+    Acronimify,
+    FilterBasedOnLookupList,
+    RemoveValues,
+    TakeLastToken,
+)
+from docdeid.ds import DsCollection, LookupList
+from docdeid.str.processor import (
     FilterByLength,
     LowercaseString,
     ReplaceValue,
     ReplaceValueRegexp,
     StripString,
-)
-
-from deduce.string.processor import (
-    Acronimify,
-    FilterBasedOnLookupList,
-    RemoveValues,
-    TakeLastToken,
 )
 
 data_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../data")
@@ -186,7 +185,7 @@ def _get_residences_lookuplist():
 
 
 def get_lookup_lists():
-    lookup_lists = DatastructCollection()
+    lookup_lists = DsCollection()
 
     lookup_list_mapping = {
         "first_names": _get_first_names_lookuplist,

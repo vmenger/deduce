@@ -1,17 +1,18 @@
 """ This module contains all tokenizing functionality """
 import itertools
+from abc import ABC, abstractmethod
 from enum import Enum, auto
-from typing import Iterable
+from typing import Any, Iterable, Optional, Union
 
 import docdeid
-import docdeid.tokenizer.tokenizer
-from docdeid.datastructures.lookup import LookupTrie
+import docdeid.tokenize.tokenizer
+from deduce import utility
+from docdeid.ds.lookup import LookupTrie
 
 
 class _CharType(Enum):
 
     ALPHA = auto()
-    HOOK = auto()
     OTHER = auto()
 
 
@@ -32,9 +33,6 @@ class Tokenizer(docdeid.BaseTokenizer):
 
         if char.isalpha():
             return _CharType.ALPHA
-
-        if char in ("<", ">"):
-            return _CharType.HOOK
 
         return _CharType.OTHER
 
@@ -73,9 +71,7 @@ class Tokenizer(docdeid.BaseTokenizer):
             index=tokens[0].index,
         )
 
-    def tokenize(
-        self, text: str, merge: bool = True, keep_tags_together: bool = False
-    ) -> list[docdeid.Token]:
+    def tokenize(self, text: str, merge: bool = True) -> list[docdeid.Token]:
 
         if merge and self._trie is None:
             raise AttributeError(
@@ -84,7 +80,6 @@ class Tokenizer(docdeid.BaseTokenizer):
 
         tokens = []
         last_split = 0
-        nested_hook_counter = 0
 
         # Iterate over all chars in the text
         for index, char in enumerate(text):
@@ -92,22 +87,7 @@ class Tokenizer(docdeid.BaseTokenizer):
             if index == 0:
                 continue
 
-            if keep_tags_together:
-
-                # Keeps track of how deep in tags we are
-                if text[index - 1] == "<":
-                    nested_hook_counter += 1
-                    continue
-
-                if text[index] == ">":
-                    nested_hook_counter -= 1
-                    continue
-
-                # Never split if we are in a tag
-                if nested_hook_counter > 0:
-                    continue
-
-            # Split if we transition between alpha, hook and other
+            # Split if we transition between character types
             if self._character_type(char) != self._character_type(text[index - 1]):
                 tokens.append(
                     docdeid.Token(
@@ -141,3 +121,129 @@ class Tokenizer(docdeid.BaseTokenizer):
             )
             for token, i in zip(tokens, itertools.count())
         ]
+
+
+class TokenContext:
+    def __init__(self, position: int, tokens: list[docdeid.Token]):
+
+        self._tokens = tokens
+        self._position = position
+
+    @property
+    def token(self):
+        return self._tokens[self._position]
+
+    def next(self, num: int = 1):
+
+        current_token = self._tokens[self._position]
+
+        for _ in range(num):
+            current_token = self._get_next_token(current_token.index)
+
+            if current_token is None:
+                return None
+
+        return current_token
+
+    def previous(self, num: int = 1):
+
+        current_token = self._tokens[self._position]
+
+        for _ in range(num):
+            current_token = self.get_previous_token(current_token.index)
+
+            if current_token is None:
+                return None
+
+        return current_token
+
+    def num_tokens_from_position(self):
+
+        return len(self._tokens) - self._position
+
+    def get_token(self, pos: int):
+        return self._tokens[pos]
+
+    def get_token_at_num_from_position(self, num=0):
+        return self._tokens[self._position + num]
+
+    def _get_next_token(self, i: int) -> Union[docdeid.Token, None]:
+
+        if i == len(self._tokens):
+            return None
+
+        for token in self._tokens[i + 1 :]:
+
+            if (
+                token.text[0] == ")"
+                or token.text[0] == ">"
+                or utility.any_in_text(["\n", "\r", "\t"], token.text)
+            ):
+                return None
+
+            if token.text[0].isalpha():
+                return token
+
+        return None
+
+    def get_previous_token(self, i: int) -> Union[docdeid.Token, None]:
+
+        if i == 0:
+            return None
+
+        for token in self._tokens[i - 1 :: -1]:
+
+            if (
+                token.text[0] == "("
+                or token.text[0] == "<"
+                or utility.any_in_text(["\n", "\r", "\t"], token.text)
+            ):
+                return None
+
+            if token.text[0].isalpha():
+                return token
+
+        return None
+
+    @property
+    def next_token(self):
+        return self.next(1)
+
+    @property
+    def previous_token(self):
+        return self.previous(1)
+
+
+class TokenContextPattern(ABC):
+    def __init__(self, tag: str):
+        self._tag = tag
+
+    def precondition(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
+        return True
+
+    @abstractmethod
+    def match(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> Union[bool, tuple[bool, Any]]:
+        pass
+
+    def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
+        return token_context.token, token_context.token, self._tag
+
+    def apply(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> Union[None, tuple]:
+
+        if not self.precondition(token_context, meta_data):
+            return None
+
+        match = self.match(token_context, meta_data)
+        match_info = None
+
+        if isinstance(match, tuple):
+            match, match_info = match  # unpack
+
+        if match:
+            return self.annotate(token_context, match_info)

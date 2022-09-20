@@ -1,53 +1,29 @@
 import re
+import warnings
 
-import docdeid
-from docdeid.annotation.annotation_processor import OverlapResolver
 from nltk.metrics import edit_distance
 
-from deduce.annotate import (
-    AddressAnnotator,
-    AgeAnnotator,
-    AltrechtAnnotator,
-    DateAnnotator,
-    EmailAnnotator,
-    InstitutionAnnotator,
-    NamesAnnotator,
-    PatientNumberAnnotator,
-    PhoneNumberAnnotator,
-    PostalcodeAnnotator,
-    PostbusAnnotator,
-    ResidenceAnnotator,
-    UrlAnnotator,
-    tokenizer,
-)
+import docdeid
+from deduce.annotate import get_annotators, tokenizer
 from deduce.annotation_processing import DeduceMergeAdjacentAnnotations
 from deduce.redact import DeduceRedactor
+from docdeid.annotate.annotation_processor import OverlapResolver
 
-annotators = {
-    "names": NamesAnnotator(),
-    "institutions": InstitutionAnnotator(),
-    "altrecht": AltrechtAnnotator(),
-    "residences": ResidenceAnnotator(),
-    "addresses": AddressAnnotator(),
-    "postal_codes": PostalcodeAnnotator(),
-    "postbussen": PostbusAnnotator(),
-    "phone_numbers": PhoneNumberAnnotator(),
-    "patient_numbers": PatientNumberAnnotator(),
-    "dates": DateAnnotator(),
-    "ages": AgeAnnotator(),
-    "emails": EmailAnnotator(),
-    "urls": UrlAnnotator(),
-}
+warnings.simplefilter(action="once")
 
 
 class Deduce(docdeid.DocDeid):
     def __init__(self):
-        super().__init__(tokenizer=tokenizer, redactor=DeduceRedactor())
+        super().__init__()
         self._initialize_deduce()
 
     def _initialize_deduce(self):
 
-        for name, annotator in annotators.items():
+        self.add_tokenizer("default", tokenizer)
+
+        self.set_redactor(DeduceRedactor())
+
+        for name, annotator in get_annotators().items():
             self.add_annotator(name, annotator)
 
         self.add_annotation_postprocessor(
@@ -59,14 +35,36 @@ class Deduce(docdeid.DocDeid):
 
         self.add_annotation_postprocessor(
             "merge_adjacent_annotations",
-            DeduceMergeAdjacentAnnotations(slack_regexp="[\.\s\-,]?[\.\s]?"),
+            DeduceMergeAdjacentAnnotations(slack_regexp=r"[\.\s\-,]?[\.\s]?"),
         )
 
+
+def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
+    """TODO This should go somewhere else, not sure yet."""
+
+    annotations = sorted(
+        list(annotations),
+        key=lambda a: a.get_sort_key(
+            by=["end_char"], callbacks={"end_char": lambda x: -x}
+        ),
+    )
+
+    for annotation in annotations:
+        text = (
+            f"{text[:annotation.start_char]}"
+            f"<{annotation.tag.upper()}>{annotation.text}</{annotation.tag.upper()}>"
+            f"{text[annotation.end_char:]}"
+        )
+
+    return text
+
+
+# Backwards compatibility stuff beneath this line.
 
 deduce_model = Deduce()
 
 
-def annotate_text_backwardscompat(
+def _annotate_text_backwardscompat(
     text,
     patient_first_names="",
     patient_initials="",
@@ -81,7 +79,6 @@ def annotate_text_backwardscompat(
     ages=True,
     urls=True,
 ) -> docdeid.Document:
-    """Backwards compatibility only. Use Deduce().deidentify() instead."""
 
     text = "" or text
 
@@ -95,28 +92,33 @@ def annotate_text_backwardscompat(
     annotators_enabled = []
 
     if names:
-        annotators_enabled += ["names"]
+        annotators_enabled += ["name"]
 
     if institutions:
-        annotators_enabled += ["institutions", "altrecht"]
+        annotators_enabled += ["institution", "altrecht"]
 
     if locations:
-        annotators_enabled += ["residences", "addresses", "postal_codes", "postbussen"]
+        annotators_enabled += [
+            "residence",
+            "street_with_number",
+            "postal_code",
+            "postbus",
+        ]
 
     if phone_numbers:
-        annotators_enabled += ["phone_numbers"]
+        annotators_enabled += ["phone_1", "phone_2", "phone_3"]
 
     if patient_numbers:
-        annotators_enabled += ["patient_numbers"]
+        annotators_enabled += ["patient_number"]
 
     if dates:
-        annotators_enabled += ["dates"]
+        annotators_enabled += ["date_1", "date_2"]
 
     if ages:
-        annotators_enabled += ["ages"]
+        annotators_enabled += ["age"]
 
     if urls:
-        annotators_enabled += ["emails", "urls"]
+        annotators_enabled += ["email", "url_1", "url_2"]
 
     doc = deduce_model.deidentify(
         text=text, annotators_enabled=annotators_enabled, meta_data=meta_data
@@ -125,68 +127,68 @@ def annotate_text_backwardscompat(
     return doc
 
 
-def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
+def annotate_text(text: str, *args, **kwargs):
 
-    annotations = sorted(
-        list(annotations),
-        key=lambda a: a.get_sort_key(
-            by=["end_char"], callbacks={"end_char": lambda x: -x}
-        ),
+    warnings.warn(
+        message="The annotate_text function will disappear in a future version. "
+        "Please use Deduce().deidenitfy(text) instead.",
+        category=DeprecationWarning,
+    )
+
+    doc = _annotate_text_backwardscompat(text=text, *args, **kwargs)
+
+    annotations = doc.get_annotations_sorted(
+        by=["end_char"], callbacks={"end_char": lambda x: -x}
     )
 
     for annotation in annotations:
+
         text = (
             f"{text[:annotation.start_char]}"
-            f"<{annotation.category}>{annotation.text}</{annotation.category}>"
+            f"<{annotation.tag.upper()} {annotation.text}>"
             f"{text[annotation.end_char:]}"
         )
 
     return text
 
 
-def annotate_text(text: str, *args, **kwargs):
-
-    doc = annotate_text_backwardscompat(text=text, *args, **kwargs)
-
-    annotations = doc.get_annotations_sorted(
-        by=["end_char", "category"], callbacks={"end_char": lambda x: -x}
-    )
-
-    for annotation in annotations:
-
-        text = f"{text[:annotation.start_char]}<{annotation.category.upper()} {annotation.text}>{text[annotation.end_char:]}"
-
-    return text
-
-
 def annotate_text_structured(text: str, *args, **kwargs) -> list[docdeid.Annotation]:
 
-    doc = annotate_text_backwardscompat(text=text, *args, **kwargs)
+    warnings.warn(
+        message="The annotate_text_structured function will disappear in a future version. "
+        "Please use Deduce().deidenitfy(text) instead.",
+        category=DeprecationWarning,
+    )
+
+    doc = _annotate_text_backwardscompat(text=text, *args, **kwargs)
 
     return list(doc.annotations)
 
 
 def deidentify_annotations(text):
-    """
-    Deidentify intext annotated text (call annotate_text first).
-    """
+
+    warnings.warn(
+        message="The deidentify_annotations function will disappear in a future version. "
+        "Please use Deduce().deidenitfy(text) instead.",
+        category=DeprecationWarning,
+    )
 
     if not text:
         return text
 
     # Patient tags are always simply deidentified (because there is only one patient
-    text = re.sub("<PATIENT\s([^>]+)>", "<PATIENT>", text)
+    text = re.sub(r"<patient\s([^>]+)>", "<patient>", text)
 
     # For al the other types of tags
     for tagname in [
-        "PERSOON",
-        "LOCATIE",
-        "INSTELLING",
-        "DATUM",
-        "LEEFTIJD",
-        "PATIENTNUMMER",
-        "TELEFOONNUMMER",
-        "URL",
+        "persoon",
+        "locatie",
+        "instelling",
+        "datum",
+        "leeftijd",
+        "patientnummer",
+        "telefoonnummer",
+        "url",
     ]:
 
         # Find all values that occur within this type of tag

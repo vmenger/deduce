@@ -1,13 +1,13 @@
 import docdeid
-from docdeid.annotation.annotation_processor import MergeAdjacentAnnotations
+from docdeid.annotate.annotation_processor import MergeAdjacentAnnotations
 
 
 class DeduceMergeAdjacentAnnotations(MergeAdjacentAnnotations):
-    def _matching_categories(self, left_category: str, right_category: str):
+    def _tags_match(self, left_tag: str, right_tag: str):
 
-        return (left_category == right_category) or {left_category, right_category} == {
-            "PATIENT",
-            "PERSOON",
+        return (left_tag == right_tag) or {left_tag, right_tag} == {
+            "patient",
+            "persoon",
         }
 
     def _adjacent_annotations_replacement(
@@ -17,14 +17,14 @@ class DeduceMergeAdjacentAnnotations(MergeAdjacentAnnotations):
         text: str,
     ) -> docdeid.Annotation:
 
-        if left_annotation.category != right_annotation.category:
-            replacement_category = "PATIENT"
+        if left_annotation.tag != right_annotation.tag:
+            replacement_tag = "patient"
         else:
-            replacement_category = left_annotation.category
+            replacement_tag = left_annotation.tag
 
         return docdeid.Annotation(
             text=text[left_annotation.start_char : right_annotation.end_char],
             start_char=left_annotation.start_char,
             end_char=right_annotation.end_char,
-            category=replacement_category,
+            tag=replacement_tag,
         )

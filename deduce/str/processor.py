@@ -1,8 +1,8 @@
 import re
 from typing import Optional
 
-from docdeid.datastructures import LookupList
-from docdeid.string.processor import BaseStringProcessor, LowercaseString
+from docdeid.ds import LookupList
+from docdeid.str.processor import BaseStringProcessor, LowercaseString
 
 
 class TakeLastToken(BaseStringProcessor):

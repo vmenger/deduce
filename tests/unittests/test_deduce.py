@@ -35,15 +35,15 @@ class TestDeduceMethods(unittest.TestCase):
         )
 
         expected_annotations = {
-            docdeid.Annotation("Jan Jansen", 39, 49, "PATIENT"),
-            docdeid.Annotation("patient J. Jansen", 54, 71, "PATIENT"),
-            docdeid.Annotation("j.jnsen@email.com", 76, 93, "URL"),
-            docdeid.Annotation("06-12345678", 98, 109, "TELEFOONNUMMER"),
-            docdeid.Annotation("64", 114, 116, "LEEFTIJD"),
-            docdeid.Annotation("Utrecht", 143, 150, "LOCATIE"),
-            docdeid.Annotation("10 oktober", 164, 174, "DATUM"),
-            docdeid.Annotation("Peter de Visser", 185, 200, "PERSOON"),
-            docdeid.Annotation("UMCU", 234, 238, "INSTELLING"),
+            docdeid.Annotation("Jan Jansen", 39, 49, "patient"),
+            docdeid.Annotation("patient J. Jansen", 54, 71, "patient"),
+            docdeid.Annotation("j.jnsen@email.com", 76, 93, "url"),
+            docdeid.Annotation("06-12345678", 98, 109, "telefoonnummer"),
+            docdeid.Annotation("64", 114, 116, "leeftijd"),
+            docdeid.Annotation("Utrecht", 143, 150, "locatie"),
+            docdeid.Annotation("10 oktober", 164, 174, "datum"),
+            docdeid.Annotation("Peter de Visser", 185, 200, "persoon"),
+            docdeid.Annotation("UMCU", 234, 238, "instelling"),
         }
 
         structured = deduce.deduce.annotate_text_structured(
@@ -64,7 +64,7 @@ class TestDeduceMethods(unittest.TestCase):
         )
 
         self.assertEqual(1, len(annotations))
-        self.assertEqual(docdeid.Annotation("Jan", 13, 16, "PATIENT"), annotations[0])
+        self.assertEqual(docdeid.Annotation("Jan", 13, 16, "patient"), annotations[0])
 
 
 if __name__ == "__main__":

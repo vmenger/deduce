@@ -1,80 +1,80 @@
-import docdeid
-from docdeid.annotation.redactor import BaseRedactor
+from collections import defaultdict
+from typing import Any, Type
+
 from nltk import edit_distance
+
+import docdeid
+from docdeid.annotate.redactor import BaseRedactor
 
 
 class DeduceRedactor(BaseRedactor):
     """Copies the logic from deidentify_annotations"""
 
     @staticmethod
-    def _filter_annotations_by_category(
-        annotations: list[docdeid.Annotation], category: str
-    ):
-        return [
-            annotation for annotation in annotations if annotation.category == category
-        ]
+    def _group_annotations(
+        annotations: list[docdeid.Annotation],
+    ) -> defaultdict[Any, list]:
+
+        tag_to_list = defaultdict(list)
+
+        for annotation in annotations:
+            tag_to_list[annotation.tag].append(annotation)
+
+        return tag_to_list
 
     def redact(self, text: str, annotations: list[docdeid.Annotation]) -> str:
 
-        annotations = sorted(
-            annotations, key=lambda a: a.get_sort_key(by=["end_char", "category"])
-        )
-        annotations_to_replacement = {}
+        annotations_to_intext_replacement = {}
 
-        other_annotations = []
+        for tag, annotation_group in self._group_annotations(annotations).items():
 
-        for annotation in annotations:
+            # print(tag, annotation_group)
 
-            if annotation.category == "PATIENT":
-                annotations_to_replacement[annotation] = "<PATIENT>"
-            else:
-                other_annotations.append(annotation)
-
-        for tagname in [
-            "PERSOON",
-            "LOCATIE",
-            "INSTELLING",
-            "DATUM",
-            "LEEFTIJD",
-            "PATIENTNUMMER",
-            "TELEFOONNUMMER",
-            "URL",
-        ]:
-
-            annotations_subset = self._filter_annotations_by_category(
-                annotations, tagname
-            )
-            annotations_to_replacement_tag = {}
+            annotations_to_replacement_group = {}
             dispenser = 1
 
-            for annotation in annotations_subset:
+            for annotation in sorted(
+                annotation_group, key=lambda a: a.get_sort_key(by=["end_char"])
+            ):
 
-                match = False
+                if tag == "patient":
 
-                # Check match with any
-                for annotation_match in annotations_to_replacement_tag.keys():
+                    annotations_to_intext_replacement[annotation] = "<PATIENT>"
 
-                    if edit_distance(annotation.text, annotation_match.text) <= 1:
-                        annotations_to_replacement_tag[
+                else:
+
+                    match = False
+
+                    # Check match with any
+                    for annotation_match in annotations_to_replacement_group.keys():
+
+                        # print(annotation, annotation_match)
+
+                        if edit_distance(annotation.text, annotation_match.text) <= 1:
+
+                            annotations_to_replacement_group[
+                                annotation
+                            ] = annotations_to_replacement_group[annotation_match]
+                            match = True
+                            break
+
+                    if not match:
+
+                        annotations_to_replacement_group[
                             annotation
-                        ] = annotations_to_replacement_tag[annotation_match]
-                        match = True
-                        break
+                        ] = f"<{annotation.tag.upper()}-{dispenser}>"
+                        dispenser += 1
 
-                if not match:
-                    annotations_to_replacement_tag[
-                        annotation
-                    ] = f"<{tagname}-{dispenser}>"
-                    dispenser += 1
+                        # print(annotations_to_replacement_group, dispenser)
 
-            annotations_to_replacement |= annotations_to_replacement_tag
+                annotations_to_intext_replacement |= annotations_to_replacement_group
 
-        assert len(annotations_to_replacement) == len(annotations)
+        assert len(annotations_to_intext_replacement) == len(annotations)
 
         sorted_annotations = sorted(
             annotations,
             key=lambda a: a.get_sort_key(
-                by=["end_char", "category"], callbacks={"end_char": lambda x: -x}
+                by=["end_char"], callbacks={"end_char": lambda x: -x}
             ),
         )
 
@@ -82,7 +82,7 @@ class DeduceRedactor(BaseRedactor):
 
             text = (
                 text[: annotation.start_char]
-                + annotations_to_replacement[annotation]
+                + annotations_to_intext_replacement[annotation]
                 + text[annotation.end_char :]
             )
 

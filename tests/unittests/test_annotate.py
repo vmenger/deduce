@@ -17,7 +17,7 @@ class TestAnnotateMethods(unittest.TestCase):
     ):
 
         document = docdeid.Document(
-            text=text, tokenizer=tokenizer, meta_data=meta_data or {}
+            text=text, tokenizers={'default': tokenizer}, meta_data=meta_data or {}
         )
         annotator.annotate(document)
 
@@ -31,7 +31,7 @@ class TestAnnotateMethods(unittest.TestCase):
             "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
         )
 
-        annotator = annotate.NamesAnnotator()
+        annotator = annotate.get_annotators()['name']
 
         meta_data = {
             "patient_first_names": "Jan",
@@ -42,16 +42,16 @@ class TestAnnotateMethods(unittest.TestCase):
 
         expected_annotations = {
             docdeid.Annotation(
-                text="J. Jansen", start_char=62, end_char=71, category="PATIENT"
+                text="J. Jansen", start_char=62, end_char=71, tag="patient"
             ),
             docdeid.Annotation(
-                text="Peter de Visser", start_char=185, end_char=200, category="PERSOON"
+                text="Peter de Visser", start_char=185, end_char=200, tag="persoon"
             ),
             docdeid.Annotation(
-                text="patient ", start_char=54, end_char=62, category="PERSOON"
+                text="patient ", start_char=54, end_char=62, tag="persoon"
             ),
             docdeid.Annotation(
-                text="Jan Jansen", start_char=39, end_char=49, category="PATIENT"
+                text="Jan Jansen", start_char=39, end_char=49, tag="patient"
             ),
         }
 
@@ -60,7 +60,7 @@ class TestAnnotateMethods(unittest.TestCase):
     def test_annotate_initials(self):
 
         text = "C. geeft aan dood te willen. C. tot op nu blij"
-        annotator = annotate.NamesAnnotator()
+        annotator = annotate.get_annotators()['name']
 
         meta_data = {
             "patient_first_names": "Peter Charles",
@@ -71,9 +71,9 @@ class TestAnnotateMethods(unittest.TestCase):
 
         expected_annotations = {
             docdeid.Annotation(
-                text="C", start_char=29, end_char=30, category="PATIENT"
+                text="C", start_char=29, end_char=30, tag="patient"
             ),
-            docdeid.Annotation(text="C", start_char=0, end_char=1, category="PATIENT"),
+            docdeid.Annotation(text="C", start_char=0, end_char=1, tag="patient"),
         }
 
         self._test_annotator(annotator, text, expected_annotations, meta_data)
@@ -81,7 +81,7 @@ class TestAnnotateMethods(unittest.TestCase):
     def test_annotate_initials_attached(self):
 
         text = "toegangstijd: N.v.t."
-        annotator = annotate.NamesAnnotator()
+        annotator = annotate.get_annotators()['name']
 
         meta_data = {
             "patient_first_names": "Nicholas David",
@@ -91,7 +91,7 @@ class TestAnnotateMethods(unittest.TestCase):
         }
 
         expected_annotations = {
-            docdeid.Annotation(text="N", start_char=14, end_char=15, category="PATIENT")
+            docdeid.Annotation(text="N", start_char=14, end_char=15, tag="patient")
         }
 
         self._test_annotator(annotator, text, expected_annotations, meta_data)
@@ -99,11 +99,11 @@ class TestAnnotateMethods(unittest.TestCase):
     def test_annotate_address_no_number(self):
 
         text = "I live in Havikstraat since my childhood"
-        annotator = annotate.AddressAnnotator()
+        annotator = annotate.get_annotators()['street_with_number']
 
         expected_annotations = {
             docdeid.Annotation(
-                text="Havikstraat", start_char=10, end_char=21, category="LOCATIE"
+                text="Havikstraat", start_char=10, end_char=21, tag="locatie"
             )
         }
 
@@ -112,11 +112,11 @@ class TestAnnotateMethods(unittest.TestCase):
     def test_annotate_address_with_number(self):
 
         text = "I live in Havikstraat 43 since my childhood"
-        annotator = annotate.AddressAnnotator()
+        annotator = annotate.get_annotators()['street_with_number']
 
         expected_annotations = {
             docdeid.Annotation(
-                text="Havikstraat 43", start_char=10, end_char=24, category="LOCATIE"
+                text="Havikstraat 43", start_char=10, end_char=24, tag="locatie"
             )
         }
 
@@ -125,14 +125,14 @@ class TestAnnotateMethods(unittest.TestCase):
     def test_annotate_address_long_number(self):
 
         text = "I live in Havikstraat 4324598 since my childhood"
-        annotator = annotate.AddressAnnotator()
+        annotator = annotate.get_annotators()['street_with_number']
 
         expected_annotations = {
             docdeid.Annotation(
                 text="Havikstraat 4324598",
                 start_char=10,
                 end_char=29,
-                category="LOCATIE",
+                tag="locatie",
             )
         }
 
@@ -141,11 +141,11 @@ class TestAnnotateMethods(unittest.TestCase):
     def test_preserve_institution_casing(self):
 
         text = "Ik ben in Altrecht geweest"
-        annotator = annotate.InstitutionAnnotator()
+        annotator = annotate.get_annotators()['institution']
 
         expected_annotations = {
             docdeid.Annotation(
-                text="Altrecht", start_char=10, end_char=18, category="INSTELLING"
+                text="Altrecht", start_char=10, end_char=18, tag="instelling"
             )
         }
 
@@ -154,7 +154,7 @@ class TestAnnotateMethods(unittest.TestCase):
     def test_skip_mg(self):
 
         text = "<LOCATIE Hoofdstraat> is mooi. (br)Lithiumcarbonaat 1600mg. Nog een zin"
-        annotator = annotate.PostalcodeAnnotator()
+        annotator = annotate.get_annotators()['postal_code']
 
         expected_annotations = set()
 
@@ -163,11 +163,11 @@ class TestAnnotateMethods(unittest.TestCase):
     def test_annotate_postcode(self):
 
         text = "Mijn postcode is 3500LX, toch?"
-        annotator = annotate.PostalcodeAnnotator()
+        annotator = annotate.get_annotators()['postal_code']
 
         expected_annotations = {
             docdeid.Annotation(
-                text="3500LX", start_char=17, end_char=23, category="LOCATIE"
+                text="3500LX", start_char=17, end_char=23, tag="locatie"
             )
         }
 
@@ -176,11 +176,11 @@ class TestAnnotateMethods(unittest.TestCase):
     def test_keep_punctuation_after_date(self):
 
         text = "Medicatie actueel	26-10, OXAZEPAM"
-        annotator = annotate.DateAnnotator()
+        annotator = annotate.get_annotators()['date_1']
 
         expected_annotations = {
             docdeid.Annotation(
-                text="26-10", start_char=18, end_char=23, category="DATUM"
+                text="26-10", start_char=18, end_char=23, tag="datum"
             )
         }
 
@@ -189,14 +189,14 @@ class TestAnnotateMethods(unittest.TestCase):
     def test_two_dates_with_comma(self):
 
         text = "24 april, 1 mei: pt gaat geen constructief contact aan"
-        annotator = annotate.DateAnnotator()
+        annotator = annotate.get_annotators()['date_2']
 
         expected_annotations = {
             docdeid.Annotation(
-                text="24 april", start_char=0, end_char=8, category="DATUM"
+                text="24 april", start_char=0, end_char=8, tag="datum"
             ),
             docdeid.Annotation(
-                text="1 mei", start_char=10, end_char=15, category="DATUM"
+                text="1 mei", start_char=10, end_char=15, tag="datum"
             ),
         }
 
