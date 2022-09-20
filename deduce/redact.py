@@ -1,5 +1,5 @@
 import docdeid
-from docdeid.annotation.redactor import BaseRedactor
+from docdeid.annotate.redactor import BaseRedactor
 from nltk import edit_distance
 
 from collections import defaultdict

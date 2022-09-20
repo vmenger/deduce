@@ -1,7 +1,7 @@
 import re
 
 import docdeid
-from docdeid.annotation.annotation_processor import OverlapResolver
+from docdeid.annotate.annotation_processor import OverlapResolver
 from nltk.metrics import edit_distance
 
 from deduce.annotate import get_annotators, tokenizer

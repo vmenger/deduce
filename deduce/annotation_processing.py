@@ -1,5 +1,5 @@
 import docdeid
-from docdeid.annotation.annotation_processor import MergeAdjacentAnnotations
+from docdeid.annotate.annotation_processor import MergeAdjacentAnnotations
 
 
 class DeduceMergeAdjacentAnnotations(MergeAdjacentAnnotations):

@@ -1,7 +1,7 @@
 """ This module contains all list reading functionality """
 import os
 
-from docdeid.datastructures import DatastructCollection, LookupList
+from docdeid.ds import DsCollection, LookupList
 from docdeid.str.processor import (
     FilterByLength,
     LowercaseString,
@@ -10,7 +10,7 @@ from docdeid.str.processor import (
     StripString,
 )
 
-from deduce.string.processor import (
+from deduce.str.processor import (
     Acronimify,
     FilterBasedOnLookupList,
     RemoveValues,
@@ -186,7 +186,7 @@ def _get_residences_lookuplist():
 
 
 def get_lookup_lists():
-    lookup_lists = DatastructCollection()
+    lookup_lists = DsCollection()
 
     lookup_list_mapping = {
         "first_names": _get_first_names_lookuplist,
