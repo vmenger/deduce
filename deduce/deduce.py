@@ -4,22 +4,7 @@ import docdeid
 from docdeid.annotation.annotation_processor import OverlapResolver
 from nltk.metrics import edit_distance
 
-from deduce.annotate import (
-    AddressAnnotator,
-    AgeAnnotator,
-    AltrechtAnnotator,
-    DateAnnotator,
-    EmailAnnotator,
-    InstitutionAnnotator,
-    NamesAnnotator,
-    PatientNumberAnnotator,
-    PhoneNumberAnnotator,
-    PostalcodeAnnotator,
-    PostbusAnnotator,
-    ResidenceAnnotator,
-    UrlAnnotator,
-    tokenizer,
-)
+from deduce.annotate import get_annotators, tokenizer
 
 from deduce.annotation_processing import DeduceMergeAdjacentAnnotations
 from deduce.redact import DeduceRedactor
@@ -27,31 +12,16 @@ from deduce.redact import DeduceRedactor
 import warnings
 warnings.simplefilter(action="once")
 
-annotators = {
-    "names": NamesAnnotator(),
-    "institutions": InstitutionAnnotator(),
-    "altrecht": AltrechtAnnotator(),
-    "residences": ResidenceAnnotator(),
-    "addresses": AddressAnnotator(),
-    "postal_codes": PostalcodeAnnotator(),
-    "postbussen": PostbusAnnotator(),
-    "phone_numbers": PhoneNumberAnnotator(),
-    "patient_numbers": PatientNumberAnnotator(),
-    "dates": DateAnnotator(),
-    "ages": AgeAnnotator(),
-    "emails": EmailAnnotator(),
-    "urls": UrlAnnotator(),
-}
-
 
 class Deduce(docdeid.DocDeid):
+
     def __init__(self):
         super().__init__(tokenizer=tokenizer, redactor=DeduceRedactor())
         self._initialize_deduce()
 
     def _initialize_deduce(self):
 
-        for name, annotator in annotators.items():
+        for name, annotator in get_annotators().items():
             self.add_annotator(name, annotator)
 
         self.add_annotation_postprocessor(
@@ -120,28 +90,28 @@ def _annotate_text_backwardscompat(
     annotators_enabled = []
 
     if names:
-        annotators_enabled += ["names"]
+        annotators_enabled += ["name"]
 
     if institutions:
-        annotators_enabled += ["institutions", "altrecht"]
+        annotators_enabled += ["institution", "altrecht"]
 
     if locations:
-        annotators_enabled += ["residences", "addresses", "postal_codes", "postbussen"]
+        annotators_enabled += ["residence", "street_with_number", "postal_code", "postbus"]
 
     if phone_numbers:
-        annotators_enabled += ["phone_numbers"]
+        annotators_enabled += ["phone_1", "phone_2", "phone_3"]
 
     if patient_numbers:
-        annotators_enabled += ["patient_numbers"]
+        annotators_enabled += ["patient_number"]
 
     if dates:
-        annotators_enabled += ["dates"]
+        annotators_enabled += ["date_1", "date_2"]
 
     if ages:
-        annotators_enabled += ["ages"]
+        annotators_enabled += ["age"]
 
     if urls:
-        annotators_enabled += ["emails", "urls"]
+        annotators_enabled += ["email", "url_1", "url_2"]
 
     doc = deduce_model.deidentify(
         text=text, annotators_enabled=annotators_enabled, meta_data=meta_data

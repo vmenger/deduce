@@ -695,135 +695,127 @@ class InstitutionAnnotator(TrieAnnotator):
         )
 
 
-class AltrechtAnnotator(RegexpAnnotator):
-    def __init__(self):
-
-        altrecht_pattern = re.compile(
-            r"[aA][lL][tT][rR][eE][cC][hH][tT]((\s[A-Z][\w]*)*)"
-        )
-
-        super().__init__(regexp_patterns=[altrecht_pattern], tag="instelling")
-
-
 class ResidenceAnnotator(TrieAnnotator):
     def __init__(self):
         super().__init__(trie=_lookup_tries["residences"], tag="locatie")
 
 
-class AddressAnnotator(RegexpAnnotator):
-    def __init__(self):
+REGEPXS = {
 
-        address_pattern = re.compile(
+    'altrecht': {
+        'regexp_pattern': re.compile(r"[aA][lL][tT][rR][eE][cC][hH][tT]((\s[A-Z][\w]*)*)"),
+        'tag': 'instelling'
+    },
+
+    'street_with_number': {
+        'regexp_pattern': re.compile(
             r"([A-Z]\w+(baan|bolwerk|dam|dijk|dreef|gracht|hof|kade|laan|markt|pad|park|"
             r"plantsoen|plein|singel|steeg|straat|weg)(\s(\d+){1,6}\w{0,2})?)(\W|$)"
-        )
+        ),
+        'tag': 'locatie',
+        'capturing_group': 1
+    },
 
-        super().__init__(
-            regexp_patterns=[address_pattern], tag="locatie", capturing_groups=[1]
-        )
+    'postal_code': {
+        'regexp_pattern': re.compile(r"(\d{4} (?!MG)[A-Z]{2}|\d{4}(?!mg|MG)[a-zA-Z]{2})(\W|$)"),
+        'tag': 'locatie',
+        'capturing_group': 1
+    },
 
+    'postbus': {
+        'regexp_pattern': re.compile(r"([Pp]ostbus\s\d{5})"),
+        'tag': 'locatie'
+    },
 
-class PostalcodeAnnotator(RegexpAnnotator):
-    def __init__(self):
-
-        date_pattern = re.compile(
-            r"(\d{4} (?!MG)[A-Z]{2}|\d{4}(?!mg|MG)[a-zA-Z]{2})(\W|$)"
-        )
-
-        super().__init__(
-            regexp_patterns=[date_pattern], tag="locatie", capturing_groups=[1]
-        )
-
-
-class PostbusAnnotator(RegexpAnnotator):
-    def __init__(self):
-
-        postbus_pattern = re.compile(r"([Pp]ostbus\s\d{5})")
-
-        super().__init__(
-            regexp_patterns=[postbus_pattern],
-            tag="locatie",
-        )
-
-
-class PhoneNumberAnnotator(RegexpAnnotator):
-    def __init__(self):
-
-        phone_pattern_1 = re.compile(
+    'phone_1': {
+        'regexp_pattern': re.compile(
             r"(((0)[1-9]{2}[0-9][-]?[1-9][0-9]{5})|((\+31|0|0031)[1-9][0-9][-]?[1-9][0-9]{6}))"
-        )
+        ),
+        'tag': 'telefoonnummer'
+    },
 
-        phone_pattern_2 = re.compile(r"(((\+31|0|0031)6)[-]?[1-9][0-9]{7})")
+    'phone_2': {
+        'regexp_pattern': re.compile(r"(((\+31|0|0031)6)[-]?[1-9][0-9]{7})"),
+        'tag': 'telefoonnummer'
+    },
 
-        phone_pattern_3 = re.compile(r"((\(\d{3}\)|\d{3})\s?\d{3}\s?\d{2}\s?\d{2})")
+    'phone_3': {
+        'regexp_pattern': re.compile(r"((\(\d{3}\)|\d{3})\s?\d{3}\s?\d{2}\s?\d{2})"),
+        'tag': 'telefoonnummer'
+    },
 
-        super().__init__(
-            regexp_patterns=[phone_pattern_1, phone_pattern_2, phone_pattern_3],
-            tag="telefoonnummer",
-        )
+    'patient_number': {
+        'regexp_pattern': re.compile(r"\d{7}"),
+        'tag': 'patientnummer'
+    },
 
-
-class PatientNumberAnnotator(RegexpAnnotator):
-    def __init__(self):
-
-        patientnumber_pattern = re.compile(r"\d{7}")
-
-        super().__init__(
-            regexp_patterns=[patientnumber_pattern], tag="patientnummer"
-        )
-
-
-class DateAnnotator(RegexpAnnotator):
-    def __init__(self):
-
-        date_pattern_1 = re.compile(
+    'date_1': {
+        'regexp_pattern': re.compile(
             r"(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2}))?)(\D|$)"
-        )
+        ),
+        'tag': 'datum',
+        'capturing_group': 1
+    },
 
-        date_pattern_2 = re.compile(
+    'date_2': {
+        'regexp_pattern': re.compile(
             r"(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|"
             r"november|december)([- /.]{,2}(\d{4}|\d{2}))?)(\D|$)"
-        )
+        ),
+        'tag': 'datum',
+        'capturing_group': 1
+    },
 
-        super().__init__(
-            regexp_patterns=[date_pattern_1, date_pattern_2],
-            tag="datum",
-            capturing_groups=[1, 1],
-        )
+    'age': {
+        'regexp_pattern': re.compile(r"(\d{1,3})([ -](jarige|jarig|jaar))"),
+        'tag': 'leeftijd',
+        'capturing_group': 1
+    },
 
+    'email': {
+        'regexp_pattern': re.compile(
+            r"([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)"
+        ),
+        'tag': 'url'
+    },
 
-class AgeAnnotator(RegexpAnnotator):
-    def __init__(self):
-
-        age_pattern = re.compile(r"(\d{1,3})([ -](jarige|jarig|jaar))")
-
-        super().__init__(
-            regexp_patterns=[age_pattern], tag="leeftijd", capturing_groups=[1]
-        )
-
-
-class UrlAnnotator(RegexpAnnotator):
-    def __init__(self):
-
-        url_pattern_1 = re.compile(
+    'url_1': {
+        'regexp_pattern': re.compile(
             r"((?!mailto:)"
             r"((?:http|https|ftp)://)"
             r"(?:\S+(?::\S*)?@)?(?:(?:(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}"
             r"(\.(?:[0-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|((?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)"
             r"(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*(\.([a-z\u00a1-\uffff]{2,})))|localhost)"
             r"(?::\d{2,5})?(?:([/?#])[^\s]*)?)"
-        )
+        ),
+        'tag': 'url'
+    },
 
-        url_pattern_2 = re.compile(r"([\w\d.-]{3,}(\.)(nl|com|net|be)(/[^\s]+)?)")
+    'url_2': {
+        'regexp_pattern': re.compile(r"([\w\d.-]{3,}(\.)(nl|com|net|be)(/[^\s]+)?)"),
+        'tag': 'url'
+    }
+}
 
-        super().__init__(regexp_patterns=[url_pattern_1, url_pattern_2], tag="url")
+
+def _get_regexp_annotators() -> dict[str, docdeid.BaseAnnotator]:
+
+    annotators = {}
+
+    for annotator_name, regexp_info in REGEPXS.items():
+        annotators[annotator_name] = RegexpAnnotator(**regexp_info)
+
+    return annotators
 
 
-class EmailAnnotator(RegexpAnnotator):
-    def __init__(self):
+def get_annotators() -> dict[str, docdeid.BaseAnnotator]:
 
-        email_pattern = re.compile(
-            r"([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)"
-        )
+    annotators = {
+        "name": NamesAnnotator(),
+        "institution": InstitutionAnnotator(),
+        "residence": ResidenceAnnotator(),
+    }
 
-        super().__init__(regexp_patterns=[email_pattern], tag="url")
+    annotators |= _get_regexp_annotators()
+
+    return annotators
