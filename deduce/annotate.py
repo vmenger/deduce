@@ -719,7 +719,7 @@ class AddressAnnotator(RegexpAnnotator):
         )
 
         super().__init__(
-            regexp_patterns=[address_pattern], tag="locatie", capturing_group=1
+            regexp_patterns=[address_pattern], tag="locatie", capturing_groups=[1]
         )
 
 
@@ -731,7 +731,7 @@ class PostalcodeAnnotator(RegexpAnnotator):
         )
 
         super().__init__(
-            regexp_patterns=[date_pattern], tag="locatie", capturing_group=1
+            regexp_patterns=[date_pattern], tag="locatie", capturing_groups=[1]
         )
 
 
@@ -788,7 +788,7 @@ class DateAnnotator(RegexpAnnotator):
         super().__init__(
             regexp_patterns=[date_pattern_1, date_pattern_2],
             tag="datum",
-            capturing_group=1,
+            capturing_groups=[1, 1],
         )
 
 
@@ -798,7 +798,7 @@ class AgeAnnotator(RegexpAnnotator):
         age_pattern = re.compile(r"(\d{1,3})([ -](jarige|jarig|jaar))")
 
         super().__init__(
-            regexp_patterns=[age_pattern], tag="leeftijd", capturing_group=1
+            regexp_patterns=[age_pattern], tag="leeftijd", capturing_groups=[1]
         )
 
 
