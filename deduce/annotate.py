@@ -6,7 +6,7 @@ from typing import Union
 import docdeid
 from deduce import utility
 from deduce.lookup.lookup_lists import get_lookup_lists
-from deduce.name_patterns import (
+from deduce.patterns.name_patterns import (
     FirstNameLookupPattern,
     InitiaalInterfixCapitalPattern,
     InitialWithCapitalPattern,
