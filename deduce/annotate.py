@@ -9,14 +9,13 @@ import itertools
 
 import docdeid
 from docdeid.annotation.annotation_processor import OverlapResolver
-from docdeid.annotation.annotator import RegexpAnnotator, TrieAnnotator
+from docdeid.annotation.annotator import RegexpAnnotator, MultiTokenLookupAnnotator
 from docdeid.datastructures.lookup import LookupList
 from docdeid.string.processor import LowercaseString
 from nltk.metrics import edit_distance
 
 from deduce import utility
 from deduce.lookup.lookup_lists import get_lookup_lists
-from deduce.lookup.lookup_tries import get_lookup_tries
 from deduce.tokenizer import Tokenizer
 
 
@@ -24,19 +23,17 @@ def _initialize():
 
     lookup_lists = get_lookup_lists()
 
-    trie_merge_terms = LookupList()
-    trie_merge_terms.add_items_from_iterable(["A1", "A2", "A3", "A4", "\n", "\r", "\t"])
-    trie_merge_terms += lookup_lists["interfixes"]
-    trie_merge_terms += lookup_lists["prefixes"]
+    merge_terms = LookupList()
+    merge_terms.add_items_from_iterable(["A1", "A2", "A3", "A4", "\n", "\r", "\t"])
+    merge_terms += lookup_lists["interfixes"]
+    merge_terms += lookup_lists["prefixes"]
 
-    tokenizer = Tokenizer(merge_terms=trie_merge_terms)
+    tokenizer = Tokenizer(merge_terms=merge_terms)
 
-    lookup_tries = get_lookup_tries(tokenizer)
-
-    return lookup_lists, lookup_tries, tokenizer
+    return lookup_lists, tokenizer
 
 
-_lookup_lists, _lookup_tries, tokenizer = _initialize()
+_lookup_lists, tokenizer = _initialize()
 
 
 @dataclass
@@ -686,20 +683,6 @@ class NamesAnnotator(docdeid.BaseAnnotator):
             )
 
 
-class InstitutionAnnotator(TrieAnnotator):
-    def __init__(self):
-        super().__init__(
-            trie=_lookup_tries["institutions"],
-            tag="instelling",
-            string_processors=[LowercaseString()],
-        )
-
-
-class ResidenceAnnotator(TrieAnnotator):
-    def __init__(self):
-        super().__init__(trie=_lookup_tries["residences"], tag="locatie")
-
-
 REGEPXS = {
 
     'altrecht': {
@@ -811,9 +794,23 @@ def _get_regexp_annotators() -> dict[str, docdeid.BaseAnnotator]:
 def get_annotators() -> dict[str, docdeid.BaseAnnotator]:
 
     annotators = {
+
         "name": NamesAnnotator(),
-        "institution": InstitutionAnnotator(),
-        "residence": ResidenceAnnotator(),
+
+        "institution": MultiTokenLookupAnnotator(
+            lookup_values=_lookup_lists['institutions'],
+            tokenizer=tokenizer,
+            tag="instelling",
+            string_processors=[LowercaseString()],
+            merge=False
+        ),
+
+        "residence": MultiTokenLookupAnnotator(
+            lookup_values=_lookup_lists['residences'],
+            tokenizer=tokenizer,
+            tag="locatie",
+            merge=False
+        ),
     }
 
     annotators |= _get_regexp_annotators()
