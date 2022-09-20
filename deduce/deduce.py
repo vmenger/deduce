@@ -16,10 +16,14 @@ warnings.simplefilter(action="once")
 class Deduce(docdeid.DocDeid):
 
     def __init__(self):
-        super().__init__(tokenizer=tokenizer, redactor=DeduceRedactor())
+        super().__init__()
         self._initialize_deduce()
 
     def _initialize_deduce(self):
+
+        self.add_tokenizer("default", tokenizer)
+
+        self.set_redactor(DeduceRedactor())
 
         for name, annotator in get_annotators().items():
             self.add_annotator(name, annotator)

@@ -2,7 +2,7 @@
 import os
 
 from docdeid.datastructures import DatastructCollection, LookupList
-from docdeid.string.processor import (
+from docdeid.str.processor import (
     FilterByLength,
     LowercaseString,
     ReplaceValue,

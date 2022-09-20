@@ -17,7 +17,7 @@ class TestAnnotateMethods(unittest.TestCase):
     ):
 
         document = docdeid.Document(
-            text=text, tokenizer=tokenizer, meta_data=meta_data or {}
+            text=text, tokenizers={'default': tokenizer}, meta_data=meta_data or {}
         )
         annotator.annotate(document)
 

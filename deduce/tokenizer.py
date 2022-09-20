@@ -11,7 +11,6 @@ from docdeid.datastructures.lookup import LookupTrie
 class _CharType(Enum):
 
     ALPHA = auto()
-    HOOK = auto()
     OTHER = auto()
 
 
@@ -32,9 +31,6 @@ class Tokenizer(docdeid.BaseTokenizer):
 
         if char.isalpha():
             return _CharType.ALPHA
-
-        if char in ("<", ">"):
-            return _CharType.HOOK
 
         return _CharType.OTHER
 
@@ -74,8 +70,7 @@ class Tokenizer(docdeid.BaseTokenizer):
         )
 
     def tokenize(
-        self, text: str, merge: bool = True, keep_tags_together: bool = False
-    ) -> list[docdeid.Token]:
+        self, text: str, merge: bool = True) -> list[docdeid.Token]:
 
         if merge and self._trie is None:
             raise AttributeError(
@@ -84,7 +79,6 @@ class Tokenizer(docdeid.BaseTokenizer):
 
         tokens = []
         last_split = 0
-        nested_hook_counter = 0
 
         # Iterate over all chars in the text
         for index, char in enumerate(text):
@@ -92,22 +86,7 @@ class Tokenizer(docdeid.BaseTokenizer):
             if index == 0:
                 continue
 
-            if keep_tags_together:
-
-                # Keeps track of how deep in tags we are
-                if text[index - 1] == "<":
-                    nested_hook_counter += 1
-                    continue
-
-                if text[index] == ">":
-                    nested_hook_counter -= 1
-                    continue
-
-                # Never split if we are in a tag
-                if nested_hook_counter > 0:
-                    continue
-
-            # Split if we transition between alpha, hook and other
+            # Split if we transition between character types
             if self._character_type(char) != self._character_type(text[index - 1]):
                 tokens.append(
                     docdeid.Token(

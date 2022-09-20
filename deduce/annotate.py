@@ -11,7 +11,7 @@ import docdeid
 from docdeid.annotation.annotation_processor import OverlapResolver
 from docdeid.annotation.annotator import RegexpAnnotator, MultiTokenLookupAnnotator
 from docdeid.datastructures.lookup import LookupList
-from docdeid.string.processor import LowercaseString
+from docdeid.str.processor import LowercaseString
 from nltk.metrics import edit_distance
 
 from deduce import utility
