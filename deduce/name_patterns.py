@@ -1,30 +1,34 @@
 import itertools
-from typing import Optional, Union, Any
+from typing import Any, Optional, Union
 
 from nltk import edit_distance
 
-from deduce.tokenizer import TokenContextPattern, TokenContext
+from deduce.tokenizer import TokenContext, TokenContextPattern
+
 
 class TokenContextPatternWithLookup(TokenContextPattern):
-
     def __init__(self, lookup_lists, *args, **kwargs):
         self._lookup_lists = lookup_lists
         super().__init__(*args, **kwargs)
 
 
 class PrefixWithNamePattern(TokenContextPatternWithLookup):
-
-    def precondition(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def precondition(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
         return token_context.next_token is not None
 
-    def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def match(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
         return all(
             [
                 token_context.token.text.lower() in self._lookup_lists["prefixes"],
                 token_context.next_token.text[0].isupper(),
-                token_context.next_token.text.lower() not in self._lookup_lists["whitelist"],
+                token_context.next_token.text.lower()
+                not in self._lookup_lists["whitelist"],
             ]
         )
 
@@ -34,17 +38,22 @@ class PrefixWithNamePattern(TokenContextPatternWithLookup):
 
 
 class InterfixWithNamePattern(TokenContextPatternWithLookup):
-
-    def precondition(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def precondition(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
         return token_context.next_token is not None
 
-    def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def match(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
         return all(
             [
                 token_context.token.text.lower() in self._lookup_lists["interfixes"],
-                token_context.next_token.text in self._lookup_lists["interfix_surnames"],
-                token_context.next_token.text.lower() not in self._lookup_lists["whitelist"],
+                token_context.next_token.text
+                in self._lookup_lists["interfix_surnames"],
+                token_context.next_token.text.lower()
+                not in self._lookup_lists["whitelist"],
             ]
         )
 
@@ -54,21 +63,24 @@ class InterfixWithNamePattern(TokenContextPatternWithLookup):
 
 
 class InitialWithCapitalPattern(TokenContextPatternWithLookup):
-
-    def precondition(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def precondition(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
         return token_context.next_token is not None
 
-    def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def match(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
         return all(
             [
                 token_context.token.text[0].isupper(),
                 len(token_context.token.text) == 1,
-
                 len(token_context.next_token.text) > 3,
                 token_context.next_token.text[0].isupper(),
-                token_context.next_token.text.lower() not in self._lookup_lists["whitelist"],
+                token_context.next_token.text.lower()
+                not in self._lookup_lists["whitelist"],
             ]
         )
 
@@ -78,8 +90,9 @@ class InitialWithCapitalPattern(TokenContextPatternWithLookup):
 
 
 class InitiaalInterfixCapitalPattern(TokenContextPatternWithLookup):
-
-    def precondition(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def precondition(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
         return all(
             [
@@ -88,15 +101,15 @@ class InitiaalInterfixCapitalPattern(TokenContextPatternWithLookup):
             ]
         )
 
-    def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def match(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
         return all(
             [
                 token_context.previous_token.text[0].isupper(),
                 len(token_context.previous_token.text) == 1,
-
                 token_context.token.text in self._lookup_lists["interfixes"],
-
                 token_context.next_token.text[0].isupper(),
             ]
         )
@@ -107,8 +120,9 @@ class InitiaalInterfixCapitalPattern(TokenContextPatternWithLookup):
 
 
 class FirstNameLookupPattern(TokenContextPatternWithLookup):
-
-    def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def match(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
         return all(
             [
@@ -123,8 +137,9 @@ class FirstNameLookupPattern(TokenContextPatternWithLookup):
 
 
 class SurnameLookupPattern(TokenContextPatternWithLookup):
-
-    def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def match(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
         return all(
             [
                 token_context.token.text in self._lookup_lists["surnames"],
@@ -137,28 +152,33 @@ class SurnameLookupPattern(TokenContextPatternWithLookup):
 
 
 class PersonFirstNamePattern(TokenContextPattern):
-
-    def precondition(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def precondition(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
         return all(
             [
                 meta_data is not None,
-                'person' in meta_data,
-                meta_data['person'].first_names is not None
+                "person" in meta_data,
+                meta_data["person"].first_names is not None,
             ]
         )
 
-    def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> Union[bool, tuple[bool, Any]]:
+    def match(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> Union[bool, tuple[bool, Any]]:
 
-        for i, first_name in enumerate(meta_data['person'].first_names):
+        for i, first_name in enumerate(meta_data["person"].first_names):
 
-            condition = token_context.token.text == first_name or \
-                all(
-                    [
-                        len(token_context.token.text) > 3,
-                        edit_distance(token_context.token.text, first_name, transpositions=True) <= 1
-                    ]
-                )
+            condition = token_context.token.text == first_name or all(
+                [
+                    len(token_context.token.text) > 3,
+                    edit_distance(
+                        token_context.token.text, first_name, transpositions=True
+                    )
+                    <= 1,
+                ]
+            )
 
             if condition:
                 return True, token_context.token.index
@@ -170,25 +190,28 @@ class PersonFirstNamePattern(TokenContextPattern):
         return (
             token_context.get_token(pos=match_info),
             token_context.get_token(pos=match_info),
-            self._tag
+            self._tag,
         )
 
 
 class PersonInitialFromNamePattern(TokenContextPattern):
-
-    def precondition(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def precondition(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
         return all(
             [
                 meta_data is not None,
-                'person' in meta_data,
-                meta_data['person'].first_names is not None
+                "person" in meta_data,
+                meta_data["person"].first_names is not None,
             ]
         )
 
-    def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> Union[bool, tuple[bool, Any]]:
+    def match(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> Union[bool, tuple[bool, Any]]:
 
-        for i, first_name in enumerate(meta_data['person'].first_names):
+        for i, first_name in enumerate(meta_data["person"].first_names):
 
             if token_context.token.text == first_name[0]:
 
@@ -205,40 +228,53 @@ class PersonInitialFromNamePattern(TokenContextPattern):
         return (
             token_context.get_token(pos=match_info[0]),
             token_context.get_token(pos=match_info[1]),
-            self._tag
+            self._tag,
         )
 
 
 class PersonSurnamePattern(TokenContextPattern):
-
     def __init__(self, tokenizer, *args, **kwargs):
         self._tokenizer = tokenizer
         super().__init__(*args, **kwargs)
 
-
-    def precondition(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def precondition(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
         return all(
             [
                 meta_data is not None,
-                'person' in meta_data,
-                meta_data['person'].surname is not None
+                "person" in meta_data,
+                meta_data["person"].surname is not None,
             ]
         )
 
-    def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> Union[bool, tuple[bool, Any]]:
+    def match(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> Union[bool, tuple[bool, Any]]:
 
-        surname_pattern = [token.text for token in self._tokenizer.tokenize(meta_data['patient_surname'])]
+        surname_pattern = [
+            token.text
+            for token in self._tokenizer.tokenize(meta_data["patient_surname"])
+        ]
 
         if len(surname_pattern) > token_context.num_tokens_from_position():
             return False
 
-        return all(
+        return (
+            all(
                 [
-                    edit_distance(surname_token, token_context.get_token_at_num_from_position(i).text, transpositions=True) <= 1
+                    edit_distance(
+                        surname_token,
+                        token_context.get_token_at_num_from_position(i).text,
+                        transpositions=True,
+                    )
+                    <= 1
                     for surname_token, i in zip(surname_pattern, itertools.count())
                 ]
-            ), len(surname_pattern)-1
+            ),
+            len(surname_pattern) - 1,
+        )
 
     def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
 
@@ -250,20 +286,23 @@ class PersonSurnamePattern(TokenContextPattern):
 
 
 class PersonInitialsPattern(TokenContextPattern):
-
-    def precondition(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def precondition(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
         return all(
             [
                 meta_data is not None,
-                'person' in meta_data,
-                meta_data['person'].initials is not None
+                "person" in meta_data,
+                meta_data["person"].initials is not None,
             ]
         )
 
-    def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def match(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
-        return token_context.token.text == meta_data['person'].initials
+        return token_context.token.text == meta_data["person"].initials
 
     def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
 
@@ -271,26 +310,33 @@ class PersonInitialsPattern(TokenContextPattern):
 
 
 class PersonGivenNamePattern(TokenContextPattern):
-
-    def precondition(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def precondition(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
         return all(
             [
                 meta_data is not None,
-                'person' in meta_data,
-                meta_data['person'].given_name is not None
+                "person" in meta_data,
+                meta_data["person"].given_name is not None,
             ]
         )
 
-    def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def match(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
 
-        return (token_context.token.text == meta_data['person'].given_name) or \
-               all(
-                   [
-                       len(token_context.token.text) > 3,
-                       edit_distance(token_context.token.text, meta_data['person'].given_name, transpositions=True) <= 1,
-                   ]
-               )
+        return (token_context.token.text == meta_data["person"].given_name) or all(
+            [
+                len(token_context.token.text) > 3,
+                edit_distance(
+                    token_context.token.text,
+                    meta_data["person"].given_name,
+                    transpositions=True,
+                )
+                <= 1,
+            ]
+        )
 
     def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
 

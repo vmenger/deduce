@@ -2,7 +2,7 @@
 import itertools
 from abc import ABC, abstractmethod
 from enum import Enum, auto
-from typing import Iterable, Union, Optional, Any
+from typing import Any, Iterable, Optional, Union
 
 import docdeid
 import docdeid.tokenize.tokenizer
@@ -71,8 +71,7 @@ class Tokenizer(docdeid.BaseTokenizer):
             index=tokens[0].index,
         )
 
-    def tokenize(
-        self, text: str, merge: bool = True) -> list[docdeid.Token]:
+    def tokenize(self, text: str, merge: bool = True) -> list[docdeid.Token]:
 
         if merge and self._trie is None:
             raise AttributeError(
@@ -125,7 +124,6 @@ class Tokenizer(docdeid.BaseTokenizer):
 
 
 class TokenContext:
-
     def __init__(self, position: int, tokens: list[docdeid.Token]):
 
         self._tokens = tokens
@@ -174,12 +172,12 @@ class TokenContext:
         if i == len(self._tokens):
             return None
 
-        for token in self._tokens[i + 1:]:
+        for token in self._tokens[i + 1 :]:
 
             if (
-                    token.text[0] == ")"
-                    or token.text[0] == ">"
-                    or utility.any_in_text(["\n", "\r", "\t"], token.text)
+                token.text[0] == ")"
+                or token.text[0] == ">"
+                or utility.any_in_text(["\n", "\r", "\t"], token.text)
             ):
                 return None
 
@@ -193,12 +191,12 @@ class TokenContext:
         if i == 0:
             return None
 
-        for token in self._tokens[i - 1:: -1]:
+        for token in self._tokens[i - 1 :: -1]:
 
             if (
-                    token.text[0] == "("
-                    or token.text[0] == "<"
-                    or utility.any_in_text(["\n", "\r", "\t"], token.text)
+                token.text[0] == "("
+                or token.text[0] == "<"
+                or utility.any_in_text(["\n", "\r", "\t"], token.text)
             ):
                 return None
 
@@ -217,21 +215,26 @@ class TokenContext:
 
 
 class TokenContextPattern(ABC):
-
     def __init__(self, tag: str):
         self._tag = tag
 
-    def precondition(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> bool:
+    def precondition(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> bool:
         return True
 
     @abstractmethod
-    def match(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> Union[bool, tuple[bool, Any]]:
+    def match(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> Union[bool, tuple[bool, Any]]:
         pass
 
     def annotate(self, token_context: TokenContext, match_info=None) -> tuple:
         return token_context.token, token_context.token, self._tag
 
-    def apply(self, token_context: TokenContext, meta_data: Optional[dict] = None) -> Union[None, tuple]:
+    def apply(
+        self, token_context: TokenContext, meta_data: Optional[dict] = None
+    ) -> Union[None, tuple]:
 
         if not self.precondition(token_context, meta_data):
             return None

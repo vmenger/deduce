@@ -1,20 +1,18 @@
 import re
+import warnings
 
-import docdeid
-from docdeid.annotate.annotation_processor import OverlapResolver
 from nltk.metrics import edit_distance
 
+import docdeid
 from deduce.annotate import get_annotators, tokenizer
-
 from deduce.annotation_processing import DeduceMergeAdjacentAnnotations
 from deduce.redact import DeduceRedactor
+from docdeid.annotate.annotation_processor import OverlapResolver
 
-import warnings
 warnings.simplefilter(action="once")
 
 
 class Deduce(docdeid.DocDeid):
-
     def __init__(self):
         super().__init__()
         self._initialize_deduce()
@@ -42,7 +40,7 @@ class Deduce(docdeid.DocDeid):
 
 
 def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
-    """ TODO This should go somewhere else, not sure yet. """
+    """TODO This should go somewhere else, not sure yet."""
 
     annotations = sorted(
         list(annotations),
@@ -100,7 +98,12 @@ def _annotate_text_backwardscompat(
         annotators_enabled += ["institution", "altrecht"]
 
     if locations:
-        annotators_enabled += ["residence", "street_with_number", "postal_code", "postbus"]
+        annotators_enabled += [
+            "residence",
+            "street_with_number",
+            "postal_code",
+            "postbus",
+        ]
 
     if phone_numbers:
         annotators_enabled += ["phone_1", "phone_2", "phone_3"]
@@ -126,8 +129,11 @@ def _annotate_text_backwardscompat(
 
 def annotate_text(text: str, *args, **kwargs):
 
-    warnings.warn(message="The annotate_text function will disappear in a future version. "
-                          "Please use Deduce().deidenitfy(text) instead.", category=DeprecationWarning)
+    warnings.warn(
+        message="The annotate_text function will disappear in a future version. "
+        "Please use Deduce().deidenitfy(text) instead.",
+        category=DeprecationWarning,
+    )
 
     doc = _annotate_text_backwardscompat(text=text, *args, **kwargs)
 
@@ -137,17 +143,22 @@ def annotate_text(text: str, *args, **kwargs):
 
     for annotation in annotations:
 
-        text = f"{text[:annotation.start_char]}" \
-               f"<{annotation.tag.upper()} {annotation.text}>" \
-               f"{text[annotation.end_char:]}"
+        text = (
+            f"{text[:annotation.start_char]}"
+            f"<{annotation.tag.upper()} {annotation.text}>"
+            f"{text[annotation.end_char:]}"
+        )
 
     return text
 
 
 def annotate_text_structured(text: str, *args, **kwargs) -> list[docdeid.Annotation]:
 
-    warnings.warn(message="The annotate_text_structured function will disappear in a future version. "
-                          "Please use Deduce().deidenitfy(text) instead.", category=DeprecationWarning)
+    warnings.warn(
+        message="The annotate_text_structured function will disappear in a future version. "
+        "Please use Deduce().deidenitfy(text) instead.",
+        category=DeprecationWarning,
+    )
 
     doc = _annotate_text_backwardscompat(text=text, *args, **kwargs)
 
@@ -156,8 +167,11 @@ def annotate_text_structured(text: str, *args, **kwargs) -> list[docdeid.Annotat
 
 def deidentify_annotations(text):
 
-    warnings.warn(message="The deidentify_annotations function will disappear in a future version. "
-                          "Please use Deduce().deidenitfy(text) instead.", category=DeprecationWarning)
+    warnings.warn(
+        message="The deidentify_annotations function will disappear in a future version. "
+        "Please use Deduce().deidenitfy(text) instead.",
+        category=DeprecationWarning,
+    )
 
     if not text:
         return text

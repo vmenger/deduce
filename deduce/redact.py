@@ -1,16 +1,19 @@
-import docdeid
-from docdeid.annotate.redactor import BaseRedactor
-from nltk import edit_distance
-
 from collections import defaultdict
 from typing import Any, Type
+
+from nltk import edit_distance
+
+import docdeid
+from docdeid.annotate.redactor import BaseRedactor
 
 
 class DeduceRedactor(BaseRedactor):
     """Copies the logic from deidentify_annotations"""
 
     @staticmethod
-    def _group_annotations(annotations: list[docdeid.Annotation]) -> defaultdict[Any, list]:
+    def _group_annotations(
+        annotations: list[docdeid.Annotation],
+    ) -> defaultdict[Any, list]:
 
         tag_to_list = defaultdict(list)
 
@@ -30,7 +33,9 @@ class DeduceRedactor(BaseRedactor):
             annotations_to_replacement_group = {}
             dispenser = 1
 
-            for annotation in sorted(annotation_group, key=lambda a: a.get_sort_key(by=['end_char'])):
+            for annotation in sorted(
+                annotation_group, key=lambda a: a.get_sort_key(by=["end_char"])
+            ):
 
                 if tag == "patient":
 

@@ -4,17 +4,26 @@ from dataclasses import dataclass
 from typing import Union
 
 import docdeid
-from deduce.name_patterns import PrefixWithNamePattern, InterfixWithNamePattern, InitialWithCapitalPattern, \
-    InitiaalInterfixCapitalPattern, FirstNameLookupPattern, SurnameLookupPattern, PersonFirstNamePattern, \
-    PersonInitialFromNamePattern, PersonSurnamePattern, PersonInitialsPattern, PersonGivenNamePattern
-from docdeid.annotate.annotation_processor import OverlapResolver
-from docdeid.annotate.annotator import RegexpAnnotator, MultiTokenLookupAnnotator
-from docdeid.ds.lookup import LookupList
-from docdeid.str.processor import LowercaseString
-
 from deduce import utility
 from deduce.lookup.lookup_lists import get_lookup_lists
-from deduce.tokenizer import Tokenizer, TokenContext
+from deduce.name_patterns import (
+    FirstNameLookupPattern,
+    InitiaalInterfixCapitalPattern,
+    InitialWithCapitalPattern,
+    InterfixWithNamePattern,
+    PersonFirstNamePattern,
+    PersonGivenNamePattern,
+    PersonInitialFromNamePattern,
+    PersonInitialsPattern,
+    PersonSurnamePattern,
+    PrefixWithNamePattern,
+    SurnameLookupPattern,
+)
+from deduce.tokenizer import TokenContext, Tokenizer
+from docdeid.annotate.annotation_processor import OverlapResolver
+from docdeid.annotate.annotator import MultiTokenLookupAnnotator, RegexpAnnotator
+from docdeid.ds.lookup import LookupList
+from docdeid.str.processor import LowercaseString
 
 
 def _initialize():
@@ -43,45 +52,46 @@ class Person:
 
 
 class NamesAnnotator(docdeid.BaseAnnotator):
-
     def __init__(self):
 
         self._patterns = [
             PrefixWithNamePattern(tag="prefix+naam", lookup_lists=_lookup_lists),
             InterfixWithNamePattern(tag="interfix+naam", lookup_lists=_lookup_lists),
             InitialWithCapitalPattern(tag="initiaal+naam", lookup_lists=_lookup_lists),
-            InitiaalInterfixCapitalPattern(tag="initiaal+interfix+naam", lookup_lists=_lookup_lists),
+            InitiaalInterfixCapitalPattern(
+                tag="initiaal+interfix+naam", lookup_lists=_lookup_lists
+            ),
             FirstNameLookupPattern(tag="voornaam_onbekend", lookup_lists=_lookup_lists),
             SurnameLookupPattern(tag="achternaam_onbekend", lookup_lists=_lookup_lists),
             PersonFirstNamePattern(tag="voornaam_patient"),
             PersonInitialFromNamePattern(tag="initiaal_patient"),
             PersonInitialsPattern(tag="initialen_patient"),
             PersonGivenNamePattern(tag="roepnaam_patient"),
-            PersonSurnamePattern(tag="achternaam_patient", tokenizer=tokenizer)
+            PersonSurnamePattern(tag="achternaam_patient", tokenizer=tokenizer),
         ]
 
     @staticmethod
     def _parse_str_field(i: str) -> Union[None, str]:
-        """ Maps None or empty string to None, else to string itself. """
+        """Maps None or empty string to None, else to string itself."""
         return i or None
 
     def _parse_person_data(self, meta_data: dict) -> Person:
 
-        first_names = self._parse_str_field(meta_data.get('patient_first_names', None))
+        first_names = self._parse_str_field(meta_data.get("patient_first_names", None))
 
         if first_names is not None:
             first_names = first_names.split(" ")
 
-        initials = self._parse_str_field(meta_data.get('patient_initials', None))
-        surname = self._parse_str_field(meta_data.get('patient_surname', None))
-        given_name = self._parse_str_field(meta_data.get('patient_given_name', None))
+        initials = self._parse_str_field(meta_data.get("patient_initials", None))
+        surname = self._parse_str_field(meta_data.get("patient_surname", None))
+        given_name = self._parse_str_field(meta_data.get("patient_given_name", None))
 
         return Person(first_names, initials, surname, given_name)
 
     def annotate_raw(self, document: docdeid.Document):
 
         person = self._parse_person_data(document.get_meta_data())
-        document.add_meta_data_item('person', person)
+        document.add_meta_data_item("person", person)
 
         tokens = document.tokens
         annotation_tuples = []
@@ -141,9 +151,7 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
         condition = all(
             [
-                utility.any_in_text(
-                    ["initia", "voornaam", "roepnaam", "prefix"], tag
-                ),
+                utility.any_in_text(["initia", "voornaam", "roepnaam", "prefix"], tag),
                 len(next_token.text) > 3,
                 next_token.text[0].isupper(),
                 next_token.text.lower() not in _lookup_lists["whitelist"],
@@ -151,7 +159,11 @@ class NamesAnnotator(docdeid.BaseAnnotator):
         )
 
         if condition:
-            return start_token, next_token, f"{tag}+initiaalhoofdletternaam"  # TODO drop initiaal here
+            return (
+                start_token,
+                next_token,
+                f"{tag}+initiaalhoofdletternaam",
+            )  # TODO drop initiaal here
 
     @staticmethod
     def _match_nexus(tag, start_token, next_token, next_next_token):
@@ -215,9 +227,7 @@ class NamesAnnotator(docdeid.BaseAnnotator):
                 if next_next_token is not None:
 
                     # 4
-                    r = self._match_nexus(
-                        tag, start_token, next_token, next_next_token
-                    )
+                    r = self._match_nexus(tag, start_token, next_token, next_next_token)
 
                     if r is not None:
                         next_annotation_tuples.append(r)
@@ -280,86 +290,71 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
 
 REGEPXS = {
-
-    'altrecht': {
-        'regexp_pattern': re.compile(r"[aA][lL][tT][rR][eE][cC][hH][tT]((\s[A-Z][\w]*)*)"),
-        'tag': 'instelling'
+    "altrecht": {
+        "regexp_pattern": re.compile(
+            r"[aA][lL][tT][rR][eE][cC][hH][tT]((\s[A-Z][\w]*)*)"
+        ),
+        "tag": "instelling",
     },
-
-    'street_with_number': {
-        'regexp_pattern': re.compile(
+    "street_with_number": {
+        "regexp_pattern": re.compile(
             r"([A-Z]\w+(baan|bolwerk|dam|dijk|dreef|gracht|hof|kade|laan|markt|pad|park|"
             r"plantsoen|plein|singel|steeg|straat|weg)(\s(\d+){1,6}\w{0,2})?)(\W|$)"
         ),
-        'tag': 'locatie',
-        'capturing_group': 1
+        "tag": "locatie",
+        "capturing_group": 1,
     },
-
-    'postal_code': {
-        'regexp_pattern': re.compile(r"(\d{4} (?!MG)[A-Z]{2}|\d{4}(?!mg|MG)[a-zA-Z]{2})(\W|$)"),
-        'tag': 'locatie',
-        'capturing_group': 1
+    "postal_code": {
+        "regexp_pattern": re.compile(
+            r"(\d{4} (?!MG)[A-Z]{2}|\d{4}(?!mg|MG)[a-zA-Z]{2})(\W|$)"
+        ),
+        "tag": "locatie",
+        "capturing_group": 1,
     },
-
-    'postbus': {
-        'regexp_pattern': re.compile(r"([Pp]ostbus\s\d{5})"),
-        'tag': 'locatie'
-    },
-
-    'phone_1': {
-        'regexp_pattern': re.compile(
+    "postbus": {"regexp_pattern": re.compile(r"([Pp]ostbus\s\d{5})"), "tag": "locatie"},
+    "phone_1": {
+        "regexp_pattern": re.compile(
             r"(((0)[1-9]{2}[0-9][-]?[1-9][0-9]{5})|((\+31|0|0031)[1-9][0-9][-]?[1-9][0-9]{6}))"
         ),
-        'tag': 'telefoonnummer'
+        "tag": "telefoonnummer",
     },
-
-    'phone_2': {
-        'regexp_pattern': re.compile(r"(((\+31|0|0031)6)[-]?[1-9][0-9]{7})"),
-        'tag': 'telefoonnummer'
+    "phone_2": {
+        "regexp_pattern": re.compile(r"(((\+31|0|0031)6)[-]?[1-9][0-9]{7})"),
+        "tag": "telefoonnummer",
     },
-
-    'phone_3': {
-        'regexp_pattern': re.compile(r"((\(\d{3}\)|\d{3})\s?\d{3}\s?\d{2}\s?\d{2})"),
-        'tag': 'telefoonnummer'
+    "phone_3": {
+        "regexp_pattern": re.compile(r"((\(\d{3}\)|\d{3})\s?\d{3}\s?\d{2}\s?\d{2})"),
+        "tag": "telefoonnummer",
     },
-
-    'patient_number': {
-        'regexp_pattern': re.compile(r"\d{7}"),
-        'tag': 'patientnummer'
-    },
-
-    'date_1': {
-        'regexp_pattern': re.compile(
+    "patient_number": {"regexp_pattern": re.compile(r"\d{7}"), "tag": "patientnummer"},
+    "date_1": {
+        "regexp_pattern": re.compile(
             r"(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\d{4}|\d{2}))?)(\D|$)"
         ),
-        'tag': 'datum',
-        'capturing_group': 1
+        "tag": "datum",
+        "capturing_group": 1,
     },
-
-    'date_2': {
-        'regexp_pattern': re.compile(
+    "date_2": {
+        "regexp_pattern": re.compile(
             r"(\d{1,2}[^\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|"
             r"november|december)([- /.]{,2}(\d{4}|\d{2}))?)(\D|$)"
         ),
-        'tag': 'datum',
-        'capturing_group': 1
+        "tag": "datum",
+        "capturing_group": 1,
     },
-
-    'age': {
-        'regexp_pattern': re.compile(r"(\d{1,3})([ -](jarige|jarig|jaar))"),
-        'tag': 'leeftijd',
-        'capturing_group': 1
+    "age": {
+        "regexp_pattern": re.compile(r"(\d{1,3})([ -](jarige|jarig|jaar))"),
+        "tag": "leeftijd",
+        "capturing_group": 1,
     },
-
-    'email': {
-        'regexp_pattern': re.compile(
+    "email": {
+        "regexp_pattern": re.compile(
             r"([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)"
         ),
-        'tag': 'url'
+        "tag": "url",
     },
-
-    'url_1': {
-        'regexp_pattern': re.compile(
+    "url_1": {
+        "regexp_pattern": re.compile(
             r"((?!mailto:)"
             r"((?:http|https|ftp)://)"
             r"(?:\S+(?::\S*)?@)?(?:(?:(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}"
@@ -367,13 +362,12 @@ REGEPXS = {
             r"(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*(\.([a-z\u00a1-\uffff]{2,})))|localhost)"
             r"(?::\d{2,5})?(?:([/?#])[^\s]*)?)"
         ),
-        'tag': 'url'
+        "tag": "url",
     },
-
-    'url_2': {
-        'regexp_pattern': re.compile(r"([\w\d.-]{3,}(\.)(nl|com|net|be)(/[^\s]+)?)"),
-        'tag': 'url'
-    }
+    "url_2": {
+        "regexp_pattern": re.compile(r"([\w\d.-]{3,}(\.)(nl|com|net|be)(/[^\s]+)?)"),
+        "tag": "url",
+    },
 }
 
 
@@ -390,22 +384,19 @@ def _get_regexp_annotators() -> dict[str, docdeid.BaseAnnotator]:
 def get_annotators() -> dict[str, docdeid.BaseAnnotator]:
 
     annotators = {
-
         "name": NamesAnnotator(),
-
         "institution": MultiTokenLookupAnnotator(
-            lookup_values=_lookup_lists['institutions'],
+            lookup_values=_lookup_lists["institutions"],
             tokenizer=tokenizer,
             tag="instelling",
             string_processors=[LowercaseString()],
-            merge=False
+            merge=False,
         ),
-
         "residence": MultiTokenLookupAnnotator(
-            lookup_values=_lookup_lists['residences'],
+            lookup_values=_lookup_lists["residences"],
             tokenizer=tokenizer,
             tag="locatie",
-            merge=False
+            merge=False,
         ),
     }
 
