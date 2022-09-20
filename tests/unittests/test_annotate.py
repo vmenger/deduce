@@ -42,16 +42,16 @@ class TestAnnotateMethods(unittest.TestCase):
 
         expected_annotations = {
             docdeid.Annotation(
-                text="J. Jansen", start_char=62, end_char=71, category="patient"
+                text="J. Jansen", start_char=62, end_char=71, tag="patient"
             ),
             docdeid.Annotation(
-                text="Peter de Visser", start_char=185, end_char=200, category="persoon"
+                text="Peter de Visser", start_char=185, end_char=200, tag="persoon"
             ),
             docdeid.Annotation(
-                text="patient ", start_char=54, end_char=62, category="persoon"
+                text="patient ", start_char=54, end_char=62, tag="persoon"
             ),
             docdeid.Annotation(
-                text="Jan Jansen", start_char=39, end_char=49, category="patient"
+                text="Jan Jansen", start_char=39, end_char=49, tag="patient"
             ),
         }
 
@@ -71,9 +71,9 @@ class TestAnnotateMethods(unittest.TestCase):
 
         expected_annotations = {
             docdeid.Annotation(
-                text="C", start_char=29, end_char=30, category="patient"
+                text="C", start_char=29, end_char=30, tag="patient"
             ),
-            docdeid.Annotation(text="C", start_char=0, end_char=1, category="patient"),
+            docdeid.Annotation(text="C", start_char=0, end_char=1, tag="patient"),
         }
 
         self._test_annotator(annotator, text, expected_annotations, meta_data)
@@ -91,7 +91,7 @@ class TestAnnotateMethods(unittest.TestCase):
         }
 
         expected_annotations = {
-            docdeid.Annotation(text="N", start_char=14, end_char=15, category="patient")
+            docdeid.Annotation(text="N", start_char=14, end_char=15, tag="patient")
         }
 
         self._test_annotator(annotator, text, expected_annotations, meta_data)
@@ -103,7 +103,7 @@ class TestAnnotateMethods(unittest.TestCase):
 
         expected_annotations = {
             docdeid.Annotation(
-                text="Havikstraat", start_char=10, end_char=21, category="locatie"
+                text="Havikstraat", start_char=10, end_char=21, tag="locatie"
             )
         }
 
@@ -116,7 +116,7 @@ class TestAnnotateMethods(unittest.TestCase):
 
         expected_annotations = {
             docdeid.Annotation(
-                text="Havikstraat 43", start_char=10, end_char=24, category="locatie"
+                text="Havikstraat 43", start_char=10, end_char=24, tag="locatie"
             )
         }
 
@@ -132,7 +132,7 @@ class TestAnnotateMethods(unittest.TestCase):
                 text="Havikstraat 4324598",
                 start_char=10,
                 end_char=29,
-                category="locatie",
+                tag="locatie",
             )
         }
 
@@ -145,7 +145,7 @@ class TestAnnotateMethods(unittest.TestCase):
 
         expected_annotations = {
             docdeid.Annotation(
-                text="Altrecht", start_char=10, end_char=18, category="instelling"
+                text="Altrecht", start_char=10, end_char=18, tag="instelling"
             )
         }
 
@@ -167,7 +167,7 @@ class TestAnnotateMethods(unittest.TestCase):
 
         expected_annotations = {
             docdeid.Annotation(
-                text="3500LX", start_char=17, end_char=23, category="locatie"
+                text="3500LX", start_char=17, end_char=23, tag="locatie"
             )
         }
 
@@ -180,7 +180,7 @@ class TestAnnotateMethods(unittest.TestCase):
 
         expected_annotations = {
             docdeid.Annotation(
-                text="26-10", start_char=18, end_char=23, category="datum"
+                text="26-10", start_char=18, end_char=23, tag="datum"
             )
         }
 
@@ -193,10 +193,10 @@ class TestAnnotateMethods(unittest.TestCase):
 
         expected_annotations = {
             docdeid.Annotation(
-                text="24 april", start_char=0, end_char=8, category="datum"
+                text="24 april", start_char=0, end_char=8, tag="datum"
             ),
             docdeid.Annotation(
-                text="1 mei", start_char=10, end_char=15, category="datum"
+                text="1 mei", start_char=10, end_char=15, tag="datum"
             ),
         }
 

@@ -12,27 +12,27 @@ class DeduceRedactor(BaseRedactor):
     @staticmethod
     def _group_annotations(annotations: list[docdeid.Annotation]) -> defaultdict[Any, list]:
 
-        category_to_list = defaultdict(list)
+        tag_to_list = defaultdict(list)
 
         for annotation in annotations:
-            category_to_list[annotation.category].append(annotation)
+            tag_to_list[annotation.tag].append(annotation)
 
-        return category_to_list
+        return tag_to_list
 
     def redact(self, text: str, annotations: list[docdeid.Annotation]) -> str:
 
         annotations_to_intext_replacement = {}
 
-        for category, annotation_group in self._group_annotations(annotations).items():
+        for tag, annotation_group in self._group_annotations(annotations).items():
 
-            # print(category, annotation_group)
+            # print(tag, annotation_group)
 
             annotations_to_replacement_group = {}
             dispenser = 1
 
             for annotation in sorted(annotation_group, key=lambda a: a.get_sort_key(by=['end_char'])):
 
-                if category == "patient":
+                if tag == "patient":
 
                     annotations_to_intext_replacement[annotation] = "<PATIENT>"
 
@@ -57,7 +57,7 @@ class DeduceRedactor(BaseRedactor):
 
                         annotations_to_replacement_group[
                             annotation
-                        ] = f"<{annotation.category.upper()}-{dispenser}>"
+                        ] = f"<{annotation.tag.upper()}-{dispenser}>"
                         dispenser += 1
 
                         # print(annotations_to_replacement_group, dispenser)

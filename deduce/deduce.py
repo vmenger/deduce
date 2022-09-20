@@ -80,7 +80,7 @@ def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
     for annotation in annotations:
         text = (
             f"{text[:annotation.start_char]}"
-            f"<{annotation.category.upper()}>{annotation.text}</{annotation.category.upper()}>"
+            f"<{annotation.tag.upper()}>{annotation.text}</{annotation.tag.upper()}>"
             f"{text[annotation.end_char:]}"
         )
 
@@ -107,9 +107,6 @@ def _annotate_text_backwardscompat(
     ages=True,
     urls=True,
 ) -> docdeid.Document:
-
-    warnings.warn(message="The _annotate_text_backwardscompat function will disappear in a future version. "
-                          "Please use Deduce().deidenitfy(text) instead.", category=DeprecationWarning)
 
     text = "" or text
 
@@ -158,17 +155,16 @@ def annotate_text(text: str, *args, **kwargs):
     warnings.warn(message="The annotate_text function will disappear in a future version. "
                           "Please use Deduce().deidenitfy(text) instead.", category=DeprecationWarning)
 
-
     doc = _annotate_text_backwardscompat(text=text, *args, **kwargs)
 
     annotations = doc.get_annotations_sorted(
-        by=["end_char", "category"], callbacks={"end_char": lambda x: -x}
+        by=["end_char"], callbacks={"end_char": lambda x: -x}
     )
 
     for annotation in annotations:
 
         text = f"{text[:annotation.start_char]}" \
-               f"<{annotation.category.upper()} {annotation.text}>" \
+               f"<{annotation.tag.upper()} {annotation.text}>" \
                f"{text[annotation.end_char:]}"
 
     return text
