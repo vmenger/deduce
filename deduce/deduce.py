@@ -1,13 +1,13 @@
 import re
 import warnings
 
+import docdeid
+from docdeid.annotate.annotation_processor import OverlapResolver
 from nltk.metrics import edit_distance
 
-import docdeid
 from deduce.annotate import get_annotators, tokenizer
 from deduce.annotation_processing import DeduceMergeAdjacentAnnotations
 from deduce.redact import DeduceRedactor
-from docdeid.annotate.annotation_processor import OverlapResolver
 
 warnings.simplefilter(action="once")
 

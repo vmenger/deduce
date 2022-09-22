@@ -1,12 +1,6 @@
 """ This module contains all list reading functionality """
 import os
 
-from deduce.str.processor import (
-    Acronimify,
-    FilterBasedOnLookupList,
-    RemoveValues,
-    TakeLastToken,
-)
 from docdeid.ds import DsCollection, LookupList
 from docdeid.str.processor import (
     FilterByLength,
@@ -14,6 +8,13 @@ from docdeid.str.processor import (
     ReplaceValue,
     ReplaceValueRegexp,
     StripString,
+)
+
+from deduce.str.processor import (
+    Acronimify,
+    FilterBasedOnLookupList,
+    RemoveValues,
+    TakeLastToken,
 )
 
 data_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../data")

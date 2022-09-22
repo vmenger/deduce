@@ -1,10 +1,9 @@
 from collections import defaultdict
-from typing import Any, Type
-
-from nltk import edit_distance
+from typing import Any
 
 import docdeid
 from docdeid.annotate.redactor import BaseRedactor
+from nltk import edit_distance
 
 
 class DeduceRedactor(BaseRedactor):

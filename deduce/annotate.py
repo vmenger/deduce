@@ -4,9 +4,13 @@ from dataclasses import dataclass
 from typing import Union
 
 import docdeid
-from deduce import utility
+from docdeid.annotate.annotation_processor import OverlapResolver
+from docdeid.annotate.annotator import MultiTokenLookupAnnotator, RegexpAnnotator
+from docdeid.ds.lookup import LookupList
+from docdeid.str.processor import LowercaseString
+
 from deduce.lookup.lookup_lists import get_lookup_lists
-from deduce.patterns.name_patterns import (
+from deduce.patterns.name import (
     FirstNameLookupPattern,
     InitiaalInterfixCapitalPattern,
     InitialWithCapitalPattern,
@@ -19,11 +23,13 @@ from deduce.patterns.name_patterns import (
     PrefixWithNamePattern,
     SurnameLookupPattern,
 )
-from deduce.tokenizer import TokenContext, Tokenizer
-from docdeid.annotate.annotation_processor import OverlapResolver
-from docdeid.annotate.annotator import MultiTokenLookupAnnotator, RegexpAnnotator
-from docdeid.ds.lookup import LookupList
-from docdeid.str.processor import LowercaseString
+from deduce.patterns.name_context import (
+    InitialNameContextPattern,
+    InitialsContextPattern,
+    InterfixContextPattern,
+    NexusContextPattern,
+)
+from deduce.tokenizer import Tokenizer
 
 
 def _initialize():
@@ -54,7 +60,7 @@ class Person:
 class NamesAnnotator(docdeid.BaseAnnotator):
     def __init__(self):
 
-        self._patterns = [
+        self._raw_patterns = [
             PrefixWithNamePattern(tag="prefix+naam", lookup_lists=_lookup_lists),
             InterfixWithNamePattern(tag="interfix+naam", lookup_lists=_lookup_lists),
             InitialWithCapitalPattern(tag="initiaal+naam", lookup_lists=_lookup_lists),
@@ -68,6 +74,13 @@ class NamesAnnotator(docdeid.BaseAnnotator):
             PersonInitialsPattern(tag="initialen_patient"),
             PersonGivenNamePattern(tag="roepnaam_patient"),
             PersonSurnamePattern(tag="achternaam_patient", tokenizer=tokenizer),
+        ]
+
+        self._context_patterns = [
+            InitialsContextPattern(lookup_lists=_lookup_lists),
+            InterfixContextPattern(lookup_lists=_lookup_lists),
+            InitialNameContextPattern(lookup_lists=_lookup_lists),
+            NexusContextPattern(),
         ]
 
     @staticmethod
@@ -88,7 +101,7 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
         return Person(first_names, initials, surname, given_name)
 
-    def annotate_raw(self, document: docdeid.Document):
+    def _annotate_raw(self, document: docdeid.Document):
 
         person = self._parse_person_data(document.get_meta_data())
         document.add_meta_data_item("person", person)
@@ -98,146 +111,39 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
         for i, token in enumerate(tokens):
 
-            token_context = TokenContext(position=i, tokens=tokens)
-
-            for pattern in self._patterns:
-                tup = pattern.apply(token_context, document.get_meta_data())
-                annotation_tuples.append(tup)
+            for pattern in self._raw_patterns:
+                annotation_tuples.append(pattern.apply(token, document.get_meta_data()))
 
         return annotation_tuples
 
-    @staticmethod
-    def _match_initials_context(previous_token, tag, end_token):
-
-        previous_token_is_initial = all(
-            [len(previous_token.text) == 1, previous_token.text[0].isupper()]
-        )
-
-        previous_token_is_name = all(
-            [
-                previous_token.text != "",
-                previous_token.text[0].isupper(),
-                previous_token.text.lower() not in _lookup_lists["whitelist"],
-                previous_token.text.lower() not in _lookup_lists["prefixes"],
-            ]
-        )
-
-        initial_condition = all(
-            [
-                utility.any_in_text(["achternaam", "interfix", "initia"], tag),
-                any([previous_token_is_initial, previous_token_is_name]),
-            ]
-        )
-
-        if initial_condition:
-            return previous_token, end_token, f"initiaal+{tag}"
-
-    @staticmethod
-    def _match_interfix_context(tag, start_token, next_token, next_next_token):
-
-        condition = all(
-            [
-                utility.any_in_text(["initia", "naam"], tag),
-                next_token.text in _lookup_lists["interfixes"],
-                next_next_token.text[0].isupper(),
-            ]
-        )
-
-        if condition:
-            return start_token, next_next_token, f"{tag}+interfix+achternaam"
-
-    @staticmethod
-    def _match_initial_name_context(tag, start_token, next_token):
-
-        condition = all(
-            [
-                utility.any_in_text(["initia", "voornaam", "roepnaam", "prefix"], tag),
-                len(next_token.text) > 3,
-                next_token.text[0].isupper(),
-                next_token.text.lower() not in _lookup_lists["whitelist"],
-            ]
-        )
-
-        if condition:
-            return (
-                start_token,
-                next_token,
-                f"{tag}+initiaalhoofdletternaam",
-            )  # TODO drop initiaal here
-
-    @staticmethod
-    def _match_nexus(tag, start_token, next_token, next_next_token):
-
-        condition = all([next_token.text == "en", next_next_token.text[0].isupper()])
-
-        if condition:
-            return start_token, next_next_token, f"{tag}+en+hoofdletternaam"
-
-    def annotate_context(
+    def _annotate_context(
         self,
         annotation_tuples: list[tuple[docdeid.Token, docdeid.Token, str]],
         document: docdeid.Document,
     ) -> list[tuple[docdeid.Token, docdeid.Token, str]]:
 
-        # print(annotation_tuples)
-
-        tokens = document.tokens
         next_annotation_tuples = []
-        changes = False
 
-        for start_token, end_token, tag in annotation_tuples:
+        for annotation_tuple in annotation_tuples:
 
-            previous_token = TokenContext(start_token.index, tokens).previous(1)
-            next_token = TokenContext(end_token.index, tokens).next(1)
+            changes = False
 
-            if previous_token is not None:
+            for context_pattern in self._context_patterns:
+                res = context_pattern.apply(*annotation_tuple)
 
-                # 1
-                r = self._match_initials_context(previous_token, tag, end_token)
-
-                if r is not None:
-                    next_annotation_tuples.append(r)
+                if res is not None:
+                    next_annotation_tuples.append(res)
                     changes = True
-                    continue
+                    break
 
-            if next_token is not None:
+            if changes:
+                continue
+            else:
+                next_annotation_tuples.append(annotation_tuple)
 
-                next_next_token = TokenContext(next_token.index, tokens).next()
-
-                if next_next_token is not None:
-
-                    # 2
-                    r = self._match_interfix_context(
-                        tag, start_token, next_token, next_next_token
-                    )
-
-                    if r is not None:
-                        next_annotation_tuples.append(r)
-                        changes = True
-                        continue
-
-                # 3
-                r = self._match_initial_name_context(tag, start_token, next_token)
-
-                if r is not None:
-                    next_annotation_tuples.append(r)
-                    changes = True
-                    continue
-
-                if next_next_token is not None:
-
-                    # 4
-                    r = self._match_nexus(tag, start_token, next_token, next_next_token)
-
-                    if r is not None:
-                        next_annotation_tuples.append(r)
-                        changes = True
-                        continue
-
-            next_annotation_tuples.append((start_token, end_token, tag))
-
-        if changes:
-            next_annotation_tuples = self.annotate_context(
+        # changes
+        if set(annotation_tuples) != set(next_annotation_tuples):
+            next_annotation_tuples = self._annotate_context(
                 next_annotation_tuples, document
             )
 
@@ -245,10 +151,10 @@ class NamesAnnotator(docdeid.BaseAnnotator):
 
     def annotate(self, document: docdeid.Document):
 
-        annotation_tuples = self.annotate_raw(document)
+        annotation_tuples = self._annotate_raw(document)
 
         annotation_tuples = [a for a in annotation_tuples if a is not None]
-        annotation_tuples = self.annotate_context(annotation_tuples, document)
+        annotation_tuples = self._annotate_context(annotation_tuples, document)
 
         annotations = set()
 
@@ -256,7 +162,7 @@ class NamesAnnotator(docdeid.BaseAnnotator):
         class DeduceAnnotation(docdeid.Annotation):
             is_patient: bool
 
-        # TODO: This needs implementation.
+        # TODO: This needs a better implementation.
         for r in annotation_tuples:
             if r is not None:
                 annotations.add(
