@@ -3,7 +3,7 @@ import warnings
 
 import docdeid
 from docdeid.annotate.annotation_processor import OverlapResolver
-from nltk.metrics import edit_distance
+from rapidfuzz.distance import DamerauLevenshtein
 
 from deduce.annotate import get_annotators, tokenizer, Person
 from deduce.annotation_processing import DeduceMergeAdjacentAnnotations
@@ -212,7 +212,7 @@ def deidentify_annotations(text):
             # compared to this value
             thisval = phi_values[0]
             dist = [
-                edit_distance(x, thisval, transpositions=True) <= 1
+                DamerauLevenshtein.distance(x, thisval, score_cutoff=1) <= 1
                 for x in phi_values[1:]
             ]
 

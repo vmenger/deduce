@@ -2,7 +2,8 @@ from abc import ABC, abstractmethod
 from typing import Any, Optional, Union
 
 import docdeid
-from nltk import edit_distance
+from rapidfuzz.distance import DamerauLevenshtein
+
 
 
 class TokenPattern(ABC):
@@ -179,7 +180,7 @@ class PersonFirstNamePattern(TokenPattern):
             condition = (
                     token.text == first_name or (
                             len(token.text) > 3 and
-                            edit_distance(token.text, first_name, transpositions=True) <= 1
+                            DamerauLevenshtein.distance(token.text, first_name, score_cutoff=1) <= 1
                     )
             )
 
@@ -259,7 +260,7 @@ class PersonSurnamePattern(TokenPattern):
         while True:
 
             if (
-                not edit_distance(surname_token.text, token.text, transpositions=True)
+                not DamerauLevenshtein.distance(surname_token.text, token.text, score_cutoff=1)
                 <= 1
             ):
                 return False
@@ -322,7 +323,7 @@ class PersonGivenNamePattern(TokenPattern):
         return (
             token.text == meta_data["patient"].given_name or (
                 len(token.text) > 3 and
-                edit_distance(token.text, meta_data["patient"].given_name, transpositions=True) <= 1
+                DamerauLevenshtein.distance(token.text, meta_data["patient"].given_name, score_cutoff=1) <= 1
             )
         )
 

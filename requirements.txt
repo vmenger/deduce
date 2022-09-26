@@ -1,2 +1,2 @@
-nltk
+rapidfuzz
 docdeid==0.0.10

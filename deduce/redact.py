@@ -3,8 +3,7 @@ from typing import Any
 
 import docdeid
 from docdeid.annotate.redactor import BaseRedactor
-from nltk import edit_distance
-
+from rapidfuzz.distance import DamerauLevenshtein
 
 class DeduceRedactor(BaseRedactor):
     """Copies the logic from deidentify_annotations"""
@@ -27,8 +26,6 @@ class DeduceRedactor(BaseRedactor):
 
         for tag, annotation_group in self._group_annotations(annotations).items():
 
-            # print(tag, annotation_group)
-
             annotations_to_replacement_group = {}
             dispenser = 1
 
@@ -47,9 +44,7 @@ class DeduceRedactor(BaseRedactor):
                     # Check match with any
                     for annotation_match in annotations_to_replacement_group.keys():
 
-                        # print(annotation, annotation_match)
-
-                        if edit_distance(annotation.text, annotation_match.text) <= 1:
+                        if DamerauLevenshtein.distance(annotation.text, annotation_match.text, score_threshold=1) <= 1:
 
                             annotations_to_replacement_group[
                                 annotation
@@ -63,8 +58,6 @@ class DeduceRedactor(BaseRedactor):
                             annotation
                         ] = f"<{annotation.tag.upper()}-{dispenser}>"
                         dispenser += 1
-
-                        # print(annotations_to_replacement_group, dispenser)
 
                 annotations_to_intext_replacement |= annotations_to_replacement_group
 
