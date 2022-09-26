@@ -1,7 +1,6 @@
 """ The annotate module contains the code for annotating text"""
 import re
 from dataclasses import dataclass
-from typing import Union
 
 import docdeid
 from docdeid.annotate.annotation_processor import OverlapResolver

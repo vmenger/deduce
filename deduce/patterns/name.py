@@ -275,7 +275,6 @@ class PersonSurnamePattern(TokenPattern):
             if token is None:
                 return False
 
-
         return True, match_end_token
 
     def annotate(self, token: docdeid.Token, match_info=None) -> tuple:

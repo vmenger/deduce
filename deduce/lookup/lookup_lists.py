@@ -154,7 +154,7 @@ def _get_institutions_lookuplist():
     )
 
     institutions.add_items_from_self(
-        cleaning_pipeline=[LowercaseString(), Acronimify(min_length=3)]
+        cleaning_pipeline=[LowercaseString(), Acronimify(), FilterByLength(min_len=3)]
     )
 
     institutions = institutions - _get_whitelist_lookuplist()
