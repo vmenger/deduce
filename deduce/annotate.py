@@ -83,28 +83,7 @@ class NamesAnnotator(docdeid.BaseAnnotator):
             NexusContextPattern(),
         ]
 
-    @staticmethod
-    def _parse_str_field(i: str) -> Union[None, str]:
-        """Maps None or empty string to None, else to string itself."""
-        return i or None
-
-    def _parse_person_data(self, meta_data: dict) -> Person:
-
-        first_names = self._parse_str_field(meta_data.get("patient_first_names", None))
-
-        if first_names is not None:
-            first_names = first_names.split(" ")
-
-        initials = self._parse_str_field(meta_data.get("patient_initials", None))
-        surname = self._parse_str_field(meta_data.get("patient_surname", None))
-        given_name = self._parse_str_field(meta_data.get("patient_given_name", None))
-
-        return Person(first_names, initials, surname, given_name)
-
     def _annotate_raw(self, document: docdeid.Document):
-
-        person = self._parse_person_data(document.get_meta_data())
-        document.add_meta_data_item("person", person)
 
         tokens = document.tokens
         annotation_tuples = []

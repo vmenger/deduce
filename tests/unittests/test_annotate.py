@@ -6,6 +6,8 @@ import docdeid
 from deduce import annotate
 from deduce.annotate import tokenizer
 
+from deduce.annotate import Person
+
 
 class TestAnnotateMethods(unittest.TestCase):
     def _test_annotator(
@@ -34,10 +36,10 @@ class TestAnnotateMethods(unittest.TestCase):
         annotator = annotate.get_annotators()['name']
 
         meta_data = {
-            "patient_first_names": "Jan",
-            "patient_surname": "Jansen",
-            "patient_initial": "",
-            "patient_given_name": "",
+            "patient": Person(
+                first_names=['Jan'],
+                surname='Jansen'
+            )
         }
 
         expected_annotations = {
@@ -63,10 +65,12 @@ class TestAnnotateMethods(unittest.TestCase):
         annotator = annotate.get_annotators()['name']
 
         meta_data = {
-            "patient_first_names": "Peter Charles",
-            "patient_surname": "de Jong",
-            "patient_initial": "PC",
-            "patient_given_name": "Charlie",
+            "patient": Person(
+                first_names=['Peter', 'Charles'],
+                surname='de Jong',
+                initials='PC',
+                given_name='Charlie'
+            )
         }
 
         expected_annotations = {
@@ -84,10 +88,12 @@ class TestAnnotateMethods(unittest.TestCase):
         annotator = annotate.get_annotators()['name']
 
         meta_data = {
-            "patient_first_names": "Nicholas David",
-            "patient_initials": "ND",
-            "patient_surname": "de Jong",
-            "patient_given_name": "Niek",
+            "patient": Person(
+                first_names=['Nicholas', 'David'],
+                surname='de Jong',
+                initials='ND',
+                given_name='Niek'
+            )
         }
 
         expected_annotations = {

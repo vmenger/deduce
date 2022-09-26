@@ -5,7 +5,7 @@ import docdeid
 from docdeid.annotate.annotation_processor import OverlapResolver
 from nltk.metrics import edit_distance
 
-from deduce.annotate import get_annotators, tokenizer
+from deduce.annotate import get_annotators, tokenizer, Person
 from deduce.annotation_processing import DeduceMergeAdjacentAnnotations
 from deduce.redact import DeduceRedactor
 
@@ -64,6 +64,8 @@ def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
 deduce_model = Deduce()
 
 
+
+
 def _annotate_text_backwardscompat(
     text,
     patient_first_names="",
@@ -82,11 +84,16 @@ def _annotate_text_backwardscompat(
 
     text = "" or text
 
+    if patient_first_names:
+        patient_first_names = patient_first_names.split(" ")
+
     meta_data = {
-        "patient_first_names": patient_first_names,
-        "patient_initials": patient_initials,
-        "patient_surname": patient_surname,
-        "patient_given_name": patient_given_name,
+        'patient': Person(
+            first_names=patient_first_names or None,
+            initials=patient_initials or None,
+            surname=patient_surname or None,
+            given_name=patient_given_name or None
+        )
     }
 
     annotators_enabled = []

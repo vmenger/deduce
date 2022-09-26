@@ -48,18 +48,19 @@ class InterfixContextPattern(AnnotationContextPatternWithLookupList):
         self, start_token: docdeid.Token, end_token: docdeid.Token
     ) -> bool:
 
-        return all([end_token.next() is not None, end_token.next(2) is not None])
+        return (
+            end_token.next() is not None and
+            end_token.next(2) is not None
+        )
 
     def match(
         self, start_token: docdeid.Token, end_token: docdeid.Token, tag: str
     ) -> bool:
 
-        return all(
-            [
-                utility.any_in_text(["initia", "naam"], tag),
-                end_token.next().text in self._lookup_lists["interfixes"],
-                end_token.next(2).text[0].isupper(),
-            ]
+        return (
+            utility.any_in_text(["initia", "naam"], tag) and
+            end_token.next().text in self._lookup_lists["interfixes"] and
+            end_token.next(2).text[0].isupper()
         )
 
     def annotate(
@@ -84,29 +85,23 @@ class InitialsContextPattern(AnnotationContextPatternWithLookupList):
         self, start_token: docdeid.Token, end_token: docdeid.Token, tag: str
     ) -> bool:
 
-        previous_token_is_initial = all(
-            [
-                len(start_token.previous().text) == 1,
-                start_token.previous().text[0].isupper(),
-            ]
+        previous_token_is_initial = (
+            len(start_token.previous().text) == 1 and
+            start_token.previous().text[0].isupper()
         )
 
-        previous_token_is_name = all(
-            [
-                start_token.previous().text != "",
-                start_token.previous().text[0].isupper(),
-                start_token.previous().text.lower()
-                not in self._lookup_lists["whitelist"],
-                start_token.previous().text.lower()
-                not in self._lookup_lists["prefixes"],
-            ]
+        previous_token_is_name = (
+            start_token.previous().text != "" and
+            start_token.previous().text[0].isupper() and
+            start_token.previous().text.lower() not in self._lookup_lists["whitelist"] and
+            start_token.previous().text.lower() not in self._lookup_lists["prefixes"]
         )
 
-        return all(
-            [
-                utility.any_in_text(["achternaam", "interfix", "initia"], tag),
-                any([previous_token_is_initial, previous_token_is_name]),
-            ]
+        return (
+            utility.any_in_text(["achternaam", "interfix", "initia"], tag) and (
+                previous_token_is_initial or
+                previous_token_is_name
+            )
         )
 
     def annotate(
@@ -127,13 +122,11 @@ class InitialNameContextPattern(AnnotationContextPatternWithLookupList):
         self, start_token: docdeid.Token, end_token: docdeid.Token, tag: str
     ) -> bool:
 
-        return all(
-            [
-                utility.any_in_text(["initia", "voornaam", "roepnaam", "prefix"], tag),
-                len(end_token.next().text) > 3,
-                end_token.next().text[0].isupper(),
-                end_token.next().text.lower() not in self._lookup_lists["whitelist"],
-            ]
+        return (
+            utility.any_in_text(["initia", "voornaam", "roepnaam", "prefix"], tag) and
+            len(end_token.next().text) > 3 and
+            end_token.next().text[0].isupper() and
+            end_token.next().text.lower() not in self._lookup_lists["whitelist"]
         )
 
     def annotate(
@@ -152,17 +145,18 @@ class NexusContextPattern(AnnotationContextPattern):
         self, start_token: docdeid.Token, end_token: docdeid.Token
     ) -> bool:
 
-        return all([end_token.next() is not None, end_token.next(2) is not None])
+        return (
+            end_token.next() is not None and
+            end_token.next(2) is not None
+        )
 
     def match(
         self, start_token: docdeid.Token, end_token: docdeid.Token, tag: str
     ) -> bool:
 
-        return all(
-            [
-                end_token.next().text == "en",
-                end_token.next(2).text[0].isupper(),
-            ]
+        return (
+            end_token.next().text == "en" and
+            end_token.next(2).text[0].isupper()
         )
 
     def annotate(
