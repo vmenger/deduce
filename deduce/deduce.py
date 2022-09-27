@@ -99,7 +99,8 @@ def _annotate_text_backwardscompat(
     annotators_enabled = []
 
     if names:
-        annotators_enabled += ["name"]
+        annotators_enabled += ['prefix_with_name', 'interfix_with_name', 'initial_with_capital', 'initial_interfix', 'first_name_lookup', 'surname_lookup', 'person_first_name', 'person_initial_from_name', 'person_initials', 'person_given_name', 'person_surname']
+        annotators_enabled += ["name_context"]
 
     if institutions:
         annotators_enabled += ["institution", "altrecht"]

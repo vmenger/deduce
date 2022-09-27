@@ -25,7 +25,7 @@ class TestAnnotateMethods(unittest.TestCase):
 
         self.assertEqual(document.annotations, expected_annotations)
 
-    def test_annotate_names(self):
+    def test_annotate_initial_with_capital(self):
 
         text = (
             "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
@@ -33,7 +33,7 @@ class TestAnnotateMethods(unittest.TestCase):
             "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
         )
 
-        annotator = annotate.get_annotators()['name']
+        annotator = annotate.get_annotators()['initial_with_capital']
 
         meta_data = {
             "patient": Person(
@@ -44,17 +44,84 @@ class TestAnnotateMethods(unittest.TestCase):
 
         expected_annotations = {
             docdeid.Annotation(
-                text="J. Jansen", start_char=62, end_char=71, tag="patient"
+                text="J. Jansen", start_char=62, end_char=71, tag="initiaal+naam"
             ),
+        }
+
+        self._test_annotator(annotator, text, expected_annotations, meta_data)
+
+    def test_annotate_interfix(self):
+
+        text = (
+            "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
+            "(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
+            "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
+        )
+
+        annotator = annotate.get_annotators()['interfix_with_name']
+
+        meta_data = {
+            "patient": Person(
+                first_names=['Jan'],
+                surname='Jansen'
+            )
+        }
+
+        expected_annotations = {
             docdeid.Annotation(
-                text="Peter de Visser", start_char=185, end_char=200, tag="persoon"
+                text='de Visser', start_char=191, end_char=200, tag='interfix+naam'
             ),
+        }
+
+        self._test_annotator(annotator, text, expected_annotations, meta_data)
+
+    def test_annotate_prefix(self):
+
+        text = (
+            "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
+            "(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
+            "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
+        )
+
+        annotator = annotate.get_annotators()['prefix_with_name']
+
+        meta_data = {
+            "patient": Person(
+                first_names=['Jan'],
+                surname='Jansen'
+            )
+        }
+
+        expected_annotations = {
+
             docdeid.Annotation(
-                text="patient ", start_char=54, end_char=62, tag="persoon"
+                text='patient J', start_char=54, end_char=63, tag='prefix+naam'
             ),
-            docdeid.Annotation(
-                text="Jan Jansen", start_char=39, end_char=49, tag="patient"
-            ),
+        }
+
+        self._test_annotator(annotator, text, expected_annotations, meta_data)
+
+    def test_annotate_person_surname(self):
+
+        text = (
+            "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
+            "(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
+            "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
+        )
+
+        annotator = annotate.get_annotators()['person_surname']
+
+        meta_data = {
+            "patient": Person(
+                first_names=['Jan'],
+                surname='Jansen'
+            )
+        }
+
+        expected_annotations = {
+            docdeid.Annotation(text='Jansen', start_char=65, end_char=71, tag='achternaam_patient'),
+            docdeid.Annotation(text='Jansen', start_char=43, end_char=49, tag='achternaam_patient')
+
         }
 
         self._test_annotator(annotator, text, expected_annotations, meta_data)
@@ -62,22 +129,22 @@ class TestAnnotateMethods(unittest.TestCase):
     def test_annotate_initials(self):
 
         text = "C. geeft aan dood te willen. C. tot op nu blij"
-        annotator = annotate.get_annotators()['name']
+        annotator = annotate.get_annotators()['person_initials']
 
         meta_data = {
             "patient": Person(
                 first_names=['Peter', 'Charles'],
                 surname='de Jong',
-                initials='PC',
+                initials='C',
                 given_name='Charlie'
             )
         }
 
         expected_annotations = {
             docdeid.Annotation(
-                text="C", start_char=29, end_char=30, tag="patient"
+                text="C", start_char=29, end_char=30, tag="initialen_patient"
             ),
-            docdeid.Annotation(text="C", start_char=0, end_char=1, tag="patient"),
+            docdeid.Annotation(text="C", start_char=0, end_char=1, tag="initialen_patient"),
         }
 
         self._test_annotator(annotator, text, expected_annotations, meta_data)
@@ -85,7 +152,7 @@ class TestAnnotateMethods(unittest.TestCase):
     def test_annotate_initials_attached(self):
 
         text = "toegangstijd: N.v.t."
-        annotator = annotate.get_annotators()['name']
+        annotator = annotate.get_annotators()['person_initial_from_name']
 
         meta_data = {
             "patient": Person(
@@ -97,7 +164,7 @@ class TestAnnotateMethods(unittest.TestCase):
         }
 
         expected_annotations = {
-            docdeid.Annotation(text="N", start_char=14, end_char=15, tag="patient")
+            docdeid.Annotation(text="N", start_char=14, end_char=15, tag="initiaal_patient")
         }
 
         self._test_annotator(annotator, text, expected_annotations, meta_data)

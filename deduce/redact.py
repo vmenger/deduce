@@ -1,9 +1,9 @@
 from collections import defaultdict
-from typing import Any
 
 import docdeid
 from docdeid.annotate.redactor import BaseRedactor
 from rapidfuzz.distance import DamerauLevenshtein
+
 
 class DeduceRedactor(BaseRedactor):
     """Copies the logic from deidentify_annotations"""
@@ -11,7 +11,7 @@ class DeduceRedactor(BaseRedactor):
     @staticmethod
     def _group_annotations(
         annotations: list[docdeid.Annotation],
-    ) -> defaultdict[Any, list]:
+    ) -> defaultdict[str, list]:
 
         tag_to_list = defaultdict(list)
 
@@ -44,7 +44,7 @@ class DeduceRedactor(BaseRedactor):
                     # Check match with any
                     for annotation_match in annotations_to_replacement_group.keys():
 
-                        if DamerauLevenshtein.distance(annotation.text, annotation_match.text, score_threshold=1) <= 1:
+                        if DamerauLevenshtein.distance(annotation.text, annotation_match.text, score_cutoff=1) <= 1:
 
                             annotations_to_replacement_group[
                                 annotation

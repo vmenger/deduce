@@ -21,6 +21,7 @@ from deduce.patterns.name import (
     PersonSurnamePattern,
     PrefixWithNamePattern,
     SurnameLookupPattern,
+    TokenPatternAnnotator,
 )
 from deduce.patterns.name_context import (
     InitialNameContextPattern,
@@ -29,7 +30,7 @@ from deduce.patterns.name_context import (
     NexusContextPattern,
 )
 from deduce.tokenizer import Tokenizer
-
+import deduce.utility
 
 def _initialize():
 
@@ -56,121 +57,19 @@ class Person:
     given_name: str = None
 
 
-class NamesAnnotator(docdeid.BaseAnnotator):
-    def __init__(self):
-
-        self._raw_patterns = [
-            PrefixWithNamePattern(tag="prefix+naam", lookup_lists=_lookup_lists),
-            InterfixWithNamePattern(tag="interfix+naam", lookup_lists=_lookup_lists),
-            InitialWithCapitalPattern(tag="initiaal+naam", lookup_lists=_lookup_lists),
-            InitiaalInterfixCapitalPattern(
-                tag="initiaal+interfix+naam", lookup_lists=_lookup_lists
-            ),
-            FirstNameLookupPattern(tag="voornaam_onbekend", lookup_lists=_lookup_lists),
-            SurnameLookupPattern(tag="achternaam_onbekend", lookup_lists=_lookup_lists),
-            PersonFirstNamePattern(tag="voornaam_patient"),
-            PersonInitialFromNamePattern(tag="initiaal_patient"),
-            PersonInitialsPattern(tag="initialen_patient"),
-            PersonGivenNamePattern(tag="roepnaam_patient"),
-            PersonSurnamePattern(tag="achternaam_patient", tokenizer=tokenizer),
-        ]
-
-        self._context_patterns = [
-            InitialsContextPattern(lookup_lists=_lookup_lists),
-            InterfixContextPattern(lookup_lists=_lookup_lists),
-            InitialNameContextPattern(lookup_lists=_lookup_lists),
-            NexusContextPattern(),
-        ]
-
-    def _annotate_raw(self, document: docdeid.Document):
-
-        tokens = document.tokens
-        annotation_tuples = []
-
-        for i, token in enumerate(tokens):
-
-            for pattern in self._raw_patterns:
-                annotation_tuples.append(pattern.apply(token, document.get_meta_data()))
-
-        return annotation_tuples
-
-    def _annotate_context(
-        self,
-        annotation_tuples: list[tuple[docdeid.Token, docdeid.Token, str]],
-        document: docdeid.Document,
-    ) -> list[tuple[docdeid.Token, docdeid.Token, str]]:
-
-        next_annotation_tuples = []
-
-        for annotation_tuple in annotation_tuples:
-
-            changes = False
-
-            for context_pattern in self._context_patterns:
-                res = context_pattern.apply(*annotation_tuple)
-
-                if res is not None:
-                    next_annotation_tuples.append(res)
-                    changes = True
-                    break
-
-            if changes:
-                continue
-            else:
-                next_annotation_tuples.append(annotation_tuple)
-
-        # changes
-        if set(annotation_tuples) != set(next_annotation_tuples):
-            next_annotation_tuples = self._annotate_context(
-                next_annotation_tuples, document
-            )
-
-        return next_annotation_tuples
-
-    def annotate(self, document: docdeid.Document):
-
-        annotation_tuples = self._annotate_raw(document)
-
-        annotation_tuples = [a for a in annotation_tuples if a is not None]
-        annotation_tuples = self._annotate_context(annotation_tuples, document)
-
-        annotations = set()
-
-        @dataclass(frozen=True)
-        class DeduceAnnotation(docdeid.Annotation):
-            is_patient: bool
-
-        # TODO: This needs a better implementation.
-        for r in annotation_tuples:
-            if r is not None:
-                annotations.add(
-                    DeduceAnnotation(
-                        text=document.text[r[0].start_char : r[1].end_char],
-                        start_char=r[0].start_char,
-                        end_char=r[1].end_char,
-                        tag="persoon",
-                        is_patient="patient" in r[2],
-                    )
-                )
-
-        ov = OverlapResolver(
-            sort_by=["is_patient", "length"],
-            sort_by_callbacks={"is_patient": lambda x: -x, "length": lambda x: -x},
-        )
-
-        annotations = ov.process(annotations, text=document.text)
-
-        for annotation in annotations:
-            document.add_annotation(
-                docdeid.Annotation(
-                    text=annotation.text,
-                    start_char=annotation.start_char,
-                    end_char=annotation.end_char,
-                    tag="patient"
-                    if getattr(annotation, "is_patient", False)
-                    else "persoon",
-                )
-            )
+NAME_PATTERNS = {
+    'prefix_with_name': PrefixWithNamePattern(tag="prefix+naam", lookup_lists=_lookup_lists),
+    'interfix_with_name': InterfixWithNamePattern(tag="interfix+naam", lookup_lists=_lookup_lists),
+    'initial_with_capital': InitialWithCapitalPattern(tag="initiaal+naam", lookup_lists=_lookup_lists),
+    'initial_interfix': InitiaalInterfixCapitalPattern(tag="initiaal+interfix+naam", lookup_lists=_lookup_lists),
+    'first_name_lookup': FirstNameLookupPattern(tag="voornaam_onbekend", lookup_lists=_lookup_lists),
+    'surname_lookup': SurnameLookupPattern(tag="achternaam_onbekend", lookup_lists=_lookup_lists),
+    'person_first_name': PersonFirstNamePattern(tag="voornaam_patient"),
+    'person_initial_from_name': PersonInitialFromNamePattern(tag="initiaal_patient"),
+    'person_initials': PersonInitialsPattern(tag="initialen_patient"),
+    'person_given_name': PersonGivenNamePattern(tag="roepnaam_patient"),
+    'person_surname': PersonSurnamePattern(tag="achternaam_patient", tokenizer=tokenizer),
+}
 
 
 REGEPXS = {
@@ -255,6 +154,122 @@ REGEPXS = {
 }
 
 
+class NamesContextAnnotator(docdeid.BaseAnnotator):
+    """ This needs to go after the relevant annotators."""
+
+    def __init__(self):
+
+        self._context_patterns = [
+            InitialsContextPattern(lookup_lists=_lookup_lists),
+            InterfixContextPattern(lookup_lists=_lookup_lists),
+            InitialNameContextPattern(lookup_lists=_lookup_lists),
+            NexusContextPattern(),
+        ]
+
+    def _annotate_context(
+        self,
+        annotation_tuples: list[tuple[docdeid.Token, docdeid.Token, str]],
+        document: docdeid.Document,
+    ) -> list[tuple[docdeid.Token, docdeid.Token, str]]:
+
+        next_annotation_tuples = []
+
+        for annotation_tuple in annotation_tuples:
+
+            changes = False
+
+            for context_pattern in self._context_patterns:
+                res = context_pattern.apply(*annotation_tuple)
+
+                if res is not None:
+                    next_annotation_tuples.append(res)
+                    changes = True
+                    break
+
+            if changes:
+                continue
+            else:
+                next_annotation_tuples.append(annotation_tuple)
+
+        # changes
+        if set(annotation_tuples) != set(next_annotation_tuples):
+            next_annotation_tuples = self._annotate_context(
+                next_annotation_tuples, document
+            )
+
+        return next_annotation_tuples
+
+    @staticmethod
+    def get_context_tuples(document: docdeid.Document) -> list[tuple]:
+
+        annotations = [
+            annotation
+            for annotation in document.annotations
+            if deduce.utility.any_in_text(["initia", "naam", "interfix", "prefix"], annotation.tag)
+        ]
+
+        for annotation in annotations:
+            document.remove_annotation(annotation)
+
+        return [
+            (annotation.start_token, annotation.end_token, annotation.tag)
+            for annotation in annotations
+        ]
+
+    def annotate(self, document: docdeid.Document):
+
+        annotation_tuples = self.get_context_tuples(document)
+        annotation_tuples = self._annotate_context(annotation_tuples, document)
+
+        annotations = set()
+
+        @dataclass(frozen=True)
+        class DeduceAnnotation(docdeid.Annotation):
+            is_patient: bool = False
+
+        # TODO: This needs a better implementation.
+        for r in annotation_tuples:
+            if r is not None:
+                annotations.add(
+                    DeduceAnnotation(
+                        text=document.text[r[0].start_char : r[1].end_char],
+                        start_char=r[0].start_char,
+                        end_char=r[1].end_char,
+                        tag="persoon",
+                        is_patient="patient" in r[2],
+                    )
+                )
+
+        ov = OverlapResolver(
+            sort_by=["is_patient", "length"],
+            sort_by_callbacks={"is_patient": lambda x: -x, "length": lambda x: -x},
+        )
+
+        annotations = ov.process(annotations, text=document.text)
+
+        for annotation in annotations:
+            document.add_annotation(
+                docdeid.Annotation(
+                    text=annotation.text,
+                    start_char=annotation.start_char,
+                    end_char=annotation.end_char,
+                    tag="patient"
+                    if getattr(annotation, "is_patient", False)
+                    else "persoon",
+                )
+            )
+
+
+def _get_name_pattern_annotators() -> dict[str, docdeid.BaseAnnotator]:
+
+    annotators = {}
+
+    for pattern_name, pattern in NAME_PATTERNS.items():
+        annotators[pattern_name] = TokenPatternAnnotator(pattern=pattern)
+
+    return annotators
+
+
 def _get_regexp_annotators() -> dict[str, docdeid.BaseAnnotator]:
 
     annotators = {}
@@ -267,8 +282,9 @@ def _get_regexp_annotators() -> dict[str, docdeid.BaseAnnotator]:
 
 def get_annotators() -> dict[str, docdeid.BaseAnnotator]:
 
-    annotators = {
-        "name": NamesAnnotator(),
+    annotators = _get_name_pattern_annotators()
+
+    annotators |= {
         "institution": MultiTokenLookupAnnotator(
             lookup_values=_lookup_lists["institutions"],
             tokenizer=tokenizer,
@@ -285,5 +301,9 @@ def get_annotators() -> dict[str, docdeid.BaseAnnotator]:
     }
 
     annotators |= _get_regexp_annotators()
+
+    annotators |= {
+        "name_context": NamesContextAnnotator(),
+    }
 
     return annotators
