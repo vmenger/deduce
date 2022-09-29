@@ -5,7 +5,7 @@ import docdeid
 from docdeid.annotate.annotation_processor import OverlapResolver
 from rapidfuzz.distance import DamerauLevenshtein
 
-from deduce.annotate import get_annotators, tokenizer, Person
+from deduce.annotate import get_doc_processors, tokenizer, Person
 from deduce.annotation_processing import DeduceMergeAdjacentAnnotations
 from deduce.redact import DeduceRedactor
 
@@ -21,22 +21,22 @@ class Deduce(docdeid.DocDeid):
 
         self.add_tokenizer("default", tokenizer)
 
-        self.set_redactor(DeduceRedactor())
+        for name, processor in get_doc_processors().items():
+            self.add_document_processor(name, processor)
 
-        for name, annotator in get_annotators().items():
-            self.add_annotator(name, annotator)
-
-        self.add_annotation_postprocessor(
+        self.add_document_processor(
             "overlap_resolver",
             OverlapResolver(
                 sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
             ),
         )
 
-        self.add_annotation_postprocessor(
+        self.add_document_processor(
             "merge_adjacent_annotations",
             DeduceMergeAdjacentAnnotations(slack_regexp=r"[\.\s\-,]?[\.\s]?"),
         )
+
+        self.add_document_processor("redactor", DeduceRedactor())
 
 
 def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
@@ -62,8 +62,6 @@ def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
 # Backwards compatibility stuff beneath this line.
 
 deduce_model = Deduce()
-
-
 
 
 def _annotate_text_backwardscompat(
@@ -96,17 +94,18 @@ def _annotate_text_backwardscompat(
         )
     }
 
-    annotators_enabled = []
+    processors_enabled = []
 
     if names:
-        annotators_enabled += ['prefix_with_name', 'interfix_with_name', 'initial_with_capital', 'initial_interfix', 'first_name_lookup', 'surname_lookup', 'person_first_name', 'person_initial_from_name', 'person_initials', 'person_given_name', 'person_surname']
-        annotators_enabled += ["name_context"]
+        processors_enabled += ['name_group']
+        processors_enabled += ['prefix_with_name', 'interfix_with_name', 'initial_with_capital', 'initial_interfix', 'first_name_lookup', 'surname_lookup', 'person_first_name', 'person_initial_from_name', 'person_initials', 'person_given_name', 'person_surname']
+        processors_enabled += ["person_annotation_converter", "name_context"]
 
     if institutions:
-        annotators_enabled += ["institution", "altrecht"]
+        processors_enabled += ["institution", "altrecht"]
 
     if locations:
-        annotators_enabled += [
+        processors_enabled += [
             "residence",
             "street_with_number",
             "postal_code",
@@ -114,22 +113,24 @@ def _annotate_text_backwardscompat(
         ]
 
     if phone_numbers:
-        annotators_enabled += ["phone_1", "phone_2", "phone_3"]
+        processors_enabled += ["phone_1", "phone_2", "phone_3"]
 
     if patient_numbers:
-        annotators_enabled += ["patient_number"]
+        processors_enabled += ["patient_number"]
 
     if dates:
-        annotators_enabled += ["date_1", "date_2"]
+        processors_enabled += ["date_1", "date_2"]
 
     if ages:
-        annotators_enabled += ["age"]
+        processors_enabled += ["age"]
 
     if urls:
-        annotators_enabled += ["email", "url_1", "url_2"]
+        processors_enabled += ["email", "url_1", "url_2"]
+
+    processors_enabled += ['overlap_resolver', 'merge_adjacent_annotations', 'redactor']
 
     doc = deduce_model.deidentify(
-        text=text, annotators_enabled=annotators_enabled, meta_data=meta_data
+        text=text, processors_enabled=processors_enabled, meta_data=meta_data
     )
 
     return doc
