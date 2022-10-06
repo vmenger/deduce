@@ -15,14 +15,14 @@ class TestAnnotateMethods(unittest.TestCase):
         annotator: docdeid.BaseAnnotator,
         text: str,
         expected_annotations: set[docdeid.Annotation],
-        meta_data: Optional[dict] = None,
+        metadata: Optional[dict] = None,
     ):
 
         document = docdeid.Document(
-            text=text, tokenizers={'default': tokenizer}, meta_data=meta_data or {}
+            text=text, tokenizers={'default': tokenizer}, metadata=metadata or {}
         )
 
-        annotations = annotator.annotate(document)
+        annotations = set(annotator.annotate(document))
 
         self.assertEqual(annotations, expected_annotations)
 
@@ -36,7 +36,7 @@ class TestAnnotateMethods(unittest.TestCase):
 
         annotator = annotate._get_name_pattern_annotators()['initial_with_capital']
 
-        meta_data = {
+        metadata = {
             "patient": Person(
                 first_names=['Jan'],
                 surname='Jansen'
@@ -49,7 +49,7 @@ class TestAnnotateMethods(unittest.TestCase):
             ),
         }
 
-        self._test_annotator(annotator, text, expected_annotations, meta_data)
+        self._test_annotator(annotator, text, expected_annotations, metadata)
 
     def test_annotate_interfix(self):
 
@@ -61,7 +61,7 @@ class TestAnnotateMethods(unittest.TestCase):
 
         annotator = annotate._get_name_pattern_annotators()['interfix_with_name']
 
-        meta_data = {
+        metadata = {
             "patient": Person(
                 first_names=['Jan'],
                 surname='Jansen'
@@ -74,7 +74,7 @@ class TestAnnotateMethods(unittest.TestCase):
             ),
         }
 
-        self._test_annotator(annotator, text, expected_annotations, meta_data)
+        self._test_annotator(annotator, text, expected_annotations, metadata)
 
     def test_annotate_prefix(self):
 
@@ -86,7 +86,7 @@ class TestAnnotateMethods(unittest.TestCase):
 
         annotator = annotate._get_name_pattern_annotators()['prefix_with_name']
 
-        meta_data = {
+        metadata = {
             "patient": Person(
                 first_names=['Jan'],
                 surname='Jansen'
@@ -100,7 +100,7 @@ class TestAnnotateMethods(unittest.TestCase):
             ),
         }
 
-        self._test_annotator(annotator, text, expected_annotations, meta_data)
+        self._test_annotator(annotator, text, expected_annotations, metadata)
 
     def test_annotate_person_surname(self):
 
@@ -112,7 +112,7 @@ class TestAnnotateMethods(unittest.TestCase):
 
         annotator = annotate._get_name_pattern_annotators()['person_surname']
 
-        meta_data = {
+        metadata = {
             "patient": Person(
                 first_names=['Jan'],
                 surname='Jansen'
@@ -125,14 +125,14 @@ class TestAnnotateMethods(unittest.TestCase):
 
         }
 
-        self._test_annotator(annotator, text, expected_annotations, meta_data)
+        self._test_annotator(annotator, text, expected_annotations, metadata)
 
     def test_annotate_initials(self):
 
         text = "C. geeft aan dood te willen. C. tot op nu blij"
         annotator = annotate._get_name_pattern_annotators()['person_initials']
 
-        meta_data = {
+        metadata = {
             "patient": Person(
                 first_names=['Peter', 'Charles'],
                 surname='de Jong',
@@ -148,14 +148,14 @@ class TestAnnotateMethods(unittest.TestCase):
             docdeid.Annotation(text="C", start_char=0, end_char=1, tag="initialen_patient"),
         }
 
-        self._test_annotator(annotator, text, expected_annotations, meta_data)
+        self._test_annotator(annotator, text, expected_annotations, metadata)
 
     def test_annotate_initials_attached(self):
 
         text = "toegangstijd: N.v.t."
         annotator = annotate._get_name_pattern_annotators()['person_initial_from_name']
 
-        meta_data = {
+        metadata = {
             "patient": Person(
                 first_names=['Nicholas', 'David'],
                 surname='de Jong',
@@ -168,7 +168,7 @@ class TestAnnotateMethods(unittest.TestCase):
             docdeid.Annotation(text="N", start_char=14, end_char=15, tag="initiaal_patient")
         }
 
-        self._test_annotator(annotator, text, expected_annotations, meta_data)
+        self._test_annotator(annotator, text, expected_annotations, metadata)
 
     def test_annotate_address_no_number(self):
 

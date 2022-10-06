@@ -32,7 +32,7 @@ class PrefixWithNamePattern(TokenPatternWithLookup):
 
         return token.next() is not None
 
-    def match(self, token: docdeid.Token, meta_data: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
+    def match(self, token: docdeid.Token, metadata: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
         if (
             token.text.lower() in self._lookup_lists["prefixes"] and
@@ -49,7 +49,7 @@ class InterfixWithNamePattern(TokenPatternWithLookup):
 
         return token.next() is not None
 
-    def match(self, token: docdeid.Token, meta_data: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
+    def match(self, token: docdeid.Token, metadata: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
         if (
             token.text.lower() in self._lookup_lists["interfixes"] and
@@ -66,7 +66,7 @@ class InitialWithCapitalPattern(TokenPatternWithLookup):
 
         return token.next() is not None
 
-    def match(self, token: docdeid.Token, meta_data: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
+    def match(self, token: docdeid.Token, metadata: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
         if (
             token.text[0].isupper() and
@@ -88,7 +88,7 @@ class InitiaalInterfixCapitalPattern(TokenPatternWithLookup):
             (token.next() is not None)
         )
 
-    def match(self, token: docdeid.Token, meta_data: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
+    def match(self, token: docdeid.Token, metadata: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
         if (
             token.previous().text[0].isupper() and
@@ -103,7 +103,7 @@ class InitiaalInterfixCapitalPattern(TokenPatternWithLookup):
 class FirstNameLookupPattern(TokenPatternWithLookup):
     # TODO: make this a separate annotator class
 
-    def match(self, token: docdeid.Token, meta_data: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
+    def match(self, token: docdeid.Token, metadata: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
         if (
             token.text in self._lookup_lists["first_names"] and
@@ -116,7 +116,7 @@ class FirstNameLookupPattern(TokenPatternWithLookup):
 class SurnameLookupPattern(TokenPatternWithLookup):
     # TODO: make this a separate annotator class
 
-    def match(self, token: docdeid.Token, meta_data: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
+    def match(self, token: docdeid.Token, metadata: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
         if (
             token.text in self._lookup_lists["surnames"] and
@@ -128,19 +128,19 @@ class SurnameLookupPattern(TokenPatternWithLookup):
 
 class PersonFirstNamePattern(TokenPattern):
 
-    def document_precondition(self, doc: docdeid.Document) -> bool:
+    def doc_precondition(self, doc: docdeid.Document) -> bool:
 
-        meta_data = doc.get_meta_data()
+        metadata = doc.get_metadata()
 
         return (
-            (meta_data is not None) and
-            ("patient" in meta_data) and
-            (meta_data['patient'].first_names is not None)
+            (metadata is not None) and
+            ("patient" in metadata) and
+            (metadata['patient'].first_names is not None)
         )
 
-    def match(self, token: docdeid.Token, meta_data: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
+    def match(self, token: docdeid.Token, metadata: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
-        for i, first_name in enumerate(meta_data["patient"].first_names):
+        for i, first_name in enumerate(metadata["patient"].first_names):
 
             if (
                     str_match(token, first_name) or (
@@ -154,19 +154,19 @@ class PersonFirstNamePattern(TokenPattern):
 
 class PersonInitialFromNamePattern(TokenPattern):
 
-    def document_precondition(self, doc: docdeid.Document) -> bool:
+    def doc_precondition(self, doc: docdeid.Document) -> bool:
 
-        meta_data = doc.get_meta_data()
+        metadata = doc.get_metadata()
 
         return (
-            (meta_data is not None) and
-            ("patient" in meta_data) and
-            (meta_data["patient"].first_names is not None)
+            (metadata is not None) and
+            ("patient" in metadata) and
+            (metadata["patient"].first_names is not None)
         )
 
-    def match(self, token: docdeid.Token, meta_data: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
+    def match(self, token: docdeid.Token, metadata: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
-        for i, first_name in enumerate(meta_data["patient"].first_names):
+        for i, first_name in enumerate(metadata["patient"].first_names):
 
             if str_match(token, first_name[0]):
 
@@ -184,19 +184,19 @@ class PersonSurnamePattern(TokenPattern):
         self._tokenizer = tokenizer
         super().__init__(*args, **kwargs)
 
-    def document_precondition(self, doc: docdeid.Document) -> bool:
+    def doc_precondition(self, doc: docdeid.Document) -> bool:
 
-        meta_data = doc.get_meta_data()
+        metadata = doc.get_metadata()
 
         return (
-            (meta_data is not None) and
-            ("patient" in meta_data) and
-            (meta_data["patient"].surname is not None)
+            (metadata is not None) and
+            ("patient" in metadata) and
+            (metadata["patient"].surname is not None)
         )
 
-    def match(self, token: docdeid.Token, meta_data: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
+    def match(self, token: docdeid.Token, metadata: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
-        surname_pattern = self._tokenizer.tokenize(meta_data["patient"].surname)  # todo: tokenize once
+        surname_pattern = self._tokenizer.tokenize(metadata["patient"].surname)  # todo: tokenize once
         surname_token = surname_pattern[0]
         start_token = token
 
@@ -221,40 +221,40 @@ class PersonSurnamePattern(TokenPattern):
 
 class PersonInitialsPattern(TokenPattern):
 
-    def document_precondition(self, doc: docdeid.Document) -> bool:
+    def doc_precondition(self, doc: docdeid.Document) -> bool:
 
-        meta_data = doc.get_meta_data()
+        metadata = doc.get_metadata()
 
         return (
-            (meta_data is not None) and
-            ("patient" in meta_data) and
-            (meta_data["patient"].initials is not None)
+            (metadata is not None) and
+            ("patient" in metadata) and
+            (metadata["patient"].initials is not None)
         )
 
-    def match(self, token: docdeid.Token, meta_data: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
+    def match(self, token: docdeid.Token, metadata: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
-        if str_match(token, meta_data["patient"].initials):
+        if str_match(token, metadata["patient"].initials):
             return token, token
 
 
 class PersonGivenNamePattern(TokenPattern):
 
-    def document_precondition(self, doc: docdeid.Document) -> bool:
+    def doc_precondition(self, doc: docdeid.Document) -> bool:
 
-        meta_data = doc.get_meta_data()
+        metadata = doc.get_metadata()
 
         return (
-            meta_data is not None and
-            "patient" in meta_data and
-            meta_data["patient"].given_name is not None
+            metadata is not None and
+            "patient" in metadata and
+            metadata["patient"].given_name is not None
         )
 
-    def match(self, token: docdeid.Token, meta_data: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
+    def match(self, token: docdeid.Token, metadata: Optional[dict] = None) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
         if (
-            str_match(token, meta_data["patient"].given_name) or (
+            str_match(token, metadata["patient"].given_name) or (
                 len(token) > 3 and
-                str_match(token, meta_data["patient"].given_name, max_edit_distance=1)
+                str_match(token, metadata["patient"].given_name, max_edit_distance=1)
             )
         ):
 

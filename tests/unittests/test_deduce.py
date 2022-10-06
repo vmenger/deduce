@@ -21,7 +21,7 @@ class TestDeduceMethods(unittest.TestCase):
             "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
         )
 
-        meta_data = {
+        metadata = {
             "patient": Person(
                 first_names=['Jan'],
                 surname='Jansen'
@@ -40,7 +40,7 @@ class TestDeduceMethods(unittest.TestCase):
             docdeid.Annotation("UMCU", 234, 238, "instelling"),
         }
 
-        annotations = self.deduce.deidentify(text=text, meta_data=meta_data).annotations
+        annotations = set(self.deduce.deidentify(text=text, metadata=metadata).annotations)
 
         assert len(expected_annotations) == len(annotations)
         self.assertEqual(expected_annotations, annotations)
@@ -53,14 +53,14 @@ class TestDeduceMethods(unittest.TestCase):
             "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
         )
 
-        meta_data = {
+        metadata = {
             "patient": Person(
                 first_names=['Jan'],
                 surname='Jansen'
             )
         }
 
-        doc = self.deduce.deidentify(text=text, meta_data=meta_data)
+        doc = self.deduce.deidentify(text=text, metadata=metadata)
 
         expected_text = (
             "Dit is stukje tekst met daarin de naam <PATIENT>. De <PATIENT> (e: <URL-1>, t: <TELEFOONNUMMER-1>) "
@@ -95,7 +95,7 @@ class TestDeduceMethods(unittest.TestCase):
 
         text = "\t Vandaag is Jan gekomen"
 
-        meta_data = {
+        metadata = {
             "patient": Person(
                 first_names=['Jan'],
                 surname='Jansen',
@@ -104,7 +104,7 @@ class TestDeduceMethods(unittest.TestCase):
             )
         }
 
-        annotations = self.deduce.deidentify(text=text, meta_data=meta_data).annotations
+        annotations = set(self.deduce.deidentify(text=text, metadata=metadata).annotations)
 
         self.assertEqual(1, len(annotations))
         self.assertTrue(docdeid.Annotation("Jan", 13, 16, "patient") in annotations)

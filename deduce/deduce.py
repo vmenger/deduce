@@ -22,21 +22,21 @@ class Deduce(docdeid.DocDeid):
         self.add_tokenizer("default", tokenizer)
 
         for name, processor in get_doc_processors().items():
-            self.add_document_processor(name, processor)
+            self.add_doc_processor(name, processor)
 
-        self.add_document_processor(
+        self.add_doc_processor(
             "overlap_resolver",
             OverlapResolver(
                 sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
             ),
         )
 
-        self.add_document_processor(
+        self.add_doc_processor(
             "merge_adjacent_annotations",
             DeduceMergeAdjacentAnnotations(slack_regexp=r"[\.\s\-,]?[\.\s]?"),
         )
 
-        self.add_document_processor("redactor", DeduceRedactor())
+        self.add_doc_processor("redactor", DeduceRedactor())
 
 
 def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
@@ -85,7 +85,7 @@ def _annotate_text_backwardscompat(
     if patient_first_names:
         patient_first_names = patient_first_names.split(" ")
 
-    meta_data = {
+    metadata = {
         'patient': Person(
             first_names=patient_first_names or None,
             initials=patient_initials or None,
@@ -130,7 +130,7 @@ def _annotate_text_backwardscompat(
     processors_enabled += ['overlap_resolver', 'merge_adjacent_annotations', 'redactor']
 
     doc = deduce_model.deidentify(
-        text=text, processors_enabled=processors_enabled, meta_data=meta_data
+        text=text, processors_enabled=processors_enabled, metadata=metadata
     )
 
     return doc
@@ -146,8 +146,8 @@ def annotate_text(text: str, *args, **kwargs):
 
     doc = _annotate_text_backwardscompat(text=text, *args, **kwargs)
 
-    annotations = doc.get_annotations_sorted(
-        by=["end_char"], callbacks={"end_char": lambda x: -x}
+    annotations = doc.get_annotations(
+        sort_by=["end_char"], sort_callbacks={"end_char": lambda x: -x}
     )
 
     for annotation in annotations:

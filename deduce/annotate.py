@@ -226,19 +226,19 @@ class NamesContextAnnotator(docdeid.BaseAnnotator):
 
         return next_annotations
 
-    def annotate(self, document: docdeid.Document) -> set[docdeid.Annotation]:
+    def annotate(self, doc: docdeid.Document) -> set[docdeid.Annotation]:
 
-        annotations = self._get_context_annotations(document)
+        annotations = self._get_context_annotations(doc)
 
         for annotation in annotations:
-            document.remove_annotation(annotation)
+            doc.annotations.remove(annotation)
 
-        annotations = self._annotate_context(annotations, document)
+        annotations = self._annotate_context(annotations, doc)
 
         return set(annotations)
 
 
-def _get_name_pattern_annotators() -> OrderedDict[str, docdeid.DocumentProcessor]:
+def _get_name_pattern_annotators() -> OrderedDict[str, docdeid.DocProcessor]:
 
     annotators = OrderedDict()
 
@@ -248,7 +248,7 @@ def _get_name_pattern_annotators() -> OrderedDict[str, docdeid.DocumentProcessor
     return annotators
 
 
-def _get_regexp_annotators() -> OrderedDict[str, docdeid.DocumentProcessor]:
+def _get_regexp_annotators() -> OrderedDict[str, docdeid.DocProcessor]:
 
     annotators = OrderedDict()
 
@@ -258,7 +258,7 @@ def _get_regexp_annotators() -> OrderedDict[str, docdeid.DocumentProcessor]:
     return annotators
 
 
-def _get_name_processor_group() -> docdeid.DocumentProcessorGroup:
+def _get_name_processor_group() -> docdeid.DocProcessorGroup:
 
     name_processors = _get_name_pattern_annotators()
 
@@ -269,10 +269,10 @@ def _get_name_processor_group() -> docdeid.DocumentProcessorGroup:
 
     name_processors['person_annotation_converter'] = PersonAnnotationConverter()
 
-    return docdeid.DocumentProcessorGroup(name_processors)
+    return docdeid.DocProcessorGroup(name_processors)
 
 
-def get_doc_processors() -> OrderedDict[str, docdeid.DocumentProcessor]:
+def get_doc_processors() -> OrderedDict[str, docdeid.DocProcessor]:
 
     annotators = OrderedDict()
 

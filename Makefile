@@ -3,8 +3,8 @@ test:
 
 format:
 	isort deduce/ --profile black
-	python -m black deduce/
-	pylint --max-line-length=140 deduce/
+	python -m black --line-length 120 deduce/
+	pylint --max-line-length=120 deduce/
 
 
 publish:
