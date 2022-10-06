@@ -1,2 +1,2 @@
 rapidfuzz
-docdeid==0.0.10
+docdeid==0.0.11
