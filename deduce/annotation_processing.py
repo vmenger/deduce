@@ -1,7 +1,12 @@
 from dataclasses import dataclass
 
 import docdeid
-from docdeid.annotate.annotation_processor import MergeAdjacentAnnotations, BaseAnnotationProcessor, OverlapResolver
+from docdeid.annotate.annotation import AnnotationSet
+from docdeid.annotate.annotation_processor import (
+    BaseAnnotationProcessor,
+    MergeAdjacentAnnotations,
+    OverlapResolver,
+)
 
 
 class DeduceMergeAdjacentAnnotations(MergeAdjacentAnnotations):
@@ -38,10 +43,9 @@ class _PatientAnnotation(docdeid.Annotation):
 
 
 class PersonAnnotationConverter(BaseAnnotationProcessor):
+    def process_annotations(self, annotations: AnnotationSet, text: str) -> AnnotationSet:
 
-    def process_annotations(self, annotations: set[docdeid.Annotation], text: str) -> set[docdeid.Annotation]:
-
-        new_annotations = set()
+        new_annotations = AnnotationSet()
 
         for annotation in annotations:
             new_annotations.add(
@@ -59,7 +63,7 @@ class PersonAnnotationConverter(BaseAnnotationProcessor):
             sort_by_callbacks={"is_patient": lambda x: -x, "length": lambda x: -x},
         ).process_annotations(new_annotations, text=text)
 
-        return set(
+        return AnnotationSet(
             docdeid.Annotation(
                 text=annotation.text,
                 start_char=annotation.start_char,

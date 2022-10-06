@@ -5,7 +5,7 @@ import docdeid
 from docdeid.annotate.annotation_processor import OverlapResolver
 from rapidfuzz.distance import DamerauLevenshtein
 
-from deduce.annotate import get_doc_processors, tokenizer, Person
+from deduce.annotate import Person, get_doc_processors, tokenizer
 from deduce.annotation_processing import DeduceMergeAdjacentAnnotations
 from deduce.redact import DeduceRedactor
 
@@ -19,24 +19,20 @@ class Deduce(docdeid.DocDeid):
 
     def _initialize_deduce(self):
 
-        self.add_tokenizer("default", tokenizer)
+        self.tokenizers["default"] = tokenizer
 
         for name, processor in get_doc_processors().items():
-            self.add_doc_processor(name, processor)
+            self.processors[name] = processor
 
-        self.add_doc_processor(
-            "overlap_resolver",
-            OverlapResolver(
-                sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
-            ),
+        self.processors["overlap_resolver"] = OverlapResolver(
+            sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
         )
 
-        self.add_doc_processor(
-            "merge_adjacent_annotations",
-            DeduceMergeAdjacentAnnotations(slack_regexp=r"[\.\s\-,]?[\.\s]?"),
+        self.processors["merge_adjacent_annotations"] = DeduceMergeAdjacentAnnotations(
+            slack_regexp=r"[\.\s\-,]?[\.\s]?"
         )
 
-        self.add_doc_processor("redactor", DeduceRedactor())
+        self.processors["redactor"] = DeduceRedactor()
 
 
 def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
@@ -44,9 +40,7 @@ def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
 
     annotations = sorted(
         list(annotations),
-        key=lambda a: a.get_sort_key(
-            by=["end_char"], callbacks={"end_char": lambda x: -x}
-        ),
+        key=lambda a: a.get_sort_key(by=["end_char"], callbacks={"end_char": lambda x: -x}),
     )
 
     for annotation in annotations:
@@ -86,19 +80,31 @@ def _annotate_text_backwardscompat(
         patient_first_names = patient_first_names.split(" ")
 
     metadata = {
-        'patient': Person(
+        "patient": Person(
             first_names=patient_first_names or None,
             initials=patient_initials or None,
             surname=patient_surname or None,
-            given_name=patient_given_name or None
+            given_name=patient_given_name or None,
         )
     }
 
     processors_enabled = []
 
     if names:
-        processors_enabled += ['name_group']
-        processors_enabled += ['prefix_with_name', 'interfix_with_name', 'initial_with_capital', 'initial_interfix', 'first_name_lookup', 'surname_lookup', 'person_first_name', 'person_initial_from_name', 'person_initials', 'person_given_name', 'person_surname']
+        processors_enabled += ["name_group"]
+        processors_enabled += [
+            "prefix_with_name",
+            "interfix_with_name",
+            "initial_with_capital",
+            "initial_interfix",
+            "first_name_lookup",
+            "surname_lookup",
+            "person_first_name",
+            "person_initial_from_name",
+            "person_initials",
+            "person_given_name",
+            "person_surname",
+        ]
         processors_enabled += ["person_annotation_converter", "name_context"]
 
     if institutions:
@@ -127,11 +133,9 @@ def _annotate_text_backwardscompat(
     if urls:
         processors_enabled += ["email", "url_1", "url_2"]
 
-    processors_enabled += ['overlap_resolver', 'merge_adjacent_annotations', 'redactor']
+    processors_enabled += ["overlap_resolver", "merge_adjacent_annotations", "redactor"]
 
-    doc = deduce_model.deidentify(
-        text=text, processors_enabled=processors_enabled, metadata=metadata
-    )
+    doc = deduce_model.deidentify(text=text, processors_enabled=processors_enabled, metadata=metadata)
 
     return doc
 
@@ -146,9 +150,7 @@ def annotate_text(text: str, *args, **kwargs):
 
     doc = _annotate_text_backwardscompat(text=text, *args, **kwargs)
 
-    annotations = doc.get_annotations(
-        sort_by=["end_char"], sort_callbacks={"end_char": lambda x: -x}
-    )
+    annotations = doc.annotations.sorted(by=["end_char"], callbacks={"end_char": lambda x: -x})
 
     for annotation in annotations:
 
@@ -213,10 +215,7 @@ def deidentify_annotations(text):
             # Compute which other values have edit distance <=1 (fuzzy matching)
             # compared to this value
             thisval = phi_values[0]
-            dist = [
-                DamerauLevenshtein.distance(x, thisval, score_cutoff=1) <= 1
-                for x in phi_values[1:]
-            ]
+            dist = [DamerauLevenshtein.distance(x, thisval, score_cutoff=1) <= 1 for x in phi_values[1:]]
 
             # Replace this occurrence with the appropriate number from dispenser
             text = text.replace(f"<{tagname} {thisval}>", f"<{tagname}-{dispenser}>")

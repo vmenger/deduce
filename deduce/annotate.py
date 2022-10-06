@@ -1,11 +1,14 @@
 """ The annotate module contains the code for annotating text"""
 import re
+from collections import OrderedDict
 from dataclasses import dataclass
 
-from collections import OrderedDict
-
 import docdeid
-from docdeid.annotate.annotator import MultiTokenLookupAnnotator, RegexpAnnotator, TokenPatternAnnotator
+from docdeid.annotate.annotator import (
+    MultiTokenLookupAnnotator,
+    RegexpAnnotator,
+    TokenPatternAnnotator,
+)
 from docdeid.ds.lookup import LookupList
 from docdeid.str.processor import LowercaseString
 
@@ -61,17 +64,17 @@ class Person:
 
 
 NAME_PATTERNS = {
-    'prefix_with_name': PrefixWithNamePattern(tag="prefix+naam", lookup_lists=_lookup_lists),
-    'interfix_with_name': InterfixWithNamePattern(tag="interfix+naam", lookup_lists=_lookup_lists),
-    'initial_with_capital': InitialWithCapitalPattern(tag="initiaal+naam", lookup_lists=_lookup_lists),
-    'initial_interfix': InitiaalInterfixCapitalPattern(tag="initiaal+interfix+naam", lookup_lists=_lookup_lists),
-    'first_name_lookup': FirstNameLookupPattern(tag="voornaam_onbekend", lookup_lists=_lookup_lists),
-    'surname_lookup': SurnameLookupPattern(tag="achternaam_onbekend", lookup_lists=_lookup_lists),
-    'person_first_name': PersonFirstNamePattern(tag="voornaam_patient"),
-    'person_initial_from_name': PersonInitialFromNamePattern(tag="initiaal_patient"),
-    'person_initials': PersonInitialsPattern(tag="initialen_patient"),
-    'person_given_name': PersonGivenNamePattern(tag="roepnaam_patient"),
-    'person_surname': PersonSurnamePattern(tag="achternaam_patient", tokenizer=tokenizer),
+    "prefix_with_name": PrefixWithNamePattern(tag="prefix+naam", lookup_lists=_lookup_lists),
+    "interfix_with_name": InterfixWithNamePattern(tag="interfix+naam", lookup_lists=_lookup_lists),
+    "initial_with_capital": InitialWithCapitalPattern(tag="initiaal+naam", lookup_lists=_lookup_lists),
+    "initial_interfix": InitiaalInterfixCapitalPattern(tag="initiaal+interfix+naam", lookup_lists=_lookup_lists),
+    "first_name_lookup": FirstNameLookupPattern(tag="voornaam_onbekend", lookup_lists=_lookup_lists),
+    "surname_lookup": SurnameLookupPattern(tag="achternaam_onbekend", lookup_lists=_lookup_lists),
+    "person_first_name": PersonFirstNamePattern(tag="voornaam_patient"),
+    "person_initial_from_name": PersonInitialFromNamePattern(tag="initiaal_patient"),
+    "person_initials": PersonInitialsPattern(tag="initialen_patient"),
+    "person_given_name": PersonGivenNamePattern(tag="roepnaam_patient"),
+    "person_surname": PersonSurnamePattern(tag="achternaam_patient", tokenizer=tokenizer),
 }
 
 NAME_CONTEXT_PATTERNS = [
@@ -83,9 +86,7 @@ NAME_CONTEXT_PATTERNS = [
 
 REGEPXS = {
     "altrecht": {
-        "regexp_pattern": re.compile(
-            r"[aA][lL][tT][rR][eE][cC][hH][tT]((\s[A-Z][\w]*)*)"
-        ),
+        "regexp_pattern": re.compile(r"[aA][lL][tT][rR][eE][cC][hH][tT]((\s[A-Z][\w]*)*)"),
         "tag": "instelling",
     },
     "street_with_number": {
@@ -97,9 +98,7 @@ REGEPXS = {
         "capturing_group": 1,
     },
     "postal_code": {
-        "regexp_pattern": re.compile(
-            r"(\d{4} (?!MG)[A-Z]{2}|\d{4}(?!mg|MG)[a-zA-Z]{2})(\W|$)"
-        ),
+        "regexp_pattern": re.compile(r"(\d{4} (?!MG)[A-Z]{2}|\d{4}(?!mg|MG)[a-zA-Z]{2})(\W|$)"),
         "tag": "locatie",
         "capturing_group": 1,
     },
@@ -164,7 +163,7 @@ REGEPXS = {
 
 
 class NamesContextAnnotator(docdeid.BaseAnnotator):
-    """ This needs to go after the relevant annotators."""
+    """This needs to go after the relevant annotators."""
 
     def __init__(self, context_patterns: list[AnnotationContextPattern], tags: list[str]):
         self._context_patterns = context_patterns
@@ -173,14 +172,14 @@ class NamesContextAnnotator(docdeid.BaseAnnotator):
     def _get_context_annotations(self, document: docdeid.Document) -> list[docdeid.Annotation]:
 
         annotations = [
-            annotation
-            for annotation in document.annotations
-            if deduce.utility.any_in_text(self._tags, annotation.tag)
+            annotation for annotation in document.annotations if deduce.utility.any_in_text(self._tags, annotation.tag)
         ]
 
         return annotations
 
-    def _annotate_context(self, annotations: list[docdeid.Annotation], doc: docdeid.Document) -> list[docdeid.Annotation]:
+    def _annotate_context(
+        self, annotations: list[docdeid.Annotation], doc: docdeid.Document
+    ) -> list[docdeid.Annotation]:
 
         context_patterns = [pattern for pattern in self._context_patterns if pattern.document_precondition(doc)]
 
@@ -203,13 +202,13 @@ class NamesContextAnnotator(docdeid.BaseAnnotator):
 
                         next_annotations.append(
                             docdeid.Annotation(
-                                text=doc.text[start_token.start_char:end_token.end_char],
+                                text=doc.text[start_token.start_char : end_token.end_char],
                                 start_char=start_token.start_char,
                                 end_char=end_token.end_char,
                                 tag=context_pattern.tag.format(tag=annotation.tag),
                                 start_token=start_token,
-                                end_token=end_token
-                                )
+                                end_token=end_token,
+                            )
                         )
 
                         changes = True
@@ -262,12 +261,11 @@ def _get_name_processor_group() -> docdeid.DocProcessorGroup:
 
     name_processors = _get_name_pattern_annotators()
 
-    name_processors['name_context'] = NamesContextAnnotator(
-        context_patterns=NAME_CONTEXT_PATTERNS,
-        tags=["initia", "naam", "interfix", "prefix"]
+    name_processors["name_context"] = NamesContextAnnotator(
+        context_patterns=NAME_CONTEXT_PATTERNS, tags=["initia", "naam", "interfix", "prefix"]
     )
 
-    name_processors['person_annotation_converter'] = PersonAnnotationConverter()
+    name_processors["person_annotation_converter"] = PersonAnnotationConverter()
 
     return docdeid.DocProcessorGroup(name_processors)
 
@@ -276,22 +274,22 @@ def get_doc_processors() -> OrderedDict[str, docdeid.DocProcessor]:
 
     annotators = OrderedDict()
 
-    annotators['name_group'] = _get_name_processor_group()
+    annotators["name_group"] = _get_name_processor_group()
 
     annotators["institution"] = MultiTokenLookupAnnotator(
         lookup_values=_lookup_lists["institutions"],
         tokenizer=tokenizer,
         tag="instelling",
-        string_processors=[LowercaseString()],
+        matching_pipeline=[LowercaseString()],
         merge=False,
     )
 
-    annotators['residence'] = MultiTokenLookupAnnotator(
-         lookup_values=_lookup_lists["residences"],
-         tokenizer=tokenizer,
-         tag="locatie",
-         merge=False,
-     )
+    annotators["residence"] = MultiTokenLookupAnnotator(
+        lookup_values=_lookup_lists["residences"],
+        tokenizer=tokenizer,
+        tag="locatie",
+        merge=False,
+    )
 
     annotators |= _get_regexp_annotators()
 

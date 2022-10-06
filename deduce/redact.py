@@ -29,9 +29,7 @@ class DeduceRedactor(BaseRedactor):
             annotations_to_replacement_group = {}
             dispenser = 1
 
-            for annotation in sorted(
-                annotation_group, key=lambda a: a.get_sort_key(by=["end_char"])
-            ):
+            for annotation in sorted(annotation_group, key=lambda a: a.get_sort_key(by=["end_char"])):
 
                 if tag == "patient":
 
@@ -46,17 +44,15 @@ class DeduceRedactor(BaseRedactor):
 
                         if DamerauLevenshtein.distance(annotation.text, annotation_match.text, score_cutoff=1) <= 1:
 
-                            annotations_to_replacement_group[
-                                annotation
-                            ] = annotations_to_replacement_group[annotation_match]
+                            annotations_to_replacement_group[annotation] = annotations_to_replacement_group[
+                                annotation_match
+                            ]
                             match = True
                             break
 
                     if not match:
 
-                        annotations_to_replacement_group[
-                            annotation
-                        ] = f"<{annotation.tag.upper()}-{dispenser}>"
+                        annotations_to_replacement_group[annotation] = f"<{annotation.tag.upper()}-{dispenser}>"
                         dispenser += 1
 
                 annotations_to_intext_replacement |= annotations_to_replacement_group
@@ -65,9 +61,7 @@ class DeduceRedactor(BaseRedactor):
 
         sorted_annotations = sorted(
             annotations,
-            key=lambda a: a.get_sort_key(
-                by=["end_char"], callbacks={"end_char": lambda x: -x}
-            ),
+            key=lambda a: a.get_sort_key(by=["end_char"], callbacks={"end_char": lambda x: -x}),
         )
 
         for annotation in sorted_annotations:

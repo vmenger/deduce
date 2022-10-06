@@ -126,36 +126,26 @@ def _get_institutions_lookuplist():
     )
 
     institutions = LookupList()
-    institutions.add_items_from_iterable(
-        institutions_raw, cleaning_pipeline=[LowercaseString(), StripString()]
-    )
+    institutions.add_items_from_iterable(institutions_raw, cleaning_pipeline=[LowercaseString(), StripString()])
 
     institutions.add_items_from_iterable(
         institutions_raw,
         cleaning_pipeline=[
             LowercaseString(),
-            RemoveValues(
-                filter_values=["dr.", "der", "van", "de", "het", "'t", "in", "d'"]
-            ),
+            RemoveValues(filter_values=["dr.", "der", "van", "de", "het", "'t", "in", "d'"]),
             StripString(),
         ],
     )
 
-    institutions.add_items_from_self(
-        cleaning_pipeline=[ReplaceValue(".", ""), StripString()]
-    )
+    institutions.add_items_from_self(cleaning_pipeline=[ReplaceValue(".", ""), StripString()])
 
     institutions.add_items_from_self(cleaning_pipeline=[ReplaceValue("st ", "sint ")])
 
     institutions.add_items_from_self(cleaning_pipeline=[ReplaceValue("st. ", "sint ")])
 
-    institutions.add_items_from_self(
-        cleaning_pipeline=[ReplaceValue("ziekenhuis", "zkh")]
-    )
+    institutions.add_items_from_self(cleaning_pipeline=[ReplaceValue("ziekenhuis", "zkh")])
 
-    institutions.add_items_from_self(
-        cleaning_pipeline=[LowercaseString(), Acronimify(), FilterByLength(min_len=3)]
-    )
+    institutions.add_items_from_self(cleaning_pipeline=[LowercaseString(), Acronimify(), FilterByLength(min_len=3)])
 
     institutions = institutions - _get_whitelist_lookuplist()
 
@@ -174,11 +164,7 @@ def _get_residences_lookuplist():
     residences.add_items_from_self(cleaning_pipeline=[ReplaceValue("-", " ")])
 
     residences.add_items_from_self(
-        cleaning_pipeline=[
-            FilterBasedOnLookupList(
-                filter_list=_get_whitelist_lookuplist(), case_sensitive=False
-            )
-        ],
+        cleaning_pipeline=[FilterBasedOnLookupList(filter_list=_get_whitelist_lookuplist(), case_sensitive=False)],
         replace=True,
     )
 

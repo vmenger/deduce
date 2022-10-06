@@ -16,7 +16,6 @@ class _CharType(Enum):
 
 
 class Tokenizer(docdeid.BaseTokenizer):
-
     def __init__(self, merge_terms: Iterable = None):
 
         super().__init__()
@@ -46,9 +45,7 @@ class Tokenizer(docdeid.BaseTokenizer):
 
         while i < len(tokens):
 
-            longest_matching_prefix = self._trie.longest_matching_prefix(
-                tokens_text[i:]
-            )
+            longest_matching_prefix = self._trie.longest_matching_prefix(tokens_text[i:])
 
             if longest_matching_prefix is None:
                 tokens_merged.append(tokens[i])
@@ -56,9 +53,7 @@ class Tokenizer(docdeid.BaseTokenizer):
 
             else:
                 num_tokens_to_merge = len(longest_matching_prefix)
-                tokens_merged.append(
-                    self.join_tokens(tokens[i : i + num_tokens_to_merge])
-                )
+                tokens_merged.append(self.join_tokens(tokens[i : i + num_tokens_to_merge]))
                 i += num_tokens_to_merge
 
         return tokens_merged
@@ -72,12 +67,10 @@ class Tokenizer(docdeid.BaseTokenizer):
             end_char=tokens[-1].end_char,
         )
 
-    def tokenize_raw(self, text: str, merge: bool = True) -> list[docdeid.Token]:
+    def split_text(self, text: str, merge: bool = True) -> list[docdeid.Token]:
 
         if merge and self._trie is None:
-            raise AttributeError(
-                "Trying to use the tokenize with merging, but no merge terms specified."
-            )
+            raise AttributeError("Trying to use the tokenize with merging, but no merge terms specified.")
 
         tokens = []
         last_split = 0
@@ -114,20 +107,14 @@ class Tokenizer(docdeid.BaseTokenizer):
         return tokens
 
     @staticmethod
-    def next_token(
-        position: int, tokens: list[docdeid.Token]
-    ) -> Optional[docdeid.Token]:
+    def next_token(position: int, tokens: list[docdeid.Token]) -> Optional[docdeid.Token]:
 
         if position == len(tokens):
             return None
 
         for token in tokens[position + 1 :]:
 
-            if (
-                token.text[0] == ")"
-                or token.text[0] == ">"
-                or utility.any_in_text(["\n", "\r", "\t"], token.text)
-            ):
+            if token.text[0] == ")" or token.text[0] == ">" or utility.any_in_text(["\n", "\r", "\t"], token.text):
                 return None
 
             if token.text[0].isalpha():
@@ -136,20 +123,14 @@ class Tokenizer(docdeid.BaseTokenizer):
         return None
 
     @staticmethod
-    def previous_token(
-        position: int, tokens: list[docdeid.Token]
-    ) -> Optional[docdeid.Token]:
+    def previous_token(position: int, tokens: list[docdeid.Token]) -> Optional[docdeid.Token]:
 
         if position == 0:
             return None
 
         for token in tokens[position - 1 :: -1]:
 
-            if (
-                token.text[0] == "("
-                or token.text[0] == "<"
-                or utility.any_in_text(["\n", "\r", "\t"], token.text)
-            ):
+            if token.text[0] == "(" or token.text[0] == "<" or utility.any_in_text(["\n", "\r", "\t"], token.text):
                 return None
 
             if token.text[0].isalpha():
