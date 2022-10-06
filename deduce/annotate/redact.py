@@ -1,10 +1,8 @@
 from collections import defaultdict
-from typing import Any, Type
-
-from nltk import edit_distance
 
 import docdeid
 from docdeid.annotate.redactor import BaseRedactor
+from rapidfuzz.distance import DamerauLevenshtein
 
 
 class DeduceRedactor(BaseRedactor):
@@ -13,7 +11,7 @@ class DeduceRedactor(BaseRedactor):
     @staticmethod
     def _group_annotations(
         annotations: list[docdeid.Annotation],
-    ) -> defaultdict[Any, list]:
+    ) -> defaultdict[str, list]:
 
         tag_to_list = defaultdict(list)
 
@@ -28,14 +26,10 @@ class DeduceRedactor(BaseRedactor):
 
         for tag, annotation_group in self._group_annotations(annotations).items():
 
-            # print(tag, annotation_group)
-
             annotations_to_replacement_group = {}
             dispenser = 1
 
-            for annotation in sorted(
-                annotation_group, key=lambda a: a.get_sort_key(by=["end_char"])
-            ):
+            for annotation in sorted(annotation_group, key=lambda a: a.get_sort_key(by=["end_char"])):
 
                 if tag == "patient":
 
@@ -48,24 +42,18 @@ class DeduceRedactor(BaseRedactor):
                     # Check match with any
                     for annotation_match in annotations_to_replacement_group.keys():
 
-                        # print(annotation, annotation_match)
+                        if DamerauLevenshtein.distance(annotation.text, annotation_match.text, score_cutoff=1) <= 1:
 
-                        if edit_distance(annotation.text, annotation_match.text) <= 1:
-
-                            annotations_to_replacement_group[
-                                annotation
-                            ] = annotations_to_replacement_group[annotation_match]
+                            annotations_to_replacement_group[annotation] = annotations_to_replacement_group[
+                                annotation_match
+                            ]
                             match = True
                             break
 
                     if not match:
 
-                        annotations_to_replacement_group[
-                            annotation
-                        ] = f"<{annotation.tag.upper()}-{dispenser}>"
+                        annotations_to_replacement_group[annotation] = f"<{annotation.tag.upper()}-{dispenser}>"
                         dispenser += 1
-
-                        # print(annotations_to_replacement_group, dispenser)
 
                 annotations_to_intext_replacement |= annotations_to_replacement_group
 
@@ -73,9 +61,7 @@ class DeduceRedactor(BaseRedactor):
 
         sorted_annotations = sorted(
             annotations,
-            key=lambda a: a.get_sort_key(
-                by=["end_char"], callbacks={"end_char": lambda x: -x}
-            ),
+            key=lambda a: a.get_sort_key(by=["end_char"], callbacks={"end_char": lambda x: -x}),
         )
 
         for annotation in sorted_annotations:

@@ -1,13 +1,13 @@
 import re
 import warnings
 
-from nltk.metrics import edit_distance
-
 import docdeid
-from deduce.annotate import get_annotators, tokenizer
-from deduce.annotation_processing import DeduceMergeAdjacentAnnotations
-from deduce.redact import DeduceRedactor
 from docdeid.annotate.annotation_processor import OverlapResolver
+from rapidfuzz.distance import DamerauLevenshtein
+
+from deduce.annotate.annotate import Person, get_doc_processors, tokenizer
+from deduce.annotate.annotation_processing import DeduceMergeAdjacentAnnotations
+from deduce.annotate.redact import DeduceRedactor
 
 warnings.simplefilter(action="once")
 
@@ -19,24 +19,20 @@ class Deduce(docdeid.DocDeid):
 
     def _initialize_deduce(self):
 
-        self.add_tokenizer("default", tokenizer)
+        self.tokenizers["default"] = tokenizer
 
-        self.set_redactor(DeduceRedactor())
+        for name, processor in get_doc_processors().items():
+            self.processors[name] = processor
 
-        for name, annotator in get_annotators().items():
-            self.add_annotator(name, annotator)
-
-        self.add_annotation_postprocessor(
-            "overlap_resolver",
-            OverlapResolver(
-                sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
-            ),
+        self.processors["overlap_resolver"] = OverlapResolver(
+            sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
         )
 
-        self.add_annotation_postprocessor(
-            "merge_adjacent_annotations",
-            DeduceMergeAdjacentAnnotations(slack_regexp=r"[\.\s\-,]?[\.\s]?"),
+        self.processors["merge_adjacent_annotations"] = DeduceMergeAdjacentAnnotations(
+            slack_regexp=r"[\.\s\-,]?[\.\s]?"
         )
+
+        self.processors["redactor"] = DeduceRedactor()
 
 
 def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
@@ -44,9 +40,7 @@ def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
 
     annotations = sorted(
         list(annotations),
-        key=lambda a: a.get_sort_key(
-            by=["end_char"], callbacks={"end_char": lambda x: -x}
-        ),
+        key=lambda a: a.get_sort_key(by=["end_char"], callbacks={"end_char": lambda x: -x}),
     )
 
     for annotation in annotations:
@@ -82,23 +76,42 @@ def _annotate_text_backwardscompat(
 
     text = "" or text
 
-    meta_data = {
-        "patient_first_names": patient_first_names,
-        "patient_initials": patient_initials,
-        "patient_surname": patient_surname,
-        "patient_given_name": patient_given_name,
+    if patient_first_names:
+        patient_first_names = patient_first_names.split(" ")
+
+    metadata = {
+        "patient": Person(
+            first_names=patient_first_names or None,
+            initials=patient_initials or None,
+            surname=patient_surname or None,
+            given_name=patient_given_name or None,
+        )
     }
 
-    annotators_enabled = []
+    processors_enabled = []
 
     if names:
-        annotators_enabled += ["name"]
+        processors_enabled += ["name_group"]
+        processors_enabled += [
+            "prefix_with_name",
+            "interfix_with_name",
+            "initial_with_capital",
+            "initial_interfix",
+            "first_name_lookup",
+            "surname_lookup",
+            "person_first_name",
+            "person_initial_from_name",
+            "person_initials",
+            "person_given_name",
+            "person_surname",
+        ]
+        processors_enabled += ["person_annotation_converter", "name_context"]
 
     if institutions:
-        annotators_enabled += ["institution", "altrecht"]
+        processors_enabled += ["institution", "altrecht"]
 
     if locations:
-        annotators_enabled += [
+        processors_enabled += [
             "residence",
             "street_with_number",
             "postal_code",
@@ -106,23 +119,23 @@ def _annotate_text_backwardscompat(
         ]
 
     if phone_numbers:
-        annotators_enabled += ["phone_1", "phone_2", "phone_3"]
+        processors_enabled += ["phone_1", "phone_2", "phone_3"]
 
     if patient_numbers:
-        annotators_enabled += ["patient_number"]
+        processors_enabled += ["patient_number"]
 
     if dates:
-        annotators_enabled += ["date_1", "date_2"]
+        processors_enabled += ["date_1", "date_2"]
 
     if ages:
-        annotators_enabled += ["age"]
+        processors_enabled += ["age"]
 
     if urls:
-        annotators_enabled += ["email", "url_1", "url_2"]
+        processors_enabled += ["email", "url_1", "url_2"]
 
-    doc = deduce_model.deidentify(
-        text=text, annotators_enabled=annotators_enabled, meta_data=meta_data
-    )
+    processors_enabled += ["overlap_resolver", "merge_adjacent_annotations", "redactor"]
+
+    doc = deduce_model.deidentify(text=text, processors_enabled=processors_enabled, metadata=metadata)
 
     return doc
 
@@ -137,9 +150,7 @@ def annotate_text(text: str, *args, **kwargs):
 
     doc = _annotate_text_backwardscompat(text=text, *args, **kwargs)
 
-    annotations = doc.get_annotations_sorted(
-        by=["end_char"], callbacks={"end_char": lambda x: -x}
-    )
+    annotations = doc.annotations.sorted(by=["end_char"], callbacks={"end_char": lambda x: -x})
 
     for annotation in annotations:
 
@@ -204,10 +215,7 @@ def deidentify_annotations(text):
             # Compute which other values have edit distance <=1 (fuzzy matching)
             # compared to this value
             thisval = phi_values[0]
-            dist = [
-                edit_distance(x, thisval, transpositions=True) <= 1
-                for x in phi_values[1:]
-            ]
+            dist = [DamerauLevenshtein.distance(x, thisval, score_cutoff=1) <= 1 for x in phi_values[1:]]
 
             # Replace this occurrence with the appropriate number from dispenser
             text = text.replace(f"<{tagname} {thisval}>", f"<{tagname}-{dispenser}>")

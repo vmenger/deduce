@@ -3,11 +3,17 @@ import unittest
 import docdeid
 
 import deduce
-import deduce.utility
+from deduce.deduce import Deduce
+from deduce.annotate.annotate import Person
 
 
 class TestDeduceMethods(unittest.TestCase):
-    def test_annotate_text(self):
+
+    def setUp(self) -> None:
+
+        self.deduce = Deduce()
+
+    def test_annotate(self):
 
         text = (
             "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
@@ -15,24 +21,12 @@ class TestDeduceMethods(unittest.TestCase):
             "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
         )
 
-        annotated = deduce.annotate_text(
-            text=text, patient_first_names="Jan", patient_surname="Jansen"
-        )
-
-        expected_text = (
-            "Dit is stukje tekst met daarin de naam <PATIENT Jan Jansen>. De <PATIENT patient J. Jansen> "
-            "(e: <URL j.jnsen@email.com>, t: <TELEFOONNUMMER 06-12345678>) is <LEEFTIJD 64> jaar oud en "
-            "woonachtig in <LOCATIE Utrecht>. Hij werd op <DATUM 10 oktober> door arts "
-            "<PERSOON Peter de Visser> ontslagen van de kliniek van het <INSTELLING UMCU>."
-        )
-        self.assertEqual(expected_text, annotated)
-
-    def test_annotate_text_structured(self):
-        text = (
-            "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
-            "(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
-            "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
-        )
+        metadata = {
+            "patient": Person(
+                first_names=['Jan'],
+                surname='Jansen'
+            )
+        }
 
         expected_annotations = {
             docdeid.Annotation("Jan Jansen", 39, 49, "patient"),
@@ -46,25 +40,74 @@ class TestDeduceMethods(unittest.TestCase):
             docdeid.Annotation("UMCU", 234, 238, "instelling"),
         }
 
-        structured = deduce.deduce.annotate_text_structured(
-            text, patient_first_names="Jan", patient_surname="Jansen"
+        annotations = set(self.deduce.deidentify(text=text, metadata=metadata).annotations)
+
+        assert len(expected_annotations) == len(annotations)
+        self.assertEqual(expected_annotations, annotations)
+
+    def test_deidentify(self):
+
+        text = (
+            "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
+            "(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
+            "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
         )
 
-        assert len(expected_annotations) == len(structured)
-        self.assertEqual(expected_annotations, set(structured))
+        metadata = {
+            "patient": Person(
+                first_names=['Jan'],
+                surname='Jansen'
+            )
+        }
+
+        doc = self.deduce.deidentify(text=text, metadata=metadata)
+
+        expected_text = (
+            "Dit is stukje tekst met daarin de naam <PATIENT>. De <PATIENT> (e: <URL-1>, t: <TELEFOONNUMMER-1>) "
+            "is <LEEFTIJD-1> jaar oud en woonachtig in <LOCATIE-1>. Hij werd op <DATUM-1> door arts <PERSOON-1> "
+            "ontslagen van de kliniek van het <INSTELLING-1>."
+        )
+
+        self.assertEqual(expected_text, doc.deidentified_text)
+
+    def test_annotate_backwardscompat(self):
+
+            text = (
+                "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
+                "(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
+                "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
+            )
+
+            annotated = deduce.annotate_text(
+                text=text, patient_first_names="Jan", patient_surname="Jansen", patient_initials="J", patient_given_name="Jantinus"
+            )
+
+            expected_text = (
+                "Dit is stukje tekst met daarin de naam <PATIENT Jan Jansen>. De <PATIENT patient J. Jansen> "
+                "(e: <URL j.jnsen@email.com>, t: <TELEFOONNUMMER 06-12345678>) is <LEEFTIJD 64> jaar oud en "
+                "woonachtig in <LOCATIE Utrecht>. Hij werd op <DATUM 10 oktober> door arts "
+                "<PERSOON Peter de Visser> ontslagen van de kliniek van het <INSTELLING UMCU>."
+            )
+            self.assertEqual(expected_text, annotated)
+
 
     def test_leading_space(self):
+
         text = "\t Vandaag is Jan gekomen"
-        annotations = deduce.annotate_text_structured(
-            text=text,
-            patient_first_names="Jan",
-            patient_initials="J.",
-            patient_surname="Janssen",
-            patient_given_name="Jantinus",
-        )
+
+        metadata = {
+            "patient": Person(
+                first_names=['Jan'],
+                surname='Jansen',
+                initials='J',
+                given_name='Jantinus'
+            )
+        }
+
+        annotations = set(self.deduce.deidentify(text=text, metadata=metadata).annotations)
 
         self.assertEqual(1, len(annotations))
-        self.assertEqual(docdeid.Annotation("Jan", 13, 16, "patient"), annotations[0])
+        self.assertTrue(docdeid.Annotation("Jan", 13, 16, "patient") in annotations)
 
 
 if __name__ == "__main__":
