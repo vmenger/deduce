@@ -21,8 +21,8 @@ def str_match(s1: Union[docdeid.Token, str], s2: Union[docdeid.Token, str], max_
 
 
 class TokenPatternWithLookup(TokenPattern, ABC):
-    def __init__(self, lookup_lists, *args, **kwargs):
-        self._lookup_lists = lookup_lists
+    def __init__(self, lookup_sets, *args, **kwargs):
+        self._lookup_sets = lookup_sets
         super().__init__(*args, **kwargs)
 
 
@@ -36,9 +36,9 @@ class PrefixWithNamePattern(TokenPatternWithLookup):
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
         if (
-            token.text.lower() in self._lookup_lists["prefixes"]
+            token.text.lower() in self._lookup_sets["prefixes"]
             and token.next().text[0].isupper()
-            and token.next().text.lower() not in self._lookup_lists["whitelist"]
+            and token.next().text.lower() not in self._lookup_sets["whitelist"]
         ):
 
             return token, token.next()
@@ -54,9 +54,9 @@ class InterfixWithNamePattern(TokenPatternWithLookup):
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
         if (
-            token.text.lower() in self._lookup_lists["interfixes"]
-            and token.next().text in self._lookup_lists["interfix_surnames"]
-            and token.next().text.lower() not in self._lookup_lists["whitelist"]
+            token.text.lower() in self._lookup_sets["interfixes"]
+            and token.next().text in self._lookup_sets["interfix_surnames"]
+            and token.next().text.lower() not in self._lookup_sets["whitelist"]
         ):
 
             return token, token.next()
@@ -76,7 +76,7 @@ class InitialWithCapitalPattern(TokenPatternWithLookup):
             and len(token) == 1
             and len(token.next()) > 3
             and token.next().text[0].isupper()
-            and token.next().text.lower() not in self._lookup_lists["whitelist"]
+            and token.next().text.lower() not in self._lookup_sets["whitelist"]
         ):
 
             return token, token.next()
@@ -94,7 +94,7 @@ class InitiaalInterfixCapitalPattern(TokenPatternWithLookup):
         if (
             token.previous().text[0].isupper()
             and len(token.previous()) == 1
-            and token.text in self._lookup_lists["interfixes"]
+            and token.text in self._lookup_sets["interfixes"]
             and token.next().text[0].isupper()
         ):
 
@@ -109,8 +109,8 @@ class FirstNameLookupPattern(TokenPatternWithLookup):
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
         if (
-            token.text in self._lookup_lists["first_names"]
-            and token.text.lower() not in self._lookup_lists["whitelist"]
+            token.text in self._lookup_sets["first_names"]
+            and token.text.lower() not in self._lookup_sets["whitelist"]
         ):
 
             return token, token
@@ -123,7 +123,7 @@ class SurnameLookupPattern(TokenPatternWithLookup):
         self, token: docdeid.Token, metadata: Optional[dict] = None
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
-        if token.text in self._lookup_lists["surnames"] and token.text.lower() not in self._lookup_lists["whitelist"]:
+        if token.text in self._lookup_sets["surnames"] and token.text.lower() not in self._lookup_sets["whitelist"]:
 
             return token, token
 

@@ -3,10 +3,8 @@ from typing import Optional
 
 import docdeid
 
-from deduce import annotate
-from deduce.annotate import tokenizer
-
-from deduce.annotate import Person
+from deduce.annotate import annotate
+from deduce.annotate.annotate import tokenizer, Person
 
 
 class TestAnnotateMethods(unittest.TestCase):

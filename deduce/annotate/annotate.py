@@ -9,13 +9,13 @@ from docdeid.annotate.annotator import (
     RegexpAnnotator,
     TokenPatternAnnotator,
 )
-from docdeid.ds.lookup import LookupList
+from docdeid.ds.lookup import LookupSet
 from docdeid.str.processor import LowercaseString
 
 import deduce.utility
-from deduce.annotation_processing import PersonAnnotationConverter
-from deduce.lookup.lookup_lists import get_lookup_lists
-from deduce.patterns.name import (
+from deduce.annotate.annotation_processing import PersonAnnotationConverter
+from deduce.lookup.lookup_sets import get_lookup_sets
+from deduce.pattern.name import (
     FirstNameLookupPattern,
     InitiaalInterfixCapitalPattern,
     InitialWithCapitalPattern,
@@ -28,31 +28,31 @@ from deduce.patterns.name import (
     PrefixWithNamePattern,
     SurnameLookupPattern,
 )
-from deduce.patterns.name_context import (
+from deduce.pattern.name_context import (
     AnnotationContextPattern,
     InitialNameContextPattern,
     InitialsContextPattern,
     InterfixContextPattern,
     NexusContextPattern,
 )
-from deduce.tokenizer import Tokenizer
+from deduce.tokenize.tokenizer import Tokenizer
 
 
 def _initialize():
 
-    lookup_lists = get_lookup_lists()
+    lookup_sets = get_lookup_sets()
 
-    merge_terms = LookupList()
+    merge_terms = LookupSet()
     merge_terms.add_items_from_iterable(["A1", "A2", "A3", "A4", "\n", "\r", "\t"])
-    merge_terms += lookup_lists["interfixes"]
-    merge_terms += lookup_lists["prefixes"]
+    merge_terms += lookup_sets["interfixes"]
+    merge_terms += lookup_sets["prefixes"]
 
     tokenizer = Tokenizer(merge_terms=merge_terms)
 
-    return lookup_lists, tokenizer
+    return lookup_sets, tokenizer
 
 
-_lookup_lists, tokenizer = _initialize()
+_lookup_sets, tokenizer = _initialize()
 
 
 @dataclass
@@ -64,12 +64,12 @@ class Person:
 
 
 NAME_PATTERNS = {
-    "prefix_with_name": PrefixWithNamePattern(tag="prefix+naam", lookup_lists=_lookup_lists),
-    "interfix_with_name": InterfixWithNamePattern(tag="interfix+naam", lookup_lists=_lookup_lists),
-    "initial_with_capital": InitialWithCapitalPattern(tag="initiaal+naam", lookup_lists=_lookup_lists),
-    "initial_interfix": InitiaalInterfixCapitalPattern(tag="initiaal+interfix+naam", lookup_lists=_lookup_lists),
-    "first_name_lookup": FirstNameLookupPattern(tag="voornaam_onbekend", lookup_lists=_lookup_lists),
-    "surname_lookup": SurnameLookupPattern(tag="achternaam_onbekend", lookup_lists=_lookup_lists),
+    "prefix_with_name": PrefixWithNamePattern(tag="prefix+naam", lookup_sets=_lookup_sets),
+    "interfix_with_name": InterfixWithNamePattern(tag="interfix+naam", lookup_sets=_lookup_sets),
+    "initial_with_capital": InitialWithCapitalPattern(tag="initiaal+naam", lookup_sets=_lookup_sets),
+    "initial_interfix": InitiaalInterfixCapitalPattern(tag="initiaal+interfix+naam", lookup_sets=_lookup_sets),
+    "first_name_lookup": FirstNameLookupPattern(tag="voornaam_onbekend", lookup_sets=_lookup_sets),
+    "surname_lookup": SurnameLookupPattern(tag="achternaam_onbekend", lookup_sets=_lookup_sets),
     "person_first_name": PersonFirstNamePattern(tag="voornaam_patient"),
     "person_initial_from_name": PersonInitialFromNamePattern(tag="initiaal_patient"),
     "person_initials": PersonInitialsPattern(tag="initialen_patient"),
@@ -78,9 +78,9 @@ NAME_PATTERNS = {
 }
 
 NAME_CONTEXT_PATTERNS = [
-    InitialsContextPattern(tag="initiaal+{tag}", lookup_lists=_lookup_lists),
-    InterfixContextPattern(tag="{tag}+interfix+achternaam", lookup_lists=_lookup_lists),
-    InitialNameContextPattern(tag="{tag}+initiaalhoofdletternaam", lookup_lists=_lookup_lists),
+    InitialsContextPattern(tag="initiaal+{tag}", lookup_sets=_lookup_sets),
+    InterfixContextPattern(tag="{tag}+interfix+achternaam", lookup_sets=_lookup_sets),
+    InitialNameContextPattern(tag="{tag}+initiaalhoofdletternaam", lookup_sets=_lookup_sets),
     NexusContextPattern(tag="{tag}+en+hoofdletternaam"),
 ]
 
@@ -168,6 +168,7 @@ class NamesContextAnnotator(docdeid.BaseAnnotator):
     def __init__(self, context_patterns: list[AnnotationContextPattern], tags: list[str]):
         self._context_patterns = context_patterns
         self._tags = tags
+        super().__init__(tag=None)
 
     def _get_context_annotations(self, document: docdeid.Document) -> list[docdeid.Annotation]:
 
@@ -277,7 +278,7 @@ def get_doc_processors() -> OrderedDict[str, docdeid.DocProcessor]:
     annotators["name_group"] = _get_name_processor_group()
 
     annotators["institution"] = MultiTokenLookupAnnotator(
-        lookup_values=_lookup_lists["institutions"],
+        lookup_values=_lookup_sets["institutions"],
         tokenizer=tokenizer,
         tag="instelling",
         matching_pipeline=[LowercaseString()],
@@ -285,7 +286,7 @@ def get_doc_processors() -> OrderedDict[str, docdeid.DocProcessor]:
     )
 
     annotators["residence"] = MultiTokenLookupAnnotator(
-        lookup_values=_lookup_lists["residences"],
+        lookup_values=_lookup_sets["residences"],
         tokenizer=tokenizer,
         tag="locatie",
         merge=False,

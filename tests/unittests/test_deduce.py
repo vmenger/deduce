@@ -4,7 +4,7 @@ import docdeid
 
 import deduce
 from deduce.deduce import Deduce
-from deduce.annotate import Person
+from deduce.annotate.annotate import Person
 
 
 class TestDeduceMethods(unittest.TestCase):

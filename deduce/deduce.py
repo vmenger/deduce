@@ -5,9 +5,9 @@ import docdeid
 from docdeid.annotate.annotation_processor import OverlapResolver
 from rapidfuzz.distance import DamerauLevenshtein
 
-from deduce.annotate import Person, get_doc_processors, tokenizer
-from deduce.annotation_processing import DeduceMergeAdjacentAnnotations
-from deduce.redact import DeduceRedactor
+from deduce.annotate.annotate import Person, get_doc_processors, tokenizer
+from deduce.annotate.annotation_processing import DeduceMergeAdjacentAnnotations
+from deduce.annotate.redact import DeduceRedactor
 
 warnings.simplefilter(action="once")
 

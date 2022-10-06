@@ -1,7 +1,7 @@
 import re
 from typing import Optional
 
-from docdeid.ds import LookupList
+from docdeid.ds import LookupSet
 from docdeid.str.processor import BaseStringFilter, BaseStringModifier, LowercaseString
 
 
@@ -39,19 +39,19 @@ class Acronimify(BaseStringModifier):
         return self.join_value.join(x[0] for x in item_split)
 
 
-class FilterBasedOnLookupList(BaseStringFilter):
-    def __init__(self, filter_list: LookupList, case_sensitive: bool = True):
+class FilterBasedOnLookupSet(BaseStringFilter):
+    def __init__(self, filter_set: LookupSet, case_sensitive: bool = True):
 
         self.case_sensitive = case_sensitive
 
         if case_sensitive:
-            self.filter_list = filter_list
+            self.filter_set = filter_set
         else:
-            self.filter_list = LookupList()
-            self.filter_list.add_items_from_iterable(filter_list, cleaning_pipeline=[LowercaseString()])
+            self.filter_set = LookupSet()
+            self.filter_set.add_items_from_iterable(filter_set, cleaning_pipeline=[LowercaseString()])
 
     def filter(self, item: str) -> bool:
 
         item_check = item if self.case_sensitive else item.lower()
 
-        return item_check in self.filter_list
+        return item_check in self.filter_set
