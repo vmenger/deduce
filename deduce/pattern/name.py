@@ -131,15 +131,14 @@ class SurnameLookupPattern(TokenPatternWithLookup):
 class PersonFirstNamePattern(TokenPattern):
     def doc_precondition(self, doc: docdeid.Document) -> bool:
 
-        metadata = doc.get_metadata()
-
-        return (metadata is not None) and ("patient" in metadata) and (metadata["patient"].first_names is not None)
+        patient = doc.get_metadata_item("patient")
+        return (patient is not None) and (patient.first_names is not None)
 
     def match(
         self, token: docdeid.Token, metadata: Optional[dict] = None
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
-        for i, first_name in enumerate(metadata["patient"].first_names):
+        for first_name in metadata["patient"].first_names:
 
             if str_match(token, first_name) or (
                 len(token.text) > 3 and str_match(token, first_name, max_edit_distance=1)
@@ -151,9 +150,8 @@ class PersonFirstNamePattern(TokenPattern):
 class PersonInitialFromNamePattern(TokenPattern):
     def doc_precondition(self, doc: docdeid.Document) -> bool:
 
-        metadata = doc.get_metadata()
-
-        return (metadata is not None) and ("patient" in metadata) and (metadata["patient"].first_names is not None)
+        patient = doc.get_metadata_item("patient")
+        return (patient is not None) and (patient.first_names is not None)
 
     def match(
         self, token: docdeid.Token, metadata: Optional[dict] = None
@@ -178,15 +176,20 @@ class PersonSurnamePattern(TokenPattern):
 
     def doc_precondition(self, doc: docdeid.Document) -> bool:
 
-        metadata = doc.get_metadata()
+        patient = doc.get_metadata_item("patient")
 
-        return (metadata is not None) and ("patient" in metadata) and (metadata["patient"].surname is not None)
+        if (patient is None) or (patient.surname is None):
+            return False
+
+        doc.add_metadata_item("surname_pattern", self._tokenizer.tokenize(patient.surname))
+
+        return True
 
     def match(
         self, token: docdeid.Token, metadata: Optional[dict] = None
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
-        surname_pattern = self._tokenizer.tokenize(metadata["patient"].surname)  # todo: tokenize once
+        surname_pattern = metadata['surname_pattern']
         surname_token = surname_pattern[0]
         start_token = token
 
@@ -212,9 +215,8 @@ class PersonSurnamePattern(TokenPattern):
 class PersonInitialsPattern(TokenPattern):
     def doc_precondition(self, doc: docdeid.Document) -> bool:
 
-        metadata = doc.get_metadata()
-
-        return (metadata is not None) and ("patient" in metadata) and (metadata["patient"].initials is not None)
+        patient = doc.get_metadata_item("patient")
+        return (patient is not None) and (patient.initials is not None)
 
     def match(
         self, token: docdeid.Token, metadata: Optional[dict] = None
@@ -225,11 +227,11 @@ class PersonInitialsPattern(TokenPattern):
 
 
 class PersonGivenNamePattern(TokenPattern):
+
     def doc_precondition(self, doc: docdeid.Document) -> bool:
 
-        metadata = doc.get_metadata()
-
-        return metadata is not None and "patient" in metadata and metadata["patient"].given_name is not None
+        patient = doc.get_metadata_item("patient")
+        return (patient is not None) and (patient.given_name is not None)
 
     def match(
         self, token: docdeid.Token, metadata: Optional[dict] = None

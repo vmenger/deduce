@@ -1,13 +1,14 @@
 """ The annotate module contains the code for annotating text"""
 import re
 from collections import OrderedDict
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import docdeid
 from docdeid.annotate.annotator import (
     MultiTokenLookupAnnotator,
     RegexpAnnotator,
     TokenPatternAnnotator,
+    SingleTokenLookupAnnotator
 )
 from docdeid.ds.lookup import LookupSet
 from docdeid.str.processor import LowercaseString
@@ -63,6 +64,31 @@ class Person:
     given_name: str = None
 
 
+class PatientExactAnnotator(SingleTokenLookupAnnotator):
+
+    def __init__(self, person_attr: str, **kwargs):
+        self.person_attr = person_attr
+        super().__init__(**kwargs)
+
+    def annotate(self, doc: docdeid.Document) -> list[docdeid.Annotation]:
+
+        person_info = getattr(doc.get_metadata_item('patient'), self.person_attr)
+
+        if person_info is None:
+            return []
+
+        if not isinstance(person_info, list):
+            person_info = [person_info]
+
+        person_info = set(person_info)
+
+        return self.annotate_lookup_values(doc, person_info)
+
+NAME_ANNOTATORS = {
+    # 'person_first_name': PatientExactAnnotator(person_attr='first_names', tag='voornaam_patient'),
+    # 'person_initials': PatientExactAnnotator(person_attr='initials', tag="initialen_patient")
+}
+
 NAME_PATTERNS = {
     "prefix_with_name": PrefixWithNamePattern(tag="prefix+naam", lookup_sets=_lookup_sets),
     "interfix_with_name": InterfixWithNamePattern(tag="interfix+naam", lookup_sets=_lookup_sets),
@@ -83,6 +109,7 @@ NAME_CONTEXT_PATTERNS = [
     InitialNameContextPattern(tag="{tag}+initiaalhoofdletternaam", lookup_sets=_lookup_sets),
     NexusContextPattern(tag="{tag}+en+hoofdletternaam"),
 ]
+
 
 REGEPXS = {
     "altrecht": {
@@ -238,6 +265,16 @@ class NamesContextAnnotator(docdeid.BaseAnnotator):
         return set(annotations)
 
 
+def _get_name_annotators() -> OrderedDict[str, docdeid.DocProcessor]:
+
+    annotators = OrderedDict()
+
+    for annotator_name, annotator in NAME_ANNOTATORS.items():
+        annotators[annotator_name] = annotator
+
+    return annotators
+
+
 def _get_name_pattern_annotators() -> OrderedDict[str, docdeid.DocProcessor]:
 
     annotators = OrderedDict()
@@ -260,7 +297,9 @@ def _get_regexp_annotators() -> OrderedDict[str, docdeid.DocProcessor]:
 
 def _get_name_processor_group() -> docdeid.DocProcessorGroup:
 
-    name_processors = _get_name_pattern_annotators()
+    name_processors = _get_name_annotators()
+
+    name_processors |= _get_name_pattern_annotators()
 
     name_processors["name_context"] = NamesContextAnnotator(
         context_patterns=NAME_CONTEXT_PATTERNS, tags=["initia", "naam", "interfix", "prefix"]
