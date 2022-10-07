@@ -1,18 +1,12 @@
 from abc import ABC
-from typing import Optional, Union
+from typing import Optional
 
 import docdeid
 from docdeid.pattern.pattern import TokenPattern
 from rapidfuzz.distance import DamerauLevenshtein
 
 
-def str_match(s1: Union[docdeid.Token, str], s2: Union[docdeid.Token, str], max_edit_distance: Optional[int] = None):
-
-    if isinstance(s1, docdeid.Token):
-        s1 = s1.text
-
-    if isinstance(s2, docdeid.Token):
-        s2 = s2.text
+def str_match(s1: str, s2: str, max_edit_distance: Optional[int] = None):
 
     if max_edit_distance is not None:
         return DamerauLevenshtein.distance(s1, s2, score_cutoff=max_edit_distance) <= max_edit_distance
@@ -90,12 +84,11 @@ class InitiaalInterfixCapitalPattern(TokenPatternWithLookup):
     def match(
         self, token: docdeid.Token, metadata: Optional[dict] = None
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
-
         if (
             token.previous().text[0].isupper()
             and len(token.previous()) == 1
-            and token.text in self._lookup_sets["interfixes"]
             and token.next().text[0].isupper()
+            and token.text in self._lookup_sets["interfixes"]
         ):
 
             return token.previous(), token.next()
@@ -140,8 +133,8 @@ class PersonFirstNamePattern(TokenPattern):
 
         for first_name in metadata["patient"].first_names:
 
-            if str_match(token, first_name) or (
-                len(token.text) > 3 and str_match(token, first_name, max_edit_distance=1)
+            if str_match(token.text, first_name) or (
+                len(token.text) > 3 and str_match(token.text, first_name, max_edit_distance=1)
             ):
 
                 return token, token
@@ -159,11 +152,11 @@ class PersonInitialFromNamePattern(TokenPattern):
 
         for i, first_name in enumerate(metadata["patient"].first_names):
 
-            if str_match(token, first_name[0]):
+            if str_match(token.text, first_name[0]):
 
                 next_token = token.next()
 
-                if (next_token is not None) and str_match(next_token, "."):
+                if (next_token is not None) and str_match(next_token.text, "."):
                     return token, next_token
 
                 return token, token
@@ -195,7 +188,7 @@ class PersonSurnamePattern(TokenPattern):
 
         while True:
 
-            if not str_match(surname_token, token, max_edit_distance=1):
+            if not str_match(surname_token.text, token.text, max_edit_distance=1):
                 return
 
             match_end_token = token
@@ -222,7 +215,7 @@ class PersonInitialsPattern(TokenPattern):
         self, token: docdeid.Token, metadata: Optional[dict] = None
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
-        if str_match(token, metadata["patient"].initials):
+        if str_match(token.text, metadata["patient"].initials):
             return token, token
 
 
@@ -237,8 +230,8 @@ class PersonGivenNamePattern(TokenPattern):
         self, token: docdeid.Token, metadata: Optional[dict] = None
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
-        if str_match(token, metadata["patient"].given_name) or (
-            len(token) > 3 and str_match(token, metadata["patient"].given_name, max_edit_distance=1)
+        if str_match(token.text, metadata["patient"].given_name) or (
+            len(token) > 3 and str_match(token.text, metadata["patient"].given_name, max_edit_distance=1)
         ):
 
             return token, token
