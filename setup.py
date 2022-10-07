@@ -11,6 +11,9 @@ with open(path.join(here, 'deduce', '__version__.py')) as fp:
 with open("README.md", "r") as fh:
     readme = fh.read()
 
+with open("requirements.txt", "r") as fh:
+    requirements = fh.read().splitlines()
+
 setup(
     name='deduce',
 
@@ -46,5 +49,5 @@ setup(
     # What does your project relate to?
     keywords='de-identification',
 
-    install_requires=['nltk', 'docdeid==0.0.11'],
+    install_requires=requirements,
 )

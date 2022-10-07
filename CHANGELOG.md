@@ -9,10 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - refactor to use `docdeid` package for logic
+- speedups: now 973% faster
 - use lookup sets instead of lookup lists
 - refactor tokenizer
-- deprecate automated GitHub testing for python 3.7 and 3.8, added for python 3.10
 - refactor annotators into separate classes, using structured annotations
+- deprecate automated GitHub testing for python 3.7 and 3.8, added for python 3.10
 
 ### Added
 - introduced new interface for deidentification, using `Deduce()` class
