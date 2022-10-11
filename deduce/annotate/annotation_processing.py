@@ -1,5 +1,3 @@
-from dataclasses import dataclass
-
 import docdeid
 from docdeid.annotate.annotation import AnnotationSet
 from docdeid.annotate.annotation_processor import (
@@ -10,7 +8,7 @@ from docdeid.annotate.annotation_processor import (
 
 
 class DeduceMergeAdjacentAnnotations(MergeAdjacentAnnotations):
-    def _tags_match(self, left_tag: str, right_tag: str):
+    def _tags_match(self, left_tag: str, right_tag: str) -> bool:
 
         return (left_tag == right_tag) or {left_tag, right_tag} == {
             "patient",
@@ -37,38 +35,20 @@ class DeduceMergeAdjacentAnnotations(MergeAdjacentAnnotations):
         )
 
 
-@dataclass(frozen=True)
-class _PatientAnnotation(docdeid.Annotation):
-    is_patient: bool = False
-
-
 class PersonAnnotationConverter(BaseAnnotationProcessor):
     def process_annotations(self, annotations: AnnotationSet, text: str) -> AnnotationSet:
 
-        new_annotations = AnnotationSet()
-
-        for annotation in annotations:
-            new_annotations.add(
-                _PatientAnnotation(
-                    text=annotation.text,
-                    start_char=annotation.start_char,
-                    end_char=annotation.end_char,
-                    tag="persoon",
-                    is_patient="patient" in annotation.tag,
-                )
-            )
-
         new_annotations = OverlapResolver(
-            sort_by=["is_patient", "length"],
-            sort_by_callbacks={"is_patient": lambda x: -x, "length": lambda x: -x},
-        ).process_annotations(new_annotations, text=text)
+            sort_by=["tag", "length"],
+            sort_by_callbacks={"tag": lambda x: "patient" not in x, "length": lambda x: -x},
+        ).process_annotations(annotations, text=text)
 
         return AnnotationSet(
             docdeid.Annotation(
                 text=annotation.text,
                 start_char=annotation.start_char,
                 end_char=annotation.end_char,
-                tag="patient" if getattr(annotation, "is_patient", False) else "persoon",
+                tag="patient" if "patient" in annotation.tag else "persoon",
             )
             for annotation in new_annotations
         )

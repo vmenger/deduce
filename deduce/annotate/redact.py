@@ -40,13 +40,11 @@ class DeduceRedactor(BaseRedactor):
                     match = False
 
                     # Check match with any
-                    for annotation_match in annotations_to_replacement_group.keys():
+                    for annotation_match, replacement in annotations_to_replacement_group.items():
 
                         if DamerauLevenshtein.distance(annotation.text, annotation_match.text, score_cutoff=1) <= 1:
 
-                            annotations_to_replacement_group[annotation] = annotations_to_replacement_group[
-                                annotation_match
-                            ]
+                            annotations_to_replacement_group[annotation] = replacement
                             match = True
                             break
 

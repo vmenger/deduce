@@ -3,12 +3,11 @@ import unittest
 import docdeid
 
 import deduce
+from deduce.annotate.annotator import Person
 from deduce.deduce import Deduce
-from deduce.annotate.annotate import Person
 
 
 class TestDeduceMethods(unittest.TestCase):
-
     def setUp(self) -> None:
 
         self.deduce = Deduce()
@@ -21,12 +20,7 @@ class TestDeduceMethods(unittest.TestCase):
             "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
         )
 
-        metadata = {
-            "patient": Person(
-                first_names=['Jan'],
-                surname='Jansen'
-            )
-        }
+        metadata = {"patient": Person(first_names=["Jan"], surname="Jansen")}
 
         expected_annotations = {
             docdeid.Annotation("Jan Jansen", 39, 49, "patient"),
@@ -53,12 +47,7 @@ class TestDeduceMethods(unittest.TestCase):
             "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
         )
 
-        metadata = {
-            "patient": Person(
-                first_names=['Jan'],
-                surname='Jansen'
-            )
-        }
+        metadata = {"patient": Person(first_names=["Jan"], surname="Jansen")}
 
         doc = self.deduce.deidentify(text=text, metadata=metadata)
 
@@ -72,37 +61,33 @@ class TestDeduceMethods(unittest.TestCase):
 
     def test_annotate_backwardscompat(self):
 
-            text = (
-                "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
-                "(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
-                "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
-            )
+        text = (
+            "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
+            "(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
+            "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
+        )
 
-            annotated = deduce.annotate_text(
-                text=text, patient_first_names="Jan", patient_surname="Jansen", patient_initials="J", patient_given_name="Jantinus"
-            )
+        annotated = deduce.annotate_text(
+            text=text,
+            patient_first_names="Jan",
+            patient_surname="Jansen",
+            patient_initials="J",
+            patient_given_name="Jantinus",
+        )
 
-            expected_text = (
-                "Dit is stukje tekst met daarin de naam <PATIENT Jan Jansen>. De <PATIENT patient J. Jansen> "
-                "(e: <URL j.jnsen@email.com>, t: <TELEFOONNUMMER 06-12345678>) is <LEEFTIJD 64> jaar oud en "
-                "woonachtig in <LOCATIE Utrecht>. Hij werd op <DATUM 10 oktober> door arts "
-                "<PERSOON Peter de Visser> ontslagen van de kliniek van het <INSTELLING UMCU>."
-            )
-            self.assertEqual(expected_text, annotated)
-
+        expected_text = (
+            "Dit is stukje tekst met daarin de naam <PATIENT Jan Jansen>. De <PATIENT patient J. Jansen> "
+            "(e: <URL j.jnsen@email.com>, t: <TELEFOONNUMMER 06-12345678>) is <LEEFTIJD 64> jaar oud en "
+            "woonachtig in <LOCATIE Utrecht>. Hij werd op <DATUM 10 oktober> door arts "
+            "<PERSOON Peter de Visser> ontslagen van de kliniek van het <INSTELLING UMCU>."
+        )
+        self.assertEqual(expected_text, annotated)
 
     def test_leading_space(self):
 
         text = "\t Vandaag is Jan gekomen"
 
-        metadata = {
-            "patient": Person(
-                first_names=['Jan'],
-                surname='Jansen',
-                initials='J',
-                given_name='Jantinus'
-            )
-        }
+        metadata = {"patient": Person(first_names=["Jan"], surname="Jansen", initials="J", given_name="Jantinus")}
 
         annotations = set(self.deduce.deidentify(text=text, metadata=metadata).annotations)
 

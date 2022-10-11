@@ -1,16 +1,15 @@
 """ This module contains all tokenizing functionality """
-import regex
 from typing import Iterable, Optional
 
 import docdeid.tokenize.tokenizer
+import regex
 from docdeid.ds.lookup import LookupTrie
 
-from deduce import utility
+from deduce import utils
 
 
-class Tokenizer(docdeid.BaseTokenizer):
-
-    def __init__(self, merge_terms: Iterable = None):
+class DeduceTokenizer(docdeid.BaseTokenizer):
+    def __init__(self, merge_terms: Iterable = None) -> None:
 
         super().__init__()
 
@@ -18,13 +17,16 @@ class Tokenizer(docdeid.BaseTokenizer):
         self._trie = None
 
         if merge_terms is not None:
-            self._trie = LookupTrie()
+
+            trie = LookupTrie()
 
             for term in merge_terms:
-                tokens = [token.text for token in self.split_text(text=term, merge=False)]
-                self._trie.add(tokens)
+                tokens = [token.text for token in self.split_text(text=term)]
+                trie.add(tokens)
 
-    def _merge_triebased(self, tokens: list[docdeid.Token]) -> list[docdeid.Token]:
+            self._trie = trie
+
+    def _merge(self, tokens: list[docdeid.Token]) -> list[docdeid.Token]:
 
         tokens_text = [token.text for token in tokens]
         tokens_merged = []
@@ -46,7 +48,7 @@ class Tokenizer(docdeid.BaseTokenizer):
         return tokens_merged
 
     @staticmethod
-    def join_tokens(tokens: list[docdeid.Token]):
+    def join_tokens(tokens: list[docdeid.Token]) -> docdeid.Token:
 
         return docdeid.Token(
             text="".join(token.text for token in tokens),
@@ -62,15 +64,13 @@ class Tokenizer(docdeid.BaseTokenizer):
             for match in matches
         ]
 
-    def split_text(self, text: str, merge: bool = True) -> list[docdeid.Token]:
+    def split_text(self, text: str) -> list[docdeid.Token]:
 
-        if merge and self._trie is None:
-            raise AttributeError("Trying to use the tokenize with merging, but no merge terms specified.")
+        matches = self._pattern.finditer(text)
+        tokens = self._matches_to_tokens(matches)
 
-        tokens = self._matches_to_tokens(self._pattern.finditer(text))
-
-        if merge:
-            tokens = self._merge_triebased(tokens)
+        if self._trie is not None:
+            tokens = self._merge(tokens)
 
         return tokens
 
@@ -85,7 +85,7 @@ class Tokenizer(docdeid.BaseTokenizer):
             if token.text[0].isalpha():
                 return token
 
-            if token.text[0] == "(" or token.text[0] == "<" or utility.any_in_text(["\n", "\r", "\t"], token.text):
+            if token.text[0] == "(" or token.text[0] == "<" or utils.any_in_text(["\n", "\r", "\t"], token.text):
                 return None
 
         return None
@@ -101,8 +101,7 @@ class Tokenizer(docdeid.BaseTokenizer):
             if token.text[0].isalpha():
                 return token
 
-            if token.text[0] == ")" or token.text[0] == ">" or utility.any_in_text(["\n", "\r", "\t"], token.text):
+            if token.text[0] == ")" or token.text[0] == ">" or utils.any_in_text(["\n", "\r", "\t"], token.text):
                 return None
-
 
         return None

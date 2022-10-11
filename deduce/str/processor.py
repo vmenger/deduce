@@ -11,7 +11,7 @@ class TakeLastToken(BaseStringModifier):
 
 
 class RemoveValues(BaseStringModifier):
-    def __init__(self, filter_values: list[str]):
+    def __init__(self, filter_values: list[str]) -> None:
         self.filter_values = filter_values
 
     def process(self, item: str) -> Optional[str]:
@@ -28,7 +28,7 @@ class RemoveValues(BaseStringModifier):
 
 
 class Acronimify(BaseStringModifier):
-    def __init__(self, split_value: str = " ", join_value: str = ""):
+    def __init__(self, split_value: str = " ", join_value: str = "") -> None:
         self.split_value = split_value
         self.join_value = join_value
 
@@ -40,18 +40,13 @@ class Acronimify(BaseStringModifier):
 
 
 class FilterBasedOnLookupSet(BaseStringFilter):
-    def __init__(self, filter_set: LookupSet, case_sensitive: bool = True):
+    def __init__(self, filter_set: LookupSet, case_sensitive: bool = True) -> None:
 
-        self.case_sensitive = case_sensitive
+        matching_pipeline = None if case_sensitive else [LowercaseString()]
 
-        if case_sensitive:
-            self.filter_set = filter_set
-        else:
-            self.filter_set = LookupSet()
-            self.filter_set.add_items_from_iterable(filter_set, cleaning_pipeline=[LowercaseString()])
+        self.filter_set = LookupSet(matching_pipeline=matching_pipeline)
+        self.filter_set.add_items_from_iterable(filter_set)
 
     def filter(self, item: str) -> bool:
 
-        item_check = item if self.case_sensitive else item.lower()
-
-        return item_check in self.filter_set
+        return item not in self.filter_set

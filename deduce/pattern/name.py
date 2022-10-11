@@ -6,16 +6,16 @@ from docdeid.pattern.pattern import TokenPattern
 from rapidfuzz.distance import DamerauLevenshtein
 
 
-def str_match(s1: str, s2: str, max_edit_distance: Optional[int] = None):
+def str_match(str_1: str, str_2: str, max_edit_distance: Optional[int] = None) -> bool:
 
     if max_edit_distance is not None:
-        return DamerauLevenshtein.distance(s1, s2, score_cutoff=max_edit_distance) <= max_edit_distance
+        return DamerauLevenshtein.distance(str_1, str_2, score_cutoff=max_edit_distance) <= max_edit_distance
 
-    return s1 == s2
+    return str_1 == str_2
 
 
 class TokenPatternWithLookup(TokenPattern, ABC):
-    def __init__(self, lookup_sets, *args, **kwargs):
+    def __init__(self, lookup_sets: docdeid.DsCollection[docdeid.LookupSet], *args, **kwargs) -> None:
         self._lookup_sets = lookup_sets
         super().__init__(*args, **kwargs)
 
@@ -32,10 +32,12 @@ class PrefixWithNamePattern(TokenPatternWithLookup):
         if (
             token.text.lower() in self._lookup_sets["prefixes"]
             and token.next().text[0].isupper()
-            and token.next().text.lower() not in self._lookup_sets["whitelist"]
+            and token.next().text not in self._lookup_sets["whitelist"]
         ):
 
             return token, token.next()
+
+        return None
 
 
 class InterfixWithNamePattern(TokenPatternWithLookup):
@@ -50,10 +52,12 @@ class InterfixWithNamePattern(TokenPatternWithLookup):
         if (
             token.text.lower() in self._lookup_sets["interfixes"]
             and token.next().text in self._lookup_sets["interfix_surnames"]
-            and token.next().text.lower() not in self._lookup_sets["whitelist"]
+            and token.next().text not in self._lookup_sets["whitelist"]
         ):
 
             return token, token.next()
+
+        return None
 
 
 class InitialWithCapitalPattern(TokenPatternWithLookup):
@@ -70,10 +74,12 @@ class InitialWithCapitalPattern(TokenPatternWithLookup):
             and len(token) == 1
             and len(token.next()) > 3
             and token.next().text[0].isupper()
-            and token.next().text.lower() not in self._lookup_sets["whitelist"]
+            and token.next().text not in self._lookup_sets["whitelist"]
         ):
 
             return token, token.next()
+
+        return None
 
 
 class InitiaalInterfixCapitalPattern(TokenPatternWithLookup):
@@ -93,6 +99,8 @@ class InitiaalInterfixCapitalPattern(TokenPatternWithLookup):
 
             return token.previous(), token.next()
 
+        return None
+
 
 class FirstNameLookupPattern(TokenPatternWithLookup):
     # TODO: make this a separate annotator class
@@ -101,12 +109,11 @@ class FirstNameLookupPattern(TokenPatternWithLookup):
         self, token: docdeid.Token, metadata: Optional[dict] = None
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
-        if (
-            token.text in self._lookup_sets["first_names"]
-            and token.text.lower() not in self._lookup_sets["whitelist"]
-        ):
+        if token.text in self._lookup_sets["first_names"] and token.text not in self._lookup_sets["whitelist"]:
 
             return token, token
+
+        return None
 
 
 class SurnameLookupPattern(TokenPatternWithLookup):
@@ -116,9 +123,11 @@ class SurnameLookupPattern(TokenPatternWithLookup):
         self, token: docdeid.Token, metadata: Optional[dict] = None
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
-        if token.text in self._lookup_sets["surnames"] and token.text.lower() not in self._lookup_sets["whitelist"]:
+        if token.text in self._lookup_sets["surnames"] and token.text not in self._lookup_sets["whitelist"]:
 
             return token, token
+
+        return None
 
 
 class PersonFirstNamePattern(TokenPattern):
@@ -139,6 +148,8 @@ class PersonFirstNamePattern(TokenPattern):
 
                 return token, token
 
+        return None
+
 
 class PersonInitialFromNamePattern(TokenPattern):
     def doc_precondition(self, doc: docdeid.Document) -> bool:
@@ -150,7 +161,7 @@ class PersonInitialFromNamePattern(TokenPattern):
         self, token: docdeid.Token, metadata: Optional[dict] = None
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
-        for i, first_name in enumerate(metadata["patient"].first_names):
+        for _, first_name in enumerate(metadata["patient"].first_names):
 
             if str_match(token.text, first_name[0]):
 
@@ -161,20 +172,22 @@ class PersonInitialFromNamePattern(TokenPattern):
 
                 return token, token
 
+        return None
+
 
 class PersonSurnamePattern(TokenPattern):
-    def __init__(self, tokenizer, *args, **kwargs):
+    def __init__(self, tokenizer: docdeid.BaseTokenizer, *args, **kwargs) -> None:
         self._tokenizer = tokenizer
         super().__init__(*args, **kwargs)
 
     def doc_precondition(self, doc: docdeid.Document) -> bool:
 
-        patient = doc.get_metadata_item("patient")
+        patient = doc.metadata["patient"]
 
         if (patient is None) or (patient.surname is None):
             return False
 
-        doc.add_metadata_item("surname_pattern", self._tokenizer.tokenize(patient.surname))
+        doc.metadata["surname_pattern"] = self._tokenizer.tokenize(patient.surname)
 
         return True
 
@@ -182,7 +195,7 @@ class PersonSurnamePattern(TokenPattern):
         self, token: docdeid.Token, metadata: Optional[dict] = None
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
-        surname_pattern = metadata['surname_pattern']
+        surname_pattern = metadata["surname_pattern"]
         surname_token = surname_pattern[0]
         start_token = token
 
@@ -218,9 +231,10 @@ class PersonInitialsPattern(TokenPattern):
         if str_match(token.text, metadata["patient"].initials):
             return token, token
 
+        return None
+
 
 class PersonGivenNamePattern(TokenPattern):
-
     def doc_precondition(self, doc: docdeid.Document) -> bool:
 
         patient = doc.get_metadata_item("patient")
@@ -235,3 +249,5 @@ class PersonGivenNamePattern(TokenPattern):
         ):
 
             return token, token
+
+        return None

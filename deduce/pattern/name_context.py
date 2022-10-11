@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
-from typing import Optional, Union
+from typing import Optional
 
 import docdeid
 
-from deduce import utility
+from deduce import utils
 
 
 class AnnotationContextPattern(ABC):
-    def __init__(self, tag: str):
+    def __init__(self, tag: str) -> None:
         self.tag = tag
 
     def document_precondition(self, doc: docdeid.Document) -> bool:
@@ -26,7 +26,7 @@ class AnnotationContextPattern(ABC):
 
 
 class AnnotationContextPatternWithLookupSet(AnnotationContextPattern, ABC):
-    def __init__(self, lookup_sets, *args, **kwargs):
+    def __init__(self, lookup_sets: docdeid.DsCollection, *args, **kwargs) -> None:
         self._lookup_sets = lookup_sets
         super().__init__(*args, **kwargs)
 
@@ -41,12 +41,14 @@ class InterfixContextPattern(AnnotationContextPatternWithLookupSet):
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
         if (
-            utility.any_in_text(["initia", "naam"], tag)
+            utils.any_in_text(["initia", "naam"], tag)
             and end_token.next().text in self._lookup_sets["interfixes"]
             and end_token.next(2).text[0].isupper()
         ):
 
             return start_token, end_token.next(2)
+
+        return None
 
 
 class InitialsContextPattern(AnnotationContextPatternWithLookupSet):
@@ -63,15 +65,17 @@ class InitialsContextPattern(AnnotationContextPatternWithLookupSet):
         previous_token_is_name = (
             start_token.previous().text != ""
             and start_token.previous().text[0].isupper()
-            and start_token.previous().text.lower() not in self._lookup_sets["whitelist"]
+            and start_token.previous().text not in self._lookup_sets["whitelist"]
             and start_token.previous().text.lower() not in self._lookup_sets["prefixes"]
         )
 
-        if utility.any_in_text(["achternaam", "interfix", "initia"], tag) and (
+        if utils.any_in_text(["achternaam", "interfix", "initia"], tag) and (
             previous_token_is_initial or previous_token_is_name
         ):
 
             return start_token.previous(), end_token
+
+        return None
 
 
 class InitialNameContextPattern(AnnotationContextPatternWithLookupSet):
@@ -84,13 +88,15 @@ class InitialNameContextPattern(AnnotationContextPatternWithLookupSet):
     ) -> Optional[tuple[docdeid.Token, docdeid.Token]]:
 
         if (
-            utility.any_in_text(["initia", "voornaam", "roepnaam", "prefix"], tag)
+            utils.any_in_text(["initia", "voornaam", "roepnaam", "prefix"], tag)
             and len(end_token.next().text) > 3
             and end_token.next().text[0].isupper()
-            and end_token.next().text.lower() not in self._lookup_sets["whitelist"]
+            and end_token.next().text not in self._lookup_sets["whitelist"]
         ):
 
             return start_token, end_token.next()
+
+        return None
 
 
 class NexusContextPattern(AnnotationContextPattern):
@@ -105,3 +111,5 @@ class NexusContextPattern(AnnotationContextPattern):
         if end_token.next().text == "en" and end_token.next(2).text[0].isupper():
 
             return start_token, end_token.next(2)
+
+        return None

@@ -19,7 +19,7 @@ from deduce.str.processor import (
 data_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../data")
 
 
-def _get_first_names_lookup_set():
+def _get_first_names_lookup_set() -> LookupSet:
 
     first_names = LookupSet()
 
@@ -31,20 +31,19 @@ def _get_first_names_lookup_set():
     return first_names
 
 
-def _get_surnames_lookup_set():
+def _get_surnames_lookup_set() -> LookupSet:
 
     surnames = LookupSet()
 
     surnames.add_items_from_file(
         os.path.join(data_path, "achternaam.lst"),
-        strip_lines=False,
-        cleaning_pipeline=[StripString(), FilterByLength(min_len=2)],
+        cleaning_pipeline=[FilterByLength(min_len=2)],
     )
 
     return surnames
 
 
-def _get_interfixes_lookup_set():
+def _get_interfixes_lookup_set() -> LookupSet:
     """Interfixes, such as 'van der', etc"""
 
     interfixes = LookupSet()
@@ -54,7 +53,7 @@ def _get_interfixes_lookup_set():
     return interfixes
 
 
-def _get_interfix_surnames_lookup_set():
+def _get_interfix_surnames_lookup_set() -> LookupSet:
     """Interfix surnames, such as 'Jong' for 'de Jong'"""
 
     interfix_surnames = LookupSet()
@@ -67,7 +66,7 @@ def _get_interfix_surnames_lookup_set():
     return interfix_surnames
 
 
-def _get_prefixes_lookup_set():
+def _get_prefixes_lookup_set() -> LookupSet:
 
     prefixes = LookupSet()
 
@@ -76,7 +75,7 @@ def _get_prefixes_lookup_set():
     return prefixes
 
 
-def _get_whitelist_lookup_set():
+def _get_whitelist_lookup_set() -> LookupSet:
 
     med_terms = LookupSet()
     med_terms.add_items_from_file(
@@ -93,10 +92,8 @@ def _get_whitelist_lookup_set():
     surnames_lowercase = LookupSet()
     surnames_lowercase.add_items_from_file(
         os.path.join(data_path, "achternaam.lst"),
-        strip_lines=False,
         cleaning_pipeline=[
             LowercaseString(),
-            StripString(),
             FilterByLength(min_len=2),
         ],
     )
@@ -106,31 +103,29 @@ def _get_whitelist_lookup_set():
     stopwords = LookupSet()
     stopwords.add_items_from_file(os.path.join(data_path, "stopwoord.lst"))
 
-    whitelist = LookupSet()
+    whitelist = LookupSet(matching_pipeline=[LowercaseString()])
     whitelist.add_items_from_iterable(
         med_terms + top1000 + stopwords,
-        cleaning_pipeline=[LowercaseString(), FilterByLength(min_len=2)],
+        cleaning_pipeline=[FilterByLength(min_len=2)],
     )
 
-    # return whitelist
     return whitelist
 
 
-def _get_institutions_lookup_set():
+def _get_institutions_lookup_set() -> LookupSet:
 
     institutions_raw = LookupSet()
     institutions_raw.add_items_from_file(
         os.path.join(data_path, "instellingen.lst"),
-        cleaning_pipeline=[FilterByLength(min_len=3)],
+        cleaning_pipeline=[FilterByLength(min_len=3), LowercaseString()],
     )
 
-    institutions = LookupSet()
-    institutions.add_items_from_iterable(institutions_raw, cleaning_pipeline=[LowercaseString(), StripString()])
+    institutions = LookupSet(matching_pipeline=[LowercaseString()])
+    institutions.add_items_from_iterable(institutions_raw, cleaning_pipeline=[StripString()])
 
     institutions.add_items_from_iterable(
         institutions_raw,
         cleaning_pipeline=[
-            LowercaseString(),
             RemoveValues(filter_values=["dr.", "der", "van", "de", "het", "'t", "in", "d'"]),
             StripString(),
         ],
@@ -151,7 +146,7 @@ def _get_institutions_lookup_set():
     return institutions
 
 
-def _get_residences_lookup_set():
+def _get_residences_lookup_set() -> LookupSet:
 
     residences = LookupSet()
     residences.add_items_from_file(
@@ -170,7 +165,7 @@ def _get_residences_lookup_set():
     return residences
 
 
-def get_lookup_sets():
+def get_lookup_sets() -> DsCollection:
     lookup_sets = DsCollection()
 
     lookup_set_mapping = {
