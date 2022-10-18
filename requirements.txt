@@ -1,3 +1,4 @@
 rapidfuzz
 docdeid==0.0.12
 regex
+deprecated
