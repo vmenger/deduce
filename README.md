@@ -26,21 +26,21 @@ The details of the development and workings of the initial method, and its valid
 
 Installing can be done through pip and git: 
 
-``` python
->>> pip install deduce
+```bash
+pip install deduce
 ```
 
 Or from source, simply download and use python to install:
 
-``` python
->>> python setup.py install
+```bash
+python setup.py install
 ```
 
 ## Getting started
 
 The package has a method for annotating (`annotate_text`) and for removing the annotations (`deidentify_annotations`).
 
-``` python
+```python
 
 import deduce 
 
@@ -68,21 +68,24 @@ deduce.deidentify_annotations(
 ```
 
 ## Examples
-``` python
->>> import deduce
+```python
+import deduce
 
->>> text = u"Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen (e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud 
-    en woonachtig in Utrecht. Hij werd op 10 oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
->>> annotated = deduce.annotate_text(text, patient_first_names="Jan", patient_surname="Jansen")
->>> deidentified = deduce.deidentify_annotations(annotated)
+text = u"Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen (e: j.jnsen@email.com, " \
+       u"t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 oktober door arts Peter de " \
+       u"Visser ontslagen van de kliniek van het UMCU. "
+annotated = deduce.annotate_text(text, patient_first_names="Jan", patient_surname="Jansen")
+deidentified = deduce.deidentify_annotations(annotated)
 
->>> print (annotated)
-"Dit is stukje tekst met daarin de naam <PATIENT Jan Jansen>. De <PATIENT patient J. Jansen> (e: <URL j.jnsen@email.com>, t: <TELEFOONNUMMER 06-12345678>) 
-is <LEEFTIJD 64> jaar oud en woonachtig in <LOCATIE Utrecht>. Hij werd op <DATUM 10 oktober> door arts <PERSOON Peter de Visser> ontslagen van de kliniek van het <INSTELLING umcu>."
->>> print (deidentified)
-"Dit is stukje tekst met daarin de naam <PATIENT>. De <PATIENT> (e: <URL-1>, t: <TELEFOONNUMMER-1>) is <LEEFTIJD-1> jaar oud en woonachtig in <LOCATIE-1>.
-Hij werd op <DATUM-1> door arts <PERSOON-1> ontslagen van de kliniek van het <INSTELLING-1>."
+print(annotated)
 ```
+
+> Dit is stukje tekst met daarin de naam \<PATIENT Jan Jansen\>. De <PATIENT patient J. Jansen> (e: \<URL j.jnsen@email.com\>, t: \<TELEFOONNUMMER 06-12345678\>) is \<LEEFTIJD 64\> jaar oud en woonachtig in \<LOCATIE Utrecht\>. Hij werd op \<DATUM 10 oktober\> door arts \<PERSOON Peter de Visser\> ontslagen van de kliniek van het \<INSTELLING UMCU\>.
+
+```python
+print(deidentified)
+```
+> Dit is stukje tekst met daarin de naam \<PATIENT\>. De \<PATIENT\> (e: \<URL-1\>, t: \<TELEFOONNUMMER-1\>) is \<LEEFTIJD-1\> jaar oud en woonachtig in \<LOCATIE-1\>. Hij werd op \<DATUM-1\> door arts \<PERSOON-1\> ontslagen van de kliniek van het \<INSTELLING-1\>.
 
 ### Configuring
 
