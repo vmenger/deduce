@@ -5,8 +5,8 @@ test:
 format:
 	python -m isort deduce/ tests/ --profile black
 	python -m black --line-length 120 deduce/ tests/
-	flake8 --select ANN001,ANN2,ANN3 deduce/
-	pylint --max-line-length=120 --disable=C0114 deduce/
+	python -m flake8 --select ANN001,ANN2,ANN3 deduce/
+	python -m pylint --max-line-length=120 --disable=C0114 deduce/
 
 
 publish:
