@@ -1,5 +1,6 @@
 test:
-	python -m unittest discover -s ./tests/unittests  -p 'test_*.py'
+	python -m pytest --cov-report html --cov=deduce tests/
+
 
 format:
 	python -m isort deduce/ tests/ --profile black
