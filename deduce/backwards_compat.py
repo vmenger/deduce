@@ -3,97 +3,105 @@ import re
 import docdeid
 from rapidfuzz.distance import DamerauLevenshtein
 
-from deduce.annotate.annotator import Person
-from deduce.deduce import Deduce
-
-deduce_model = Deduce()
+from deduce.person import Person
 
 
-def _annotate_text_backwardscompat(
-    text: str,
-    patient_first_names: str = "",
-    patient_initials: str = "",
-    patient_surname: str = "",
-    patient_given_name: str = "",
-    names: bool = True,
-    institutions: bool = True,
-    locations: bool = True,
-    phone_numbers: bool = True,
-    patient_numbers: bool = True,
-    dates: bool = True,
-    ages: bool = True,
-    urls: bool = True,
-) -> docdeid.Document:
+class BackwardsCompat:
 
-    text = "" or text
+    deduce_model: "Deduce"
 
-    if patient_first_names:
-        patient_first_names = patient_first_names.split(" ")
+    @classmethod
+    def set_deduce_model(cls, deduce_model: "Deduce") -> None:
+        cls.deduce_model = deduce_model
 
-    metadata = {
-        "patient": Person(
-            first_names=patient_first_names or None,
-            initials=patient_initials or None,
-            surname=patient_surname or None,
-            given_name=patient_given_name or None,
-        )
-    }
+    @classmethod
+    def annotate_text_backwardscompat(
+        cls,
+        text: str,
+        patient_first_names: str = "",
+        patient_initials: str = "",
+        patient_surname: str = "",
+        patient_given_name: str = "",
+        names: bool = True,
+        institutions: bool = True,
+        locations: bool = True,
+        phone_numbers: bool = True,
+        patient_numbers: bool = True,
+        dates: bool = True,
+        ages: bool = True,
+        urls: bool = True,
+    ) -> docdeid.Document:
 
-    processors_enabled = []
+        text = "" or text
 
-    if names:
-        processors_enabled += ["name_group"]
-        processors_enabled += [
-            "prefix_with_name",
-            "interfix_with_name",
-            "initial_with_capital",
-            "initial_interfix",
-            "first_name_lookup",
-            "surname_lookup",
-            "person_first_name",
-            "person_initial_from_name",
-            "person_initials",
-            "person_given_name",
-            "person_surname",
-        ]
-        processors_enabled += ["person_annotation_converter", "name_context"]
+        if patient_first_names:
+            patient_first_names = patient_first_names.split(" ")
 
-    if institutions:
-        processors_enabled += ["institution", "altrecht"]
+            if patient_given_name:
+                patient_first_names.append(patient_given_name)
 
-    if locations:
-        processors_enabled += [
-            "residence",
-            "street_with_number",
-            "postal_code",
-            "postbus",
-        ]
+        metadata = {
+            "patient": Person(
+                first_names=patient_first_names or None,
+                initials=patient_initials or None,
+                surname=patient_surname or None,
+            )
+        }
 
-    if phone_numbers:
-        processors_enabled += ["phone_1", "phone_2", "phone_3"]
+        processors_enabled = []
 
-    if patient_numbers:
-        processors_enabled += ["patient_number"]
+        if names:
+            processors_enabled += ["name_group"]
+            processors_enabled += [
+                "prefix_with_name",
+                "interfix_with_name",
+                "initial_with_capital",
+                "initial_interfix",
+                "first_name_lookup",
+                "surname_lookup",
+                "person_first_name",
+                "person_initial_from_name",
+                "person_initials",
+                "person_surname",
+            ]
+            processors_enabled += ["person_annotation_converter", "name_context"]
 
-    if dates:
-        processors_enabled += ["date_1", "date_2"]
+        if institutions:
+            processors_enabled += ["institution", "altrecht"]
 
-    if ages:
-        processors_enabled += ["age"]
+        if locations:
+            processors_enabled += [
+                "residence",
+                "street_with_number",
+                "postal_code",
+                "postbus",
+            ]
 
-    if urls:
-        processors_enabled += ["email", "url_1", "url_2"]
+        if phone_numbers:
+            processors_enabled += ["phone_1", "phone_2", "phone_3"]
 
-    processors_enabled += ["overlap_resolver", "merge_adjacent_annotations", "redactor"]
+        if patient_numbers:
+            processors_enabled += ["patient_number"]
 
-    doc = deduce_model.deidentify(text=text, processors_enabled=processors_enabled, metadata=metadata)
+        if dates:
+            processors_enabled += ["date_1", "date_2"]
 
-    return doc
+        if ages:
+            processors_enabled += ["age"]
+
+        if urls:
+            processors_enabled += ["email", "url_1", "url_2"]
+
+        processors_enabled += ["overlap_resolver", "merge_adjacent_annotations", "redactor"]
+
+        doc = cls.deduce_model.deidentify(text=text, processors_enabled=processors_enabled, metadata=metadata)
+
+        return doc
 
 
 def annotate_text_backwardscompat(text: str, *args, **kwargs) -> str:
 
-    doc = _annotate_text_backwardscompat(text=text, *args, **kwargs)
+    doc = BackwardsCompat.annotate_text_backwardscompat(text=text, *args, **kwargs)
 
     annotations = doc.annotations.sorted(by=["end_char"], callbacks={"end_char": lambda x: -x})
 
@@ -110,7 +118,7 @@ def annotate_text_backwardscompat(text: str, *args, **kwargs) -> str:
 
 def annotate_text_structured_backwardscompat(text: str, *args, **kwargs) -> list[docdeid.Annotation]:
 
-    doc = _annotate_text_backwardscompat(text=text, *args, **kwargs)
+    doc = BackwardsCompat.annotate_text_backwardscompat(text=text, *args, **kwargs)
 
     return list(doc.annotations)
 
@@ -121,18 +129,18 @@ def deidentify_annotations_backwardscompat(text: str) -> str:
         return text
 
     # Patient tags are always simply deidentified (because there is only one patient
-    text = re.sub(r"<patient\s([^>]+)>", "<patient>", text)
+    text = re.sub(r"<PATIENT\s([^>]+)>", "<PATIENT>", text)
 
     # For al the other types of tags
     for tagname in [
-        "persoon",
-        "locatie",
-        "instelling",
-        "datum",
-        "leeftijd",
-        "patientnummer",
-        "telefoonnummer",
-        "url",
+        "PERSOON",
+        "LOCATIE",
+        "INSTELLING",
+        "DATUM",
+        "LEEFTIJD",
+        "PATIENTNUMMER",
+        "TELEFOONNUMMER",
+        "URL",
     ]:
 
         # Find all values that occur within this type of tag

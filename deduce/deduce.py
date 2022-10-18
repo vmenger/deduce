@@ -1,17 +1,20 @@
 import warnings
+from typing import Any
 
-import docdeid
+import deprecated
+import docdeid as dd
 
+import deduce.backwards_compat
 from deduce.annotate.annotation_processing import DeduceMergeAdjacentAnnotations
-from deduce.annotate.annotator import get_doc_processors
 from deduce.annotate.redact import DeduceRedactor
+from deduce.doc_processors import get_doc_processors
 from deduce.lookup.lookup_sets import get_lookup_sets
 from deduce.tokenize.tokenizer import DeduceTokenizer
 
 warnings.simplefilter(action="once")
 
 
-class Deduce(docdeid.DocDeid):
+class Deduce(dd.DocDeid):
     def __init__(self) -> None:
         super().__init__()
         self.lookup_sets = None
@@ -22,7 +25,7 @@ class Deduce(docdeid.DocDeid):
 
     def _initialize_tokenizer(self) -> None:
 
-        merge_terms = docdeid.LookupSet()
+        merge_terms = dd.LookupSet()
         merge_terms.add_items_from_iterable(["A1", "A2", "A3", "A4", "\n", "\r", "\t"])
         merge_terms += self.lookup_sets["interfixes"]
         merge_terms += self.lookup_sets["prefixes"]
@@ -36,7 +39,7 @@ class Deduce(docdeid.DocDeid):
         for name, processor in processors.items():
             self.processors[name] = processor
 
-        self.processors["overlap_resolver"] = docdeid.OverlapResolver(
+        self.processors["overlap_resolver"] = dd.annotate.OverlapResolver(
             sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
         )
 
@@ -44,7 +47,7 @@ class Deduce(docdeid.DocDeid):
             slack_regexp=r"[\.\s\-,]?[\.\s]?"
         )
 
-        self.processors["redactor"] = DeduceRedactor()
+        self.processors["redactor"] = DeduceRedactor(open_char="<", close_char=">")
 
     def _initialize_deduce(self) -> None:
 
@@ -55,41 +58,20 @@ class Deduce(docdeid.DocDeid):
 
 # Backwards compatibility stuff beneath this line.
 
-
-def annotate_text(*args, **kwargs) -> str:
-
-    warnings.warn(
-        message="The annotate_text function will disappear in a future version. "
-        "Please use Deduce().deidenitfy(text) instead.",
-        category=DeprecationWarning,
-    )
-
-    from deduce.backwards_compat import annotate_text_backwardscompat
-
-    return annotate_text_backwardscompat(*args, **kwargs)
+deduce.backwards_compat.BackwardsCompat.set_deduce_model(Deduce())
+deprecation_info = {"version": "2.0.0", "reason": "Please use Deduce().deidentify(text) instead."}
 
 
-def annotate_text_structured(*args, **kwargs) -> list[docdeid.Annotation]:
-
-    warnings.warn(
-        message="The annotate_text_structured function will disappear in a future version. "
-        "Please use Deduce().deidenitfy(text) instead.",
-        category=DeprecationWarning,
-    )
-
-    from deduce.backwards_compat import annotate_text_structured_backwardscompat
-
-    return annotate_text_structured_backwardscompat(*args, **kwargs)
+@deprecated.deprecated(**deprecation_info)
+def annotate_text(*args, **kwargs) -> Any:
+    return deduce.backwards_compat.annotate_text_backwardscompat(*args, **kwargs)
 
 
-def deidentify_annotations(*args, **kwargs) -> str:
+@deprecated.deprecated(**deprecation_info)
+def annotate_text_structured(*args, **kwargs) -> Any:
+    return deduce.backwards_compat.annotate_text_structured_backwardscompat(*args, **kwargs)
 
-    warnings.warn(
-        message="The deidentify_annotations function will disappear in a future version. "
-        "Please use Deduce().deidenitfy(text) instead.",
-        category=DeprecationWarning,
-    )
 
-    from deduce.backwards_compat import deidentify_annotations_backwardscompat
-
-    return deidentify_annotations_backwardscompat(*args, **kwargs)
+@deprecated.deprecated(**deprecation_info)
+def deidentify_annotations(*args, **kwargs) -> Any:
+    return deduce.backwards_compat.deidentify_annotations_backwardscompat(*args, **kwargs)

@@ -1,24 +1,24 @@
 """ This module contains all tokenizing functionality """
+import re
 from typing import Iterable, Optional
 
-import docdeid.tokenize.tokenizer
+import docdeid as dd
 import regex
-from docdeid.ds.lookup import LookupTrie
 
 from deduce import utils
 
 
-class DeduceTokenizer(docdeid.BaseTokenizer):
+class DeduceTokenizer(dd.BaseTokenizer):
     def __init__(self, merge_terms: Iterable = None) -> None:
 
         super().__init__()
 
-        self._pattern = regex.compile(r"[\p{L}]+|[^\p{L}]+", flags=regex.I | regex.M)
+        self._pattern = regex.compile(r"[\p{L}]+|[^\p{L}]+", flags=re.I | re.M)
         self._trie = None
 
         if merge_terms is not None:
 
-            trie = LookupTrie()
+            trie = dd.ds.LookupTrie()
 
             for term in merge_terms:
                 tokens = [token.text for token in self.split_text(text=term)]
@@ -26,7 +26,7 @@ class DeduceTokenizer(docdeid.BaseTokenizer):
 
             self._trie = trie
 
-    def _merge(self, tokens: list[docdeid.Token]) -> list[docdeid.Token]:
+    def _merge(self, tokens: list[dd.Token]) -> list[dd.Token]:
 
         tokens_text = [token.text for token in tokens]
         tokens_merged = []
@@ -48,23 +48,22 @@ class DeduceTokenizer(docdeid.BaseTokenizer):
         return tokens_merged
 
     @staticmethod
-    def join_tokens(tokens: list[docdeid.Token]) -> docdeid.Token:
+    def join_tokens(tokens: list[dd.Token]) -> dd.Token:
 
-        return docdeid.Token(
+        return dd.Token(
             text="".join(token.text for token in tokens),
             start_char=tokens[0].start_char,
             end_char=tokens[-1].end_char,
         )
 
     @staticmethod
-    def _matches_to_tokens(matches: list[regex.Match]) -> list[docdeid.Token]:
+    def _matches_to_tokens(matches: list[regex.Match]) -> list[dd.Token]:
 
         return [
-            docdeid.Token(text=match.group(0), start_char=match.span()[0], end_char=match.span()[1])
-            for match in matches
+            dd.Token(text=match.group(0), start_char=match.span()[0], end_char=match.span()[1]) for match in matches
         ]
 
-    def split_text(self, text: str) -> list[docdeid.Token]:
+    def split_text(self, text: str) -> list[dd.Token]:
 
         matches = self._pattern.finditer(text)
         tokens = self._matches_to_tokens(matches)
@@ -75,7 +74,7 @@ class DeduceTokenizer(docdeid.BaseTokenizer):
         return tokens
 
     @staticmethod
-    def previous_token(position: int, tokens: list[docdeid.Token]) -> Optional[docdeid.Token]:
+    def previous_token(position: int, tokens: list[dd.Token]) -> Optional[dd.Token]:
 
         if position == 0:
             return None
@@ -91,7 +90,7 @@ class DeduceTokenizer(docdeid.BaseTokenizer):
         return None
 
     @staticmethod
-    def next_token(position: int, tokens: list[docdeid.Token]) -> Optional[docdeid.Token]:
+    def next_token(position: int, tokens: list[dd.Token]) -> Optional[dd.Token]:
 
         if position == len(tokens):
             return None

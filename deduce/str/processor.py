@@ -1,7 +1,7 @@
 import re
 from typing import Optional
 
-from docdeid.ds import LookupSet
+import docdeid as dd
 from docdeid.str.processor import BaseStringFilter, BaseStringModifier, LowercaseString
 
 
@@ -40,11 +40,11 @@ class Acronimify(BaseStringModifier):
 
 
 class FilterBasedOnLookupSet(BaseStringFilter):
-    def __init__(self, filter_set: LookupSet, case_sensitive: bool = True) -> None:
+    def __init__(self, filter_set: dd.LookupSet, case_sensitive: bool = True) -> None:
 
         matching_pipeline = None if case_sensitive else [LowercaseString()]
 
-        self.filter_set = LookupSet(matching_pipeline=matching_pipeline)
+        self.filter_set = dd.LookupSet(matching_pipeline=matching_pipeline)
         self.filter_set.add_items_from_iterable(filter_set)
 
     def filter(self, item: str) -> bool:
