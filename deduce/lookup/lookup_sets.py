@@ -17,7 +17,7 @@ def _get_first_names_lookup_set() -> dd.LookupSet:
     first_names = dd.LookupSet()
 
     first_names.add_items_from_file(
-        os.path.join(data_path, "voornaam.lst"),
+        os.path.join(data_path, "first_names.txt"),
         cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
     )
 
@@ -29,7 +29,7 @@ def _get_surnames_lookup_set() -> dd.LookupSet:
     surnames = dd.LookupSet()
 
     surnames.add_items_from_file(
-        os.path.join(data_path, "achternaam.lst"),
+        os.path.join(data_path, "surnames.txt"),
         cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
     )
 
@@ -41,7 +41,7 @@ def _get_interfixes_lookup_set() -> dd.LookupSet:
 
     interfixes = dd.LookupSet()
 
-    interfixes.add_items_from_file(os.path.join(data_path, "voorvoegsel.lst"))
+    interfixes.add_items_from_file(os.path.join(data_path, "interfixes.txt"))
 
     return interfixes
 
@@ -52,7 +52,7 @@ def _get_interfix_surnames_lookup_set() -> dd.LookupSet:
     interfix_surnames = dd.LookupSet()
 
     interfix_surnames.add_items_from_file(
-        os.path.join(data_path, "achternaammetvv.lst"),
+        os.path.join(data_path, "interfix_surnames.txt"),
         cleaning_pipeline=[TakeLastToken()],
     )
 
@@ -63,7 +63,7 @@ def _get_prefixes_lookup_set() -> dd.LookupSet:
 
     prefixes = dd.LookupSet()
 
-    prefixes.add_items_from_file(os.path.join(data_path, "prefix.lst"))
+    prefixes.add_items_from_file(os.path.join(data_path, "prefixes.txt"))
 
     return prefixes
 
@@ -72,19 +72,17 @@ def _get_whitelist_lookup_set() -> dd.LookupSet:
 
     med_terms = dd.LookupSet()
     med_terms.add_items_from_file(
-        os.path.join(data_path, "medischeterm.lst"),
-        encoding="latin-1",
+        os.path.join(data_path, "medical_terms.txt"),
     )
 
     top1000 = dd.LookupSet()
     top1000.add_items_from_file(
-        os.path.join(data_path, "top1000.lst"),
-        encoding="latin-1",
+        os.path.join(data_path, "top_1000_terms.txt"),
     )
 
     surnames_lowercase = dd.LookupSet()
     surnames_lowercase.add_items_from_file(
-        os.path.join(data_path, "achternaam.lst"),
+        os.path.join(data_path, "surnames.txt"),
         cleaning_pipeline=[
             dd.str.LowercaseString(),
             dd.str.FilterByLength(min_len=2),
@@ -94,7 +92,7 @@ def _get_whitelist_lookup_set() -> dd.LookupSet:
     top1000 = top1000 - surnames_lowercase
 
     stopwords = dd.LookupSet()
-    stopwords.add_items_from_file(os.path.join(data_path, "stopwoord.lst"))
+    stopwords.add_items_from_file(os.path.join(data_path, "stop_words.txt"))
 
     whitelist = dd.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
     whitelist.add_items_from_iterable(
@@ -109,7 +107,7 @@ def _get_institutions_lookup_set() -> dd.LookupSet:
 
     institutions_raw = dd.LookupSet()
     institutions_raw.add_items_from_file(
-        os.path.join(data_path, "instellingen.lst"),
+        os.path.join(data_path, "institutions.txt"),
         cleaning_pipeline=[dd.str.FilterByLength(min_len=3), dd.str.LowercaseString()],
     )
 
@@ -145,8 +143,7 @@ def _get_residences_lookup_set() -> dd.LookupSet:
 
     residences = dd.LookupSet()
     residences.add_items_from_file(
-        file=os.path.join(data_path, "woonplaats.lst"),
-        encoding="utf-8",
+        file=os.path.join(data_path, "residences.txt"),
         cleaning_pipeline=[dd.str.ReplaceValueRegexp(r"\(.+\)", ""), dd.str.StripString()],
     )
 
