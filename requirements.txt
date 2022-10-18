@@ -1,4 +1,4 @@
 rapidfuzz
-docdeid==0.0.12
+docdeid==0.0.13
 regex
 deprecated
