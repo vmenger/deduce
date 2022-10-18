@@ -222,7 +222,7 @@ class TestRegexpAnnotators:
             dd.Annotation(text="https://packaging.pypi.org", start_char=19, end_char=45, tag=annotator[0].tag),
             dd.Annotation(
                 text="softwareengineering.stackexchange.com/questions/348295/"
-                     "is-there-such-a-thing-as-having-too-many-unit-tests",
+                "is-there-such-a-thing-as-having-too-many-unit-tests",
                 start_char=47,
                 end_char=153,
                 tag=annotator[0].tag,
