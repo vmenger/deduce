@@ -8,10 +8,10 @@ from deduce.person import Person
 
 class BackwardsCompat:
 
-    deduce_model: "Deduce"
+    deduce_model = None
 
     @classmethod
-    def set_deduce_model(cls, deduce_model: "Deduce") -> None:
+    def set_deduce_model(cls, deduce_model) -> None:
         cls.deduce_model = deduce_model
 
     @classmethod
