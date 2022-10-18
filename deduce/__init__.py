@@ -5,4 +5,6 @@ from deduce.deduce import (
     deidentify_annotations,
 )
 
-from .__version__ import __version__
+import importlib.metadata
+
+__version__ = importlib.metadata.version(__package__ or __name__)

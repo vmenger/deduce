@@ -1,4 +1,0 @@
-rapidfuzz
-docdeid==0.0.13
-regex
-deprecated

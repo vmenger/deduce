@@ -1,5 +1,0 @@
-black
-pylint
-pytest
-pytest-cov
-flake8
