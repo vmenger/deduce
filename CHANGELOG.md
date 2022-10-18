@@ -19,7 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - introduced new interface for deidentification, using `Deduce()` class
 
 ### Removed
+- the `annotate_text` and `deidentify_annotations` functions
 - all in-text annotation (under the hood) and associated functions
+- support for given names. given names can be added as another first name in the `Person` class. 
 
 ### Fixed
 - `<` and `>` are no longer replaced by `(` and `)` respectively
