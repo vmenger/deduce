@@ -42,7 +42,9 @@ jobs:
         make test
 
     - name: Coveralls Parallel
-      uses: coverallsapp/github-action@master
+      uses: coverallsapp/github-action@1.1.3
+      env:
+        NODE_COVERALLS_DEBUG: 1
       with:
         github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
         flag-name: py-${{ matrix.python-version }}
@@ -54,7 +56,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
+      uses: coverallsapp/github-action@1.1.3
+      env:
+        NODE_COVERALLS_DEBUG: 1
       with:
         github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
         parallel-finished: true
