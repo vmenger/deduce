@@ -36,7 +36,7 @@ pylint:
 	python -m pylint $(pylint_args) $(lint_dirs)
 
 test:
-	python -m pytest --cov-report html --cov=deduce tests/
+	python -m pytest --cov-config=pyproject.toml --cov-report html --cov=deduce tests/
 
 clean:
 	rm -rf .coverage

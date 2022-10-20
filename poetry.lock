@@ -8,7 +8,7 @@ python-versions = "*"
 
 [[package]]
 name = "astroid"
-version = "2.12.11"
+version = "2.12.12"
 description = "An abstract syntax tree for Python with inference support."
 category = "dev"
 optional = false
@@ -730,7 +730,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "flake8 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "00bce42812ade235e1669c6d18140d06fbb9e0fd93b32a755dd6cae6164deb18"
+content-hash = "ef685ebfdf5864008192cad179db956f85f341dc15fd7f762cf981d75cb24294"
 
 [metadata.files]
 alabaster = []

@@ -28,7 +28,7 @@ black = "^22.10.0"
 isort = "^5.10.1"
 pylint = "^2.15.4"
 pytest = "^7.1.3"
-pytest-cov = "^4.0.0"
+pytest-cov = {version = "^4.0.0", extras = ["toml"]}
 flake8 = "^5.0.4"
 flake8-annotations = "^2.9.1"
 
