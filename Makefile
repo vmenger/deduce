@@ -42,3 +42,5 @@ clean:
 	rm -rf .coverage
 	rm -rf htmlcov
 	rm -rf .pytest_cache
+
+.PHONY: format lint black isort typehints pylint test clean
