@@ -41,18 +41,19 @@ jobs:
       run: |
         make test
 
-
-    - name: Coveralls
-      uses: AndreMiras/coveralls-python-action@develop
+    - name: Coveralls Parallel
+      uses: coverallsapp/github-action@master
       with:
+        github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        flag-name: py-${{ matrix.python-version }}
         parallel: true
-        flag-name: Tests
 
-  coveralls_finish:
+  finish:
     needs: test
     runs-on: ubuntu-latest
     steps:
     - name: Coveralls Finished
-      uses: AndreMiras/coveralls-python-action@develop
+      uses: coverallsapp/github-action@master
       with:
+        github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
         parallel-finished: true
