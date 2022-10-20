@@ -1,5 +1,11 @@
 # Deduce: de-identification method for Dutch medical text
+[![tests](https://github.com/vmenger/deduce/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/vmenger/deduce/actions/workflows/test.yml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+![PyPI](https://img.shields.io/pypi/v/deduce)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/deduce)
+![GitHub](https://img.shields.io/github/license/vmenger/deduce)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/deduce)
+[![Coverage Status](https://coveralls.io/repos/github/vmenger/deduce/badge.svg?branch=master)](https://coveralls.io/github/vmenger/deduce?branch=master)
 
 > If you are looking for the version of DEDUCE as published with [Menger et al. (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365), please visit [vmenger/deduce-classic](https://github.com/vmenger/deduce-classic/), where the original is archived. This version is maintained and improved, thus possibly differing from the validated original.
 
