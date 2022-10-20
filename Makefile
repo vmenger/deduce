@@ -12,8 +12,11 @@ pylint_args := --disable=C0114 --max-line-length=$(MAX_LINE_LENGTH)
 ifeq ($(CHECK), 1)
 	black_args += --check
 	isort_args += -c
+	pylint_args += --fail-under 9.0
+
 else
 	typehints_args += --exit-zero
+	pylint_args += --exit-zero
 endif
 
 format: black isort
