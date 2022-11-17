@@ -34,20 +34,23 @@ class Deduce(dd.DocDeid):
 
     def _initialize_processors(self) -> None:
 
-        processors = get_doc_processors(self.lookup_sets, self.tokenizers["default"])
+        self.processors = get_doc_processors(self.lookup_sets, self.tokenizers["default"])
 
-        for name, processor in processors.items():
-            self.processors[name] = processor
-
-        self.processors["overlap_resolver"] = dd.annotate.OverlapResolver(
-            sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
+        self.processors.add_processor(
+            "overlap_resolver",
+            dd.annotate.OverlapResolver(
+                sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
+            )
         )
 
-        self.processors["merge_adjacent_annotations"] = DeduceMergeAdjacentAnnotations(
-            slack_regexp=r"[\.\s\-,]?[\.\s]?"
+        self.processors.add_processor(
+            "merge_adjacent_annotations",
+            DeduceMergeAdjacentAnnotations(
+                slack_regexp=r"[\.\s\-,]?[\.\s]?"
+            )
         )
 
-        self.processors["redactor"] = DeduceRedactor(open_char="<", close_char=">")
+        self.processors.add_processor("redactor", DeduceRedactor(open_char="<", close_char=">"))
 
     def _initialize_deduce(self) -> None:
 

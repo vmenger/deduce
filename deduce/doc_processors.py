@@ -1,5 +1,4 @@
 import re
-from collections import OrderedDict
 
 import docdeid as dd
 
@@ -108,7 +107,7 @@ REGEPXS = {
 
 def _get_name_pattern_annotators(
     lookup_sets: dd.ds.DsCollection, tokenizer: dd.BaseTokenizer
-) -> OrderedDict[str, dd.doc.DocProcessor]:
+) -> dd.doc.DocProcessorGroup:
 
     name_patterns = {
         "prefix_with_name": PrefixWithNamePattern(tag="prefix+naam", lookup_sets=lookup_sets),
@@ -123,10 +122,10 @@ def _get_name_pattern_annotators(
         "person_surname": PersonSurnamePattern(tag="achternaam_patient", tokenizer=tokenizer),
     }
 
-    annotators = OrderedDict()
+    annotators = dd.doc.DocProcessorGroup()
 
     for pattern_name, pattern in name_patterns.items():
-        annotators[pattern_name] = dd.annotate.TokenPatternAnnotator(pattern=pattern)
+        annotators.add_processor(pattern_name, dd.annotate.TokenPatternAnnotator(pattern=pattern))
 
     return annotators
 
@@ -141,12 +140,12 @@ def _get_name_context_patterns(lookup_sets: dd.ds.DsCollection) -> list[Annotati
     ]
 
 
-def _get_regexp_annotators() -> OrderedDict[str, dd.doc.DocProcessor]:
+def _get_regexp_annotators() -> dd.doc.DocProcessorGroup:
 
-    annotators = OrderedDict()
+    annotators = dd.doc.DocProcessorGroup()
 
     for annotator_name, regexp_info in REGEPXS.items():
-        annotators[annotator_name] = dd.annotate.RegexpAnnotator(**regexp_info)
+        annotators.add_processor(annotator_name, dd.annotate.RegexpAnnotator(**regexp_info))
 
     return annotators
 
@@ -155,36 +154,49 @@ def _get_name_processor_group(lookup_sets: dd.ds.DsCollection, tokenizer: dd.Bas
 
     name_processors = _get_name_pattern_annotators(lookup_sets, tokenizer)
 
-    name_processors["name_context"] = AnnotationContextPatternAnnotator(
-        context_patterns=_get_name_context_patterns(lookup_sets), tags=["initia", "naam", "interfix", "prefix"]
+    name_processors.add_processor(
+        "name_context",
+        AnnotationContextPatternAnnotator(
+            context_patterns=_get_name_context_patterns(lookup_sets), tags=["initia", "naam", "interfix", "prefix"]
+        )
     )
 
-    name_processors["person_annotation_converter"] = PersonAnnotationConverter()
+    name_processors.add_processor(
+        'person_annotation_converter',
+        PersonAnnotationConverter()
+    )
 
-    return dd.doc.DocProcessorGroup(name_processors)
+    return name_processors
 
 
 def get_doc_processors(
     lookup_sets: dd.ds.DsCollection[dd.LookupSet], tokenizer: dd.BaseTokenizer
-) -> OrderedDict[str, dd.doc.DocProcessor]:
+) -> dd.doc.DocProcessorGroup:
 
-    annotators = OrderedDict()
+    annotators = dd.doc.DocProcessorGroup()
 
-    annotators["name_group"] = _get_name_processor_group(lookup_sets, tokenizer)
+    annotators.add_processor("name_group", _get_name_processor_group(lookup_sets, tokenizer))
 
-    annotators["institution"] = dd.annotate.MultiTokenLookupAnnotator(
-        lookup_values=lookup_sets["institutions"],
-        tokenizer=DeduceTokenizer(),
-        tag="instelling",
-        matching_pipeline=lookup_sets["institutions"].matching_pipeline,
+    annotators.add_processor(
+        "institution",
+        dd.annotate.MultiTokenLookupAnnotator(
+            lookup_values=lookup_sets["institutions"],
+            tokenizer=DeduceTokenizer(),
+            tag="instelling",
+            matching_pipeline=lookup_sets["institutions"].matching_pipeline,
+        )
     )
 
-    annotators["residence"] = dd.annotate.MultiTokenLookupAnnotator(
-        lookup_values=lookup_sets["residences"],
-        tokenizer=DeduceTokenizer(),
-        tag="locatie",
+    annotators.add_processor(
+        "residence",
+        dd.annotate.MultiTokenLookupAnnotator(
+            lookup_values=lookup_sets["residences"],
+            tokenizer=DeduceTokenizer(),
+            tag="locatie",
+        )
     )
 
-    annotators |= _get_regexp_annotators()
+    for name, proc in _get_regexp_annotators():
+        annotators.add_processor(name, proc)
 
     return annotators
