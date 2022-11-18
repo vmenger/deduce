@@ -74,7 +74,7 @@ class DeduceTokenizer(dd.Tokenizer):
         return tokens
 
     @staticmethod
-    def previous_token(position: int, tokens: list[dd.Token]) -> Optional[dd.Token]:
+    def _previous_token(position: int, tokens: list[dd.Token]) -> Optional[dd.Token]:
 
         if position == 0:
             return None
@@ -90,7 +90,7 @@ class DeduceTokenizer(dd.Tokenizer):
         return None
 
     @staticmethod
-    def next_token(position: int, tokens: list[dd.Token]) -> Optional[dd.Token]:
+    def _next_token(position: int, tokens: list[dd.Token]) -> Optional[dd.Token]:
 
         if position == len(tokens):
             return None

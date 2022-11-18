@@ -62,23 +62,23 @@ class TestTokenizer:
 
         tokenizer = DeduceTokenizer()
 
-        assert tokenizer.next_token(0, tokens) is tokens[2]
-        assert tokenizer.next_token(6, tokens) is tokens[9]
-        assert tokenizer.next_token(7, tokens) is tokens[9]
-        assert tokenizer.next_token(8, tokens) is tokens[9]
-        assert tokenizer.next_token(11, tokens) is None
-        assert tokenizer.next_token(14, tokens) is None
-        assert tokenizer.next_token(15, tokens) is None
+        assert tokenizer._next_token(0, tokens) is tokens[2]
+        assert tokenizer._next_token(6, tokens) is tokens[9]
+        assert tokenizer._next_token(7, tokens) is tokens[9]
+        assert tokenizer._next_token(8, tokens) is tokens[9]
+        assert tokenizer._next_token(11, tokens) is None
+        assert tokenizer._next_token(14, tokens) is None
+        assert tokenizer._next_token(15, tokens) is None
 
     def test_previous_token(self, tokens):
 
         tokenizer = DeduceTokenizer()
-        assert tokenizer.previous_token(0, tokens) is None
-        assert tokenizer.previous_token(1, tokens) == tokens[0]
-        assert tokenizer.previous_token(2, tokens) == tokens[0]
-        assert tokenizer.previous_token(7, tokens) == tokens[6]
-        assert tokenizer.previous_token(9, tokens) is None
-        assert tokenizer.previous_token(10, tokens) is tokens[9]
+        assert tokenizer._previous_token(0, tokens) is None
+        assert tokenizer._previous_token(1, tokens) == tokens[0]
+        assert tokenizer._previous_token(2, tokens) == tokens[0]
+        assert tokenizer._previous_token(7, tokens) == tokens[6]
+        assert tokenizer._previous_token(9, tokens) is None
+        assert tokenizer._previous_token(10, tokens) is tokens[9]
 
     def test_join_tokens(self, tokens):
 
