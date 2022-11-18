@@ -11,7 +11,7 @@ class BackwardsCompat:
     deduce_model = None
 
     @classmethod
-    def set_deduce_model(cls, deduce_model: str) -> None:
+    def set_deduce_model(cls, deduce_model: "Deduce") -> None:
         cls.deduce_model = deduce_model
 
     @classmethod

@@ -1,7 +1,7 @@
 import docdeid as dd
 
 
-class DeduceMergeAdjacentAnnotations(dd.annotate.MergeAdjacentAnnotations):
+class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
     def _tags_match(self, left_tag: str, right_tag: str) -> bool:
 
         return (left_tag == right_tag) or {left_tag, right_tag} == {
@@ -29,9 +29,9 @@ class DeduceMergeAdjacentAnnotations(dd.annotate.MergeAdjacentAnnotations):
         )
 
 
-class PersonAnnotationConverter(dd.annotate.BaseAnnotationProcessor):
+class PersonAnnotationConverter(dd.process.AnnotationProcessor):
     def __init__(self) -> None:
-        self._overlap_resolver = dd.annotate.OverlapResolver(
+        self._overlap_resolver = dd.process.OverlapResolver(
             sort_by=["tag", "length"],
             sort_by_callbacks={"tag": lambda x: "patient" not in x, "length": lambda x: -x},
         )

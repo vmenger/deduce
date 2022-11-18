@@ -32,7 +32,7 @@ class TestStr:
 
     def test_filter_based_on_lookupset(self):
 
-        lookup_set = dd.LookupSet()
+        lookup_set = dd.ds.LookupSet()
         lookup_set.add_items_from_iterable(["arts", "bakker", "slager"])
 
         processor = FilterBasedOnLookupSet(filter_set=lookup_set)

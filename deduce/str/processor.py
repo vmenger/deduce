@@ -2,15 +2,15 @@ import re
 from typing import Optional
 
 import docdeid as dd
-from docdeid.str.processor import BaseStringFilter, BaseStringModifier, LowercaseString
+from docdeid.str import StringFilter, StringModifier, LowercaseString
 
 
-class TakeLastToken(BaseStringModifier):
+class TakeLastToken(StringModifier):
     def process(self, item: str) -> Optional[str]:
         return item.split(" ")[-1]
 
 
-class RemoveValues(BaseStringModifier):
+class RemoveValues(StringModifier):
     def __init__(self, filter_values: list[str]) -> None:
         self.filter_values = filter_values
 
@@ -27,7 +27,7 @@ class RemoveValues(BaseStringModifier):
         return item
 
 
-class Acronimify(BaseStringModifier):
+class Acronimify(StringModifier):
     def __init__(self, split_value: str = " ", join_value: str = "") -> None:
         self.split_value = split_value
         self.join_value = join_value
@@ -39,12 +39,12 @@ class Acronimify(BaseStringModifier):
         return self.join_value.join(x[0] for x in item_split)
 
 
-class FilterBasedOnLookupSet(BaseStringFilter):
-    def __init__(self, filter_set: dd.LookupSet, case_sensitive: bool = True) -> None:
+class FilterBasedOnLookupSet(StringFilter):
+    def __init__(self, filter_set: dd.ds.LookupSet, case_sensitive: bool = True) -> None:
 
         matching_pipeline = None if case_sensitive else [LowercaseString()]
 
-        self.filter_set = dd.LookupSet(matching_pipeline=matching_pipeline)
+        self.filter_set = dd.ds.LookupSet(matching_pipeline=matching_pipeline)
         self.filter_set.add_items_from_iterable(filter_set)
 
     def filter(self, item: str) -> bool:

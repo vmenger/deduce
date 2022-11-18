@@ -42,7 +42,7 @@ class TestTokenizer:
             dd.Token(text="Zee", start_char=15, end_char=18),
         ]
 
-        assert tokenizer.split_text(text=text) == expected_tokens
+        assert tokenizer._split_text(text=text) == expected_tokens
 
     def test_split_with_merge(self):
 
@@ -56,7 +56,7 @@ class TestTokenizer:
             dd.Token(text="Zee", start_char=15, end_char=18),
         ]
 
-        assert tokenizer.split_text(text=text) == expected_tokens
+        assert tokenizer._split_text(text=text) == expected_tokens
 
     def test_next_token(self, tokens):
 

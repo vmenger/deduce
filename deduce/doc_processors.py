@@ -106,8 +106,8 @@ REGEPXS = {
 
 
 def _get_name_pattern_annotators(
-    lookup_sets: dd.ds.DsCollection, tokenizer: dd.BaseTokenizer
-) -> dd.doc.DocProcessorGroup:
+    lookup_sets: dd.ds.DsCollection, tokenizer: dd.Tokenizer
+) -> dd.process.DocProcessorGroup:
 
     name_patterns = {
         "prefix_with_name": PrefixWithNamePattern(tag="prefix+naam", lookup_sets=lookup_sets),
@@ -122,10 +122,10 @@ def _get_name_pattern_annotators(
         "person_surname": PersonSurnamePattern(tag="achternaam_patient", tokenizer=tokenizer),
     }
 
-    annotators = dd.doc.DocProcessorGroup()
+    annotators = dd.process.DocProcessorGroup()
 
     for pattern_name, pattern in name_patterns.items():
-        annotators.add_processor(pattern_name, dd.annotate.TokenPatternAnnotator(pattern=pattern))
+        annotators.add_processor(pattern_name, dd.process.TokenPatternAnnotator(pattern=pattern))
 
     return annotators
 
@@ -140,17 +140,17 @@ def _get_name_context_patterns(lookup_sets: dd.ds.DsCollection) -> list[Annotati
     ]
 
 
-def _get_regexp_annotators() -> dd.doc.DocProcessorGroup:
+def _get_regexp_annotators() -> dd.process.DocProcessorGroup:
 
-    annotators = dd.doc.DocProcessorGroup()
+    annotators = dd.process.DocProcessorGroup()
 
     for annotator_name, regexp_info in REGEPXS.items():
-        annotators.add_processor(annotator_name, dd.annotate.RegexpAnnotator(**regexp_info))
+        annotators.add_processor(annotator_name, dd.process.RegexpAnnotator(**regexp_info))
 
     return annotators
 
 
-def _get_name_processor_group(lookup_sets: dd.ds.DsCollection, tokenizer: dd.BaseTokenizer) -> dd.doc.DocProcessorGroup:
+def _get_name_processor_group(lookup_sets: dd.ds.DsCollection, tokenizer: dd.Tokenizer) -> dd.process.DocProcessorGroup:
 
     name_processors = _get_name_pattern_annotators(lookup_sets, tokenizer)
 
@@ -170,16 +170,16 @@ def _get_name_processor_group(lookup_sets: dd.ds.DsCollection, tokenizer: dd.Bas
 
 
 def get_doc_processors(
-    lookup_sets: dd.ds.DsCollection[dd.LookupSet], tokenizer: dd.BaseTokenizer
-) -> dd.doc.DocProcessorGroup:
+    lookup_sets: dd.ds.DsCollection[dd.ds.LookupSet], tokenizer: dd.Tokenizer
+) -> dd.process.DocProcessorGroup:
 
-    annotators = dd.doc.DocProcessorGroup()
+    annotators = dd.process.DocProcessorGroup()
 
     annotators.add_processor("name_group", _get_name_processor_group(lookup_sets, tokenizer))
 
     annotators.add_processor(
         "institution",
-        dd.annotate.MultiTokenLookupAnnotator(
+        dd.process.MultiTokenLookupAnnotator(
             lookup_values=lookup_sets["institutions"],
             tokenizer=DeduceTokenizer(),
             tag="instelling",
@@ -189,7 +189,7 @@ def get_doc_processors(
 
     annotators.add_processor(
         "residence",
-        dd.annotate.MultiTokenLookupAnnotator(
+        dd.process.MultiTokenLookupAnnotator(
             lookup_values=lookup_sets["residences"],
             tokenizer=DeduceTokenizer(),
             tag="locatie",

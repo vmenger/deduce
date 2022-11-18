@@ -2,7 +2,7 @@ import docdeid as dd
 from rapidfuzz.distance import DamerauLevenshtein
 
 
-class DeduceRedactor(dd.annotate.SimpleRedactor):
+class DeduceRedactor(dd.process.SimpleRedactor):
     def redact(self, text: str, annotations: dd.AnnotationSet) -> str:
 
         annotations_to_intext_replacement = {}

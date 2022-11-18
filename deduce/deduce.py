@@ -25,7 +25,7 @@ class Deduce(dd.DocDeid):
 
     def _initialize_tokenizer(self) -> None:
 
-        merge_terms = dd.LookupSet()
+        merge_terms = dd.ds.LookupSet()
         merge_terms.add_items_from_iterable(["A1", "A2", "A3", "A4", "\n", "\r", "\t"])
         merge_terms += self.lookup_sets["interfixes"]
         merge_terms += self.lookup_sets["prefixes"]
@@ -38,7 +38,7 @@ class Deduce(dd.DocDeid):
 
         self.processors.add_processor(
             "overlap_resolver",
-            dd.annotate.OverlapResolver(
+            dd.process.OverlapResolver(
                 sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
             )
         )

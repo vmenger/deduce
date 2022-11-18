@@ -19,7 +19,7 @@ include = ["deduce/data/*"]
 [tool.poetry.dependencies]
 python = "^3.9"
 rapidfuzz = "^2.11.1"
-docdeid = "0.0.13"
+docdeid = "0.1.0"
 regex = "^2022.9.13"
 deprecated = "^1.2.13"
 

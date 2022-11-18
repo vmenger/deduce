@@ -8,7 +8,7 @@ from deduce.utils import str_match
 class PersonFirstNamePattern(dd.pattern.TokenPattern):
     def doc_precondition(self, doc: dd.Document) -> bool:
 
-        patient = doc.get_metadata_item("patient")
+        patient = doc.metadata["patient"]
         return (patient is not None) and (patient.first_names is not None)
 
     def match(self, token: dd.Token, metadata: Optional[dict] = None) -> Optional[tuple[dd.Token, dd.Token]]:
@@ -27,7 +27,7 @@ class PersonFirstNamePattern(dd.pattern.TokenPattern):
 class PersonInitialFromNamePattern(dd.pattern.TokenPattern):
     def doc_precondition(self, doc: dd.Document) -> bool:
 
-        patient = doc.get_metadata_item("patient")
+        patient = doc.metadata["patient"]
         return (patient is not None) and (patient.first_names is not None)
 
     def match(self, token: dd.Token, metadata: Optional[dict] = None) -> Optional[tuple[dd.Token, dd.Token]]:
@@ -49,7 +49,7 @@ class PersonInitialFromNamePattern(dd.pattern.TokenPattern):
 class PersonInitialsPattern(dd.pattern.TokenPattern):
     def doc_precondition(self, doc: dd.Document) -> bool:
 
-        patient = doc.get_metadata_item("patient")
+        patient = doc.metadata["patient"]
         return (patient is not None) and (patient.initials is not None)
 
     def match(self, token: dd.Token, metadata: Optional[dict] = None) -> Optional[tuple[dd.Token, dd.Token]]:
@@ -61,7 +61,7 @@ class PersonInitialsPattern(dd.pattern.TokenPattern):
 
 
 class PersonSurnamePattern(dd.pattern.TokenPattern):
-    def __init__(self, tokenizer: dd.BaseTokenizer, *args, **kwargs) -> None:
+    def __init__(self, tokenizer: dd.Tokenizer, *args, **kwargs) -> None:
         self._tokenizer = tokenizer
         super().__init__(*args, **kwargs)
 

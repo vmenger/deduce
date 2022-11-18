@@ -5,7 +5,7 @@ import docdeid as dd
 
 
 class TokenPatternWithLookup(dd.pattern.TokenPattern, ABC):
-    def __init__(self, lookup_sets: dd.ds.DsCollection[dd.LookupSet], *args, **kwargs) -> None:
+    def __init__(self, lookup_sets: dd.ds.DsCollection[dd.ds.LookupSet], *args, **kwargs) -> None:
         self._lookup_sets = lookup_sets
         super().__init__(*args, **kwargs)
 

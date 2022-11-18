@@ -8,7 +8,7 @@ import regex
 from deduce import utils
 
 
-class DeduceTokenizer(dd.BaseTokenizer):
+class DeduceTokenizer(dd.Tokenizer):
     def __init__(self, merge_terms: Iterable = None) -> None:
 
         super().__init__()
@@ -21,8 +21,8 @@ class DeduceTokenizer(dd.BaseTokenizer):
             trie = dd.ds.LookupTrie()
 
             for term in merge_terms:
-                tokens = [token.text for token in self.split_text(text=term)]
-                trie.add(tokens)
+                tokens = [token.text for token in self._split_text(text=term)]
+                trie.add_item(tokens)
 
             self._trie = trie
 
@@ -63,7 +63,7 @@ class DeduceTokenizer(dd.BaseTokenizer):
             dd.Token(text=match.group(0), start_char=match.span()[0], end_char=match.span()[1]) for match in matches
         ]
 
-    def split_text(self, text: str) -> list[dd.Token]:
+    def _split_text(self, text: str) -> list[dd.Token]:
 
         matches = self._pattern.finditer(text)
         tokens = self._matches_to_tokens(matches)

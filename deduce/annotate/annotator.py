@@ -7,7 +7,7 @@ import deduce.utils
 from deduce.pattern.name_context import AnnotationContextPattern
 
 
-class AnnotationContextPatternAnnotator(dd.annotate.BaseAnnotator):
+class AnnotationContextPatternAnnotator(dd.process.Annotator):
     """This needs to go after the relevant annotators."""
 
     def __init__(
@@ -16,7 +16,7 @@ class AnnotationContextPatternAnnotator(dd.annotate.BaseAnnotator):
         self._context_patterns = context_patterns
         self._tags = tags
         self._iterative = iterative
-        super().__init__(tag=None)
+        super().__init__(tag="_")
 
     def get_matching_tag_annotations(self, context_annotations: dd.AnnotationSet) -> dd.AnnotationSet:
 
