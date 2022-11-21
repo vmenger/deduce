@@ -30,7 +30,7 @@ class TestContextPatternsAnnotator:
 
         annotator = AnnotationContextPatternAnnotator(context_patterns=[], tags=["voornaam"])
 
-        assert annotator.get_matching_tag_annotations(input_annotations) == expected_annotations
+        assert dd.AnnotationSet(annotator.get_matching_tag_annotations(list(input_annotations))) == expected_annotations
 
     def test_tags_none(self):
 
@@ -44,7 +44,7 @@ class TestContextPatternsAnnotator:
 
         annotator = AnnotationContextPatternAnnotator(context_patterns=[], tags=None)
 
-        assert annotator.get_matching_tag_annotations(input_annotations) == input_annotations
+        assert dd.AnnotationSet(annotator.get_matching_tag_annotations(list(input_annotations))) == input_annotations
 
     def test_annotate(self):
 
@@ -151,9 +151,9 @@ class TestContextPatternsAnnotator:
             ]
         )
 
-        context_annotations = annotator._annotate_context(doc.annotations, doc)
+        context_annotations = annotator._annotate_context(list(doc.annotations), doc)
 
-        assert context_annotations == expected_annotations
+        assert dd.AnnotationSet(context_annotations) == expected_annotations
 
     def test_annotate_context_iterative(self):
 
@@ -191,9 +191,9 @@ class TestContextPatternsAnnotator:
             ]
         )
 
-        context_annotations = annotator._annotate_context(doc.annotations, doc)
+        context_annotations = annotator._annotate_context(list(doc.annotations), doc)
 
-        assert context_annotations == expected_annotations
+        assert dd.AnnotationSet(context_annotations) == expected_annotations
 
     def test_annotate_context_multiple(self):
 
@@ -247,6 +247,6 @@ class TestContextPatternsAnnotator:
             ]
         )
 
-        context_annotations = annotator._annotate_context(doc.annotations, doc)
+        context_annotations = annotator._annotate_context(list(doc.annotations), doc)
 
-        assert context_annotations == expected_annotations
+        assert dd.AnnotationSet(context_annotations) == expected_annotations

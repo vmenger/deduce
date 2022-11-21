@@ -15,7 +15,7 @@ class PrefixWithNamePattern(TokenPatternWithLookup):
 
         return token.next() is not None
 
-    def match(self, token: dd.Token, metadata: Optional[dd.MetaData] = None) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
 
         if (
             token.text.lower() in self._lookup_sets["prefixes"]
@@ -33,7 +33,7 @@ class InterfixWithNamePattern(TokenPatternWithLookup):
 
         return token.next() is not None
 
-    def match(self, token: dd.Token, metadata: Optional[dd.MetaData] = None) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
 
         if (
             token.text.lower() in self._lookup_sets["interfixes"]
@@ -51,7 +51,7 @@ class InitialWithCapitalPattern(TokenPatternWithLookup):
 
         return token.next() is not None
 
-    def match(self, token: dd.Token, metadata: Optional[dd.MetaData] = None) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
 
         if (
             token.text[0].isupper()
@@ -71,7 +71,7 @@ class InitiaalInterfixCapitalPattern(TokenPatternWithLookup):
 
         return (token.previous() is not None) and (token.next() is not None)
 
-    def match(self, token: dd.Token, metadata: Optional[dd.MetaData] = None) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
         if (
             token.previous().text[0].isupper()
             and len(token.previous()) == 1
@@ -85,7 +85,7 @@ class InitiaalInterfixCapitalPattern(TokenPatternWithLookup):
 
 
 class FirstNameLookupPattern(TokenPatternWithLookup):
-    def match(self, token: dd.Token, metadata: Optional[dd.MetaData] = None) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
 
         if token.text in self._lookup_sets["first_names"] and token.text not in self._lookup_sets["whitelist"]:
 
@@ -95,7 +95,7 @@ class FirstNameLookupPattern(TokenPatternWithLookup):
 
 
 class SurnameLookupPattern(TokenPatternWithLookup):
-    def match(self, token: dd.Token, metadata: Optional[dd.MetaData] = None) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
 
         if token.text in self._lookup_sets["surnames"] and token.text not in self._lookup_sets["whitelist"]:
 

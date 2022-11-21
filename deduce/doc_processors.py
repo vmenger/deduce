@@ -164,27 +164,31 @@ def _get_name_processor_group(lookup_sets: dd.ds.DsCollection, tokenizer: dd.Tok
 
 
 def get_doc_processors(
-    lookup_sets: dd.ds.DsCollection[dd.ds.LookupSet], tokenizer: dd.Tokenizer
+    lookup_sets: dd.ds.DsCollection[dict[str, dd.ds.LookupSet]], tokenizer: dd.Tokenizer
 ) -> dd.process.DocProcessorGroup:
 
     annotators = dd.process.DocProcessorGroup()
 
     annotators.add_processor("name_group", _get_name_processor_group(lookup_sets, tokenizer))
 
+    institutions_lookup: dd.ds.LookupSet = lookup_sets["institutions"]
+
     annotators.add_processor(
         "institution",
         dd.process.MultiTokenLookupAnnotator(
-            lookup_values=lookup_sets["institutions"].items(),
+            lookup_values=institutions_lookup.items(),
             tokenizer=DeduceTokenizer(),
             tag="instelling",
-            matching_pipeline=lookup_sets["institutions"].matching_pipeline,
+            matching_pipeline=institutions_lookup.matching_pipeline,
         ),
     )
+
+    residences_lookup: dd.ds.LookupSet = lookup_sets["residences"]
 
     annotators.add_processor(
         "residence",
         dd.process.MultiTokenLookupAnnotator(
-            lookup_values=lookup_sets["residences"].items(),
+            lookup_values=residences_lookup.items(),
             tokenizer=DeduceTokenizer(),
             tag="locatie",
         ),

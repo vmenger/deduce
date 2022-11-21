@@ -1,5 +1,4 @@
 import re
-from typing import Optional
 
 import docdeid as dd
 from docdeid.str import LowercaseString, StringFilter, StringModifier

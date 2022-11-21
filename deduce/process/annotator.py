@@ -18,7 +18,7 @@ class AnnotationContextPatternAnnotator(dd.process.Annotator):
         self._iterative = iterative
         super().__init__(tag="_")
 
-    def get_matching_tag_annotations(self, context_annotations: dd.AnnotationSet) -> dd.AnnotationSet:
+    def get_matching_tag_annotations(self, context_annotations: list[dd.Annotation]) -> list[dd.Annotation]:
 
         if self._tags is not None:
 
@@ -26,13 +26,13 @@ class AnnotationContextPatternAnnotator(dd.process.Annotator):
                 annotation for annotation in context_annotations if deduce.utils.any_in_text(self._tags, annotation.tag)
             ]
 
-        return dd.AnnotationSet(context_annotations)
+        return context_annotations
 
-    def _annotate_context(self, annotations: dd.AnnotationSet, doc: dd.Document) -> dd.AnnotationSet:
+    def _annotate_context(self, annotations: list[dd.Annotation], doc: dd.Document) -> list[dd.Annotation]:
 
         context_patterns = [pattern for pattern in self._context_patterns if pattern.document_precondition(doc)]
 
-        next_annotations = dd.AnnotationSet()
+        next_annotations = []
 
         for annotation in annotations:
 
@@ -51,7 +51,7 @@ class AnnotationContextPatternAnnotator(dd.process.Annotator):
 
                 start_token, end_token = match
 
-                next_annotations.add(
+                next_annotations.append(
                     dd.Annotation(
                         text=doc.text[start_token.start_char : end_token.end_char],
                         start_char=start_token.start_char,
@@ -68,17 +68,17 @@ class AnnotationContextPatternAnnotator(dd.process.Annotator):
             if changes:
                 continue
 
-            next_annotations.add(annotation)
+            next_annotations.append(annotation)
 
         # changes
-        if self._iterative and (annotations != next_annotations):
+        if self._iterative and (set(annotations) != set(next_annotations)):
             next_annotations = self._annotate_context(next_annotations, doc)
 
         return next_annotations
 
     def annotate(self, doc: dd.Document) -> list[dd.Annotation]:
 
-        context_annotations = self.get_matching_tag_annotations(doc.annotations)
+        context_annotations = self.get_matching_tag_annotations(list(doc.annotations))
         doc.annotations.difference_update(context_annotations)
 
         return self._annotate_context(context_annotations, doc)

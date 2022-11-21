@@ -11,7 +11,7 @@ class PersonFirstNamePattern(dd.TokenPattern):
         patient = doc.metadata["patient"]
         return (patient is not None) and (patient.first_names is not None)
 
-    def match(self, token: dd.Token, metadata: Optional[dd.MetaData] = None) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
 
         for first_name in metadata["patient"].first_names:
 
@@ -30,7 +30,7 @@ class PersonInitialFromNamePattern(dd.TokenPattern):
         patient = doc.metadata["patient"]
         return (patient is not None) and (patient.first_names is not None)
 
-    def match(self, token: dd.Token, metadata: Optional[dd.MetaData] = None) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
 
         for _, first_name in enumerate(metadata["patient"].first_names):
 
@@ -52,7 +52,7 @@ class PersonInitialsPattern(dd.TokenPattern):
         patient = doc.metadata["patient"]
         return (patient is not None) and (patient.initials is not None)
 
-    def match(self, token: dd.Token, metadata: Optional[dd.MetaData] = None) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
 
         if str_match(token.text, metadata["patient"].initials):
             return token, token
@@ -76,7 +76,7 @@ class PersonSurnamePattern(dd.TokenPattern):
 
         return True
 
-    def match(self, token: dd.Token, metadata: Optional[dd.MetaData] = None) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
 
         surname_pattern = metadata["surname_pattern"]
         surname_token = surname_pattern[0]
