@@ -9,7 +9,7 @@ class DeduceRedactor(dd.process.SimpleRedactor):
 
         for tag, annotation_group in self._group_annotations_by_tag(annotations).items():
 
-            annotations_to_replacement_group = {}
+            annotations_to_replacement_group: dict[dd.Annotation, str] = {}
             counter = 1
 
             for annotation in sorted(annotation_group, key=lambda a: a.get_sort_key(by=["end_char"])):

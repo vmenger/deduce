@@ -2,11 +2,11 @@ import re
 from typing import Optional
 
 import docdeid as dd
-from docdeid.str import StringFilter, StringModifier, LowercaseString
+from docdeid.str import LowercaseString, StringFilter, StringModifier
 
 
 class TakeLastToken(StringModifier):
-    def process(self, item: str) -> Optional[str]:
+    def process(self, item: str) -> str:
         return item.split(" ")[-1]
 
 
@@ -14,7 +14,7 @@ class RemoveValues(StringModifier):
     def __init__(self, filter_values: list[str]) -> None:
         self.filter_values = filter_values
 
-    def process(self, item: str) -> Optional[str]:
+    def process(self, item: str) -> str:
 
         for filter_value in self.filter_values:
 
@@ -32,7 +32,7 @@ class Acronimify(StringModifier):
         self.split_value = split_value
         self.join_value = join_value
 
-    def process(self, item: str) -> Optional[str]:
+    def process(self, item: str) -> str:
 
         item_split = item.split(self.split_value)
 

@@ -1,10 +1,10 @@
+from typing import Optional
+
 import docdeid as dd
 
 from deduce.doc_processors import get_doc_processors
-from deduce.lookup.lookup_sets import get_lookup_sets
-from deduce.tokenize.tokenizer import DeduceTokenizer
-
-from typing import Optional
+from deduce.lookup_sets import get_lookup_sets
+from deduce.tokenize import DeduceTokenizer
 
 lookup_sets = get_lookup_sets()
 tokenizer = DeduceTokenizer()
@@ -13,7 +13,6 @@ deduce_processors = get_doc_processors(lookup_sets, tokenizer)
 
 
 def get_annotator(name: str) -> Optional[dd.process.Annotator]:
-
     processor = deduce_processors[name]
 
     if isinstance(processor, dd.process.Annotator):
@@ -23,7 +22,6 @@ def get_annotator(name: str) -> Optional[dd.process.Annotator]:
 
 
 def annotate_text(text: str, annotators: list[dd.process.Annotator]) -> dd.AnnotationSet:
-
     doc = dd.Document(text, tokenizers={"default": tokenizer})
 
     for annotator in annotators:

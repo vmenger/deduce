@@ -2,8 +2,6 @@ import re
 
 import docdeid as dd
 
-from deduce.annotate.annotation_processing import PersonAnnotationConverter
-from deduce.annotate.annotator import AnnotationContextPatternAnnotator
 from deduce.pattern.name import (
     FirstNameLookupPattern,
     InitiaalInterfixCapitalPattern,
@@ -25,7 +23,9 @@ from deduce.pattern.name_patient import (
     PersonInitialsPattern,
     PersonSurnamePattern,
 )
-from deduce.tokenize.tokenizer import DeduceTokenizer
+from deduce.process.annotation_processing import PersonAnnotationConverter
+from deduce.process.annotator import AnnotationContextPatternAnnotator
+from deduce.tokenize import DeduceTokenizer
 
 REGEPXS = {
     "altrecht": {
@@ -131,7 +131,6 @@ def _get_name_pattern_annotators(
 
 
 def _get_name_context_patterns(lookup_sets: dd.ds.DsCollection) -> list[AnnotationContextPattern]:
-
     return [
         InitialsContextPattern(tag="initiaal+{tag}", lookup_sets=lookup_sets),
         InterfixContextPattern(tag="{tag}+interfix+achternaam", lookup_sets=lookup_sets),
@@ -141,7 +140,6 @@ def _get_name_context_patterns(lookup_sets: dd.ds.DsCollection) -> list[Annotati
 
 
 def _get_regexp_annotators() -> dd.process.DocProcessorGroup:
-
     annotators = dd.process.DocProcessorGroup()
 
     for annotator_name, regexp_info in REGEPXS.items():
@@ -151,20 +149,16 @@ def _get_regexp_annotators() -> dd.process.DocProcessorGroup:
 
 
 def _get_name_processor_group(lookup_sets: dd.ds.DsCollection, tokenizer: dd.Tokenizer) -> dd.process.DocProcessorGroup:
-
     name_processors = _get_name_pattern_annotators(lookup_sets, tokenizer)
 
     name_processors.add_processor(
         "name_context",
         AnnotationContextPatternAnnotator(
             context_patterns=_get_name_context_patterns(lookup_sets), tags=["initia", "naam", "interfix", "prefix"]
-        )
+        ),
     )
 
-    name_processors.add_processor(
-        'person_annotation_converter',
-        PersonAnnotationConverter()
-    )
+    name_processors.add_processor("person_annotation_converter", PersonAnnotationConverter())
 
     return name_processors
 
@@ -180,20 +174,20 @@ def get_doc_processors(
     annotators.add_processor(
         "institution",
         dd.process.MultiTokenLookupAnnotator(
-            lookup_values=lookup_sets["institutions"],
+            lookup_values=lookup_sets["institutions"].items(),
             tokenizer=DeduceTokenizer(),
             tag="instelling",
             matching_pipeline=lookup_sets["institutions"].matching_pipeline,
-        )
+        ),
     )
 
     annotators.add_processor(
         "residence",
         dd.process.MultiTokenLookupAnnotator(
-            lookup_values=lookup_sets["residences"],
+            lookup_values=lookup_sets["residences"].items(),
             tokenizer=DeduceTokenizer(),
             tag="locatie",
-        )
+        ),
     )
 
     for name, proc in _get_regexp_annotators():

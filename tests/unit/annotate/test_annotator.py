@@ -2,8 +2,8 @@ from unittest.mock import patch
 
 import docdeid as dd
 
-from deduce.annotate.annotator import AnnotationContextPatternAnnotator
 from deduce.pattern.name_context import AnnotationContextPattern
+from deduce.process.annotator import AnnotationContextPatternAnnotator
 from tests.helpers import link_tokens
 
 

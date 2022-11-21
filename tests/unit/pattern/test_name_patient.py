@@ -9,7 +9,7 @@ from deduce.pattern.name_patient import (
     PersonSurnamePattern,
 )
 from deduce.person import Person
-from deduce.tokenize.tokenizer import DeduceTokenizer
+from deduce.tokenize import DeduceTokenizer
 from tests.helpers import linked_tokens
 
 

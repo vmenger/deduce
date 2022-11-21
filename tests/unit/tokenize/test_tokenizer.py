@@ -1,12 +1,11 @@
 import docdeid as dd
 import pytest
 
-from deduce.tokenize.tokenizer import DeduceTokenizer
+from deduce.tokenize import DeduceTokenizer
 
 
 @pytest.fixture
 def tokens():
-
     return [
         dd.Token(text="Patient", start_char=0, end_char=7),
         dd.Token(text=" ", start_char=7, end_char=8),

@@ -9,11 +9,10 @@ from deduce.str.processor import (
     TakeLastToken,
 )
 
-data_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../data")
+data_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "data")
 
 
 def _get_first_names_lookup_set() -> dd.ds.LookupSet:
-
     first_names = dd.ds.LookupSet()
 
     first_names.add_items_from_file(
@@ -25,7 +24,6 @@ def _get_first_names_lookup_set() -> dd.ds.LookupSet:
 
 
 def _get_surnames_lookup_set() -> dd.ds.LookupSet:
-
     surnames = dd.ds.LookupSet()
 
     surnames.add_items_from_file(
@@ -37,7 +35,7 @@ def _get_surnames_lookup_set() -> dd.ds.LookupSet:
 
 
 def _get_interfixes_lookup_set() -> dd.ds.LookupSet:
-    """Interfixes, such as 'van der', etc"""
+    """Interfixes, such as 'van der', etc."""
 
     interfixes = dd.ds.LookupSet()
 
@@ -47,7 +45,7 @@ def _get_interfixes_lookup_set() -> dd.ds.LookupSet:
 
 
 def _get_interfix_surnames_lookup_set() -> dd.ds.LookupSet:
-    """Interfix surnames, such as 'Jong' for 'de Jong'"""
+    """Interfix surnames, such as 'Jong' for 'de Jong'."""
 
     interfix_surnames = dd.ds.LookupSet()
 
@@ -60,7 +58,6 @@ def _get_interfix_surnames_lookup_set() -> dd.ds.LookupSet:
 
 
 def _get_prefixes_lookup_set() -> dd.ds.LookupSet:
-
     prefixes = dd.ds.LookupSet()
 
     prefixes.add_items_from_file(os.path.join(data_path, "prefixes.txt"))
@@ -69,7 +66,6 @@ def _get_prefixes_lookup_set() -> dd.ds.LookupSet:
 
 
 def _get_whitelist_lookup_set() -> dd.ds.LookupSet:
-
     med_terms = dd.ds.LookupSet()
     med_terms.add_items_from_file(
         os.path.join(data_path, "medical_terms.txt"),
@@ -104,7 +100,6 @@ def _get_whitelist_lookup_set() -> dd.ds.LookupSet:
 
 
 def _get_institutions_lookup_set() -> dd.ds.LookupSet:
-
     institutions_raw = dd.ds.LookupSet()
     institutions_raw.add_items_from_file(
         os.path.join(data_path, "institutions.txt"),
@@ -140,7 +135,6 @@ def _get_institutions_lookup_set() -> dd.ds.LookupSet:
 
 
 def _get_residences_lookup_set() -> dd.ds.LookupSet:
-
     residences = dd.ds.LookupSet()
     residences.add_items_from_file(
         file_path=os.path.join(data_path, "residences.txt"),
@@ -158,7 +152,6 @@ def _get_residences_lookup_set() -> dd.ds.LookupSet:
 
 
 def get_lookup_sets() -> dd.ds.DsCollection:
-
     lookup_sets = dd.ds.DsCollection()
 
     lookup_set_mapping = {

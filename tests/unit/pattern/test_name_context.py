@@ -1,6 +1,6 @@
 import docdeid as dd
 
-from deduce.lookup.lookup_sets import get_lookup_sets
+from deduce.lookup_sets import get_lookup_sets
 from deduce.pattern.name_context import (
     InitialNameContextPattern,
     InitialsContextPattern,

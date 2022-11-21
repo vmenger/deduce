@@ -5,13 +5,13 @@ import docdeid as dd
 from deduce.utils import str_match
 
 
-class PersonFirstNamePattern(dd.pattern.TokenPattern):
+class PersonFirstNamePattern(dd.TokenPattern):
     def doc_precondition(self, doc: dd.Document) -> bool:
 
         patient = doc.metadata["patient"]
         return (patient is not None) and (patient.first_names is not None)
 
-    def match(self, token: dd.Token, metadata: Optional[dict] = None) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(self, token: dd.Token, metadata: Optional[dd.MetaData] = None) -> Optional[tuple[dd.Token, dd.Token]]:
 
         for first_name in metadata["patient"].first_names:
 
@@ -24,13 +24,13 @@ class PersonFirstNamePattern(dd.pattern.TokenPattern):
         return None
 
 
-class PersonInitialFromNamePattern(dd.pattern.TokenPattern):
+class PersonInitialFromNamePattern(dd.TokenPattern):
     def doc_precondition(self, doc: dd.Document) -> bool:
 
         patient = doc.metadata["patient"]
         return (patient is not None) and (patient.first_names is not None)
 
-    def match(self, token: dd.Token, metadata: Optional[dict] = None) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(self, token: dd.Token, metadata: Optional[dd.MetaData] = None) -> Optional[tuple[dd.Token, dd.Token]]:
 
         for _, first_name in enumerate(metadata["patient"].first_names):
 
@@ -46,13 +46,13 @@ class PersonInitialFromNamePattern(dd.pattern.TokenPattern):
         return None
 
 
-class PersonInitialsPattern(dd.pattern.TokenPattern):
+class PersonInitialsPattern(dd.TokenPattern):
     def doc_precondition(self, doc: dd.Document) -> bool:
 
         patient = doc.metadata["patient"]
         return (patient is not None) and (patient.initials is not None)
 
-    def match(self, token: dd.Token, metadata: Optional[dict] = None) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(self, token: dd.Token, metadata: Optional[dd.MetaData] = None) -> Optional[tuple[dd.Token, dd.Token]]:
 
         if str_match(token.text, metadata["patient"].initials):
             return token, token
@@ -60,7 +60,7 @@ class PersonInitialsPattern(dd.pattern.TokenPattern):
         return None
 
 
-class PersonSurnamePattern(dd.pattern.TokenPattern):
+class PersonSurnamePattern(dd.TokenPattern):
     def __init__(self, tokenizer: dd.Tokenizer, *args, **kwargs) -> None:
         self._tokenizer = tokenizer
         super().__init__(*args, **kwargs)
@@ -76,7 +76,7 @@ class PersonSurnamePattern(dd.pattern.TokenPattern):
 
         return True
 
-    def match(self, token: dd.Token, metadata: Optional[dict] = None) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(self, token: dd.Token, metadata: Optional[dd.MetaData] = None) -> Optional[tuple[dd.Token, dd.Token]]:
 
         surname_pattern = metadata["surname_pattern"]
         surname_token = surname_pattern[0]

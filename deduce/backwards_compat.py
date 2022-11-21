@@ -33,16 +33,17 @@ class BackwardsCompat:
     ) -> docdeid.Document:
 
         text = "" or text
+        patient_first_names_lst = []
 
         if patient_first_names:
-            patient_first_names = patient_first_names.split(" ")
+            patient_first_names_lst = patient_first_names.split(" ")
 
             if patient_given_name:
-                patient_first_names.append(patient_given_name)
+                patient_first_names_lst.append(patient_given_name)
 
         metadata = {
             "patient": Person(
-                first_names=patient_first_names or None,
+                first_names=patient_first_names_lst or None,
                 initials=patient_initials or None,
                 surname=patient_surname or None,
             )
@@ -100,7 +101,6 @@ class BackwardsCompat:
 
 
 def annotate_text_backwardscompat(text: str, *args, **kwargs) -> str:
-
     doc = BackwardsCompat.annotate_text_backwardscompat(text=text, *args, **kwargs)
 
     annotations = doc.annotations.sorted(by=["end_char"], callbacks={"end_char": lambda x: -x})
@@ -117,14 +117,12 @@ def annotate_text_backwardscompat(text: str, *args, **kwargs) -> str:
 
 
 def annotate_text_structured_backwardscompat(text: str, *args, **kwargs) -> list[docdeid.Annotation]:
-
     doc = BackwardsCompat.annotate_text_backwardscompat(text=text, *args, **kwargs)
 
     return list(doc.annotations)
 
 
 def deidentify_annotations_backwardscompat(text: str) -> str:
-
     if not text:
         return text
 

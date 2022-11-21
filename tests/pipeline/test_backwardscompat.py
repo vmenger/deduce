@@ -1,4 +1,8 @@
-""" Just making sure it doesn't break. No need to spend much time updating this. """
+"""
+Just making sure it doesn't break.
+
+No need to spend much time updating this.
+"""
 
 import docdeid as dd
 

@@ -5,11 +5,11 @@ import deprecated
 import docdeid as dd
 
 import deduce.backwards_compat
-from deduce.annotate.annotation_processing import DeduceMergeAdjacentAnnotations
-from deduce.annotate.redact import DeduceRedactor
 from deduce.doc_processors import get_doc_processors
-from deduce.lookup.lookup_sets import get_lookup_sets
-from deduce.tokenize.tokenizer import DeduceTokenizer
+from deduce.lookup_sets import get_lookup_sets
+from deduce.process.annotation_processing import DeduceMergeAdjacentAnnotations
+from deduce.process.redact import DeduceRedactor
+from deduce.tokenize import DeduceTokenizer
 
 warnings.simplefilter(action="once")
 
@@ -17,11 +17,8 @@ warnings.simplefilter(action="once")
 class Deduce(dd.DocDeid):
     def __init__(self) -> None:
         super().__init__()
-        self.lookup_sets = None
-        self._initialize_deduce()
-
-    def _initialize_lookup(self) -> None:
         self.lookup_sets = get_lookup_sets()
+        self._initialize_deduce()
 
     def _initialize_tokenizer(self) -> None:
 
@@ -38,23 +35,17 @@ class Deduce(dd.DocDeid):
 
         self.processors.add_processor(
             "overlap_resolver",
-            dd.process.OverlapResolver(
-                sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
-            )
+            dd.process.OverlapResolver(sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}),
         )
 
         self.processors.add_processor(
-            "merge_adjacent_annotations",
-            DeduceMergeAdjacentAnnotations(
-                slack_regexp=r"[\.\s\-,]?[\.\s]?"
-            )
+            "merge_adjacent_annotations", DeduceMergeAdjacentAnnotations(slack_regexp=r"[\.\s\-,]?[\.\s]?")
         )
 
         self.processors.add_processor("redactor", DeduceRedactor(open_char="<", close_char=">"))
 
     def _initialize_deduce(self) -> None:
 
-        self._initialize_lookup()
         self._initialize_tokenizer()
         self._initialize_processors()
 

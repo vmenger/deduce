@@ -1,4 +1,4 @@
-from deduce.lookup.lookup_sets import get_lookup_sets
+from deduce.lookup_sets import get_lookup_sets
 from deduce.pattern.name import (
     FirstNameLookupPattern,
     InitiaalInterfixCapitalPattern,

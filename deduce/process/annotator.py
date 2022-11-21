@@ -1,4 +1,4 @@
-""" The annotate module contains the code for annotating text"""
+"""The annotate module contains the code for annotating text."""
 from typing import Optional
 
 import docdeid as dd
@@ -28,7 +28,7 @@ class AnnotationContextPatternAnnotator(dd.process.Annotator):
 
         return dd.AnnotationSet(context_annotations)
 
-    def _annotate_context(self, annotations: dd.AnnotationSet, doc: dd.Document) -> list[dd.Annotation]:
+    def _annotate_context(self, annotations: dd.AnnotationSet, doc: dd.Document) -> dd.AnnotationSet:
 
         context_patterns = [pattern for pattern in self._context_patterns if pattern.document_precondition(doc)]
 

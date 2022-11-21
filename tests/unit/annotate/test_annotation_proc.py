@@ -1,6 +1,6 @@
 import docdeid as dd
 
-from deduce.annotate.annotation_processing import (
+from deduce.process.annotation_processing import (
     DeduceMergeAdjacentAnnotations,
     PersonAnnotationConverter,
 )

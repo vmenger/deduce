@@ -1,4 +1,4 @@
-""" This module contains all tokenizing functionality """
+"""This module contains all tokenizing functionality."""
 import re
 from typing import Iterable, Optional
 
@@ -9,7 +9,7 @@ from deduce import utils
 
 
 class DeduceTokenizer(dd.Tokenizer):
-    def __init__(self, merge_terms: Iterable = None) -> None:
+    def __init__(self, merge_terms: Optional[Iterable] = None) -> None:
 
         super().__init__()
 

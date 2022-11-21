@@ -17,17 +17,19 @@ class TestDeduce:
         person = Person(first_names=["Jan"], surname="Jansen")
         doc = deduce.deidentify(text, metadata={"patient": person})
 
-        expected_annotations = dd.AnnotationSet([
-            dd.Annotation("Jan Jansen", 39, 49, "patient"),
-            dd.Annotation("patient J. Jansen", 54, 71, "patient"),
-            dd.Annotation("j.jnsen@email.com", 76, 93, "url"),
-            dd.Annotation("06-12345678", 98, 109, "telefoonnummer"),
-            dd.Annotation("64", 114, 116, "leeftijd"),
-            dd.Annotation("Utrecht", 143, 150, "locatie"),
-            dd.Annotation("10 oktober", 164, 174, "datum"),
-            dd.Annotation("Peter de Visser", 185, 200, "persoon"),
-            dd.Annotation("UMCU", 234, 238, "instelling"),
-        ])
+        expected_annotations = dd.AnnotationSet(
+            [
+                dd.Annotation("Jan Jansen", 39, 49, "patient"),
+                dd.Annotation("patient J. Jansen", 54, 71, "patient"),
+                dd.Annotation("j.jnsen@email.com", 76, 93, "url"),
+                dd.Annotation("06-12345678", 98, 109, "telefoonnummer"),
+                dd.Annotation("64", 114, 116, "leeftijd"),
+                dd.Annotation("Utrecht", 143, 150, "locatie"),
+                dd.Annotation("10 oktober", 164, 174, "datum"),
+                dd.Annotation("Peter de Visser", 185, 200, "persoon"),
+                dd.Annotation("UMCU", 234, 238, "instelling"),
+            ]
+        )
 
         assert doc.annotations == set(expected_annotations)
 
