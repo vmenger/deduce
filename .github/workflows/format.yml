@@ -31,14 +31,8 @@ jobs:
     - name: Install dependencies
       run: poetry install
 
-    - name: Check black formatting
-      run: make black CHECK=1
+    - name: Check formatting
+      run: make format CHECK=1
 
-    - name: Check isort imports
-      run: make isort CHECK=1
-
-    - name: Check for missing type hints
-      run: make typehints CHECK=1
-
-    - name: Check code quality
-      run: make pylint CHECK=1
+    - name: Check linting
+      run: make lint CHECK=1
