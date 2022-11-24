@@ -6,6 +6,7 @@ maintained.
 """
 
 import re
+from typing import Any
 
 import docdeid
 from rapidfuzz.distance import DamerauLevenshtein
@@ -18,7 +19,7 @@ class BackwardsCompat:
     deduce_model = None
 
     @classmethod
-    def set_deduce_model(cls, deduce_model) -> None:
+    def set_deduce_model(cls, deduce_model: Any) -> None:
         cls.deduce_model = deduce_model
 
     @classmethod

@@ -10,7 +10,7 @@ from deduce.str.processor import (
     TakeLastToken,
 )
 
-data_path = Path(os.path.dirname(__file__)).parent / 'data' / 'lookup_lists'
+data_path = Path(os.path.dirname(__file__)).parent / "data" / "lookup_lists"
 
 
 def _get_first_names_lookup_set() -> dd.ds.LookupSet:

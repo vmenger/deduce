@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Optional
 
@@ -21,7 +23,7 @@ class Person:
         patient_initials: str = "",
         patient_surname: str = "",
         patient_given_name: str = "",
-    ):
+    ) -> Person:
         """
         Get a Person from keywords. Mainly used for compatibility with keyword as used in deduce<=1.0.8.
 

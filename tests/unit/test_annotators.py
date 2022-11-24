@@ -2,19 +2,18 @@ from typing import Optional
 
 import docdeid as dd
 
-from deduce.deduce import read_config, get_doc_processors
+from deduce.deduce import Deduce
 from deduce.lookup_sets import get_lookup_sets
 from deduce.tokenize import DeduceTokenizer
 
-config = read_config()
+config = Deduce._initialize_config()
 lookup_sets = get_lookup_sets()
 tokenizer = DeduceTokenizer()
 
-deduce_processors = get_doc_processors(config, lookup_sets, tokenizer)
+deduce_processors = Deduce._initialize_annotators(config["annotators"].copy(), lookup_sets, tokenizer)
 
 
 def get_annotator(name: str, group: Optional[str] = None) -> dd.process.Annotator:
-
     if group is not None:
         return deduce_processors[group][name]
 
@@ -32,6 +31,8 @@ def annotate_text(text: str, annotators: list[dd.process.Annotator]) -> dd.Annot
 
 class TestLookupAnnotators:
     def test_annotate_institution(self):
+
+        print("config=", config)
 
         text = "Reinaerde, Universitair Medisch Centrum Utrecht, UMCU, Diakonessenhuis"
         annotator = get_annotator("institution", group="institutions")
@@ -148,7 +149,11 @@ class TestRegexpAnnotators:
 
         text = "088-7555555, 088-1309670"
 
-        annotator = [get_annotator("phone_1", group="phone_numbers"), get_annotator("phone_2", group="phone_numbers"), get_annotator("phone_2", group="phone_numbers")]
+        annotator = [
+            get_annotator("phone_1", group="phone_numbers"),
+            get_annotator("phone_2", group="phone_numbers"),
+            get_annotator("phone_2", group="phone_numbers"),
+        ]
         expected_annotations = {
             dd.Annotation(text="088-7555555", start_char=0, end_char=11, tag=annotator[0].tag),
             dd.Annotation(text="088-1309670", start_char=13, end_char=24, tag=annotator[0].tag),

@@ -1,27 +1,23 @@
+import json
+import os
+import re
 import warnings
+from pathlib import Path
 from typing import Any, Optional
 
 import deprecated
 import docdeid as dd
 
 import deduce.backwards_compat
+from deduce import utils
 from deduce.lookup_sets import get_lookup_sets
-from deduce.process.annotation_processing import DeduceMergeAdjacentAnnotations
+from deduce.process.annotation_processing import (
+    DeduceMergeAdjacentAnnotations,
+    PersonAnnotationConverter,
+)
+from deduce.process.annotator import AnnotationContextPatternAnnotator
 from deduce.process.redact import DeduceRedactor
 from deduce.tokenize import DeduceTokenizer
-import deduce.utils
-
-import re
-
-from pathlib import Path
-import deduce.utils
-from deduce.process.annotation_processing import PersonAnnotationConverter
-from deduce.process.annotator import AnnotationContextPatternAnnotator
-
-
-import json
-import os
-
 
 warnings.simplefilter(action="once")
 
@@ -33,26 +29,58 @@ class Deduce(dd.DocDeid):
     Inherits from ``docdeid.DocDeid``, and as such, most information is available in the documentation there.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, config_file: Optional[str] = None) -> None:
         super().__init__()
-        self.config = read_config()
-        self.lookup_sets = get_lookup_sets()
-        self._initialize_deduce()
 
-    def _initialize_tokenizer(self) -> None:
-        """Initializes tokenizer."""
+        self.config = self._initialize_config(config_file)
+        self.lookup_sets = get_lookup_sets()
+        self.tokenizers = self._initialize_tokenizers()
+        self._initialize_doc_processors()
+
+    @staticmethod
+    def _initialize_config(config_file: Optional[str] = None) -> dict:
+        """
+        Initialize the config file.
+
+        Args:
+            config_file: The filepath of the config file.
+
+        Returns:
+            The contents of the config file as a dictionary.
+        """
+
+        if config_file is None:
+            config_file = Path(os.path.dirname(__file__)).parent / "config.json"
+
+        with open(config_file, "r", encoding="utf-8") as file:
+            return json.load(file)
+
+    def _initialize_tokenizers(self) -> dict:
+        """Initializes tokenizers."""
 
         merge_terms = dd.ds.LookupSet()
         merge_terms.add_items_from_iterable(["A1", "A2", "A3", "A4", "\n", "\r", "\t"])
         merge_terms += self.lookup_sets["interfixes"]
         merge_terms += self.lookup_sets["prefixes"]
 
-        self.tokenizers["default"] = DeduceTokenizer(merge_terms=merge_terms)
+        return {"default": DeduceTokenizer(merge_terms=merge_terms)}
 
-    def _initialize_processors(self) -> None:
-        """Inializes document processors."""
+    @staticmethod
+    def _initialize_annotators(
+        annotator_cnfg: dict, lookup_sets: dd.ds.DsCollection, tokenizer: dd.tokenize.Tokenizer
+    ) -> dd.process.DocProcessorGroup:
+        """Initializes annotators."""
 
-        self.processors = get_doc_processors(self.config.copy(), self.lookup_sets, self.tokenizers["default"])
+        extras = {"lookup_sets": lookup_sets, "tokenizer": tokenizer}
+        return AnnotatorFactory().get_annotators(annotator_cnfg, extras)
+
+    def _initialize_doc_processors(self) -> None:
+        """Initializes document processors."""
+
+        self.processors = self._initialize_annotators(
+            self.config["annotators"].copy(), self.lookup_sets, self.tokenizers["default"]
+        )
+        self.processors["names"].add_processor("person_annotation_converter", PersonAnnotationConverter())
 
         self.processors.add_processor(
             "overlap_resolver",
@@ -65,104 +93,68 @@ class Deduce(dd.DocDeid):
 
         self.processors.add_processor("redactor", DeduceRedactor(open_char="<", close_char=">"))
 
-    def _initialize_deduce(self) -> None:
-        """Initialize."""
 
-        self._initialize_tokenizer()
-        self._initialize_processors()
+class AnnotatorFactory:
+    """Responsible for creating annotators, based on config."""
 
+    def __init__(self) -> None:
 
-def read_config(config_file: Optional[str] = None) -> dict:
+        self.annotator_creators = {
+            "token_pattern": self._get_token_pattern_annotator,
+            "annotation_context": self._get_annotation_context_pattern_annotator,
+            "regexp": self._get_regexp_annotator,
+            "multi_token": self._get_multi_token_annotator,
+        }
 
-    if config_file is None:
-        config_file = Path(os.path.dirname(__file__)).parent / 'config.json'
+    @staticmethod
+    def _get_token_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        pattern = utils.import_and_initialize(args.pop("pattern"), extras=extras)
+        return dd.process.TokenPatternAnnotator(pattern=pattern)
 
-    with open(config_file, 'r') as f:
-        return json.load(f)
+    @staticmethod
+    def _get_annotation_context_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        context_patterns = [utils.import_and_initialize(p["pattern"], extras=extras) for p in args.pop("patterns")]
+        return AnnotationContextPatternAnnotator(context_patterns=context_patterns, **args)
 
+    @staticmethod
+    def _get_regexp_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        args["regexp_pattern"] = re.compile(args["regexp_pattern"])
+        return dd.process.RegexpAnnotator(**args)
 
-def _get_pattern(args: dict, extras: dict):
+    @staticmethod
+    def _get_multi_token_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        if isinstance(args["lookup_values"], str):
+            lookup_set = extras["lookup_sets"][args["lookup_values"]]
 
-    cls = deduce.utils.class_for_name(args.pop("module"), args.pop("class"))
+            args["lookup_values"] = lookup_set.items()
+            args["matching_pipeline"] = lookup_set.matching_pipeline
 
-    for arg_name, arg in extras.items():
-        if arg_name in cls.__init__.__code__.co_varnames:
-            args[arg_name] = arg
+        args["tokenizer"] = DeduceTokenizer()
 
-    return cls(**args)
+        return dd.process.MultiTokenLookupAnnotator(**args)
 
+    def get_annotators(self, annotator_cnfg: dict, extras: dict) -> dd.process.DocProcessorGroup:
 
-def _get_token_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        annotators = dd.process.DocProcessorGroup()
 
-    pattern = _get_pattern(args.pop("pattern"), extras=extras)
-    return dd.process.TokenPatternAnnotator(pattern=pattern)
+        for annotator_name, annotator_info in annotator_cnfg.items():
 
+            if annotator_info["annotator_type"] not in self.annotator_creators:
+                raise ValueError(f"Unexpected annotator_type {annotator_info['annotator_type']}")
 
-def _get_annotation_context_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+            group = annotators
 
-    context_patterns = [_get_pattern(p['pattern'], extras=extras) for p in args.pop("patterns")]
-    return AnnotationContextPatternAnnotator(context_patterns=context_patterns, **args)
+            if "group" in annotator_info:
 
+                if annotator_info["group"] not in annotators.get_names(recursive=False):
+                    annotators.add_processor(annotator_info["group"], dd.process.DocProcessorGroup())
 
-def _get_regexp_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-    args['regexp_pattern'] = re.compile(args['regexp_pattern'])
-    return dd.process.RegexpAnnotator(**args)
+                group = annotators[annotator_info["group"]]
 
+            annotator = self.annotator_creators[annotator_info["annotator_type"]](annotator_info["args"], extras)
+            group.add_processor(annotator_name, annotator)
 
-def _get_multi_token_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-
-    if isinstance(args['lookup_values'], str):
-        lookup_set = extras['lookup_sets'][args['lookup_values']]
-
-        args['lookup_values'] = lookup_set.items()
-        args['matching_pipeline'] = lookup_set.matching_pipeline
-
-    args['tokenizer'] = DeduceTokenizer()
-
-    return dd.process.MultiTokenLookupAnnotator(**args)
-
-
-ANNOTATOR_TYPE_TO_CREATOR = {
-    "token_pattern": _get_token_pattern_annotator,
-    "annotation_context": _get_annotation_context_pattern_annotator,
-    "regexp": _get_regexp_annotator,
-    "multi_token": _get_multi_token_annotator
-}
-
-
-def _get_annotators(annotator_cnfg: dict, lookup_sets: dd.ds.DsCollection, tokenizer: dd.Tokenizer) -> dd.process.DocProcessorGroup:
-    extras = {"lookup_sets": lookup_sets, "tokenizer": tokenizer}
-    annotators = dd.process.DocProcessorGroup()
-
-    for annotator_name, annotator_info in annotator_cnfg.items():
-
-        if annotator_info["annotator_type"] not in ANNOTATOR_TYPE_TO_CREATOR.keys():
-            raise ValueError(f"Unexpected annotator_type {annotator_info['annotator_type']}")
-
-        group = annotators
-
-        if "group" in annotator_info:
-
-            if annotator_info["group"] not in annotators.get_names(recursive=False):
-                annotators.add_processor(annotator_info["group"], dd.process.DocProcessorGroup())
-
-            group = annotators[annotator_info["group"]]
-
-        annotator = ANNOTATOR_TYPE_TO_CREATOR[annotator_info["annotator_type"]](annotator_info["args"], extras)
-        group.add_processor(annotator_name, annotator)
-
-    return annotators
-
-
-def get_doc_processors(cnfg: dict, lookup_sets: dd.ds.DsCollection, tokenizer: dd.Tokenizer) -> dd.process.DocProcessorGroup:
-
-    annotators = _get_annotators(cnfg['annotators'], lookup_sets, tokenizer)
-    annotators['names'].add_processor("person_annotation_converter", PersonAnnotationConverter())
-
-    return annotators
-
-
-
+        return annotators
 
 
 # Backwards compatibility stuff beneath this line.

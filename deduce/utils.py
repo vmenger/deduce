@@ -38,7 +38,7 @@ def str_match(str_1: str, str_2: str, max_edit_distance: Optional[int] = None) -
 
 def class_for_name(module_name: str, class_name: str) -> Any:
     """
-    Will return the class by name.
+    Will import and return the class by name.
 
     Args:
         module_name: The module where the class can be found.
@@ -48,5 +48,28 @@ def class_for_name(module_name: str, class_name: str) -> Any:
         The class.
     """
 
-    m = importlib.import_module(module_name)
-    return getattr(m, class_name)
+    module = importlib.import_module(module_name)
+    return getattr(module, class_name)
+
+
+def import_and_initialize(args: dict, extras: dict) -> Any:
+    """
+    Import and initialize a module as defined in the args config. This dictionary should contain a ``module`` and
+    ``class`` key, which is imported. Any other arguments in args are passed to the class initializer. Any items in
+    extras are passed to the class initializer if they are present.
+
+    Args:
+        args: The arguments to pass to the initalizer.
+        extras: A superset of arguments that should be passed to the initializer. Will be checked against the class.
+
+    Returns:
+        An instantiated class, with the relevant argumetns and extras.
+    """
+
+    cls = class_for_name(args.pop("module"), args.pop("class"))
+
+    for arg_name, arg in extras.items():
+        if arg_name in cls.__init__.__code__.co_varnames:
+            args[arg_name] = arg
+
+    return cls(**args)
