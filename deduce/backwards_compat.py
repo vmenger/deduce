@@ -1,3 +1,10 @@
+"""
+Backwards compatibility functionality in this module.
+
+Use with caution, rather, migrate to the new interface (Deduce.deidentify()). This code will not be documented and/or
+maintained.
+"""
+
 import re
 
 import docdeid
@@ -11,7 +18,7 @@ class BackwardsCompat:
     deduce_model = None
 
     @classmethod
-    def set_deduce_model(cls, deduce_model: "Deduce") -> None:
+    def set_deduce_model(cls, deduce_model) -> None:
         cls.deduce_model = deduce_model
 
     @classmethod
@@ -33,26 +40,20 @@ class BackwardsCompat:
     ) -> docdeid.Document:
 
         text = "" or text
-        patient_first_names_lst = []
-
-        if patient_first_names:
-            patient_first_names_lst = patient_first_names.split(" ")
-
-            if patient_given_name:
-                patient_first_names_lst.append(patient_given_name)
 
         metadata = {
-            "patient": Person(
-                first_names=patient_first_names_lst or None,
-                initials=patient_initials or None,
-                surname=patient_surname or None,
+            "patient": Person.from_keywords(
+                patient_first_names=patient_first_names,
+                patient_initials=patient_initials,
+                patient_surname=patient_surname,
+                patient_given_name=patient_given_name,
             )
         }
 
         processors_enabled = []
 
         if names:
-            processors_enabled += ["name_group"]
+            processors_enabled += ["names"]
             processors_enabled += [
                 "prefix_with_name",
                 "interfix_with_name",
@@ -68,10 +69,11 @@ class BackwardsCompat:
             processors_enabled += ["person_annotation_converter", "name_context"]
 
         if institutions:
-            processors_enabled += ["institution", "altrecht"]
+            processors_enabled += ["institutions", "institution", "altrecht"]
 
         if locations:
             processors_enabled += [
+                "locations",
                 "residence",
                 "street_with_number",
                 "postal_code",
@@ -79,19 +81,19 @@ class BackwardsCompat:
             ]
 
         if phone_numbers:
-            processors_enabled += ["phone_1", "phone_2", "phone_3"]
+            processors_enabled += ["phone_numbers", "phone_1", "phone_2", "phone_3"]
 
         if patient_numbers:
-            processors_enabled += ["patient_number"]
+            processors_enabled += ["patient_numbers", "patient_number"]
 
         if dates:
-            processors_enabled += ["date_1", "date_2"]
+            processors_enabled += ["dates", "date_1", "date_2"]
 
         if ages:
-            processors_enabled += ["age"]
+            processors_enabled += ["ages", "age"]
 
         if urls:
-            processors_enabled += ["email", "url_1", "url_2"]
+            processors_enabled += ["urls", "email", "url_1", "url_2"]
 
         processors_enabled += ["overlap_resolver", "merge_adjacent_annotations", "redactor"]
 
