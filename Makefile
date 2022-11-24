@@ -52,11 +52,20 @@ pylint:
 test:
 	python -m pytest --cov-report html --cov-report lcov --cov=deduce --cov-fail-under=80 tests/
 
+build-docs:
+	sphinx-apidoc --module-first --force --templatedir=docs/templates -o docs/source/api deduce
+	sphinx-build docs/source docs/_build/html -c docs/
+
 clean:
 	rm -rf .coverage
 	rm -rf htmlcov
 	rm -rf coverage.lcov
 	rm -rf .pytest_cache
 	rm -rf dist
+
+clean-docs:
+	rm -rf docs/_build
+	rm -rf docs/source/api
+
 
 .PHONY: format lint black isort docformat typehints doclint pylint test clean
