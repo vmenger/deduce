@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import docdeid as dd
 
@@ -9,7 +10,7 @@ from deduce.str.processor import (
     TakeLastToken,
 )
 
-data_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "data")
+data_path = Path(os.path.dirname(__file__)).parent / 'data' / 'lookup_lists'
 
 
 def _get_first_names_lookup_set() -> dd.ds.LookupSet:
