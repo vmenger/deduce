@@ -81,7 +81,7 @@ class TestTokenizer:
 
     def test_join_tokens(self, tokens):
 
-        joined_token = DeduceTokenizer().join_tokens(tokens[0:7])
+        joined_token = DeduceTokenizer()._join_tokens(tokens[0:7])
         expected_token = dd.Token(text="Patient was eerder opgenomen", start_char=0, end_char=28)
 
         assert joined_token == expected_token

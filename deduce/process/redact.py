@@ -3,6 +3,14 @@ from rapidfuzz.distance import DamerauLevenshtein
 
 
 class DeduceRedactor(dd.process.SimpleRedactor):
+    """
+    Implements the redacting logic of Deduce:
+
+    - All annotations with "patient" tag are replaced with <PATIENT>
+    - All other annotations are replaced with <TAG-n>, with n identifying a group of annotations with
+        a similar text (edit_distance <= 1).
+    """
+
     def redact(self, text: str, annotations: dd.AnnotationSet) -> str:
 
         annotations_to_intext_replacement = {}

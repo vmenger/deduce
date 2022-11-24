@@ -1,4 +1,3 @@
-"""The annotate module contains the code for annotating text."""
 from typing import Optional
 
 import docdeid as dd
@@ -8,7 +7,19 @@ from deduce.pattern.name_context import AnnotationContextPattern
 
 
 class AnnotationContextPatternAnnotator(dd.process.Annotator):
-    """This needs to go after the relevant annotators."""
+    """
+    This Annotator applies one or more AnnotationContextPattern to the text. Currently, it applies all patterns to an
+    existing annotation sequentially, and moves to the next annotation when a pattern matches. Therefore, if multiple
+    patterns match an annotation, only the first one is applied. This may change in future versions. It's important that
+    this annotator goes beyond the relevant annotators, so that the AnnotationContextPatterns are applied to the
+    relevant annotations.
+
+    Arguments:
+        context_patterns: The patterns to apply.
+        tags: A list of tags that can be used to filter the existing annotations. Patterns will only be applied to
+            those annotations that have one of the tags as substring of the annotation tag.
+        iterative: Whether to repeatedly apply the pattenrs until no changes occur.
+    """
 
     def __init__(
         self, context_patterns: list[AnnotationContextPattern], tags: Optional[list[str]] = None, iterative: bool = True
@@ -19,6 +30,15 @@ class AnnotationContextPatternAnnotator(dd.process.Annotator):
         super().__init__(tag="_")
 
     def get_matching_tag_annotations(self, context_annotations: list[dd.Annotation]) -> list[dd.Annotation]:
+        """
+        Filter the existing annotations based on their tags.
+
+        Args:
+            context_annotations: The existing annotations.
+
+        Returns:
+            The annotations that match according to the ``_tags`` property.
+        """
 
         if self._tags is not None:
 
@@ -29,6 +49,16 @@ class AnnotationContextPatternAnnotator(dd.process.Annotator):
         return context_annotations
 
     def _annotate_context(self, annotations: list[dd.Annotation], doc: dd.Document) -> list[dd.Annotation]:
+        """
+        Apply the context patterns.
+
+        Args:
+            annotations: The existing annotations.
+            doc: The document.
+
+        Returns:
+            The modified annotations, after the patterns are applied to them.
+        """
 
         context_patterns = [pattern for pattern in self._context_patterns if pattern.document_precondition(doc)]
 
