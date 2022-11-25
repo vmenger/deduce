@@ -14,7 +14,7 @@ from rapidfuzz.distance import DamerauLevenshtein
 from deduce.person import Person
 
 
-class BackwardsCompat:
+class _BackwardsCompat:
 
     deduce_model = None
 
@@ -104,7 +104,7 @@ class BackwardsCompat:
 
 
 def annotate_text_backwardscompat(text: str, *args, **kwargs) -> str:
-    doc = BackwardsCompat.annotate_text_backwardscompat(text=text, *args, **kwargs)
+    doc = _BackwardsCompat.annotate_text_backwardscompat(text=text, *args, **kwargs)
 
     annotations = doc.annotations.sorted(by=["end_char"], callbacks={"end_char": lambda x: -x})
 
@@ -120,12 +120,13 @@ def annotate_text_backwardscompat(text: str, *args, **kwargs) -> str:
 
 
 def annotate_text_structured_backwardscompat(text: str, *args, **kwargs) -> list[docdeid.Annotation]:
-    doc = BackwardsCompat.annotate_text_backwardscompat(text=text, *args, **kwargs)
+    doc = _BackwardsCompat.annotate_text_backwardscompat(text=text, *args, **kwargs)
 
     return list(doc.annotations)
 
 
 def deidentify_annotations_backwardscompat(text: str) -> str:
+
     if not text:
         return text
 
