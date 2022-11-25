@@ -126,7 +126,6 @@ def annotate_text_structured_backwardscompat(text: str, *args, **kwargs) -> list
 
 
 def deidentify_annotations_backwardscompat(text: str) -> str:
-
     if not text:
         return text
 
