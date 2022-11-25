@@ -7,29 +7,48 @@ from deduce import utils
 
 
 class AnnotationContextPattern(ABC):
+    """Contains logic for extending an annotation to the left/right."""
+
     def __init__(self, tag: str) -> None:
         self.tag = tag
 
     def document_precondition(self, doc: dd.Document) -> bool:
-        """Use this to check if the pattern is applicable to the document."""
+        """
+        Use this to check if the pattern is applicable to the document.
+        """
         return True
 
     def annotation_precondition(self, annotation: dd.Annotation) -> bool:
-        """Use this to check if the pattern is applicable to the annotation."""
+        """
+        Use this to check if the pattern is applicable to the annotation.
+        """
         return True
 
     @abstractmethod
     def match(self, annotation: dd.Annotation) -> Optional[tuple[dd.Token, dd.Token]]:
+        """
+        Implement the matching logic here.
+        Args:
+            annotation: The pre-existing annotation.
+
+        Returns:
+            A new start and end token for the annotation.
+        """
         pass
 
 
 class AnnotationContextPatternWithLookupSet(AnnotationContextPattern, ABC):
+    """Extends a general ``AnnotationContextPattern`` by adding a lookup set attribute, that can be used in pattern
+    logic."""
+
     def __init__(self, lookup_sets: dd.ds.DsCollection[dd.ds.LookupSet], *args, **kwargs) -> None:
         self._lookup_sets = lookup_sets
         super().__init__(*args, **kwargs)
 
 
 class InterfixContextPattern(AnnotationContextPatternWithLookupSet):
+    """Matches an annotated name or initial, followed by an interfix, followed by a titlecase word."""
+
     def annotation_precondition(self, annotation: dd.Annotation) -> bool:
 
         return annotation.end_token.next() is not None and annotation.end_token.next(2) is not None
@@ -48,6 +67,8 @@ class InterfixContextPattern(AnnotationContextPatternWithLookupSet):
 
 
 class InitialsContextPattern(AnnotationContextPatternWithLookupSet):
+    """Matches an annotated achternaam, interfix or initial, preceded by either an initial or a titlecase word."""
+
     def annotation_precondition(self, annotation: dd.Annotation) -> bool:
 
         return annotation.start_token.previous() is not None
@@ -75,6 +96,9 @@ class InitialsContextPattern(AnnotationContextPatternWithLookupSet):
 
 
 class InitialNameContextPattern(AnnotationContextPatternWithLookupSet):
+    """Matches an annotated initial, voornaam, roepnaam or prefix, followed by a titlecase word with at least 3
+    characters."""
+
     def annotation_precondition(self, annotation: dd.Annotation) -> bool:
 
         return annotation.end_token.next() is not None
@@ -94,6 +118,8 @@ class InitialNameContextPattern(AnnotationContextPatternWithLookupSet):
 
 
 class NexusContextPattern(AnnotationContextPattern):
+    """Matches any annotated name, followed by "en", followed by a titlecase word."""
+
     def annotation_precondition(self, annotation: dd.Annotation) -> bool:
 
         return annotation.end_token.next() is not None and annotation.end_token.next(2) is not None
