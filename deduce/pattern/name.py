@@ -23,7 +23,7 @@ class PrefixWithNamePattern(TokenPatternWithLookup):
 
         if (
             token.text.lower() in self._lookup_sets["prefixes"]
-            and token.next().text[0].isupper()
+            and token.next().text.istitle()
             and token.next().text not in self._lookup_sets["whitelist"]
         ):
 
@@ -62,10 +62,10 @@ class InitialWithCapitalPattern(TokenPatternWithLookup):
     def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
 
         if (
-            token.text[0].isupper()
+            token.text.istitle()
             and len(token) == 1
             and len(token.next()) > 3
-            and token.next().text[0].isupper()
+            and token.next().text.istitle()
             and token.next().text not in self._lookup_sets["whitelist"]
         ):
 
@@ -83,9 +83,9 @@ class InitiaalInterfixCapitalPattern(TokenPatternWithLookup):
 
     def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
         if (
-            token.previous().text[0].isupper()
+            token.previous().text.istitle()
             and len(token.previous()) == 1
-            and token.next().text[0].isupper()
+            and token.next().text.istitle()
             and token.text in self._lookup_sets["interfixes"]
         ):
 
