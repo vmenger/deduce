@@ -7,7 +7,7 @@ maintainers = ["Vincent Menger <vmenger@protonmail.com>"]
 license = "GNU LGPLv3"
 readme = "README.md"
 repository = "https://github.com/vmenger/deduce/"
-keywords = ["de-identification", "medical text", "dutch", "nlp"]
+keywords = ["de-identification", "clinical text", "dutch", "nlp"]
 classifiers = [
     "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
     "Topic :: Software Development :: Libraries :: Python Modules",
@@ -50,7 +50,7 @@ docformatter = "^1.5.0"
 toml = "^0.10.2"
 sphinx = "^5.3.0"
 myst-parser = "^0.18.1"
-pydata-sphinx-theme = "^0.12.0"
+karma-sphinx-theme = "^0.0.8"
 
 
 

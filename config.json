@@ -1,4 +1,11 @@
 {
+    "adjacent_annotations_slack": "[\\.\\s\\-,]?[\\.\\s]?",
+    "resolve_overlap_strategy": {
+        "attribute": "length",
+        "ascending": false
+    },
+    "redactor_open_char": "<",
+    "redactor_close_char": ">",
     "annotators": {
         "prefix_with_name": {
             "annotator_type": "token_pattern",
