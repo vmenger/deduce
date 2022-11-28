@@ -44,6 +44,8 @@ autodoc_default_options = {
     'special-members': '__getitem__,__setitem__,__len__,__eq__'
 }
 
+myst_heading_anchors = 3
+
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 

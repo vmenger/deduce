@@ -48,7 +48,7 @@ The `Annotator` is responsible for tagging pieces of information in the text as 
 |                 | url_1                    | regexp             | URLs (pattern 1)                                                                           |
 |                 | url_2                    | regexp             | URLs (pattern 2)                                                                           |
 
-It's possible to add, remove, apply subsets or implement custom annotators, those options are described further down under [customizing `deduce`](customizing-deduce) 
+It's possible to add, remove, apply subsets or implement custom annotators, those options are described further down under [customizing deduce](#customizing-deduce). 
 
 ### Other processors
 
@@ -81,7 +81,7 @@ We highly recommend making some effort to customize `deduce`, as even some basic
 
 ### Changing `config.json`
 
-A default `config.json` file is packaged with `deduce` ([source on GitHub](todo-link)). Among with some basic settings, it defines all annotators (also listed above). It's possible to add, modify or delete annotators here (e.g. changing regular expressions). After modifying `config.json`, you should save the modified `.json` and pass the path as argument when initializing `Deduce`:
+A default `config.json` ([source on GitHub](https://github.com/vmenger/deduce/blob/main/config.json)) file is packaged with `deduce`. Among with some basic settings, it defines all annotators (also listed above). It's possible to add, modify or delete annotators here (e.g. changing regular expressions). After modifying `config.json`, you should save the modified `.json` and pass the path as argument when initializing `Deduce`:
 
 ```python
 from deduce import Deduce

@@ -178,7 +178,7 @@ class _AnnotatorFactory:
 
 # Backwards compatibility stuff beneath this line.
 deduce.backwards_compat._BackwardsCompat.set_deduce_model(Deduce())
-deprecation_info = {"version": "2.0.0", "reason": "Please use Deduce().deidentify(text) instead. See: todo-link"}
+deprecation_info = {"version": "2.0.0", "reason": "Please use Deduce().deidentify(text) instead. See: https://deduce.readthedocs.io/en/latest/migrating.html"}
 
 
 @deprecated.deprecated(**deprecation_info)
