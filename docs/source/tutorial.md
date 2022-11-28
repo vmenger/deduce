@@ -184,9 +184,15 @@ from deduce import Deduce
 
 deduce = Deduce()
 
-deduce.lookup_sets['institutions'].add_items_from_iterable(["lokale thuiszorg instantie", "verzorgingstehuis hier om de hoek"])
+deduce.lookup_sets['first_names'].add_items_from_iterable(["naam", "andere_naam"])
+deduce.lookup_sets['whitelist'].add_items_from_iterable(["woord", "ander_woord"])
 deduce.lookup_sets['residences'].add_items_from_iterable(["kleine plaats in de regio"])
+deduce.lookup_sets['institutions'].add_items_from_iterable(["verzorgingstehuis hier om de hoek"])
+
+# need to re-initialize the doc processors, so they know about updated lookup_sets
+deduce.initialize_doc_processors()
+
 ```
 
-Full documentation on lookup sets and how to modify them is available in the [docdeid API](https://docdeid.readthedocs.io/en/latest/api/docdeid.ds.html#docdeid.ds.lookup.LookupSet).
+After making changes to `lookup_sets`, it's important to call `Deduce.initialize_doc_processors`, so that the changes get picked up by the annotators. Full documentation on lookup sets and how to modify them is available in the [docdeid API](https://docdeid.readthedocs.io/en/latest/api/docdeid.ds.html#docdeid.ds.lookup.LookupSet).
 
