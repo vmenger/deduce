@@ -1,27 +1,38 @@
-# Contribution to DEDUCE
+# Contributing
 
-First of all, thanks a lot for considering to contribute to our open source project. DEDUCE is largely maintainted by volunteers aiming to facilitate awesome clinical NLP research and applications, and we are are happy you want to join us doing that.  
+Thanks for considering making an addition to this project! These contributing guidelines should help make your life easier. 
 
-## Opening an issue
+Before starting, some things to consider:
+* For larger features, it would be helpful to get in touch first (through issue/email)
+* A lot of the logic is in `docdeid`, please consider making a PR there for things that are not specific to `deduce`.
+* `deduce` is a rule-based de-identifier
+* In case you would like to see any rules added/removed/changed, a decent substantiation (with examples) of the potential improvement is useful
 
-The first step to get help or file a bug report is [opening an issue](https://github.com/vmenger/deduce/issues). Before you open an issue, please take a few moments to check that your issue has not already been answered before. We don't have a template for opening an issue – please just try to be specific and complete in your description, so your issue can be tackled. 
+## Setting up the environment
 
-Please note that this project is maintained mostly by volunteers, and an immediate resonse is not always possible. However, if no reply happens in 1-2 weeks or so, feel free to ping a reminder by tagging one of the maintainers. 
+* This project uses poetry for package management. Install it with ```pip install poetry```
+* Set up the environment is easy, just use ```poetry install```
+* The makefile contains some useful commands when developing:
+  * `make test` runs the tests (including coverage)
+  * `make format` formats the package code
+  * `make lint` runs the linters (check the output)
+  * `make clean` removes build/test artifacts, etc
+* And for docs:
+  * `make build-docs` builds the docs
+  * `make clean-docs` removes docs build
 
-## Making a contribution 
+## Releasing
+* Readthedocs has a webhook connected to pushes on the master branch. It will trigger and update automatically. 
+* Create a [release on github](https://github.com/vmenger/docdeid/releases/new), create a tag with the right version, manually copy paste from the changelog
+* Trigger the build pipeline manually to release to PyPi
 
-Contributions to docs/code are very much welcomed. If you roughly adhere to the following steps, the chances of your work ending up in the repository are greatly increased. 
+## PR checlist
 
-* If you are planning to do considerable work, please get in touch by opening an issue first, outlining the changes you are planning. We can then make sure you don't do any double/unnecessary work. 
-* Create a branch based on the `next-release` branch, but please double check that `next-release` is up to date with `master`.
-* Setup your environment locally. You most likely need `pip install -r requirements.txt -r requirements-dev.txt`.
-* Commit your work to your branch. In general, try to roughly adhere to the dominant coding/documentation style of the repository. We appreciate it if you add (unit) tests to the functionality.
-* Please add a line to [CHANGELOG.md](CHANGELOG.md), under a Added/Changed/Deprecated/Removed/Fixed/Security heading.  
-* After your work is finished, please run locally:
-  * `make test` – to run the tests. If a test fails, it is likely something is wrong in your code. However, sometimes the test is wrong. If you make any changes to the test, please make a comment about this in the PR. 
-  * `make format` – this will format all code into the [Black formatting style](https://github.com/psf/black), and output a log of `pylint`. Please check the `pylint` for any preventable issues. We do not strive for perfection, but we appreciate well-linted code. 
-* You are now ready to [open a PR](https://github.com/vmenger/deduce/pulls) from your branch to `next-release`. In your message, briefly describe the work you did, and anything important to know for reviewing. 
-* One of the maintainers will automatically be notified and review your work. Again, we are largely doing this in our own time, so we cannot always immediately process a PR. Feel free to ping a reminder by tagging one of the maintainers if nothing happens in 1-2 weeks. 
-* Hopefully, we can now merge your work into the repository, possibly after some rounds of feedback/review. We aim to release improvements that deliver value to DEDUCE immediately in a new version. 
+* Verify that tests are passing
+* Verify that tests are updated/added according to changes
+* Run the formatters (`make format`)
+* Run the linters (`make lint`) and check the output for anything preventable
+* Add a section to the changelog
+* Add a description to your PR
 
-In any case, your help is greatly appreciated, and these guidelines are intended to be a help rather than an obstacle to your contribution. If you get stuck anywhere, opening an issue is always possible!
+Any other questions/issues not covered here? Please just get in touch!

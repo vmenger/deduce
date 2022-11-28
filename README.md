@@ -1,103 +1,126 @@
-# Deduce: de-identification method for Dutch medical text
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+# `deduce`
 
-> If you are looking for the version of DEDUCE as published with [Menger et al (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365), please visit [vmenger/deduce-classic](https://github.com/vmenger/deduce-classic/), where the original is archived. This version is maintained and improved, thus possibly differing from the validated original.
+[![tests](https://github.com/vmenger/deduce/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/vmenger/deduce/actions/workflows/test.yml)
+[![coverage](https://coveralls.io/repos/github/vmenger/deduce/badge.svg?branch=master)](https://coveralls.io/github/vmenger/deduce?branch=master)
+[![build](https://github.com/vmenger/deduce/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/vmenger/deduce/actions/workflows/build.yml)
+[![documentation](https://readthedocs.org/projects/deduce/badge/?version=latest)](https://deduce.readthedocs.io/en/latest/?badge=latest)
+![pypi version](https://img.shields.io/pypi/v/deduce)
+![pypi python versions](https://img.shields.io/pypi/pyversions/deduce)
+![pypi downloads](https://img.shields.io/pypi/dm/deduce)
+![license](https://img.shields.io/github/license/vmenger/deduce)
+[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-This project contains the code for DEDUCE: de-identification method for Dutch medical text, initially described in [Menger et al (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365). De-identification of medical text is needed for using text data for analysis, to comply with legal requirements and to protect the privacy of patients. Our pattern matching based method removes Protected Health Information (PHI) in the following categories:
+[Installation](#installation) - [Versions](#versions) - [Getting Started](#getting-started) - [Documentation](#documentation) - [Contributiong](#contributing) - [Authors](#authors) - [License](#license)
 
-1. Person names, including initials
-2. Geographical locations smaller than a country
-3. Names of institutions that are related to patient treatment
-4. Dates
-5. Ages
-6. Patient numbers
-7. Telephone numbers
-8. E-mail addresses and URLs
+<!-- start include in docs -->
 
-The details of the development and workings of the initial method, and its validation can be found in: 
+> Deduce 2.0.0 has been released! It includes a 10x speedup, and way more features for customizing and tailoring. Some small changes are needed to keep going from version 1, read more about it here: [migrating](todo-link)
+
+De-identify clinial text written in Dutch using `deduce`, a rule-based de-identification method for Dutch clinical text.
+
+The development, principles and validation of `deduce` were initially described in [Menger et al. (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365). De-identification of clinical text is needed for using text data for analysis, to comply with legal requirements and to protect the privacy of patients. Our rule-based method removes Protected Health Information (PHI) in the following categories:
+
+* Person names, including initials
+* Geographical locations smaller than a country
+* Names of institutions that are related to patient treatment
+* Dates
+* Ages
+* Patient numbers
+* Telephone numbers
+* E-mail addresses and URLs
+
+If you use `deduce`, please cite the following paper:  
 
 [Menger, V.J., Scheepers, F., van Wijk, L.M., Spruit, M. (2017). DEDUCE: A pattern matching method for automatic de-identification of Dutch medical text, Telematics and Informatics, 2017, ISSN 0736-5853](http://www.sciencedirect.com/science/article/pii/S0736585316307365)
 
-### Prerequisites
-
-* `nltk`
-
-### Installing
-
-Installing can be done through pip and git: 
+## Installation
 
 ``` python
->>> pip install deduce
+pip install deduce
 ```
 
-Or from source, simply download and use python to install:
+## Versions
 
-``` python
->>> python setup.py install
-```
+For most cases the latest version is suitable, but some specific milestones are:
+
+* `2.0.0` - Major refactor, with speedups, many new options for customizing, functionally very similar to original 
+* `1.0.8` - Small bugfixes compared to original release
+* `1.0.1` - Original release with [Menger et al. (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365)
+
+Detailed versioning information is accessible in the [changelog](CHANGELOG.md). 
+
+<!-- end include in docs -->
+<!-- start getting started -->
 
 ## Getting started
 
-The package has a method for annotating (`annotate_text`) and for removing the annotations (`deidentify_annotations`).
+The basic way to use `deduce`, is to pass text to the `deidentify` method of a `Deduce` object:
 
-``` python
+```python
+from deduce import Deduce
 
-import deduce 
+deduce = Deduce()
 
-deduce.annotate_text(
-        text,                       # The text to be annotated
-        patient_first_names="",     # First names (separated by whitespace)
-        patient_initials="",        # Initial
-        patient_surname="",         # Surname(s)
-        patient_given_name="",      # Given name
-        names=True,                 # Person names, including initials
-        locations=True,             # Geographical locations
-        institutions=True,          # Institutions
-        dates=True,                 # Dates
-        ages=True,                  # Ages
-        patient_numbers=True,       # Patient numbers
-        phone_numbers=True,         # Phone numbers
-        urls=True,                  # Urls and e-mail addresses
-        flatten=True                # Debug option
-    )    
-    
-deduce.deidentify_annotations(
-        text                        # The annotated text that should be de-identified
-    )
-    
+text = """Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen 
+        (e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig 
+        in Utrecht. Hij werd op 10 oktober door arts Peter de Visser ontslagen 
+        van de kliniek van het UMCU."""
+
+doc = deduce.deidentify(text)
 ```
 
-## Examples
-``` python
->>> import deduce
+The output is available in the `Document` object:
 
->>> text = u"Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen (e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud 
-    en woonachtig in Utrecht. Hij werd op 10 oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
->>> annotated = deduce.annotate_text(text, patient_first_names="Jan", patient_surname="Jansen")
->>> deidentified = deduce.deidentify_annotations(annotated)
+```python
+from pprint import pprint
 
->>> print (annotated)
-"Dit is stukje tekst met daarin de naam <PATIENT Jan Jansen>. De <PATIENT patient J. Jansen> (e: <URL j.jnsen@email.com>, t: <TELEFOONNUMMER 06-12345678>) 
-is <LEEFTIJD 64> jaar oud en woonachtig in <LOCATIE Utrecht>. Hij werd op <DATUM 10 oktober> door arts <PERSOON Peter de Visser> ontslagen van de kliniek van het <INSTELLING umcu>."
->>> print (deidentified)
-"Dit is stukje tekst met daarin de naam <PATIENT>. De <PATIENT> (e: <URL-1>, t: <TELEFOONNUMMER-1>) is <LEEFTIJD-1> jaar oud en woonachtig in <LOCATIE-1>.
-Hij werd op <DATUM-1> door arts <PERSOON-1> ontslagen van de kliniek van het <INSTELLING-1>."
+pprint(doc.annotations)
+
+AnnotationSet({Annotation(text='Jan Jansen', start_char=39, end_char=49, tag='persoon', length=10),
+               Annotation(text='Peter de Visser', start_char=185, end_char=200, tag='persoon', length=15),
+               Annotation(text='j.jnsen@email.com', start_char=76, end_char=93, tag='url', length=17),
+               Annotation(text='10 oktober', start_char=164, end_char=174, tag='datum', length=10),
+               Annotation(text='patient J. Jansen', start_char=54, end_char=71, tag='persoon', length=17),
+               Annotation(text='64', start_char=114, end_char=116, tag='leeftijd', length=2),
+               Annotation(text='UMCU', start_char=234, end_char=238, tag='instelling', length=4),
+               Annotation(text='06-12345678', start_char=98, end_char=109, tag='telefoonnummer', length=11),
+               Annotation(text='Utrecht', start_char=143, end_char=150, tag='locatie', length=7)})
+
+print(doc.deidentified_text)
+
+"""Dit is stukje tekst met daarin de naam <PERSOON-1>. De <PERSOON-2> 
+(e: <URL-1>, t: <TELEFOONNUMMER-1>) is <LEEFTIJD-1> jaar oud en woonachtig 
+in <LOCATIE-1>. Hij werd op <DATUM-1> door arts <PERSOON-3> ontslagen 
+van de kliniek van het <INSTELLING-1>."""
 ```
+
+Aditionally, if the names of the patient are known, they may be added as `metadata`, where they will be picked up by `deduce`:
+
+```python
+from deduce.person import Person
+
+patient = Person(first_names=["Jan"], initials="JJ", surname="Jansen")
+doc = deduce.deidentify(text, metadata={'patient': patient})
+
+print (doc.deidentified_text)
+
+"""Dit is stukje tekst met daarin de naam <PATIENT>. De <PATIENT> 
+(e: <URL-1>, t: <TELEFOONNUMMER-1>) is <LEEFTIJD-1> jaar oud en woonachtig 
+in <LOCATIE-1>. Hij werd op <DATUM-1> door arts <PERSOON-1> ontslagen 
+van de kliniek van het <INSTELLING-1>."""
+```
+
+As you can see, adding known names keeps references to `<PATIENT>` in text. It also increases recall, as not all known names are contained in the lookup lists. 
+
+<!-- end getting started -->
 
 ### Configuring
 
-The lookup lists in the `data/` folder can be tailored to the users specific needs. This is especially recommended for the list of names of institutions, since they are by default tailored to location of development and testing of the method. Regular expressions can be modified in `annotate.py`, this is for the same reason recommended for detecting patient numbers. 
+A more extensive tutorial on using, configuring and modifying `deduce` is available on our [documentation page](todo-link) 
 
 ## Contributing
 
-Thanks a lot for considering to make a contribution to DEDUCE, we are very open to your help!
-
-* If you need support, have a question, or found a bug/error, please get in touch by [creating a New Issue](https://github.com/vmenger/deduce/issues). We don't have an issue template, just try to be specific and complete, so we can tackle it. 
-* If you want to make a contribution either to the code or the docs, please take a few minutes to read our [contribution guidelines](CONTRIBUTING.md). This greatly improve the chances of your work being merged into the repository.
-
-## Changelog
-
-You may find detailed versioning information in the [changelog](CHANGELOG.md).
+For setting up the dev environment and contributing guidelines, see: [docs/contributing](todo-link)
 
 ## Authors
 

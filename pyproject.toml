@@ -1,0 +1,59 @@
+[tool.poetry]
+name = "deduce"
+version = "1.0.8"
+description = "Deduce: de-identification method for Dutch medical text"
+authors = ["Vincent Menger <vmenger@protonmail.com>"]
+maintainers = ["Vincent Menger <vmenger@protonmail.com>"]
+license = "GNU LGPLv3"
+readme = "README.md"
+repository = "https://github.com/vmenger/deduce/"
+keywords = ["de-identification", "clinical text", "dutch", "nlp"]
+classifiers = [
+    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Pre-processors",
+    "Topic :: Text Processing",
+    "Topic :: Text Processing :: Linguistic",
+]
+include = ["data/*", "config.json"]
+
+[tool.sphinx]
+author = "Vincent Menger"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+rapidfuzz = "^2.11.1"
+docdeid = "0.1.3"
+regex = "^2022.9.13"
+deprecated = "^1.2.13"
+
+[tool.poetry.group.dev]
+optional = false
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.1.3"
+pytest-cov = "^4.0.0"
+flake8 = "^5.0.4"
+flake8-annotations = "^2.9.1"
+pylint = "^2.15.4"
+isort = "^5.10.1"
+black = "^22.10.0"
+mypy = "^0.991"
+docformatter = "^1.5.0"
+
+
+[tool.poetry.group.docs.dependencies]
+toml = "^0.10.2"
+sphinx = "^5.3.0"
+myst-parser = "^0.18.1"
+karma-sphinx-theme = "^0.0.8"
+
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

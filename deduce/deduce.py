@@ -1,300 +1,199 @@
-"""
-Deduce is the main module, from which the annotate and
-deidentify_annotations() methods can be imported
-"""
+import json
+import os
+import re
+import warnings
+from pathlib import Path
+from typing import Any, Optional
 
-from deduce import utility
-from .annotate import *
-from .utility import flatten_text, flatten_text_all_phi
+import deprecated
+import docdeid as dd
+
+import deduce.backwards_compat
+from deduce import utils
+from deduce.lookup_sets import get_lookup_sets
+from deduce.process.annotation_processing import (
+    DeduceMergeAdjacentAnnotations,
+    PersonAnnotationConverter,
+)
+from deduce.process.annotator import AnnotationContextPatternAnnotator
+from deduce.process.redact import DeduceRedactor
+from deduce.tokenize import DeduceTokenizer
+
+warnings.simplefilter(action="once")
 
 
-class NestedTagsError(Exception):
-    def __init__(self, msg: str):
-        super().__init__(str)
-
-
-def annotate_text(
-    # The text to be annotated
-    text,
-    # First name
-    patient_first_names="",
-    # Initial
-    patient_initials="",
-    # Surname(s)
-    patient_surname="",
-    # Given name`
-    patient_given_name="",
-    # Person names, including initials
-    names=True,
-    # Geographical locations
-    locations=True,
-    # Institutions
-    institutions=True,
-    # Dates
-    dates=True,
-    # Ages
-    ages=True,
-    # Patient numbers
-    patient_numbers=True,
-    # Phone numbers
-    phone_numbers=True,
-    # Urls and e-mail addresses
-    urls=True,
-    # Debug option
-    flatten=True,
-):
-
+class Deduce(dd.DocDeid):
     """
-    This method annotates text based on the input that includes names of a patient,
-    and a number of flags indicating which PHIs should be annotated
+    Main class for de-identifiation.
+
+    Inherits from ``docdeid.DocDeid``, and as such, most information is available in the documentation there.
     """
 
-    if not text:
-        return text
+    def __init__(self, config_file: Optional[str] = None) -> None:
+        super().__init__()
 
-    # Replace < and > symbols
-    text = text.replace("<", "(")
-    text = text.replace(">", ")")
+        self.config = self._initialize_config(config_file)
+        self.lookup_sets = get_lookup_sets()
+        self.tokenizers = self._initialize_tokenizers()
+        self._initialize_doc_processors()
 
-    # Deidentify names
-    if names:
+    @staticmethod
+    def _initialize_config(config_file: Optional[str] = None) -> dict:
+        """
+        Initialize the config file.
 
-        # First, based on the rules and lookup lists
-        text = annotate_names(
-            text,
-            patient_first_names,
-            patient_initials,
-            patient_surname,
-            patient_given_name,
+        Args:
+            config_file: The filepath of the config file.
+
+        Returns:
+            The contents of the config file as a dictionary.
+        """
+
+        config_path = Path(config_file) if config_file else Path(os.path.dirname(__file__)).parent / "config.json"
+
+        with open(config_path, "r", encoding="utf-8") as file:
+            return json.load(file)
+
+    def _initialize_tokenizers(self) -> dict:
+        """Initializes tokenizers."""
+
+        merge_terms = dd.ds.LookupSet()
+        merge_terms.add_items_from_iterable(["A1", "A2", "A3", "A4", "\n", "\r", "\t"])
+        merge_terms += self.lookup_sets["interfixes"]
+        merge_terms += self.lookup_sets["prefixes"]
+
+        return {"default": DeduceTokenizer(merge_terms=merge_terms)}
+
+    @staticmethod
+    def _initialize_annotators(
+        annotator_cnfg: dict, lookup_sets: dd.ds.DsCollection, tokenizer: dd.tokenize.Tokenizer
+    ) -> dd.process.DocProcessorGroup:
+        """Initializes annotators."""
+
+        extras = {"lookup_sets": lookup_sets, "tokenizer": tokenizer}
+        return _AnnotatorFactory().get_annotators(annotator_cnfg, extras)
+
+    def _initialize_doc_processors(self) -> None:
+        """Initializes document processors."""
+
+        self.processors = self._initialize_annotators(
+            self.config["annotators"].copy(), self.lookup_sets, self.tokenizers["default"]
+        )
+        self.processors["names"].add_processor("person_annotation_converter", PersonAnnotationConverter())
+
+        sort_by_attr = self.config["resolve_overlap_strategy"]["attribute"]
+        sort_by = [sort_by_attr]
+        sort_by_callbacks = (
+            {sort_by_attr: lambda x: -x} if not self.config["resolve_overlap_strategy"]["ascending"] else None
         )
 
-        # Then, based on the context
-        text = annotate_names_context(text)
-
-        # Flatten possible nested tags
-        if flatten:
-            text = flatten_text(text)
-
-    # Institutions
-    if institutions:
-        text = annotate_institution(text)
-
-    # Geographical locations
-    if locations:
-        text = annotate_residence(text)
-        text = annotate_address(text)
-        text = annotate_postalcode(text)
-
-    # Phone numbers
-    if phone_numbers:
-        text = annotate_phonenumber(text)
-
-    # Patient numbers
-    if patient_numbers:
-        text = annotate_patientnumber(text)
-
-    # Dates
-    if dates:
-        text = annotate_date(text)
-
-    # Ages
-    if ages:
-        text = annotate_age(text)
-
-    # Urls
-    if urls:
-        text = annotate_email(text)
-        text = annotate_url(text)
-
-    # Merge adjacent tags
-    text = merge_adjacent_tags(text)
-
-    # Flatten tags
-    if flatten and has_nested_tags(text):
-        text = flatten_text_all_phi(text)
-
-    # Return text
-    return text
-
-
-def get_adjacent_tags_replacement(match: re.Match) -> str:
-    text = match.group(0)
-    tag = match.group(1)
-    left = match.group(2)
-    right = match.group(3)
-    start_ix = text.index(">") + 1
-    end_ix = text[1:].index("<") + 1
-    separator = text[start_ix:end_ix]
-    return "<" + tag + " " + left + separator + right + ">"
-
-
-def merge_adjacent_tags(text: str) -> str:
-    """
-    Adjacent tags are merged into a single tag
-    :param text: the text from which you want to merge adjacent tags
-    :return: the text with adjacent tags merged
-    """
-    while True:
-        oldtext = text
-        text = re.sub(
-            "<([A-Z]+)\s([^>]+)>[\.\s\-,]?[\.\s]?<\\1\s([^>]+)>",
-            get_adjacent_tags_replacement,
-            text,
+        self.processors.add_processor(
+            "overlap_resolver",
+            dd.process.OverlapResolver(sort_by=sort_by, sort_by_callbacks=sort_by_callbacks),
         )
-        if text == oldtext:
-            break
-    return text
+
+        self.processors.add_processor(
+            "merge_adjacent_annotations",
+            DeduceMergeAdjacentAnnotations(slack_regexp=self.config["adjacent_annotations_slack"]),
+        )
+
+        self.processors.add_processor(
+            "redactor",
+            DeduceRedactor(open_char=self.config["redactor_open_char"], close_char=self.config["redactor_close_char"]),
+        )
 
 
-def annotate_text_structured(
-    text: str,
-    patient_first_names="",
-    patient_initials="",
-    patient_surname="",
-    patient_given_name="",
-    names=True,
-    locations=True,
-    institutions=True,
-    dates=True,
-    ages=True,
-    patient_numbers=True,
-    phone_numbers=True,
-    urls=True,
-    flatten=True,
-):
-    """
-    This method annotates text based on the input that includes names of a patient,
-    and a number of flags indicating which PHIs should be annotated
-    :param text: The text to be annotated
-    :param patient_first_names: First name
-    :param patient_initials: Initial
-    :param patient_surname: Surname(s)
-    :param patient_given_name: Given name
-    :param names: Person names, including initials
-    :param locations: Geographical locations
-    :param institutions: Institutions
-    :param dates: Dates
-    :param ages: Ages
-    :param patient_numbers: Patient numbers
-    :param phone_numbers: Phone numbers
-    :param urls: Urls and e-mail addresses
-    :param flatten: Debug option
-    :return:
-    """
-    annotated_text = annotate_text(
-        text,
-        patient_first_names=patient_first_names,
-        patient_initials=patient_initials,
-        patient_surname=patient_surname,
-        patient_given_name=patient_given_name,
-        names=names,
-        locations=locations,
-        institutions=institutions,
-        dates=dates,
-        ages=ages,
-        patient_numbers=patient_numbers,
-        phone_numbers=phone_numbers,
-        urls=urls,
-        flatten=flatten,
-    )
-    if has_nested_tags(annotated_text):
-        raise NestedTagsError("Text has nested tags")
-    tags = utility.find_tags(annotated_text)
-    first_non_whitespace_character_index = utility.get_first_non_whitespace(text)
-    # utility.get_annotations does not handle nested tags, so make sure not to pass it text with nested tags
-    # Also, utility.get_annotations assumes that all tags are listed in the order they appear in the text
-    annotations = utility.get_annotations(annotated_text, tags, first_non_whitespace_character_index)
+class _AnnotatorFactory:
+    """Responsible for creating annotators, based on config."""
 
-    # Check if there are any annotations whose start+end do not correspond to the text in the annotation
-    mismatched_annotations = [ann for ann in annotations if text[ann.start_ix:ann.end_ix] != ann.text_]
-    if len(mismatched_annotations) > 0:
-        print('WARNING:', len(mismatched_annotations), 'annotations have texts that do not match the original text')
+    def __init__(self) -> None:
 
-    return annotations
+        self.annotator_creators = {
+            "token_pattern": self._get_token_pattern_annotator,
+            "annotation_context": self._get_annotation_context_pattern_annotator,
+            "regexp": self._get_regexp_annotator,
+            "multi_token": self._get_multi_token_annotator,
+        }
 
+    @staticmethod
+    def _get_token_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        pattern = utils.import_and_initialize(args.pop("pattern"), extras=extras)
+        return dd.process.TokenPatternAnnotator(pattern=pattern)
 
-def has_nested_tags(text):
-    open_brackets = 0
-    for _, ch in enumerate(text):
+    @staticmethod
+    def _get_annotation_context_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        context_patterns = [utils.import_and_initialize(p["pattern"], extras=extras) for p in args.pop("patterns")]
+        return AnnotationContextPatternAnnotator(context_patterns=context_patterns, **args)
 
-        if ch == "<":
-            open_brackets += 1
+    @staticmethod
+    def _get_regexp_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        args["regexp_pattern"] = re.compile(args["regexp_pattern"])
+        return dd.process.RegexpAnnotator(**args)
 
-        if ch == ">":
-            open_brackets -= 1
+    @staticmethod
+    def _get_multi_token_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        if isinstance(args["lookup_values"], str):
+            lookup_set = extras["lookup_sets"][args["lookup_values"]]
 
-        if open_brackets == 2:
-            return True
+            args["lookup_values"] = lookup_set.items()
+            args["matching_pipeline"] = lookup_set.matching_pipeline
 
-        if open_brackets not in (0, 1):
-            raise ValueError("Incorrectly formatted string")
+        args["tokenizer"] = DeduceTokenizer()
 
-    return False
+        return dd.process.MultiTokenLookupAnnotator(**args)
+
+    def get_annotators(self, annotator_cnfg: dict, extras: dict) -> dd.process.DocProcessorGroup:
+        """
+        Get the annotators, requested in the annotator config.
+
+        Args:
+            annotator_cnfg: A dictionary containing configuration on which annotators to initialize.
+            extras: Any additional objects passed to pattern or annotator init, if present
+
+        Returns:
+            A DocProcessorGroup containing the initialized annotators specified in the config dict.
+        """
+
+        annotators = dd.process.DocProcessorGroup()
+
+        for annotator_name, annotator_info in annotator_cnfg.items():
+
+            if annotator_info["annotator_type"] not in self.annotator_creators:
+                raise ValueError(f"Unexpected annotator_type {annotator_info['annotator_type']}")
+
+            group = annotators
+
+            if "group" in annotator_info:
+
+                if annotator_info["group"] not in annotators.get_names(recursive=False):
+                    annotators.add_processor(annotator_info["group"], dd.process.DocProcessorGroup())
+
+                group = annotators[annotator_info["group"]]
+
+            annotator = self.annotator_creators[annotator_info["annotator_type"]](annotator_info["args"], extras)
+            group.add_processor(annotator_name, annotator)
+
+        return annotators
 
 
-def deidentify_annotations(text):
-    """
-    Deidentify the annotated tags - only makes sense if annotate() is used first -
-    otherwise the normal text is simply returned
-    """
+# Backwards compatibility stuff beneath this line.
+deduce.backwards_compat._BackwardsCompat.set_deduce_model(Deduce())
+deprecation_info = {"version": "2.0.0", "reason": "Please use Deduce().deidentify(text) instead. See: todo-link"}
 
-    if not text:
-        return text
 
-    # Patient tags are always simply deidentified (because there is only one patient
-    text = re.sub("<PATIENT\s([^>]+)>", "<PATIENT>", text)
+@deprecated.deprecated(**deprecation_info)
+def annotate_text(*args, **kwargs) -> Any:
+    """Backwards compatibility function for annotating text."""
+    return deduce.backwards_compat.annotate_text_backwardscompat(*args, **kwargs)
 
-    # For al the other types of tags
-    for tagname in [
-        "PERSOON",
-        "LOCATIE",
-        "INSTELLING",
-        "DATUM",
-        "LEEFTIJD",
-        "PATIENTNUMMER",
-        "TELEFOONNUMMER",
-        "URL",
-    ]:
 
-        # Find all values that occur within this type of tag
-        phi_values = re.findall("<" + tagname + r"\s([^>]+)>", text)
-        next_phi_values = []
+@deprecated.deprecated(**deprecation_info)
+def annotate_text_structured(*args, **kwargs) -> Any:
+    """Backwards compatibility function for annotating text structured."""
+    return deduce.backwards_compat.annotate_text_structured_backwardscompat(*args, **kwargs)
 
-        # Count unique occurrences (fuzzy) of all values in tags
-        dispenser = 1
 
-        # Iterate over all the values in tags
-        while len(phi_values) > 0:
-
-            # Compute which other values have edit distance <=1 (fuzzy matching)
-            # compared to this value
-            thisval = phi_values[0]
-            dist = [
-                edit_distance(x, thisval, transpositions=True) <= 1
-                for x in phi_values[1:]
-            ]
-
-            # Replace this occurence with the appropriate number from dispenser
-            text = text.replace(f"<{tagname} {thisval}>", f"<{tagname}-{dispenser}>")
-
-            # For all other values
-            for index, value in enumerate(dist):
-
-                # If the value matches, replace it as well
-                if dist[index]:
-                    text = text.replace(
-                        f"<{tagname} {phi_values[index + 1]}>",
-                        f"<{tagname}-{str(dispenser)}>",
-                    )
-
-                # Otherwise, carry it to the next iteration
-                else:
-                    next_phi_values.append(phi_values[index + 1])
-
-            # This is for the next iteration
-            phi_values = next_phi_values
-            next_phi_values = []
-            dispenser += 1
-
-    # Return text
-    return text
+@deprecated.deprecated(**deprecation_info)
+def deidentify_annotations(*args, **kwargs) -> Any:
+    """Backwards compatibility function for deidentifying annotations."""
+    return deduce.backwards_compat.deidentify_annotations_backwardscompat(*args, **kwargs)

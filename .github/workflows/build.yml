@@ -1,0 +1,43 @@
+name: build
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        virtualenvs-create: false
+
+    - name: Build package
+      run: poetry build
+
+    - name: Setup testing dependencies
+      run: |
+        pip install dist/deduce-*.whl
+        poetry install --only dev
+
+    - name: Test build
+      run: make test
+
+    - name: Set up Pypi credentials
+      run: poetry config pypi-token.pypi ${{ SECRETS.PYPI_TOKEN }}
+
+    - name: Publish package
+      run: poetry publish --dry-run
