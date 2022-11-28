@@ -35,7 +35,7 @@ class Deduce(dd.DocDeid):
         self.config = self._initialize_config(config_file)
         self.lookup_sets = get_lookup_sets()
         self.tokenizers = self._initialize_tokenizers()
-        self._initialize_doc_processors()
+        self.initialize_doc_processors()
 
     @staticmethod
     def _initialize_config(config_file: Optional[str] = None) -> dict:
@@ -73,18 +73,24 @@ class Deduce(dd.DocDeid):
         extras = {"lookup_sets": lookup_sets, "tokenizer": tokenizer}
         return _AnnotatorFactory().get_annotators(annotator_cnfg, extras)
 
-    def _initialize_doc_processors(self) -> None:
-        """Initializes document processors."""
+    def initialize_doc_processors(self) -> None:
+        """
+        Initializes document processors.
+
+        Need to re-run this when updating lookup sets.
+        """
+
+        config = self.config.copy()  # copy to prevent accidental overwrites, deletes, etc
 
         self.processors = self._initialize_annotators(
-            self.config["annotators"].copy(), self.lookup_sets, self.tokenizers["default"]
+            config["annotators"].copy(), self.lookup_sets, self.tokenizers["default"]
         )
         self.processors["names"].add_processor("person_annotation_converter", PersonAnnotationConverter())
 
         sort_by_attr = self.config["resolve_overlap_strategy"]["attribute"]
         sort_by = [sort_by_attr]
         sort_by_callbacks = (
-            {sort_by_attr: lambda x: -x} if not self.config["resolve_overlap_strategy"]["ascending"] else None
+            {sort_by_attr: lambda x: -x} if not config["resolve_overlap_strategy"]["ascending"] else None
         )
 
         self.processors.add_processor(
@@ -94,12 +100,12 @@ class Deduce(dd.DocDeid):
 
         self.processors.add_processor(
             "merge_adjacent_annotations",
-            DeduceMergeAdjacentAnnotations(slack_regexp=self.config["adjacent_annotations_slack"]),
+            DeduceMergeAdjacentAnnotations(slack_regexp=config["adjacent_annotations_slack"]),
         )
 
         self.processors.add_processor(
             "redactor",
-            DeduceRedactor(open_char=self.config["redactor_open_char"], close_char=self.config["redactor_close_char"]),
+            DeduceRedactor(open_char=config["redactor_open_char"], close_char=config["redactor_close_char"]),
         )
 
 
@@ -178,7 +184,10 @@ class _AnnotatorFactory:
 
 # Backwards compatibility stuff beneath this line.
 deduce.backwards_compat._BackwardsCompat.set_deduce_model(Deduce())
-deprecation_info = {"version": "2.0.0", "reason": "Please use Deduce().deidentify(text) instead. See: https://deduce.readthedocs.io/en/latest/migrating.html"}
+deprecation_info = {
+    "version": "2.0.0",
+    "reason": "Please use Deduce().deidentify(text) instead. See: https://deduce.readthedocs.io/en/latest/migrating.html",
+}
 
 
 @deprecated.deprecated(**deprecation_info)
