@@ -13,7 +13,7 @@ In case you get stuck with applying or modifying `deduce`, its always possible t
 
 ## Included components
 
-A `docdeid` de-identifier is made up of document processors, such as annotators, annotation processors, and redactors, that are applied sequentially in a pipeline. Some components that make up `deduce` are described below.  
+A `docdeid` de-identifier is made up of document processors, such as annotators, annotation processors, and redactors, that are applied sequentially in a pipeline. The most important components that make up `deduce` are described below.  
 
 ### Annotators
 
@@ -133,7 +133,7 @@ deduce.deidentify("text", processors_disabled={'urls_1'})
 
 ### Implementing custom components
 
-It's possible and even recommended to implement the following custom components,  `Annotator`, `AnnotationProcessor`, `Redactor` and `Tokenizer`. This is done by implementing the abtract classes defined in the `docdeid` package, which is described here: [docdeid docs - docdeid components](https://docdeid.readthedocs.io/en/latest/tutorial.html#docdeid-components).
+It's possible and even recommended to implement the following custom components,  `Annotator`, `AnnotationProcessor`, `Redactor` and `Tokenizer`. This is done by implementing the abstract classes defined in the `docdeid` package, which is described here: [docdeid docs - docdeid components](https://docdeid.readthedocs.io/en/latest/tutorial.html#docdeid-components).
 
 In our case, we can directly add or remove custom document processors by interacting with the `deduce.processors` attribute directly:
 
@@ -141,11 +141,19 @@ In our case, we can directly add or remove custom document processors by interac
 from deduce import Deduce
 
 deduce = Deduce()
-del deduce.processors['dates'] # remove date annotators
-deduce.processors.add_processor('some_new_category', MyCustomAnnotator(), position=0) # add another annotator at start
+
+# remove date annotators
+del deduce.processors['dates']
+
+# add another annotator
+deduce.processors.add_processor( 
+    'some_new_category', 
+    MyCustomAnnotator(), 
+    position=0
+) 
 ```
 
-Note that by default, processors are applied in the order they are added to the pipeline. To prevent an annotator being added after the redactor (meaning the annotations would not be redacted in the text), use the `position` keyword of the `add_processor` method, as in the example above.
+Note that by default, processors are applied in the order they are added to the pipeline. To prevent a new annotator being added after the redactor (meaning the annotations would not be redacted in the text), use the `position` keyword of the `add_processor` method, as in the example above.
 
 #### Changing tokenizer
 

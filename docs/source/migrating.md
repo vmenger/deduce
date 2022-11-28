@@ -138,7 +138,7 @@ doc = deduce.deidentify(text, metadata={'patient': patient})
 
 ## Enabling/disabling specific categories
 
-Previously, the `annotate_text` function offered disabling specific categories by using `dates`, `ages`, `names`, etc. keywords. This behaviour can be achieved by setting the `annotators_disabled` argument of the `Deduce.deidentify` method. Note that the identification logic of Deduce is now further split up into `Annotator` classes, allowing disabling/enabling specific components. You can read more about the specific annotators and other components in the tutorial [here](tutorial.md#annotators), and more information on enabling, disabling, replacing or modifying specific components [here](tutorial.md#customizing-deduce).
+Previously, the `annotate_text` function offered disabling specific categories by using `dates`, `ages`, `names`, etc. keywords. This behaviour can be achieved by setting the `processors_disabled` argument of the `Deduce.deidentify` method. Note that the identification logic of Deduce is now further split up into `Annotator` classes, allowing disabling/enabling specific components. You can read more about the specific annotators and other components in the tutorial [here](tutorial.md#annotators), and more information on enabling, disabling, replacing or modifying specific components [here](tutorial.md#customizing-deduce).
 
 
 <table>

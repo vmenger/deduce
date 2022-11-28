@@ -1,4 +1,4 @@
-# `deduce`
+# deduce
 
 [![tests](https://github.com/vmenger/deduce/actions/workflows/test.yml/badge.svg)](https://github.com/vmenger/deduce/actions/workflows/test.yml)
 [![coverage](https://coveralls.io/repos/github/vmenger/deduce/badge.svg)](https://coveralls.io/github/vmenger/deduce?branch=master)
