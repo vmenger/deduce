@@ -13,15 +13,11 @@ class AnnotationContextPattern(ABC):
         self.tag = tag
 
     def document_precondition(self, doc: dd.Document) -> bool:
-        """
-        Use this to check if the pattern is applicable to the document.
-        """
+        """Use this to check if the pattern is applicable to the document."""
         return True
 
     def annotation_precondition(self, annotation: dd.Annotation) -> bool:
-        """
-        Use this to check if the pattern is applicable to the annotation.
-        """
+        """Use this to check if the pattern is applicable to the annotation."""
         return True
 
     @abstractmethod
@@ -34,7 +30,6 @@ class AnnotationContextPattern(ABC):
         Returns:
             A new start and end token for the annotation.
         """
-        pass
 
 
 class AnnotationContextPatternWithLookupSet(AnnotationContextPattern, ABC):

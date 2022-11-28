@@ -80,16 +80,13 @@ class Deduce(dd.DocDeid):
         self.processors = self._initialize_annotators(
             self.config["annotators"].copy(), self.lookup_sets, self.tokenizers["default"]
         )
-        self.processors["names"].add_processor(
-            "person_annotation_converter",
-            PersonAnnotationConverter()
-        )
+        self.processors["names"].add_processor("person_annotation_converter", PersonAnnotationConverter())
 
-        sort_by_attr = self.config['resolve_overlap_strategy']['attribute']
+        sort_by_attr = self.config["resolve_overlap_strategy"]["attribute"]
         sort_by = [sort_by_attr]
-        sort_by_callbacks = {sort_by_attr: lambda x: -x} \
-            if not self.config['resolve_overlap_strategy']['ascending'] \
-            else None
+        sort_by_callbacks = (
+            {sort_by_attr: lambda x: -x} if not self.config["resolve_overlap_strategy"]["ascending"] else None
+        )
 
         self.processors.add_processor(
             "overlap_resolver",
@@ -98,12 +95,12 @@ class Deduce(dd.DocDeid):
 
         self.processors.add_processor(
             "merge_adjacent_annotations",
-            DeduceMergeAdjacentAnnotations(slack_regexp=self.config['adjacent_annotations_slack'])
+            DeduceMergeAdjacentAnnotations(slack_regexp=self.config["adjacent_annotations_slack"]),
         )
 
         self.processors.add_processor(
             "redactor",
-            DeduceRedactor(open_char=self.config['redactor_open_char'], close_char=self.config['redactor_close_char'])
+            DeduceRedactor(open_char=self.config["redactor_open_char"], close_char=self.config["redactor_close_char"]),
         )
 
 
