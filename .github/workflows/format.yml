@@ -3,8 +3,7 @@ name: formatting-linting
 on:
   pull_request:
     branches:
-    - master
-    - next-release
+    - main
 
 jobs:
 

@@ -22,7 +22,7 @@ Before starting, some things to consider:
   * `make clean-docs` removes docs build
 
 ## Releasing
-* Readthedocs has a webhook connected to pushes on the master branch. It will trigger and update automatically. 
+* Readthedocs has a webhook connected to pushes on the main branch. It will trigger and update automatically. 
 * Create a [release on github](https://github.com/vmenger/docdeid/releases/new), create a tag with the right version, manually copy paste from the changelog
 * Trigger the build pipeline manually to release to PyPi
 
