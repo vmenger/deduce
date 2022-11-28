@@ -1,6 +1,6 @@
 # Migrating to version `2.0.0`
 
-Version `2.0.0` of `deduce` sees a major refactor that enables speedup, configuration, customization, and more. With it, the interface to apply deduce to text changes slightly. Updating your code to the new interface should not take more than a few minutes. The details are outlined below.
+Version `2.0.0` of `deduce` sees a major refactor that enables speedup, configuration, customization, and more. With it, the interface to apply `deduce` to text changes slightly. Updating your code to the new interface should not take more than a few minutes. The details are outlined below.
 
 ## Calling `deduce`
 

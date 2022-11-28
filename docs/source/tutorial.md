@@ -13,7 +13,7 @@ In case you get stuck with applying or modifying `deduce`, its always possible t
 
 ## Included components
 
-A `docdeid` de-identifier is made up of document processors, such as annotators, annotation processors, and redactors, that are applied sequentially in a pipeline. Some of the components that make up `deduce` are described below.  
+A `docdeid` de-identifier is made up of document processors, such as annotators, annotation processors, and redactors, that are applied sequentially in a pipeline. Some components that make up `deduce` are described below.  
 
 ### Annotators
 
