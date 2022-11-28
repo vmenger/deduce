@@ -1,6 +1,6 @@
 # Migrating to version `2.0.0`
 
-Version `2.0.0` of `deduce` sees a major refactor that enables speedup, configuration, customization, and more. With it, the interface to apply deduce to text changes slightly. Updating your code to the new interface should not take more than a few minutes. The details are outlined below.
+Version `2.0.0` of `deduce` sees a major refactor that enables speedup, configuration, customization, and more. With it, the interface to apply `deduce` to text changes slightly. Updating your code to the new interface should not take more than a few minutes. The details are outlined below.
 
 ## Calling `deduce`
 
@@ -138,7 +138,7 @@ doc = deduce.deidentify(text, metadata={'patient': patient})
 
 ## Enabling/disabling specific categories
 
-Previously, the `annotate_text` function offered disabling specific categories by using `dates`, `ages`, `names`, etc. keywords. This behaviour can be achieved by setting the `annotators_disabled` argument of the `Deduce.deidentify` method. Note that the identification logic of Deduce is now further split up into `Annotator` classes, allowing disabling/enabling specific components. You can read more about the specific annotators and other components in `deduce` [here](todo-link), and more information on enabling/disabling specific components [here](todo-link).
+Previously, the `annotate_text` function offered disabling specific categories by using `dates`, `ages`, `names`, etc. keywords. This behaviour can be achieved by setting the `processors_disabled` argument of the `Deduce.deidentify` method. Note that the identification logic of Deduce is now further split up into `Annotator` classes, allowing disabling/enabling specific components. You can read more about the specific annotators and other components in the tutorial [here](tutorial.md#annotators), and more information on enabling, disabling, replacing or modifying specific components [here](tutorial.md#customizing-deduce).
 
 
 <table>

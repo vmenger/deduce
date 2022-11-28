@@ -13,7 +13,7 @@ In case you get stuck with applying or modifying `deduce`, its always possible t
 
 ## Included components
 
-A `docdeid` de-identifier is made up of document processors, such as annotators, annotation processors, and redactors, that are applied sequentially in a pipeline. Some of the components that make up `deduce` are described below.  
+A `docdeid` de-identifier is made up of document processors, such as annotators, annotation processors, and redactors, that are applied sequentially in a pipeline. The most important components that make up `deduce` are described below.  
 
 ### Annotators
 
@@ -48,7 +48,7 @@ The `Annotator` is responsible for tagging pieces of information in the text as 
 |                 | url_1                    | regexp             | URLs (pattern 1)                                                                           |
 |                 | url_2                    | regexp             | URLs (pattern 2)                                                                           |
 
-It's possible to add, remove, apply subsets or implement custom annotators, those options are described further down under [customizing `deduce`](customizing-deduce) 
+It's possible to add, remove, apply subsets or implement custom annotators, those options are described further down under [customizing deduce](#customizing-deduce). 
 
 ### Other processors
 
@@ -81,7 +81,7 @@ We highly recommend making some effort to customize `deduce`, as even some basic
 
 ### Changing `config.json`
 
-A default `config.json` file is packaged with `deduce` ([source on GitHub](todo-link)). Among with some basic settings, it defines all annotators (also listed above). It's possible to add, modify or delete annotators here (e.g. changing regular expressions). After modifying `config.json`, you should save the modified `.json` and pass the path as argument when initializing `Deduce`:
+A default `config.json` ([source on GitHub](https://github.com/vmenger/deduce/blob/main/config.json)) file is packaged with `deduce`. Among with some basic settings, it defines all annotators (also listed above). It's possible to add, modify or delete annotators here (e.g. changing regular expressions). After modifying `config.json`, you should save the modified `.json` and pass the path as argument when initializing `Deduce`:
 
 ```python
 from deduce import Deduce
@@ -133,7 +133,7 @@ deduce.deidentify("text", processors_disabled={'urls_1'})
 
 ### Implementing custom components
 
-It's possible and even recommended to implement the following custom components,  `Annotator`, `AnnotationProcessor`, `Redactor` and `Tokenizer`. This is done by implementing the abtract classes defined in the `docdeid` package, which is described here: [docdeid docs - docdeid components](https://docdeid.readthedocs.io/en/latest/tutorial.html#docdeid-components).
+It's possible and even recommended to implement the following custom components,  `Annotator`, `AnnotationProcessor`, `Redactor` and `Tokenizer`. This is done by implementing the abstract classes defined in the `docdeid` package, which is described here: [docdeid docs - docdeid components](https://docdeid.readthedocs.io/en/latest/tutorial.html#docdeid-components).
 
 In our case, we can directly add or remove custom document processors by interacting with the `deduce.processors` attribute directly:
 
@@ -141,11 +141,19 @@ In our case, we can directly add or remove custom document processors by interac
 from deduce import Deduce
 
 deduce = Deduce()
-del deduce.processors['dates'] # remove date annotators
-deduce.processors.add_processor('some_new_category', MyCustomAnnotator(), position=0) # add another annotator at start
+
+# remove date annotators
+del deduce.processors['dates']
+
+# add another annotator
+deduce.processors.add_processor( 
+    'some_new_category', 
+    MyCustomAnnotator(), 
+    position=0
+) 
 ```
 
-Note that by default, processors are applied in the order they are added to the pipeline. To prevent an annotator being added after the redactor (meaning the annotations would not be redacted in the text), use the `position` keyword of the `add_processor` method, as in the example above.
+Note that by default, processors are applied in the order they are added to the pipeline. To prevent a new annotator being added after the redactor (meaning the annotations would not be redacted in the text), use the `position` keyword of the `add_processor` method, as in the example above.
 
 #### Changing tokenizer
 
@@ -176,9 +184,15 @@ from deduce import Deduce
 
 deduce = Deduce()
 
-deduce.lookup_sets['institutions'].add_items_from_iterable(["lokale thuiszorg instantie", "verzorgingstehuis hier om de hoek"])
+deduce.lookup_sets['first_names'].add_items_from_iterable(["naam", "andere_naam"])
+deduce.lookup_sets['whitelist'].add_items_from_iterable(["woord", "ander_woord"])
 deduce.lookup_sets['residences'].add_items_from_iterable(["kleine plaats in de regio"])
+deduce.lookup_sets['institutions'].add_items_from_iterable(["verzorgingstehuis hier om de hoek"])
+
+# need to re-initialize the doc processors, so they know about updated lookup_sets
+deduce.initialize_doc_processors()
+
 ```
 
-Full documentation on lookup sets and how to modify them is available in the [docdeid API](https://docdeid.readthedocs.io/en/latest/api/docdeid.ds.html#docdeid.ds.lookup.LookupSet).
+After making changes to `lookup_sets`, it's important to call `Deduce.initialize_doc_processors`, so that the changes get picked up by the annotators. Full documentation on lookup sets and how to modify them is available in the [docdeid API](https://docdeid.readthedocs.io/en/latest/api/docdeid.ds.html#docdeid.ds.lookup.LookupSet).
 

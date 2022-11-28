@@ -1,4 +1,4 @@
-# `deduce`
+# deduce
 
 [![tests](https://github.com/vmenger/deduce/actions/workflows/test.yml/badge.svg)](https://github.com/vmenger/deduce/actions/workflows/test.yml)
 [![coverage](https://coveralls.io/repos/github/vmenger/deduce/badge.svg)](https://coveralls.io/github/vmenger/deduce?branch=master)
@@ -14,7 +14,7 @@
 
 <!-- start include in docs -->
 
-> Deduce 2.0.0 has been released! It includes a 10x speedup, and way more features for customizing and tailoring. Some small changes are needed to keep going from version 1, read more about it here: [migrating](todo-link)
+> Deduce 2.0.0 has been released! It includes a 10x speedup, and way more features for customizing and tailoring. Some small changes are needed to keep going from version 1, read more about it here: [docs/migrating-to-v2](https://deduce.readthedocs.io/en/latest/migrating.html)
 
 De-identify clinial text written in Dutch using `deduce`, a rule-based de-identification method for Dutch clinical text.
 
@@ -114,13 +114,14 @@ As you can see, adding known names keeps references to `<PATIENT>` in text. It a
 
 <!-- end getting started -->
 
-### Configuring
+## Documentation
 
-A more extensive tutorial on using, configuring and modifying `deduce` is available on our [documentation page](todo-link) 
+A more extensive tutorial on using, configuring and modifying `deduce` is available at: [docs/tutorial](https://deduce.readthedocs.io/en/latest/tutorial.html) 
+Basic documentation and API are available at: [docs](https://deduce.readthedocs.io/en/latest/)
 
 ## Contributing
 
-For setting up the dev environment and contributing guidelines, see: [docs/contributing](todo-link)
+For setting up the dev environment and contributing guidelines, see: [docs/contributing](https://deduce.readthedocs.io/en/latest/contributing.html)
 
 ## Authors
 
