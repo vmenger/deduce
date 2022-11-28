@@ -1,243 +1,199 @@
+import json
+import os
 import re
 import warnings
+from pathlib import Path
+from typing import Any, Optional
 
-import docdeid
-from docdeid.annotate.annotation_processor import OverlapResolver
-from rapidfuzz.distance import DamerauLevenshtein
+import deprecated
+import docdeid as dd
 
-from deduce.annotate.annotate import Person, get_doc_processors, tokenizer
-from deduce.annotate.annotation_processing import DeduceMergeAdjacentAnnotations
-from deduce.annotate.redact import DeduceRedactor
+import deduce.backwards_compat
+from deduce import utils
+from deduce.lookup_sets import get_lookup_sets
+from deduce.process.annotation_processing import (
+    DeduceMergeAdjacentAnnotations,
+    PersonAnnotationConverter,
+)
+from deduce.process.annotator import AnnotationContextPatternAnnotator
+from deduce.process.redact import DeduceRedactor
+from deduce.tokenize import DeduceTokenizer
 
 warnings.simplefilter(action="once")
 
 
-class Deduce(docdeid.DocDeid):
-    def __init__(self):
+class Deduce(dd.DocDeid):
+    """
+    Main class for de-identifiation.
+
+    Inherits from ``docdeid.DocDeid``, and as such, most information is available in the documentation there.
+    """
+
+    def __init__(self, config_file: Optional[str] = None) -> None:
         super().__init__()
-        self._initialize_deduce()
 
-    def _initialize_deduce(self):
+        self.config = self._initialize_config(config_file)
+        self.lookup_sets = get_lookup_sets()
+        self.tokenizers = self._initialize_tokenizers()
+        self._initialize_doc_processors()
 
-        self.tokenizers["default"] = tokenizer
+    @staticmethod
+    def _initialize_config(config_file: Optional[str] = None) -> dict:
+        """
+        Initialize the config file.
 
-        for name, processor in get_doc_processors().items():
-            self.processors[name] = processor
+        Args:
+            config_file: The filepath of the config file.
 
-        self.processors["overlap_resolver"] = OverlapResolver(
-            sort_by=["length"], sort_by_callbacks={"length": lambda x: -x}
+        Returns:
+            The contents of the config file as a dictionary.
+        """
+
+        config_path = Path(config_file) if config_file else Path(os.path.dirname(__file__)).parent / "config.json"
+
+        with open(config_path, "r", encoding="utf-8") as file:
+            return json.load(file)
+
+    def _initialize_tokenizers(self) -> dict:
+        """Initializes tokenizers."""
+
+        merge_terms = dd.ds.LookupSet()
+        merge_terms.add_items_from_iterable(["A1", "A2", "A3", "A4", "\n", "\r", "\t"])
+        merge_terms += self.lookup_sets["interfixes"]
+        merge_terms += self.lookup_sets["prefixes"]
+
+        return {"default": DeduceTokenizer(merge_terms=merge_terms)}
+
+    @staticmethod
+    def _initialize_annotators(
+        annotator_cnfg: dict, lookup_sets: dd.ds.DsCollection, tokenizer: dd.tokenize.Tokenizer
+    ) -> dd.process.DocProcessorGroup:
+        """Initializes annotators."""
+
+        extras = {"lookup_sets": lookup_sets, "tokenizer": tokenizer}
+        return _AnnotatorFactory().get_annotators(annotator_cnfg, extras)
+
+    def _initialize_doc_processors(self) -> None:
+        """Initializes document processors."""
+
+        self.processors = self._initialize_annotators(
+            self.config["annotators"].copy(), self.lookup_sets, self.tokenizers["default"]
+        )
+        self.processors["names"].add_processor("person_annotation_converter", PersonAnnotationConverter())
+
+        sort_by_attr = self.config["resolve_overlap_strategy"]["attribute"]
+        sort_by = [sort_by_attr]
+        sort_by_callbacks = (
+            {sort_by_attr: lambda x: -x} if not self.config["resolve_overlap_strategy"]["ascending"] else None
         )
 
-        self.processors["merge_adjacent_annotations"] = DeduceMergeAdjacentAnnotations(
-            slack_regexp=r"[\.\s\-,]?[\.\s]?"
+        self.processors.add_processor(
+            "overlap_resolver",
+            dd.process.OverlapResolver(sort_by=sort_by, sort_by_callbacks=sort_by_callbacks),
         )
 
-        self.processors["redactor"] = DeduceRedactor()
-
-
-def annotate_intext(text: str, annotations: list[docdeid.Annotation]) -> str:
-    """TODO This should go somewhere else, not sure yet."""
-
-    annotations = sorted(
-        list(annotations),
-        key=lambda a: a.get_sort_key(by=["end_char"], callbacks={"end_char": lambda x: -x}),
-    )
-
-    for annotation in annotations:
-        text = (
-            f"{text[:annotation.start_char]}"
-            f"<{annotation.tag.upper()}>{annotation.text}</{annotation.tag.upper()}>"
-            f"{text[annotation.end_char:]}"
+        self.processors.add_processor(
+            "merge_adjacent_annotations",
+            DeduceMergeAdjacentAnnotations(slack_regexp=self.config["adjacent_annotations_slack"]),
         )
 
-    return text
+        self.processors.add_processor(
+            "redactor",
+            DeduceRedactor(open_char=self.config["redactor_open_char"], close_char=self.config["redactor_close_char"]),
+        )
+
+
+class _AnnotatorFactory:
+    """Responsible for creating annotators, based on config."""
+
+    def __init__(self) -> None:
+
+        self.annotator_creators = {
+            "token_pattern": self._get_token_pattern_annotator,
+            "annotation_context": self._get_annotation_context_pattern_annotator,
+            "regexp": self._get_regexp_annotator,
+            "multi_token": self._get_multi_token_annotator,
+        }
+
+    @staticmethod
+    def _get_token_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        pattern = utils.import_and_initialize(args.pop("pattern"), extras=extras)
+        return dd.process.TokenPatternAnnotator(pattern=pattern)
+
+    @staticmethod
+    def _get_annotation_context_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        context_patterns = [utils.import_and_initialize(p["pattern"], extras=extras) for p in args.pop("patterns")]
+        return AnnotationContextPatternAnnotator(context_patterns=context_patterns, **args)
+
+    @staticmethod
+    def _get_regexp_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        args["regexp_pattern"] = re.compile(args["regexp_pattern"])
+        return dd.process.RegexpAnnotator(**args)
+
+    @staticmethod
+    def _get_multi_token_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        if isinstance(args["lookup_values"], str):
+            lookup_set = extras["lookup_sets"][args["lookup_values"]]
+
+            args["lookup_values"] = lookup_set.items()
+            args["matching_pipeline"] = lookup_set.matching_pipeline
+
+        args["tokenizer"] = DeduceTokenizer()
+
+        return dd.process.MultiTokenLookupAnnotator(**args)
+
+    def get_annotators(self, annotator_cnfg: dict, extras: dict) -> dd.process.DocProcessorGroup:
+        """
+        Get the annotators, requested in the annotator config.
+
+        Args:
+            annotator_cnfg: A dictionary containing configuration on which annotators to initialize.
+            extras: Any additional objects passed to pattern or annotator init, if present
+
+        Returns:
+            A DocProcessorGroup containing the initialized annotators specified in the config dict.
+        """
+
+        annotators = dd.process.DocProcessorGroup()
+
+        for annotator_name, annotator_info in annotator_cnfg.items():
+
+            if annotator_info["annotator_type"] not in self.annotator_creators:
+                raise ValueError(f"Unexpected annotator_type {annotator_info['annotator_type']}")
+
+            group = annotators
+
+            if "group" in annotator_info:
+
+                if annotator_info["group"] not in annotators.get_names(recursive=False):
+                    annotators.add_processor(annotator_info["group"], dd.process.DocProcessorGroup())
+
+                group = annotators[annotator_info["group"]]
+
+            annotator = self.annotator_creators[annotator_info["annotator_type"]](annotator_info["args"], extras)
+            group.add_processor(annotator_name, annotator)
+
+        return annotators
 
 
 # Backwards compatibility stuff beneath this line.
-
-deduce_model = Deduce()
-
-
-def _annotate_text_backwardscompat(
-    text,
-    patient_first_names="",
-    patient_initials="",
-    patient_surname="",
-    patient_given_name="",
-    names=True,
-    institutions=True,
-    locations=True,
-    phone_numbers=True,
-    patient_numbers=True,
-    dates=True,
-    ages=True,
-    urls=True,
-) -> docdeid.Document:
-
-    text = "" or text
-
-    if patient_first_names:
-        patient_first_names = patient_first_names.split(" ")
-
-    metadata = {
-        "patient": Person(
-            first_names=patient_first_names or None,
-            initials=patient_initials or None,
-            surname=patient_surname or None,
-            given_name=patient_given_name or None,
-        )
-    }
-
-    processors_enabled = []
-
-    if names:
-        processors_enabled += ["name_group"]
-        processors_enabled += [
-            "prefix_with_name",
-            "interfix_with_name",
-            "initial_with_capital",
-            "initial_interfix",
-            "first_name_lookup",
-            "surname_lookup",
-            "person_first_name",
-            "person_initial_from_name",
-            "person_initials",
-            "person_given_name",
-            "person_surname",
-        ]
-        processors_enabled += ["person_annotation_converter", "name_context"]
-
-    if institutions:
-        processors_enabled += ["institution", "altrecht"]
-
-    if locations:
-        processors_enabled += [
-            "residence",
-            "street_with_number",
-            "postal_code",
-            "postbus",
-        ]
-
-    if phone_numbers:
-        processors_enabled += ["phone_1", "phone_2", "phone_3"]
-
-    if patient_numbers:
-        processors_enabled += ["patient_number"]
-
-    if dates:
-        processors_enabled += ["date_1", "date_2"]
-
-    if ages:
-        processors_enabled += ["age"]
-
-    if urls:
-        processors_enabled += ["email", "url_1", "url_2"]
-
-    processors_enabled += ["overlap_resolver", "merge_adjacent_annotations", "redactor"]
-
-    doc = deduce_model.deidentify(text=text, processors_enabled=processors_enabled, metadata=metadata)
-
-    return doc
+deduce.backwards_compat._BackwardsCompat.set_deduce_model(Deduce())
+deprecation_info = {"version": "2.0.0", "reason": "Please use Deduce().deidentify(text) instead. See: todo-link"}
 
 
-def annotate_text(text: str, *args, **kwargs):
-
-    warnings.warn(
-        message="The annotate_text function will disappear in a future version. "
-        "Please use Deduce().deidenitfy(text) instead.",
-        category=DeprecationWarning,
-    )
-
-    doc = _annotate_text_backwardscompat(text=text, *args, **kwargs)
-
-    annotations = doc.annotations.sorted(by=["end_char"], callbacks={"end_char": lambda x: -x})
-
-    for annotation in annotations:
-
-        text = (
-            f"{text[:annotation.start_char]}"
-            f"<{annotation.tag.upper()} {annotation.text}>"
-            f"{text[annotation.end_char:]}"
-        )
-
-    return text
+@deprecated.deprecated(**deprecation_info)
+def annotate_text(*args, **kwargs) -> Any:
+    """Backwards compatibility function for annotating text."""
+    return deduce.backwards_compat.annotate_text_backwardscompat(*args, **kwargs)
 
 
-def annotate_text_structured(text: str, *args, **kwargs) -> list[docdeid.Annotation]:
-
-    warnings.warn(
-        message="The annotate_text_structured function will disappear in a future version. "
-        "Please use Deduce().deidenitfy(text) instead.",
-        category=DeprecationWarning,
-    )
-
-    doc = _annotate_text_backwardscompat(text=text, *args, **kwargs)
-
-    return list(doc.annotations)
+@deprecated.deprecated(**deprecation_info)
+def annotate_text_structured(*args, **kwargs) -> Any:
+    """Backwards compatibility function for annotating text structured."""
+    return deduce.backwards_compat.annotate_text_structured_backwardscompat(*args, **kwargs)
 
 
-def deidentify_annotations(text):
-
-    warnings.warn(
-        message="The deidentify_annotations function will disappear in a future version. "
-        "Please use Deduce().deidenitfy(text) instead.",
-        category=DeprecationWarning,
-    )
-
-    if not text:
-        return text
-
-    # Patient tags are always simply deidentified (because there is only one patient
-    text = re.sub(r"<patient\s([^>]+)>", "<patient>", text)
-
-    # For al the other types of tags
-    for tagname in [
-        "persoon",
-        "locatie",
-        "instelling",
-        "datum",
-        "leeftijd",
-        "patientnummer",
-        "telefoonnummer",
-        "url",
-    ]:
-
-        # Find all values that occur within this type of tag
-        phi_values = re.findall("<" + tagname + r"\s([^>]+)>", text)
-        next_phi_values = []
-
-        # Count unique occurrences (fuzzy) of all values in tags
-        dispenser = 1
-
-        # Iterate over all the values in tags
-        while len(phi_values) > 0:
-
-            # Compute which other values have edit distance <=1 (fuzzy matching)
-            # compared to this value
-            thisval = phi_values[0]
-            dist = [DamerauLevenshtein.distance(x, thisval, score_cutoff=1) <= 1 for x in phi_values[1:]]
-
-            # Replace this occurrence with the appropriate number from dispenser
-            text = text.replace(f"<{tagname} {thisval}>", f"<{tagname}-{dispenser}>")
-
-            # For all other values
-            for index, value in enumerate(dist):
-
-                # If the value matches, replace it as well
-                if dist[index]:
-                    text = text.replace(
-                        f"<{tagname} {phi_values[index + 1]}>",
-                        f"<{tagname}-{str(dispenser)}>",
-                    )
-
-                # Otherwise, carry it to the next iteration
-                else:
-                    next_phi_values.append(phi_values[index + 1])
-
-            # This is for the next iteration
-            phi_values = next_phi_values
-            next_phi_values = []
-            dispenser += 1
-
-    # Return text
-    return text
+@deprecated.deprecated(**deprecation_info)
+def deidentify_annotations(*args, **kwargs) -> Any:
+    """Backwards compatibility function for deidentifying annotations."""
+    return deduce.backwards_compat.deidentify_annotations_backwardscompat(*args, **kwargs)

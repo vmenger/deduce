@@ -8,18 +8,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## (unreleased)
 
 ### Changed
-- refactor to use `docdeid` package for logic
+- major refactor that touches pretty much every line of code
+- use `docdeid` package for logic
 - speedups: now 973% faster
 - use lookup sets instead of lookup lists
 - refactor tokenizer
 - refactor annotators into separate classes, using structured annotations
-- deprecate automated GitHub testing for python 3.7 and 3.8, added for python 3.10
+- guidelines for contributing
 
 ### Added
 - introduced new interface for deidentification, using `Deduce()` class
+- a separate documentation page, with tutorial and migration guide
+- support for python 3.10 and 3.11
+
 
 ### Removed
+- the `annotate_text` and `deidentify_annotations` functions
 - all in-text annotation (under the hood) and associated functions
+- support for given names. given names can be added as another first name in the `Person` class. 
+- support for python 3.7 and 3.8
 
 ### Fixed
 - `<` and `>` are no longer replaced by `(` and `)` respectively
