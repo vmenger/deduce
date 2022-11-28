@@ -49,10 +49,9 @@ class Deduce(dd.DocDeid):
             The contents of the config file as a dictionary.
         """
 
-        if config_file is None:
-            config_file = Path(os.path.dirname(__file__)).parent / "config.json"
+        config_path = Path(config_file) if config_file else Path(os.path.dirname(__file__)).parent / "config.json"
 
-        with open(config_file, "r", encoding="utf-8") as file:
+        with open(config_path, "r", encoding="utf-8") as file:
             return json.load(file)
 
     def _initialize_tokenizers(self) -> dict:
@@ -72,7 +71,7 @@ class Deduce(dd.DocDeid):
         """Initializes annotators."""
 
         extras = {"lookup_sets": lookup_sets, "tokenizer": tokenizer}
-        return AnnotatorFactory().get_annotators(annotator_cnfg, extras)
+        return _AnnotatorFactory().get_annotators(annotator_cnfg, extras)
 
     def _initialize_doc_processors(self) -> None:
         """Initializes document processors."""
@@ -104,7 +103,7 @@ class Deduce(dd.DocDeid):
         )
 
 
-class AnnotatorFactory:
+class _AnnotatorFactory:
     """Responsible for creating annotators, based on config."""
 
     def __init__(self) -> None:
@@ -144,6 +143,16 @@ class AnnotatorFactory:
         return dd.process.MultiTokenLookupAnnotator(**args)
 
     def get_annotators(self, annotator_cnfg: dict, extras: dict) -> dd.process.DocProcessorGroup:
+        """
+        Get the annotators, requested in the annotator config.
+
+        Args:
+            annotator_cnfg: A dictionary containing configuration on which annotators to initialize.
+            extras: Any additional objects passed to pattern or annotator init, if present
+
+        Returns:
+            A DocProcessorGroup containing the initialized annotators specified in the config dict.
+        """
 
         annotators = dd.process.DocProcessorGroup()
 
@@ -169,7 +178,7 @@ class AnnotatorFactory:
 
 # Backwards compatibility stuff beneath this line.
 deduce.backwards_compat._BackwardsCompat.set_deduce_model(Deduce())
-deprecation_info = {"version": "2.0.0", "reason": "Please use Deduce().deidentify(text) instead."}
+deprecation_info = {"version": "2.0.0", "reason": "Please use Deduce().deidentify(text) instead. See: todo-link"}
 
 
 @deprecated.deprecated(**deprecation_info)
