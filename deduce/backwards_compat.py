@@ -20,6 +20,7 @@ class _BackwardsCompat:
 
     @classmethod
     def set_deduce_model(cls, deduce_model: Any) -> None:
+        """Backwards compat."""
         cls.deduce_model = deduce_model
 
     @classmethod
@@ -39,6 +40,7 @@ class _BackwardsCompat:
         ages: bool = True,
         urls: bool = True,
     ) -> docdeid.Document:
+        """Backwards compat."""
 
         text = "" or text
 
@@ -104,6 +106,8 @@ class _BackwardsCompat:
 
 
 def annotate_text_backwardscompat(text: str, *args, **kwargs) -> str:
+    """Backwards compat."""
+
     doc = _BackwardsCompat.annotate_text_backwardscompat(text=text, *args, **kwargs)
 
     annotations = doc.annotations.sorted(by=["end_char"], callbacks={"end_char": lambda x: -x})
@@ -120,12 +124,16 @@ def annotate_text_backwardscompat(text: str, *args, **kwargs) -> str:
 
 
 def annotate_text_structured_backwardscompat(text: str, *args, **kwargs) -> list[docdeid.Annotation]:
+    """Backwards compat."""
+
     doc = _BackwardsCompat.annotate_text_backwardscompat(text=text, *args, **kwargs)
 
     return list(doc.annotations)
 
 
 def deidentify_annotations_backwardscompat(text: str) -> str:
+    """Backwards compat."""
+
     if not text:
         return text
 
