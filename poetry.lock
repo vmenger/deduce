@@ -148,7 +148,7 @@ graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "docdeid"
-version = "0.1.0"
+version = "0.1.3"
 description = "Create your own document de-identifier using docdeid, a simple framework independent of language or domain."
 category = "main"
 optional = false
@@ -785,7 +785,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 
 [[package]]
 name = "zipp"
-version = "3.10.0"
+version = "3.11.0"
 description = "Backport of pathlib-compatible object wrapper for zip files"
 category = "dev"
 optional = false
@@ -798,7 +798,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "27e0819dfe01cae41602ce182920ee5d4a7b2f106f1b272b1d9b78710142e9e0"
+content-hash = "723f5e78b511bc22e783d4ce6774855376c795559c2baf26854459d27c38cc1d"
 
 [metadata.files]
 alabaster = [
@@ -917,8 +917,8 @@ dill = [
     {file = "dill-0.3.6.tar.gz", hash = "sha256:e5db55f3687856d8fbdab002ed78544e1c4559a130302693d839dfe8f93f2373"},
 ]
 docdeid = [
-    {file = "docdeid-0.1.0-py3-none-any.whl", hash = "sha256:6fd3f6da4858fa9d9d2c3e923df5f2397efc0200d4917c48f428d99127adc09b"},
-    {file = "docdeid-0.1.0.tar.gz", hash = "sha256:ada46afb3a3f848840f37ed76c35e4fc86b5e23328c5fa8042819993600c4ee3"},
+    {file = "docdeid-0.1.3-py3-none-any.whl", hash = "sha256:064ca6055efad13122ca27eecbbe21978cd2eb3d21bd787ff1dc1849f6b7360f"},
+    {file = "docdeid-0.1.3.tar.gz", hash = "sha256:3c4ec1eb1f76b8a54fb4fa96bb101d58a855d8906c25233f8ca62d793f40874c"},
 ]
 docformatter = [
     {file = "docformatter-1.5.0-py3-none-any.whl", hash = "sha256:ae56c64822c3184602ac83ec37650c9785e80dfec17b4eba4f49ad68815d71c0"},
@@ -1513,6 +1513,6 @@ wrapt = [
     {file = "wrapt-1.14.1.tar.gz", hash = "sha256:380a85cf89e0e69b7cfbe2ea9f765f004ff419f34194018a6827ac0e3edfed4d"},
 ]
 zipp = [
-    {file = "zipp-3.10.0-py3-none-any.whl", hash = "sha256:4fcb6f278987a6605757302a6e40e896257570d11c51628968ccb2a47e80c6c1"},
-    {file = "zipp-3.10.0.tar.gz", hash = "sha256:7a7262fd930bd3e36c50b9a64897aec3fafff3dfdeec9623ae22b40e93f99bb8"},
+    {file = "zipp-3.11.0-py3-none-any.whl", hash = "sha256:83a28fcb75844b5c0cdaf5aa4003c2d728c77e05f5aeabe8e95e56727005fbaa"},
+    {file = "zipp-3.11.0.tar.gz", hash = "sha256:a7a22e05929290a67401440b39690ae6563279bced5f314609d9d03798f56766"},
 ]
