@@ -53,7 +53,7 @@ class InterfixContextPattern(AnnotationContextPatternWithLookupSet):
         if (
             utils.any_in_text(["initia", "naam"], annotation.tag)
             and annotation.end_token.next().text in self._lookup_sets["interfixes"]
-            and annotation.end_token.next(2).text.istitle()
+            and annotation.end_token.next(2).text[0].isupper()
         ):
 
             return annotation.start_token, annotation.end_token.next(2)
@@ -71,12 +71,12 @@ class InitialsContextPattern(AnnotationContextPatternWithLookupSet):
     def match(self, annotation: dd.Annotation) -> Optional[tuple[dd.Token, dd.Token]]:
 
         previous_token_is_initial = (
-            len(annotation.start_token.previous().text) == 1 and annotation.start_token.previous().text.istitle()
+            len(annotation.start_token.previous().text) == 1 and annotation.start_token.previous().text[0].isupper()
         )
 
         previous_token_is_name = (
             annotation.start_token.previous().text != ""
-            and annotation.start_token.previous().text.istitle()
+            and annotation.start_token.previous().text[0].isupper()
             and annotation.start_token.previous().text not in self._lookup_sets["whitelist"]
             and annotation.start_token.previous().text.lower() not in self._lookup_sets["prefixes"]
         )
@@ -103,7 +103,7 @@ class InitialNameContextPattern(AnnotationContextPatternWithLookupSet):
         if (
             utils.any_in_text(["initia", "voornaam", "roepnaam", "prefix"], annotation.tag)
             and len(annotation.end_token.next().text) > 3
-            and annotation.end_token.next().text.istitle()
+            and annotation.end_token.next().text[0].isupper()
             and annotation.end_token.next().text not in self._lookup_sets["whitelist"]
         ):
 
@@ -121,7 +121,7 @@ class NexusContextPattern(AnnotationContextPattern):
 
     def match(self, annotation: dd.Annotation) -> Optional[tuple[dd.Token, dd.Token]]:
 
-        if annotation.end_token.next().text == "en" and annotation.end_token.next(2).text.istitle():
+        if annotation.end_token.next().text == "en" and annotation.end_token.next(2).text[0].isupper():
 
             return annotation.start_token, annotation.end_token.next(2)
 

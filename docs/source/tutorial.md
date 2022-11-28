@@ -21,17 +21,17 @@ The `Annotator` is responsible for tagging pieces of information in the text as 
 
 | **Group**       | **Annotator name**       | **Annotator type** | **Matches**                                                                                |
 |-----------------|--------------------------|--------------------|--------------------------------------------------------------------------------------------|
-| names           | prefix_with_name         | pattern            | A prefix followed by a titlecase word                                                      |
-|                 | interfix_with_name       | pattern            | An interfix followed by a titlecase word                                                   |
-|                 | initial_with_capital     | pattern            | An initial followed by a titlecase word                                                    |
-|                 | initial_interfix         | pattern            | An initial followed by an interfix and a titlecase word                                    |
+| names           | prefix_with_name         | pattern            | A prefix followed by a word starting with an uppercase                                     |
+|                 | interfix_with_name       | pattern            | An interfix followed by a word starting with an uppercase                                  |
+|                 | initial_with_capital     | pattern            | An initial followed by a word starting with an uppercase                                   |
+|                 | initial_interfix         | pattern            | An initial followed by an interfix and a word starting with an uppercase                   |
 |                 | first_name_lookup        | pattern            | A first name based on builtin lookup lists                                                 |
 |                 | surname_lookup           | pattern            | A surname based on builtin lookup lists                                                    |
 |                 | person_first_name        | pattern            | First name of the patient, based on metadata (fuzzy)                                       |
 |                 | person_initial_from_name | pattern            | Initial of patient, based on first names in metadata                                       |
 |                 | person_initials          | pattern            | Initials of patient, based on metadata                                                     |
 |                 | person_surname           | pattern            | Surname of patient, based on metadata (fuzzy)                                              |
-|                 | annotation_context       | context pattern    | Multiple based on context, e.g. an annotation of a name followed by another titlecase word |
+|                 | annotation_context       | context pattern    | Multiple based on context, e.g. an annotation of a name followed by another word starting with an uppercase |
 | institutions    | institution              | multi token lookup | Institutions, based on builtin lookup lists                                                |
 | locations       | residence                | multi token lookup | Residences, based on builtin lookup lists                                                  |
 |                 | street_with_number       | regexp             | Street names, with optionally a house number                                               |

@@ -42,8 +42,8 @@ class Person:
         if patient_first_names:
             patient_first_names_lst = patient_first_names.split(" ")
 
-            if patient_given_name:
-                patient_first_names_lst.append(patient_given_name)
+        if patient_given_name:
+            patient_first_names_lst.append(patient_given_name)
 
         return cls(
             first_names=patient_first_names_lst or None,
