@@ -98,7 +98,7 @@ class _BackwardsCompat:
         if urls:
             processors_enabled += ["urls", "email", "url_1", "url_2"]
 
-        processors_enabled += ["overlap_resolver", "merge_adjacent_annotations", "redactor"]
+        processors_enabled += ["post_processing", "overlap_resolver", "merge_adjacent_annotations", "redactor"]
 
         doc = cls.deduce_model.deidentify(text=text, processors_enabled=processors_enabled, metadata=metadata)
 
