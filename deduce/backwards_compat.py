@@ -53,11 +53,11 @@ class _BackwardsCompat:
             )
         }
 
-        processors_enabled = []
+        enabled = []
 
         if names:
-            processors_enabled += ["names"]
-            processors_enabled += [
+            enabled += ["names"]
+            enabled += [
                 "prefix_with_name",
                 "interfix_with_name",
                 "initial_with_capital",
@@ -69,13 +69,13 @@ class _BackwardsCompat:
                 "person_initials",
                 "person_surname",
             ]
-            processors_enabled += ["person_annotation_converter", "name_context"]
+            enabled += ["person_annotation_converter", "name_context"]
 
         if institutions:
-            processors_enabled += ["institutions", "institution", "altrecht"]
+            enabled += ["institutions", "institution", "altrecht"]
 
         if locations:
-            processors_enabled += [
+            enabled += [
                 "locations",
                 "residence",
                 "street_with_number",
@@ -84,23 +84,23 @@ class _BackwardsCompat:
             ]
 
         if phone_numbers:
-            processors_enabled += ["phone_numbers", "phone_1", "phone_2", "phone_3"]
+            enabled += ["phone_numbers", "phone_1", "phone_2", "phone_3"]
 
         if patient_numbers:
-            processors_enabled += ["patient_numbers", "patient_number"]
+            enabled += ["patient_numbers", "patient_number"]
 
         if dates:
-            processors_enabled += ["dates", "date_1", "date_2"]
+            enabled += ["dates", "date_1", "date_2"]
 
         if ages:
-            processors_enabled += ["ages", "age"]
+            enabled += ["ages", "age"]
 
         if urls:
-            processors_enabled += ["urls", "email", "url_1", "url_2"]
+            enabled += ["urls", "email", "url_1", "url_2"]
 
-        processors_enabled += ["overlap_resolver", "merge_adjacent_annotations", "redactor"]
+        enabled += ["post_processing", "overlap_resolver", "merge_adjacent_annotations", "redactor"]
 
-        doc = cls.deduce_model.deidentify(text=text, processors_enabled=processors_enabled, metadata=metadata)
+        doc = cls.deduce_model.deidentify(text=text, enabled=enabled, metadata=metadata)
 
         return doc
 

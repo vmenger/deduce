@@ -93,17 +93,20 @@ class Deduce(dd.DocDeid):
             {sort_by_attr: lambda x: -x} if not config["resolve_overlap_strategy"]["ascending"] else None
         )
 
-        self.processors.add_processor(
+        post_group = dd.process.DocProcessorGroup()
+        self.processors.add_processor("post_processing", post_group)
+
+        post_group.add_processor(
             "overlap_resolver",
             dd.process.OverlapResolver(sort_by=sort_by, sort_by_callbacks=sort_by_callbacks),
         )
 
-        self.processors.add_processor(
+        post_group.add_processor(
             "merge_adjacent_annotations",
             DeduceMergeAdjacentAnnotations(slack_regexp=config["adjacent_annotations_slack"]),
         )
 
-        self.processors.add_processor(
+        post_group.add_processor(
             "redactor",
             DeduceRedactor(open_char=config["redactor_open_char"], close_char=config["redactor_close_char"]),
         )

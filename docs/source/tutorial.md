@@ -54,26 +54,26 @@ It's possible to add, remove, apply subsets or implement custom annotators, thos
 
 In addition to annotators, a `docdeid` de-identifier contains annotation processors, which do some operation to the set of annotations generated previously, and redactors, which take the annotation and replace them in the text. Other processors included in `deduce` are listed below:
 
-| **Name**                       | **Description**                                                                                                                                                         |
-|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| overlap_resolver           | Makes sure overlap among annotations is resolved.  |
-| merge_adjacent_annotations | If there are any adjacent annotations with the same tag, they are merged into a single annotation.                                                                  |
-| redactor                   | Takes care of replacing the annotated PHIs with `<TAG>` (e.g. `<LOCATION-1>`, `<DATE-2>`)                                                                                 |
+| **Name**                   | **Group**       | **Description**                                                                                       |
+|----------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| overlap_resolver           | post_processing | Makes sure overlap among annotations is resolved.                                                     |
+| merge_adjacent_annotations | post_processing | If there are any adjacent annotations with the same tag, they are merged into a single annotation.    |
+| redactor                   | post_processing | Takes care of replacing the annotated PHIs with `<TAG>` (e.g. `<LOCATION-1>`, `<DATE-2>`)             |
 
 ### Lookup sets
 
 In order to match tokens to known idenitifiable words or concepts, `deduce` has the following builtin lookup sets:
 
-| **Name**              | **Size** | **Examples**                                         |
-|-------------------|------|--------------------------------------------------|
-| first_names       | 9010 | Laurentia, Janny, Chantall                       |
-| surnames          | 7767 | Bosland, Winkler, Lunenburg                      |
-| interfixes        | 274  | Bij 't, Onder 't, Bij de                         |
-| interfix_surnames | 1920 | Geldorp, Haaster, Overbeek                       |
-| prefixes          | 23   | ggn, mr, pt                                      |
-| whitelist         | 1176 | delen, temesta, lepel                            |
-| institutions      | 827  | slingeland ziekenhuis, slingeland zkh, maliebaan |
-| residences        | 2504 | Oude Wetering, Noordeinde, Jelsum                |
+| **Name**          | **Size** | **Examples**                                     |
+|-------------------|----------|--------------------------------------------------|
+| first_names       | 9010     | Laurentia, Janny, Chantall                       |
+| surnames          | 7767     | Bosland, Winkler, Lunenburg                      |
+| interfixes        | 274      | Bij 't, Onder 't, Bij de                         |
+| interfix_surnames | 1920     | Geldorp, Haaster, Overbeek                       |
+| prefixes          | 23       | ggn, mr, pt                                      |
+| whitelist         | 1176     | delen, temesta, lepel                            |
+| institutions      | 827      | slingeland ziekenhuis, slingeland zkh, maliebaan |
+| residences        | 2504     | Oude Wetering, Noordeinde, Jelsum                |
 
 ## Customizing deduce
 
@@ -91,35 +91,16 @@ deduce = Deduce(config_file="path/to/custom_config.json")
 
 Note that some more basic configuration options can be adjusted in the config file, however, more config options will be added in the future. 
 
-### Using `processors_enabled`
 
-If you only want to apply a subset of the existing annotators to a piece of text, it's possible to pass names of groups or individual annotators to the `processors_enabled` keyword. Note that in order to enable a specific annotator, you must also explicitly enable its group, as `processors_enabled` is applied from group to individual processor. For example, to annotate only e-mail addresses, use:
+### Using `disabled` keyword to disable components
 
-```python
-from deduce import Deduce
-
-deduce = Deduce()
-deduce.deidentify("text", processors_enabled={'urls', 'email'})
-```
-
-The following example however will apply **no annotators**, as the `email` annotator is enabled, but its' group `urls` is not: 
+It's possible to disable specific (groups of) annotators or processors when deidentifying a text. For example, to apply all annotators, except those in the dates group: 
 
 ```python
 from deduce import Deduce
 
 deduce = Deduce()
-deduce.deidentify("text", processors_enabled={'email'})
-```
-
-### Using `processors_disabled`
-
-Conversely, it's also possible to disable specific annotators. Here disabling at the group level is possible. For example, to apply all annotators, except those in the dates group: 
-
-```python
-from deduce import Deduce
-
-deduce = Deduce()
-deduce.deidentify(text, processors_disabled={'dates'})
+deduce.deidentify(text, disabled={'dates'})
 ```
 
 Or, to disable one specific URL annotator in the URLs group, but keeping the other URL patterns:
@@ -128,7 +109,34 @@ Or, to disable one specific URL annotator in the URLs group, but keeping the oth
 from deduce import Deduce
 
 deduce = Deduce()
-deduce.deidentify("text", processors_disabled={'urls_1'})
+deduce.deidentify("text", disabled={'urls_1'})
+```
+
+### Using `enabled` keyword
+
+Although it's also possible to _enable_ only some processors, this is only useful in a limited amount of cases. You must manually specify the groups, individual annotators, and postprocessors to have a sensible output. For example, to de-identify only e-mail addresses, use:
+
+```python
+from deduce import Deduce
+
+deduce = Deduce()
+deduce.deidentify("text", enabled={
+    'urls', # annotator group, with annotators:
+    'email', 
+    'post_processing', # post processing group, with processors:
+    'overlap_resolver',
+    'merge_adjacent_annotations',
+    'redactor'
+})
+```
+
+The following example however will apply **no annotators**, as the `email` annotator is enabled, but its' group `urls` is not: 
+
+```python
+from deduce import Deduce
+
+deduce = Deduce()
+deduce.deidentify("text", enabled={'email'})
 ```
 
 ### Implementing custom components

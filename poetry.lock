@@ -148,7 +148,7 @@ graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "docdeid"
-version = "0.1.3"
+version = "0.1.4"
 description = "Create your own document de-identifier using docdeid, a simple framework independent of language or domain."
 category = "main"
 optional = false
@@ -798,7 +798,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "723f5e78b511bc22e783d4ce6774855376c795559c2baf26854459d27c38cc1d"
+content-hash = "90323e85ede9ed76db9d4a0b041e2360ada8e6e6cb864f6d514e99e52675f0cb"
 
 [metadata.files]
 alabaster = [
@@ -917,8 +917,8 @@ dill = [
     {file = "dill-0.3.6.tar.gz", hash = "sha256:e5db55f3687856d8fbdab002ed78544e1c4559a130302693d839dfe8f93f2373"},
 ]
 docdeid = [
-    {file = "docdeid-0.1.3-py3-none-any.whl", hash = "sha256:064ca6055efad13122ca27eecbbe21978cd2eb3d21bd787ff1dc1849f6b7360f"},
-    {file = "docdeid-0.1.3.tar.gz", hash = "sha256:3c4ec1eb1f76b8a54fb4fa96bb101d58a855d8906c25233f8ca62d793f40874c"},
+    {file = "docdeid-0.1.4-py3-none-any.whl", hash = "sha256:b06ea77f5d6312c1baa2a3c8ea105269262d07a239a110e36da44a0f63c180f4"},
+    {file = "docdeid-0.1.4.tar.gz", hash = "sha256:8a5edf57e757990aa6bad9eb6b314cca4db6d3d999b02464ef4700e2984dc6b0"},
 ]
 docformatter = [
     {file = "docformatter-1.5.0-py3-none-any.whl", hash = "sha256:ae56c64822c3184602ac83ec37650c9785e80dfec17b4eba4f49ad68815d71c0"},
