@@ -117,6 +117,7 @@ As you can see, adding known names keeps references to `<PATIENT>` in text. It a
 ## Documentation
 
 A more extensive tutorial on using, configuring and modifying `deduce` is available at: [docs/tutorial](https://deduce.readthedocs.io/en/latest/tutorial.html) 
+
 Basic documentation and API are available at: [docs](https://deduce.readthedocs.io/en/latest/)
 
 ## Contributing
