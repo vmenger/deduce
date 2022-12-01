@@ -190,7 +190,7 @@ deduce.backwards_compat._BackwardsCompat.set_deduce_model(Deduce())
 deprecation_info = {
     "version": "2.0.0",
     "reason": "Please use Deduce().deidentify(text) instead. "
-              "See: https://deduce.readthedocs.io/en/latest/migrating.html",
+    "See: https://deduce.readthedocs.io/en/latest/migrating.html",
 }
 
 
