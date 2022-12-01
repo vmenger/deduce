@@ -79,7 +79,7 @@ AnnotationSet({
     )
 })
 
-print(doc.deidentifed_text)
+print(doc.deidentified_text)
 '<PERSOON-1>'
 ```
 
