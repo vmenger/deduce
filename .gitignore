@@ -64,6 +64,7 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
+*.lcov
 
 # Translations
 *.mo
@@ -120,4 +121,3 @@ ENV/
 .mypy_cache/
 
 .idea
-/docs/source/api/deduce.pattern.rst
