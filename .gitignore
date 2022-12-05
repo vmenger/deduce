@@ -11,6 +11,8 @@
 output/
 tests/local/
 
+# autodoc
+docs/source/api/ 
 ##############################################################################
 ##                                    Python                                ##
 ##############################################################################
@@ -62,6 +64,7 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
+*.lcov
 
 # Translations
 *.mo

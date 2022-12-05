@@ -55,14 +55,14 @@ It's possible to add, remove, apply subsets or implement custom annotators, thos
 In addition to annotators, a `docdeid` de-identifier contains annotation processors, which do some operation to the set of annotations generated previously, and redactors, which take the annotation and replace them in the text. Other processors included in `deduce` are listed below:
 
 | **Name**                   | **Group**       | **Description**                                                                                       |
-|----------------------------|-------------------------------------------------------------------------------------------------------------------------|
+|----------------------------|-----------------|-------------------------------------------------------------------------------------------------------|
 | overlap_resolver           | post_processing | Makes sure overlap among annotations is resolved.                                                     |
 | merge_adjacent_annotations | post_processing | If there are any adjacent annotations with the same tag, they are merged into a single annotation.    |
 | redactor                   | post_processing | Takes care of replacing the annotated PHIs with `<TAG>` (e.g. `<LOCATION-1>`, `<DATE-2>`)             |
 
 ### Lookup sets
 
-In order to match tokens to known idenitifiable words or concepts, `deduce` has the following builtin lookup sets:
+In order to match tokens to known identifiable words or concepts, `deduce` has the following builtin lookup sets:
 
 | **Name**          | **Size** | **Examples**                                     |
 |-------------------|----------|--------------------------------------------------|
@@ -141,9 +141,9 @@ deduce.deidentify("text", enabled={'email'})
 
 ### Implementing custom components
 
-It's possible and even recommended to implement the following custom components,  `Annotator`, `AnnotationProcessor`, `Redactor` and `Tokenizer`. This is done by implementing the abstract classes defined in the `docdeid` package, which is described here: [docdeid docs - docdeid components](https://docdeid.readthedocs.io/en/latest/tutorial.html#docdeid-components).
+It's possible to implement the following custom components,  `Annotator`, `AnnotationProcessor`, `Redactor` and `Tokenizer`. This is done by implementing the abstract classes defined in the `docdeid` package, which is described here: [docdeid docs - docdeid components](https://docdeid.readthedocs.io/en/latest/tutorial.html#docdeid-components).
 
-In our case, we can directly add or remove custom document processors by interacting with the `deduce.processors` attribute directly:
+In our case, we can add or remove custom document processors by interacting with the `deduce.processors` attribute directly:
 
 ```python
 from deduce import Deduce
@@ -161,7 +161,7 @@ deduce.processors.add_processor(
 ) 
 ```
 
-Note that by default, processors are applied in the order they are added to the pipeline. To prevent a new annotator being added after the redactor (meaning the annotations would not be redacted in the text), use the `position` keyword of the `add_processor` method, as in the example above.
+Note that by default, processors are applied in the order they are added to the pipeline. To prevent a new annotator being added after the `post_processing` group (meaning the annotations would not be redacted in the text), use the `position` keyword of the `add_processor` method, as in the example above.
 
 #### Changing tokenizer
 

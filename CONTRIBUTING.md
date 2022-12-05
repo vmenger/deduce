@@ -21,11 +21,6 @@ Before starting, some things to consider:
   * `make build-docs` builds the docs
   * `make clean-docs` removes docs build
 
-## Releasing
-* Readthedocs has a webhook connected to pushes on the main branch. It will trigger and update automatically. 
-* Create a [release on github](https://github.com/vmenger/docdeid/releases/new), create a tag with the right version, manually copy and paste from the changelog
-* Trigger the build pipeline manually to release to PyPi
-
 ## PR checlist
 
 * Verify that tests are passing
@@ -34,5 +29,10 @@ Before starting, some things to consider:
 * Run the linters (`make lint`) and check the output for anything preventable
 * Add a section to the changelog
 * Add a description to your PR
+
+## Releasing
+* Readthedocs has a webhook connected to pushes on the main branch. It will trigger and update automatically. 
+* Create a [release on github](https://github.com/vmenger/docdeid/releases/new), create a tag with the right version, manually copy and paste from the changelog
+* Trigger the build pipeline manually to release to PyPi
 
 Any other questions/issues not covered here? Please just get in touch!

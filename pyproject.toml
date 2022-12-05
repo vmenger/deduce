@@ -4,7 +4,7 @@ version = "2.0.0"
 description = "Deduce: de-identification method for Dutch medical text"
 authors = ["Vincent Menger <vmenger@protonmail.com>"]
 maintainers = ["Vincent Menger <vmenger@protonmail.com>"]
-license = "GNU LGPLv3"
+license = "LGPL-3.0-or-later"
 readme = "README.md"
 repository = "https://github.com/vmenger/deduce/"
 keywords = ["de-identification", "clinical text", "dutch", "nlp"]
@@ -42,7 +42,6 @@ flake8-annotations = "^2.9.1"
 pylint = "^2.15.4"
 isort = "^5.10.1"
 black = "^22.10.0"
-mypy = "^0.991"
 docformatter = "^1.5.0"
 
 
