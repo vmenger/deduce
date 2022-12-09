@@ -2,6 +2,8 @@ name: build
 
 on:
   workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
 
