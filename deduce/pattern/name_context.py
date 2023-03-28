@@ -45,11 +45,9 @@ class InterfixContextPattern(AnnotationContextPatternWithLookupSet):
     """Matches an annotated name or initial, followed by an interfix, followed by a titlecase word."""
 
     def annotation_precondition(self, annotation: dd.Annotation) -> bool:
-
         return annotation.end_token.next() is not None and annotation.end_token.next(2) is not None
 
     def match(self, annotation: dd.Annotation) -> Optional[tuple[dd.Token, dd.Token]]:
-
         if (
             utils.any_in_text(["initia", "naam"], annotation.tag)
             and annotation.end_token.next().text in self._lookup_sets["interfixes"]
@@ -65,11 +63,9 @@ class InitialsContextPattern(AnnotationContextPatternWithLookupSet):
     """Matches an annotated achternaam, interfix or initial, preceded by either an initial or a titlecase word."""
 
     def annotation_precondition(self, annotation: dd.Annotation) -> bool:
-
         return annotation.start_token.previous() is not None
 
     def match(self, annotation: dd.Annotation) -> Optional[tuple[dd.Token, dd.Token]]:
-
         previous_token_is_initial = (
             len(annotation.start_token.previous().text) == 1 and annotation.start_token.previous().text[0].isupper()
         )
@@ -95,11 +91,9 @@ class InitialNameContextPattern(AnnotationContextPatternWithLookupSet):
     characters."""
 
     def annotation_precondition(self, annotation: dd.Annotation) -> bool:
-
         return annotation.end_token.next() is not None
 
     def match(self, annotation: dd.Annotation) -> Optional[tuple[dd.Token, dd.Token]]:
-
         if (
             utils.any_in_text(["initia", "voornaam", "roepnaam", "prefix"], annotation.tag)
             and len(annotation.end_token.next().text) > 3
@@ -116,11 +110,9 @@ class NexusContextPattern(AnnotationContextPattern):
     """Matches any annotated name, followed by "en", followed by a titlecase word."""
 
     def annotation_precondition(self, annotation: dd.Annotation) -> bool:
-
         return annotation.end_token.next() is not None and annotation.end_token.next(2) is not None
 
     def match(self, annotation: dd.Annotation) -> Optional[tuple[dd.Token, dd.Token]]:
-
         if annotation.end_token.next().text == "en" and annotation.end_token.next(2).text[0].isupper():
 
             return annotation.start_token, annotation.end_token.next(2)

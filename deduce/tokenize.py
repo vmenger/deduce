@@ -18,7 +18,6 @@ class DeduceTokenizer(dd.Tokenizer):
     """
 
     def __init__(self, merge_terms: Optional[Iterable] = None) -> None:
-
         super().__init__()
 
         self._pattern = regex.compile(r"[\p{L}]+|[^\p{L}]+", flags=re.I | re.M)

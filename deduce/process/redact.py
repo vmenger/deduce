@@ -12,7 +12,6 @@ class DeduceRedactor(dd.process.SimpleRedactor):
     """
 
     def redact(self, text: str, annotations: dd.AnnotationSet) -> str:
-
         annotations_to_intext_replacement = {}
 
         for tag, annotation_group in self._group_annotations_by_tag(annotations).items():

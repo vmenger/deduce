@@ -12,7 +12,6 @@ text = (
 
 class TestDeduce:
     def test_annotate(self):
-
         deduce = Deduce()
         person = Person(first_names=["Jan"], surname="Jansen")
         doc = deduce.deidentify(text, metadata={"patient": person})
@@ -34,7 +33,6 @@ class TestDeduce:
         assert doc.annotations == set(expected_annotations)
 
     def test_deidentify(self):
-
         deduce = Deduce()
         person = Person(first_names=["Jan"], surname="Jansen")
         doc = deduce.deidentify(text, metadata={"patient": person})
@@ -48,7 +46,6 @@ class TestDeduce:
         assert doc.deidentified_text == expected_deidentified
 
     def test_annotate_intext(self):
-
         deduce = Deduce()
         person = Person(first_names=["Jan"], surname="Jansen")
         doc = deduce.deidentify(text, metadata={"patient": person})

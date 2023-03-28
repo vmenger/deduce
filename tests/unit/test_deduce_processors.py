@@ -31,7 +31,6 @@ def annotate_text(text: str, annotators: list[dd.process.Annotator]) -> dd.Annot
 
 class TestLookupAnnotators:
     def test_annotate_institution(self):
-
         print("config=", config)
 
         text = "Reinaerde, Universitair Medisch Centrum Utrecht, UMCU, Diakonessenhuis"
@@ -50,7 +49,6 @@ class TestLookupAnnotators:
         assert annotations == expected_annotations
 
     def test_annotate_residence(self):
-
         text = "Nieuwerkerk aan den IJssel, Soesterberg, Broekhuizen"
         annotator = get_annotator("residence", group="locations")
 
@@ -67,7 +65,6 @@ class TestLookupAnnotators:
 
 class TestRegexpAnnotators:
     def test_annotate_altrecht_regexp(self):
-
         text = "Altrecht Bipolair, altrecht Jong, Altrecht psychose"
         annotator = get_annotator("altrecht", group="institutions")
         expected_annotations = {
@@ -81,7 +78,6 @@ class TestRegexpAnnotators:
         assert annotations == expected_annotations
 
     def test_annotate_street_without_number(self):
-
         text = "I live in Havikstraat since my childhood"
         annotator = get_annotator("street_with_number", group="locations")
         expected_annotations = {dd.Annotation(text="Havikstraat", start_char=10, end_char=21, tag=annotator.tag)}
@@ -91,7 +87,6 @@ class TestRegexpAnnotators:
         assert annotations == expected_annotations
 
     def test_annotate_address_with_number(self):
-
         text = "I live in Havikstraat 43 since my childhood"
         annotator = get_annotator("street_with_number", group="locations")
         expected_annotations = {dd.Annotation(text="Havikstraat 43", start_char=10, end_char=24, tag="locatie")}
@@ -101,7 +96,6 @@ class TestRegexpAnnotators:
         assert annotations == expected_annotations
 
     def test_annotate_address_long_number(self):
-
         text = "I live in Havikstraat 4324598 since my childhood"
         annotator = get_annotator("street_with_number", group="locations")
         expected_annotations = {
@@ -118,7 +112,6 @@ class TestRegexpAnnotators:
         assert annotations == expected_annotations
 
     def test_annotate_postal_code(self):
-
         text = "1200ab, 1200mg, 1200MG, 1200AB"
 
         annotator = get_annotator("postal_code", group="locations")
@@ -132,7 +125,6 @@ class TestRegexpAnnotators:
         assert annotations == expected_annotations
 
     def test_annotate_postbus(self):
-
         text = "Postbus 12345, postbus 12345"
 
         annotator = get_annotator("postbus", group="locations")
@@ -146,7 +138,6 @@ class TestRegexpAnnotators:
         assert annotations == expected_annotations
 
     def test_annotate_phone_number(self):
-
         text = "088-7555555, 088-1309670"
 
         annotator = [
@@ -164,7 +155,6 @@ class TestRegexpAnnotators:
         assert annotations == expected_annotations
 
     def test_annotate_patient_number(self):
-
         text = "1348438, 458, 4584358"
 
         annotator = get_annotator("patient_number", group="patient_numbers")
@@ -178,7 +168,6 @@ class TestRegexpAnnotators:
         assert annotations == expected_annotations
 
     def test_annotate_date(self):
-
         text = "26-10, 24 april, 1 mei"
 
         annotator = [get_annotator("date_1", group="dates"), get_annotator("date_2", group="dates")]
@@ -193,7 +182,6 @@ class TestRegexpAnnotators:
         assert annotations == expected_annotations
 
     def test_annotate_age(self):
-
         text = "14 jaar oud, 14-jarige, 14 jarig"
 
         annotator = get_annotator("age", group="ages")
@@ -208,7 +196,6 @@ class TestRegexpAnnotators:
         assert annotations == expected_annotations
 
     def test_annotate_email(self):
-
         text = "email@voorbeeld.nl, jan_jansen@gmail.com, info@umcutrecht.nl"
 
         annotator = get_annotator("email", group="urls")
@@ -223,7 +210,6 @@ class TestRegexpAnnotators:
         assert annotations == expected_annotations
 
     def test_annotate_url(self):
-
         text = (
             "www.umcutrecht.nl, "
             "https://packaging.pypi.org, "

@@ -67,7 +67,6 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
         )
 
     def process_annotations(self, annotations: dd.AnnotationSet, text: str) -> dd.AnnotationSet:
-
         new_annotations = self._overlap_resolver.process_annotations(annotations, text=text)
 
         return dd.AnnotationSet(

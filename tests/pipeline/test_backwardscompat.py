@@ -17,7 +17,6 @@ text = (
 
 class TestBackwardsCompat:
     def test_annotate_text(self):
-
         annotated = annotate_text(text, patient_first_names="Jan", patient_surname="Jansen")
 
         expected_annotated = (
@@ -30,7 +29,6 @@ class TestBackwardsCompat:
         assert annotated == expected_annotated
 
     def test_annotate_text_structured(self):
-
         annotations = annotate_text_structured(text, patient_first_names="Jan", patient_surname="Jansen")
 
         expected_annotations = [
@@ -48,7 +46,6 @@ class TestBackwardsCompat:
         assert set(annotations) == set(expected_annotations)
 
     def test_deidentify_annotations(self):
-
         annotated = annotate_text(text, patient_first_names="Jan", patient_surname="Jansen")
         deidentified = deidentify_annotations(annotated)
 

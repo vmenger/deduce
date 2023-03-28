@@ -15,7 +15,6 @@ from deduce.person import Person
 
 
 class _BackwardsCompat:
-
     deduce_model = None
 
     @classmethod

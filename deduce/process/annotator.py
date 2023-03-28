@@ -107,7 +107,6 @@ class AnnotationContextPatternAnnotator(dd.process.Annotator):
         return next_annotations
 
     def annotate(self, doc: dd.Document) -> list[dd.Annotation]:
-
         context_annotations = self.get_matching_tag_annotations(list(doc.annotations))
         doc.annotations.difference_update(context_annotations)
 

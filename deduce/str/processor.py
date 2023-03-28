@@ -23,7 +23,6 @@ class RemoveValues(StringModifier):
         self.filter_values = filter_values
 
     def process(self, item: str) -> str:
-
         for filter_value in self.filter_values:
 
             item = re.sub(
@@ -49,7 +48,6 @@ class Acronimify(StringModifier):
         self.join_value = join_value
 
     def process(self, item: str) -> str:
-
         item_split = item.split(self.split_value)
 
         return self.join_value.join(x[0] for x in item_split)
@@ -65,12 +63,10 @@ class FilterBasedOnLookupSet(StringFilter):
     """
 
     def __init__(self, filter_set: dd.ds.LookupSet, case_sensitive: bool = True) -> None:
-
         matching_pipeline = None if case_sensitive else [LowercaseString()]
 
         self.filter_set = dd.ds.LookupSet(matching_pipeline=matching_pipeline)
         self.filter_set.add_items_from_iterable(filter_set)
 
     def filter(self, item: str) -> bool:
-
         return item not in self.filter_set
