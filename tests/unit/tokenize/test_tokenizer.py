@@ -28,7 +28,6 @@ def tokens():
 
 class TestTokenizer:
     def test_split_text_no_merge(self):
-
         tokenizer = DeduceTokenizer()
         text = "Pieter van der Zee"
         expected_tokens = [
@@ -44,7 +43,6 @@ class TestTokenizer:
         assert tokenizer._split_text(text=text) == expected_tokens
 
     def test_split_with_merge(self):
-
         tokenizer = DeduceTokenizer(merge_terms=["van der"])
         text = "Pieter van der Zee"
         expected_tokens = [
@@ -58,7 +56,6 @@ class TestTokenizer:
         assert tokenizer._split_text(text=text) == expected_tokens
 
     def test_next_token(self, tokens):
-
         tokenizer = DeduceTokenizer()
 
         assert tokenizer._next_token(0, tokens) is tokens[2]
@@ -70,7 +67,6 @@ class TestTokenizer:
         assert tokenizer._next_token(15, tokens) is None
 
     def test_previous_token(self, tokens):
-
         tokenizer = DeduceTokenizer()
         assert tokenizer._previous_token(0, tokens) is None
         assert tokenizer._previous_token(1, tokens) == tokens[0]
@@ -80,7 +76,6 @@ class TestTokenizer:
         assert tokenizer._previous_token(10, tokens) is tokens[9]
 
     def test_join_tokens(self, tokens):
-
         joined_token = DeduceTokenizer()._join_tokens(tokens[0:7])
         expected_token = dd.Token(text="Patient was eerder opgenomen", start_char=0, end_char=28)
 

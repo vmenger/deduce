@@ -33,6 +33,6 @@ Before starting, some things to consider:
 ## Releasing
 * Readthedocs has a webhook connected to pushes on the main branch. It will trigger and update automatically. 
 * Create a [release on github](https://github.com/vmenger/docdeid/releases/new), create a tag with the right version, manually copy and paste from the changelog
-* Trigger the build pipeline manually to release to PyPi
+* Build pipeline and release to PyPi trigger automatically on release
 
 Any other questions/issues not covered here? Please just get in touch!

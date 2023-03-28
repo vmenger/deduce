@@ -3,7 +3,6 @@ from deduce.utils import any_in_text, str_match
 
 class TestUtils:
     def test_any_in_text(self):
-
         assert any_in_text(["hans", "piet", "karel"], "ik heet hans")
         assert any_in_text(["hans", "piet", "karel"], "ik heet piet")
         assert any_in_text(["hans", "piet", "karel"], "ik heet karel")
@@ -13,14 +12,12 @@ class TestUtils:
         assert any_in_text(["hans", "piet", "karel"], "mijn oom heet pieter")
 
     def test_str_match(self):
-
         assert str_match("a", "a")
         assert str_match("willem", "willem")
         assert not str_match("a", "b")
         assert not str_match("willem", "klaas")
 
     def test_str_match_fuzzy(self):
-
         assert str_match("a", "a", max_edit_distance=1)
         assert str_match("willem", "willem", max_edit_distance=1)
         assert str_match("willem", "illem", max_edit_distance=1)

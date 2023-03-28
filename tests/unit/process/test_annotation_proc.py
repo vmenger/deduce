@@ -8,7 +8,6 @@ from deduce.process.annotation_processing import (
 
 class TestDeduceMergeAdjacent:
     def test_tags_match(self):
-
         proc = DeduceMergeAdjacentAnnotations()
 
         assert proc._tags_match("a", "a")
@@ -25,7 +24,6 @@ class TestDeduceMergeAdjacent:
         assert not proc._tags_match("huisnummer", "persoon")
 
     def test_annotation_replacement_equal_tags(self):
-
         proc = DeduceMergeAdjacentAnnotations()
         text = "Jan Jansen"
         left_annotation = dd.Annotation(text="Jan", start_char=0, end_char=3, tag="naam")
@@ -35,7 +33,6 @@ class TestDeduceMergeAdjacent:
         assert proc._adjacent_annotations_replacement(left_annotation, right_annotation, text) == expected_annotation
 
     def test_annotation_replacement_unequal_tags(self):
-
         proc = DeduceMergeAdjacentAnnotations()
         text = "Jan Jansen"
         left_annotation = dd.Annotation(text="Jan", start_char=0, end_char=3, tag="voornaam_patient")
@@ -47,7 +44,6 @@ class TestDeduceMergeAdjacent:
 
 class TestPersonAnnotationConverter:
     def test_patient_no_overlap(self):
-
         proc = PersonAnnotationConverter()
         text = "Jan Jansen"
 
@@ -68,7 +64,6 @@ class TestPersonAnnotationConverter:
         assert proc.process_annotations(annotations, text) == expected_annotations
 
     def test_patient_with_overlap(self):
-
         proc = PersonAnnotationConverter()
         text = "Jan Jansen"
 
@@ -86,7 +81,6 @@ class TestPersonAnnotationConverter:
         assert proc.process_annotations(annotations, text) == expected_annotations
 
     def test_mixed_no_overlap(self):
-
         proc = PersonAnnotationConverter()
         text = "Jan Jansen"
 
@@ -107,7 +101,6 @@ class TestPersonAnnotationConverter:
         assert proc.process_annotations(annotations, text) == expected_annotations
 
     def test_mixed_with_overlap(self):
-
         proc = PersonAnnotationConverter()
         text = "Jan Jansen"
 

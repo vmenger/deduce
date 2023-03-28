@@ -116,7 +116,6 @@ class _AnnotatorFactory:
     """Responsible for creating annotators, based on config."""
 
     def __init__(self) -> None:
-
         self.annotator_creators = {
             "token_pattern": self._get_token_pattern_annotator,
             "annotation_context": self._get_annotation_context_pattern_annotator,

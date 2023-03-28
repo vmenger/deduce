@@ -10,12 +10,10 @@ class PersonFirstNamePattern(dd.TokenPattern):
     metadata, with a max edit distance of 1."""
 
     def doc_precondition(self, doc: dd.Document) -> bool:
-
         patient = doc.metadata["patient"]
         return (patient is not None) and (patient.first_names is not None)
 
     def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
-
         for first_name in metadata["patient"].first_names:
 
             if str_match(token.text, first_name) or (
@@ -36,12 +34,10 @@ class PersonInitialFromNamePattern(dd.TokenPattern):
     """
 
     def doc_precondition(self, doc: dd.Document) -> bool:
-
         patient = doc.metadata["patient"]
         return (patient is not None) and (patient.first_names is not None)
 
     def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
-
         for _, first_name in enumerate(metadata["patient"].first_names):
 
             if str_match(token.text, first_name[0]):
@@ -60,12 +56,10 @@ class PersonInitialsPattern(dd.TokenPattern):
     """Matches the patients initials, as defined in the "patient" Person in the document metadata."""
 
     def doc_precondition(self, doc: dd.Document) -> bool:
-
         patient = doc.metadata["patient"]
         return (patient is not None) and (patient.initials is not None)
 
     def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
-
         if str_match(token.text, metadata["patient"].initials):
             return token, token
 
@@ -85,7 +79,6 @@ class PersonSurnamePattern(dd.TokenPattern):
         super().__init__(*args, **kwargs)
 
     def doc_precondition(self, doc: dd.Document) -> bool:
-
         patient = doc.metadata["patient"]
 
         if (patient is None) or (patient.surname is None):
@@ -96,7 +89,6 @@ class PersonSurnamePattern(dd.TokenPattern):
         return True
 
     def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
-
         surname_pattern = metadata["surname_pattern"]
         surname_token = surname_pattern[0]
         start_token = token

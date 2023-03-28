@@ -18,7 +18,6 @@ class ExtendCapitalContextPattern(AnnotationContextPattern):
 
 class TestContextPatternsAnnotator:
     def test_tags(self):
-
         annotations = [
             dd.Annotation(text="_", start_char=0, end_char=1, tag="voornaam"),
             dd.Annotation(text="_", start_char=0, end_char=1, tag="achternaam"),
@@ -33,7 +32,6 @@ class TestContextPatternsAnnotator:
         assert dd.AnnotationSet(annotator.get_matching_tag_annotations(list(input_annotations))) == expected_annotations
 
     def test_tags_none(self):
-
         annotations = [
             dd.Annotation(text="_", start_char=0, end_char=1, tag="voornaam"),
             dd.Annotation(text="_", start_char=0, end_char=1, tag="achternaam"),
@@ -47,7 +45,6 @@ class TestContextPatternsAnnotator:
         assert dd.AnnotationSet(annotator.get_matching_tag_annotations(list(input_annotations))) == input_annotations
 
     def test_annotate(self):
-
         annotations_input = [
             dd.Annotation(text="_", start_char=0, end_char=1, tag="voornaam"),
             dd.Annotation(text="_", start_char=0, end_char=1, tag="achternaam"),
@@ -75,7 +72,6 @@ class TestContextPatternsAnnotator:
 
     @patch("deduce.pattern.name_context.AnnotationContextPattern.__abstractmethods__", set())
     def test_doc_precondition(self):
-
         pattern1 = AnnotationContextPattern(tag="_")
         pattern2 = AnnotationContextPattern(tag="_")
         annotator = AnnotationContextPatternAnnotator(context_patterns=[pattern1, pattern2])
@@ -95,7 +91,6 @@ class TestContextPatternsAnnotator:
 
     @patch("deduce.pattern.name_context.AnnotationContextPattern.__abstractmethods__", set())
     def test_annotation_precondition(self):
-
         pattern1 = AnnotationContextPattern(tag="_")
         annotator = AnnotationContextPatternAnnotator(context_patterns=[pattern1])
         doc = dd.Document(text="_")
@@ -116,7 +111,6 @@ class TestContextPatternsAnnotator:
             assert p1_match.call_count == 1
 
     def test_annotate_context(self):
-
         annotator = AnnotationContextPatternAnnotator(
             context_patterns=[ExtendCapitalContextPattern(tag="{tag}+hoofdletter")], iterative=False
         )
@@ -156,7 +150,6 @@ class TestContextPatternsAnnotator:
         assert dd.AnnotationSet(context_annotations) == expected_annotations
 
     def test_annotate_context_iterative(self):
-
         annotator = AnnotationContextPatternAnnotator(
             context_patterns=[ExtendCapitalContextPattern(tag="{tag}+hoofdletter")], iterative=True
         )
@@ -196,7 +189,6 @@ class TestContextPatternsAnnotator:
         assert dd.AnnotationSet(context_annotations) == expected_annotations
 
     def test_annotate_context_multiple(self):
-
         annotator = AnnotationContextPatternAnnotator(
             context_patterns=[ExtendCapitalContextPattern(tag="{tag}+hoofdletter")], iterative=False
         )

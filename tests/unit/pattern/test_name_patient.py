@@ -14,7 +14,6 @@ from tests.helpers import linked_tokens
 
 
 class TestPersonFirstNamePattern:
-
     pattern = PersonFirstNamePattern(tag="_")
 
     def test_match_first_name_multiple(self):
@@ -38,11 +37,9 @@ class TestPersonFirstNamePattern:
 
 
 class TestPersonInitialFromNamePattern:
-
     pattern = PersonInitialFromNamePattern(tag="_")
 
     def test_match(self):
-
         metadata = {"patient": Person(first_names=["Jan", "Adriaan"])}
 
         tokens = linked_tokens(["A", "J"])
@@ -51,7 +48,6 @@ class TestPersonInitialFromNamePattern:
         assert self.pattern.match(tokens[1], metadata=metadata) == (tokens[1], tokens[1])
 
     def test_match_with_period(self):
-
         metadata = {"patient": Person(first_names=["Jan", "Adriaan"])}
         tokens = linked_tokens(["J", ".", "A", "."])
 
@@ -59,7 +55,6 @@ class TestPersonInitialFromNamePattern:
         assert self.pattern.match(tokens[2], metadata=metadata) == (tokens[2], tokens[3])
 
     def test_no_match(self):
-
         metadata = {"patient": Person(first_names=["Jan", "Adriaan"])}
         tokens = linked_tokens(["F", "T"])
 
@@ -68,11 +63,9 @@ class TestPersonInitialFromNamePattern:
 
 
 class TestPersonInitialsPattern:
-
     pattern = PersonInitialsPattern(tag="_")
 
     def test_match(self):
-
         metadata = {"patient": Person(initials="AFTH")}
         tokens = linked_tokens(["AFTH", "THFA"])
 
@@ -81,7 +74,6 @@ class TestPersonInitialsPattern:
 
 
 class TestPersonSurnamePattern:
-
     surname = "Van der Heide-Ginkel"
     surname_pattern = linked_tokens(["Van der", "Heide", "-", "Ginkel"])
 
@@ -91,7 +83,6 @@ class TestPersonSurnamePattern:
     pattern = PersonSurnamePattern(tokenizer=tokenizer, tag="_")
 
     def test_doc_precondition(self):
-
         metadata = {"patient": Person(surname=self.surname)}
         doc = dd.Document(text="_", metadata=metadata)
         self.pattern.doc_precondition(doc)
@@ -99,35 +90,30 @@ class TestPersonSurnamePattern:
         assert metadata["surname_pattern"] == self.surname_pattern
 
     def test_match_equal(self):
-
         metadata = {"surname_pattern": self.surname_pattern}
         tokens = linked_tokens(["Van der", "Heide", "-", "Ginkel", "is", "de", "naam"])
 
         assert self.pattern.match(tokens[0], metadata=metadata) == (tokens[0], tokens[3])
 
     def test_match_longer_than_tokens(self):
-
         metadata = {"surname_pattern": self.surname_pattern}
         tokens = linked_tokens(["Van der", "Heide"])
 
         assert self.pattern.match(tokens[0], metadata=metadata) is None
 
     def test_match_fuzzy(self):
-
         metadata = {"surname_pattern": self.surname_pattern}
         tokens = linked_tokens(["Van der", "Heijde", "-", "Ginkle", "is", "de", "naam"])
 
         assert self.pattern.match(tokens[0], metadata=metadata) == (tokens[0], tokens[3])
 
     def test_match_unequal_first(self):
-
         metadata = {"surname_pattern": self.surname_pattern}
         tokens = linked_tokens(["v/der", "Heide", "-", "Ginkel", "is", "de", "naam"])
 
         assert self.pattern.match(tokens[0], metadata=metadata) is None
 
     def test_match_unequal_first_fuzzy(self):
-
         metadata = {"surname_pattern": self.surname_pattern}
         tokens = linked_tokens(["Van den", "Heide", "-", "Ginkel", "is", "de", "naam"])
 

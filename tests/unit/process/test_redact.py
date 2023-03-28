@@ -5,7 +5,6 @@ from deduce.process.redact import DeduceRedactor
 
 class TestDeduceRedactor:
     def test_redact_patient(self):
-
         proc = DeduceRedactor()
         text = "Jan Jansen"
 
@@ -21,7 +20,6 @@ class TestDeduceRedactor:
         assert proc.redact(text, annotations) == expected_text
 
     def test_redact_mixed(self):
-
         proc = DeduceRedactor()
         text = "Jan Jansen, wonende in Rotterdam"
 
@@ -37,7 +35,6 @@ class TestDeduceRedactor:
         assert proc.redact(text, annotations) == expected_text
 
     def test_redact_count_multiple(self):
-
         proc = DeduceRedactor()
         text = "Jan Jansen, wonende in Rotterdam, verhuisd vanuit Groningen"
 
@@ -53,7 +50,6 @@ class TestDeduceRedactor:
         assert proc.redact(text, annotations) == expected_text
 
     def test_redact_count_multiple_fuzzy(self):
-
         proc = DeduceRedactor()
         text = "Jan Jansen, wonende in Ommen, verhuisd vanuit Emmen"
 
