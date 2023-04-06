@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "deduce"
-version = "2.0.2"
+version = "2.0.3"
 description = "Deduce: de-identification method for Dutch medical text"
 authors = ["Vincent Menger <vmenger@protonmail.com>"]
 maintainers = ["Vincent Menger <vmenger@protonmail.com>"]
