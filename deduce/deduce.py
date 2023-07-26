@@ -17,7 +17,7 @@ from deduce.process.annotation_processing import (
 )
 from deduce.process.annotator import AnnotationContextPatternAnnotator
 from deduce.process.redact import DeduceRedactor
-from deduce.tokenize import DeduceTokenizer
+from deduce.tokenizer import DeduceTokenizer
 
 warnings.simplefilter(action="once")
 
