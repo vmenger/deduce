@@ -28,6 +28,7 @@ The development, principles and validation of `deduce` were initially described 
 * Patient numbers
 * Telephone numbers
 * E-mail addresses and URLs
+* BSN numbers
 
 If you use `deduce`, please cite the following paper:  
 

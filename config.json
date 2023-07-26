@@ -291,6 +291,15 @@
                 "regexp_pattern": "([\\w\\d.-]{3,}(\\.)(nl|com|net|be)(/[^\\s]+)?)",
                 "tag": "url"
             }
+        },
+        "bsn": {
+            "annotator_type": "custom",
+            "group": "bsn",
+            "args": {
+                "module": "deduce.process.annotator",
+                "class": "BsnAnnotator",
+                "tag": "bsn"
+            }
         }
     }
 }

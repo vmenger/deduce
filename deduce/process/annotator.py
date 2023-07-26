@@ -1,6 +1,8 @@
+import re
 from typing import Optional
 
 import docdeid as dd
+from docdeid import Annotation, Document
 
 import deduce.utils
 from deduce.pattern.name_context import AnnotationContextPattern
@@ -111,3 +113,35 @@ class AnnotationContextPatternAnnotator(dd.process.Annotator):
         doc.annotations.difference_update(context_annotations)
 
         return self._annotate_context(context_annotations, doc)
+
+
+class BsnAnnotator(dd.process.Annotator):
+    @staticmethod
+    def _elfproef(bsn: str):
+
+        if len(bsn) != 9 or (any(not ch.isdigit() for ch in bsn)):
+            raise ValueError("Elfproef for testing BSN can only be applied to strings with 9 digits.")
+
+        total = 0
+
+        for ch, factor in zip(bsn, [9, 8, 7, 6, 5, 4, 3, 2, -1]):
+            total += int(ch) * factor
+
+        return total % 11 == 0
+
+    def annotate(self, doc: Document) -> list[Annotation]:
+
+        bsn_regexp = re.compile(r"(\D|^)(\d{9})(\D|$)")
+        capt_group = 2
+
+        annotations = []
+
+        for match in bsn_regexp.finditer(doc.text):
+
+            text = match.group(capt_group)
+            start, end = match.span(capt_group)
+
+            if self._elfproef(text):
+                annotations.append(Annotation(text=text, start_char=start, end_char=end, tag=self.tag))
+
+        return annotations

@@ -47,6 +47,8 @@ The `Annotator` is responsible for tagging pieces of information in the text as 
 | urls            | email                    | regexp             | E-mail addresses                                                                           |
 |                 | url_1                    | regexp             | URLs (pattern 1)                                                                           |
 |                 | url_2                    | regexp             | URLs (pattern 2)                                                                           |
+| bsn             | bsn                      | custom             | BSN-numbers (9 digits + specific 'elfproef')                                               |
+
 
 It's possible to add, remove, apply subsets or implement custom annotators, those options are described further down under [customizing deduce](#customizing-deduce). 
 
@@ -203,4 +205,3 @@ deduce.initialize_doc_processors()
 ```
 
 After making changes to `lookup_sets`, it's important to call `Deduce.initialize_doc_processors`, so that the changes get picked up by the annotators. Full documentation on lookup sets and how to modify them is available in the [docdeid API](https://docdeid.readthedocs.io/en/latest/api/docdeid.ds.html#docdeid.ds.lookup.LookupSet).
-

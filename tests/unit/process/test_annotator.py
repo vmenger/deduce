@@ -1,10 +1,21 @@
 from unittest.mock import patch
 
 import docdeid as dd
+import pytest
 
 from deduce.pattern.name_context import AnnotationContextPattern
-from deduce.process.annotator import AnnotationContextPatternAnnotator
+from deduce.process.annotator import AnnotationContextPatternAnnotator, BsnAnnotator
 from tests.helpers import link_tokens
+
+
+@pytest.fixture
+def bsn_doc():
+
+    d = dd.DocDeid()
+
+    return d.deidentify(
+        text="Geldige voorbeelden zijn: 111222333 en 123456782. " "Patientnummer is 01234, en ander id 01234567890."
+    )
 
 
 class ExtendCapitalContextPattern(AnnotationContextPattern):
@@ -242,3 +253,40 @@ class TestContextPatternsAnnotator:
         context_annotations = annotator._annotate_context(list(doc.annotations), doc)
 
         assert dd.AnnotationSet(context_annotations) == expected_annotations
+
+
+class TestBsnAnnotator:
+    def test_elfproef(self):
+
+        an = BsnAnnotator(tag="_")
+
+        assert an._elfproef("111222333")
+        assert not an._elfproef("111222334")
+        assert an._elfproef("123456782")
+        assert not an._elfproef("123456783")
+
+    def test_elfproef_wrong_length(self):
+
+        an = BsnAnnotator(tag="_")
+
+        with pytest.raises(ValueError):
+            an._elfproef("12345678")
+
+    def test_elfproef_non_numeric(self):
+
+        an = BsnAnnotator(tag="_")
+
+        with pytest.raises(ValueError):
+            an._elfproef("test")
+
+    def test_annotate(self, bsn_doc):
+
+        an = BsnAnnotator(tag="_")
+        annotations = an.annotate(bsn_doc)
+
+        expected_annotations = [
+            dd.Annotation(text="111222333", start_char=26, end_char=35, tag="_"),
+            dd.Annotation(text="123456782", start_char=39, end_char=48, tag="_"),
+        ]
+
+        assert annotations == expected_annotations

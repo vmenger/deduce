@@ -2,9 +2,8 @@ import json
 import os
 import re
 from pathlib import Path
-from typing import Any, Optional
+from typing import Optional
 
-import deprecated
 import docdeid as dd
 
 from deduce import utils
@@ -13,7 +12,7 @@ from deduce.process.annotation_processing import (
     DeduceMergeAdjacentAnnotations,
     PersonAnnotationConverter,
 )
-from deduce.process.annotator import AnnotationContextPatternAnnotator
+from deduce.process.annotator import AnnotationContextPatternAnnotator, BsnAnnotator
 from deduce.process.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
 
@@ -117,6 +116,7 @@ class _AnnotatorFactory:
             "annotation_context": self._get_annotation_context_pattern_annotator,
             "regexp": self._get_regexp_annotator,
             "multi_token": self._get_multi_token_annotator,
+            "custom": self._get_custom_annotator,
         }
 
     @staticmethod
@@ -145,6 +145,11 @@ class _AnnotatorFactory:
         args["tokenizer"] = DeduceTokenizer()
 
         return dd.process.MultiTokenLookupAnnotator(**args)
+
+    @staticmethod
+    def _get_custom_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+
+        return utils.import_and_initialize(args=args, extras=extras)
 
     def get_annotators(self, annotator_cnfg: dict, extras: dict) -> dd.process.DocProcessorGroup:
         """
