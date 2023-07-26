@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - updated dependencies
 
+### Deprecated
+- backwards compatibility, which was temporary to transition from v1 to v2
+
 ## 2.0.3 (2023-04-06)
 
 ### Fixed

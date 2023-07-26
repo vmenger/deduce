@@ -1,14 +1,12 @@
 import json
 import os
 import re
-import warnings
 from pathlib import Path
 from typing import Any, Optional
 
 import deprecated
 import docdeid as dd
 
-import deduce.backwards_compat
 from deduce import utils
 from deduce.lookup_sets import get_lookup_sets
 from deduce.process.annotation_processing import (
@@ -18,8 +16,6 @@ from deduce.process.annotation_processing import (
 from deduce.process.annotator import AnnotationContextPatternAnnotator
 from deduce.process.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
-
-warnings.simplefilter(action="once")
 
 
 class Deduce(dd.DocDeid):
@@ -182,30 +178,3 @@ class _AnnotatorFactory:
             group.add_processor(annotator_name, annotator)
 
         return annotators
-
-
-# Backwards compatibility stuff beneath this line.
-deduce.backwards_compat._BackwardsCompat.set_deduce_model(Deduce())
-deprecation_info = {
-    "version": "2.0.0",
-    "reason": "Please use Deduce().deidentify(text) instead. "
-    "See: https://deduce.readthedocs.io/en/latest/migrating.html",
-}
-
-
-@deprecated.deprecated(**deprecation_info)
-def annotate_text(*args, **kwargs) -> Any:
-    """Backwards compatibility function for annotating text."""
-    return deduce.backwards_compat.annotate_text_backwardscompat(*args, **kwargs)
-
-
-@deprecated.deprecated(**deprecation_info)
-def annotate_text_structured(*args, **kwargs) -> Any:
-    """Backwards compatibility function for annotating text structured."""
-    return deduce.backwards_compat.annotate_text_structured_backwardscompat(*args, **kwargs)
-
-
-@deprecated.deprecated(**deprecation_info)
-def deidentify_annotations(*args, **kwargs) -> Any:
-    """Backwards compatibility function for deidentifying annotations."""
-    return deduce.backwards_compat.deidentify_annotations_backwardscompat(*args, **kwargs)
