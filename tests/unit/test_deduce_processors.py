@@ -4,7 +4,7 @@ import docdeid as dd
 
 from deduce.deduce import Deduce
 from deduce.lookup_sets import get_lookup_sets
-from deduce.tokenize import DeduceTokenizer
+from deduce.tokenizer import DeduceTokenizer
 
 config = Deduce._initialize_config()
 lookup_sets = get_lookup_sets()
