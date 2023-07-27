@@ -40,7 +40,7 @@ The `Annotator` is responsible for tagging pieces of information in the text as 
 | phone_numbers   | phone_1                  | regexp             | Phone numbers (pattern 1)                                                                  |
 |                 | phone_2                  | regexp             | Phone numbers (pattern 2)                                                                  |
 |                 | phone_3                  | regexp             | Phone numbers (pattern 3)                                                                  |
-| patient_numbers | patient_number           | regexp             | Patient identifiers (7 digits)                                                             |
+| identifiers     | identifier               | regexp             | Identifiers (7+ digit numbers)                                                             |
 | dates           | date_1                   | regexp             | Dates (pattern 1)                                                                          |
 |                 | date_2                   | regexp             | Dates (pattern 2)                                                                          |
 | ages            | age                      | regexp             | Ages                                                                                       |

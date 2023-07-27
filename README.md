@@ -25,10 +25,9 @@ The development, principles and validation of `deduce` were initially described 
 * Names of institutions that are related to patient treatment
 * Dates
 * Ages
-* Patient numbers
+* Identifiers (patient identifiers, BSN, AGB)
 * Telephone numbers
 * E-mail addresses and URLs
-* BSN numbers
 
 If you use `deduce`, please cite the following paper:  
 
