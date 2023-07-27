@@ -233,14 +233,6 @@
                 "tag": "telefoonnummer"
             }
         },
-        "patient_number": {
-            "annotator_type": "regexp",
-            "group": "patient_numbers",
-            "args": {
-                "regexp_pattern": "\\d{7}",
-                "tag": "patientnummer"
-            }
-        },
         "date_1": {
             "annotator_type": "regexp",
             "group": "dates",
@@ -257,6 +249,14 @@
                 "regexp_pattern": "(\\d{1,2}[^\\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)([- /.]{,2}(\\d{4}|\\d{2}))?)(\\D|$)",
                 "tag": "datum",
                 "capturing_group": 1
+            }
+        },
+        "identifier": {
+            "annotator_type": "regexp",
+            "group": "identifiers",
+            "args": {
+                "regexp_pattern": "\\d{7,}",
+                "tag": "id",
             }
         },
         "age": {
@@ -292,14 +292,5 @@
                 "tag": "url"
             }
         },
-        "bsn": {
-            "annotator_type": "custom",
-            "group": "bsn",
-            "args": {
-                "module": "deduce.process.annotator",
-                "class": "BsnAnnotator",
-                "tag": "bsn"
-            }
-        }
     }
 }
