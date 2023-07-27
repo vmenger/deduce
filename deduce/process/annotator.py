@@ -116,16 +116,18 @@ class AnnotationContextPatternAnnotator(dd.process.Annotator):
 
 
 class BsnAnnotator(dd.process.Annotator):
-    @staticmethod
-    def _elfproef(bsn: str):
+    """Annotates BSN nummers."""
 
-        if len(bsn) != 9 or (any(not ch.isdigit() for ch in bsn)):
+    @staticmethod
+    def _elfproef(bsn: str) -> bool:
+
+        if len(bsn) != 9 or (any(not char.isdigit() for char in bsn)):
             raise ValueError("Elfproef for testing BSN can only be applied to strings with 9 digits.")
 
         total = 0
 
-        for ch, factor in zip(bsn, [9, 8, 7, 6, 5, 4, 3, 2, -1]):
-            total += int(ch) * factor
+        for char, factor in zip(bsn, [9, 8, 7, 6, 5, 4, 3, 2, -1]):
+            total += int(char) * factor
 
         return total % 11 == 0
 
