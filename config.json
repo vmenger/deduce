@@ -256,7 +256,7 @@
             "group": "identifiers",
             "args": {
                 "regexp_pattern": "\\d{7,}",
-                "tag": "id",
+                "tag": "id"
             }
         },
         "age": {
@@ -291,6 +291,6 @@
                 "regexp_pattern": "([\\w\\d.-]{3,}(\\.)(nl|com|net|be)(/[^\\s]+)?)",
                 "tag": "url"
             }
-        },
+        }
     }
 }

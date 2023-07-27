@@ -154,13 +154,14 @@ class TestRegexpAnnotators:
 
         assert annotations == expected_annotations
 
-    def test_annotate_patient_number(self):
-        text = "1348438, 458, 4584358"
+    def test_annotate_identifier(self):
+        text = "1348438, 458, 4584358, 0034234384838428"
 
-        annotator = get_annotator("patient_number", group="patient_numbers")
+        annotator = get_annotator("identifier", group="identifiers")
         expected_annotations = {
             dd.Annotation(text="4584358", start_char=14, end_char=21, tag=annotator.tag),
             dd.Annotation(text="1348438", start_char=0, end_char=7, tag=annotator.tag),
+            dd.Annotation(text="0034234384838428", start_char=23, end_char=39, tag=annotator.tag),
         }
 
         annotations = annotate_text(text, [annotator])
