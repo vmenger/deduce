@@ -270,25 +270,17 @@
         },
         "email": {
             "annotator_type": "regexp",
-            "group": "urls",
+            "group": "email_addresses",
             "args": {
-                "regexp_pattern": "([\\w-]+(?:\\.[\\w-]+)*)@((?:[\\w-]+\\.)*\\w[\\w-]{0,66})\\.([a-z]{2,6}(?:\\.[a-z]{2})?)",
-                "tag": "url"
+                "regexp_pattern": "(([-a-zA-Z0-9:%._\\+~#=]{1,256})@([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(com|net|org|co|us|uk|nl|be|fr|sp|gov|nu))",
+                "tag": "email"
             }
         },
-        "url_1": {
+        "url": {
             "annotator_type": "regexp",
             "group": "urls",
             "args": {
-                "regexp_pattern": "((?!mailto:)((?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|((?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(\\.([a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:([/?#])[^\\s]*)?)",
-                "tag": "url"
-            }
-        },
-        "url_2": {
-            "annotator_type": "regexp",
-            "group": "urls",
-            "args": {
-                "regexp_pattern": "([\\w\\d.-]{3,}(\\.)(nl|com|net|be)(/[^\\s]+)?)",
+                "regexp_pattern": "((https?:\\/\\/(?:www\\.)?)?([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(com|net|org|co|us|uk|nl|be|fr|sp|gov|nu)(\\b)([():%_\\+.~,]*[-a-zA-Z-0-9#?&/=]+)*)",
                 "tag": "url"
             }
         }
