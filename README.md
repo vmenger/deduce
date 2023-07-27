@@ -25,9 +25,10 @@ The development, principles and validation of `deduce` were initially described 
 * Names of institutions that are related to patient treatment
 * Dates
 * Ages
-* Identifiers (patient identifiers, BSN, AGB)
+* Identifiers (e.g. patient identifiers, BSN, AGB)
 * Telephone numbers
-* E-mail addresses and URLs
+* E-mail addresses 
+* URLs
 
 If you use `deduce`, please cite the following paper:  
 
@@ -78,7 +79,7 @@ pprint(doc.annotations)
 
 AnnotationSet({Annotation(text='Jan Jansen', start_char=39, end_char=49, tag='persoon', length=10),
                Annotation(text='Peter de Visser', start_char=185, end_char=200, tag='persoon', length=15),
-               Annotation(text='j.jnsen@email.com', start_char=76, end_char=93, tag='url', length=17),
+               Annotation(text='j.jnsen@email.com', start_char=76, end_char=93, tag='email', length=17),
                Annotation(text='10 oktober', start_char=164, end_char=174, tag='datum', length=10),
                Annotation(text='patient J. Jansen', start_char=54, end_char=71, tag='persoon', length=17),
                Annotation(text='64', start_char=114, end_char=116, tag='leeftijd', length=2),
@@ -89,7 +90,7 @@ AnnotationSet({Annotation(text='Jan Jansen', start_char=39, end_char=49, tag='pe
 print(doc.deidentified_text)
 
 """Dit is stukje tekst met daarin de naam <PERSOON-1>. De <PERSOON-2> 
-(e: <URL-1>, t: <TELEFOONNUMMER-1>) is <LEEFTIJD-1> jaar oud en woonachtig 
+(e: <EMAIL-1>, t: <TELEFOONNUMMER-1>) is <LEEFTIJD-1> jaar oud en woonachtig 
 in <LOCATIE-1>. Hij werd op <DATUM-1> door arts <PERSOON-3> ontslagen 
 van de kliniek van het <INSTELLING-1>."""
 ```
@@ -105,7 +106,7 @@ doc = deduce.deidentify(text, metadata={'patient': patient})
 print (doc.deidentified_text)
 
 """Dit is stukje tekst met daarin de naam <PATIENT>. De <PATIENT> 
-(e: <URL-1>, t: <TELEFOONNUMMER-1>) is <LEEFTIJD-1> jaar oud en woonachtig 
+(e: <EMAIL-1>, t: <TELEFOONNUMMER-1>) is <LEEFTIJD-1> jaar oud en woonachtig 
 in <LOCATIE-1>. Hij werd op <DATUM-1> door arts <PERSOON-1> ontslagen 
 van de kliniek van het <INSTELLING-1>."""
 ```

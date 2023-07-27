@@ -44,9 +44,8 @@ The `Annotator` is responsible for tagging pieces of information in the text as 
 | dates           | date_1                   | regexp             | Dates (pattern 1)                                                                          |
 |                 | date_2                   | regexp             | Dates (pattern 2)                                                                          |
 | ages            | age                      | regexp             | Ages                                                                                       |
-| urls            | email                    | regexp             | E-mail addresses                                                                           |
-|                 | url_1                    | regexp             | URLs (pattern 1)                                                                           |
-|                 | url_2                    | regexp             | URLs (pattern 2)                                                                           |
+| email_addresses | email                    | regexp             | E-mail addresses                                                                           |
+| urls            | url                      | regexp             | URLs                                                                                       |
 | bsn             | bsn                      | custom             | BSN-numbers (9 digits + specific 'elfproef')                                               |
 
 
