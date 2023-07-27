@@ -12,7 +12,7 @@ from deduce.process.annotation_processing import (
     DeduceMergeAdjacentAnnotations,
     PersonAnnotationConverter,
 )
-from deduce.process.annotator import AnnotationContextPatternAnnotator, BsnAnnotator
+from deduce.process.annotator import AnnotationContextPatternAnnotator
 from deduce.process.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
 

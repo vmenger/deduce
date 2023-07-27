@@ -9,10 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - a component for deidentifying BSN-nummers
-- by default, deduce now recognizers all 7+ digit numbers as identifiers
 
 ### Changed
 - updated dependencies
+- by default, deduce now recognizes all 7+ digit numbers as identifiers
+- improved regular expressions for e-mail address and url matching
+- separate tags for emails and urls
+
+### Removed
+- a separate patient identifier tag, now superseded by a generic tag
 
 ### Deprecated
 - backwards compatibility, which was temporary added to transition from v1 to v2
