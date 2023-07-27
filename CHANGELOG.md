@@ -8,13 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## (unreleased)
 
 ### Added
-- deduce now deidentifies BSN-nummers
+- a component for deidentifying BSN-nummers
+- by default, deduce now recognizers all 7+ digit numbers as identifiers
 
 ### Changed
 - updated dependencies
 
 ### Deprecated
-- backwards compatibility, which was temporary to transition from v1 to v2
+- backwards compatibility, which was temporary added to transition from v1 to v2
 
 ## 2.0.3 (2023-04-06)
 
