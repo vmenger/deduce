@@ -199,7 +199,7 @@ class TestRegexpAnnotators:
     def test_annotate_email(self):
         text = "email@voorbeeld.nl, jan_jansen@gmail.com, info@umcutrecht.nl"
 
-        annotator = get_annotator("email", group="urls")
+        annotator = get_annotator("email", group="email_addresses")
         expected_annotations = {
             dd.Annotation(text="jan_jansen@gmail.com", start_char=20, end_char=40, tag=annotator.tag),
             dd.Annotation(text="email@voorbeeld.nl", start_char=0, end_char=18, tag=annotator.tag),
@@ -217,7 +217,7 @@ class TestRegexpAnnotators:
             "softwareengineering.stackexchange.com/questions/348295/is-there-such-a-thing-as-having-too-many-unit-tests"
         )
 
-        annotator = [get_annotator("url_1", group="urls"), get_annotator("url_2", group="urls")]
+        annotator = [get_annotator("url", group="urls")]
 
         expected_annotations = {
             dd.Annotation(text="www.umcutrecht.nl", start_char=0, end_char=17, tag=annotator[0].tag),
