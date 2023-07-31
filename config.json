@@ -213,7 +213,7 @@
             "annotator_type": "regexp",
             "group": "phone_numbers",
             "args": {
-                "regexp_pattern": "(((0)[1-9]{2}[0-9][-]?[1-9][0-9]{5})|((\\+31|0|0031)[1-9][0-9][-]?[1-9][0-9]{6}))",
+                "regexp_pattern": "(^|(?<!\\d))(((0)[1-9]{2}[0-9][-]?[1-9][0-9]{5})|((\\+31|0|0031)[1-9][0-9][-]?[1-9][0-9]{6}))((?!\\d{2})|$)",
                 "tag": "telefoonnummer"
             }
         },
@@ -221,7 +221,7 @@
             "annotator_type": "regexp",
             "group": "phone_numbers",
             "args": {
-                "regexp_pattern": "(((\\+31|0|0031)6)[-]?[1-9][0-9]{7})",
+                "regexp_pattern": "(^|(?<!\\d))(((\\+31|0|0031)6)[-]?[1-9][0-9]{7})((?!\\d{2})|$)",
                 "tag": "telefoonnummer"
             }
         },
@@ -229,7 +229,7 @@
             "annotator_type": "regexp",
             "group": "phone_numbers",
             "args": {
-                "regexp_pattern": "((\\(\\d{3}\\)|\\d{3}) ?\\d{3} ?\\d{2} ?\\d{2})",
+                "regexp_pattern": "(^|(?<!\\d))((\\(\\d{3}\\)|\\d{3}) ?\\d{3} ?\\d{2} ?\\d{2})((?!\\d{2})|$)",
                 "tag": "telefoonnummer"
             }
         },
