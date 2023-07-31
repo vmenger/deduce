@@ -147,3 +147,47 @@ class BsnAnnotator(dd.process.Annotator):
                 annotations.append(Annotation(text=text, start_char=start, end_char=end, tag=self.tag))
 
         return annotations
+
+
+class PhoneNumberAnnotator(dd.process.Annotator):
+
+    def __init__(self, phone_regexp: str, *args, **kwargs):
+
+        self.phone_regexp = re.compile(phone_regexp)
+        super().__init__(*args, **kwargs)
+
+    def annotate(self, doc: Document) -> list[Annotation]:
+
+        annotations = []
+
+        for match in self.phone_regexp.finditer(doc.text):
+
+            prefix_with_parens = match.group(2)
+            prefix = match.group(4)
+            digits = match.group(5).replace(" ", "")
+
+            l_shift = 0
+
+            if prefix_with_parens.startswith("(") and not prefix_with_parens.endswith(")"):
+                l_shift = 1
+
+            if not prefix_with_parens.startswith("(") and prefix_with_parens.endswith(")"):
+                continue
+
+            if len(prefix) + len(digits) in [8, 9, 10]:
+
+                text = match.group(0)[l_shift:]
+                start_char, end_char = match.span(0)
+
+                start_char += l_shift
+
+                annotations.append(
+                    Annotation(
+                        text=text,
+                        start_char=start_char,
+                        end_char=end_char,
+                        tag=self.tag
+                    )
+                )
+
+        return annotations
