@@ -118,7 +118,7 @@ class AnnotationContextPatternAnnotator(dd.process.Annotator):
 class BsnAnnotator(dd.process.Annotator):
     """Annotates BSN nummers."""
 
-    def __init__(self, bsn_regexp: str, *args, capture_group: int = 0, **kwargs):
+    def __init__(self, bsn_regexp: str, *args, capture_group: int = 0, **kwargs) -> None:
         self.bsn_regexp = re.compile(bsn_regexp)
         self.capture_group = capture_group
         super().__init__(*args, **kwargs)
@@ -146,7 +146,9 @@ class BsnAnnotator(dd.process.Annotator):
             start, end = match.span(self.capture_group)
 
             if self._elfproef(text):
-                annotations.append(Annotation(text=text, start_char=start, end_char=end, tag=self.tag, priority=self.priority))
+                annotations.append(
+                    Annotation(text=text, start_char=start, end_char=end, tag=self.tag, priority=self.priority)
+                )
 
         return annotations
 
@@ -195,6 +197,10 @@ class PhoneNumberAnnotator(dd.process.Annotator):
                 start_char, end_char = match.span(0)
                 start_char += left_index_shift
 
-                annotations.append(Annotation(text=text, start_char=start_char, end_char=end_char, tag=self.tag, priority=self.priority))
+                annotations.append(
+                    Annotation(
+                        text=text, start_char=start_char, end_char=end_char, tag=self.tag, priority=self.priority
+                    )
+                )
 
         return annotations
