@@ -224,14 +224,14 @@
             "args": {
                 "regexp_pattern": "(\\D|^)(([1-9]|0[1-9]|[12][0-9]|3[01])[-/\\. ]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)[-/\\. ]((19|20|\\'|`)?\\d{2}))(\\D|$)",
                 "tag": "datum",
-                "capturing_group": 1
+                "capturing_group": 2
             }
         },
         "age": {
             "annotator_type": "regexp",
             "group": "ages",
             "args": {
-                "regexp_pattern": "(?i)(?<!(policontrole) )(?<!(gedurende) )(?<!(controle|onder de) )(?<!(sinds|om de|in de) )(?<!(over|elke|ruim) )(?<!(nog) )(?<!(na|op|al) )(?<!(<) )(?<!\\d-)(?<!\\d\\d-)(?<!\\d)(?<!\\d[,.])((((\\d-|\\d\\d-))?(\\d[,\\.]\\d|\\d{1,3}))([ -](jarige|jarig|jaar)))(?!\\w)(?! (geleden|na|aanwezig|getrouwd|gestopt|gerookt|gebruikt|gestaakt))",
+                "regexp_pattern": "(?i)(?<!(policontrole) )(?<!(gedurende) )(?<!(controle|onder de) )(?<!(sinds|om de|in de) )(?<!(over|elke) )(?<!(nog) )(?<!(na|op|al) )(?<!(<) )(?<!\\d-)(?<!\\d\\d-)(?<!\\d)(?<!\\d[,.])((((\\d-|\\d\\d-))?(\\d[,\\.]\\d|\\d{1,3}))([ -](jarige|jarig|jaar)))(?!\\w)(?! (geleden|na|aanwezig|getrouwd|gestopt|gerookt|gebruikt|gestaakt))",
                 "tag": "leeftijd",
                 "capturing_group": 10
             }
