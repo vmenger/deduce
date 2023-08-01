@@ -162,6 +162,9 @@ class PhoneNumberAnnotator(dd.process.Annotator):
 
         for match in self.phone_regexp.finditer(doc.text):
 
+            min_len = 8
+            max_len = 10
+
             prefix_with_parens = match.group(2)
             prefix = re.sub(r"\D", "", match.group(4))
             digits = re.sub(r"\D", "", match.group(5))
@@ -177,8 +180,11 @@ class PhoneNumberAnnotator(dd.process.Annotator):
             if not prefix_with_parens.startswith("(") and prefix_with_parens.endswith(")"):
                 continue
 
-            if len(prefix) + len(digits) in [8, 9, 10]:
+            if prefix in ['800', '900', '906', '909']:
+                min_len -= 2
+                max_len -= 2
 
+            if min_len <= (len(prefix) + len(digits)) <= max_len:
                 text = match.group(0)[l_shift:]
                 start_char, end_char = match.span(0)
 
