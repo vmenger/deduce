@@ -163,8 +163,11 @@ class PhoneNumberAnnotator(dd.process.Annotator):
         for match in self.phone_regexp.finditer(doc.text):
 
             prefix_with_parens = match.group(2)
-            prefix = match.group(4)
-            digits = match.group(5).replace(" ", "")
+            prefix = re.sub(r"\D", "", match.group(4))
+            digits = re.sub(r"\D", "", match.group(5))
+
+            if len(re.findall("-", match.group(0))) > 1:
+                continue
 
             l_shift = 0
 
