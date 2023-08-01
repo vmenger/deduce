@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - by default, deduce now recognizes all 7+ digit numbers as identifiers
 - improved regular expressions for e-mail address and url matching
 - separate tags for emails and urls
+- logic for detecting phone numbers (improvements for hyphens, whitespaces, false positive identifiers)
 
 ### Removed
 - a separate patient identifier tag, now superseded by a generic tag
