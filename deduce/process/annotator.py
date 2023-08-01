@@ -146,7 +146,7 @@ class BsnAnnotator(dd.process.Annotator):
             start, end = match.span(self.capture_group)
 
             if self._elfproef(text):
-                annotations.append(Annotation(text=text, start_char=start, end_char=end, tag=self.tag))
+                annotations.append(Annotation(text=text, start_char=start, end_char=end, tag=self.tag, priority=self.priority))
 
         return annotations
 
@@ -195,6 +195,6 @@ class PhoneNumberAnnotator(dd.process.Annotator):
                 start_char, end_char = match.span(0)
                 start_char += left_index_shift
 
-                annotations.append(Annotation(text=text, start_char=start_char, end_char=end_char, tag=self.tag))
+                annotations.append(Annotation(text=text, start_char=start_char, end_char=end_char, tag=self.tag, priority=self.priority))
 
         return annotations
