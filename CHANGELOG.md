@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - improved regular expressions for e-mail address and url matching
 - separate tags for emails and urls
 - logic for detecting phone numbers (improvements for hyphens, whitespaces, false positive identifiers)
+- improved regular expression for age matching
 
 ### Removed
 - a separate patient identifier tag, now superseded by a generic tag
