@@ -151,9 +151,12 @@ class BsnAnnotator(dd.process.Annotator):
 
 class PhoneNumberAnnotator(dd.process.Annotator):
 
-    def __init__(self, phone_regexp: str, *args, **kwargs):
+    def __init__(self, phone_regexp: str, min_digits=9, max_digits=11, *args, **kwargs):
 
         self.phone_regexp = re.compile(phone_regexp)
+        self.min_digits = min_digits
+        self.max_digits = max_digits
+
         super().__init__(*args, **kwargs)
 
     def annotate(self, doc: Document) -> list[Annotation]:
@@ -162,33 +165,29 @@ class PhoneNumberAnnotator(dd.process.Annotator):
 
         for match in self.phone_regexp.finditer(doc.text):
 
-            min_len = 8
-            max_len = 10
-
+            digit_len_shift = 0
+            left_index_shift = 0
             prefix_with_parens = match.group(2)
-            prefix = re.sub(r"\D", "", match.group(4))
-            digits = re.sub(r"\D", "", match.group(5))
+            prefix_digits = '0' + re.sub(r"\D", "", match.group(4))
+            number_digits = re.sub(r"\D", "", match.group(5))
 
+            # Trim parenthesis
+            if prefix_with_parens.startswith("(") and not prefix_with_parens.endswith(")"):
+                left_index_shift = 1
+
+            # Check max 1 hyphen
             if len(re.findall("-", match.group(0))) > 1:
                 continue
 
-            l_shift = 0
+            # Shift num digits for shorter numbers
+            if prefix_digits in ['0800', '0900', '0906', '0909']:
+                digit_len_shift = -2
 
-            if prefix_with_parens.startswith("(") and not prefix_with_parens.endswith(")"):
-                l_shift = 1
-
-            if not prefix_with_parens.startswith("(") and prefix_with_parens.endswith(")"):
-                continue
-
-            if prefix in ['800', '900', '906', '909']:
-                min_len -= 2
-                max_len -= 2
-
-            if min_len <= (len(prefix) + len(digits)) <= max_len:
-                text = match.group(0)[l_shift:]
+            if (self.min_digits + digit_len_shift) <= (len(prefix_digits) + len(number_digits)) <= (
+                    self.max_digits + digit_len_shift):
+                text = match.group(0)[left_index_shift:]
                 start_char, end_char = match.span(0)
-
-                start_char += l_shift
+                start_char += left_index_shift
 
                 annotations.append(
                     Annotation(
