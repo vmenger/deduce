@@ -236,6 +236,16 @@
                 "capturing_group": 10
             }
         },
+        "bsn": {
+            "annotator_type": "custom",
+            "group": "identifiers",
+            "args": {
+                "module": "deduce.process.annotator",
+                "class": "PhoneNumberAnnotator",
+                "bsn_regexp": "(\\D|^)(\\d{9})(\\D|$)",
+                "capture_group": 2
+            }
+        },
         "identifier": {
             "annotator_type": "regexp",
             "group": "identifiers",

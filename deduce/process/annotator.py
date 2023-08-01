@@ -118,6 +118,11 @@ class AnnotationContextPatternAnnotator(dd.process.Annotator):
 class BsnAnnotator(dd.process.Annotator):
     """Annotates BSN nummers."""
 
+    def __init__(self, bsn_regexp: str, *args, capture_group: int = 0, **kwargs):
+        self.bsn_regexp = re.compile(bsn_regexp)
+        self.capture_group = capture_group
+        super().__init__(*args, **kwargs)
+
     @staticmethod
     def _elfproef(bsn: str) -> bool:
 
@@ -133,15 +138,12 @@ class BsnAnnotator(dd.process.Annotator):
 
     def annotate(self, doc: Document) -> list[Annotation]:
 
-        bsn_regexp = re.compile(r"(\D|^)(\d{9})(\D|$)")
-        capt_group = 2
-
         annotations = []
 
-        for match in bsn_regexp.finditer(doc.text):
+        for match in self.bsn_regexp.finditer(doc.text):
 
-            text = match.group(capt_group)
-            start, end = match.span(capt_group)
+            text = re.sub(r"\D", "", match.group(self.capture_group))
+            start, end = match.span(self.capture_group)
 
             if self._elfproef(text):
                 annotations.append(Annotation(text=text, start_char=start, end_char=end, tag=self.tag))
