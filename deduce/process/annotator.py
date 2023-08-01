@@ -150,8 +150,9 @@ class BsnAnnotator(dd.process.Annotator):
 
 
 class PhoneNumberAnnotator(dd.process.Annotator):
+    """Annotates phone numbers."""
 
-    def __init__(self, phone_regexp: str, min_digits=9, max_digits=11, *args, **kwargs):
+    def __init__(self, phone_regexp: str, *args, min_digits: int = 9, max_digits: int = 11, **kwargs) -> None:
 
         self.phone_regexp = re.compile(phone_regexp)
         self.min_digits = min_digits
@@ -168,7 +169,7 @@ class PhoneNumberAnnotator(dd.process.Annotator):
             digit_len_shift = 0
             left_index_shift = 0
             prefix_with_parens = match.group(2)
-            prefix_digits = '0' + re.sub(r"\D", "", match.group(4))
+            prefix_digits = "0" + re.sub(r"\D", "", match.group(4))
             number_digits = re.sub(r"\D", "", match.group(5))
 
             # Trim parenthesis
@@ -180,22 +181,18 @@ class PhoneNumberAnnotator(dd.process.Annotator):
                 continue
 
             # Shift num digits for shorter numbers
-            if prefix_digits in ['0800', '0900', '0906', '0909']:
+            if prefix_digits in ["0800", "0900", "0906", "0909"]:
                 digit_len_shift = -2
 
-            if (self.min_digits + digit_len_shift) <= (len(prefix_digits) + len(number_digits)) <= (
-                    self.max_digits + digit_len_shift):
+            if (
+                (self.min_digits + digit_len_shift)
+                <= (len(prefix_digits) + len(number_digits))
+                <= (self.max_digits + digit_len_shift)
+            ):
                 text = match.group(0)[left_index_shift:]
                 start_char, end_char = match.span(0)
                 start_char += left_index_shift
 
-                annotations.append(
-                    Annotation(
-                        text=text,
-                        start_char=start_char,
-                        end_char=end_char,
-                        tag=self.tag
-                    )
-                )
+                annotations.append(Annotation(text=text, start_char=start_char, end_char=end_char, tag=self.tag))
 
         return annotations

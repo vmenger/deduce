@@ -141,9 +141,7 @@ class TestRegexpAnnotators:
         text = "088-7555555, 088-1309670"
 
         annotator = [
-            get_annotator("phone_1", group="phone_numbers"),
-            get_annotator("phone_2", group="phone_numbers"),
-            get_annotator("phone_2", group="phone_numbers"),
+            get_annotator("phone", group="phone_numbers"),
         ]
         expected_annotations = {
             dd.Annotation(text="088-7555555", start_char=0, end_char=11, tag=annotator[0].tag),

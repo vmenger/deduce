@@ -4,7 +4,11 @@ import docdeid as dd
 import pytest
 
 from deduce.pattern.name_context import AnnotationContextPattern
-from deduce.process.annotator import AnnotationContextPatternAnnotator, BsnAnnotator
+from deduce.process.annotator import (
+    AnnotationContextPatternAnnotator,
+    BsnAnnotator,
+    PhoneNumberAnnotator,
+)
 from tests.helpers import link_tokens
 
 
@@ -15,6 +19,17 @@ def bsn_doc():
 
     return d.deidentify(
         text="Geldige voorbeelden zijn: 111222333 en 123456782. " "Patientnummer is 01234, en ander id 01234567890."
+    )
+
+
+@pytest.fixture
+def phone_number_doc():
+
+    d = dd.DocDeid()
+
+    return d.deidentify(
+        text="Telefoonnummers zijn 0314-555555, (088 755 55 55) of (06)55555555, maar 065555 is "
+        "te kort en 065555555555 is te lang. Verwijsnummer is 0800-9003."
     )
 
 
@@ -288,5 +303,61 @@ class TestBsnAnnotator:
             dd.Annotation(text="111222333", start_char=26, end_char=35, tag="_"),
             dd.Annotation(text="123456782", start_char=39, end_char=48, tag="_"),
         ]
+
+        assert annotations == expected_annotations
+
+
+class TestPhoneNumberAnnotator:
+    def test_annotate_defaults(self, phone_number_doc):
+
+        an = PhoneNumberAnnotator(
+            phone_regexp=r"(^|(?<!\d))"
+            r"(\(?(0031|\+31|0)(1[035]|2[0347]|3[03568]|4[03456]|5[0358]|6|7|88|800|91|90[069]|[1-5]\d{2})\)?)"
+            r" ?-? ?"
+            r"((\d{2,4}[ -]?)+\d{2,4})",
+            tag="_",
+        )
+        annotations = an.annotate(phone_number_doc)
+
+        expected_annotations = [
+            dd.Annotation(text="0314-555555", start_char=21, end_char=32, tag="_"),
+            dd.Annotation(text="088 755 55 55", start_char=35, end_char=48, tag="_"),
+            dd.Annotation(text="(06)55555555", start_char=53, end_char=65, tag="_"),
+            dd.Annotation(text="0800-9003", start_char=135, end_char=144, tag="_"),
+        ]
+
+        assert annotations == expected_annotations
+
+    def test_annotate_short(self, phone_number_doc):
+
+        an = PhoneNumberAnnotator(
+            phone_regexp=r"(^|(?<!\d))"
+            r"(\(?(0031|\+31|0)(1[035]|2[0347]|3[03568]|4[03456]|5[0358]|6|7|88|800|91|90[069]|[1-5]\d{2})\)?)"
+            r" ?-? ?"
+            r"((\d{2,4}[ -]?)+\d{2,4})",
+            min_digits=4,
+            max_digits=8,
+            tag="_",
+        )
+        annotations = an.annotate(phone_number_doc)
+
+        expected_annotations = [dd.Annotation(text="065555", start_char=72, end_char=78, tag="_")]
+
+        assert annotations == expected_annotations
+
+    def test_annotate_long(self, phone_number_doc):
+
+        an = PhoneNumberAnnotator(
+            phone_regexp=r"(^|(?<!\d))"
+            r"(\(?(0031|\+31|0)(1[035]|2[0347]|3[03568]|4[03456]|5[0358]|6|7|88|800|91|90[069]|[1-5]\d{2})\)?)"
+            r" ?-? ?"
+            r"((\d{2,4}[ -]?)+\d{2,4})",
+            min_digits=11,
+            max_digits=12,
+            tag="_",
+        )
+        annotations = an.annotate(phone_number_doc)
+
+        expected_annotations = [dd.Annotation(text="065555555555", start_char=93, end_char=105, tag="_")]
 
         assert annotations == expected_annotations
