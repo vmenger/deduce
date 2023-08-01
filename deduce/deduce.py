@@ -82,11 +82,15 @@ class Deduce(dd.DocDeid):
         )
         self.processors["names"].add_processor("person_annotation_converter", PersonAnnotationConverter())
 
-        sort_by_attr = self.config["resolve_overlap_strategy"]["attribute"]
-        sort_by = [sort_by_attr]
-        sort_by_callbacks = (
-            {sort_by_attr: lambda x: -x} if not config["resolve_overlap_strategy"]["ascending"] else None
-        )
+        sort_by_attrs = self.config["resolve_overlap_strategy"]["attributes"]
+        sort_by_ascending = self.config["resolve_overlap_strategy"]["ascending"]
+
+        sort_by = []
+        sort_by_callbacks = {}
+
+        for attr, ascending in zip(sort_by_attrs, sort_by_ascending):
+            sort_by.append(attr)
+            sort_by_callbacks[attr] = (lambda x: x) if ascending else (lambda y: -y)
 
         post_group = dd.process.DocProcessorGroup()
         self.processors.add_processor("post_processing", post_group)

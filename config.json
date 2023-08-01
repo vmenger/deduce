@@ -1,8 +1,8 @@
 {
     "adjacent_annotations_slack": "[\\.\\s\\-,]?[\\.\\s]?",
     "resolve_overlap_strategy": {
-        "attribute": "length",
-        "ascending": false
+        "attributes": ["priority", "length"],
+        "ascending": [false, false]
     },
     "redactor_open_char": "<",
     "redactor_close_char": ">",
@@ -234,6 +234,18 @@
                 "regexp_pattern": "(?i)(?<!(policontrole) )(?<!(gedurende) )(?<!(controle|onder de) )(?<!(sinds|om de|in de) )(?<!(over|elke) )(?<!(nog) )(?<!(na|op|al) )(?<!(<) )(?<!\\d-)(?<!\\d\\d-)(?<!\\d)(?<!\\d[,.])((((\\d-|\\d\\d-))?(\\d[,\\.]\\d|\\d{1,3}))([ -](jarige|jarig|jaar)))(?!\\w)(?! (geleden|na|aanwezig|getrouwd|gestopt|gerookt|gebruikt|gestaakt))",
                 "tag": "leeftijd",
                 "capturing_group": 10
+            }
+        },
+        "bsn": {
+            "annotator_type": "custom",
+            "group": "identifiers",
+            "args": {
+                "module": "deduce.process.annotator",
+                "class": "BsnAnnotator",
+                "bsn_regexp": "(\\D|^)(\\d{9})(\\D|$)",
+                "capture_group": 2,
+                "priority": 100,
+                "tag": "bsn"
             }
         },
         "identifier": {

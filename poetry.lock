@@ -322,13 +322,13 @@ graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "docdeid"
-version = "0.1.7"
+version = "0.1.8"
 description = "Create your own document de-identifier using docdeid, a simple framework independent of language or domain."
 optional = false
 python-versions = ">=3.9,<4.0"
 files = [
-    {file = "docdeid-0.1.7-py3-none-any.whl", hash = "sha256:c9e87966ff40c4950bbd30620b3e7b1599ec4d414cf2ba97a6debc5011790402"},
-    {file = "docdeid-0.1.7.tar.gz", hash = "sha256:b7dd61f64889c5c4643af4e9b5a2ea4a20eedc3e47b587224fb7f51e1f74f2c2"},
+    {file = "docdeid-0.1.8-py3-none-any.whl", hash = "sha256:b8b0b70c15e2b91e6df4d8868b259c63e9e84b875440d2bc539f93d8ab23b5e2"},
+    {file = "docdeid-0.1.8.tar.gz", hash = "sha256:9858baf5a23c921a07fec2e96f22379801b0fda4a8fba1892dc587c664dc3b70"},
 ]
 
 [package.dependencies]
@@ -1480,4 +1480,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "1a93ae7b12cbfc1ee9deba9a77b23ea14096ef93ec41be803557e9fc47fdbad0"
+content-hash = "7da9c49ab40f1e85f5b9a6cff4747274790c62517cb6d9ffb33025c1314e7947"

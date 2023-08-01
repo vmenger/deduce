@@ -273,7 +273,7 @@ class TestContextPatternsAnnotator:
 class TestBsnAnnotator:
     def test_elfproef(self):
 
-        an = BsnAnnotator(tag="_")
+        an = BsnAnnotator(bsn_regexp="(\\D|^)(\\d{9})(\\D|$)", capture_group=2, tag="_")
 
         assert an._elfproef("111222333")
         assert not an._elfproef("111222334")
@@ -282,21 +282,21 @@ class TestBsnAnnotator:
 
     def test_elfproef_wrong_length(self):
 
-        an = BsnAnnotator(tag="_")
+        an = BsnAnnotator(bsn_regexp="(\\D|^)(\\d{9})(\\D|$)", capture_group=2, tag="_")
 
         with pytest.raises(ValueError):
             an._elfproef("12345678")
 
     def test_elfproef_non_numeric(self):
 
-        an = BsnAnnotator(tag="_")
+        an = BsnAnnotator(bsn_regexp="(\\D|^)(\\d{9})(\\D|$)", capture_group=2, tag="_")
 
         with pytest.raises(ValueError):
             an._elfproef("test")
 
     def test_annotate(self, bsn_doc):
 
-        an = BsnAnnotator(tag="_")
+        an = BsnAnnotator(bsn_regexp="(\\D|^)(\\d{9})(\\D|$)", capture_group=2, tag="_")
         annotations = an.annotate(bsn_doc)
 
         expected_annotations = [
