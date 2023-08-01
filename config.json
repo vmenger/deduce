@@ -216,30 +216,6 @@
                 "module": "deduce.process.annotator",
                 "class": "PhoneNumberAnnotator",
                 "phone_regexp": "(^|(?<!\\d))(\\(?(0031|\\+31|0)(1[035]|2[0347]|3[03568]|4[03456]|5[0358]|6|7|88|800|91|90[069]|[1-5]\\d{2})\\)?)-? ?((\\d{2,4} ?)+\\d{2,4})",
-                "tag": "telefoonnummer",
-            }
-        },
-        "phone_1": {
-            "annotator_type": "regexp",
-            "group": "phone_numbers",
-            "args": {
-                "regexp_pattern": "(^|(?<!\\d))(((0)[1-9]{2}[0-9][-]?[1-9][0-9]{5})|((\\+31|0|0031)[1-9][0-9][-]?[1-9][0-9]{6}))((?!\\d{2})|$)",
-                "tag": "telefoonnummer"
-            }
-        },
-        "phone_2": {
-            "annotator_type": "regexp",
-            "group": "phone_numbers",
-            "args": {
-                "regexp_pattern": "(^|(?<!\\d))(((\\+31|0|0031)6)[-]?[1-9][0-9]{7})((?!\\d{2})|$)",
-                "tag": "telefoonnummer"
-            }
-        },
-        "phone_3": {
-            "annotator_type": "regexp",
-            "group": "phone_numbers",
-            "args": {
-                "regexp_pattern": "(^|(?<!\\d))((\\(0\\d{2}\\)|0\\d{2}) ?\\d{3} ?\\d{2} ?\\d{2})((?!\\d{2})|$)",
                 "tag": "telefoonnummer"
             }
         },
