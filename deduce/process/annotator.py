@@ -147,3 +147,52 @@ class BsnAnnotator(dd.process.Annotator):
                 annotations.append(Annotation(text=text, start_char=start, end_char=end, tag=self.tag))
 
         return annotations
+
+
+class PhoneNumberAnnotator(dd.process.Annotator):
+    """Annotates phone numbers."""
+
+    def __init__(self, phone_regexp: str, *args, min_digits: int = 9, max_digits: int = 11, **kwargs) -> None:
+
+        self.phone_regexp = re.compile(phone_regexp)
+        self.min_digits = min_digits
+        self.max_digits = max_digits
+
+        super().__init__(*args, **kwargs)
+
+    def annotate(self, doc: Document) -> list[Annotation]:
+
+        annotations = []
+
+        for match in self.phone_regexp.finditer(doc.text):
+
+            digit_len_shift = 0
+            left_index_shift = 0
+            prefix_with_parens = match.group(2)
+            prefix_digits = "0" + re.sub(r"\D", "", match.group(4))
+            number_digits = re.sub(r"\D", "", match.group(5))
+
+            # Trim parenthesis
+            if prefix_with_parens.startswith("(") and not prefix_with_parens.endswith(")"):
+                left_index_shift = 1
+
+            # Check max 1 hyphen
+            if len(re.findall("-", match.group(0))) > 1:
+                continue
+
+            # Shift num digits for shorter numbers
+            if prefix_digits in ["0800", "0900", "0906", "0909"]:
+                digit_len_shift = -2
+
+            if (
+                (self.min_digits + digit_len_shift)
+                <= (len(prefix_digits) + len(number_digits))
+                <= (self.max_digits + digit_len_shift)
+            ):
+                text = match.group(0)[left_index_shift:]
+                start_char, end_char = match.span(0)
+                start_char += left_index_shift
+
+                annotations.append(Annotation(text=text, start_char=start_char, end_char=end_char, tag=self.tag))
+
+        return annotations

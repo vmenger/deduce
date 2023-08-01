@@ -37,17 +37,14 @@ The `Annotator` is responsible for tagging pieces of information in the text as 
 |                 | street_with_number       | regexp             | Street names, with optionally a house number                                               |
 |                 | postal_code              | regexp             | Postal codes                                                                               |
 |                 | postbus                  | regexp             | Postbussen                                                                                 |
-| phone_numbers   | phone_1                  | regexp             | Phone numbers (pattern 1)                                                                  |
-|                 | phone_2                  | regexp             | Phone numbers (pattern 2)                                                                  |
-|                 | phone_3                  | regexp             | Phone numbers (pattern 3)                                                                  |
-| identifiers     | identifier               | regexp             | Identifiers (7+ digit numbers)                                                             |
 | dates           | date_1                   | regexp             | Dates (pattern 1)                                                                          |
 |                 | date_2                   | regexp             | Dates (pattern 2)                                                                          |
 | ages            | age                      | regexp             | Ages                                                                                       |
+| identifiers     | identifier               | regexp             | Identifiers (7+ digit numbers)                                                             |
+| bsn             | bsn                      | custom             | BSN-numbers (9 digits + specific 'elfproef')                                               |
+| phone_numbers   | phone                    | regexp             | Phone numbers                                                                              |
 | email_addresses | email                    | regexp             | E-mail addresses                                                                           |
 | urls            | url                      | regexp             | URLs                                                                                       |
-| bsn             | bsn                      | custom             | BSN-numbers (9 digits + specific 'elfproef')                                               |
-
 
 It's possible to add, remove, apply subsets or implement custom annotators, those options are described further down under [customizing deduce](#customizing-deduce). 
 
