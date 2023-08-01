@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - updated dependencies
 - by default, deduce now recognizes all 7+ digit numbers as identifiers
+- by default, deduce now recognizes and tags bsn nummers
 - improved regular expressions for e-mail address and url matching
 - separate tags for emails and urls
 - logic for detecting phone numbers (improvements for hyphens, whitespaces, false positive identifiers)
