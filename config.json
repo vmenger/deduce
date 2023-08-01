@@ -159,14 +159,6 @@
                 ]
             }
         },
-        "altrecht": {
-            "annotator_type": "regexp",
-            "group": "institutions",
-            "args": {
-                "regexp_pattern": "[aA][lL][tT][rR][eE][cC][hH][tT]((\\s[A-Z][\\w]*)*)",
-                "tag": "instelling"
-            }
-        },
         "residence": {
             "annotator_type": "multi_token",
             "group": "locations",
@@ -206,6 +198,14 @@
             "group": "institutions",
             "args": {
                 "lookup_values": "institutions",
+                "tag": "instelling"
+            }
+        },
+        "altrecht": {
+            "annotator_type": "regexp",
+            "group": "institutions",
+            "args": {
+                "regexp_pattern": "[aA][lL][tT][rR][eE][cC][hH][tT]((\\s[A-Z][\\w]*)*)",
                 "tag": "instelling"
             }
         },
