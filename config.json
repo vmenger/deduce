@@ -222,7 +222,7 @@
             "annotator_type": "regexp",
             "group": "dates",
             "args": {
-                "regexp_pattern": "(\\D|^)(([1-9]|0[1-9]|[12][0-9]|3[01])[-/\\. ]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)[-/\\. ]((19|20|\\'|`)?\\d{2}))(\\D|$)",
+                "regexp_pattern": "(\\D|^)(([1-9]|0[1-9]|[12][0-9]|3[01])[-/\\. ]{,2}(januari|jan|februari|feb|maart|mrt|april|apr|mei|juni|jun|juli|jul|augustus|aug|september|sep|sept|oktober|okt|november|nov|december|dec)[-/\\. ]((19|20|\\'|`)?\\d{2}))(\\D|$)",
                 "tag": "datum",
                 "capturing_group": 2
             }
