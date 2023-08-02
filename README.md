@@ -18,14 +18,15 @@
 
 De-identify clinial text written in Dutch using `deduce`, a rule-based de-identification method for Dutch clinical text.
 
-The development, principles and validation of `deduce` were initially described in [Menger et al. (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365). De-identification of clinical text is needed for using text data for analysis, to comply with legal requirements and to protect the privacy of patients. Our rule-based method removes Protected Health Information (PHI) in the following categories:
+The development, principles and validation of `deduce` were initially described in [Menger et al. (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365). De-identification of clinical text is needed for using text data for analysis, to comply with legal requirements and to protect the privacy of patients. By default, our rule-based method removes Protected Health Information (PHI) in the following categories:
 
 * Person names, including initials
 * Geographical locations smaller than a country
 * Names of institutions that are related to patient treatment
-* Dates
+* Dates (combinations of day, month and year)
 * Ages
-* Identifiers (e.g. patient identifiers, BSN, AGB)
+* BSN numbers
+* Identifiers (7+ digits without a specific format, e.g. patient identifiers, AGB, BIG)
 * Telephone numbers
 * E-mail addresses 
 * URLs
