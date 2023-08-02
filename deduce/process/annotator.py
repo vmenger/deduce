@@ -172,9 +172,9 @@ class PhoneNumberAnnotator(dd.process.Annotator):
 
             digit_len_shift = 0
             left_index_shift = 0
-            prefix_with_parens = match.group(2)
-            prefix_digits = "0" + re.sub(r"\D", "", match.group(4))
-            number_digits = re.sub(r"\D", "", match.group(5))
+            prefix_with_parens = match.group(1)
+            prefix_digits = "0" + re.sub(r"\D", "", match.group(3))
+            number_digits = re.sub(r"\D", "", match.group(4))
 
             # Trim parenthesis
             if prefix_with_parens.startswith("(") and not prefix_with_parens.endswith(")"):
