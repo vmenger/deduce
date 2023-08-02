@@ -6,7 +6,7 @@ from deduce.person import Person
 text = (
     "Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen "
     "(e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig in Utrecht. Hij werd op 10 "
-    "oktober door arts Peter de Visser ontslagen van de kliniek van het UMCU."
+    "oktober 2018 door arts Peter de Visser ontslagen van de kliniek van het UMCU."
 )
 
 
@@ -24,9 +24,9 @@ class TestDeduce:
                 dd.Annotation("06-12345678", 98, 109, "telefoonnummer"),
                 dd.Annotation("64", 114, 116, "leeftijd"),
                 dd.Annotation("Utrecht", 143, 150, "locatie"),
-                dd.Annotation("10 oktober", 164, 174, "datum"),
-                dd.Annotation("Peter de Visser", 185, 200, "persoon"),
-                dd.Annotation("UMCU", 234, 238, "instelling"),
+                dd.Annotation("10 oktober 2018", 164, 179, "datum"),
+                dd.Annotation("Peter de Visser", 190, 205, "persoon"),
+                dd.Annotation("UMCU", 239, 243, "instelling"),
             ]
         )
 
@@ -56,7 +56,7 @@ class TestDeduce:
             "Dit is stukje tekst met daarin de naam <PATIENT>Jan Jansen</PATIENT>. "
             "De <PATIENT>patient J. Jansen</PATIENT> (e: <EMAIL>j.jnsen@email.com</EMAIL>, "
             "t: <TELEFOONNUMMER>06-12345678</TELEFOONNUMMER>) is <LEEFTIJD>64</LEEFTIJD> jaar oud "
-            "en woonachtig in <LOCATIE>Utrecht</LOCATIE>. Hij werd op <DATUM>10 oktober</DATUM> door "
+            "en woonachtig in <LOCATIE>Utrecht</LOCATIE>. Hij werd op <DATUM>10 oktober 2018</DATUM> door "
             "arts <PERSOON>Peter de Visser</PERSOON> ontslagen van de kliniek van het <INSTELLING>UMCU</INSTELLING>."
         )
 

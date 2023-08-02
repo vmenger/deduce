@@ -209,22 +209,40 @@
                 "tag": "instelling"
             }
         },
-        "date_1": {
+        "date_dmy_1": {
             "annotator_type": "regexp",
             "group": "dates",
             "args": {
-                "regexp_pattern": "(([1-9]|0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012]|[1-9])([- /.]{,2}(\\d{4}|\\d{2}))?)(\\D|$)",
+                "regexp_pattern": "(\\D|^)(([1-9]|0[1-9]|[12][0-9]|3[01])(?P<sep>[-/\\. ])([1-9]|0[1-9]|1[012])(?P=sep)((19|20|\\'|`)?\\d{2}))(\\D|$)",
                 "tag": "datum",
-                "capturing_group": 1
+                "capturing_group": 2
             }
         },
-        "date_2": {
+        "date_dmy_2": {
             "annotator_type": "regexp",
             "group": "dates",
             "args": {
-                "regexp_pattern": "(\\d{1,2}[^\\w]{,2}(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)([- /.]{,2}(\\d{4}|\\d{2}))?)(\\D|$)",
+                "regexp_pattern": "(?i)(\\D|^)(([1-9]|0[1-9]|[12][0-9]|3[01])[-/\\. ]{,2}(januari|jan|februari|feb|maart|mrt|april|apr|mei|juni|jun|juli|jul|augustus|aug|september|sep|sept|oktober|okt|november|nov|december|dec)[-/\\. ]((19|20|\\'|`)?\\d{2}))(\\D|$)",
                 "tag": "datum",
-                "capturing_group": 1
+                "capturing_group": 2
+            }
+        },
+        "date_ymd_1": {
+            "annotator_type": "regexp",
+            "group": "dates",
+            "args": {
+                "regexp_pattern": "(\\D|^)(((19|20|\\'|`)\\d{2})(?P<sep>[-/\\. ])([1-9]|0[1-9]|1[012])(?P=sep)([1-9]|0[1-9]|[12][0-9]|3[01]))(\\D|$)",
+                "tag": "datum",
+                "capturing_group": 2
+            }
+        },
+        "date_ymd_2": {
+            "annotator_type": "regexp",
+            "group": "dates",
+            "args": {
+                "regexp_pattern": "(?i)(\\D|^)(((19|20|\\'|`)\\d{2})[-/\\. ]{,2}(januari|jan|februari|feb|maart|mrt|april|apr|mei|juni|jun|juli|jul|augustus|aug|september|sep|sept|oktober|okt|november|nov|december|dec)[-/\\. ]([1-9]|0[1-9]|[12][0-9]|3[01]))(\\D|$)",
+                "tag": "datum",
+                "capturing_group": 2
             }
         },
         "age": {
