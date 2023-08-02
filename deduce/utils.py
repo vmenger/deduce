@@ -76,6 +76,9 @@ def import_and_initialize(args: dict, extras: dict) -> Any:
 
 
 def overwrite_dict(base: dict, add: dict) -> dict:
+    """
+    Overwrites the items of the first dict with those of the second. Accepts nested dictionaries.
+    """
 
     for k, v in add.items():
 
