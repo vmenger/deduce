@@ -213,7 +213,7 @@
             "annotator_type": "regexp",
             "group": "dates",
             "args": {
-                "regexp_pattern": "(\\D|^)(([1-9]|0[1-9]|[12][0-9]|3[01])(?P<sep>[-/\\. ])([1-9]|0[1-9]|1[012])(?P=sep)((19|20|\\'|`)?\\d{2}))(\\D|$)",
+                "regexp_pattern": "((?<!\\d)|^)(([1-9]|0[1-9]|[12][0-9]|3[01])(?P<sep>[-/\\. ])([1-9]|0[1-9]|1[012])(?P=sep)((19|20|\\'|`)?\\d{2}))((?!\\d)|$)",
                 "tag": "datum",
                 "capturing_group": 2
             }
@@ -222,7 +222,7 @@
             "annotator_type": "regexp",
             "group": "dates",
             "args": {
-                "regexp_pattern": "(?i)(\\D|^)(([1-9]|0[1-9]|[12][0-9]|3[01])[-/\\. ]{,2}(januari|jan|februari|feb|maart|mrt|april|apr|mei|juni|jun|juli|jul|augustus|aug|september|sep|sept|oktober|okt|november|nov|december|dec)[-/\\. ]((19|20|\\'|`)?\\d{2}))(\\D|$)",
+                "regexp_pattern": "(?i)((?<!\\d)|^)(([1-9]|0[1-9]|[12][0-9]|3[01])[-/\\. ]{,2}(januari|jan|februari|feb|maart|mrt|april|apr|mei|juni|jun|juli|jul|augustus|aug|september|sep|sept|oktober|okt|november|nov|december|dec)[-/\\. ]((19|20|\\'|`)?\\d{2}))((?!\\d)|$)",
                 "tag": "datum",
                 "capturing_group": 2
             }
@@ -231,7 +231,7 @@
             "annotator_type": "regexp",
             "group": "dates",
             "args": {
-                "regexp_pattern": "(\\D|^)(((19|20|\\'|`)\\d{2})(?P<sep>[-/\\. ])([1-9]|0[1-9]|1[012])(?P=sep)([1-9]|0[1-9]|[12][0-9]|3[01]))(\\D|$)",
+                "regexp_pattern": "((?<!\\d)|^)(((19|20|\\'|`)\\d{2})(?P<sep>[-/\\. ])([1-9]|0[1-9]|1[012])(?P=sep)([1-9]|0[1-9]|[12][0-9]|3[01]))(\\D|$)",
                 "tag": "datum",
                 "capturing_group": 2
             }
@@ -240,7 +240,7 @@
             "annotator_type": "regexp",
             "group": "dates",
             "args": {
-                "regexp_pattern": "(?i)(\\D|^)(((19|20|\\'|`)\\d{2})[-/\\. ]{,2}(januari|jan|februari|feb|maart|mrt|april|apr|mei|juni|jun|juli|jul|augustus|aug|september|sep|sept|oktober|okt|november|nov|december|dec)[-/\\. ]([1-9]|0[1-9]|[12][0-9]|3[01]))(\\D|$)",
+                "regexp_pattern": "(?i)((?<!\\d)|^)(((19|20|\\'|`)\\d{2})[-/\\. ]{,2}(januari|jan|februari|feb|maart|mrt|april|apr|mei|juni|jun|juli|jul|augustus|aug|september|sep|sept|oktober|okt|november|nov|december|dec)[-/\\. ]([1-9]|0[1-9]|[12][0-9]|3[01]))((?!\\d)|$)",
                 "tag": "datum",
                 "capturing_group": 2
             }
@@ -260,7 +260,7 @@
             "args": {
                 "module": "deduce.process.annotator",
                 "class": "BsnAnnotator",
-                "bsn_regexp": "(\\D|^)(\\d{9})(\\D|$)",
+                "bsn_regexp": "((?<!\\d)|^)(\\d{9})((?!\\d)|$)",
                 "capture_group": 2,
                 "priority": 100,
                 "tag": "bsn"
@@ -280,7 +280,7 @@
             "args": {
                 "module": "deduce.process.annotator",
                 "class": "PhoneNumberAnnotator",
-                "phone_regexp": "(^|(?<!\\d))(\\(?(0031|\\+31|0)(1[035]|2[0347]|3[03568]|4[03456]|5[0358]|6|7|88|800|91|90[069]|[1-5]\\d{2})\\)?) ?-? ?((\\d{2,4}[ -]?)+\\d{2,4})",
+                "phone_regexp": "((?<!\\d)|^)(\\(?(0031|\\+31|0)(1[035]|2[0347]|3[03568]|4[03456]|5[0358]|6|7|88|800|91|90[069]|[1-5]\\d{2})\\)?) ?-? ?((\\d{2,4}[ -]?)+\\d{2,4})",
                 "min_digits": 9,
                 "max_digits": 11,
                 "tag": "telefoonnummer"
