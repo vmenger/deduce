@@ -261,7 +261,7 @@
                 "module": "deduce.process.annotator",
                 "class": "BsnAnnotator",
                 "bsn_regexp": "(?<!\\d)(\\d{9})(?!\\d)",
-                "capture_group": 2,
+                "capture_group": 1,
                 "priority": 100,
                 "tag": "bsn"
             }
