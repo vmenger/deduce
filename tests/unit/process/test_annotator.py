@@ -311,7 +311,7 @@ class TestPhoneNumberAnnotator:
     def test_annotate_defaults(self, phone_number_doc):
 
         an = PhoneNumberAnnotator(
-            phone_regexp=r"(^|(?<!\d))"
+            phone_regexp=r"(?<!\d)"
             r"(\(?(0031|\+31|0)(1[035]|2[0347]|3[03568]|4[03456]|5[0358]|6|7|88|800|91|90[069]|[1-5]\d{2})\)?)"
             r" ?-? ?"
             r"((\d{2,4}[ -]?)+\d{2,4})",
@@ -331,7 +331,7 @@ class TestPhoneNumberAnnotator:
     def test_annotate_short(self, phone_number_doc):
 
         an = PhoneNumberAnnotator(
-            phone_regexp=r"(^|(?<!\d))"
+            phone_regexp=r"(?<!\d)"
             r"(\(?(0031|\+31|0)(1[035]|2[0347]|3[03568]|4[03456]|5[0358]|6|7|88|800|91|90[069]|[1-5]\d{2})\)?)"
             r" ?-? ?"
             r"((\d{2,4}[ -]?)+\d{2,4})",
@@ -348,7 +348,7 @@ class TestPhoneNumberAnnotator:
     def test_annotate_long(self, phone_number_doc):
 
         an = PhoneNumberAnnotator(
-            phone_regexp=r"(^|(?<!\d))"
+            phone_regexp=r"(?<!\d)"
             r"(\(?(0031|\+31|0)(1[035]|2[0347]|3[03568]|4[03456]|5[0358]|6|7|88|800|91|90[069]|[1-5]\d{2})\)?)"
             r" ?-? ?"
             r"((\d{2,4}[ -]?)+\d{2,4})",
