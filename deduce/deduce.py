@@ -24,30 +24,44 @@ class Deduce(dd.DocDeid):
     Inherits from ``docdeid.DocDeid``, and as such, most information is available in the documentation there.
     """
 
-    def __init__(self, config_file: Optional[str] = None) -> None:
+    def __init__(self, config_file: Optional[str] = None, use_config_defaults: Optional[bool] = True) -> None:
         super().__init__()
 
-        self.config = self._initialize_config(config_file)
+        self.config_file = config_file
+        self.use_config_defaults = use_config_defaults
+
+        self.config = self._initialize_config()
+
         self.lookup_sets = get_lookup_sets()
         self.tokenizers = self._initialize_tokenizers()
         self.initialize_doc_processors()
 
-    @staticmethod
-    def _initialize_config(config_file: Optional[str] = None) -> dict:
+    def _initialize_config(self) -> dict:
         """
         Initialize the config file.
 
-        Args:
-            config_file: The filepath of the config file.
-
         Returns:
-            The contents of the config file as a dictionary.
+            The config as a dictionary, based provided input file and default logic.
         """
 
-        config_path = Path(config_file) if config_file else Path(os.path.dirname(__file__)).parent / "config.json"
+        if self.config_file is None and not self.use_config_defaults:
+            raise ValueError("Please specify a config file, or set use_config_defaults to True")
 
-        with open(config_path, "r", encoding="utf-8") as file:
-            return json.load(file)
+        default_config_path = Path(os.path.dirname(__file__)).parent / "config.json"
+
+        if self.use_config_defaults:
+
+            with open(default_config_path, "r", encoding="utf-8") as file:
+                config = json.load(file)
+
+        if self.config_file is not None:
+
+            with open(Path(self.config_file), "r", encoding="utf-8") as file:
+                custom_config = json.load(file)
+
+            config = utils.overwrite_dict(config, custom_config)
+
+        return config
 
     def _initialize_tokenizers(self) -> dict:
         """Initializes tokenizers."""

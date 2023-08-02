@@ -6,7 +6,7 @@ from deduce.deduce import Deduce
 from deduce.lookup_sets import get_lookup_sets
 from deduce.tokenizer import DeduceTokenizer
 
-config = Deduce._initialize_config()
+config = Deduce()._initialize_config()
 lookup_sets = get_lookup_sets()
 tokenizer = DeduceTokenizer()
 

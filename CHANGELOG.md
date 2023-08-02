@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - date detection logic:
   - now only recognizes combinations of day, month and year (day/month combinations caused many false positives)
   - detects year-month-day format in addition to (day-month-year)
+- loading a custom config now only replaces the config options that are explicitly set, using defaults for those not included in the custom config
 
 ### Removed
 - a separate patient identifier tag, now superseded by a generic tag

@@ -73,3 +73,15 @@ def import_and_initialize(args: dict, extras: dict) -> Any:
             args[arg_name] = arg
 
     return cls(**args)
+
+
+def overwrite_dict(base: dict, add: dict) -> dict:
+
+    for k, v in add.items():
+
+        if isinstance(v, dict):
+            base[k] = overwrite_dict(base.get(k, {}), v)
+        else:
+            base[k] = v
+
+    return base
