@@ -1,0 +1,76 @@
+{
+  "examples": [
+    {
+      "annotations": [
+        {
+          "end_char": 33,
+          "start_char": 16,
+          "tag": "url",
+          "text": "www.umcutrecht.nl"
+        }
+      ],
+      "example_id": 0,
+      "text": "Vragen? Kijk op www.umcutrecht.nl."
+    },
+    {
+      "annotations": [
+        {
+          "end_char": 24,
+          "start_char": 0,
+          "tag": "url",
+          "text": "http://www.umcutrecht.nl"
+        }
+      ],
+      "example_id": 1,
+      "text": "http://www.umcutrecht.nl"
+    },
+    {
+      "annotations": [
+        {
+          "end_char": 26,
+          "start_char": 0,
+          "tag": "url",
+          "text": "https://packaging.pypi.org"
+        }
+      ],
+      "example_id": 2,
+      "text": "https://packaging.pypi.org"
+    },
+    {
+      "annotations": [
+        {
+          "end_char": 106,
+          "start_char": 0,
+          "tag": "url",
+          "text": "softwareengineering.stackexchange.com/questions/348295/is-there-such-a-thing-as-having-too-many-unit-tests"
+        }
+      ],
+      "example_id": 3,
+      "text": "softwareengineering.stackexchange.com/questions/348295/is-there-such-a-thing-as-having-too-many-unit-tests"
+    },
+    {
+      "annotations": [
+        {
+          "end_char": 34,
+          "start_char": 0,
+          "tag": "url",
+          "text": "informatie-niertransplantaties.net"
+        }
+      ],
+      "example_id": 4,
+      "text": "informatie-niertransplantaties.net"
+    },
+    {
+      "annotations": [
+        {
+          "end_char": 17,
+          "start_char": 0,
+          "tag": "url",
+          "text": "www.umcutrecht.nl"
+        }
+      ],
+      "example_id": 5,
+      "text": "www.umcutrecht.nl"
+    }
+  ]
+}
