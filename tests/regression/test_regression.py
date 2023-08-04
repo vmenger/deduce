@@ -38,4 +38,8 @@ class TestRegression:
 
     def test_regression_email(self):
 
-        regression_test(examples_file="tests/regression/data/emails.json", enabled={"email_addresses", "email"}, known_failures=set())
+        regression_test(
+            examples_file="tests/regression/data/emails.json",
+            enabled={"email_addresses", "email"},
+            known_failures=set(),
+        )
