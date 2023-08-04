@@ -26,7 +26,7 @@ class RemoveValues(StringModifier):
         for filter_value in self.filter_values:
 
             item = re.sub(
-                r"(^" + filter_value + r"\s|\s" + filter_value + r"\s|\s" + filter_value + r"$)",
+                r"(^" + filter_value + r" | " + filter_value + r" | " + filter_value + r"$)",
                 "",
                 item,
             )

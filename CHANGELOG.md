@@ -13,8 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - updated dependencies
 - by default, deduce now recognizes and tags bsn nummers
-- by default, deduce now recognizes all 7+ digit numbers as identifiers
-- improved regular expressions for e-mail address and url matching, and separate tags
+- by default, deduce now recognizes all other 7+ digit numbers as identifiers
+- improved regular expressions for e-mail address and url matching, with separate tags
 - logic for detecting phone numbers (improvements for hyphens, whitespaces, false positive identifiers)
 - improved regular expression for age matching
 - date detection logic:
@@ -22,9 +22,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - detects year-month-day format in addition to (day-month-year)
 - loading a custom config now only replaces the config options that are explicitly set, using defaults for those not included in the custom config
 
+### Fixed
+- annotations can no longer be counted as adjacent when separated by newline or tab (and will thus not be merged)
+
 ### Removed
 - a separate patient identifier tag, now superseded by a generic tag
-- detection of day/month combinations for dates, as 
+- detection of day/month combinations for dates, as this caused many false positives (e.g. lab values, numeric scores) 
 
 ### Deprecated
 - backwards compatibility, which was temporary added to transition from v1 to v2
