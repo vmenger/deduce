@@ -1,5 +1,5 @@
 {
-    "adjacent_annotations_slack": "[\\.\\s\\-,]?[\\.\\s]?",
+    "adjacent_annotations_slack": "[\\. \\-,]?[\\. ]?",
     "resolve_overlap_strategy": {
         "attributes": ["priority", "length"],
         "ascending": [false, false]
