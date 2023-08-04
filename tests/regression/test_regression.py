@@ -28,18 +28,18 @@ def regression_test(examples_file: str, enabled: set[str], known_failures: set[i
 
 
 class TestRegression:
-    def test_regression_url(self):
-
-        regression_test(
-            examples_file="tests/regression/data/urls.json",
-            enabled={"urls", "url"},
-            known_failures=set(),
-        )
-
     def test_regression_email(self):
 
         regression_test(
             examples_file="tests/regression/data/emails.json",
             enabled={"email_addresses", "email"},
+            known_failures=set(),
+        )
+
+    def test_regression_url(self):
+
+        regression_test(
+            examples_file="tests/regression/data/urls.json",
+            enabled={"urls", "url"},
             known_failures=set(),
         )
