@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - a separate patient identifier tag, now superseded by a generic tag
-- detection of day/month combinations for dates, as 
+- detection of day/month combinations for dates, as this caused many false positives (e.g. lab values, numeric scores) 
 
 ### Deprecated
 - backwards compatibility, which was temporary added to transition from v1 to v2
