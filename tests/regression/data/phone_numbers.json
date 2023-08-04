@@ -1,0 +1,554 @@
+{
+    "examples": [
+        {
+            "id": 0,
+            "text": "(030) 555 5555",
+            "annotations": [
+                {
+                    "text": "(030) 555 5555",
+                    "start_char": 0,
+                    "end_char": 14,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "text": "(0517)555555",
+            "annotations": [
+                {
+                    "text": "(0517)555555",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "text": "(06)55555555",
+            "annotations": [
+                {
+                    "text": "(06)55555555",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "text": "(06)-5555 5555",
+            "annotations": [
+                {
+                    "text": "(06)-5555 5555",
+                    "start_char": 0,
+                    "end_char": 14,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "text": "+31887555555",
+            "annotations": [
+                {
+                    "text": "+31887555555",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "text": "0031655555555",
+            "annotations": [
+                {
+                    "text": "0031655555555",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "text": "010-5555555",
+            "annotations": [
+                {
+                    "text": "010-5555555",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "text": "015-5555555",
+            "annotations": [
+                {
+                    "text": "015-5555555",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "text": "023-5555555",
+            "annotations": [
+                {
+                    "text": "023-5555555",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "text": "030 555 5555",
+            "annotations": [
+                {
+                    "text": "030 555 5555",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "text": "030-5555555",
+            "annotations": [
+                {
+                    "text": "030-5555555",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "text": "0305555555",
+            "annotations": [
+                {
+                    "text": "0305555555",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "text": "0314-555555",
+            "annotations": [
+                {
+                    "text": "0314-555555",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "text": "046-555555",
+            "annotations": [
+                {
+                    "text": "046-555555",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "text": "0474 555555",
+            "annotations": [
+                {
+                    "text": "0474 555555",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "text": "06 55 55 55 55",
+            "annotations": [
+                {
+                    "text": "06 55 55 55 55",
+                    "start_char": 0,
+                    "end_char": 14,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 16,
+            "text": "06 555 555 55",
+            "annotations": [
+                {
+                    "text": "06 555 555 55",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 17,
+            "text": "06-55555555",
+            "annotations": [
+                {
+                    "text": "06-55555555",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "text": "0655555555",
+            "annotations": [
+                {
+                    "text": "0655555555",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "text": "088 - 7555555",
+            "annotations": [
+                {
+                    "text": "088 - 7555555",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 20,
+            "text": "088 2555555",
+            "annotations": [
+                {
+                    "text": "088 2555555",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 21,
+            "text": "088 755 55 55",
+            "annotations": [
+                {
+                    "text": "088 755 55 55",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 22,
+            "text": "088 755 5555",
+            "annotations": [
+                {
+                    "text": "088 755 5555",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 23,
+            "text": "088-7555555",
+            "annotations": [
+                {
+                    "text": "088-7555555",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 24,
+            "text": "0883155555",
+            "annotations": [
+                {
+                    "text": "0883155555",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 25,
+            "text": "08875-55555",
+            "annotations": [
+                {
+                    "text": "08875-55555",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 26,
+            "text": "030 - 5555 555",
+            "annotations": [
+                {
+                    "text": "030 - 5555 555",
+                    "start_char": 0,
+                    "end_char": 14,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 27,
+            "text": "030 - 5555555",
+            "annotations": [
+                {
+                    "text": "030 - 5555555",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 28,
+            "text": "030 5555 555",
+            "annotations": [
+                {
+                    "text": "030 5555 555",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 29,
+            "text": "0305555555",
+            "annotations": [
+                {
+                    "text": "0305555555",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 30,
+            "text": "06 555 555 55",
+            "annotations": [
+                {
+                    "text": "06 555 555 55",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 31,
+            "text": "06 5555 5555",
+            "annotations": [
+                {
+                    "text": "06 5555 5555",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 32,
+            "text": "06-55555555",
+            "annotations": [
+                {
+                    "text": "06-55555555",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 33,
+            "text": "065555 5555",
+            "annotations": [
+                {
+                    "text": "065555 5555",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 34,
+            "text": "0655555555",
+            "annotations": [
+                {
+                    "text": "0655555555",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 35,
+            "text": "0800 5555",
+            "annotations": [
+                {
+                    "text": "0800 5555",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 36,
+            "text": "088 - 7555555",
+            "annotations": [
+                {
+                    "text": "088 - 7555555",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 37,
+            "text": "088 75 555 55",
+            "annotations": [
+                {
+                    "text": "088 75 555 55",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 38,
+            "text": "088 755 5555",
+            "annotations": [
+                {
+                    "text": "088 755 5555",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 39,
+            "text": "088-75 555 55",
+            "annotations": [
+                {
+                    "text": "088-75 555 55",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 40,
+            "text": "088-7555555",
+            "annotations": [
+                {
+                    "text": "088-7555555",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 41,
+            "text": "08875-55555",
+            "annotations": [
+                {
+                    "text": "08875-55555",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 42,
+            "text": "with extra digit: 088-75 555555",
+            "annotations": [
+                {
+                    "text": "088-75 555555",
+                    "start_char": 18,
+                    "end_char": 31,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 43,
+            "text": "with 1 digit short: 088-75 5555",
+            "annotations": [
+                {
+                    "text": "088-75 5555",
+                    "start_char": 20,
+                    "end_char": 31,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        },
+        {
+            "id": 44,
+            "text": "5348573857385",
+            "annotations": []
+        },
+        {
+            "id": 45,
+            "text": "1234567890",
+            "annotations": []
+        },
+        {
+            "id": 46,
+            "text": "0123456789",
+            "annotations": [
+                {
+                    "text": "0123456789",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "telefoonnummer"
+                }
+            ]
+        }
+    ]
+}
