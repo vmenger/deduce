@@ -156,17 +156,3 @@ class TestRegexpAnnotators:
         annotations = annotate_text(text, annotator)
 
         assert annotations == expected_annotations
-
-    def test_annotate_age(self):
-        text = "14 jaar oud, 14-jarige, 14 jarig, 14 jaar geleden"
-
-        annotator = get_annotator("age", group="ages")
-        expected_annotations = {
-            dd.Annotation(text="14", start_char=13, end_char=15, tag=annotator.tag),
-            dd.Annotation(text="14", start_char=0, end_char=2, tag=annotator.tag),
-            dd.Annotation(text="14", start_char=24, end_char=26, tag=annotator.tag),
-        }
-
-        annotations = annotate_text(text, [annotator])
-
-        assert annotations == expected_annotations
