@@ -22,7 +22,7 @@ def regression_test(examples_file: str, enabled: set[str], known_failures: set[i
         try:
             assert trues == preds
         except AssertionError:
-            failures.add(example["example_id"])
+            failures.add(example["id"])
 
     assert failures == known_failures
 
@@ -33,7 +33,7 @@ class TestRegression:
 
         regression_test(
             examples_file="tests/regression/data/identifiers.json",
-            enabled={"identifiers", "identifier"},
+            enabled={"identifiers", "bsn", "identifier"},
             known_failures=set()
         )
 
