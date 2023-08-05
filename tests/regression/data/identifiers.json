@@ -1,0 +1,86 @@
+{
+    "examples": [
+        {
+            "id": 0,
+            "text": "123456",
+            "annotations": []
+        },
+        {
+            "id": 1,
+            "text": "1234567",
+            "annotations": [
+                {
+                    "text": "1234567",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "text": "12345678",
+            "annotations": [
+                {
+                    "text": "12345678",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "text": "99999999999999",
+            "annotations": [
+                {
+                    "text": "99999999999999",
+                    "start_char": 0,
+                    "end_char": 14,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "text": "99999 99999",
+            "annotations": []
+        },
+        {
+            "id": 5,
+            "text": "Serienummer: 1234567",
+            "annotations": [
+                {
+                    "text": "1234567",
+                    "start_char": 13,
+                    "end_char": 20,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "text": "(134258395)",
+            "annotations": [
+                {
+                    "text": "134258395",
+                    "start_char": 1,
+                    "end_char": 10,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "text": "345934583495 patnr",
+            "annotations": [
+                {
+                    "text": "345934583495",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "id"
+                }
+            ]
+        }
+    ]
+}

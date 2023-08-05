@@ -28,6 +28,15 @@ def regression_test(examples_file: str, enabled: set[str], known_failures: set[i
 
 
 class TestRegression:
+
+    def test_regression_identifier(self):
+
+        regression_test(
+            examples_file="tests/regression/data/identifiers.json",
+            enabled={"identifiers", "identifier"},
+            known_failures=set()
+        )
+
     def test_regression_phone(self):
 
         regression_test(
