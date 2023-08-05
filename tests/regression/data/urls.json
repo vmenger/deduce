@@ -1,0 +1,160 @@
+{
+    "examples": [
+        {
+            "id": 0,
+            "text": "Vragen? Kijk op www.umcutrecht.nl.",
+            "annotations": [
+                {
+                    "text": "www.umcutrecht.nl",
+                    "start_char": 16,
+                    "end_char": 33,
+                    "tag": "url"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "text": "http://www.umcutrecht.nl",
+            "annotations": [
+                {
+                    "text": "http://www.umcutrecht.nl",
+                    "start_char": 0,
+                    "end_char": 24,
+                    "tag": "url"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "text": "https://packaging.pypi.org",
+            "annotations": [
+                {
+                    "text": "https://packaging.pypi.org",
+                    "start_char": 0,
+                    "end_char": 26,
+                    "tag": "url"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "text": "softwareengineering.stackexchange.com/questions/348295/is-there-such-a-thing-as-having-too-many-unit-tests",
+            "annotations": [
+                {
+                    "text": "softwareengineering.stackexchange.com/questions/348295/is-there-such-a-thing-as-having-too-many-unit-tests",
+                    "start_char": 0,
+                    "end_char": 106,
+                    "tag": "url"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "text": "informatie-niertransplantaties.net",
+            "annotations": [
+                {
+                    "text": "informatie-niertransplantaties.net",
+                    "start_char": 0,
+                    "end_char": 34,
+                    "tag": "url"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "text": "www.umcutrecht.nl",
+            "annotations": [
+                {
+                    "text": "www.umcutrecht.nl",
+                    "start_char": 0,
+                    "end_char": 17,
+                    "tag": "url"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "text": "info@umcutrecht.nl",
+            "annotations": [
+                {
+                    "text": "umcutrecht.nl",
+                    "start_char": 5,
+                    "end_char": 18,
+                    "tag": "url"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "text": "https://www.umcutrecht.nl/nl/over-ons/nieuws/algemeen/umc-utrecht-en-prinses-maxima-centrum-zien-met-vertrouwen-uit-naar-snelle-inhoudelijke-behandeling-besluit-kinderhartchirurgie",
+            "annotations": [
+                {
+                    "text": "https://www.umcutrecht.nl/nl/over-ons/nieuws/algemeen/umc-utrecht-en-prinses-maxima-centrum-zien-met-vertrouwen-uit-naar-snelle-inhoudelijke-behandeling-besluit-kinderhartchirurgie",
+                    "start_char": 0,
+                    "end_char": 180,
+                    "tag": "url"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "text": "https://www.umcutrecht.nl/nl/voorlichting/informatie-over-anesthesie",
+            "annotations": [
+                {
+                    "text": "https://www.umcutrecht.nl/nl/voorlichting/informatie-over-anesthesie",
+                    "start_char": 0,
+                    "end_char": 68,
+                    "tag": "url"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "text": "https://www.umcutrecht.nl/incident",
+            "annotations": [
+                {
+                    "text": "https://www.umcutrecht.nl/incident",
+                    "start_char": 0,
+                    "end_char": 34,
+                    "tag": "url"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "text": "umcutrecht.nl",
+            "annotations": [
+                {
+                    "text": "umcutrecht.nl",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "url"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "text": "azu.nl",
+            "annotations": [
+                {
+                    "text": "azu.nl",
+                    "start_char": 0,
+                    "end_char": 6,
+                    "tag": "url"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "text": "hetwkz.nl",
+            "annotations": [
+                {
+                    "text": "hetwkz.nl",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "url"
+                }
+            ]
+        }
+    ]
+}

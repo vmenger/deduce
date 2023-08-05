@@ -43,7 +43,7 @@ The `Annotator` is responsible for tagging pieces of information in the text as 
 |                 | date_ymd_2               | regexp             | Dates ymd format (pattern 2)                                                               |
 | ages            | age                      | regexp             | Ages                                                                                       |
 | identifiers     | identifier               | regexp             | Identifiers (7+ digit numbers)                                                             |
-| bsn             | bsn                      | custom             | BSN-numbers (9 digits + specific 'elfproef')                                               |
+|                 | bsn                      | custom             | BSN-numbers (9 digits + specific 'elfproef')                                               |
 | phone_numbers   | phone                    | regexp             | Phone numbers                                                                              |
 | email_addresses | email                    | regexp             | E-mail addresses                                                                           |
 | urls            | url                      | regexp             | URLs                                                                                       |

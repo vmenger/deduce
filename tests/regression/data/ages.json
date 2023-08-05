@@ -1,0 +1,135 @@
+{
+    "examples": [
+        {
+            "id": 0,
+            "text": "10 jaar oud",
+            "annotations": [
+                {
+                    "text": "10",
+                    "start_char": 0,
+                    "end_char": 2,
+                    "tag": "leeftijd"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "text": "10-jarige patient",
+            "annotations": [
+                {
+                    "text": "10",
+                    "start_char": 0,
+                    "end_char": 2,
+                    "tag": "leeftijd"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "text": "10 jaar geleden",
+            "annotations": []
+        },
+        {
+            "id": 3,
+            "text": "al 10 jaar",
+            "annotations": []
+        },
+        {
+            "id": 4,
+            "text": "elke 2 jaar afspraak",
+            "annotations": []
+        },
+        {
+            "id": 5,
+            "text": "op 11-12 jarige leeftijd herhalen",
+            "annotations": [
+                {
+                    "text": "11-12",
+                    "start_char": 3,
+                    "end_char": 8,
+                    "tag": "leeftijd"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "text": "12,5 jaar gestopt met roken",
+            "annotations": []
+        },
+        {
+            "id": 7,
+            "text": "1 jaar en 3 maanden",
+            "annotations": [
+                {
+                    "text": "1",
+                    "start_char": 0,
+                    "end_char": 1,
+                    "tag": "leeftijd"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "text": "over 1 jaar controle",
+            "annotations": []
+        },
+     {
+            "id": 9,
+            "text": "klachten begonnen 1,5 jaar geleden",
+            "annotations": []
+        },
+        {
+            "id": 10,
+            "text": "2.5 jaar zonder klachten",
+            "annotations": []
+        },
+        {
+            "id": 11,
+            "text": "leeftijd 3-4 jaar",
+            "annotations": [
+                {
+                    "text": "3-4",
+                    "start_char": 9,
+                    "end_char": 12,
+                    "tag": "leeftijd"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "text": "patient is 6,5 jaar oud",
+            "annotations": [
+                {
+                    "text": "6,5",
+                    "start_char": 11,
+                    "end_char": 14,
+                    "tag": "leeftijd"
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "text": "op 12,5-jarige leeftijd nieuwe afspraak",
+            "annotations": [
+                {
+                    "text": "12,5",
+                    "start_char": 3,
+                    "end_char": 7,
+                    "tag": "leeftijd"
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "text": "tussen 11-12,5 jaar oud nieuwe afspraak",
+            "annotations": [
+                {
+                    "text": "11-12,5",
+                    "start_char": 7,
+                    "end_char": 14,
+                    "tag": "leeftijd"
+                }
+            ]
+        }
+    ]
+}

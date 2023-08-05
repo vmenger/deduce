@@ -63,10 +63,11 @@ from deduce import Deduce
 
 deduce = Deduce()
 
-text = """Dit is stukje tekst met daarin de naam Jan Jansen. De patient J. Jansen 
-        (e: j.jnsen@email.com, t: 06-12345678) is 64 jaar oud en woonachtig 
-        in Utrecht. Hij werd op 10 oktober door arts Peter de Visser ontslagen 
-        van de kliniek van het UMCU."""
+text = (
+    "betreft: Jan Jansen, bsn 111222333, patnr 000334433. De patient J. Jansen is 64 jaar oud en woonachtig in "
+    "Utrecht. Hij werd op 10 oktober 2018 door arts Peter de Visser ontslagen van de kliniek van het UMCU. "
+    "Voor nazorg kan hij worden bereikt via j.JNSEN.123@gmail.com of (06)12345678."
+)
 
 doc = deduce.deidentify(text)
 ```
@@ -78,22 +79,25 @@ from pprint import pprint
 
 pprint(doc.annotations)
 
-AnnotationSet({Annotation(text='Jan Jansen', start_char=39, end_char=49, tag='persoon', length=10),
-               Annotation(text='Peter de Visser', start_char=185, end_char=200, tag='persoon', length=15),
-               Annotation(text='j.jnsen@email.com', start_char=76, end_char=93, tag='email', length=17),
-               Annotation(text='10 oktober', start_char=164, end_char=174, tag='datum', length=10),
-               Annotation(text='patient J. Jansen', start_char=54, end_char=71, tag='persoon', length=17),
-               Annotation(text='64', start_char=114, end_char=116, tag='leeftijd', length=2),
-               Annotation(text='UMCU', start_char=234, end_char=238, tag='instelling', length=4),
-               Annotation(text='06-12345678', start_char=98, end_char=109, tag='telefoonnummer', length=11),
-               Annotation(text='Utrecht', start_char=143, end_char=150, tag='locatie', length=7)})
+AnnotationSet({
+    Annotation(text="(06)12345678", start_char=272, end_char=284, tag="telefoonnummer"),
+    Annotation(text="111222333", start_char=25, end_char=34, tag="bsn"),
+    Annotation(text="Peter de Visser", start_char=153, end_char=168, tag="persoon"),
+    Annotation(text="j.JNSEN.123@gmail.com", start_char=247, end_char=268, tag="email"),
+    Annotation(text="patient J. Jansen", start_char=56, end_char=73, tag="patient"),
+    Annotation(text="Jan Jansen", start_char=9, end_char=19, tag="patient"),
+    Annotation(text="10 oktober 2018", start_char=127, end_char=142, tag="datum"),
+    Annotation(text="64", start_char=77, end_char=79, tag="leeftijd"),
+    Annotation(text="000334433", start_char=42, end_char=51, tag="id"),
+    Annotation(text="Utrecht", start_char=106, end_char=113, tag="locatie"),
+    Annotation(text="UMCU", start_char=202, end_char=206, tag="instelling"),
+})
 
 print(doc.deidentified_text)
 
-"""Dit is stukje tekst met daarin de naam <PERSOON-1>. De <PERSOON-2> 
-(e: <EMAIL-1>, t: <TELEFOONNUMMER-1>) is <LEEFTIJD-1> jaar oud en woonachtig 
-in <LOCATIE-1>. Hij werd op <DATUM-1> door arts <PERSOON-3> ontslagen 
-van de kliniek van het <INSTELLING-1>."""
+"""betreft: <PERSOON-1>, bsn <BSN-1>, patnr <ID-1>. De <PERSOON-1> is <LEEFTIJD-1> jaar oud en woonachtig in 
+<LOCATIE-1>. Hij werd op <DATUM-1> door arts <PERSOON-2> ontslagen van de kliniek van het <INSTELLING-1>. 
+Voor nazorg kan hij worden bereikt via <EMAIL-1> of <TELEFOONNUMMER-1>."""
 ```
 
 Aditionally, if the names of the patient are known, they may be added as `metadata`, where they will be picked up by `deduce`:
@@ -106,10 +110,9 @@ doc = deduce.deidentify(text, metadata={'patient': patient})
 
 print (doc.deidentified_text)
 
-"""Dit is stukje tekst met daarin de naam <PATIENT>. De <PATIENT> 
-(e: <EMAIL-1>, t: <TELEFOONNUMMER-1>) is <LEEFTIJD-1> jaar oud en woonachtig 
-in <LOCATIE-1>. Hij werd op <DATUM-1> door arts <PERSOON-1> ontslagen 
-van de kliniek van het <INSTELLING-1>."""
+"""betreft: <PATIENT>, bsn <BSN-1>, patnr <ID-1>. De <PATIENT> is <LEEFTIJD-1> jaar oud en woonachtig in 
+<LOCATIE-1>. Hij werd op <DATUM-1> door arts <PERSOON-2> ontslagen van de kliniek van het <INSTELLING-1>. 
+Voor nazorg kan hij worden bereikt via <EMAIL-1> of <TELEFOONNUMMER-1>."""
 ```
 
 As you can see, adding known names keeps references to `<PATIENT>` in text. It also increases recall, as not all known names are contained in the lookup lists. 

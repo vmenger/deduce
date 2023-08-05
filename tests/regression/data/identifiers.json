@@ -1,0 +1,170 @@
+{
+    "examples": [
+        {
+            "id": 0,
+            "text": "123456",
+            "annotations": []
+        },
+        {
+            "id": 1,
+            "text": "1234567",
+            "annotations": [
+                {
+                    "text": "1234567",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "text": "12345678",
+            "annotations": [
+                {
+                    "text": "12345678",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "text": "99999999999999",
+            "annotations": [
+                {
+                    "text": "99999999999999",
+                    "start_char": 0,
+                    "end_char": 14,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "text": "99999 99999",
+            "annotations": []
+        },
+        {
+            "id": 5,
+            "text": "Serienummer: 1234567",
+            "annotations": [
+                {
+                    "text": "1234567",
+                    "start_char": 13,
+                    "end_char": 20,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "text": "(134258395)",
+            "annotations": [
+                {
+                    "text": "134258395",
+                    "start_char": 1,
+                    "end_char": 10,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "text": "345934583495 patnr",
+            "annotations": [
+                {
+                    "text": "345934583495",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "text": "111222333 (bsn)",
+            "annotations": [
+                {
+                    "text": "111222333",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "bsn"
+                },
+                {
+                    "text": "111222333",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "text": "bsn: 111222334",
+            "annotations": [
+                {
+                    "text": "111222334",
+                    "start_char": 5,
+                    "end_char": 14,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "text": "123456782",
+            "annotations": [
+                {
+                    "text": "123456782",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "bsn"
+                },
+                {
+                    "text": "123456782",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "text": "123456783",
+            "annotations": [
+                {
+                    "text": "123456783",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "text": "111111111",
+            "annotations": [
+                {
+                    "text": "111111111",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "id"
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "text": "11122233",
+            "annotations": [
+                {
+                    "text": "11122233",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "id"
+                }
+            ]
+        }
+    ]
+}
