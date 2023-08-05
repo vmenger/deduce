@@ -1,4 +1,5 @@
 import json
+from typing import Optional
 
 from docdeid import Annotation, AnnotationSet
 
@@ -7,7 +8,10 @@ from deduce import Deduce
 model = Deduce()
 
 
-def regression_test(examples_file: str, enabled: set[str], known_failures: set[int]):
+def regression_test(examples_file: str, enabled: set[str], known_failures: Optional[set[int]] = None):
+
+    if known_failures is None:
+        known_failures = set()
 
     with open(examples_file, "rb") as file:
         examples = json.load(file)["examples"]
@@ -28,6 +32,13 @@ def regression_test(examples_file: str, enabled: set[str], known_failures: set[i
 
 
 class TestRegression:
+    def test_regression_date(self):
+
+        regression_test(
+            examples_file="tests/regression/data/dates.json",
+            enabled={"dates", "date_dmy_1", "date_dmy_2", "date_ymd_1", "date_ymd_2"},
+        )
+
     def test_regression_age(self):
 
         regression_test(
@@ -41,7 +52,6 @@ class TestRegression:
         regression_test(
             examples_file="tests/regression/data/identifiers.json",
             enabled={"identifiers", "bsn", "identifier"},
-            known_failures=set(),
         )
 
     def test_regression_phone(self):
@@ -49,7 +59,6 @@ class TestRegression:
         regression_test(
             examples_file="tests/regression/data/phone_numbers.json",
             enabled={"phone_numbers", "phone"},
-            known_failures=set(),
         )
 
     def test_regression_email(self):
@@ -57,7 +66,6 @@ class TestRegression:
         regression_test(
             examples_file="tests/regression/data/emails.json",
             enabled={"email_addresses", "email"},
-            known_failures=set(),
         )
 
     def test_regression_url(self):
@@ -65,5 +73,4 @@ class TestRegression:
         regression_test(
             examples_file="tests/regression/data/urls.json",
             enabled={"urls", "url"},
-            known_failures=set(),
         )

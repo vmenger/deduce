@@ -1,0 +1,594 @@
+{
+    "examples": [
+        {
+            "id": 0,
+            "text": "24-07-1966",
+            "annotations": [
+                {
+                    "text": "24-07-1966",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "text": "26-4-21",
+            "annotations": [
+                {
+                    "text": "26-4-21",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "text": "6-7-1958",
+            "annotations": [
+                {
+                    "text": "6-7-1958",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "text": "31-05-2009",
+            "annotations": [
+                {
+                    "text": "31-05-2009",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "text": "12-04-'02",
+            "annotations": [
+                {
+                    "text": "12-04-'02",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "text": "9-9-1999",
+            "annotations": [
+                {
+                    "text": "9-9-1999",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "text": "32-01-2018",
+            "annotations": []
+        },
+        {
+            "id": 7,
+            "text": "01-13-2018",
+            "annotations": []
+        },
+        {
+            "id": 8,
+            "text": "01-01-3018",
+            "annotations": []
+        },
+        {
+            "id": 9,
+            "text": "30/5/22",
+            "annotations": [
+                {
+                    "text": "30/5/22",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "text": "30-5-`22",
+            "annotations": [
+                {
+                    "text": "30-5-`22",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "text": "8/12/18",
+            "annotations": [
+                {
+                    "text": "8/12/18",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "text": "8/12/1899",
+            "annotations": []
+        },
+        {
+            "id": 13,
+            "text": "8/12/20000",
+            "annotations": []
+        },
+        {
+            "id": 14,
+            "text": "8.1.2022",
+            "annotations": [
+                {
+                    "text": "8.1.2022",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "text": "38.1.2022",
+            "annotations": []
+        },
+        {
+            "id": 16,
+            "text": "23 10 2011",
+            "annotations": [
+                {
+                    "text": "23 10 2011",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 17,
+            "text": "1 augustus 2019",
+            "annotations": [
+                {
+                    "text": "1 augustus 2019",
+                    "start_char": 0,
+                    "end_char": 15,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "text": "17 mei 2011",
+            "annotations": [
+                {
+                    "text": "17 mei 2011",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "text": "17-mei-2011",
+            "annotations": [
+                {
+                    "text": "17-mei-2011",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 20,
+            "text": "17 mei '11",
+            "annotations": [
+                {
+                    "text": "17 mei '11",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 21,
+            "text": "1 aug 2012",
+            "annotations": [
+                {
+                    "text": "1 aug 2012",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 22,
+            "text": "4 jan 1999",
+            "annotations": [
+                {
+                    "text": "4 jan 1999",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 23,
+            "text": "4 JAN 1999",
+            "annotations": [
+                {
+                    "text": "4 JAN 1999",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 24,
+            "text": "1 AUGUSTUS 2018",
+            "annotations": [
+                {
+                    "text": "1 AUGUSTUS 2018",
+                    "start_char": 0,
+                    "end_char": 15,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 25,
+            "text": "38 augustus 2018",
+            "annotations": []
+        },
+        {
+            "id": 26,
+            "text": "15.jan.1928",
+            "annotations": [
+                {
+                    "text": "15.jan.1928",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 27,
+            "text": "15- jan 1928",
+            "annotations": [
+                {
+                    "text": "15- jan 1928",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 28,
+            "text": "1- AUGUSTUS 20181966-07-24",
+            "annotations": []
+        },
+        {
+            "id": 29,
+            "text": "21-4-26",
+            "annotations": [
+                {
+                    "text": "21-4-26",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 30,
+            "text": "1958-7-6",
+            "annotations": [
+                {
+                    "text": "1958-7-6",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 31,
+            "text": "2009-05-31",
+            "annotations": [
+                {
+                    "text": "2009-05-31",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 32,
+            "text": "'02-04-12",
+            "annotations": [
+                {
+                    "text": "02-04-12",
+                    "start_char": 1,
+                    "end_char": 9,
+                    "tag": "datum"
+                },
+                {
+                    "text": "'02-04-12",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 33,
+            "text": "1999-9-9",
+            "annotations": [
+                {
+                    "text": "1999-9-9",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 34,
+            "text": "2018-01-32",
+            "annotations": []
+        },
+        {
+            "id": 35,
+            "text": "2018-13-01",
+            "annotations": []
+        },
+        {
+            "id": 36,
+            "text": "3018-01-01",
+            "annotations": []
+        },
+        {
+            "id": 37,
+            "text": "22/5/30",
+            "annotations": [
+                {
+                    "text": "22/5/30",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 38,
+            "text": "`22-5-30",
+            "annotations": [
+                {
+                    "text": "`22-5-30",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "datum"
+                },
+                {
+                    "text": "22-5-30",
+                    "start_char": 1,
+                    "end_char": 8,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 39,
+            "text": "18/12/8",
+            "annotations": []
+        },
+        {
+            "id": 40,
+            "text": "1899/12/8",
+            "annotations": []
+        },
+        {
+            "id": 41,
+            "text": "20000/12/8",
+            "annotations": []
+        },
+        {
+            "id": 42,
+            "text": "2022.1.8",
+            "annotations": [
+                {
+                    "text": "2022.1.8",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 43,
+            "text": "2022.1.38",
+            "annotations": []
+        },
+        {
+            "id": 44,
+            "text": "2011 10 23",
+            "annotations": [
+                {
+                    "text": "2011 10 23",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 45,
+            "text": "2019 augustus 1",
+            "annotations": [
+                {
+                    "text": "2019 augustus 1",
+                    "start_char": 0,
+                    "end_char": 15,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 46,
+            "text": "2011 mei 17",
+            "annotations": [
+                {
+                    "text": "2011 mei 17",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 47,
+            "text": "2011-mei-17",
+            "annotations": [
+                {
+                    "text": "2011-mei-17",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 48,
+            "text": "'11 mei 17",
+            "annotations": [
+                {
+                    "text": "11 mei 17",
+                    "start_char": 1,
+                    "end_char": 10,
+                    "tag": "datum"
+                },
+                {
+                    "text": "'11 mei 17",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 49,
+            "text": "2012 aug 1",
+            "annotations": [
+                {
+                    "text": "2012 aug 1",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 50,
+            "text": "1999 jan 4",
+            "annotations": [
+                {
+                    "text": "1999 jan 4",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 51,
+            "text": "1999 JAN 4",
+            "annotations": [
+                {
+                    "text": "1999 JAN 4",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 52,
+            "text": "2018 AUGUSTUS 1",
+            "annotations": [
+                {
+                    "text": "2018 AUGUSTUS 1",
+                    "start_char": 0,
+                    "end_char": 15,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 53,
+            "text": "2018 augustus 38",
+            "annotations": []
+        },
+        {
+            "id": 54,
+            "text": "1928.jan.15",
+            "annotations": [
+                {
+                    "text": "1928.jan.15",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 55,
+            "text": "1928- jan 15",
+            "annotations": [
+                {
+                    "text": "1928- jan 15",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 56,
+            "text": "2018- AUGUSTUS 1",
+            "annotations": [
+                {
+                    "text": "2018- AUGUSTUS 1",
+                    "start_char": 0,
+                    "end_char": 16,
+                    "tag": "datum"
+                }
+            ]
+        }
+    ]
+}

@@ -136,23 +136,3 @@ class TestRegexpAnnotators:
         annotations = annotate_text(text, [annotator])
 
         assert annotations == expected_annotations
-
-    def test_annotate_date(self):
-        text = "26-10-2018, 24 april 2018, 1 mei 2018"
-
-        annotator = [
-            get_annotator("date_dmy_1", group="dates"),
-            get_annotator("date_dmy_2", group="dates"),
-            get_annotator("date_ymd_1", group="dates"),
-            get_annotator("date_ymd_2", group="dates"),
-        ]
-
-        expected_annotations = {
-            dd.Annotation(text="26-10-2018", start_char=0, end_char=10, tag=annotator[0].tag),
-            dd.Annotation(text="24 april 2018", start_char=12, end_char=25, tag=annotator[0].tag),
-            dd.Annotation(text="1 mei 2018", start_char=27, end_char=37, tag=annotator[0].tag),
-        }
-
-        annotations = annotate_text(text, annotator)
-
-        assert annotations == expected_annotations
