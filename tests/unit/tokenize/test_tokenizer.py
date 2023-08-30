@@ -41,8 +41,7 @@ class TestTokenizer:
             dd.tokenize.Token(text="prematuur", start_char=0, end_char=9),
             dd.tokenize.Token(text="(", start_char=10, end_char=11),
             dd.tokenize.Token(text="<", start_char=11, end_char=12),
-            dd.tokenize.Token(text="p", start_char=12, end_char=13),
-            dd.tokenize.Token(text="3", start_char=13, end_char=14),
+            dd.tokenize.Token(text="p3", start_char=12, end_char=14),
             dd.tokenize.Token(text=")", start_char=14, end_char=15),
         ]
 

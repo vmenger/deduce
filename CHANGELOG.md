@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - tokenizer logic: 
-  - a token is now a sequence of alpha characters, a sequence of numeric characters, a single newline, or a single special character. 
+  - a token is now a sequence of alphanumeric characters, a single newline, or a single special character. 
   - whitespaces are no longer considered tokens
 
 
