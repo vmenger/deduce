@@ -4,14 +4,13 @@ from typing import Iterable, Optional
 import docdeid as dd
 import regex
 
-from deduce import utils
+TOKENIZER_PATTERN = regex.compile(r"[a-z]+|\d+|[\n\r]|.(?<! )", flags=re.I | re.M)
 
 
-class DeduceTokenizer(dd.Tokenizer):
+class DeduceTokenizer(dd.tokenize.Tokenizer):
     """
-    This tokenizes text according to the specific Deduce logic. It uses the regexp pattern ``[\p{L}]+|[^\p{L}]+`` (case
-    insensitive), which is equivalent to splitting when going from alpha characters to non-alpha characters. It includes
-    whitespaces as tokens.
+    Tokenizes text, where a token is any sequence of alpha characters (case insensitive), any sequence of numeric
+    characters, a single newline character, or a single special character. It does not include whitespaces as tokens.
 
     Arguments:
         merge_terms: An iterable of strings that should not be split (i.e. always returned as tokens).
@@ -20,7 +19,7 @@ class DeduceTokenizer(dd.Tokenizer):
     def __init__(self, merge_terms: Optional[Iterable] = None) -> None:
         super().__init__()
 
-        self._pattern = regex.compile(r"[\p{L}]+|[^\p{L}]+", flags=re.I | re.M)
+        self._pattern = TOKENIZER_PATTERN
         self._trie = None
 
         if merge_terms is not None:
@@ -33,7 +32,27 @@ class DeduceTokenizer(dd.Tokenizer):
 
             self._trie = trie
 
-    def _merge(self, tokens: list[dd.Token]) -> list[dd.Token]:
+    @staticmethod
+    def _join_tokens(text: str, tokens: list[dd.tokenize.Token]) -> dd.tokenize.Token:
+        """
+        Join a list of tokens into a single token. Does this by joining together the text, and taking the first Token'
+        ``start_char`` and last Token' ``end_char``. Note that this only makes sense for the current non- destructive
+        tokenizing logic.
+
+        Args:
+            tokens: The input tokens.
+
+        Returns:
+            The output token.
+        """
+
+        return dd.tokenize.Token(
+            text=text[tokens[0].start_char : tokens[-1].end_char],
+            start_char=tokens[0].start_char,
+            end_char=tokens[-1].end_char,
+        )
+
+    def _merge(self, text: str, tokens: list[dd.tokenize.Token]) -> list[dd.tokenize.Token]:
         """
         Merge a list of tokens based on the trie.
 
@@ -58,48 +77,12 @@ class DeduceTokenizer(dd.Tokenizer):
 
             else:
                 num_tokens_to_merge = len(longest_matching_prefix)
-                tokens_merged.append(self._join_tokens(tokens[i : i + num_tokens_to_merge]))
+                tokens_merged.append(self._join_tokens(text, tokens[i : i + num_tokens_to_merge]))
                 i += num_tokens_to_merge
 
         return tokens_merged
 
-    @staticmethod
-    def _join_tokens(tokens: list[dd.Token]) -> dd.Token:
-        """
-        Join a list of tokens into a single token. Does this by joining together the text, and taking the first Token'
-        ``start_char`` and last Token' ``end_char``. Note that this only makes sense for the current non- destructive
-        tokenizing logic.
-
-        Args:
-            tokens: The input tokens.
-
-        Returns:
-            The output token.
-        """
-
-        return dd.Token(
-            text="".join(token.text for token in tokens),
-            start_char=tokens[0].start_char,
-            end_char=tokens[-1].end_char,
-        )
-
-    @staticmethod
-    def _matches_to_tokens(matches: list[regex.Match]) -> list[dd.Token]:
-        """
-        Create tokens from regexp matches.
-
-        Args:
-            matches: The matches.
-
-        Returns:
-            The tokens.
-        """
-
-        return [
-            dd.Token(text=match.group(0), start_char=match.span()[0], end_char=match.span()[1]) for match in matches
-        ]
-
-    def _split_text(self, text: str) -> list[dd.Token]:
+    def _split_text(self, text: str) -> list[dd.tokenize.Token]:
         """
         Split text, based on the regexp pattern.
 
@@ -110,64 +93,12 @@ class DeduceTokenizer(dd.Tokenizer):
             A list of tokens.
         """
 
-        matches = self._pattern.finditer(text)
-        tokens = self._matches_to_tokens(matches)
+        tokens = []
+
+        for match in self._pattern.finditer(text):
+            tokens.append(dd.tokenize.Token(text=match.group(0), start_char=match.span()[0], end_char=match.span()[1]))
 
         if self._trie is not None:
-            tokens = self._merge(tokens)
+            tokens = self._merge(text, tokens)
 
         return tokens
-
-    @staticmethod
-    def _previous_token(position: int, tokens: list[dd.Token]) -> Optional[dd.Token]:
-        """
-        Logic for previous token. Only returns tokens that start with an alpha character, and never returns when a
-        ``(``, ``<`` or newline character is found.
-
-        Args:
-            position: The position to start looking for the previous token.
-            tokens: The full list of tokens.
-
-        Returns:
-            The previous token, if any, else ``None``.
-        """
-
-        if position == 0:
-            return None
-
-        for token in tokens[position - 1 :: -1]:
-
-            if token.text[0].isalpha():
-                return token
-
-            if token.text[0] == "(" or token.text[0] == "<" or utils.any_in_text(["\n", "\r", "\t"], token.text):
-                return None
-
-        return None
-
-    @staticmethod
-    def _next_token(position: int, tokens: list[dd.Token]) -> Optional[dd.Token]:
-        """
-        Logic for next token. Only returns tokens that start with an alpha character, and never returns when a ``)``,
-        ``>`` or newline character is found.
-
-        Args:
-            position: The position to start looking for the next token.
-            tokens: The full list of tokens.
-
-        Returns:
-            The next token, if any, else ``None``.
-        """
-
-        if position == len(tokens):
-            return None
-
-        for token in tokens[position + 1 :]:
-
-            if token.text[0].isalpha():
-                return token
-
-            if token.text[0] == ")" or token.text[0] == ">" or utils.any_in_text(["\n", "\r", "\t"], token.text):
-                return None
-
-        return None
