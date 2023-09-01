@@ -22,14 +22,14 @@ class DeduceToken(dd.tokenize.Token):
             if next_token.text in {')', '>', '\n', '\r', '\t'}:
                 return None
 
-            next_token = next_token.next()
-
             if next_token.text.isalpha():
 
                 cntr += 1
 
                 if cntr == num:
                     return next_token
+
+            next_token = next_token.next()
 
     def previous_alpha(self, num: int = 1) -> Optional[dd.tokenize.Token]:
 
@@ -44,14 +44,16 @@ class DeduceToken(dd.tokenize.Token):
             if previous_token.text in {'(', '<', '\n', '\r', '\t'}:
                 return None
 
-            previous_token = previous_token.previous()
-
             if previous_token.text.isalpha():
 
                 cntr += 1
 
                 if cntr == num:
                     return previous_token
+
+            previous_token = previous_token.previous()
+
+
 
 
 class DeduceTokenizer(dd.tokenize.Tokenizer):
