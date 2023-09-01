@@ -67,7 +67,8 @@ class InitialsContextPattern(AnnotationContextPatternWithLookupSet):
 
     def match(self, annotation: dd.Annotation) -> Optional[tuple[dd.Token, dd.Token]]:
         previous_token_is_initial = (
-            len(annotation.start_token.previous_alpha().text) == 1 and annotation.start_token.previous_alpha().text[0].isupper()
+            len(annotation.start_token.previous_alpha().text) == 1
+            and annotation.start_token.previous_alpha().text[0].isupper()
         )
 
         previous_token_is_name = (
