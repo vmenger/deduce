@@ -42,7 +42,7 @@ class PersonInitialFromNamePattern(dd.TokenPattern):
 
             if str_match(token.text, first_name[0]):
 
-                next_token = token.next()
+                next_token = token.next_alpha()
 
                 if (next_token is not None) and str_match(next_token.text, "."):
                     return token, next_token
@@ -100,8 +100,8 @@ class PersonSurnamePattern(dd.TokenPattern):
 
             match_end_token = token
 
-            surname_token = surname_token.next()
-            token = token.next()
+            surname_token = surname_token.next_alpha()
+            token = token.next_alpha()
 
             if surname_token is None:
                 return start_token, match_end_token  # end of pattern

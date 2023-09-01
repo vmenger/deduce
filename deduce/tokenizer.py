@@ -7,6 +7,53 @@ import regex
 TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=re.I | re.M)
 
 
+class DeduceToken(dd.tokenize.Token):
+
+    def next_alpha(self, num: int = 1) -> Optional[dd.tokenize.Token]:
+
+        cntr = 0
+        next_token = self.next()
+
+        while True:
+
+            if next_token is None:
+                return None
+
+            if next_token.text in {')', '>', '\n', '\r', '\t'}:
+                return None
+
+            next_token = next_token.next()
+
+            if next_token.text.isalpha():
+
+                cntr += 1
+
+                if cntr == num:
+                    return next_token
+
+    def previous_alpha(self, num: int = 1) -> Optional[dd.tokenize.Token]:
+
+        cntr = 0
+        previous_token = self.previous()
+
+        while True:
+
+            if previous_token is None:
+                return None
+
+            if previous_token.text in {'(', '<', '\n', '\r', '\t'}:
+                return None
+
+            previous_token = previous_token.previous()
+
+            if previous_token.text.isalpha():
+
+                cntr += 1
+
+                if cntr == num:
+                    return previous_token
+
+
 class DeduceTokenizer(dd.tokenize.Tokenizer):
     """
     Tokenizes text, where a token is any sequence of alphanumeric characters (case insensitive), a single
@@ -46,7 +93,7 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
             The output token.
         """
 
-        return dd.tokenize.Token(
+        return DeduceToken(
             text=text[tokens[0].start_char : tokens[-1].end_char],
             start_char=tokens[0].start_char,
             end_char=tokens[-1].end_char,
@@ -96,7 +143,7 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
         tokens = []
 
         for match in self._pattern.finditer(text):
-            tokens.append(dd.tokenize.Token(text=match.group(0), start_char=match.span()[0], end_char=match.span()[1]))
+            tokens.append(DeduceToken(text=match.group(0), start_char=match.span()[0], end_char=match.span()[1]))
 
         if self._trie is not None:
             tokens = self._merge(text, tokens)
