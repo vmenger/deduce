@@ -8,7 +8,6 @@ TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=re.I | re.M)
 
 
 class DeduceToken(dd.tokenize.Token):
-
     def next_alpha(self, num: int = 1) -> Optional[dd.tokenize.Token]:
 
         cntr = 0
@@ -22,7 +21,7 @@ class DeduceToken(dd.tokenize.Token):
             if next_token.text in {')', '>', '\n', '\r', '\t'}:
                 return None
 
-            if next_token.text.isalpha():
+            if next_token.text[0].isalpha():
 
                 cntr += 1
 
@@ -44,7 +43,7 @@ class DeduceToken(dd.tokenize.Token):
             if previous_token.text in {'(', '<', '\n', '\r', '\t'}:
                 return None
 
-            if previous_token.text.isalpha():
+            if previous_token.text[0].isalpha():
 
                 cntr += 1
 
@@ -54,12 +53,10 @@ class DeduceToken(dd.tokenize.Token):
             previous_token = previous_token.previous()
 
 
-
-
 class DeduceTokenizer(dd.tokenize.Tokenizer):
     """
-    Tokenizes text, where a token is any sequence of alphanumeric characters (case insensitive), a single
-    newline/tab character, or a single special character. It does not include whitespaces as tokens.
+    Tokenizes text, where a token is any sequence of alphanumeric characters (case insensitive), a single newline/tab
+    character, or a single special character. It does not include whitespaces as tokens.
 
     Arguments:
         merge_terms: An iterable of strings that should not be split (i.e. always returned as tokens).
