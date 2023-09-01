@@ -45,16 +45,16 @@ class InterfixContextPattern(AnnotationContextPatternWithLookupSet):
     """Matches an annotated name or initial, followed by an interfix, followed by a titlecase word."""
 
     def annotation_precondition(self, annotation: dd.Annotation) -> bool:
-        return annotation.end_token.next() is not None and annotation.end_token.next(2) is not None
+        return annotation.end_token.next_alpha() is not None and annotation.end_token.next_alpha(2) is not None
 
     def match(self, annotation: dd.Annotation) -> Optional[tuple[dd.Token, dd.Token]]:
         if (
             utils.any_in_text(["initia", "naam"], annotation.tag)
-            and annotation.end_token.next().text in self._lookup_sets["interfixes"]
-            and annotation.end_token.next(2).text[0].isupper()
+            and annotation.end_token.next_alpha().text in self._lookup_sets["interfixes"]
+            and annotation.end_token.next_alpha(2).text[0].isupper()
         ):
 
-            return annotation.start_token, annotation.end_token.next(2)
+            return annotation.start_token, annotation.end_token.next_alpha(2)
 
         return None
 
@@ -63,25 +63,26 @@ class InitialsContextPattern(AnnotationContextPatternWithLookupSet):
     """Matches an annotated achternaam, interfix or initial, preceded by either an initial or a titlecase word."""
 
     def annotation_precondition(self, annotation: dd.Annotation) -> bool:
-        return annotation.start_token.previous() is not None
+        return annotation.start_token.previous_alpha() is not None
 
     def match(self, annotation: dd.Annotation) -> Optional[tuple[dd.Token, dd.Token]]:
         previous_token_is_initial = (
-            len(annotation.start_token.previous().text) == 1 and annotation.start_token.previous().text[0].isupper()
+            len(annotation.start_token.previous_alpha().text) == 1
+            and annotation.start_token.previous_alpha().text[0].isupper()
         )
 
         previous_token_is_name = (
-            annotation.start_token.previous().text != ""
-            and annotation.start_token.previous().text[0].isupper()
-            and annotation.start_token.previous().text not in self._lookup_sets["whitelist"]
-            and annotation.start_token.previous().text.lower() not in self._lookup_sets["prefixes"]
+            annotation.start_token.previous_alpha().text != ""
+            and annotation.start_token.previous_alpha().text[0].isupper()
+            and annotation.start_token.previous_alpha().text not in self._lookup_sets["whitelist"]
+            and annotation.start_token.previous_alpha().text.lower() not in self._lookup_sets["prefixes"]
         )
 
         if utils.any_in_text(["achternaam", "interfix", "initia"], annotation.tag) and (
             previous_token_is_initial or previous_token_is_name
         ):
 
-            return annotation.start_token.previous(), annotation.end_token
+            return annotation.start_token.previous_alpha(), annotation.end_token
 
         return None
 
@@ -91,17 +92,17 @@ class InitialNameContextPattern(AnnotationContextPatternWithLookupSet):
     characters."""
 
     def annotation_precondition(self, annotation: dd.Annotation) -> bool:
-        return annotation.end_token.next() is not None
+        return annotation.end_token.next_alpha() is not None
 
     def match(self, annotation: dd.Annotation) -> Optional[tuple[dd.Token, dd.Token]]:
         if (
             utils.any_in_text(["initia", "voornaam", "roepnaam", "prefix"], annotation.tag)
-            and len(annotation.end_token.next().text) > 3
-            and annotation.end_token.next().text[0].isupper()
-            and annotation.end_token.next().text not in self._lookup_sets["whitelist"]
+            and len(annotation.end_token.next_alpha().text) > 3
+            and annotation.end_token.next_alpha().text[0].isupper()
+            and annotation.end_token.next_alpha().text not in self._lookup_sets["whitelist"]
         ):
 
-            return annotation.start_token, annotation.end_token.next()
+            return annotation.start_token, annotation.end_token.next_alpha()
 
         return None
 
@@ -110,11 +111,11 @@ class NexusContextPattern(AnnotationContextPattern):
     """Matches any annotated name, followed by "en", followed by a titlecase word."""
 
     def annotation_precondition(self, annotation: dd.Annotation) -> bool:
-        return annotation.end_token.next() is not None and annotation.end_token.next(2) is not None
+        return annotation.end_token.next_alpha() is not None and annotation.end_token.next_alpha(2) is not None
 
     def match(self, annotation: dd.Annotation) -> Optional[tuple[dd.Token, dd.Token]]:
-        if annotation.end_token.next().text == "en" and annotation.end_token.next(2).text[0].isupper():
+        if annotation.end_token.next_alpha().text == "en" and annotation.end_token.next_alpha(2).text[0].isupper():
 
-            return annotation.start_token, annotation.end_token.next(2)
+            return annotation.start_token, annotation.end_token.next_alpha(2)
 
         return None

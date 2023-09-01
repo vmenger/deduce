@@ -67,7 +67,6 @@ class Deduce(dd.DocDeid):
         """Initializes tokenizers."""
 
         merge_terms = dd.ds.LookupSet()
-        merge_terms.add_items_from_iterable(["A1", "A2", "A3", "A4", "\n", "\r", "\t"])
         merge_terms += self.lookup_sets["interfixes"]
         merge_terms += self.lookup_sets["prefixes"]
 
