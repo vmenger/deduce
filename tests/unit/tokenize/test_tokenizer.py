@@ -1,7 +1,7 @@
 import docdeid as dd
 import pytest
 
-from deduce.tokenizer import DeduceTokenizer, DeduceToken
+from deduce.tokenizer import DeduceToken, DeduceTokenizer
 
 
 @pytest.fixture

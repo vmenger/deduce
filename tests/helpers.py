@@ -2,6 +2,7 @@ import docdeid as dd
 
 from deduce.tokenizer import DeduceToken
 
+
 def link_tokens(tokens: list[DeduceToken]):
     for token, next_token in zip(tokens, tokens[1:]):
         token.set_next_token(next_token)
