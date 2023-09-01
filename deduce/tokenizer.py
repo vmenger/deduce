@@ -8,7 +8,10 @@ TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=re.I | re.M)
 
 
 class DeduceToken(dd.tokenize.Token):
+    """Deduce token, which implements next alpha logic."""
+
     def next_alpha(self, num: int = 1) -> Optional[dd.tokenize.Token]:
+        """Find the next alpha token, if any."""
 
         cntr = 0
         next_token = self.next()
@@ -31,6 +34,7 @@ class DeduceToken(dd.tokenize.Token):
             next_token = next_token.next()
 
     def previous_alpha(self, num: int = 1) -> Optional[dd.tokenize.Token]:
+        """Find the previous alpha token, if any."""
 
         cntr = 0
         previous_token = self.previous()
