@@ -18,7 +18,7 @@ class DeduceToken(dd.tokenize.Token):
             if next_token is None:
                 return None
 
-            if next_token.text in {')', '>', '\n', '\r', '\t'}:
+            if next_token.text in {")", ">", "\n", "\r", "\t"}:
                 return None
 
             if next_token.text[0].isalpha():
@@ -40,7 +40,7 @@ class DeduceToken(dd.tokenize.Token):
             if previous_token is None:
                 return None
 
-            if previous_token.text in {'(', '<', '\n', '\r', '\t'}:
+            if previous_token.text in {"(", "<", "\n", "\r", "\t"}:
                 return None
 
             if previous_token.text[0].isalpha():
