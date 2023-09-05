@@ -13,16 +13,10 @@ _pattern_funcs = {
 }
 
 
-# func
-# min_len
-# eq
-# lookup
-
-
 class TokenPatternAnnotator(dd.process.Annotator):
 
-    def __init__(self, patterns: list[dict], ds: dd.ds.DsCollection, *args, **kwargs):
-        self.patterns = patterns
+    def __init__(self, pattern: dict, ds: dd.ds.DsCollection, *args, **kwargs):
+        self.pattern = pattern
         self.ds = ds
         super().__init__(*args, **kwargs)
 
@@ -68,18 +62,16 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
         annotations = []
 
-        for pattern in self.patterns:
+        token = doc.get_tokens()[0]
 
-            token = doc.get_tokens()[0]
+        while token is not None:
 
-            while token is not None:
+            annotation = self.match_sequence(doc, token, self.pattern, self.tag)
 
-                annotation = self.match_sequence(doc, token, pattern)
+            if annotation is not None:
+                annotations.append(annotation)
 
-                if annotation is not None:
-                    annotations.append(annotation)
-
-                token = token.next_alpha()
+            token = token.next_alpha()
 
         return annotations
 
