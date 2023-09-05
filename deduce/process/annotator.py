@@ -7,6 +7,82 @@ from docdeid import Annotation, Document
 import deduce.utils
 from deduce.pattern.name_context import AnnotationContextPattern
 
+_pattern_funcs = {
+    'is_title': lambda token: token.text.istitle(),
+    'is_initial': lambda token: len(token.text) == 1 and token.text.istitle(),
+}
+
+
+# func
+# min_len
+# eq
+# lookup
+
+
+class TokenPatternAnnotator(dd.process.Annotator):
+
+    def __init__(self, patterns: list[dict], ds: dd.ds.DsCollection, *args, **kwargs):
+        self.patterns = patterns
+        self.ds = ds
+        super().__init__(*args, **kwargs)
+
+    def match(self, token: dd.tokenize.Token, token_pattern: dict) -> bool:
+
+        match token_pattern['type']:
+            case "func":
+                return _pattern_funcs[token_pattern['value']](token)
+            case "min_len":
+                return len(token.text) >= token_pattern['value']
+            case "lookup":
+                return token.text in self.ds[token_pattern['value']]
+            case "neg_lookup":
+                return token.text not in self.ds[token_pattern['value']]
+            case "and":
+                return all(self.match(token, x) for x in token_pattern['value'])
+            case _:
+                raise ValueError(f"No known logic for pattern type {token_pattern['type']}")
+
+    def match_sequence(self, doc: Document, start_token: dd.tokenize.Token, pattern: dict) -> Optional[dd.Annotation]:
+
+        current_token = start_token
+        end_token = start_token
+
+        for token_pattern in pattern['def']:
+
+            if current_token is None or not self.match(current_token, token_pattern):
+                return None
+
+            end_token = current_token
+            current_token = current_token.next_alpha()
+
+        return dd.Annotation(
+            text=doc.text[start_token.start_char:end_token.end_char],
+            start_char=start_token.start_char,
+            end_char=end_token.end_char,
+            tag=pattern['tag'],
+            start_token=start_token,
+            end_token=end_token
+        )
+
+    def annotate(self, doc: dd.Document) -> list[dd.Annotation]:
+
+        annotations = []
+
+        for pattern in self.patterns:
+
+            token = doc.get_tokens()[0]
+
+            while token is not None:
+
+                annotation = self.match_sequence(doc, token, pattern)
+
+                if annotation is not None:
+                    annotations.append(annotation)
+
+                token = token.next_alpha()
+
+        return annotations
+
 
 class AnnotationContextPatternAnnotator(dd.process.Annotator):
     """
