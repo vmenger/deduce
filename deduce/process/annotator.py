@@ -13,7 +13,7 @@ _pattern_funcs = {
 }
 
 
-class TokenPatternAnnotator(dd.process.Annotator):
+class TokenPatternAnnotatorNew(dd.process.Annotator):
 
     def __init__(self, pattern: dict, ds: dd.ds.DsCollection, *args, **kwargs):
         self.pattern = pattern
@@ -41,9 +41,9 @@ class TokenPatternAnnotator(dd.process.Annotator):
         current_token = start_token
         end_token = start_token
 
-        for token_pattern in pattern['def']:
+        for position in pattern:
 
-            if current_token is None or not self.match(current_token, token_pattern):
+            if current_token is None or not self.match(current_token, position):
                 return None
 
             end_token = current_token
@@ -53,7 +53,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
             text=doc.text[start_token.start_char:end_token.end_char],
             start_char=start_token.start_char,
             end_char=end_token.end_char,
-            tag=pattern['tag'],
+            tag=self.tag,
             start_token=start_token,
             end_token=end_token
         )
@@ -66,7 +66,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
         while token is not None:
 
-            annotation = self.match_sequence(doc, token, self.pattern, self.tag)
+            annotation = self.match_sequence(doc, token, self.pattern)
 
             if annotation is not None:
                 annotations.append(annotation)
