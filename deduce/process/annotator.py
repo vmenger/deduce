@@ -29,6 +29,8 @@ class TokenPatternAnnotatorNew(dd.process.Annotator):
                 return len(token.text) >= token_pattern['value']
             case "lookup":
                 return token.text in self.ds[token_pattern['value']]
+            case "lowercase_lookup":
+                return token.text.lower() in self.ds[token_pattern['value']]
             case "neg_lookup":
                 return token.text not in self.ds[token_pattern['value']]
             case "and":

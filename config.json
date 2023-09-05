@@ -14,7 +14,7 @@
                 "tag": "prefix+naam",
                 "pattern": [
                     {
-                        "type": "lookup",
+                        "type": "lowercase_lookup",
                         "value": "prefixes"
                     },
                     {
@@ -34,14 +34,29 @@
             }
         },
         "interfix_with_name": {
-            "annotator_type": "token_pattern",
+            "annotator_type": "token_pattern_new",
             "group": "names",
             "args": {
-                "pattern": {
-                    "module": "deduce.pattern",
-                    "class": "InterfixWithNamePattern",
-                    "tag": "interfix+naam"
-                }
+                "tag": "interfix+naam",
+                "pattern": [
+                    {
+                        "type": "lowercase_lookup",
+                        "value": "interfixes"
+                    },
+                    {
+                        "type": "and",
+                        "value": [
+                            {
+                                "type": "lookup",
+                                "value": "interfix_surnames"
+                            },
+                            {
+                                "type": "neg_lookup",
+                                "value": "whitelist"
+                            }
+                        ]
+                    }
+                ]
             }
         },
         "initial_with_capital": {
