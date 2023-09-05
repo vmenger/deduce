@@ -2,7 +2,6 @@ from .name import (
     FirstNameLookupPattern,
     InitiaalInterfixCapitalPattern,
     InitialWithCapitalPattern,
-    InterfixWithNamePattern,
     SurnameLookupPattern,
 )
 from .name_context import (

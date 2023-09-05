@@ -12,23 +12,6 @@ class TokenPatternWithLookup(dd.TokenPattern, ABC):
         super().__init__(*args, **kwargs)
 
 
-class InterfixWithNamePattern(TokenPatternWithLookup):
-    """Matches interfixes followed by an interfix surname."""
-
-    def token_precondition(self, token: dd.Token) -> bool:
-        return token.next_alpha() is not None
-
-    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
-        if (
-            token.text.lower() in self._lookup_sets["interfixes"]
-            and token.next_alpha().text in self._lookup_sets["interfix_surnames"]
-            and token.next_alpha().text not in self._lookup_sets["whitelist"]
-        ):
-
-            return token, token.next_alpha()
-
-        return None
-
 
 class InitialWithCapitalPattern(TokenPatternWithLookup):
     """Matches an initial followed by an titlecase word with at least 3 characters."""
