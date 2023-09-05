@@ -8,14 +8,29 @@
     "redactor_close_char": ">",
     "annotators": {
         "prefix_with_name": {
-            "annotator_type": "token_pattern",
+            "annotator_type": "token_pattern_new",
             "group": "names",
             "args": {
-                "pattern": {
-                    "module": "deduce.pattern",
-                    "class": "PrefixWithNamePattern",
-                    "tag": "prefix+naam"
-                }
+                "tag": "prefix+naam",
+                "pattern": [
+                    {
+                        "type": "lookup",
+                        "value": "prefixes"
+                    },
+                    {
+                        "type": "and",
+                        "value": [
+                            {
+                                "type": "func",
+                                "value": "starts_with_capital"
+                            },
+                            {
+                                "type": "neg_lookup",
+                                "value": "whitelist"
+                            }
+                        ]
+                    }
+                ]
             }
         },
         "interfix_with_name": {

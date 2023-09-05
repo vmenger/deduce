@@ -12,7 +12,7 @@ from deduce.process.annotation_processing import (
     DeduceMergeAdjacentAnnotations,
     PersonAnnotationConverter,
 )
-from deduce.process.annotator import AnnotationContextPatternAnnotator
+from deduce.process.annotator import AnnotationContextPatternAnnotator, TokenPatternAnnotatorNew
 from deduce.process.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
 
@@ -78,7 +78,7 @@ class Deduce(dd.DocDeid):
     ) -> dd.process.DocProcessorGroup:
         """Initializes annotators."""
 
-        extras = {"lookup_sets": lookup_sets, "tokenizer": tokenizer}
+        extras = {"ds": lookup_sets, "lookup_sets": lookup_sets, "tokenizer": tokenizer}
         return _AnnotatorFactory().get_annotators(annotator_cnfg, extras)
 
     def initialize_doc_processors(self) -> None:
@@ -130,6 +130,7 @@ class _AnnotatorFactory:
     def __init__(self) -> None:
         self.annotator_creators = {
             "token_pattern": self._get_token_pattern_annotator,
+            "token_pattern_new": self._get_token_pattern_annotator_new,
             "annotation_context": self._get_annotation_context_pattern_annotator,
             "regexp": self._get_regexp_annotator,
             "multi_token": self._get_multi_token_annotator,
@@ -140,6 +141,10 @@ class _AnnotatorFactory:
     def _get_token_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
         pattern = utils.import_and_initialize(args.pop("pattern"), extras=extras)
         return dd.process.TokenPatternAnnotator(pattern=pattern)
+
+    @staticmethod
+    def _get_token_pattern_annotator_new(args: dict, extras: dict) -> dd.process.Annotator:
+        return TokenPatternAnnotatorNew(**args, ds=extras['ds'])
 
     @staticmethod
     def _get_annotation_context_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:

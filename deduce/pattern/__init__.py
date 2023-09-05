@@ -3,7 +3,6 @@ from .name import (
     InitiaalInterfixCapitalPattern,
     InitialWithCapitalPattern,
     InterfixWithNamePattern,
-    PrefixWithNamePattern,
     SurnameLookupPattern,
 )
 from .name_context import (

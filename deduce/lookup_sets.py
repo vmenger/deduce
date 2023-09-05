@@ -65,7 +65,7 @@ def _get_interfix_surnames_lookup_set() -> dd.ds.LookupSet:
 def _get_prefixes_lookup_set() -> dd.ds.LookupSet:
     """Get prefixes LookupSet (e.g. 'dr', 'mw')"""
 
-    prefixes = dd.ds.LookupSet()
+    prefixes = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
 
     prefixes.add_items_from_file(os.path.join(data_path, "prefixes.txt"))
 
