@@ -8,7 +8,7 @@ import deduce.utils
 from deduce.pattern.name_context import AnnotationContextPattern
 
 _pattern_funcs = {
-    'is_title': lambda token: token.text.istitle(),
+    'starts_with_capital': lambda token: token.text[0].isupper(),
     'is_initial': lambda token: len(token.text) == 1 and token.text.istitle(),
 }
 
@@ -62,16 +62,12 @@ class TokenPatternAnnotatorNew(dd.process.Annotator):
 
         annotations = []
 
-        token = doc.get_tokens()[0]
-
-        while token is not None:
+        for token in doc.get_tokens():
 
             annotation = self.match_sequence(doc, token, self.pattern)
 
             if annotation is not None:
                 annotations.append(annotation)
-
-            token = token.next_alpha()
 
         return annotations
 
