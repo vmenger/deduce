@@ -12,27 +12,6 @@ class TokenPatternWithLookup(dd.TokenPattern, ABC):
         super().__init__(*args, **kwargs)
 
 
-
-class InitialWithCapitalPattern(TokenPatternWithLookup):
-    """Matches an initial followed by an titlecase word with at least 3 characters."""
-
-    def token_precondition(self, token: dd.Token) -> bool:
-        return token.next_alpha() is not None
-
-    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
-        if (
-            token.text[0].isupper()
-            and len(token) == 1
-            and len(token.next_alpha()) > 3
-            and token.next_alpha().text[0].isupper()
-            and token.next_alpha().text not in self._lookup_sets["whitelist"]
-        ):
-
-            return token, token.next_alpha()
-
-        return None
-
-
 class InitiaalInterfixCapitalPattern(TokenPatternWithLookup):
     """Matches an initial, followed by an interfix, followed by a titlecase word."""
 

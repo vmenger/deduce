@@ -60,14 +60,33 @@
             }
         },
         "initial_with_capital": {
-            "annotator_type": "token_pattern",
+            "annotator_type": "token_pattern_new",
             "group": "names",
             "args": {
-                "pattern": {
-                    "module": "deduce.pattern",
-                    "class": "InitialWithCapitalPattern",
-                    "tag": "initiaal+naam"
-                }
+                "tag": "initiaal+naam",
+                "pattern": [
+                    {
+                        "type": "func",
+                        "value": "is_initial"
+                    },
+                    {
+                        "type": "and",
+                        "value": [
+                            {
+                                "type": "min_len",
+                                "value": 4
+                            },
+                            {
+                                "type": "func",
+                                "value": "starts_with_capital"
+                            },
+                            {
+                                "type": "neg_lookup",
+                                "value": "whitelist"
+                            }
+                        ]
+                    }
+                ]
             }
         },
         "initial_interfix": {
