@@ -1,7 +1,3 @@
-from .name import (
-    FirstNameLookupPattern,
-    SurnameLookupPattern,
-)
 from .name_context import (
     InitialNameContextPattern,
     InitialsContextPattern,

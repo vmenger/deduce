@@ -111,25 +111,47 @@
             }
         },
         "first_name_lookup": {
-            "annotator_type": "token_pattern",
+            "annotator_type": "token_pattern_new",
             "group": "names",
             "args": {
-                "pattern": {
-                    "module": "deduce.pattern",
-                    "class": "FirstNameLookupPattern",
-                    "tag": "voornaam_onbekend"
-                }
+                "tag": "voornaam_onbekend",
+                "pattern": [
+                    {
+                        "type": "and",
+                        "value": [
+                            {
+                                "type": "lookup",
+                                "value": "first_names"
+                            },
+                            {
+                                "type": "neg_lookup",
+                                "value": "whitelist"
+                            }
+                        ]
+                    }
+                ]
             }
         },
         "surname_lookup": {
-            "annotator_type": "token_pattern",
+            "annotator_type": "token_pattern_new",
             "group": "names",
             "args": {
-                "pattern": {
-                    "module": "deduce.pattern",
-                    "class": "SurnameLookupPattern",
-                    "tag": "achternaam_onbekend"
-                }
+                "tag": "achternaam_onbekend",
+                "pattern": [
+                    {
+                        "type": "and",
+                        "value": [
+                            {
+                                "type": "lookup",
+                                "value": "surnames"
+                            },
+                            {
+                                "type": "neg_lookup",
+                                "value": "whitelist"
+                            }
+                        ]
+                    }
+                ]
             }
         },
         "person_first_name": {
