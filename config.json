@@ -14,19 +14,15 @@
                 "tag": "prefix+naam",
                 "pattern": [
                     {
-                        "type": "lowercase_lookup",
-                        "value": "prefixes"
+                        "lowercase_lookup": "prefixes"
                     },
                     {
-                        "type": "and",
-                        "value": [
+                        "and": [
                             {
-                                "type": "func",
-                                "value": "starts_with_capital"
+                                "starts_with_capital": true
                             },
                             {
-                                "type": "neg_lookup",
-                                "value": "whitelist"
+                                "neg_lookup": "whitelist"
                             }
                         ]
                     }
@@ -40,19 +36,15 @@
                 "tag": "interfix+naam",
                 "pattern": [
                     {
-                        "type": "lowercase_lookup",
-                        "value": "interfixes"
+                        "lowercase_lookup": "interfixes"
                     },
                     {
-                        "type": "and",
-                        "value": [
+                        "and": [
                             {
-                                "type": "lookup",
-                                "value": "interfix_surnames"
+                                "lookup": "interfix_surnames"
                             },
                             {
-                                "type": "neg_lookup",
-                                "value": "whitelist"
+                                "neg_lookup": "whitelist"
                             }
                         ]
                     }
@@ -66,23 +58,18 @@
                 "tag": "initiaal+naam",
                 "pattern": [
                     {
-                        "type": "func",
-                        "value": "is_initial"
+                        "is_initial": true
                     },
                     {
-                        "type": "and",
-                        "value": [
+                        "and": [
                             {
-                                "type": "min_len",
-                                "value": 4
+                                "min_len": 4
                             },
                             {
-                                "type": "func",
-                                "value": "starts_with_capital"
+                                "starts_with_capital": true
                             },
                             {
-                                "type": "neg_lookup",
-                                "value": "whitelist"
+                                "neg_lookup": "whitelist"
                             }
                         ]
                     }
@@ -96,16 +83,13 @@
                 "tag": "initiaal+interfix+naam",
                 "pattern": [
                     {
-                        "type": "func",
-                        "value": "is_initial"
+                        "is_initial": true
                     },
                     {
-                        "type": "lookup",
-                        "value": "interfixes"
+                        "lookup": "interfixes"
                     },
                     {
-                        "type": "func",
-                        "value": "starts_with_capital"
+                        "starts_with_capital": true
                     }
                 ]
             }
@@ -117,15 +101,12 @@
                 "tag": "voornaam_onbekend",
                 "pattern": [
                     {
-                        "type": "and",
-                        "value": [
+                        "and": [
                             {
-                                "type": "lookup",
-                                "value": "first_names"
+                                "lookup": "first_names"
                             },
                             {
-                                "type": "neg_lookup",
-                                "value": "whitelist"
+                                "neg_lookup": "whitelist"
                             }
                         ]
                     }
@@ -139,15 +120,12 @@
                 "tag": "achternaam_onbekend",
                 "pattern": [
                     {
-                        "type": "and",
-                        "value": [
+                        "and": [
                             {
-                                "type": "lookup",
-                                "value": "surnames"
+                                "lookup": "surnames"
                             },
                             {
-                                "type": "neg_lookup",
-                                "value": "whitelist"
+                                "neg_lookup": "whitelist"
                             }
                         ]
                     }

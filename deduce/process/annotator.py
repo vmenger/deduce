@@ -8,8 +8,6 @@ import deduce.utils
 from deduce.pattern.name_context import AnnotationContextPattern
 
 _pattern_funcs = {
-    'starts_with_capital': lambda token: token.text[0].isupper(),
-    'is_initial': lambda token: len(token.text) == 1 and token.text[0].isupper(),
 }
 
 
@@ -22,21 +20,28 @@ class TokenPatternAnnotatorNew(dd.process.Annotator):
 
     def match(self, token: dd.tokenize.Token, token_pattern: dict) -> bool:
 
-        match token_pattern['type']:
-            case "func":
-                return _pattern_funcs[token_pattern['value']](token)
-            case "min_len":
-                return len(token.text) >= token_pattern['value']
-            case "lookup":
-                return token.text in self.ds[token_pattern['value']]
-            case "lowercase_lookup":
-                return token.text.lower() in self.ds[token_pattern['value']]
-            case "neg_lookup":
-                return token.text not in self.ds[token_pattern['value']]
+        if len(token_pattern) > 1:
+            raise ValueError(f"Cannot understand token pattern ({token_pattern}) with more than 1 key")
+
+        func, value = next(iter(token_pattern.items()))
+
+        match func:
             case "and":
-                return all(self.match(token, x) for x in token_pattern['value'])
+                return all(self.match(token, x) for x in value)
+            case "min_len":
+                return len(token.text) >= value
+            case "starts_with_capital":
+                return token.text[0].isupper() == value
+            case "is_initial":
+                return (len(token.text) == 1 and token.text[0].isupper()) == value
+            case "lookup":
+                return token.text in self.ds[value]
+            case "lowercase_lookup":
+                return token.text.lower() in self.ds[value]
+            case "neg_lookup":
+                return token.text not in self.ds[value]
             case _:
-                raise ValueError(f"No known logic for pattern type {token_pattern['type']}")
+                raise NotImplementedError(f"No known logic for pattern {func}")
 
     def match_sequence(self, doc: Document, start_token: dd.tokenize.Token, pattern: dict) -> Optional[dd.Annotation]:
 
