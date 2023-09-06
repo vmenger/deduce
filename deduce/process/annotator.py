@@ -7,12 +7,10 @@ from docdeid import Annotation, Document
 import deduce.utils
 from deduce.pattern.name_context import AnnotationContextPattern
 
-_pattern_funcs = {
-}
+_pattern_funcs = {}
 
 
 class TokenPatternAnnotatorNew(dd.process.Annotator):
-
     def __init__(self, pattern: dict, ds: dd.ds.DsCollection, *args, **kwargs):
         self.pattern = pattern
         self.ds = ds
@@ -57,12 +55,12 @@ class TokenPatternAnnotatorNew(dd.process.Annotator):
             current_token = current_token.next_alpha()
 
         return dd.Annotation(
-            text=doc.text[start_token.start_char:end_token.end_char],
+            text=doc.text[start_token.start_char : end_token.end_char],
             start_char=start_token.start_char,
             end_char=end_token.end_char,
             tag=self.tag,
             start_token=start_token,
-            end_token=end_token
+            end_token=end_token,
         )
 
     def annotate(self, doc: dd.Document) -> list[dd.Annotation]:

@@ -12,7 +12,10 @@ from deduce.process.annotation_processing import (
     DeduceMergeAdjacentAnnotations,
     PersonAnnotationConverter,
 )
-from deduce.process.annotator import AnnotationContextPatternAnnotator, TokenPatternAnnotatorNew
+from deduce.process.annotator import (
+    AnnotationContextPatternAnnotator,
+    TokenPatternAnnotatorNew,
+)
 from deduce.process.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
 
@@ -144,7 +147,7 @@ class _AnnotatorFactory:
 
     @staticmethod
     def _get_token_pattern_annotator_new(args: dict, extras: dict) -> dd.process.Annotator:
-        return TokenPatternAnnotatorNew(**args, ds=extras['ds'])
+        return TokenPatternAnnotatorNew(**args, ds=extras["ds"])
 
     @staticmethod
     def _get_annotation_context_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
