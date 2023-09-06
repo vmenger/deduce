@@ -1,6 +1,5 @@
 from .name import (
     FirstNameLookupPattern,
-    InitiaalInterfixCapitalPattern,
     SurnameLookupPattern,
 )
 from .name_context import (

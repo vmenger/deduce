@@ -9,7 +9,7 @@ from deduce.pattern.name_context import AnnotationContextPattern
 
 _pattern_funcs = {
     'starts_with_capital': lambda token: token.text[0].isupper(),
-    'is_initial': lambda token: len(token.text) == 1 and token.text.istitle(),
+    'is_initial': lambda token: len(token.text) == 1 and token.text[0].isupper(),
 }
 
 

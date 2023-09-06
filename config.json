@@ -90,14 +90,24 @@
             }
         },
         "initial_interfix": {
-            "annotator_type": "token_pattern",
+            "annotator_type": "token_pattern_new",
             "group": "names",
             "args": {
-                "pattern": {
-                    "module": "deduce.pattern",
-                    "class": "InitiaalInterfixCapitalPattern",
-                    "tag": "initiaal+interfix+naam"
-                }
+                "tag": "initiaal+interfix+naam",
+                "pattern": [
+                    {
+                        "type": "func",
+                        "value": "is_initial"
+                    },
+                    {
+                        "type": "lookup",
+                        "value": "interfixes"
+                    },
+                    {
+                        "type": "func",
+                        "value": "starts_with_capital"
+                    }
+                ]
             }
         },
         "first_name_lookup": {
