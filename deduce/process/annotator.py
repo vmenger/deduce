@@ -7,8 +7,6 @@ from docdeid import Annotation, Document
 import deduce.utils
 from deduce.pattern.name_context import AnnotationContextPattern
 
-_pattern_funcs = {}
-
 
 class TokenPatternAnnotatorNew(dd.process.Annotator):
     def __init__(self, pattern: dict, ds: dd.ds.DsCollection, *args, **kwargs):
@@ -19,13 +17,15 @@ class TokenPatternAnnotatorNew(dd.process.Annotator):
     def match(self, token: dd.tokenize.Token, token_pattern: dict) -> bool:
 
         if len(token_pattern) > 1:
-            raise ValueError(f"Cannot understand token pattern ({token_pattern}) with more than 1 key")
+            raise ValueError(f"Cannot parse token pattern ({token_pattern}) with more than 1 key")
 
         func, value = next(iter(token_pattern.items()))
 
         match func:
             case "and":
                 return all(self.match(token, x) for x in value)
+            case "or":
+                return any(self.match(token, x) for x in value)
             case "min_len":
                 return len(token.text) >= value
             case "starts_with_capital":
