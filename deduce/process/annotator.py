@@ -14,7 +14,7 @@ class TokenPatternAnnotatorNew(dd.process.Annotator):
         self.ds = ds
         super().__init__(*args, **kwargs)
 
-    def match(self, doc: Document, token: dd.tokenize.Token, token_pattern: dict) -> bool:
+    def match(self, token: dd.tokenize.Token, token_pattern: dict) -> bool:
 
         if len(token_pattern) > 1:
             raise ValueError(f"Cannot parse token pattern ({token_pattern}) with more than 1 key")
@@ -23,9 +23,9 @@ class TokenPatternAnnotatorNew(dd.process.Annotator):
 
         match func:
             case "and":
-                return all(self.match(doc, token, x) for x in value)
+                return all(self.match(token, x) for x in value)
             case "or":
-                return any(self.match(doc, token, x) for x in value)
+                return any(self.match(token, x) for x in value)
             case "min_len":
                 return len(token.text) >= value
             case "starts_with_capital":
@@ -48,7 +48,7 @@ class TokenPatternAnnotatorNew(dd.process.Annotator):
 
         for position in pattern:
 
-            if current_token is None or not self.match(doc, current_token, position):
+            if current_token is None or not self.match(current_token, position):
                 return None
 
             end_token = current_token
