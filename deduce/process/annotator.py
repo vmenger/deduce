@@ -9,7 +9,7 @@ from deduce.pattern.name_context import AnnotationContextPattern
 
 
 class TokenPatternAnnotator(dd.process.Annotator):
-    def __init__(self, pattern: dict, ds: dd.ds.DsCollection, *args, **kwargs):
+    def __init__(self, pattern: list[dict], ds: Optional[dd.ds.DsCollection] = None, *args, **kwargs):
         self.pattern = pattern
         self.ds = ds
         super().__init__(*args, **kwargs)
@@ -41,7 +41,9 @@ class TokenPatternAnnotator(dd.process.Annotator):
             case _:
                 raise NotImplementedError(f"No known logic for pattern {func}")
 
-    def match_sequence(self, doc: Document, start_token: dd.tokenize.Token, pattern: dict) -> Optional[dd.Annotation]:
+    def match_sequence(
+        self, doc: Document, start_token: dd.tokenize.Token, pattern: list[dict]
+    ) -> Optional[dd.Annotation]:
 
         current_token = start_token
         end_token = start_token

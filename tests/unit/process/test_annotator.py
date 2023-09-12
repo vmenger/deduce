@@ -8,8 +8,33 @@ from deduce.process.annotator import (
     AnnotationContextPatternAnnotator,
     BsnAnnotator,
     PhoneNumberAnnotator,
+    TokenPatternAnnotator,
 )
+from deduce.tokenizer import DeduceTokenizer
 from tests.helpers import link_tokens
+
+
+@pytest.fixture
+def ds():
+
+    ds = dd.ds.DsCollection()
+
+    first_names = ["Andries", "pieter", "Aziz", "Bernard"]
+    surnames = ["Smit", "Bakker", "Heerma"]
+
+    ds["first_names"] = dd.ds.LookupSet()
+    ds["first_names"].add_items_from_iterable(items=first_names)
+
+    ds["surnames"] = dd.ds.LookupSet()
+    ds["surnames"].add_items_from_iterable(items=surnames)
+
+    return ds
+
+
+@pytest.fixture
+def pattern_doc():
+
+    return dd.Document(text="De man heet Andries Meijer, voornaam Andries.", tokenizers={"default": DeduceTokenizer()})
 
 
 @pytest.fixture
@@ -40,6 +65,111 @@ class ExtendCapitalContextPattern(AnnotationContextPattern):
     def match(self, annotation: dd.Annotation):
         if annotation.end_token.next().text[0].isupper():
             return annotation.start_token, annotation.end_token.next()
+
+
+class TestTokenPatternAnnotator:
+    def test_match_and(self):
+
+        tpa = TokenPatternAnnotator(pattern=[{}], tag="_")
+        assert tpa.match(
+            dd.Token("Abcd", start_char=0, end_char=4), {"and": [{"min_len": 3}, {"starts_with_capital": True}]}
+        )
+        assert not tpa.match(
+            dd.Token("abcd", start_char=0, end_char=4), {"and": [{"min_len": 3}, {"starts_with_capital": True}]}
+        )
+        assert not tpa.match(
+            dd.Token("A", start_char=0, end_char=1), {"and": [{"min_len": 3}, {"starts_with_capital": True}]}
+        )
+        assert not tpa.match(
+            dd.Token("a", start_char=0, end_char=1), {"and": [{"min_len": 3}, {"starts_with_capital": True}]}
+        )
+
+    def test_match_or(self):
+
+        tpa = TokenPatternAnnotator(pattern=[{}], tag="_")
+        assert tpa.match(
+            dd.Token("Abcd", start_char=0, end_char=4), {"or": [{"min_len": 3}, {"starts_with_capital": True}]}
+        )
+        assert tpa.match(
+            dd.Token("abcd", start_char=0, end_char=4), {"or": [{"min_len": 3}, {"starts_with_capital": True}]}
+        )
+        assert tpa.match(
+            dd.Token("A", start_char=0, end_char=1), {"or": [{"min_len": 3}, {"starts_with_capital": True}]}
+        )
+        assert not tpa.match(
+            dd.Token("a", start_char=0, end_char=1), {"or": [{"min_len": 3}, {"starts_with_capital": True}]}
+        )
+
+    def test_match_min_len(self):
+
+        tpa = TokenPatternAnnotator(pattern=[{}], tag="_")
+
+        assert tpa.match(dd.Token("abcd", start_char=0, end_char=4), {"min_len": 3})
+        assert not tpa.match(dd.Token("a", start_char=0, end_char=1), {"min_len": 3})
+
+    def test_match_starts_with_capital(self):
+
+        tpa = TokenPatternAnnotator(pattern=[{}], tag="_")
+
+        assert tpa.match(dd.Token("Abcd", start_char=0, end_char=4), {"starts_with_capital": True})
+        assert not tpa.match(dd.Token("a", start_char=0, end_char=1), {"starts_with_capital": True})
+
+    def test_match_is_initial(self):
+
+        tpa = TokenPatternAnnotator(pattern=[{}], tag="_")
+
+        assert tpa.match(dd.Token("A", start_char=0, end_char=1), {"is_initial": True})
+        assert not tpa.match(dd.Token("a", start_char=0, end_char=1), {"is_initial": True})
+        assert not tpa.match(dd.Token("Abcd", start_char=0, end_char=4), {"is_initial": True})
+
+    def test_match_lookup(self, ds):
+
+        tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
+
+        assert tpa.match(dd.Token("Andries", start_char=0, end_char=7), {"lookup": "first_names"})
+        assert not tpa.match(dd.Token("andries", start_char=0, end_char=7), {"lookup": "first_names"})
+        assert not tpa.match(dd.Token("Andries", start_char=0, end_char=7), {"lookup": "surnames"})
+        assert not tpa.match(dd.Token("Smit", start_char=0, end_char=4), {"lookup": "first_names"})
+        assert tpa.match(dd.Token("Smit", start_char=0, end_char=4), {"lookup": "surnames"})
+        assert not tpa.match(dd.Token("smit", start_char=0, end_char=4), {"lookup": "surnames"})
+
+    def test_match_neg_lookup(self, ds):
+
+        tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
+
+        assert not tpa.match(dd.Token("Andries", start_char=0, end_char=7), {"neg_lookup": "first_names"})
+        assert tpa.match(dd.Token("andries", start_char=0, end_char=7), {"neg_lookup": "first_names"})
+        assert tpa.match(dd.Token("Andries", start_char=0, end_char=7), {"neg_lookup": "surnames"})
+        assert tpa.match(dd.Token("Smit", start_char=0, end_char=4), {"neg_lookup": "first_names"})
+        assert not tpa.match(dd.Token("Smit", start_char=0, end_char=4), {"neg_lookup": "surnames"})
+        assert tpa.match(dd.Token("smit", start_char=0, end_char=4), {"neg_lookup": "surnames"})
+
+    def test_match_lowercase_lookup(self, ds):
+
+        tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
+
+        assert tpa.match(dd.Token("Pieter", start_char=0, end_char=6), {"lowercase_lookup": "first_names"})
+        assert tpa.match(dd.Token("pieter", start_char=0, end_char=6), {"lowercase_lookup": "first_names"})
+        assert not tpa.match(dd.Token("smit", start_char=0, end_char=4), {"lowercase_lookup": "first_names"})
+
+    def test_match_sequence(self, pattern_doc, ds):
+
+        pattern = [{"lookup": "first_names"}, {"starts_with_capital": True}]
+
+        tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
+
+        assert tpa.match_sequence(
+            pattern_doc, start_token=pattern_doc.get_tokens()[3], pattern=pattern
+        ) == dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="_")
+        assert tpa.match_sequence(pattern_doc, start_token=pattern_doc.get_tokens()[7], pattern=pattern) is None
+
+    def test_annotate(self, pattern_doc, ds):
+
+        pattern = [{"lookup": "first_names"}, {"starts_with_capital": True}]
+
+        tpa = TokenPatternAnnotator(pattern=pattern, ds=ds, tag="_")
+
+        assert tpa.annotate(pattern_doc) == [dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="_")]
 
 
 class TestContextPatternsAnnotator:
