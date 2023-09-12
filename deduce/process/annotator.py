@@ -35,25 +35,24 @@ class TokenPatternAnnotator(dd.process.Annotator):
         func, value = next(iter(token_pattern.items()))
 
         # TODO: Possibly make this logic more generic?
-        match func:
-            case "and":
-                return all(self.match(token, x) for x in value)
-            case "or":
-                return any(self.match(token, x) for x in value)
-            case "min_len":
-                return len(token.text) >= value
-            case "starts_with_capital":
-                return token.text[0].isupper() == value
-            case "is_initial":
-                return (len(token.text) == 1 and token.text[0].isupper()) == value
-            case "lookup":
-                return token.text in self.ds[value]
-            case "lowercase_lookup":
-                return token.text.lower() in self.ds[value]
-            case "neg_lookup":
-                return token.text not in self.ds[value]
-            case _:
-                raise NotImplementedError(f"No known logic for pattern {func}")
+        if func == "and":
+            return all(self.match(token, x) for x in value)
+        elif func == "or":
+            return any(self.match(token, x) for x in value)
+        elif func == "min_len":
+            return len(token.text) >= value
+        elif func == "starts_with_capital":
+            return token.text[0].isupper() == value
+        elif func == "is_initial":
+            return (len(token.text) == 1 and token.text[0].isupper()) == value
+        elif func == "lookup":
+            return token.text in self.ds[value]
+        elif func == "lowercase_lookup":
+            return token.text.lower() in self.ds[value]
+        elif func == "neg_lookup":
+            return token.text not in self.ds[value]
+        else:
+            raise NotImplementedError(f"No known logic for pattern {func}")
 
     def match_sequence(
         self, doc: Document, start_token: dd.tokenize.Token, pattern: list[dict]
