@@ -8,7 +8,7 @@
     "redactor_close_char": ">",
     "annotators": {
         "prefix_with_name": {
-            "annotator_type": "token_pattern_new",
+            "annotator_type": "token_pattern",
             "group": "names",
             "args": {
                 "tag": "prefix+naam",
@@ -30,7 +30,7 @@
             }
         },
         "interfix_with_name": {
-            "annotator_type": "token_pattern_new",
+            "annotator_type": "token_pattern",
             "group": "names",
             "args": {
                 "tag": "interfix+naam",
@@ -52,7 +52,7 @@
             }
         },
         "initial_with_capital": {
-            "annotator_type": "token_pattern_new",
+            "annotator_type": "token_pattern",
             "group": "names",
             "args": {
                 "tag": "initiaal+naam",
@@ -77,7 +77,7 @@
             }
         },
         "initial_interfix": {
-            "annotator_type": "token_pattern_new",
+            "annotator_type": "token_pattern",
             "group": "names",
             "args": {
                 "tag": "initiaal+interfix+naam",
@@ -95,7 +95,7 @@
             }
         },
         "first_name_lookup": {
-            "annotator_type": "token_pattern_new",
+            "annotator_type": "token_pattern",
             "group": "names",
             "args": {
                 "tag": "voornaam_onbekend",
@@ -114,7 +114,7 @@
             }
         },
         "surname_lookup": {
-            "annotator_type": "token_pattern_new",
+            "annotator_type": "token_pattern",
             "group": "names",
             "args": {
                 "tag": "achternaam_onbekend",
@@ -133,7 +133,7 @@
             }
         },
         "person_first_name": {
-            "annotator_type": "token_pattern",
+            "annotator_type": "dd_token_pattern",
             "group": "names",
             "args": {
                 "pattern": {
@@ -144,7 +144,7 @@
             }
         },
         "person_initial_from_name": {
-            "annotator_type": "token_pattern",
+            "annotator_type": "dd_token_pattern",
             "group": "names",
             "args": {
                 "pattern": {
@@ -155,7 +155,7 @@
             }
         },
         "person_initials": {
-            "annotator_type": "token_pattern",
+            "annotator_type": "dd_token_pattern",
             "group": "names",
             "args": {
                 "pattern": {
@@ -166,7 +166,7 @@
             }
         },
         "person_surname": {
-            "annotator_type": "token_pattern",
+            "annotator_type": "dd_token_pattern",
             "group": "names",
             "args": {
                 "pattern": {

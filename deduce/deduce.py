@@ -133,7 +133,7 @@ class _AnnotatorFactory:
     def __init__(self) -> None:
         self.annotator_creators = {
             "token_pattern": self._get_token_pattern_annotator,
-            "token_pattern_new": self._get_token_pattern_annotator_new,
+            "dd_token_pattern": self._get_dd_token_pattern_annotator,
             "annotation_context": self._get_annotation_context_pattern_annotator,
             "regexp": self._get_regexp_annotator,
             "multi_token": self._get_multi_token_annotator,
@@ -142,12 +142,12 @@ class _AnnotatorFactory:
 
     @staticmethod
     def _get_token_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-        pattern = utils.import_and_initialize(args.pop("pattern"), extras=extras)
-        return dd.process.TokenPatternAnnotator(pattern=pattern)
+        return TokenPatternAnnotatorNew(**args, ds=extras["ds"])
 
     @staticmethod
-    def _get_token_pattern_annotator_new(args: dict, extras: dict) -> dd.process.Annotator:
-        return TokenPatternAnnotatorNew(**args, ds=extras["ds"])
+    def _get_dd_token_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        pattern = utils.import_and_initialize(args.pop("pattern"), extras=extras)
+        return dd.process.TokenPatternAnnotator(pattern=pattern)
 
     @staticmethod
     def _get_annotation_context_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
