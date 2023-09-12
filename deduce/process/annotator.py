@@ -8,6 +8,91 @@ import deduce.utils
 from deduce.pattern.name_context import AnnotationContextPattern
 
 
+class TokenPatternAnnotator(dd.process.Annotator):
+    """
+    Annotates based on token patterns, which should be provided as a list of dicts. Each position in the list denotes a
+    token position, e.g.: [{'is_initial': True}, {'min_len': 3}] matches sequences of two tokens, where the first one is
+    an initial, and the second one is at least 3 characters long.
+
+    Arguments:
+        pattern: The pattern
+        ds: Any datastructures, that can be used for lookup or other logic
+    """
+
+    def __init__(self, pattern: list[dict], *args, ds: Optional[dd.ds.DsCollection] = None, **kwargs) -> None:
+
+        self.pattern = pattern
+        self.ds = ds
+        super().__init__(*args, **kwargs)
+
+    def match(self, token: dd.tokenize.Token, token_pattern: dict) -> bool:
+        """Match token against a single element of a token pattern (i.e. this token against this pattern, no sequences
+        involved)."""
+
+        if len(token_pattern) > 1:
+            raise ValueError(f"Cannot parse token pattern ({token_pattern}) with more than 1 key")
+
+        func, value = next(iter(token_pattern.items()))
+
+        # TODO: Possibly make this logic more generic?
+        if func == "and":
+            return all(self.match(token, x) for x in value)
+        elif func == "or":
+            return any(self.match(token, x) for x in value)
+        elif func == "min_len":
+            return len(token.text) >= value
+        elif func == "starts_with_capital":
+            return token.text[0].isupper() == value
+        elif func == "is_initial":
+            return (len(token.text) == 1 and token.text[0].isupper()) == value
+        elif func == "lookup":
+            return token.text in self.ds[value]
+        elif func == "lowercase_lookup":
+            return token.text.lower() in self.ds[value]
+        elif func == "neg_lookup":
+            return token.text not in self.ds[value]
+        else:
+            raise NotImplementedError(f"No known logic for pattern {func}")
+
+    def match_sequence(
+        self, doc: Document, start_token: dd.tokenize.Token, pattern: list[dict]
+    ) -> Optional[dd.Annotation]:
+        """Match the sequence of the pattern at this token position."""
+
+        current_token = start_token
+        end_token = start_token
+
+        for position in pattern:
+
+            if current_token is None or not self.match(current_token, position):
+                return None
+
+            end_token = current_token
+            current_token = current_token.next_alpha()
+
+        return dd.Annotation(
+            text=doc.text[start_token.start_char : end_token.end_char],
+            start_char=start_token.start_char,
+            end_char=end_token.end_char,
+            tag=self.tag,
+            start_token=start_token,
+            end_token=end_token,
+        )
+
+    def annotate(self, doc: dd.Document) -> list[dd.Annotation]:
+
+        annotations = []
+
+        for token in doc.get_tokens():
+
+            annotation = self.match_sequence(doc, token, self.pattern)
+
+            if annotation is not None:
+                annotations.append(annotation)
+
+        return annotations
+
+
 class AnnotationContextPatternAnnotator(dd.process.Annotator):
     """
     This Annotator applies one or more AnnotationContextPattern to the text. Currently, it applies all patterns to an
