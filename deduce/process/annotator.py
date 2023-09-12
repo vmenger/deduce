@@ -8,7 +8,7 @@ import deduce.utils
 from deduce.pattern.name_context import AnnotationContextPattern
 
 
-class TokenPatternAnnotatorNew(dd.process.Annotator):
+class TokenPatternAnnotator(dd.process.Annotator):
     def __init__(self, pattern: dict, ds: dd.ds.DsCollection, *args, **kwargs):
         self.pattern = pattern
         self.ds = ds

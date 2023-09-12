@@ -14,7 +14,7 @@ from deduce.process.annotation_processing import (
 )
 from deduce.process.annotator import (
     AnnotationContextPatternAnnotator,
-    TokenPatternAnnotatorNew,
+    TokenPatternAnnotator,
 )
 from deduce.process.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
@@ -142,7 +142,7 @@ class _AnnotatorFactory:
 
     @staticmethod
     def _get_token_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-        return TokenPatternAnnotatorNew(**args, ds=extras["ds"])
+        return TokenPatternAnnotator(**args, ds=extras["ds"])
 
     @staticmethod
     def _get_dd_token_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
