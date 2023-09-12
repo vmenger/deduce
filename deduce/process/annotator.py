@@ -9,18 +9,32 @@ from deduce.pattern.name_context import AnnotationContextPattern
 
 
 class TokenPatternAnnotator(dd.process.Annotator):
-    def __init__(self, pattern: list[dict], ds: Optional[dd.ds.DsCollection] = None, *args, **kwargs):
+    """
+    Annotates based on token patterns, which should be provided as a list of dicts. Each position in the list denotes a
+    token position, e.g.: [{'is_initial': True}, {'min_len': 3}] matches sequences of two tokens, where the first one is
+    an initial, and the second one is at least 3 characters long.
+
+    Arguments:
+        pattern: The pattern
+        ds: Any datastructures, that can be used for lookup or other logic
+    """
+
+    def __init__(self, pattern: list[dict], *args, ds: Optional[dd.ds.DsCollection] = None, **kwargs) -> None:
+
         self.pattern = pattern
         self.ds = ds
         super().__init__(*args, **kwargs)
 
     def match(self, token: dd.tokenize.Token, token_pattern: dict) -> bool:
+        """Match token against a single element of a token pattern (i.e. this token against this pattern, no sequences
+        involved)."""
 
         if len(token_pattern) > 1:
             raise ValueError(f"Cannot parse token pattern ({token_pattern}) with more than 1 key")
 
         func, value = next(iter(token_pattern.items()))
 
+        # TODO: Possibly make this logic more generic?
         match func:
             case "and":
                 return all(self.match(token, x) for x in value)
@@ -44,6 +58,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
     def match_sequence(
         self, doc: Document, start_token: dd.tokenize.Token, pattern: list[dict]
     ) -> Optional[dd.Annotation]:
+        """Match the sequence of the pattern at this token position."""
 
         current_token = start_token
         end_token = start_token
