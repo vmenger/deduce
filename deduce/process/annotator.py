@@ -57,12 +57,18 @@ class TokenPatternAnnotator(dd.process.Annotator):
             raise NotImplementedError(f"No known logic for pattern {func}")
 
     def match_sequence(
-        self, doc: Document, start_token: dd.tokenize.Token, pattern: list[dict]
+        self, doc: Document, start_token: dd.tokenize.Token, pattern: list[dict], direction: str = "right"
     ) -> Optional[dd.Annotation]:
         """Match the sequence of the pattern at this token position."""
 
         current_token = start_token
         end_token = start_token
+
+        if direction == 'right':
+            attr = 'next_alpha'
+        else:
+            attr = 'previous_alpha'
+            pattern = reversed(pattern)
 
         for position in pattern:
 
@@ -70,7 +76,10 @@ class TokenPatternAnnotator(dd.process.Annotator):
                 return None
 
             end_token = current_token
-            current_token = current_token.next_alpha()
+            current_token = getattr(current_token, attr)()
+
+        if direction == 'left':
+            start_token, end_token = end_token, start_token
 
         return dd.Annotation(
             text=doc.text[start_token.start_char : end_token.end_char],
