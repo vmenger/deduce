@@ -13,6 +13,21 @@
   "redactor_open_char": "<",
   "redactor_close_char": ">",
   "annotators": {
+    "prefix_with_initial": {
+      "annotator_type": "token_pattern",
+      "group": "names",
+      "args": {
+        "tag": "prefix+initiaal",
+        "pattern": [
+          {
+            "lowercase_lookup": "prefixes"
+          },
+          {
+            "is_initial": true
+          }
+        ]
+      }
+    },
     "prefix_with_name": {
       "annotator_type": "token_pattern",
       "group": "names",
@@ -28,6 +43,9 @@
                 "starts_with_capital": true
               },
               {
+                "min_len": 3
+              },
+              {
                 "neg_lookup": "whitelist"
               }
             ]
@@ -39,7 +57,7 @@
       "annotator_type": "token_pattern",
       "group": "names",
       "args": {
-        "tag": "interfix+naam",
+        "tag": "interfix+achternaam",
         "pattern": [
           {
             "lowercase_lookup": "interfixes"
@@ -69,7 +87,7 @@
           {
             "and": [
               {
-                "min_len": 4
+                "min_len": 3
               },
               {
                 "starts_with_capital": true
@@ -95,7 +113,14 @@
             "lookup": "interfixes"
           },
           {
-            "starts_with_capital": true
+            "and": [
+              {
+                "starts_with_capital": true
+              },
+              {
+                "min_len": 3
+              }
+            ]
           }
         ]
       }
@@ -104,7 +129,7 @@
       "annotator_type": "token_pattern",
       "group": "names",
       "args": {
-        "tag": "voornaam_onbekend",
+        "tag": "voornaam",
         "pattern": [
           {
             "and": [
@@ -123,7 +148,7 @@
       "annotator_type": "token_pattern",
       "group": "names",
       "args": {
-        "tag": "achternaam_onbekend",
+        "tag": "achternaam",
         "pattern": [
           {
             "and": [
@@ -167,7 +192,7 @@
         "pattern": {
           "module": "deduce.pattern",
           "class": "PersonInitialsPattern",
-          "tag": "initialen_patient"
+          "tag": "achternaam_patient"
         }
       }
     },
@@ -189,10 +214,10 @@
         "iterative": true,
         "pattern": [
           {
-            "name": "interfix_context",
+            "name": "interfix_right",
             "direction": "right",
             "pre_tag": [
-              "initia",
+              "initiaal",
               "naam"
             ],
             "tag": "{tag}+interfix+achternaam",
@@ -201,57 +226,73 @@
                 "lookup": "interfixes"
               },
               {
-                "starts_with_capital": true
-              }
-            ]
-          },
-          {
-            "name": "initials_context",
-            "direction": "left",
-            "pre_tag": [
-              "achternaam",
-              "interfix",
-              "initia"
-            ],
-            "tag": "initiaal+{tag}",
-            "pattern": [
-              {
-                "or": [
+                "and": [
                   {
-                    "is_initial": true
+                    "starts_with_capital": true
                   },
                   {
-                    "and": [
-                      {
-                        "starts_with_capital": true
-                      },
-                      {
-                        "neg_lookup": "whitelist"
-                      },
-                      {
-                        "lowercase_neg_lookup": "prefixes"
-                      }
-                    ]
+                    "min_len": 3
                   }
                 ]
               }
             ]
           },
           {
-            "name": "initial_name_context",
-            "direction": "right",
+            "name": "initial_left",
+            "direction": "left",
             "pre_tag": [
-              "initia",
-              "voornaam",
-              "roepnaam",
-              "prefix"
+              "initiaal",
+              "naam",
+              "interfix"
             ],
-            "tag": "{tag}+initiaalhoofdletternaam",
+            "tag": "initiaal+{tag}",
+            "pattern": [
+              {
+                "is_initial": true
+              }
+            ]
+          },
+          {
+            "name": "naam_left",
+            "direction": "left",
+            "pre_tag": [
+              "naam"
+            ],
+            "tag": "naam+{tag}",
             "pattern": [
               {
                 "and": [
                   {
-                    "min_len": 4
+                    "starts_with_capital": true
+                  },
+                  {
+                    "min_len": 3
+                  },
+                  {
+                    "neg_lookup": "whitelist"
+                  },
+                  {
+                    "lowercase_neg_lookup": "prefixes"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "naam_right",
+            "direction": "right",
+            "pre_tag": [
+              "prefix",
+              "initiaal",
+              "interfix",
+              "naam"
+            ],
+            "tag": "{tag}+naam",
+            "pattern": [
+              {
+                "and": [
+                  {
+                    "min_len": 3
                   },
                   {
                     "starts_with_capital": true
@@ -264,21 +305,25 @@
             ]
           },
           {
-            "name": "nexus_context",
-            "direction": "right",
+            "name": "prefix_left",
+            "direction": "left",
             "pre_tag": [
-              "initia",
-              "naam",
+              "prefix",
+              "initiaal",
               "interfix",
-              "prefix"
+              "naam"
             ],
-            "tag": "{tag}+en+hoofdletternaam",
+            "tag": "prefix+{tag}",
             "pattern": [
               {
-                "equal": "en"
-              },
-              {
-                "starts_with_capital": true
+                "and": [
+                  {
+                    "lowercase_lookup": "prefixes"
+                  },
+                  {
+                    "neg_lookup": "whitelist"
+                  }
+                ]
               }
             ]
           }

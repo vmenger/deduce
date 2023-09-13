@@ -119,7 +119,14 @@ class ContextAnnotator(TokenPatternAnnotator):
 
         for annotation in annotations:
 
-            if not deduce.utils.any_in_text(context_pattern["pre_tag"], annotation.tag):
+            tag_min = annotation.tag.split("+")
+
+            if context_pattern['direction'] == "right":
+                tag_min = tag_min[-1]
+            else:
+                tag_min = tag_min[0]
+
+            if not deduce.utils.any_in_text(context_pattern["pre_tag"], tag_min):
                 new_annotations.add(annotation)
                 continue
 
