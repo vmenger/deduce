@@ -105,7 +105,7 @@ class AnnotationContextPatternAnnotator(dd.process.Annotator):
         context_patterns: The patterns to apply.
         tags: A list of tags that can be used to filter the existing annotations. Patterns will only be applied to
             those annotations that have one of the tags as substring of the annotation tag.
-        iterative: Whether to repeatedly apply the pattenrs until no changes occur.
+        iterative: Whether to repeatedly apply the patterns until no changes occur.
     """
 
     def __init__(
