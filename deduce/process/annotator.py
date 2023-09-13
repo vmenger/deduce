@@ -39,6 +39,8 @@ class TokenPatternAnnotator(dd.process.Annotator):
             return all(self.match(token, x) for x in value)
         elif func == "or":
             return any(self.match(token, x) for x in value)
+        elif func == "equal":
+            return token.text == value
         elif func == "min_len":
             return len(token.text) >= value
         elif func == "starts_with_capital":
