@@ -195,7 +195,7 @@
               "initia",
               "naam"
             ],
-            "tag": "initiaal+{tag}",
+            "tag": "{tag}+interfix+achternaam",
             "pattern": [
               {
                 "lookup": "interfixes"
@@ -213,7 +213,7 @@
               "interfix",
               "initia"
             ],
-            "tag": "{tag}+intefix+achternaam",
+            "tag": "initiaal+{tag}",
             "pattern": [
               {
                 "or": [
@@ -229,7 +229,7 @@
                         "neg_lookup": "whitelist"
                       },
                       {
-                        "neg_lookup": "prefixes"
+                        "lowercase_neg_lookup": "prefixes"
                       }
                     ]
                   }
@@ -251,7 +251,7 @@
               {
                 "and": [
                   {
-                    "min_len": 3
+                    "min_len": 4
                   },
                   {
                     "starts_with_capital": true

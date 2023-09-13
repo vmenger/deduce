@@ -48,10 +48,12 @@ class TokenPatternAnnotator(dd.process.Annotator):
             return (len(token.text) == 1 and token.text[0].isupper()) == value
         elif func == "lookup":
             return token.text in self.ds[value]
-        elif func == "lowercase_lookup":
-            return token.text.lower() in self.ds[value]
         elif func == "neg_lookup":
             return token.text not in self.ds[value]
+        elif func == "lowercase_lookup":
+            return token.text.lower() in self.ds[value]
+        elif func == "lowercase_neg_lookup":
+            return token.text.lower() not in self.ds[value]
         else:
             raise NotImplementedError(f"No known logic for pattern {func}")
 
@@ -146,7 +148,7 @@ class ContextAnnotator(TokenPatternAnnotator):
                             end_char=end_char,
                             start_token=annotation.start_token,
                             end_token=new_annotation.end_token,
-                            tag=annotation.tag.format(tag=context_pattern["tag"]),
+                            tag=context_pattern["tag"].format(tag=annotation.tag),
                         )
                     )
 
@@ -162,7 +164,7 @@ class ContextAnnotator(TokenPatternAnnotator):
                             end_char=end_char,
                             start_token=new_annotation.start_token,
                             end_token=annotation.end_token,
-                            tag=annotation.tag.format(tag=context_pattern["tag"]),
+                            tag=context_pattern["tag"].format(tag=annotation.tag),
                         )
                     )
 
@@ -189,7 +191,8 @@ class ContextAnnotator(TokenPatternAnnotator):
 
     def annotate(self, doc: dd.Document) -> list[dd.Annotation]:
 
-        return self._annotate(list(doc.annotations), doc)
+        doc.annotations = self._annotate(list(doc.annotations), doc)
+        return []
 
 
 class BsnAnnotator(dd.process.Annotator):
