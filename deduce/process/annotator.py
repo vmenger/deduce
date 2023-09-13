@@ -18,10 +18,16 @@ class TokenPatternAnnotator(dd.process.Annotator):
         ds: Any datastructures, that can be used for lookup or other logic
     """
 
-    def __init__(self, pattern: list[dict], *args, ds: Optional[dd.ds.DsCollection] = None, **kwargs) -> None:
+    def __init__(self, pattern: list[dict], *args, ds: Optional[dd.ds.DsCollection] = None, skip: Optional[list[str]] = None, **kwargs) -> None:
 
         self.pattern = pattern
         self.ds = ds
+
+        if skip is None:
+            self.skip = set()
+        else:
+            self.skip = set(skip)
+
         super().__init__(*args, **kwargs)
 
     def match(self, token: dd.tokenize.Token, token_pattern: dict) -> bool:
@@ -35,27 +41,29 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
         # TODO: Possibly make this logic more generic?
         if func == "and":
-            return all(self.match(token, x) for x in value)
+            out = all(self.match(token, x) for x in value)
         elif func == "or":
-            return any(self.match(token, x) for x in value)
+            out = any(self.match(token, x) for x in value)
         elif func == "equal":
-            return token.text == value
+            out = token.text == value
         elif func == "min_len":
-            return len(token.text) >= value
+            out = len(token.text) >= value
         elif func == "starts_with_capital":
-            return token.text[0].isupper() == value
+            out = token.text[0].isupper() == value
         elif func == "is_initial":
-            return (len(token.text) == 1 and token.text[0].isupper()) == value
+            out = (len(token.text) == 1 and token.text[0].isupper()) == value
         elif func == "lookup":
-            return token.text in self.ds[value]
+            out = token.text in self.ds[value]
         elif func == "neg_lookup":
-            return token.text not in self.ds[value]
+            out = token.text not in self.ds[value]
         elif func == "lowercase_lookup":
-            return token.text.lower() in self.ds[value]
+            out = token.text.lower() in self.ds[value]
         elif func == "lowercase_neg_lookup":
-            return token.text.lower() not in self.ds[value]
+            out = token.text.lower() not in self.ds[value]
         else:
             raise NotImplementedError(f"No known logic for pattern {func}")
+
+        return out
 
     def match_sequence(
         self, doc: Document, start_token: dd.tokenize.Token, pattern: list[dict], direction: str = "right"
@@ -66,18 +74,25 @@ class TokenPatternAnnotator(dd.process.Annotator):
         end_token = start_token
 
         if direction == "right":
-            attr = "next_alpha"
+            attr = "next"
         else:
-            attr = "previous_alpha"
-            pattern = reversed(pattern)
+            attr = "previous"
+            pattern = list(reversed(pattern))
 
         for position in pattern:
+
 
             if current_token is None or not self.match(current_token, position):
                 return None
 
             end_token = current_token
-            current_token = getattr(current_token, attr)()
+
+            while True:
+
+                current_token = getattr(current_token, attr)()
+
+                if current_token is None or current_token.text not in self.skip:
+                    break
 
         if direction == "left":
             start_token, end_token = end_token, start_token
@@ -131,9 +146,17 @@ class ContextAnnotator(TokenPatternAnnotator):
                 continue
 
             if context_pattern["direction"] == "right":
-                start_token = annotation.end_token.next_alpha()
+                attr = 'next'
+                start_token = annotation.end_token
             else:
-                start_token = annotation.start_token.previous_alpha()
+                attr = 'previous'
+                start_token = annotation.start_token
+
+            while True:
+                start_token = getattr(start_token, attr)()
+
+                if start_token is None or start_token.text not in self.skip:
+                    break
 
             new_annotation = self.match_sequence(
                 doc, start_token, context_pattern["pattern"], direction=context_pattern["direction"]
