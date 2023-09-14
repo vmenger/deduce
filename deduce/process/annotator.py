@@ -66,9 +66,12 @@ class TokenPatternAnnotator(dd.process.Annotator):
         return out
 
     def match_sequence(
-        self, doc: Document, start_token: dd.tokenize.Token, pattern: list[dict], direction: str = "right"
+        self, doc: Document, start_token: dd.tokenize.Token, pattern: list[dict], direction: str = "right", skip: set[str] = None
     ) -> Optional[dd.Annotation]:
         """Match the sequence of the pattern at this token position."""
+
+        if skip is None:
+            skip = set()
 
         current_token = start_token
         end_token = start_token
@@ -81,7 +84,6 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
         for position in pattern:
 
-
             if current_token is None or not self.match(current_token, position):
                 return None
 
@@ -91,7 +93,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
                 current_token = getattr(current_token, attr)()
 
-                if current_token is None or current_token.text not in self.skip:
+                if current_token is None or current_token.text not in skip:
                     break
 
         if direction == "left":
@@ -112,7 +114,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
         for token in doc.get_tokens():
 
-            annotation = self.match_sequence(doc, token, self.pattern)
+            annotation = self.match_sequence(doc, token, self.pattern, skip=self.skip)
 
             if annotation is not None:
                 annotations.append(annotation)
@@ -145,6 +147,8 @@ class ContextAnnotator(TokenPatternAnnotator):
                 new_annotations.add(annotation)
                 continue
 
+            skip = set(context_pattern.get('skip', []))
+
             if context_pattern["direction"] == "right":
                 attr = 'next'
                 start_token = annotation.end_token
@@ -155,11 +159,12 @@ class ContextAnnotator(TokenPatternAnnotator):
             while True:
                 start_token = getattr(start_token, attr)()
 
-                if start_token is None or start_token.text not in self.skip:
+                if start_token is None or start_token.text not in skip:
                     break
 
+
             new_annotation = self.match_sequence(
-                doc, start_token, context_pattern["pattern"], direction=context_pattern["direction"]
+                doc, start_token, context_pattern["pattern"], direction=context_pattern["direction"], skip=skip
             )
 
             if new_annotation:

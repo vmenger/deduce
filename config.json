@@ -18,7 +18,7 @@
       "group": "names",
       "args": {
         "tag": "prefix+initiaal",
-        "skip": [".", "-"],
+        "skip": ["."],
         "pattern": [
           {
             "lowercase_lookup": "prefixes"
@@ -34,7 +34,7 @@
       "group": "names",
       "args": {
         "tag": "prefix+naam",
-        "skip": [".", "-"],
+        "skip": ["."],
         "pattern": [
           {
             "lowercase_lookup": "prefixes"
@@ -60,7 +60,7 @@
       "group": "names",
       "args": {
         "tag": "interfix+achternaam",
-        "skip": [".", "-"],
+        "skip": [],
         "pattern": [
           {
             "lowercase_lookup": "interfixes"
@@ -83,7 +83,7 @@
       "group": "names",
       "args": {
         "tag": "initiaal+naam",
-        "skip": [".", "-"],
+        "skip": ["."],
         "pattern": [
           {
             "is_initial": true
@@ -109,7 +109,7 @@
       "group": "names",
       "args": {
         "tag": "initiaal+interfix+naam",
-        "skip": [".", "-"],
+        "skip": ["."],
         "pattern": [
           {
             "is_initial": true
@@ -135,7 +135,7 @@
       "group": "names",
       "args": {
         "tag": "voornaam",
-        "skip": [".", "-"],
+        "skip": [],
         "pattern": [
           {
             "and": [
@@ -155,7 +155,7 @@
       "group": "names",
       "args": {
         "tag": "achternaam",
-        "skip": [".", "-"],
+        "skip": [],
         "pattern": [
           {
             "and": [
@@ -219,7 +219,6 @@
       "group": "names",
       "args": {
         "iterative": true,
-        "skip": [".", "-"],
         "pattern": [
           {
             "name": "interfix_right",
@@ -229,6 +228,7 @@
               "naam"
             ],
             "tag": "{tag}+interfix+achternaam",
+            "skip": [".", "-"],
             "pattern": [
               {
                 "lookup": "interfixes"
@@ -254,6 +254,7 @@
               "interfix"
             ],
             "tag": "initiaal+{tag}",
+            "skip": ["."],
             "pattern": [
               {
                 "is_initial": true
@@ -267,6 +268,7 @@
               "naam"
             ],
             "tag": "naam+{tag}",
+            "skip": ["-"],
             "pattern": [
               {
                 "and": [
@@ -296,6 +298,7 @@
               "naam"
             ],
             "tag": "{tag}+naam",
+            "skip": ["-"],
             "pattern": [
               {
                 "and": [
@@ -322,6 +325,7 @@
               "naam"
             ],
             "tag": "prefix+{tag}",
+            "skip": ["."],
             "pattern": [
               {
                 "and": [
