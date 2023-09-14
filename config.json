@@ -318,9 +318,6 @@
                 "and": [
                   {
                     "lookup": "prefixes"
-                  },
-                  {
-                    "neg_lookup": "whitelist"
                   }
                 ]
               }
