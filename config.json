@@ -42,10 +42,7 @@
           {
             "and": [
               {
-                "starts_with_capital": true
-              },
-              {
-                "min_len": 3
+                "like_name": true
               },
               {
                 "neg_lookup": "whitelist"
@@ -91,10 +88,7 @@
           {
             "and": [
               {
-                "min_len": 3
-              },
-              {
-                "starts_with_capital": true
+                "like_name": true
               },
               {
                 "neg_lookup": "whitelist"
@@ -118,14 +112,7 @@
             "lookup": "interfixes"
           },
           {
-            "and": [
-              {
-                "starts_with_capital": true
-              },
-              {
-                "min_len": 3
-              }
-            ]
+            "like_name": true
           }
         ]
       }
@@ -234,14 +221,7 @@
                 "lookup": "interfixes"
               },
               {
-                "and": [
-                  {
-                    "starts_with_capital": true
-                  },
-                  {
-                    "min_len": 3
-                  }
-                ]
+                "like_name": true
               }
             ]
           },
@@ -273,10 +253,7 @@
               {
                 "and": [
                   {
-                    "starts_with_capital": true
-                  },
-                  {
-                    "min_len": 3
+                    "like_name": true
                   },
                   {
                     "neg_lookup": "whitelist"
@@ -303,10 +280,7 @@
               {
                 "and": [
                   {
-                    "min_len": 3
-                  },
-                  {
-                    "starts_with_capital": true
+                    "like_name": true
                   },
                   {
                     "neg_lookup": "whitelist"

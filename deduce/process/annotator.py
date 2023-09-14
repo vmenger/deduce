@@ -46,12 +46,10 @@ class TokenPatternAnnotator(dd.process.Annotator):
             out = any(self.match(token, x) for x in value)
         elif func == "equal":
             out = token.text == value
-        elif func == "min_len":
-            out = len(token.text) >= value
-        elif func == "starts_with_capital":
-            out = token.text[0].isupper() == value
         elif func == "is_initial":
             out = (len(token.text) == 1 and token.text[0].isupper()) == value
+        elif func == "like_name":
+            out = (len(token.text) >= 3 and token.text[0].isupper() and not any(ch.isdigit() for ch in token.text)) == value
         elif func == "lookup":
             out = token.text in self.ds[value]
         elif func == "neg_lookup":
