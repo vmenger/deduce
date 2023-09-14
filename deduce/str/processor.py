@@ -4,6 +4,12 @@ import docdeid as dd
 from docdeid.str import LowercaseString, StringFilter, StringModifier
 
 
+class TitleCase(StringModifier):
+
+    def process(self, item: str) -> str:
+        return item[0].upper() + item[1:]
+
+
 class TakeLastToken(StringModifier):
     """Take the last token, split by string."""
 
@@ -70,3 +76,4 @@ class FilterBasedOnLookupSet(StringFilter):
 
     def filter(self, item: str) -> bool:
         return item not in self.filter_set
+

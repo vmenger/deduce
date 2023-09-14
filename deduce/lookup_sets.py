@@ -8,6 +8,7 @@ from deduce.str.processor import (
     FilterBasedOnLookupSet,
     RemoveValues,
     TakeLastToken,
+    TitleCase
 )
 
 data_path = Path(os.path.dirname(__file__)).parent / "data" / "lookup_lists"
@@ -68,6 +69,7 @@ def _get_prefixes_lookup_set() -> dd.ds.LookupSet:
     prefixes = dd.ds.LookupSet()
 
     prefixes.add_items_from_file(os.path.join(data_path, "prefixes.txt"))
+    prefixes.add_items_from_self(cleaning_pipeline=[TitleCase()])
 
     return prefixes
 

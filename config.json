@@ -21,7 +21,7 @@
         "skip": ["."],
         "pattern": [
           {
-            "lowercase_lookup": "prefixes"
+            "lookup": "prefixes"
           },
           {
             "or": [
@@ -44,7 +44,7 @@
         "skip": ["."],
         "pattern": [
           {
-            "lowercase_lookup": "prefixes"
+            "lookup": "prefixes"
           },
           {
             "and": [
@@ -99,6 +99,9 @@
               },
               {
                 "neg_lookup": "whitelist"
+              },
+              {
+                "neg_lookup": "prefixes"
               }
             ]
           }
@@ -266,7 +269,7 @@
                     "neg_lookup": "whitelist"
                   },
                   {
-                    "lowercase_neg_lookup": "prefixes"
+                    "neg_lookup": "prefixes"
                   }
                 ]
               }
@@ -291,6 +294,9 @@
                   },
                   {
                     "neg_lookup": "whitelist"
+                  },
+                  {
+                    "neg_lookup": "prefixes"
                   }
                 ]
               }
@@ -311,7 +317,7 @@
               {
                 "and": [
                   {
-                    "lowercase_lookup": "prefixes"
+                    "lookup": "prefixes"
                   },
                   {
                     "neg_lookup": "whitelist"
