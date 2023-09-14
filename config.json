@@ -24,7 +24,14 @@
             "lowercase_lookup": "prefixes"
           },
           {
-            "is_initial": true
+            "or": [
+              {
+                "is_initial": true
+              },
+              {
+                "is_initials": true
+              }
+            ]
           }
         ]
       }

@@ -18,6 +18,5 @@ mevr
 mevrouw
 mr
 mw
-patient
 prof
 pt
