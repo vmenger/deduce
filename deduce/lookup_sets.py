@@ -8,7 +8,7 @@ from deduce.str.processor import (
     FilterBasedOnLookupSet,
     RemoveValues,
     TakeLastToken,
-    TitleCase
+    TitleCase,
 )
 
 data_path = Path(os.path.dirname(__file__)).parent / "data" / "lookup_lists"
@@ -39,7 +39,7 @@ def _get_first_names() -> dd.ds.LookupSet:
 
 
 def _get_first_name_exceptions() -> dd.ds.LookupSet:
-    """ Get first name exceptions """
+    """Get first name exceptions."""
 
     first_name_exceptions = dd.ds.LookupSet()
 
@@ -87,7 +87,7 @@ def _get_surnames() -> dd.ds.LookupSet:
 
 
 def _get_surname_exceptions() -> dd.ds.LookupSet:
-    """ Get surname exceptions """
+    """Get surname exceptions."""
 
     surname_exceptions = dd.ds.LookupSet()
 

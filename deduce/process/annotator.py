@@ -18,7 +18,14 @@ class TokenPatternAnnotator(dd.process.Annotator):
         ds: Any datastructures, that can be used for lookup or other logic
     """
 
-    def __init__(self, pattern: list[dict], *args, ds: Optional[dd.ds.DsCollection] = None, skip: Optional[list[str]] = None, **kwargs) -> None:
+    def __init__(
+        self,
+        pattern: list[dict],
+        *args,
+        ds: Optional[dd.ds.DsCollection] = None,
+        skip: Optional[list[str]] = None,
+        **kwargs,
+    ) -> None:
 
         self.pattern = pattern
         self.ds = ds
@@ -49,9 +56,11 @@ class TokenPatternAnnotator(dd.process.Annotator):
         elif func == "is_initial":
             out = (len(token.text) == 1 and token.text[0].isupper()) == value
         elif func == "is_initials":
-            out = (len(token.text) <= 4 and token.text.isupper())
+            out = len(token.text) <= 4 and token.text.isupper()
         elif func == "like_name":
-            out = (len(token.text) >= 3 and token.text.istitle() and not any(ch.isdigit() for ch in token.text)) == value
+            out = (
+                len(token.text) >= 3 and token.text.istitle() and not any(ch.isdigit() for ch in token.text)
+            ) == value
         elif func == "lookup":
             out = token.text in self.ds[value]
         elif func == "neg_lookup":
@@ -66,7 +75,12 @@ class TokenPatternAnnotator(dd.process.Annotator):
         return out
 
     def match_sequence(
-        self, doc: Document, start_token: dd.tokenize.Token, pattern: list[dict], direction: str = "right", skip: set[str] = None
+        self,
+        doc: Document,
+        start_token: dd.tokenize.Token,
+        pattern: list[dict],
+        direction: str = "right",
+        skip: set[str] = None,
     ) -> Optional[dd.Annotation]:
         """Match the sequence of the pattern at this token position."""
 
@@ -138,7 +152,7 @@ class ContextAnnotator(TokenPatternAnnotator):
 
             tag_min = annotation.tag.split("+")
 
-            if context_pattern['direction'] == "right":
+            if context_pattern["direction"] == "right":
                 tag_min = tag_min[-1]
             else:
                 tag_min = tag_min[0]
@@ -147,13 +161,13 @@ class ContextAnnotator(TokenPatternAnnotator):
                 new_annotations.add(annotation)
                 continue
 
-            skip = set(context_pattern.get('skip', []))
+            skip = set(context_pattern.get("skip", []))
 
             if context_pattern["direction"] == "right":
-                attr = 'next'
+                attr = "next"
                 start_token = annotation.end_token
             else:
-                attr = 'previous'
+                attr = "previous"
                 start_token = annotation.start_token
 
             while True:
@@ -161,7 +175,6 @@ class ContextAnnotator(TokenPatternAnnotator):
 
                 if start_token is None or start_token.text not in skip:
                     break
-
 
             new_annotation = self.match_sequence(
                 doc, start_token, context_pattern["pattern"], direction=context_pattern["direction"], skip=skip
