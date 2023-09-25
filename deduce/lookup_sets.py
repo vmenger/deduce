@@ -14,7 +14,7 @@ from deduce.str.processor import (
 data_path = Path(os.path.dirname(__file__)).parent / "data" / "lookup_lists"
 
 
-def _get_prefixes_lookup_set() -> dd.ds.LookupSet:
+def _get_prefixes() -> dd.ds.LookupSet:
     """Get prefixes LookupSet (e.g. 'dr', 'mw')"""
 
     prefixes = dd.ds.LookupSet()
@@ -25,7 +25,7 @@ def _get_prefixes_lookup_set() -> dd.ds.LookupSet:
     return prefixes
 
 
-def _get_first_names_lookup_set() -> dd.ds.LookupSet:
+def _get_first_names() -> dd.ds.LookupSet:
     """Get first names LookupSet."""
 
     first_names = dd.ds.LookupSet()
@@ -38,7 +38,19 @@ def _get_first_names_lookup_set() -> dd.ds.LookupSet:
     return first_names
 
 
-def _get_interfixes_lookup_set() -> dd.ds.LookupSet:
+def _get_first_name_exceptions() -> dd.ds.LookupSet:
+    """ Get first name exceptions """
+
+    first_name_exceptions = dd.ds.LookupSet()
+
+    first_name_exceptions.add_items_from_file(
+        os.path.join(data_path, "first_name_exceptions.txt"),
+    )
+
+    return first_name_exceptions
+
+
+def _get_interfixes() -> dd.ds.LookupSet:
     """Get interfixes LookupSet ('van der', etc.)"""
 
     interfixes = dd.ds.LookupSet()
@@ -48,7 +60,7 @@ def _get_interfixes_lookup_set() -> dd.ds.LookupSet:
     return interfixes
 
 
-def _get_interfix_surnames_lookup_set() -> dd.ds.LookupSet:
+def _get_interfix_surnames() -> dd.ds.LookupSet:
     """Get interfix surnames LookupSet (e.g. 'Jong' for 'de Jong')"""
 
     interfix_surnames = dd.ds.LookupSet()
@@ -61,7 +73,7 @@ def _get_interfix_surnames_lookup_set() -> dd.ds.LookupSet:
     return interfix_surnames
 
 
-def _get_surnames_lookup_set() -> dd.ds.LookupSet:
+def _get_surnames() -> dd.ds.LookupSet:
     """Get surnames LookupSet."""
 
     surnames = dd.ds.LookupSet()
@@ -74,7 +86,19 @@ def _get_surnames_lookup_set() -> dd.ds.LookupSet:
     return surnames
 
 
-def _get_residences_lookup_set() -> dd.ds.LookupSet:
+def _get_surname_exceptions() -> dd.ds.LookupSet:
+    """ Get surname exceptions """
+
+    surname_exceptions = dd.ds.LookupSet()
+
+    surname_exceptions.add_items_from_file(
+        os.path.join(data_path, "surname_exceptions.txt"),
+    )
+
+    return surname_exceptions
+
+
+def _get_residences() -> dd.ds.LookupSet:
     """Get residences LookupSet."""
 
     residences = dd.ds.LookupSet()
@@ -86,14 +110,14 @@ def _get_residences_lookup_set() -> dd.ds.LookupSet:
     residences.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("-", " ")])
 
     residences.add_items_from_self(
-        cleaning_pipeline=[FilterBasedOnLookupSet(filter_set=_get_whitelist_lookup_set(), case_sensitive=False)],
+        cleaning_pipeline=[FilterBasedOnLookupSet(filter_set=get_whitelist(), case_sensitive=False)],
         replace=True,
     )
 
     return residences
 
 
-def _get_institutions_lookup_set() -> dd.ds.LookupSet:
+def get_institutions() -> dd.ds.LookupSet:
     """Get institutions LookupSet."""
 
     institutions_raw = dd.ds.LookupSet()
@@ -125,7 +149,7 @@ def _get_institutions_lookup_set() -> dd.ds.LookupSet:
         cleaning_pipeline=[dd.str.LowercaseString(), Acronimify(), dd.str.FilterByLength(min_len=3)]
     )
 
-    institutions = institutions - _get_whitelist_lookup_set()
+    institutions = institutions - get_whitelist()
 
     return institutions
 
@@ -151,7 +175,7 @@ def _get_top_terms() -> dd.ds.LookupSet:
     return top1000
 
 
-def _get_whitelist_lookup_set() -> dd.ds.LookupSet:
+def get_whitelist() -> dd.ds.LookupSet:
     """
     Get whitelist LookupSet.
 
@@ -188,14 +212,16 @@ def get_lookup_sets() -> dd.ds.DsCollection:
     lookup_sets = dd.ds.DsCollection()
 
     lookup_set_mapping = {
-        "prefixes": _get_prefixes_lookup_set,
-        "first_names": _get_first_names_lookup_set,
-        "interfixes": _get_interfixes_lookup_set,
-        "interfix_surnames": _get_interfix_surnames_lookup_set,
-        "surnames": _get_surnames_lookup_set,
-        "residences": _get_residences_lookup_set,
-        "institutions": _get_institutions_lookup_set,
-        "whitelist": _get_whitelist_lookup_set,
+        "prefixes": _get_prefixes,
+        "first_names": _get_first_names,
+        "first_name_exceptions": _get_first_name_exceptions,
+        "interfixes": _get_interfixes,
+        "interfix_surnames": _get_interfix_surnames,
+        "surnames": _get_surnames,
+        "surname_exceptions": _get_surname_exceptions,
+        "residences": _get_residences,
+        "institutions": get_institutions,
+        "whitelist": get_whitelist,
     }
 
     for name, init_function in lookup_set_mapping.items():

@@ -140,6 +140,9 @@
                 "lookup": "first_names"
               },
               {
+                "neg_lookup": "first_name_exceptions"
+              },
+              {
                 "neg_lookup": "whitelist"
               }
             ]
@@ -158,6 +161,9 @@
             "and": [
               {
                 "lookup": "surnames"
+              },
+              {
+                "neg_lookup": "surname_exceptions"
               },
               {
                 "neg_lookup": "whitelist"
