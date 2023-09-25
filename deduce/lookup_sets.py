@@ -14,6 +14,17 @@ from deduce.str.processor import (
 data_path = Path(os.path.dirname(__file__)).parent / "data" / "lookup_lists"
 
 
+def _get_prefixes_lookup_set() -> dd.ds.LookupSet:
+    """Get prefixes LookupSet (e.g. 'dr', 'mw')"""
+
+    prefixes = dd.ds.LookupSet()
+
+    prefixes.add_items_from_file(os.path.join(data_path, "prefixes.txt"))
+    prefixes.add_items_from_self(cleaning_pipeline=[TitleCase()])
+
+    return prefixes
+
+
 def _get_first_names_lookup_set() -> dd.ds.LookupSet:
     """Get first names LookupSet."""
 
@@ -25,19 +36,6 @@ def _get_first_names_lookup_set() -> dd.ds.LookupSet:
     )
 
     return first_names
-
-
-def _get_surnames_lookup_set() -> dd.ds.LookupSet:
-    """Get surnames LookupSet."""
-
-    surnames = dd.ds.LookupSet()
-
-    surnames.add_items_from_file(
-        os.path.join(data_path, "surnames.txt"),
-        cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
-    )
-
-    return surnames
 
 
 def _get_interfixes_lookup_set() -> dd.ds.LookupSet:
@@ -63,15 +61,73 @@ def _get_interfix_surnames_lookup_set() -> dd.ds.LookupSet:
     return interfix_surnames
 
 
-def _get_prefixes_lookup_set() -> dd.ds.LookupSet:
-    """Get prefixes LookupSet (e.g. 'dr', 'mw')"""
+def _get_surnames_lookup_set() -> dd.ds.LookupSet:
+    """Get surnames LookupSet."""
 
-    prefixes = dd.ds.LookupSet()
+    surnames = dd.ds.LookupSet()
 
-    prefixes.add_items_from_file(os.path.join(data_path, "prefixes.txt"))
-    prefixes.add_items_from_self(cleaning_pipeline=[TitleCase()])
+    surnames.add_items_from_file(
+        os.path.join(data_path, "surnames.txt"),
+        cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
+    )
 
-    return prefixes
+    return surnames
+
+
+def _get_residences_lookup_set() -> dd.ds.LookupSet:
+    """Get residences LookupSet."""
+
+    residences = dd.ds.LookupSet()
+    residences.add_items_from_file(
+        file_path=os.path.join(data_path, "residences.txt"),
+        cleaning_pipeline=[dd.str.ReplaceValueRegexp(r"\(.+\)", ""), dd.str.StripString()],
+    )
+
+    residences.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("-", " ")])
+
+    residences.add_items_from_self(
+        cleaning_pipeline=[FilterBasedOnLookupSet(filter_set=_get_whitelist_lookup_set(), case_sensitive=False)],
+        replace=True,
+    )
+
+    return residences
+
+
+def _get_institutions_lookup_set() -> dd.ds.LookupSet:
+    """Get institutions LookupSet."""
+
+    institutions_raw = dd.ds.LookupSet()
+    institutions_raw.add_items_from_file(
+        os.path.join(data_path, "institutions.txt"),
+        cleaning_pipeline=[dd.str.FilterByLength(min_len=3), dd.str.LowercaseString()],
+    )
+
+    institutions = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
+    institutions.add_items_from_iterable(institutions_raw, cleaning_pipeline=[dd.str.StripString()])
+
+    institutions.add_items_from_iterable(
+        institutions_raw,
+        cleaning_pipeline=[
+            RemoveValues(filter_values=["dr.", "der", "van", "de", "het", "'t", "in", "d'"]),
+            dd.str.StripString(),
+        ],
+    )
+
+    institutions.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue(".", ""), dd.str.StripString()])
+
+    institutions.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("st ", "sint ")])
+
+    institutions.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("st. ", "sint ")])
+
+    institutions.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("ziekenhuis", "zkh")])
+
+    institutions.add_items_from_self(
+        cleaning_pipeline=[dd.str.LowercaseString(), Acronimify(), dd.str.FilterByLength(min_len=3)]
+    )
+
+    institutions = institutions - _get_whitelist_lookup_set()
+
+    return institutions
 
 
 def _get_whitelist_lookup_set() -> dd.ds.LookupSet:
@@ -112,62 +168,6 @@ def _get_whitelist_lookup_set() -> dd.ds.LookupSet:
     )
 
     return whitelist
-
-
-def _get_institutions_lookup_set() -> dd.ds.LookupSet:
-    """Get institutions LookupSet."""
-
-    institutions_raw = dd.ds.LookupSet()
-    institutions_raw.add_items_from_file(
-        os.path.join(data_path, "institutions.txt"),
-        cleaning_pipeline=[dd.str.FilterByLength(min_len=3), dd.str.LowercaseString()],
-    )
-
-    institutions = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
-    institutions.add_items_from_iterable(institutions_raw, cleaning_pipeline=[dd.str.StripString()])
-
-    institutions.add_items_from_iterable(
-        institutions_raw,
-        cleaning_pipeline=[
-            RemoveValues(filter_values=["dr.", "der", "van", "de", "het", "'t", "in", "d'"]),
-            dd.str.StripString(),
-        ],
-    )
-
-    institutions.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue(".", ""), dd.str.StripString()])
-
-    institutions.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("st ", "sint ")])
-
-    institutions.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("st. ", "sint ")])
-
-    institutions.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("ziekenhuis", "zkh")])
-
-    institutions.add_items_from_self(
-        cleaning_pipeline=[dd.str.LowercaseString(), Acronimify(), dd.str.FilterByLength(min_len=3)]
-    )
-
-    institutions = institutions - _get_whitelist_lookup_set()
-
-    return institutions
-
-
-def _get_residences_lookup_set() -> dd.ds.LookupSet:
-    """Get residences LookupSet."""
-
-    residences = dd.ds.LookupSet()
-    residences.add_items_from_file(
-        file_path=os.path.join(data_path, "residences.txt"),
-        cleaning_pipeline=[dd.str.ReplaceValueRegexp(r"\(.+\)", ""), dd.str.StripString()],
-    )
-
-    residences.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("-", " ")])
-
-    residences.add_items_from_self(
-        cleaning_pipeline=[FilterBasedOnLookupSet(filter_set=_get_whitelist_lookup_set(), case_sensitive=False)],
-        replace=True,
-    )
-
-    return residences
 
 
 def get_lookup_sets() -> dd.ds.DsCollection:
