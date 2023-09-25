@@ -181,14 +181,14 @@ def get_lookup_sets() -> dd.ds.DsCollection:
     lookup_sets = dd.ds.DsCollection()
 
     lookup_set_mapping = {
+        "prefixes": _get_prefixes_lookup_set,
         "first_names": _get_first_names_lookup_set,
-        "surnames": _get_surnames_lookup_set,
         "interfixes": _get_interfixes_lookup_set,
         "interfix_surnames": _get_interfix_surnames_lookup_set,
-        "prefixes": _get_prefixes_lookup_set,
-        "whitelist": _get_whitelist_lookup_set,
-        "institutions": _get_institutions_lookup_set,
+        "surnames": _get_surnames_lookup_set,
         "residences": _get_residences_lookup_set,
+        "institutions": _get_institutions_lookup_set,
+        "whitelist": _get_whitelist_lookup_set,
     }
 
     for name, init_function in lookup_set_mapping.items():
