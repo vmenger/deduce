@@ -130,17 +130,7 @@ def _get_institutions_lookup_set() -> dd.ds.LookupSet:
     return institutions
 
 
-def _get_whitelist_lookup_set() -> dd.ds.LookupSet:
-    """
-    Get whitelist LookupSet.
-
-    Composed of medical terms, top 1000 frequent words (except surnames), and stopwords.
-    Returns:
-    """
-    med_terms = dd.ds.LookupSet()
-    med_terms.add_items_from_file(
-        os.path.join(data_path, "medical_terms.txt"),
-    )
+def _get_top_terms() -> dd.ds.LookupSet:
 
     top1000 = dd.ds.LookupSet()
     top1000.add_items_from_file(
@@ -157,6 +147,23 @@ def _get_whitelist_lookup_set() -> dd.ds.LookupSet:
     )
 
     top1000 = top1000 - surnames_lowercase
+
+    return top1000
+
+
+def _get_whitelist_lookup_set() -> dd.ds.LookupSet:
+    """
+    Get whitelist LookupSet.
+
+    Composed of medical terms, top 1000 frequent words (except surnames), and stopwords.
+    Returns:
+    """
+    med_terms = dd.ds.LookupSet()
+    med_terms.add_items_from_file(
+        os.path.join(data_path, "medical_terms.txt"),
+    )
+
+    top1000 = _get_top_terms()
 
     stopwords = dd.ds.LookupSet()
     stopwords.add_items_from_file(os.path.join(data_path, "stop_words.txt"))
