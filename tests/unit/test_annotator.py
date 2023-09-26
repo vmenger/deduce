@@ -1,7 +1,13 @@
 import docdeid as dd
 import pytest
 
-from deduce.annotator import BsnAnnotator, PhoneNumberAnnotator, TokenPatternAnnotator
+from deduce.annotator import (
+    BsnAnnotator,
+    ContextAnnotator,
+    PhoneNumberAnnotator,
+    TokenPatternAnnotator,
+    _PatternPositionMatcher,
+)
 from deduce.tokenizer import DeduceTokenizer
 
 
@@ -11,7 +17,7 @@ def ds():
     ds = dd.ds.DsCollection()
 
     first_names = ["Andries", "pieter", "Aziz", "Bernard"]
-    surnames = ["Smit", "Bakker", "Heerma"]
+    surnames = ["Meijer", "Smit", "Bakker", "Heerma"]
 
     ds["first_names"] = dd.ds.LookupSet()
     ds["first_names"].add_items_from_iterable(items=first_names)
@@ -25,7 +31,9 @@ def ds():
 @pytest.fixture
 def pattern_doc():
 
-    return dd.Document(text="De man heet Andries Meijer, voornaam Andries.", tokenizers={"default": DeduceTokenizer()})
+    return dd.Document(
+        text="De man heet Andries Meijer-Heerma, voornaam Andries.", tokenizers={"default": DeduceTokenizer()}
+    )
 
 
 @pytest.fixture
@@ -49,94 +57,94 @@ def phone_number_doc():
     )
 
 
-class TestTokenPatternAnnotator:
+def token(text: str):
+    return dd.Token(text=text, start_char=0, end_char=len(text))
+
+
+class TestPatternPositionMatcher:
+    def test_equal(self):
+
+        assert _PatternPositionMatcher.match({"equal": "test"}, token=token("test"))
+        assert not _PatternPositionMatcher.match({"equal": "_"}, token=token("test"))
+
+    def test_match_is_initial(self):
+
+        pattern_position = {"is_initial": True}
+
+        assert _PatternPositionMatcher.match(pattern_position, token=token("A"))
+        assert not _PatternPositionMatcher.match(pattern_position, token=token("a"))
+        assert not _PatternPositionMatcher.match(pattern_position, token=token("Abcd"))
+
+    def test_match_like_name(self):
+
+        pattern_position = {"like_name": True}
+
+        assert _PatternPositionMatcher.match(pattern_position, token=token("Diederik"))
+        assert not _PatternPositionMatcher.match(pattern_position, token=token("Le"))
+        assert not _PatternPositionMatcher.match(pattern_position, token=token("diederik"))
+        assert not _PatternPositionMatcher.match(pattern_position, token=token("Diederik3"))
+
+    def test_match_lookup(self, ds):
+
+        assert _PatternPositionMatcher.match({"lookup": "first_names"}, token=token("Andries"), ds=ds)
+        assert not _PatternPositionMatcher.match({"lookup": "first_names"}, token=token("andries"), ds=ds)
+        assert not _PatternPositionMatcher.match({"lookup": "surnames"}, token=token("Andries"), ds=ds)
+        assert not _PatternPositionMatcher.match({"lookup": "first_names"}, token=token("Smit"), ds=ds)
+        assert _PatternPositionMatcher.match({"lookup": "surnames"}, token=token("Smit"), ds=ds)
+        assert not _PatternPositionMatcher.match({"lookup": "surnames"}, token=token("smit"), ds=ds)
+
+    def test_match_neg_lookup(self, ds):
+
+        assert not _PatternPositionMatcher.match({"neg_lookup": "first_names"}, token=token("Andries"), ds=ds)
+        assert _PatternPositionMatcher.match({"neg_lookup": "first_names"}, token=token("andries"), ds=ds)
+        assert _PatternPositionMatcher.match({"neg_lookup": "surnames"}, token=token("Andries"), ds=ds)
+        assert _PatternPositionMatcher.match({"neg_lookup": "first_names"}, token=token("Smit"), ds=ds)
+        assert not _PatternPositionMatcher.match({"neg_lookup": "surnames"}, token=token("Smit"), ds=ds)
+        assert _PatternPositionMatcher.match({"neg_lookup": "surnames"}, token=token("smit"), ds=ds)
+
+    def test_match_lowercase_lookup(self, ds):
+
+        assert _PatternPositionMatcher.match({"lowercase_lookup": "first_names"}, token=token("Pieter"), ds=ds)
+        assert _PatternPositionMatcher.match({"lowercase_lookup": "first_names"}, token=token("pieter"), ds=ds)
+        assert not _PatternPositionMatcher.match({"lowercase_lookup": "first_names"}, token=token("smit"), ds=ds)
+
+    def test_match_lowercase_neg_lookup(self, ds):
+
+        assert _PatternPositionMatcher.match({"lowercase_neg_lookup": "first_names"}, token=token("Andries"), ds=ds)
+        assert _PatternPositionMatcher.match({"lowercase_neg_lookup": "first_names"}, token=token("andries"), ds=ds)
+        assert not _PatternPositionMatcher.match({"lowercase_neg_lookup": "first_names"}, token=token("pieter"), ds=ds)
+
     def test_match_and(self):
 
-        tpa = TokenPatternAnnotator(pattern=[{}], tag="_")
-        assert tpa.match(
-            dd.Token("Abcd", start_char=0, end_char=4), {"and": [{"min_len": 3}, {"starts_with_capital": True}]}
+        assert _PatternPositionMatcher.match(
+            {"and": [{"equal": "Abcd"}, {"like_name": True}]}, token=token("Abcd"), ds=ds
         )
-        assert not tpa.match(
-            dd.Token("abcd", start_char=0, end_char=4), {"and": [{"min_len": 3}, {"starts_with_capital": True}]}
+        assert not _PatternPositionMatcher.match(
+            {"and": [{"equal": "dcef"}, {"like_name": True}]}, token=token("Abcd"), ds=ds
         )
-        assert not tpa.match(
-            dd.Token("A", start_char=0, end_char=1), {"and": [{"min_len": 3}, {"starts_with_capital": True}]}
+        assert not _PatternPositionMatcher.match(
+            {"and": [{"equal": "A"}, {"like_name": True}]}, token=token("A"), ds=ds
         )
-        assert not tpa.match(
-            dd.Token("a", start_char=0, end_char=1), {"and": [{"min_len": 3}, {"starts_with_capital": True}]}
+        assert not _PatternPositionMatcher.match(
+            {"and": [{"equal": "b"}, {"like_name": True}]}, token=token("a"), ds=ds
         )
 
     def test_match_or(self):
 
-        tpa = TokenPatternAnnotator(pattern=[{}], tag="_")
-        assert tpa.match(
-            dd.Token("Abcd", start_char=0, end_char=4), {"or": [{"min_len": 3}, {"starts_with_capital": True}]}
+        assert _PatternPositionMatcher.match(
+            {"or": [{"equal": "Abcd"}, {"like_name": True}]}, token=token("Abcd"), ds=ds
         )
-        assert tpa.match(
-            dd.Token("abcd", start_char=0, end_char=4), {"or": [{"min_len": 3}, {"starts_with_capital": True}]}
+        assert _PatternPositionMatcher.match(
+            {"or": [{"equal": "dcef"}, {"like_name": True}]}, token=token("Abcd"), ds=ds
         )
-        assert tpa.match(
-            dd.Token("A", start_char=0, end_char=1), {"or": [{"min_len": 3}, {"starts_with_capital": True}]}
-        )
-        assert not tpa.match(
-            dd.Token("a", start_char=0, end_char=1), {"or": [{"min_len": 3}, {"starts_with_capital": True}]}
-        )
+        assert _PatternPositionMatcher.match({"or": [{"equal": "A"}, {"like_name": True}]}, token=token("A"), ds=ds)
+        assert not _PatternPositionMatcher.match({"or": [{"equal": "b"}, {"like_name": True}]}, token=token("a"), ds=ds)
 
-    def test_match_min_len(self):
 
-        tpa = TokenPatternAnnotator(pattern=[{}], tag="_")
-
-        assert tpa.match(dd.Token("abcd", start_char=0, end_char=4), {"min_len": 3})
-        assert not tpa.match(dd.Token("a", start_char=0, end_char=1), {"min_len": 3})
-
-    def test_match_starts_with_capital(self):
-
-        tpa = TokenPatternAnnotator(pattern=[{}], tag="_")
-
-        assert tpa.match(dd.Token("Abcd", start_char=0, end_char=4), {"starts_with_capital": True})
-        assert not tpa.match(dd.Token("a", start_char=0, end_char=1), {"starts_with_capital": True})
-
-    def test_match_is_initial(self):
-
-        tpa = TokenPatternAnnotator(pattern=[{}], tag="_")
-
-        assert tpa.match(dd.Token("A", start_char=0, end_char=1), {"is_initial": True})
-        assert not tpa.match(dd.Token("a", start_char=0, end_char=1), {"is_initial": True})
-        assert not tpa.match(dd.Token("Abcd", start_char=0, end_char=4), {"is_initial": True})
-
-    def test_match_lookup(self, ds):
-
-        tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
-
-        assert tpa.match(dd.Token("Andries", start_char=0, end_char=7), {"lookup": "first_names"})
-        assert not tpa.match(dd.Token("andries", start_char=0, end_char=7), {"lookup": "first_names"})
-        assert not tpa.match(dd.Token("Andries", start_char=0, end_char=7), {"lookup": "surnames"})
-        assert not tpa.match(dd.Token("Smit", start_char=0, end_char=4), {"lookup": "first_names"})
-        assert tpa.match(dd.Token("Smit", start_char=0, end_char=4), {"lookup": "surnames"})
-        assert not tpa.match(dd.Token("smit", start_char=0, end_char=4), {"lookup": "surnames"})
-
-    def test_match_neg_lookup(self, ds):
-
-        tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
-
-        assert not tpa.match(dd.Token("Andries", start_char=0, end_char=7), {"neg_lookup": "first_names"})
-        assert tpa.match(dd.Token("andries", start_char=0, end_char=7), {"neg_lookup": "first_names"})
-        assert tpa.match(dd.Token("Andries", start_char=0, end_char=7), {"neg_lookup": "surnames"})
-        assert tpa.match(dd.Token("Smit", start_char=0, end_char=4), {"neg_lookup": "first_names"})
-        assert not tpa.match(dd.Token("Smit", start_char=0, end_char=4), {"neg_lookup": "surnames"})
-        assert tpa.match(dd.Token("smit", start_char=0, end_char=4), {"neg_lookup": "surnames"})
-
-    def test_match_lowercase_lookup(self, ds):
-
-        tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
-
-        assert tpa.match(dd.Token("Pieter", start_char=0, end_char=6), {"lowercase_lookup": "first_names"})
-        assert tpa.match(dd.Token("pieter", start_char=0, end_char=6), {"lowercase_lookup": "first_names"})
-        assert not tpa.match(dd.Token("smit", start_char=0, end_char=4), {"lowercase_lookup": "first_names"})
-
+class TestTokenPatternAnnotator:
     def test_match_sequence(self, pattern_doc, ds):
 
-        pattern = [{"lookup": "first_names"}, {"starts_with_capital": True}]
+        pattern = [{"lookup": "first_names"}, {"like_name": True}]
 
         tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
 
@@ -145,13 +153,181 @@ class TestTokenPatternAnnotator:
         ) == dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="_")
         assert tpa._match_sequence(pattern_doc, start_token=pattern_doc.get_tokens()[7], pattern=pattern) is None
 
+    def test_match_sequence_left(self, pattern_doc, ds):
+
+        pattern = [{"lookup": "first_names"}, {"like_name": True}]
+
+        tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
+
+        assert tpa._match_sequence(
+            pattern_doc, start_token=pattern_doc.get_tokens()[4], pattern=pattern, direction="left"
+        ) == dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="_")
+
+        assert (
+            tpa._match_sequence(pattern_doc, start_token=pattern_doc.get_tokens()[8], direction="left", pattern=pattern)
+            is None
+        )
+
+    def test_match_sequence_skip(self, pattern_doc, ds):
+
+        pattern = [{"lookup": "surnames"}, {"like_name": True}]
+
+        tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
+
+        assert tpa._match_sequence(
+            pattern_doc, start_token=pattern_doc.get_tokens()[4], pattern=pattern, skip={"-"}
+        ) == dd.Annotation(text="Meijer-Heerma", start_char=20, end_char=33, tag="_")
+        assert (
+            tpa._match_sequence(pattern_doc, start_token=pattern_doc.get_tokens()[4], pattern=pattern, skip=[]) is None
+        )
+
     def test_annotate(self, pattern_doc, ds):
 
-        pattern = [{"lookup": "first_names"}, {"starts_with_capital": True}]
+        pattern = [{"lookup": "first_names"}, {"like_name": True}]
 
         tpa = TokenPatternAnnotator(pattern=pattern, ds=ds, tag="_")
 
         assert tpa.annotate(pattern_doc) == [dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="_")]
+
+
+class TestContextAnnotator:
+    def test_apply_context_pattern(self, pattern_doc):
+
+        annotator = ContextAnnotator(pattern=[])
+
+        annotations = dd.AnnotationSet(
+            [
+                dd.Annotation(
+                    text="Andries",
+                    start_char=12,
+                    end_char=19,
+                    tag="voornaam",
+                    start_token=pattern_doc.get_tokens()[3],
+                    end_token=pattern_doc.get_tokens()[3],
+                )
+            ]
+        )
+
+        assert annotator._apply_context_pattern(
+            pattern_doc,
+            annotations,
+            {"pattern": [{"like_name": True}], "direction": "right", "pre_tag": "voornaam", "tag": "{tag}+naam"},
+        ) == dd.AnnotationSet([dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="voornaam+naam")])
+
+    def test_apply_context_pattern_left(self, pattern_doc):
+
+        annotator = ContextAnnotator(pattern=[])
+
+        annotations = dd.AnnotationSet(
+            [
+                dd.Annotation(
+                    text="Meijer",
+                    start_char=20,
+                    end_char=26,
+                    tag="achternaam",
+                    start_token=pattern_doc.get_tokens()[4],
+                    end_token=pattern_doc.get_tokens()[4],
+                )
+            ]
+        )
+
+        assert annotator._apply_context_pattern(
+            pattern_doc,
+            annotations,
+            {"pattern": [{"like_name": True}], "direction": "left", "pre_tag": "achternaam", "tag": "naam+{tag}"},
+        ) == dd.AnnotationSet([dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="naam+achternaam")])
+
+    def test_apply_context_pattern_skip(self, pattern_doc):
+
+        annotator = ContextAnnotator(pattern=[])
+
+        annotations = dd.AnnotationSet(
+            [
+                dd.Annotation(
+                    text="Meijer",
+                    start_char=20,
+                    end_char=26,
+                    tag="achternaam",
+                    start_token=pattern_doc.get_tokens()[4],
+                    end_token=pattern_doc.get_tokens()[4],
+                )
+            ]
+        )
+
+        assert annotator._apply_context_pattern(
+            pattern_doc,
+            annotations,
+            {
+                "pattern": [{"like_name": True}],
+                "direction": "right",
+                "skip": ["-"],
+                "pre_tag": "achternaam",
+                "tag": "{tag}+naam",
+            },
+        ) == dd.AnnotationSet([dd.Annotation(text="Meijer-Heerma", start_char=20, end_char=33, tag="achternaam+naam")])
+
+    def test_annotate_multiple(self, pattern_doc):
+
+        pattern = [
+            {"pattern": [{"like_name": True}], "direction": "right", "pre_tag": "voornaam", "tag": "{tag}+naam"},
+            {
+                "pattern": [{"like_name": True}],
+                "direction": "right",
+                "skip": ["-"],
+                "pre_tag": "achternaam",
+                "tag": "{tag}+naam",
+            },
+        ]
+
+        annotator = ContextAnnotator(pattern=pattern, iterative=False)
+
+        annotations = dd.AnnotationSet(
+            [
+                dd.Annotation(
+                    text="Andries",
+                    start_char=12,
+                    end_char=19,
+                    tag="voornaam",
+                    start_token=pattern_doc.get_tokens()[3],
+                    end_token=pattern_doc.get_tokens()[3],
+                )
+            ]
+        )
+
+        assert annotator._annotate(pattern_doc, annotations) == dd.AnnotationSet(
+            {dd.Annotation(text="Andries Meijer-Heerma", start_char=12, end_char=33, tag="voornaam+naam+naam")}
+        )
+
+    def test_annotate_iterative(self, pattern_doc):
+
+        pattern = [
+            {
+                "pattern": [{"like_name": True}],
+                "direction": "right",
+                "skip": ["-"],
+                "pre_tag": "naam",
+                "tag": "{tag}+naam",
+            }
+        ]
+
+        annotator = ContextAnnotator(pattern=pattern, iterative=True)
+
+        annotations = dd.AnnotationSet(
+            [
+                dd.Annotation(
+                    text="Andries",
+                    start_char=12,
+                    end_char=19,
+                    tag="voornaam",
+                    start_token=pattern_doc.get_tokens()[3],
+                    end_token=pattern_doc.get_tokens()[3],
+                )
+            ]
+        )
+
+        assert annotator._annotate(pattern_doc, annotations) == dd.AnnotationSet(
+            {dd.Annotation(text="Andries Meijer-Heerma", start_char=12, end_char=33, tag="voornaam+naam+naam")}
+        )
 
 
 class TestBsnAnnotator:

@@ -41,11 +41,7 @@ class _PatternPositionMatcher:
 
         func, value = next(iter(pattern_position.items()))
 
-        if func == "and":
-            return all(_PatternPositionMatcher.match(pattern_position=x, **kwargs) for x in value)
-        elif func == "or":
-            return any(_PatternPositionMatcher.match(pattern_position=x, **kwargs) for x in value)
-        elif func == "equal":
+        if func == "equal":
             return kwargs.get("token").text == value
         elif func == "is_initial":
             return (len(kwargs.get("token").text) == 1 and kwargs.get("token").text[0].isupper()) == value
@@ -65,6 +61,11 @@ class _PatternPositionMatcher:
             return kwargs.get("token").text.lower() in kwargs.get("ds")[value]
         elif func == "lowercase_neg_lookup":
             return kwargs.get("token").text.lower() not in kwargs.get("ds")[value]
+        elif func == "and":
+            return all(_PatternPositionMatcher.match(pattern_position=x, **kwargs) for x in value)
+        elif func == "or":
+            return any(_PatternPositionMatcher.match(pattern_position=x, **kwargs) for x in value)
+
         else:
             raise NotImplementedError(f"No known logic for pattern {func}")
 
