@@ -7,56 +7,6 @@ import regex
 TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=re.I | re.M)
 
 
-class DeduceToken(dd.tokenize.Token):
-    """Deduce token, which implements next alpha logic."""
-
-    def next_alpha(self, num: int = 1) -> Optional[dd.tokenize.Token]:
-        """Find the next alpha token, if any."""
-
-        cntr = 0
-        next_token = self.next()
-
-        while True:
-
-            if next_token is None:
-                return None
-
-            if next_token.text in {")", ">", "\n", "\r", "\t"}:
-                return None
-
-            if next_token.text[0].isalpha():
-
-                cntr += 1
-
-                if cntr == num:
-                    return next_token
-
-            next_token = next_token.next()
-
-    def previous_alpha(self, num: int = 1) -> Optional[dd.tokenize.Token]:
-        """Find the previous alpha token, if any."""
-
-        cntr = 0
-        previous_token = self.previous()
-
-        while True:
-
-            if previous_token is None:
-                return None
-
-            if previous_token.text in {"(", "<", "\n", "\r", "\t"}:
-                return None
-
-            if previous_token.text[0].isalpha():
-
-                cntr += 1
-
-                if cntr == num:
-                    return previous_token
-
-            previous_token = previous_token.previous()
-
-
 class DeduceTokenizer(dd.tokenize.Tokenizer):
     """
     Tokenizes text, where a token is any sequence of alphanumeric characters (case insensitive), a single newline/tab
@@ -96,7 +46,7 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
             The output token.
         """
 
-        return DeduceToken(
+        return dd.Token(
             text=text[tokens[0].start_char : tokens[-1].end_char],
             start_char=tokens[0].start_char,
             end_char=tokens[-1].end_char,
@@ -146,7 +96,7 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
         tokens = []
 
         for match in self._pattern.finditer(text):
-            tokens.append(DeduceToken(text=match.group(0), start_char=match.span()[0], end_char=match.span()[1]))
+            tokens.append(dd.Token(text=match.group(0), start_char=match.span()[0], end_char=match.span()[1]))
 
         if self._trie is not None:
             tokens = self._merge(text, tokens)

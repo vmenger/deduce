@@ -76,6 +76,7 @@ class PersonSurnamePattern(dd.TokenPattern):
 
     def __init__(self, tokenizer: dd.Tokenizer, *args, **kwargs) -> None:
         self._tokenizer = tokenizer
+        self.skip = ['.', '-', ' ']
         super().__init__(*args, **kwargs)
 
     def doc_precondition(self, doc: dd.Document) -> bool:
@@ -87,6 +88,17 @@ class PersonSurnamePattern(dd.TokenPattern):
         doc.metadata["surname_pattern"] = self._tokenizer.tokenize(patient.surname)
 
         return True
+
+    def next_with_skip(self, token: dd.Token) -> dd.Token:
+
+        while True:
+
+            token = token.next()
+
+            if (token is None) or (token not in self.skip):
+                break
+
+        return token
 
     def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
         surname_pattern = metadata["surname_pattern"]
@@ -100,8 +112,8 @@ class PersonSurnamePattern(dd.TokenPattern):
 
             match_end_token = token
 
-            surname_token = surname_token.next_alpha()
-            token = token.next_alpha()
+            surname_token = self.next_with_skip(surname_token)
+            token = self.next_with_skip(token)
 
             if surname_token is None:
                 return start_token, match_end_token  # end of pattern
