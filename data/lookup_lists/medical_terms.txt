@@ -302,3 +302,16 @@ Zopiclon
 Zuclopentixol
 Zyban
 Zyprexa
+huisarts
+laborant
+huispostnummer
+postbus
+verpleegafdeling
+revalidatiecentrum
+botstofwisseling
+kliniek
+polikliniek
+poli
+kinderziekenhuis
+neonatologie
+locatie
