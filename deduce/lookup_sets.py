@@ -9,6 +9,7 @@ from deduce.str.processor import (
     RemoveValues,
     TakeLastToken,
     TitleCase,
+    UpperCaseFirstChar,
 )
 
 data_path = Path(os.path.dirname(__file__)).parent / "data" / "lookup_lists"
@@ -20,7 +21,7 @@ def _get_prefixes() -> dd.ds.LookupSet:
     prefixes = dd.ds.LookupSet()
 
     prefixes.add_items_from_file(os.path.join(data_path, "prefixes.txt"))
-    prefixes.add_items_from_self(cleaning_pipeline=[TitleCase()])
+    prefixes.add_items_from_self(cleaning_pipeline=[UpperCaseFirstChar()])
 
     return prefixes
 
@@ -56,6 +57,9 @@ def _get_interfixes() -> dd.ds.LookupSet:
     interfixes = dd.ds.LookupSet()
 
     interfixes.add_items_from_file(os.path.join(data_path, "interfixes.txt"))
+    interfixes.add_items_from_self(cleaning_pipeline=[UpperCaseFirstChar()])
+    interfixes.add_items_from_self(cleaning_pipeline=[TitleCase()])
+    interfixes.remove_items_from_iterable(["V."])
 
     return interfixes
 

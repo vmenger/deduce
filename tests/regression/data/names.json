@@ -784,18 +784,6 @@
             ]
         },
         {
-            "id": 88,
-            "text": "De Heer Visser",
-            "annotations": [
-                {
-                    "text": "De Heer Visser",
-                    "start_char": 0,
-                    "end_char": 14,
-                    "tag": "persoon"
-                }
-            ]
-        },
-        {
             "id": 89,
             "text": "Mevrouw Visser",
             "annotations": [
@@ -863,6 +851,53 @@
                     "text": "Voornaam-Voornaam Achternaam",
                     "start_char": 0,
                     "end_char": 28,
+                    "tag": "persoon"
+                }
+            ]
+        },
+
+        {
+            "id": 95,
+            "text": "de Heer",
+            "annotations": []
+        },
+        {
+            "id": 96,
+            "text": "de Vrouw",
+            "annotations": []
+        },
+        {
+            "id": 98,
+            "text": "de Weledelgeleerde Heer Visser",
+            "annotations": [
+                {
+                    "text": "Visser",
+                    "start_char": 24,
+                    "end_char": 30,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 99,
+            "text": "de weledelgeleerde heer Visser",
+            "annotations": [
+                {
+                    "text": "Visser",
+                    "start_char": 24,
+                    "end_char": 30,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 100,
+            "text": "mijnheer Visser",
+            "annotations": [
+                {
+                    "text": "mijnheer Visser",
+                    "start_char": 0,
+                    "end_char": 15,
                     "tag": "persoon"
                 }
             ]

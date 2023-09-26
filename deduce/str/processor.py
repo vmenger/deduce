@@ -4,9 +4,18 @@ import docdeid as dd
 from docdeid.str import LowercaseString, StringFilter, StringModifier
 
 
-class TitleCase(StringModifier):
+class UpperCaseFirstChar(StringModifier):
+    """Uppercase first character."""
+
     def process(self, item: str) -> str:
         return item[0].upper() + item[1:]
+
+
+class TitleCase(StringModifier):
+    """Titlecase string."""
+
+    def process(self, item: str) -> str:
+        return item.title()
 
 
 class TakeLastToken(StringModifier):

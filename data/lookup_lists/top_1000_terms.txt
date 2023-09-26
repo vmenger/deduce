@@ -1024,3 +1024,7 @@ zwak
 zwembad
 zwemmen
 één
+Heer
+Vrouw
+Vrouwe
+Mevrouw

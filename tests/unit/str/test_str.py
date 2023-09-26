@@ -6,12 +6,14 @@ from deduce.str import (
     RemoveValues,
     TakeLastToken,
     TitleCase,
+    UpperCaseFirstChar,
 )
 
 
 class TestStr:
-    def test_titlecase(self):
-        processor = TitleCase()
+    def test_uppercase_first_char(self):
+
+        processor = UpperCaseFirstChar()
 
         assert processor.process("test") == "Test"
         assert processor.process("Test") == "Test"
@@ -19,6 +21,19 @@ class TestStr:
         assert processor.process("T") == "T"
         assert processor.process("A3") == "A3"
         assert processor.process("a3") == "A3"
+
+    def test_titlecase(self):
+        processor = TitleCase()
+
+        assert processor.process("test") == "Test"
+        assert processor.process("Test") == "Test"
+        assert processor.process("Test test") == "Test Test"
+        assert processor.process("t") == "T"
+        assert processor.process("T") == "T"
+        assert processor.process("T t") == "T T"
+        assert processor.process("A3") == "A3"
+        assert processor.process("a3") == "A3"
+        assert processor.process("a3 a4") == "A3 A4"
 
     def test_take_last_token(self):
         processor = TakeLastToken()
