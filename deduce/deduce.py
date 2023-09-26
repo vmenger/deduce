@@ -8,12 +8,12 @@ import docdeid as dd
 
 from deduce import utils
 from deduce.lookup_sets import get_lookup_sets
-from deduce.process.annotation_processing import (
+from deduce.annotation_processing import (
     DeduceMergeAdjacentAnnotations,
     PersonAnnotationConverter,
 )
-from deduce.process.annotator import ContextAnnotator, TokenPatternAnnotator
-from deduce.process.redact import DeduceRedactor
+from deduce.annotator import ContextAnnotator, TokenPatternAnnotator
+from deduce.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
 
 
