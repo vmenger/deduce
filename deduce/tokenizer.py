@@ -4,7 +4,7 @@ from typing import Iterable, Optional
 import docdeid as dd
 import regex
 
-TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=re.I | re.M)
+_TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=re.I | re.M)
 
 
 class DeduceTokenizer(dd.tokenize.Tokenizer):
@@ -19,7 +19,7 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
     def __init__(self, merge_terms: Optional[Iterable] = None) -> None:
         super().__init__()
 
-        self._pattern = TOKENIZER_PATTERN
+        self._pattern = _TOKENIZER_PATTERN
         self._trie = None
 
         if merge_terms is not None:
@@ -35,11 +35,11 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
     @staticmethod
     def _join_tokens(text: str, tokens: list[dd.tokenize.Token]) -> dd.tokenize.Token:
         """
-        Join a list of tokens into a single token. Does this by joining together the text, and taking the first Token'
-        ``start_char`` and last Token' ``end_char``. Note that this only makes sense for the current non- destructive
-        tokenizing logic.
+        Join a list of tokens into a single token. Does this by creating a new token, that ranges from the first
+        token start char to the last token end char.
 
         Args:
+            text: The original text.
             tokens: The input tokens.
 
         Returns:
