@@ -9,7 +9,7 @@ import deduce.utils
 _DIRECTION_MAP = {
     "left": {
         "attr": "previous",
-        "order": lambda pattern: reversed(pattern),
+        "order": reversed,
         "start_token": lambda annotation: annotation.start_token,
     },
     "right": {
@@ -43,31 +43,30 @@ class _PatternPositionMatcher:
 
         if func == "equal":
             return kwargs.get("token").text == value
-        elif func == "is_initial":
+        if func == "is_initial":
             return (len(kwargs.get("token").text) == 1 and kwargs.get("token").text[0].isupper()) == value
-        elif func == "is_initials":
+        if func == "is_initials":
             return (len(kwargs.get("token").text) <= 4 and kwargs.get("token").text.isupper()) == value
-        elif func == "like_name":
+        if func == "like_name":
             return (
                 len(kwargs.get("token").text) >= 3
                 and kwargs.get("token").text.istitle()
                 and not any(ch.isdigit() for ch in kwargs.get("token").text)
             ) == value
-        elif func == "lookup":
+        if func == "lookup":
             return kwargs.get("token").text in kwargs.get("ds")[value]
-        elif func == "neg_lookup":
+        if func == "neg_lookup":
             return kwargs.get("token").text not in kwargs.get("ds")[value]
-        elif func == "lowercase_lookup":
+        if func == "lowercase_lookup":
             return kwargs.get("token").text.lower() in kwargs.get("ds")[value]
-        elif func == "lowercase_neg_lookup":
+        if func == "lowercase_neg_lookup":
             return kwargs.get("token").text.lower() not in kwargs.get("ds")[value]
-        elif func == "and":
+        if func == "and":
             return all(_PatternPositionMatcher.match(pattern_position=x, **kwargs) for x in value)
-        elif func == "or":
+        if func == "or":
             return any(_PatternPositionMatcher.match(pattern_position=x, **kwargs) for x in value)
 
-        else:
-            raise NotImplementedError(f"No known logic for pattern {func}")
+        raise NotImplementedError(f"No known logic for pattern {func}")
 
 
 class TokenPatternAnnotator(dd.process.Annotator):
@@ -187,7 +186,7 @@ class ContextAnnotator(TokenPatternAnnotator):
         iterative: Whether the extension process should recurse, or stop after one iteration.
     """
 
-    def __init__(self, *args, iterative: bool = True, **kwargs):
+    def __init__(self, *args, iterative: bool = True, **kwargs) -> None:
         self.iterative = iterative
         super().__init__(*args, **kwargs, tag="_")
 

@@ -90,6 +90,7 @@ class PersonSurnamePattern(dd.TokenPattern):
         return True
 
     def next_with_skip(self, token: dd.Token) -> dd.Token:
+        """ Find the next token, while skipping some punctuation. """
 
         while True:
 
