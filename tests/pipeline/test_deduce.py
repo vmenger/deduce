@@ -22,7 +22,7 @@ class TestDeduce:
                 dd.Annotation(text="111222333", start_char=25, end_char=34, tag="bsn"),
                 dd.Annotation(text="Peter de Visser", start_char=153, end_char=168, tag="persoon"),
                 dd.Annotation(text="j.JNSEN.123@gmail.com", start_char=247, end_char=268, tag="email"),
-                dd.Annotation(text="patient J. Jansen", start_char=56, end_char=73, tag="patient"),
+                dd.Annotation(text="J. Jansen", start_char=64, end_char=73, tag="patient"),
                 dd.Annotation(text="Jan Jansen", start_char=9, end_char=19, tag="patient"),
                 dd.Annotation(text="10 oktober 2018", start_char=127, end_char=142, tag="datum"),
                 dd.Annotation(text="64", start_char=77, end_char=79, tag="leeftijd"),
@@ -40,9 +40,9 @@ class TestDeduce:
         doc = deduce.deidentify(text, metadata=metadata)
 
         expected_deidentified = (
-            "betreft: <PATIENT>, bsn <BSN-1>, patnr <ID-1>. De <PATIENT> is <LEEFTIJD-1> jaar oud en woonachtig in "
-            "<LOCATIE-1>. Hij werd op <DATUM-1> door arts <PERSOON-1> ontslagen van de kliniek van het <INSTELLING-1>. "
-            "Voor nazorg kan hij worden bereikt via <EMAIL-1> of <TELEFOONNUMMER-1>."
+            "betreft: <PATIENT>, bsn <BSN-1>, patnr <ID-1>. De patient <PATIENT> is <LEEFTIJD-1> jaar oud en woonachtig "
+            "in <LOCATIE-1>. Hij werd op <DATUM-1> door arts <PERSOON-1> ontslagen van de kliniek van het "
+            "<INSTELLING-1>. Voor nazorg kan hij worden bereikt via <EMAIL-1> of <TELEFOONNUMMER-1>."
         )
 
         assert doc.deidentified_text == expected_deidentified
@@ -54,7 +54,7 @@ class TestDeduce:
 
         expected_intext_annotated = (
             "betreft: <PATIENT>Jan Jansen</PATIENT>, bsn <BSN>111222333</BSN>, patnr <ID>000334433</ID>. "
-            "De <PATIENT>patient J. Jansen</PATIENT> is <LEEFTIJD>64</LEEFTIJD> jaar oud en woonachtig in "
+            "De patient <PATIENT>J. Jansen</PATIENT> is <LEEFTIJD>64</LEEFTIJD> jaar oud en woonachtig in "
             "<LOCATIE>Utrecht</LOCATIE>. Hij werd op <DATUM>10 oktober 2018</DATUM> door arts "
             "<PERSOON>Peter de Visser</PERSOON> ontslagen van de kliniek van het <INSTELLING>UMCU</INSTELLING>. "
             "Voor nazorg kan hij worden bereikt via <EMAIL>j.JNSEN.123@gmail.com</EMAIL> of "

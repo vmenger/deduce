@@ -7,16 +7,13 @@ from typing import Optional
 import docdeid as dd
 
 from deduce import utils
-from deduce.lookup_sets import get_lookup_sets
-from deduce.process.annotation_processing import (
+from deduce.annotation_processing import (
     DeduceMergeAdjacentAnnotations,
     PersonAnnotationConverter,
 )
-from deduce.process.annotator import (
-    AnnotationContextPatternAnnotator,
-    TokenPatternAnnotator,
-)
-from deduce.process.redact import DeduceRedactor
+from deduce.annotator import ContextAnnotator, TokenPatternAnnotator
+from deduce.lookup_sets import get_lookup_sets
+from deduce.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
 
 
@@ -134,7 +131,7 @@ class _AnnotatorFactory:
         self.annotator_creators = {
             "token_pattern": self._get_token_pattern_annotator,
             "dd_token_pattern": self._get_dd_token_pattern_annotator,
-            "annotation_context": self._get_annotation_context_pattern_annotator,
+            "annotation_context": self._get_context_annotator,
             "regexp": self._get_regexp_annotator,
             "multi_token": self._get_multi_token_annotator,
             "custom": self._get_custom_annotator,
@@ -150,9 +147,8 @@ class _AnnotatorFactory:
         return dd.process.TokenPatternAnnotator(pattern=pattern)
 
     @staticmethod
-    def _get_annotation_context_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-        context_patterns = [utils.import_and_initialize(p["pattern"], extras=extras) for p in args.pop("patterns")]
-        return AnnotationContextPatternAnnotator(context_patterns=context_patterns, **args)
+    def _get_context_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        return ContextAnnotator(**args, ds=extras["ds"])
 
     @staticmethod
     def _get_regexp_annotator(args: dict, extras: dict) -> dd.process.Annotator:

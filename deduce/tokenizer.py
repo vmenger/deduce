@@ -4,57 +4,7 @@ from typing import Iterable, Optional
 import docdeid as dd
 import regex
 
-TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=re.I | re.M)
-
-
-class DeduceToken(dd.tokenize.Token):
-    """Deduce token, which implements next alpha logic."""
-
-    def next_alpha(self, num: int = 1) -> Optional[dd.tokenize.Token]:
-        """Find the next alpha token, if any."""
-
-        cntr = 0
-        next_token = self.next()
-
-        while True:
-
-            if next_token is None:
-                return None
-
-            if next_token.text in {")", ">", "\n", "\r", "\t"}:
-                return None
-
-            if next_token.text[0].isalpha():
-
-                cntr += 1
-
-                if cntr == num:
-                    return next_token
-
-            next_token = next_token.next()
-
-    def previous_alpha(self, num: int = 1) -> Optional[dd.tokenize.Token]:
-        """Find the previous alpha token, if any."""
-
-        cntr = 0
-        previous_token = self.previous()
-
-        while True:
-
-            if previous_token is None:
-                return None
-
-            if previous_token.text in {"(", "<", "\n", "\r", "\t"}:
-                return None
-
-            if previous_token.text[0].isalpha():
-
-                cntr += 1
-
-                if cntr == num:
-                    return previous_token
-
-            previous_token = previous_token.previous()
+_TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=re.I | re.M)
 
 
 class DeduceTokenizer(dd.tokenize.Tokenizer):
@@ -69,7 +19,7 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
     def __init__(self, merge_terms: Optional[Iterable] = None) -> None:
         super().__init__()
 
-        self._pattern = TOKENIZER_PATTERN
+        self._pattern = _TOKENIZER_PATTERN
         self._trie = None
 
         if merge_terms is not None:
@@ -85,18 +35,18 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
     @staticmethod
     def _join_tokens(text: str, tokens: list[dd.tokenize.Token]) -> dd.tokenize.Token:
         """
-        Join a list of tokens into a single token. Does this by joining together the text, and taking the first Token'
-        ``start_char`` and last Token' ``end_char``. Note that this only makes sense for the current non- destructive
-        tokenizing logic.
+        Join a list of tokens into a single token. Does this by creating a new token, that ranges from the first token
+        start char to the last token end char.
 
         Args:
+            text: The original text.
             tokens: The input tokens.
 
         Returns:
             The output token.
         """
 
-        return DeduceToken(
+        return dd.Token(
             text=text[tokens[0].start_char : tokens[-1].end_char],
             start_char=tokens[0].start_char,
             end_char=tokens[-1].end_char,
@@ -146,7 +96,7 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
         tokens = []
 
         for match in self._pattern.finditer(text):
-            tokens.append(DeduceToken(text=match.group(0), start_char=match.span()[0], end_char=match.span()[1]))
+            tokens.append(dd.Token(text=match.group(0), start_char=match.span()[0], end_char=match.span()[1]))
 
         if self._trie is not None:
             tokens = self._merge(text, tokens)

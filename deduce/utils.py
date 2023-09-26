@@ -82,11 +82,11 @@ def overwrite_dict(base: dict, add: dict) -> dict:
     Accepts nested dictionaries.
     """
 
-    for k, v in add.items():
+    for key, value in add.items():
 
-        if isinstance(v, dict):
-            base[k] = overwrite_dict(base.get(k, {}), v)
+        if isinstance(value, dict):
+            base[key] = overwrite_dict(base.get(key, {}), value)
         else:
-            base[k] = v
+            base[key] = value
 
     return base

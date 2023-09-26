@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - a token is now a sequence of alphanumeric characters, a single newline, or a single special character. 
   - whitespaces are no longer considered tokens
 - moved token pattern logic to config, using a new `TokenPatternAnnotator`
+- moved context pattern logic to config, using a new `ContextAnnotator`
 
 ## 2.1.0 (2023-08-07)
 
