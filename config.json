@@ -431,7 +431,7 @@
       "annotator_type": "custom",
       "group": "identifiers",
       "args": {
-        "module": "deduce.process.annotator",
+        "module": "deduce.annotator",
         "class": "BsnAnnotator",
         "bsn_regexp": "(?<!\\d)(\\d{9})(?!\\d)",
         "capture_group": 1,
@@ -451,7 +451,7 @@
       "annotator_type": "custom",
       "group": "phone_numbers",
       "args": {
-        "module": "deduce.process.annotator",
+        "module": "deduce.annotator",
         "class": "PhoneNumberAnnotator",
         "phone_regexp": "(?<!\\d)(\\(?(0031|\\+31|0)(1[035]|2[0347]|3[03568]|4[03456]|5[0358]|6|7|88|800|91|90[069]|[1-5]\\d{2})\\)?) ?-? ?((\\d{2,4}[ -]?)+\\d{2,4})",
         "min_digits": 9,
