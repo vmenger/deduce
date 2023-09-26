@@ -32,6 +32,15 @@ def regression_test(examples_file: str, enabled: set[str], known_failures: Optio
 
 
 class TestRegression:
+
+    def test_regression_name(self):
+
+        regression_test(
+            examples_file='tests/regression/data/names.json',
+            enabled={"names", 'prefix_with_initial', 'prefix_with_name', 'interfix_with_name', 'initial_with_capital', 'initial_interfix', 'first_name_lookup', 'surname_lookup', 'person_first_name', 'person_initial_from_name', 'person_initials', 'person_surname', 'name_context', 'person_annotation_converter'},
+            known_failures={94}
+        )
+
     def test_regression_date(self):
 
         regression_test(
