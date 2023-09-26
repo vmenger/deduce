@@ -1,21 +1,84 @@
 import re
-from typing import Optional
+from typing import Literal, Optional
 
 import docdeid as dd
 from docdeid import Annotation, Document
 
 import deduce.utils
 
+_DIRECTION_MAP = {
+    "left": {
+        "attr": "previous",
+        "order": lambda pattern: reversed(pattern),
+        "start_token": lambda annotation: annotation.start_token,
+    },
+    "right": {
+        "attr": "next",
+        "order": lambda pattern: pattern,
+        "start_token": lambda annotation: annotation.end_token,
+    },
+}
+
+
+class _PatternPositionMatcher:
+    """Checks if a token matches against a single pattern."""
+
+    @classmethod
+    def match(cls, pattern_position: dict, **kwargs) -> bool:
+        """
+        Matches a pattern position (a dict with one key). Other information should be presented as kwargs.
+
+        Args:
+            pattern_position: A dictionary with a single key, e.g. {'is_initial': True}
+            kwargs: Any other information, like the token or ds
+
+        Returns:
+            True if the pattern position matches, false otherwise.
+        """
+
+        if len(pattern_position) > 1:
+            raise ValueError(f"Cannot parse token pattern ({pattern_position}) with more than 1 key")
+
+        func, value = next(iter(pattern_position.items()))
+
+        if func == "and":
+            return all(_PatternPositionMatcher.match(pattern_position=x, **kwargs) for x in value)
+        elif func == "or":
+            return any(_PatternPositionMatcher.match(pattern_position=x, **kwargs) for x in value)
+        elif func == "equal":
+            return kwargs.get("token").text == value
+        elif func == "is_initial":
+            return (len(kwargs.get("token").text) == 1 and kwargs.get("token").text[0].isupper()) == value
+        elif func == "is_initials":
+            return (len(kwargs.get("token").text) <= 4 and kwargs.get("token").text.isupper()) == value
+        elif func == "like_name":
+            return (
+                len(kwargs.get("token").text) >= 3
+                and kwargs.get("token").text.istitle()
+                and not any(ch.isdigit() for ch in kwargs.get("token").text)
+            ) == value
+        elif func == "lookup":
+            return kwargs.get("token").text in kwargs.get("ds")[value]
+        elif func == "neg_lookup":
+            return kwargs.get("token").text not in kwargs.get("ds")[value]
+        elif func == "lowercase_lookup":
+            return kwargs.get("token").text.lower() in kwargs.get("ds")[value]
+        elif func == "lowercase_neg_lookup":
+            return kwargs.get("token").text.lower() not in kwargs.get("ds")[value]
+        else:
+            raise NotImplementedError(f"No known logic for pattern {func}")
+
 
 class TokenPatternAnnotator(dd.process.Annotator):
     """
     Annotates based on token patterns, which should be provided as a list of dicts. Each position in the list denotes a
-    token position, e.g.: [{'is_initial': True}, {'min_len': 3}] matches sequences of two tokens, where the first one is
-    an initial, and the second one is at least 3 characters long.
+    token position, e.g.: [{'is_initial': True}, {'like_name': True}] matches sequences of two tokens, where the first
+    one is an initial, and the second one is like a name.
 
     Arguments:
         pattern: The pattern
         ds: Any datastructures, that can be used for lookup or other logic
+        skip: Any string values that should be skipped in matching (e.g. periods)
     """
 
     def __init__(
@@ -29,89 +92,63 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
         self.pattern = pattern
         self.ds = ds
-
-        if skip is None:
-            self.skip = set()
-        else:
-            self.skip = set(skip)
+        self.skip = set(skip or [])
 
         super().__init__(*args, **kwargs)
 
-    def match(self, token: dd.tokenize.Token, token_pattern: dict) -> bool:
-        """Match token against a single element of a token pattern (i.e. this token against this pattern, no sequences
-        involved)."""
+    @staticmethod
+    def _get_chained_token(token: dd.Token, attr: str, skip: set[str]) -> Optional[dd.Token]:
 
-        if len(token_pattern) > 1:
-            raise ValueError(f"Cannot parse token pattern ({token_pattern}) with more than 1 key")
+        while True:
 
-        func, value = next(iter(token_pattern.items()))
+            token = getattr(token, attr)()
 
-        # TODO: Possibly make this logic more generic?
-        if func == "and":
-            out = all(self.match(token, x) for x in value)
-        elif func == "or":
-            out = any(self.match(token, x) for x in value)
-        elif func == "equal":
-            out = token.text == value
-        elif func == "is_initial":
-            out = (len(token.text) == 1 and token.text[0].isupper()) == value
-        elif func == "is_initials":
-            out = len(token.text) <= 4 and token.text.isupper()
-        elif func == "like_name":
-            out = (
-                len(token.text) >= 3 and token.text.istitle() and not any(ch.isdigit() for ch in token.text)
-            ) == value
-        elif func == "lookup":
-            out = token.text in self.ds[value]
-        elif func == "neg_lookup":
-            out = token.text not in self.ds[value]
-        elif func == "lowercase_lookup":
-            out = token.text.lower() in self.ds[value]
-        elif func == "lowercase_neg_lookup":
-            out = token.text.lower() not in self.ds[value]
-        else:
-            raise NotImplementedError(f"No known logic for pattern {func}")
+            if token is None or token.text not in skip:
+                break
 
-        return out
+        return token
 
-    def match_sequence(
+    def _match_sequence(
         self,
         doc: Document,
-        start_token: dd.tokenize.Token,
         pattern: list[dict],
-        direction: str = "right",
-        skip: set[str] = None,
+        start_token: dd.tokenize.Token,
+        direction: Literal["left", "right"] = "right",
+        skip: Optional[set[str]] = None,
     ) -> Optional[dd.Annotation]:
-        """Match the sequence of the pattern at this token position."""
+        """
+        Sequentially match a pattern against a specified start_token.
 
-        if skip is None:
-            skip = set()
+        Args:
+            doc: The document that is being processed.
+            pattern: The pattern to match.
+            start_token: The start token to match.
+            direction: The direction to match, choice of "left" or "right".
+            skip: Any string values that should be skipped in matching.
+
+        Returns:
+              An Annotation if matching is possible, None otherwise.
+        """
+
+        skip = skip or set()
+
+        attr = _DIRECTION_MAP[direction]["attr"]
+        pattern = _DIRECTION_MAP[direction]["order"](pattern)
 
         current_token = start_token
         end_token = start_token
 
-        if direction == "right":
-            attr = "next"
-        else:
-            attr = "previous"
-            pattern = list(reversed(pattern))
+        for pattern_position in pattern:
 
-        for position in pattern:
-
-            if current_token is None or not self.match(current_token, position):
+            if current_token is None or not _PatternPositionMatcher.match(
+                pattern_position=pattern_position, **{"token": current_token, "ds": self.ds}
+            ):
                 return None
 
             end_token = current_token
+            current_token = self._get_chained_token(current_token, attr, skip)
 
-            while True:
-
-                current_token = getattr(current_token, attr)()
-
-                if current_token is None or current_token.text not in skip:
-                    break
-
-        if direction == "left":
-            start_token, end_token = end_token, start_token
+        start_token, end_token = _DIRECTION_MAP[direction]["order"]((start_token, end_token))
 
         return dd.Annotation(
             text=doc.text[start_token.start_char : end_token.end_char],
@@ -123,123 +160,101 @@ class TokenPatternAnnotator(dd.process.Annotator):
         )
 
     def annotate(self, doc: dd.Document) -> list[dd.Annotation]:
+        """
+        Annotate the document, by matching the pattern against all tokens.
 
-        annotations = []
+        Args:
+            doc: The document being processed.
 
-        for token in doc.get_tokens():
+        Returns:
+            A list of Annotation.
+        """
 
-            annotation = self.match_sequence(doc, token, self.pattern, skip=self.skip)
-
-            if annotation is not None:
-                annotations.append(annotation)
-
-        return annotations
+        return [
+            annotation
+            for token in doc.get_tokens()
+            if (annotation := self._match_sequence(doc, self.pattern, token, direction="right", skip=self.skip))
+            is not None
+        ]
 
 
 class ContextAnnotator(TokenPatternAnnotator):
-    def __init__(self, *args, iterative: Optional[bool] = True, **kwargs):
+    """
+    Extends existing annotations to the left or right, based on specified patterns.
+
+    Args:
+        iterative: Whether the extension process should recurse, or stop after one iteration.
+    """
+
+    def __init__(self, *args, iterative: bool = True, **kwargs):
         self.iterative = iterative
         super().__init__(*args, **kwargs, tag="_")
 
-    def apply_context_pattern(
+    def _apply_context_pattern(
         self, doc: dd.Document, annotations: dd.AnnotationSet, context_pattern: dict
-    ) -> (dd.AnnotationSet, bool):
+    ) -> dd.AnnotationSet:
 
         new_annotations = dd.AnnotationSet()
-        changes = False
+        direction = context_pattern["direction"]
 
         for annotation in annotations:
 
-            tag_min = annotation.tag.split("+")
+            tag = list(_DIRECTION_MAP[direction]["order"](annotation.tag.split("+")))[-1]
+            skip = set(context_pattern.get("skip", []))
 
-            if context_pattern["direction"] == "right":
-                tag_min = tag_min[-1]
-            else:
-                tag_min = tag_min[0]
-
-            if not deduce.utils.any_in_text(context_pattern["pre_tag"], tag_min):
+            if not deduce.utils.any_in_text(context_pattern["pre_tag"], tag):
                 new_annotations.add(annotation)
                 continue
 
-            skip = set(context_pattern.get("skip", []))
-
-            if context_pattern["direction"] == "right":
-                attr = "next"
-                start_token = annotation.end_token
-            else:
-                attr = "previous"
-                start_token = annotation.start_token
-
-            while True:
-                start_token = getattr(start_token, attr)()
-
-                if start_token is None or start_token.text not in skip:
-                    break
-
-            new_annotation = self.match_sequence(
-                doc, start_token, context_pattern["pattern"], direction=context_pattern["direction"], skip=skip
+            attr = _DIRECTION_MAP[direction]["attr"]
+            start_token = self._get_chained_token(_DIRECTION_MAP[direction]["start_token"](annotation), attr, skip)
+            new_annotation = self._match_sequence(
+                doc, context_pattern["pattern"], start_token, direction=direction, skip=skip
             )
 
             if new_annotation:
 
-                changes = True
+                left_ann, right_ann = _DIRECTION_MAP[direction]["order"]((annotation, new_annotation))
 
-                if context_pattern["direction"] == "right":
-
-                    start_char = annotation.start_char
-                    end_char = new_annotation.end_char
-
-                    new_annotations.add(
-                        dd.Annotation(
-                            text=doc.text[start_char:end_char],
-                            start_char=start_char,
-                            end_char=end_char,
-                            start_token=annotation.start_token,
-                            end_token=new_annotation.end_token,
-                            tag=context_pattern["tag"].format(tag=annotation.tag),
-                        )
+                new_annotations.add(
+                    dd.Annotation(
+                        text=doc.text[left_ann.start_char : right_ann.end_char],
+                        start_char=left_ann.start_char,
+                        end_char=right_ann.end_char,
+                        start_token=left_ann.start_token,
+                        end_token=right_ann.end_token,
+                        tag=context_pattern["tag"].format(tag=annotation.tag),
                     )
-
-                else:
-
-                    start_char = new_annotation.start_char
-                    end_char = annotation.end_char
-
-                    new_annotations.add(
-                        dd.Annotation(
-                            text=doc.text[start_char:end_char],
-                            start_char=start_char,
-                            end_char=end_char,
-                            start_token=new_annotation.start_token,
-                            end_token=annotation.end_token,
-                            tag=context_pattern["tag"].format(tag=annotation.tag),
-                        )
-                    )
-
+                )
             else:
-
                 new_annotations.add(annotation)
 
-        return new_annotations, changes
+        return new_annotations
 
-    def _annotate(self, annotations: list[dd.Annotation], doc: dd.Document) -> list[dd.Annotation]:
+    def _annotate(self, doc: dd.Document, annotations: list[dd.Annotation]) -> list[dd.Annotation]:
 
-        changes = False
+        original_annotations = annotations
 
         for context_pattern in self.pattern:
-            c_annotations, c_changes = self.apply_context_pattern(doc, annotations, context_pattern)
+            annotations = self._apply_context_pattern(doc, annotations, context_pattern)
 
-            annotations = c_annotations
-            changes |= c_changes
-
-        if changes and self.iterative:
-            annotations = self._annotate(annotations, doc)
+        if self.iterative and (annotations != original_annotations):
+            annotations = self._annotate(doc, annotations)
 
         return annotations
 
     def annotate(self, doc: dd.Document) -> list[dd.Annotation]:
+        """
+        Wrapper for annotating.
 
-        doc.annotations = self._annotate(list(doc.annotations), doc)
+        Args:
+            doc: The document to process.
+
+        Returns:
+            An empty list, as annotations are modified and not added.
+        """
+
+        doc.annotations = self._annotate(doc, list(doc.annotations))
         return []
 
 

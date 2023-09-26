@@ -140,10 +140,10 @@ class TestTokenPatternAnnotator:
 
         tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
 
-        assert tpa.match_sequence(
+        assert tpa._match_sequence(
             pattern_doc, start_token=pattern_doc.get_tokens()[3], pattern=pattern
         ) == dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="_")
-        assert tpa.match_sequence(pattern_doc, start_token=pattern_doc.get_tokens()[7], pattern=pattern) is None
+        assert tpa._match_sequence(pattern_doc, start_token=pattern_doc.get_tokens()[7], pattern=pattern) is None
 
     def test_annotate(self, pattern_doc, ds):
 
