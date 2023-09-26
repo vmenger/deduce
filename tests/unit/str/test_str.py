@@ -1,9 +1,21 @@
 import docdeid as dd
 
-from deduce.str import Acronimify, FilterBasedOnLookupSet, RemoveValues, TakeLastToken
+from deduce.str import Acronimify, FilterBasedOnLookupSet, RemoveValues, TakeLastToken, TitleCase
 
 
 class TestStr:
+
+    def test_titlecase(self):
+        processor = TitleCase()
+
+        assert processor.process("test") == "Test"
+        assert processor.process("Test") == "Test"
+        assert processor.process("t") == "T"
+        assert processor.process("T") == "T"
+        assert processor.process("A3") == "A3"
+        assert processor.process("a3") == "A3"
+
+
     def test_take_last_token(self):
         processor = TakeLastToken()
 
