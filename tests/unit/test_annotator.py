@@ -1,11 +1,7 @@
 import docdeid as dd
 import pytest
 
-from deduce.annotator import (
-    BsnAnnotator,
-    PhoneNumberAnnotator,
-    TokenPatternAnnotator,
-)
+from deduce.annotator import BsnAnnotator, PhoneNumberAnnotator, TokenPatternAnnotator
 from deduce.tokenizer import DeduceTokenizer
 
 

@@ -3,5 +3,5 @@ from deduce.str.processor import (
     FilterBasedOnLookupSet,
     RemoveValues,
     TakeLastToken,
-    TitleCase
+    TitleCase,
 )

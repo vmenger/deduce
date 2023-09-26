@@ -76,7 +76,7 @@ class PersonSurnamePattern(dd.TokenPattern):
 
     def __init__(self, tokenizer: dd.Tokenizer, *args, **kwargs) -> None:
         self._tokenizer = tokenizer
-        self.skip = ['.', '-', ' ']
+        self.skip = [".", "-", " "]
         super().__init__(*args, **kwargs)
 
     def doc_precondition(self, doc: dd.Document) -> bool:

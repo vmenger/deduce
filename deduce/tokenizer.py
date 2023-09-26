@@ -35,8 +35,8 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
     @staticmethod
     def _join_tokens(text: str, tokens: list[dd.tokenize.Token]) -> dd.tokenize.Token:
         """
-        Join a list of tokens into a single token. Does this by creating a new token, that ranges from the first
-        token start char to the last token end char.
+        Join a list of tokens into a single token. Does this by creating a new token, that ranges from the first token
+        start char to the last token end char.
 
         Args:
             text: The original text.

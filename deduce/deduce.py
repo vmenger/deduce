@@ -7,12 +7,12 @@ from typing import Optional
 import docdeid as dd
 
 from deduce import utils
-from deduce.lookup_sets import get_lookup_sets
 from deduce.annotation_processing import (
     DeduceMergeAdjacentAnnotations,
     PersonAnnotationConverter,
 )
 from deduce.annotator import ContextAnnotator, TokenPatternAnnotator
+from deduce.lookup_sets import get_lookup_sets
 from deduce.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
 
