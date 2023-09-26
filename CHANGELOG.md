@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - whitespaces are no longer considered tokens
 - moved token pattern logic to config, using a new `TokenPatternAnnotator`
 - moved context pattern logic to config, using a new `ContextAnnotator`
+- many updates to name detection logic
+  - lookup list optimizations
+  - added, removed and simplified patterns
 
 ## 2.1.0 (2023-08-07)
 
