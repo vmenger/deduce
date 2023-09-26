@@ -141,7 +141,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
         for pattern_position in pattern:
 
             if current_token is None or not _PatternPositionMatcher.match(
-                pattern_position=pattern_position, **{"token": current_token, "ds": self.ds}
+                pattern_position=pattern_position, token=current_token, ds=self.ds
             ):
                 return None
 
