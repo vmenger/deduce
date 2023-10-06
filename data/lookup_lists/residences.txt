@@ -49,7 +49,8 @@ Aduard
 Aerdenhout
 Aerdt
 Afferden
-Afferden L
+Afferden (L)
+Afferden (Gld)
 Agelo
 Akersloot
 Akkrum
@@ -69,7 +70,9 @@ Almkerk
 Alphen
 Alphen aan den Rijn
 Alteveer
-Alteveer gem Hoogeveen
+Alteveer (Dr)
+Alteveer (Gr)
+Alteveer (Gn)
 Altforst
 Ambt Delden
 Ameide
@@ -160,7 +163,6 @@ Basse
 Batenburg
 Bathmen
 Bavel
-Bavel AC
 Bears
 Bedum
 Beegden
@@ -168,7 +170,9 @@ Beek
 Beek en Donk
 Beekbergen
 Beemte Broekland
-Beers NB
+Beers
+Beers (Fr)
+Beers (Nb)
 Beerta
 Beerze
 Beerzerveld
@@ -197,9 +201,10 @@ Berg en Dal
 Berg en Terblijt
 Bergambacht
 Bergeijk
-Bergen (NH)
+Bergen
+Bergen (Nh)
+Bergen (L)
 Bergen aan Zee
-Bergen L
 Bergen op Zoom
 Bergentheim
 Bergharen
@@ -216,7 +221,8 @@ Bern
 Best
 Beugen
 Beuningen
-Beuningen Gld
+Beuningen (Gld)
+Beuningen (Ov)
 Beusichem
 Beutenaken
 Beverwijk
@@ -237,7 +243,7 @@ Blauwestad
 Blauwhuis
 Bleiswijk
 Blesdijke
-Bleskensgraaf ca
+Bleskensgraaf
 Blessum
 Blije
 Blijham
@@ -485,7 +491,9 @@ Dreumel
 Driebergen-Rijsenburg
 Drieborg
 Driebruggen
-Driehuis NH
+Driehuis
+Driehuis (Nh)
+Driehuis (Nb)
 Driehuizen
 Driel
 Driewegen
@@ -572,7 +580,8 @@ Elshout
 Elsloo
 Elspeet
 Elst
-Elst Ut
+Elst (Ut)
+Elst (Nb)
 Emmeloord
 Emmen
 Emmer-Compascuum
@@ -774,7 +783,10 @@ Hardenberg
 Harderwijk
 Hardinxveld-Giessendam
 Haren
-Haren Gn
+Haren (L)
+Haren (Gr)
+Haren (Gn)
+Haren (Nb)
 Harfsen
 Harich
 Haringhuizen
@@ -853,6 +865,7 @@ Hempens
 Hemrik
 Hendrik-Ido-Ambacht
 Hengelo
+Hengelo (Ov)
 Hengelo (Gld)
 Hengevelde
 Hengstdijk
@@ -1019,7 +1032,8 @@ Katlijk
 Kats
 Kattendijke
 Katwijk
-Katwijk NB
+Katwijk (Nb)
+Katwijk (Zh)
 Katwoude
 Kedichem
 Keent
@@ -1201,7 +1215,10 @@ Loerbeek
 Lollum
 Lomm
 Longerhouw
-Loo Gld
+Loo
+Loo (Gld)
+Loo (Nb)
+Loo (Ov)
 Loon
 Loon op Zand
 Loosbroek
@@ -1241,8 +1258,7 @@ Maashees
 Maasland
 Maassluis
 Maastricht
-Maastricht-Airport
-Maasvlakte Rotterdam
+Maasvlakte
 Macharen
 Made
 Makkinga
@@ -1455,7 +1471,11 @@ Noord-Sleen
 Noordbeemster
 Noordbroek
 Noordeinde
-Noordeinde Gld
+Noordeinde (Gld)
+Noordeinde (Nh)
+Noordeinde (Z)
+Noordeinde (Ut)
+Noordeinde (Zh)
 Noordeloos
 Noorden
 Noordgouwe
@@ -1541,7 +1561,8 @@ Oosterstreek
 Oosterwijk
 Oosterwijtwerd
 Oosterwolde
-Oosterwolde Gld
+Oosterwolde (Gld)
+Oosterwolde (Fr)
 Oosterzee
 Oosthem
 Oosthuizen
@@ -1639,7 +1660,7 @@ Peest
 Peins
 Peize
 Peperga
-Pernis Rotterdam
+Pernis
 Persingen
 Pesse
 Petten
@@ -1723,8 +1744,8 @@ Rijsbergen
 Rijsenhout
 Rijssen
 Rijswijk
-Rijswijk (GLD)
-Rijswijk (NB)
+Rijswijk (Gld)
+Rijswijk (Nb)
 Rilland
 Rinsumageast
 Ritthem
@@ -1766,6 +1787,7 @@ Saasveld
 Saaxumhuizen
 Sambeek
 Sandfirden
+Santpoort
 Santpoort-Noord
 Santpoort-Zuid
 Sappemeer
@@ -1889,7 +1911,6 @@ Son en Breugel
 Sondel
 Sonnega
 Spaarndam
-Spaarndam gem. Haarlem
 Spanbroek
 Spanga
 Spankeren
@@ -1898,15 +1919,19 @@ Spaubeek
 Spier
 Spierdijk
 Spijk
-Spijk Gn
+Spijk (Nb)
+Spijk (Fr)
+Spijk (Gr)
+Spijk (Gn)
+Spijk (Gld)
 Spijkenisse
 Spijkerboor
 Sprang-Capelle
 Sprundel
 Spui
-St. Willebrord
-St.-Annaparochie
-St.-Jacobiparochie
+Sint Willebrord
+Sint Annaparochie
+Sint Jacobiparochie
 Stad aan 't Haringvliet
 Stadskanaal
 Stampersgat
@@ -2047,12 +2072,10 @@ Ulft
 Ulicoten
 Ulrum
 Ulvenhout
-Ulvenhout AC
 Ureterp
 Urk
 Urmond
 Ursem
-Ursem gem. S
 Usquert
 Utrecht
 Vaals
@@ -2095,7 +2118,8 @@ Vessem
 Vethuizen
 Veulen
 Vianen
-Vianen NB
+Vianen (Nb)
+Vianen (Ut)
 Vierakker
 Vierhouten
 Vierhuizen
@@ -2126,7 +2150,7 @@ Vogelwaarde
 Volendam
 Volkel
 Vollenhove
-Vondelingenplaat Rotterdam
+Vondelingenplaat
 Voorburg
 Voorhout
 Voorschoten
@@ -2203,7 +2227,8 @@ Weidum
 Weiteveen
 Wekerom
 Well
-Well L
+Well (L)
+Well (Gld)
 Wellerlooi
 Welsum
 Wemeldinge
@@ -2299,7 +2324,9 @@ Winterswijk Miste
 Winterswijk Ratum
 Winterswijk Woold
 Wirdum
-Wirdum Gn
+Wirdum (Fr)
+Wirdum (Gr)
+Wirdum (Gn)
 Wissenkerke
 Witharen
 Witmarsum
@@ -2368,6 +2395,7 @@ Zetten
 Zevenaar
 Zevenbergen
 Zevenbergschen Hoek
+Zevenberschenhoek
 Zevenhoven
 Zevenhuizen
 Zierikzee
@@ -2407,6 +2435,7 @@ Zurich
 Zutphen
 Zuurdijk
 Zwaag
+Zwaagdijk
 Zwaagdijk-Oost
 Zwaagdijk-West
 Zwaanshoek

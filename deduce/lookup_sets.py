@@ -106,17 +106,41 @@ def _get_residences() -> dd.ds.LookupSet:
     """Get residences LookupSet."""
 
     residences = dd.ds.LookupSet()
+
     residences.add_items_from_file(
         file_path=os.path.join(data_path, "residences.txt"),
         cleaning_pipeline=[
-            dd.str.ReplaceValueRegexp(r"\(.+\)", ""),
             dd.str.StripString(),
         ],
     )
 
-    residences.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()])
+    residences.add_items_from_self(
+        cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()]
+    )
 
-    residences.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("-", " ")])
+    residences.add_items_from_self(
+        cleaning_pipeline=[dd.str.ReplaceValue("Sint", "St.")]
+    )
+    residences.add_items_from_self(
+        cleaning_pipeline=[dd.str.ReplaceValue("Sint", "st.")]
+    )
+    residences.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("'t", "Het")])
+    residences.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("'t", "het")])
+
+    residences.add_items_from_self(
+        cleaning_pipeline=[
+            dd.str.ReplaceValue("-", " "),
+            dd.str.ReplaceValue("  ", " "),
+        ]
+    )
+
+    residences.add_items_from_self(
+        cleaning_pipeline=[
+            dd.str.ReplaceValue("(", ""),
+            dd.str.ReplaceValue(")", ""),
+            dd.str.ReplaceValue("  ", " "),
+        ]
+    )
 
     residences.add_items_from_self(
         cleaning_pipeline=[
@@ -182,7 +206,6 @@ def get_institutions() -> dd.ds.LookupSet:
 
 
 def _get_top_terms() -> dd.ds.LookupSet:
-
     top1000 = dd.ds.LookupSet()
     top1000.add_items_from_file(
         os.path.join(data_path, "top_1000_terms.txt"),
