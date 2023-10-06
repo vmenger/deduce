@@ -59,10 +59,10 @@ def class_for_name(module_name: str, class_name: str) -> Any:
 
 def import_and_initialize(args: dict, extras: dict) -> Any:
     """
-    Import and initialize a module as defined in the args config. This dictionary
-    should contain a ``module`` and ``class`` key, which is imported. Any other
-    arguments in args are passed to the class initializer. Any items in
-    extras are passed to the class initializer if they are present.
+    Import and initialize a module as defined in the args config. This dictionary should
+    contain a ``module`` and ``class`` key, which is imported. Any other arguments in
+    args are passed to the class initializer. Any items in extras are passed to the
+    class initializer if they are present.
 
     Args:
         args: The arguments to pass to the initalizer.

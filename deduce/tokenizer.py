@@ -9,9 +9,9 @@ _TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=re.I | re.M)
 
 class DeduceTokenizer(dd.tokenize.Tokenizer):
     """
-    Tokenizes text, where a token is any sequence of alphanumeric characters
-    (case insensitive), a single newline/tab character, or a single special character.
-    It does not include whitespaces as tokens.
+    Tokenizes text, where a token is any sequence of alphanumeric characters (case
+    insensitive), a single newline/tab character, or a single special character. It does
+    not include whitespaces as tokens.
 
     Arguments:
         merge_terms: An iterable of strings that should not be split (i.e. always

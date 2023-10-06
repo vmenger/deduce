@@ -70,3 +70,9 @@ per-file-ignores = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--cov=deduce --cov-fail-under=85"
+
+[tool.docformatter]
+recursive = true
+in-place = true
+black = true
+pre-summary-newline = true

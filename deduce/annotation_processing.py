@@ -11,9 +11,8 @@ class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
 
     def _tags_match(self, left_tag: str, right_tag: str) -> bool:
         """
-        Define whether two tags match. This is the case when they are equal strings,
-        and additionally patient and person
-        tags are also regarded as equal.
+        Define whether two tags match. This is the case when they are equal strings, and
+        additionally patient and person tags are also regarded as equal.
 
         Args:
             left_tag: The left tag.
@@ -37,8 +36,8 @@ class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
         """
         Replace two annotations that have equal tags with a new annotation.
 
-        If one of the two annotations has the patient tag, the new annotation will
-        also be tagged patient. In other cases, the tags are already equal.
+        If one of the two annotations has the patient tag, the new annotation will also
+        be tagged patient. In other cases, the tags are already equal.
         """
 
         if left_annotation.tag != right_annotation.tag:
@@ -56,12 +55,12 @@ class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
 
 class PersonAnnotationConverter(dd.process.AnnotationProcessor):
     """
-    Responsible for processing the annotations produced by all name
-    annotators (regular and context-based).
+    Responsible for processing the annotations produced by all name annotators (regular
+    and context-based).
 
     Resolves overlap between them, and then maps the tags to either "patient" or
-    "persoon", based on whether "patient" is in the tag (e.g.
-    voornaam_patient => patient, achternaam_onbekend => persoon).
+    "persoon", based on whether "patient" is in the tag (e.g. voornaam_patient =>
+    patient, achternaam_onbekend => persoon).
     """
 
     def __init__(self) -> None:

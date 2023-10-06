@@ -26,8 +26,8 @@ class _PatternPositionMatcher:
     @classmethod
     def match(cls, pattern_position: dict, **kwargs) -> bool:
         """
-        Matches a pattern position (a dict with one key). Other information should
-        be presented as kwargs.
+        Matches a pattern position (a dict with one key). Other information should be
+        presented as kwargs.
 
         Args:
             pattern_position: A dictionary with a single key, e.g. {'is_initial': True}
@@ -86,10 +86,10 @@ class _PatternPositionMatcher:
 
 class TokenPatternAnnotator(dd.process.Annotator):
     """
-    Annotates based on token patterns, which should be provided as a list of dicts.
-    Each position in the list denotes a token position, e.g.:
-    [{'is_initial': True}, {'like_name': True}] matches sequences of two tokens, where
-    the first one is an initial, and the second one is like a name.
+    Annotates based on token patterns, which should be provided as a list of dicts. Each
+    position in the list denotes a token position, e.g.: [{'is_initial': True},
+    {'like_name': True}] matches sequences of two tokens, where the first one is an
+    initial, and the second one is like a name.
 
     Arguments:
         pattern: The pattern
