@@ -13,11 +13,14 @@ class PersonFirstNamePattern(dd.TokenPattern):
         patient = doc.metadata["patient"]
         return (patient is not None) and (patient.first_names is not None)
 
-    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(
+        self, token: dd.Token, metadata: dd.MetaData
+    ) -> Optional[tuple[dd.Token, dd.Token]]:
         for first_name in metadata["patient"].first_names:
 
             if str_match(token.text, first_name) or (
-                len(token.text) > 3 and str_match(token.text, first_name, max_edit_distance=1)
+                len(token.text) > 3
+                and str_match(token.text, first_name, max_edit_distance=1)
             ):
 
                 return token, token
@@ -37,7 +40,9 @@ class PersonInitialFromNamePattern(dd.TokenPattern):
         patient = doc.metadata["patient"]
         return (patient is not None) and (patient.first_names is not None)
 
-    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(
+        self, token: dd.Token, metadata: dd.MetaData
+    ) -> Optional[tuple[dd.Token, dd.Token]]:
         for _, first_name in enumerate(metadata["patient"].first_names):
 
             if str_match(token.text, first_name[0]):
@@ -59,7 +64,9 @@ class PersonInitialsPattern(dd.TokenPattern):
         patient = doc.metadata["patient"]
         return (patient is not None) and (patient.initials is not None)
 
-    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(
+        self, token: dd.Token, metadata: dd.MetaData
+    ) -> Optional[tuple[dd.Token, dd.Token]]:
         if str_match(token.text, metadata["patient"].initials):
             return token, token
 
@@ -101,7 +108,9 @@ class PersonSurnamePattern(dd.TokenPattern):
 
         return token
 
-    def match(self, token: dd.Token, metadata: dd.MetaData) -> Optional[tuple[dd.Token, dd.Token]]:
+    def match(
+        self, token: dd.Token, metadata: dd.MetaData
+    ) -> Optional[tuple[dd.Token, dd.Token]]:
         surname_pattern = metadata["surname_pattern"]
         surname_token = surname_pattern[0]
         start_token = token

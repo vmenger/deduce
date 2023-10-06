@@ -18,17 +18,39 @@ class TestDeduce:
 
         expected_annotations = dd.AnnotationSet(
             [
-                dd.Annotation(text="(06)12345678", start_char=272, end_char=284, tag="telefoonnummer"),
+                dd.Annotation(
+                    text="(06)12345678",
+                    start_char=272,
+                    end_char=284,
+                    tag="telefoonnummer",
+                ),
                 dd.Annotation(text="111222333", start_char=25, end_char=34, tag="bsn"),
-                dd.Annotation(text="Peter de Visser", start_char=153, end_char=168, tag="persoon"),
-                dd.Annotation(text="j.JNSEN.123@gmail.com", start_char=247, end_char=268, tag="email"),
-                dd.Annotation(text="J. Jansen", start_char=64, end_char=73, tag="patient"),
-                dd.Annotation(text="Jan Jansen", start_char=9, end_char=19, tag="patient"),
-                dd.Annotation(text="10 oktober 2018", start_char=127, end_char=142, tag="datum"),
+                dd.Annotation(
+                    text="Peter de Visser", start_char=153, end_char=168, tag="persoon"
+                ),
+                dd.Annotation(
+                    text="j.JNSEN.123@gmail.com",
+                    start_char=247,
+                    end_char=268,
+                    tag="email",
+                ),
+                dd.Annotation(
+                    text="J. Jansen", start_char=64, end_char=73, tag="patient"
+                ),
+                dd.Annotation(
+                    text="Jan Jansen", start_char=9, end_char=19, tag="patient"
+                ),
+                dd.Annotation(
+                    text="10 oktober 2018", start_char=127, end_char=142, tag="datum"
+                ),
                 dd.Annotation(text="64", start_char=77, end_char=79, tag="leeftijd"),
                 dd.Annotation(text="000334433", start_char=42, end_char=51, tag="id"),
-                dd.Annotation(text="Utrecht", start_char=106, end_char=113, tag="locatie"),
-                dd.Annotation(text="UMCU", start_char=202, end_char=206, tag="instelling"),
+                dd.Annotation(
+                    text="Utrecht", start_char=106, end_char=113, tag="locatie"
+                ),
+                dd.Annotation(
+                    text="UMCU", start_char=202, end_char=206, tag="instelling"
+                ),
             ]
         )
 

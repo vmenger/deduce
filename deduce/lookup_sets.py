@@ -108,13 +108,18 @@ def _get_residences() -> dd.ds.LookupSet:
     residences = dd.ds.LookupSet()
     residences.add_items_from_file(
         file_path=os.path.join(data_path, "residences.txt"),
-        cleaning_pipeline=[dd.str.ReplaceValueRegexp(r"\(.+\)", ""), dd.str.StripString()],
+        cleaning_pipeline=[
+            dd.str.ReplaceValueRegexp(r"\(.+\)", ""),
+            dd.str.StripString(),
+        ],
     )
 
     residences.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("-", " ")])
 
     residences.add_items_from_self(
-        cleaning_pipeline=[FilterBasedOnLookupSet(filter_set=get_whitelist(), case_sensitive=False)],
+        cleaning_pipeline=[
+            FilterBasedOnLookupSet(filter_set=get_whitelist(), case_sensitive=False)
+        ],
         replace=True,
     )
 
@@ -131,26 +136,42 @@ def get_institutions() -> dd.ds.LookupSet:
     )
 
     institutions = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
-    institutions.add_items_from_iterable(institutions_raw, cleaning_pipeline=[dd.str.StripString()])
+    institutions.add_items_from_iterable(
+        institutions_raw, cleaning_pipeline=[dd.str.StripString()]
+    )
 
     institutions.add_items_from_iterable(
         institutions_raw,
         cleaning_pipeline=[
-            RemoveValues(filter_values=["dr.", "der", "van", "de", "het", "'t", "in", "d'"]),
+            RemoveValues(
+                filter_values=["dr.", "der", "van", "de", "het", "'t", "in", "d'"]
+            ),
             dd.str.StripString(),
         ],
     )
 
-    institutions.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue(".", ""), dd.str.StripString()])
-
-    institutions.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("st ", "sint ")])
-
-    institutions.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("st. ", "sint ")])
-
-    institutions.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("ziekenhuis", "zkh")])
+    institutions.add_items_from_self(
+        cleaning_pipeline=[dd.str.ReplaceValue(".", ""), dd.str.StripString()]
+    )
 
     institutions.add_items_from_self(
-        cleaning_pipeline=[dd.str.LowercaseString(), Acronimify(), dd.str.FilterByLength(min_len=3)]
+        cleaning_pipeline=[dd.str.ReplaceValue("st ", "sint ")]
+    )
+
+    institutions.add_items_from_self(
+        cleaning_pipeline=[dd.str.ReplaceValue("st. ", "sint ")]
+    )
+
+    institutions.add_items_from_self(
+        cleaning_pipeline=[dd.str.ReplaceValue("ziekenhuis", "zkh")]
+    )
+
+    institutions.add_items_from_self(
+        cleaning_pipeline=[
+            dd.str.LowercaseString(),
+            Acronimify(),
+            dd.str.FilterByLength(min_len=3),
+        ]
     )
 
     institutions = institutions - get_whitelist()

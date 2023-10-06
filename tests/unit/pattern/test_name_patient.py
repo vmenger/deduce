@@ -20,14 +20,23 @@ class TestPersonFirstNamePattern:
         metadata = {"patient": Person(first_names=["Jan", "Adriaan"])}
         tokens = linked_tokens(["Jan", "Adriaan"])
 
-        assert self.pattern.match(tokens[0], metadata=metadata) == (tokens[0], tokens[0])
-        assert self.pattern.match(tokens[1], metadata=metadata) == (tokens[1], tokens[1])
+        assert self.pattern.match(tokens[0], metadata=metadata) == (
+            tokens[0],
+            tokens[0],
+        )
+        assert self.pattern.match(tokens[1], metadata=metadata) == (
+            tokens[1],
+            tokens[1],
+        )
 
     def test_match_first_name_fuzzy(self):
         metadata = {"patient": Person(first_names=["Adriaan"])}
         tokens = linked_tokens(["Adriana"])
 
-        assert self.pattern.match(tokens[0], metadata=metadata) == (tokens[0], tokens[0])
+        assert self.pattern.match(tokens[0], metadata=metadata) == (
+            tokens[0],
+            tokens[0],
+        )
 
     def test_match_first_name_fuzzy_short(self):
         metadata = {"patient": Person(first_names=["Jan"])}
@@ -44,15 +53,27 @@ class TestPersonInitialFromNamePattern:
 
         tokens = linked_tokens(["A", "J"])
 
-        assert self.pattern.match(tokens[0], metadata=metadata) == (tokens[0], tokens[0])
-        assert self.pattern.match(tokens[1], metadata=metadata) == (tokens[1], tokens[1])
+        assert self.pattern.match(tokens[0], metadata=metadata) == (
+            tokens[0],
+            tokens[0],
+        )
+        assert self.pattern.match(tokens[1], metadata=metadata) == (
+            tokens[1],
+            tokens[1],
+        )
 
     def test_match_with_period(self):
         metadata = {"patient": Person(first_names=["Jan", "Adriaan"])}
         tokens = linked_tokens(["J", ".", "A", "."])
 
-        assert self.pattern.match(tokens[0], metadata=metadata) == (tokens[0], tokens[1])
-        assert self.pattern.match(tokens[2], metadata=metadata) == (tokens[2], tokens[3])
+        assert self.pattern.match(tokens[0], metadata=metadata) == (
+            tokens[0],
+            tokens[1],
+        )
+        assert self.pattern.match(tokens[2], metadata=metadata) == (
+            tokens[2],
+            tokens[3],
+        )
 
     def test_no_match(self):
         metadata = {"patient": Person(first_names=["Jan", "Adriaan"])}
@@ -69,7 +90,10 @@ class TestPersonInitialsPattern:
         metadata = {"patient": Person(initials="AFTH")}
         tokens = linked_tokens(["AFTH", "THFA"])
 
-        assert self.pattern.match(tokens[0], metadata=metadata) == (tokens[0], tokens[0])
+        assert self.pattern.match(tokens[0], metadata=metadata) == (
+            tokens[0],
+            tokens[0],
+        )
         assert self.pattern.match(tokens[1], metadata=metadata) is None
 
 
@@ -93,7 +117,10 @@ class TestPersonSurnamePattern:
         metadata = {"surname_pattern": self.surname_pattern}
         tokens = linked_tokens(["Van der", "Heide", "-", "Ginkel", "is", "de", "naam"])
 
-        assert self.pattern.match(tokens[0], metadata=metadata) == (tokens[0], tokens[3])
+        assert self.pattern.match(tokens[0], metadata=metadata) == (
+            tokens[0],
+            tokens[3],
+        )
 
     def test_match_longer_than_tokens(self):
         metadata = {"surname_pattern": self.surname_pattern}
@@ -105,7 +132,10 @@ class TestPersonSurnamePattern:
         metadata = {"surname_pattern": self.surname_pattern}
         tokens = linked_tokens(["Van der", "Heijde", "-", "Ginkle", "is", "de", "naam"])
 
-        assert self.pattern.match(tokens[0], metadata=metadata) == (tokens[0], tokens[3])
+        assert self.pattern.match(tokens[0], metadata=metadata) == (
+            tokens[0],
+            tokens[3],
+        )
 
     def test_match_unequal_first(self):
         metadata = {"surname_pattern": self.surname_pattern}
@@ -117,4 +147,7 @@ class TestPersonSurnamePattern:
         metadata = {"surname_pattern": self.surname_pattern}
         tokens = linked_tokens(["Van den", "Heide", "-", "Ginkel", "is", "de", "naam"])
 
-        assert self.pattern.match(tokens[0], metadata=metadata) == (tokens[0], tokens[3])
+        assert self.pattern.match(tokens[0], metadata=metadata) == (
+            tokens[0],
+            tokens[3],
+        )

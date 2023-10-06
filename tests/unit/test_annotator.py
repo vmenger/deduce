@@ -32,7 +32,8 @@ def ds():
 def pattern_doc():
 
     return dd.Document(
-        text="De man heet Andries Meijer-Heerma, voornaam Andries.", tokenizers={"default": DeduceTokenizer()}
+        text="De man heet Andries Meijer-Heerma, voornaam Andries.",
+        tokenizers={"default": DeduceTokenizer()},
     )
 
 
@@ -42,7 +43,8 @@ def bsn_doc():
     d = dd.DocDeid()
 
     return d.deidentify(
-        text="Geldige voorbeelden zijn: 111222333 en 123456782. " "Patientnummer is 01234, en ander id 01234567890."
+        text="Geldige voorbeelden zijn: 111222333 en 123456782. "
+        "Patientnummer is 01234, en ander id 01234567890."
     )
 
 
@@ -81,46 +83,90 @@ class TestPatternPositionMatcher:
 
         assert _PatternPositionMatcher.match(pattern_position, token=token("Diederik"))
         assert not _PatternPositionMatcher.match(pattern_position, token=token("Le"))
-        assert not _PatternPositionMatcher.match(pattern_position, token=token("diederik"))
-        assert not _PatternPositionMatcher.match(pattern_position, token=token("Diederik3"))
+        assert not _PatternPositionMatcher.match(
+            pattern_position, token=token("diederik")
+        )
+        assert not _PatternPositionMatcher.match(
+            pattern_position, token=token("Diederik3")
+        )
 
     def test_match_lookup(self, ds):
 
-        assert _PatternPositionMatcher.match({"lookup": "first_names"}, token=token("Andries"), ds=ds)
-        assert not _PatternPositionMatcher.match({"lookup": "first_names"}, token=token("andries"), ds=ds)
-        assert not _PatternPositionMatcher.match({"lookup": "surnames"}, token=token("Andries"), ds=ds)
-        assert not _PatternPositionMatcher.match({"lookup": "first_names"}, token=token("Smit"), ds=ds)
-        assert _PatternPositionMatcher.match({"lookup": "surnames"}, token=token("Smit"), ds=ds)
-        assert not _PatternPositionMatcher.match({"lookup": "surnames"}, token=token("smit"), ds=ds)
+        assert _PatternPositionMatcher.match(
+            {"lookup": "first_names"}, token=token("Andries"), ds=ds
+        )
+        assert not _PatternPositionMatcher.match(
+            {"lookup": "first_names"}, token=token("andries"), ds=ds
+        )
+        assert not _PatternPositionMatcher.match(
+            {"lookup": "surnames"}, token=token("Andries"), ds=ds
+        )
+        assert not _PatternPositionMatcher.match(
+            {"lookup": "first_names"}, token=token("Smit"), ds=ds
+        )
+        assert _PatternPositionMatcher.match(
+            {"lookup": "surnames"}, token=token("Smit"), ds=ds
+        )
+        assert not _PatternPositionMatcher.match(
+            {"lookup": "surnames"}, token=token("smit"), ds=ds
+        )
 
     def test_match_neg_lookup(self, ds):
 
-        assert not _PatternPositionMatcher.match({"neg_lookup": "first_names"}, token=token("Andries"), ds=ds)
-        assert _PatternPositionMatcher.match({"neg_lookup": "first_names"}, token=token("andries"), ds=ds)
-        assert _PatternPositionMatcher.match({"neg_lookup": "surnames"}, token=token("Andries"), ds=ds)
-        assert _PatternPositionMatcher.match({"neg_lookup": "first_names"}, token=token("Smit"), ds=ds)
-        assert not _PatternPositionMatcher.match({"neg_lookup": "surnames"}, token=token("Smit"), ds=ds)
-        assert _PatternPositionMatcher.match({"neg_lookup": "surnames"}, token=token("smit"), ds=ds)
+        assert not _PatternPositionMatcher.match(
+            {"neg_lookup": "first_names"}, token=token("Andries"), ds=ds
+        )
+        assert _PatternPositionMatcher.match(
+            {"neg_lookup": "first_names"}, token=token("andries"), ds=ds
+        )
+        assert _PatternPositionMatcher.match(
+            {"neg_lookup": "surnames"}, token=token("Andries"), ds=ds
+        )
+        assert _PatternPositionMatcher.match(
+            {"neg_lookup": "first_names"}, token=token("Smit"), ds=ds
+        )
+        assert not _PatternPositionMatcher.match(
+            {"neg_lookup": "surnames"}, token=token("Smit"), ds=ds
+        )
+        assert _PatternPositionMatcher.match(
+            {"neg_lookup": "surnames"}, token=token("smit"), ds=ds
+        )
 
     def test_match_lowercase_lookup(self, ds):
 
-        assert _PatternPositionMatcher.match({"lowercase_lookup": "first_names"}, token=token("Pieter"), ds=ds)
-        assert _PatternPositionMatcher.match({"lowercase_lookup": "first_names"}, token=token("pieter"), ds=ds)
-        assert not _PatternPositionMatcher.match({"lowercase_lookup": "first_names"}, token=token("smit"), ds=ds)
+        assert _PatternPositionMatcher.match(
+            {"lowercase_lookup": "first_names"}, token=token("Pieter"), ds=ds
+        )
+        assert _PatternPositionMatcher.match(
+            {"lowercase_lookup": "first_names"}, token=token("pieter"), ds=ds
+        )
+        assert not _PatternPositionMatcher.match(
+            {"lowercase_lookup": "first_names"}, token=token("smit"), ds=ds
+        )
 
     def test_match_lowercase_neg_lookup(self, ds):
 
-        assert _PatternPositionMatcher.match({"lowercase_neg_lookup": "first_names"}, token=token("Andries"), ds=ds)
-        assert _PatternPositionMatcher.match({"lowercase_neg_lookup": "first_names"}, token=token("andries"), ds=ds)
-        assert not _PatternPositionMatcher.match({"lowercase_neg_lookup": "first_names"}, token=token("pieter"), ds=ds)
+        assert _PatternPositionMatcher.match(
+            {"lowercase_neg_lookup": "first_names"}, token=token("Andries"), ds=ds
+        )
+        assert _PatternPositionMatcher.match(
+            {"lowercase_neg_lookup": "first_names"}, token=token("andries"), ds=ds
+        )
+        assert not _PatternPositionMatcher.match(
+            {"lowercase_neg_lookup": "first_names"}, token=token("pieter"), ds=ds
+        )
 
     def test_match_and(self):
 
         assert _PatternPositionMatcher.match(
-            {"and": [{"equal": "Abcd"}, {"like_name": True}]}, token=token("Abcd"), ds=ds
+            {"and": [{"equal": "Abcd"}, {"like_name": True}]},
+            token=token("Abcd"),
+            ds=ds,
         )
         assert not _PatternPositionMatcher.match(
-            {"and": [{"equal": "dcef"}, {"like_name": True}]}, token=token("Abcd"), ds=ds
+            {"and": [{"equal": "dcef"}, {"like_name": True}]},
+            token=token("Abcd"),
+            ds=ds,
         )
         assert not _PatternPositionMatcher.match(
             {"and": [{"equal": "A"}, {"like_name": True}]}, token=token("A"), ds=ds
@@ -137,8 +183,12 @@ class TestPatternPositionMatcher:
         assert _PatternPositionMatcher.match(
             {"or": [{"equal": "dcef"}, {"like_name": True}]}, token=token("Abcd"), ds=ds
         )
-        assert _PatternPositionMatcher.match({"or": [{"equal": "A"}, {"like_name": True}]}, token=token("A"), ds=ds)
-        assert not _PatternPositionMatcher.match({"or": [{"equal": "b"}, {"like_name": True}]}, token=token("a"), ds=ds)
+        assert _PatternPositionMatcher.match(
+            {"or": [{"equal": "A"}, {"like_name": True}]}, token=token("A"), ds=ds
+        )
+        assert not _PatternPositionMatcher.match(
+            {"or": [{"equal": "b"}, {"like_name": True}]}, token=token("a"), ds=ds
+        )
 
 
 class TestTokenPatternAnnotator:
@@ -151,7 +201,12 @@ class TestTokenPatternAnnotator:
         assert tpa._match_sequence(
             pattern_doc, start_token=pattern_doc.get_tokens()[3], pattern=pattern
         ) == dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="_")
-        assert tpa._match_sequence(pattern_doc, start_token=pattern_doc.get_tokens()[7], pattern=pattern) is None
+        assert (
+            tpa._match_sequence(
+                pattern_doc, start_token=pattern_doc.get_tokens()[7], pattern=pattern
+            )
+            is None
+        )
 
     def test_match_sequence_left(self, pattern_doc, ds):
 
@@ -160,11 +215,19 @@ class TestTokenPatternAnnotator:
         tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
 
         assert tpa._match_sequence(
-            pattern_doc, start_token=pattern_doc.get_tokens()[4], pattern=pattern, direction="left"
+            pattern_doc,
+            start_token=pattern_doc.get_tokens()[4],
+            pattern=pattern,
+            direction="left",
         ) == dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="_")
 
         assert (
-            tpa._match_sequence(pattern_doc, start_token=pattern_doc.get_tokens()[8], direction="left", pattern=pattern)
+            tpa._match_sequence(
+                pattern_doc,
+                start_token=pattern_doc.get_tokens()[8],
+                direction="left",
+                pattern=pattern,
+            )
             is None
         )
 
@@ -175,10 +238,19 @@ class TestTokenPatternAnnotator:
         tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
 
         assert tpa._match_sequence(
-            pattern_doc, start_token=pattern_doc.get_tokens()[4], pattern=pattern, skip={"-"}
+            pattern_doc,
+            start_token=pattern_doc.get_tokens()[4],
+            pattern=pattern,
+            skip={"-"},
         ) == dd.Annotation(text="Meijer-Heerma", start_char=20, end_char=33, tag="_")
         assert (
-            tpa._match_sequence(pattern_doc, start_token=pattern_doc.get_tokens()[4], pattern=pattern, skip=[]) is None
+            tpa._match_sequence(
+                pattern_doc,
+                start_token=pattern_doc.get_tokens()[4],
+                pattern=pattern,
+                skip=[],
+            )
+            is None
         )
 
     def test_annotate(self, pattern_doc, ds):
@@ -187,7 +259,9 @@ class TestTokenPatternAnnotator:
 
         tpa = TokenPatternAnnotator(pattern=pattern, ds=ds, tag="_")
 
-        assert tpa.annotate(pattern_doc) == [dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="_")]
+        assert tpa.annotate(pattern_doc) == [
+            dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="_")
+        ]
 
 
 class TestContextAnnotator:
@@ -211,8 +285,22 @@ class TestContextAnnotator:
         assert annotator._apply_context_pattern(
             pattern_doc,
             annotations,
-            {"pattern": [{"like_name": True}], "direction": "right", "pre_tag": "voornaam", "tag": "{tag}+naam"},
-        ) == dd.AnnotationSet([dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="voornaam+naam")])
+            {
+                "pattern": [{"like_name": True}],
+                "direction": "right",
+                "pre_tag": "voornaam",
+                "tag": "{tag}+naam",
+            },
+        ) == dd.AnnotationSet(
+            [
+                dd.Annotation(
+                    text="Andries Meijer",
+                    start_char=12,
+                    end_char=26,
+                    tag="voornaam+naam",
+                )
+            ]
+        )
 
     def test_apply_context_pattern_left(self, pattern_doc):
 
@@ -234,8 +322,22 @@ class TestContextAnnotator:
         assert annotator._apply_context_pattern(
             pattern_doc,
             annotations,
-            {"pattern": [{"like_name": True}], "direction": "left", "pre_tag": "achternaam", "tag": "naam+{tag}"},
-        ) == dd.AnnotationSet([dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="naam+achternaam")])
+            {
+                "pattern": [{"like_name": True}],
+                "direction": "left",
+                "pre_tag": "achternaam",
+                "tag": "naam+{tag}",
+            },
+        ) == dd.AnnotationSet(
+            [
+                dd.Annotation(
+                    text="Andries Meijer",
+                    start_char=12,
+                    end_char=26,
+                    tag="naam+achternaam",
+                )
+            ]
+        )
 
     def test_apply_context_pattern_skip(self, pattern_doc):
 
@@ -264,12 +366,26 @@ class TestContextAnnotator:
                 "pre_tag": "achternaam",
                 "tag": "{tag}+naam",
             },
-        ) == dd.AnnotationSet([dd.Annotation(text="Meijer-Heerma", start_char=20, end_char=33, tag="achternaam+naam")])
+        ) == dd.AnnotationSet(
+            [
+                dd.Annotation(
+                    text="Meijer-Heerma",
+                    start_char=20,
+                    end_char=33,
+                    tag="achternaam+naam",
+                )
+            ]
+        )
 
     def test_annotate_multiple(self, pattern_doc):
 
         pattern = [
-            {"pattern": [{"like_name": True}], "direction": "right", "pre_tag": "voornaam", "tag": "{tag}+naam"},
+            {
+                "pattern": [{"like_name": True}],
+                "direction": "right",
+                "pre_tag": "voornaam",
+                "tag": "{tag}+naam",
+            },
             {
                 "pattern": [{"like_name": True}],
                 "direction": "right",
@@ -295,7 +411,14 @@ class TestContextAnnotator:
         )
 
         assert annotator._annotate(pattern_doc, annotations) == dd.AnnotationSet(
-            {dd.Annotation(text="Andries Meijer-Heerma", start_char=12, end_char=33, tag="voornaam+naam+naam")}
+            {
+                dd.Annotation(
+                    text="Andries Meijer-Heerma",
+                    start_char=12,
+                    end_char=33,
+                    tag="voornaam+naam+naam",
+                )
+            }
         )
 
     def test_annotate_iterative(self, pattern_doc):
@@ -326,7 +449,14 @@ class TestContextAnnotator:
         )
 
         assert annotator._annotate(pattern_doc, annotations) == dd.AnnotationSet(
-            {dd.Annotation(text="Andries Meijer-Heerma", start_char=12, end_char=33, tag="voornaam+naam+naam")}
+            {
+                dd.Annotation(
+                    text="Andries Meijer-Heerma",
+                    start_char=12,
+                    end_char=33,
+                    tag="voornaam+naam+naam",
+                )
+            }
         )
 
 
@@ -401,7 +531,9 @@ class TestPhoneNumberAnnotator:
         )
         annotations = an.annotate(phone_number_doc)
 
-        expected_annotations = [dd.Annotation(text="065555", start_char=72, end_char=78, tag="_")]
+        expected_annotations = [
+            dd.Annotation(text="065555", start_char=72, end_char=78, tag="_")
+        ]
 
         assert annotations == expected_annotations
 
@@ -418,6 +550,8 @@ class TestPhoneNumberAnnotator:
         )
         annotations = an.annotate(phone_number_doc)
 
-        expected_annotations = [dd.Annotation(text="065555555555", start_char=93, end_char=105, tag="_")]
+        expected_annotations = [
+            dd.Annotation(text="065555555555", start_char=93, end_char=105, tag="_")
+        ]
 
         assert annotations == expected_annotations

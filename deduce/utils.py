@@ -31,7 +31,10 @@ def str_match(str_1: str, str_2: str, max_edit_distance: Optional[int] = None) -
         ``True`` if the strings match, ``False`` otherwise.
     """
     if max_edit_distance is not None:
-        return DamerauLevenshtein.distance(str_1, str_2, score_cutoff=max_edit_distance) <= max_edit_distance
+        return (
+            DamerauLevenshtein.distance(str_1, str_2, score_cutoff=max_edit_distance)
+            <= max_edit_distance
+        )
 
     return str_1 == str_2
 

@@ -6,7 +6,9 @@ class TestUtils:
         assert utils.any_in_text(["hans", "piet", "karel"], "ik heet hans")
         assert utils.any_in_text(["hans", "piet", "karel"], "ik heet piet")
         assert utils.any_in_text(["hans", "piet", "karel"], "ik heet karel")
-        assert utils.any_in_text(["hans", "piet", "karel"], "wij heten hans, piet en karel")
+        assert utils.any_in_text(
+            ["hans", "piet", "karel"], "wij heten hans, piet en karel"
+        )
         assert not utils.any_in_text(["hans", "piet", "karel"], "ik heet peter")
         assert utils.any_in_text(["hans", "piet", "karel"], "wat een leuk hansopje")
         assert utils.any_in_text(["hans", "piet", "karel"], "mijn oom heet pieter")
@@ -44,5 +46,11 @@ class TestOverwriteDict:
 
     def test_nonempty_with_nesting(self):
 
-        assert utils.overwrite_dict({"a": 1, "b": {"c": 2}}, {"b": {"c": 4}}) == {"a": 1, "b": {"c": 4}}
-        assert utils.overwrite_dict({"a": 1, "b": {"c": 2}}, {"b": {"d": 4}}) == {"a": 1, "b": {"c": 2, "d": 4}}
+        assert utils.overwrite_dict({"a": 1, "b": {"c": 2}}, {"b": {"c": 4}}) == {
+            "a": 1,
+            "b": {"c": 4},
+        }
+        assert utils.overwrite_dict({"a": 1, "b": {"c": 2}}, {"b": {"d": 4}}) == {
+            "a": 1,
+            "b": {"c": 2, "d": 4},
+        }

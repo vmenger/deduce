@@ -52,7 +52,9 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
             end_char=tokens[-1].end_char,
         )
 
-    def _merge(self, text: str, tokens: list[dd.tokenize.Token]) -> list[dd.tokenize.Token]:
+    def _merge(
+        self, text: str, tokens: list[dd.tokenize.Token]
+    ) -> list[dd.tokenize.Token]:
         """
         Merge a list of tokens based on the trie.
 
@@ -69,7 +71,9 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
 
         while i < len(tokens):
 
-            longest_matching_prefix = self._trie.longest_matching_prefix(tokens_text[i:])
+            longest_matching_prefix = self._trie.longest_matching_prefix(
+                tokens_text[i:]
+            )
 
             if longest_matching_prefix is None:
                 tokens_merged.append(tokens[i])
@@ -77,7 +81,9 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
 
             else:
                 num_tokens_to_merge = len(longest_matching_prefix)
-                tokens_merged.append(self._join_tokens(text, tokens[i : i + num_tokens_to_merge]))
+                tokens_merged.append(
+                    self._join_tokens(text, tokens[i : i + num_tokens_to_merge])
+                )
                 i += num_tokens_to_merge
 
         return tokens_merged
@@ -96,7 +102,13 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
         tokens = []
 
         for match in self._pattern.finditer(text):
-            tokens.append(dd.Token(text=match.group(0), start_char=match.span()[0], end_char=match.span()[1]))
+            tokens.append(
+                dd.Token(
+                    text=match.group(0),
+                    start_char=match.span()[0],
+                    end_char=match.span()[1],
+                )
+            )
 
         if self._trie is not None:
             tokens = self._merge(text, tokens)
