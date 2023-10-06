@@ -187,9 +187,7 @@ class _AnnotatorFactory:  # pylint: disable=R0903
             args["lookup_values"] = lookup_set.items()
             args["matching_pipeline"] = lookup_set.matching_pipeline
 
-        args["tokenizer"] = DeduceTokenizer()
-
-        return dd.process.MultiTokenLookupAnnotator(**args)
+        return dd.process.MultiTokenLookupAnnotator(**args, tokenizer=extras['tokenizer'])
 
     @staticmethod
     def _get_custom_annotator(args: dict, extras: dict) -> dd.process.Annotator:
