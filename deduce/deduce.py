@@ -174,8 +174,8 @@ class _AnnotatorFactory:  # pylint: disable=R0903
 
     @staticmethod
     def _get_regexp_annotator(
-        args: dict, extras: dict
-    ) -> dd.process.Annotator:  # pylint: disable=W0613
+        args: dict, extras: dict  # pylint: disable=W0613
+    ) -> dd.process.Annotator:
         args["regexp_pattern"] = re.compile(args["regexp_pattern"])
         return dd.process.RegexpAnnotator(**args)
 

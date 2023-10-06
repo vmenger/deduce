@@ -75,9 +75,7 @@ per-file-ignores = [
 ]
 
 [tool.pylint]
-source-roots = ['deduce']
 disable = ['C0114']
-init-hook = 'import sys; sys.path.append(".")'
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
