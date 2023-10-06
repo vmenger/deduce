@@ -114,6 +114,8 @@ def _get_residences() -> dd.ds.LookupSet:
         ],
     )
 
+    residences.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()])
+
     residences.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("-", " ")])
 
     residences.add_items_from_self(
