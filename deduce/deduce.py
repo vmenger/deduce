@@ -21,10 +21,15 @@ class Deduce(dd.DocDeid):
     """
     Main class for de-identifiation.
 
-    Inherits from ``docdeid.DocDeid``, and as such, most information is available in the documentation there.
+    Inherits from ``docdeid.DocDeid``, and as such, most information is available
+    in the documentation there.
     """
 
-    def __init__(self, config_file: Optional[str] = None, use_config_defaults: Optional[bool] = True) -> None:
+    def __init__(
+        self,
+        config_file: Optional[str] = None,
+        use_config_defaults: Optional[bool] = True,
+    ) -> None:
         super().__init__()
 
         self.config_file = config_file
@@ -45,7 +50,9 @@ class Deduce(dd.DocDeid):
         """
 
         if self.config_file is None and not self.use_config_defaults:
-            raise ValueError("Please specify a config file, or set use_config_defaults to True")
+            raise ValueError(
+                "Please specify a config file, or set use_config_defaults to True"
+            )
 
         default_config_path = Path(os.path.dirname(__file__)).parent / "config.json"
 
@@ -74,7 +81,9 @@ class Deduce(dd.DocDeid):
 
     @staticmethod
     def _initialize_annotators(
-        annotator_cnfg: dict, lookup_sets: dd.ds.DsCollection, tokenizer: dd.tokenize.Tokenizer
+        annotator_cnfg: dict,
+        lookup_sets: dd.ds.DsCollection,
+        tokenizer: dd.tokenize.Tokenizer,
     ) -> dd.process.DocProcessorGroup:
         """Initializes annotators."""
 
@@ -88,12 +97,16 @@ class Deduce(dd.DocDeid):
         Need to re-run this when updating lookup sets.
         """
 
-        config = self.config.copy()  # copy to prevent accidental overwrites, deletes, etc
+        config = (
+            self.config.copy()
+        )  # copy to prevent accidental overwrites, deletes, etc
 
         self.processors = self._initialize_annotators(
             config["annotators"].copy(), self.lookup_sets, self.tokenizers["default"]
         )
-        self.processors["names"].add_processor("person_annotation_converter", PersonAnnotationConverter())
+        self.processors["names"].add_processor(
+            "person_annotation_converter", PersonAnnotationConverter()
+        )
 
         sort_by_attrs = self.config["resolve_overlap_strategy"]["attributes"]
         sort_by_ascending = self.config["resolve_overlap_strategy"]["ascending"]
@@ -110,21 +123,28 @@ class Deduce(dd.DocDeid):
 
         post_group.add_processor(
             "overlap_resolver",
-            dd.process.OverlapResolver(sort_by=sort_by, sort_by_callbacks=sort_by_callbacks),
+            dd.process.OverlapResolver(
+                sort_by=sort_by, sort_by_callbacks=sort_by_callbacks
+            ),
         )
 
         post_group.add_processor(
             "merge_adjacent_annotations",
-            DeduceMergeAdjacentAnnotations(slack_regexp=config["adjacent_annotations_slack"]),
+            DeduceMergeAdjacentAnnotations(
+                slack_regexp=config["adjacent_annotations_slack"]
+            ),
         )
 
         post_group.add_processor(
             "redactor",
-            DeduceRedactor(open_char=config["redactor_open_char"], close_char=config["redactor_close_char"]),
+            DeduceRedactor(
+                open_char=config["redactor_open_char"],
+                close_char=config["redactor_close_char"],
+            ),
         )
 
 
-class _AnnotatorFactory:
+class _AnnotatorFactory:  # pylint: disable=R0903
     """Responsible for creating annotators, based on config."""
 
     def __init__(self) -> None:
@@ -142,7 +162,9 @@ class _AnnotatorFactory:
         return TokenPatternAnnotator(**args, ds=extras["ds"])
 
     @staticmethod
-    def _get_dd_token_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+    def _get_dd_token_pattern_annotator(
+        args: dict, extras: dict
+    ) -> dd.process.Annotator:
         pattern = utils.import_and_initialize(args.pop("pattern"), extras=extras)
         return dd.process.TokenPatternAnnotator(pattern=pattern)
 
@@ -151,7 +173,9 @@ class _AnnotatorFactory:
         return ContextAnnotator(**args, ds=extras["ds"])
 
     @staticmethod
-    def _get_regexp_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+    def _get_regexp_annotator(
+        args: dict, extras: dict  # pylint: disable=W0613
+    ) -> dd.process.Annotator:
         args["regexp_pattern"] = re.compile(args["regexp_pattern"])
         return dd.process.RegexpAnnotator(**args)
 
@@ -172,16 +196,21 @@ class _AnnotatorFactory:
 
         return utils.import_and_initialize(args=args, extras=extras)
 
-    def get_annotators(self, annotator_cnfg: dict, extras: dict) -> dd.process.DocProcessorGroup:
+    def get_annotators(
+        self, annotator_cnfg: dict, extras: dict
+    ) -> dd.process.DocProcessorGroup:
         """
         Get the annotators, requested in the annotator config.
 
         Args:
-            annotator_cnfg: A dictionary containing configuration on which annotators to initialize.
-            extras: Any additional objects passed to pattern or annotator init, if present
+            annotator_cnfg: A dictionary containing configuration on which annotators
+            to initialize.
+            extras: Any additional objects passed to pattern or annotator init,
+            if present.
 
         Returns:
-            A DocProcessorGroup containing the initialized annotators specified in the config dict.
+            A DocProcessorGroup containing the initialized annotators specified
+            in the config dict.
         """
 
         annotators = dd.process.DocProcessorGroup()
@@ -189,18 +218,24 @@ class _AnnotatorFactory:
         for annotator_name, annotator_info in annotator_cnfg.items():
 
             if annotator_info["annotator_type"] not in self.annotator_creators:
-                raise ValueError(f"Unexpected annotator_type {annotator_info['annotator_type']}")
+                raise ValueError(
+                    f"Unexpected annotator_type {annotator_info['annotator_type']}"
+                )
 
             group = annotators
 
             if "group" in annotator_info:
 
                 if annotator_info["group"] not in annotators.get_names(recursive=False):
-                    annotators.add_processor(annotator_info["group"], dd.process.DocProcessorGroup())
+                    annotators.add_processor(
+                        annotator_info["group"], dd.process.DocProcessorGroup()
+                    )
 
                 group = annotators[annotator_info["group"]]
 
-            annotator = self.annotator_creators[annotator_info["annotator_type"]](annotator_info["args"], extras)
+            annotator = self.annotator_creators[annotator_info["annotator_type"]](
+                annotator_info["args"], extras
+            )
             group.add_processor(annotator_name, annotator)
 
         return annotators

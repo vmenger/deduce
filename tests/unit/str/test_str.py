@@ -47,7 +47,9 @@ class TestStr:
 
         assert processor.process("de boot") == "boot"
         assert processor.process("debiet") == "debiet"
-        assert processor.process("van het Schip") == "vanSchip"  # TODO Is this intended?
+        assert (
+            processor.process("van het Schip") == "vanSchip"
+        )  # TODO Is this intended?
         assert processor.process("nummer een") == "nummer"
 
     def test_acronimify(self):

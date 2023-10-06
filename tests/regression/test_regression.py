@@ -8,7 +8,9 @@ from deduce import Deduce
 model = Deduce()
 
 
-def regression_test(examples_file: str, enabled: set[str], known_failures: Optional[set[int]] = None):
+def regression_test(
+    examples_file: str, enabled: set[str], known_failures: Optional[set[int]] = None
+):
 
     if known_failures is None:
         known_failures = set()
@@ -20,7 +22,9 @@ def regression_test(examples_file: str, enabled: set[str], known_failures: Optio
 
     for example in examples:
 
-        trues = AnnotationSet(Annotation(**annotation) for annotation in example["annotations"])
+        trues = AnnotationSet(
+            Annotation(**annotation) for annotation in example["annotations"]
+        )
         preds = model.deidentify(text=example["text"], enabled=enabled).annotations
 
         try:

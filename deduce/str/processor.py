@@ -40,7 +40,13 @@ class RemoveValues(StringModifier):
         for filter_value in self.filter_values:
 
             item = re.sub(
-                r"(^" + filter_value + r" | " + filter_value + r" | " + filter_value + r"$)",
+                r"(^"
+                + filter_value
+                + r" | "
+                + filter_value
+                + r" | "
+                + filter_value
+                + r"$)",
                 "",
                 item,
             )
@@ -76,7 +82,9 @@ class FilterBasedOnLookupSet(StringFilter):
         case_sensitive: Whether to filter case sensitive
     """
 
-    def __init__(self, filter_set: dd.ds.LookupSet, case_sensitive: bool = True) -> None:
+    def __init__(
+        self, filter_set: dd.ds.LookupSet, case_sensitive: bool = True
+    ) -> None:
         matching_pipeline = None if case_sensitive else [LowercaseString()]
 
         self.filter_set = dd.ds.LookupSet(matching_pipeline=matching_pipeline)

@@ -30,8 +30,17 @@ jobs:
     - name: Install dependencies
       run: poetry install
 
-    - name: Check formatting
-      run: make format CHECK=1
+    - name: black
+      run: python -m black . --check
 
-    - name: Check linting
-      run: make lint CHECK=1
+    - name: isort
+      run: python -m isort . -c
+
+    - name: docformatter
+      run: python -m docformatter . --check
+
+    - name: flake8
+      run: python -m flake8 .
+
+    - name: pylint
+      run: python -m pylint deduce/

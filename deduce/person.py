@@ -9,7 +9,8 @@ class Person:
     """
     Contains information on a person.
 
-    Usable in a document metadata, where annotators can access it for more accurate annotation.
+    Usable in a document metadata, where annotators can access it for more accurate
+    annotation.
     """
 
     first_names: Optional[list[str]] = None
@@ -25,7 +26,8 @@ class Person:
         patient_given_name: str = "",
     ) -> Person:
         """
-        Get a Person from keywords. Mainly used for compatibility with keyword as used in deduce<=1.0.8.
+        Get a Person from keywords. Mainly used for compatibility with keyword as used
+        in deduce<=1.0.8.
 
         Args:
             patient_first_names: The patient first names, separated by whitespace.

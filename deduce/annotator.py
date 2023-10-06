@@ -20,13 +20,14 @@ _DIRECTION_MAP = {
 }
 
 
-class _PatternPositionMatcher:
+class _PatternPositionMatcher:  # pylint: disable=R0903
     """Checks if a token matches against a single pattern."""
 
     @classmethod
-    def match(cls, pattern_position: dict, **kwargs) -> bool:
+    def match(cls, pattern_position: dict, **kwargs) -> bool:  # pylint: disable=R0911
         """
-        Matches a pattern position (a dict with one key). Other information should be presented as kwargs.
+        Matches a pattern position (a dict with one key). Other information should be
+        presented as kwargs.
 
         Args:
             pattern_position: A dictionary with a single key, e.g. {'is_initial': True}
@@ -37,16 +38,24 @@ class _PatternPositionMatcher:
         """
 
         if len(pattern_position) > 1:
-            raise ValueError(f"Cannot parse token pattern ({pattern_position}) with more than 1 key")
+            raise ValueError(
+                f"Cannot parse token pattern ({pattern_position}) with more than 1 key"
+            )
 
         func, value = next(iter(pattern_position.items()))
 
         if func == "equal":
             return kwargs.get("token").text == value
         if func == "is_initial":
-            return (len(kwargs.get("token").text) == 1 and kwargs.get("token").text[0].isupper()) == value
+            return (
+                len(kwargs.get("token").text) == 1
+                and kwargs.get("token").text[0].isupper()
+            ) == value
         if func == "is_initials":
-            return (len(kwargs.get("token").text) <= 4 and kwargs.get("token").text.isupper()) == value
+            return (
+                len(kwargs.get("token").text) <= 4
+                and kwargs.get("token").text.isupper()
+            ) == value
         if func == "like_name":
             return (
                 len(kwargs.get("token").text) >= 3
@@ -62,18 +71,25 @@ class _PatternPositionMatcher:
         if func == "lowercase_neg_lookup":
             return kwargs.get("token").text.lower() not in kwargs.get("ds")[value]
         if func == "and":
-            return all(_PatternPositionMatcher.match(pattern_position=x, **kwargs) for x in value)
+            return all(
+                _PatternPositionMatcher.match(pattern_position=x, **kwargs)
+                for x in value
+            )
         if func == "or":
-            return any(_PatternPositionMatcher.match(pattern_position=x, **kwargs) for x in value)
+            return any(
+                _PatternPositionMatcher.match(pattern_position=x, **kwargs)
+                for x in value
+            )
 
         raise NotImplementedError(f"No known logic for pattern {func}")
 
 
 class TokenPatternAnnotator(dd.process.Annotator):
     """
-    Annotates based on token patterns, which should be provided as a list of dicts. Each position in the list denotes a
-    token position, e.g.: [{'is_initial': True}, {'like_name': True}] matches sequences of two tokens, where the first
-    one is an initial, and the second one is like a name.
+    Annotates based on token patterns, which should be provided as a list of dicts. Each
+    position in the list denotes a token position, e.g.: [{'is_initial': True},
+    {'like_name': True}] matches sequences of two tokens, where the first one is an
+    initial, and the second one is like a name.
 
     Arguments:
         pattern: The pattern
@@ -97,7 +113,9 @@ class TokenPatternAnnotator(dd.process.Annotator):
         super().__init__(*args, **kwargs)
 
     @staticmethod
-    def _get_chained_token(token: dd.Token, attr: str, skip: set[str]) -> Optional[dd.Token]:
+    def _get_chained_token(
+        token: dd.Token, attr: str, skip: set[str]
+    ) -> Optional[dd.Token]:
 
         while True:
 
@@ -108,7 +126,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
         return token
 
-    def _match_sequence(
+    def _match_sequence(  # pylint: disable=R0913
         self,
         doc: Document,
         pattern: list[dict],
@@ -148,7 +166,9 @@ class TokenPatternAnnotator(dd.process.Annotator):
             end_token = current_token
             current_token = self._get_chained_token(current_token, attr, skip)
 
-        start_token, end_token = _DIRECTION_MAP[direction]["order"]((start_token, end_token))
+        start_token, end_token = _DIRECTION_MAP[direction]["order"](
+            (start_token, end_token)
+        )
 
         return dd.Annotation(
             text=doc.text[start_token.start_char : end_token.end_char],
@@ -173,7 +193,11 @@ class TokenPatternAnnotator(dd.process.Annotator):
         return [
             annotation
             for token in doc.get_tokens()
-            if (annotation := self._match_sequence(doc, self.pattern, token, direction="right", skip=self.skip))
+            if (
+                annotation := self._match_sequence(
+                    doc, self.pattern, token, direction="right", skip=self.skip
+                )
+            )
             is not None
         ]
 
@@ -183,7 +207,8 @@ class ContextAnnotator(TokenPatternAnnotator):
     Extends existing annotations to the left or right, based on specified patterns.
 
     Args:
-        iterative: Whether the extension process should recurse, or stop after one iteration.
+        iterative: Whether the extension process should recurse, or stop after one
+        iteration.
     """
 
     def __init__(self, *args, iterative: bool = True, **kwargs) -> None:
@@ -199,7 +224,9 @@ class ContextAnnotator(TokenPatternAnnotator):
 
         for annotation in annotations:
 
-            tag = list(_DIRECTION_MAP[direction]["order"](annotation.tag.split("+")))[-1]
+            tag = list(_DIRECTION_MAP[direction]["order"](annotation.tag.split("+")))[
+                -1
+            ]
             skip = set(context_pattern.get("skip", []))
 
             if not deduce.utils.any_in_text(context_pattern["pre_tag"], tag):
@@ -207,14 +234,22 @@ class ContextAnnotator(TokenPatternAnnotator):
                 continue
 
             attr = _DIRECTION_MAP[direction]["attr"]
-            start_token = self._get_chained_token(_DIRECTION_MAP[direction]["start_token"](annotation), attr, skip)
+            start_token = self._get_chained_token(
+                _DIRECTION_MAP[direction]["start_token"](annotation), attr, skip
+            )
             new_annotation = self._match_sequence(
-                doc, context_pattern["pattern"], start_token, direction=direction, skip=skip
+                doc,
+                context_pattern["pattern"],
+                start_token,
+                direction=direction,
+                skip=skip,
             )
 
             if new_annotation:
 
-                left_ann, right_ann = _DIRECTION_MAP[direction]["order"]((annotation, new_annotation))
+                left_ann, right_ann = _DIRECTION_MAP[direction]["order"](
+                    (annotation, new_annotation)
+                )
 
                 new_annotations.add(
                     dd.Annotation(
@@ -231,7 +266,9 @@ class ContextAnnotator(TokenPatternAnnotator):
 
         return new_annotations
 
-    def _annotate(self, doc: dd.Document, annotations: list[dd.Annotation]) -> list[dd.Annotation]:
+    def _annotate(
+        self, doc: dd.Document, annotations: list[dd.Annotation]
+    ) -> list[dd.Annotation]:
 
         original_annotations = annotations
 
@@ -261,7 +298,9 @@ class ContextAnnotator(TokenPatternAnnotator):
 class BsnAnnotator(dd.process.Annotator):
     """Annotates BSN nummers."""
 
-    def __init__(self, bsn_regexp: str, *args, capture_group: int = 0, **kwargs) -> None:
+    def __init__(
+        self, bsn_regexp: str, *args, capture_group: int = 0, **kwargs
+    ) -> None:
         self.bsn_regexp = re.compile(bsn_regexp)
         self.capture_group = capture_group
         super().__init__(*args, **kwargs)
@@ -270,7 +309,9 @@ class BsnAnnotator(dd.process.Annotator):
     def _elfproef(bsn: str) -> bool:
 
         if len(bsn) != 9 or (any(not char.isdigit() for char in bsn)):
-            raise ValueError("Elfproef for testing BSN can only be applied to strings with 9 digits.")
+            raise ValueError(
+                "Elfproef for testing BSN can only be applied to strings with 9 digits."
+            )
 
         total = 0
 
@@ -290,7 +331,13 @@ class BsnAnnotator(dd.process.Annotator):
 
             if self._elfproef(text):
                 annotations.append(
-                    Annotation(text=text, start_char=start, end_char=end, tag=self.tag, priority=self.priority)
+                    Annotation(
+                        text=text,
+                        start_char=start,
+                        end_char=end,
+                        tag=self.tag,
+                        priority=self.priority,
+                    )
                 )
 
         return annotations
@@ -299,7 +346,14 @@ class BsnAnnotator(dd.process.Annotator):
 class PhoneNumberAnnotator(dd.process.Annotator):
     """Annotates phone numbers."""
 
-    def __init__(self, phone_regexp: str, *args, min_digits: int = 9, max_digits: int = 11, **kwargs) -> None:
+    def __init__(
+        self,
+        phone_regexp: str,
+        *args,
+        min_digits: int = 9,
+        max_digits: int = 11,
+        **kwargs,
+    ) -> None:
 
         self.phone_regexp = re.compile(phone_regexp)
         self.min_digits = min_digits
@@ -320,7 +374,9 @@ class PhoneNumberAnnotator(dd.process.Annotator):
             number_digits = re.sub(r"\D", "", match.group(4))
 
             # Trim parenthesis
-            if prefix_with_parens.startswith("(") and not prefix_with_parens.endswith(")"):
+            if prefix_with_parens.startswith("(") and not prefix_with_parens.endswith(
+                ")"
+            ):
                 left_index_shift = 1
 
             # Check max 1 hyphen
@@ -342,7 +398,11 @@ class PhoneNumberAnnotator(dd.process.Annotator):
 
                 annotations.append(
                     Annotation(
-                        text=text, start_char=start_char, end_char=end_char, tag=self.tag, priority=self.priority
+                        text=text,
+                        start_char=start_char,
+                        end_char=end_char,
+                        tag=self.tag,
+                        priority=self.priority,
                     )
                 )
 
