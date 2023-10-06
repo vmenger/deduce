@@ -21,7 +21,8 @@ class Deduce(dd.DocDeid):
     """
     Main class for de-identifiation.
 
-    Inherits from ``docdeid.DocDeid``, and as such, most information is available in the documentation there.
+    Inherits from ``docdeid.DocDeid``, and as such, most information is available
+    in the documentation there.
     """
 
     def __init__(
@@ -200,11 +201,14 @@ class _AnnotatorFactory:
         Get the annotators, requested in the annotator config.
 
         Args:
-            annotator_cnfg: A dictionary containing configuration on which annotators to initialize.
-            extras: Any additional objects passed to pattern or annotator init, if present
+            annotator_cnfg: A dictionary containing configuration on which annotators
+            to initialize.
+            extras: Any additional objects passed to pattern or annotator init,
+            if present.
 
         Returns:
-            A DocProcessorGroup containing the initialized annotators specified in the config dict.
+            A DocProcessorGroup containing the initialized annotators specified
+            in the config dict.
         """
 
         annotators = dd.process.DocProcessorGroup()

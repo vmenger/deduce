@@ -9,11 +9,13 @@ _TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=re.I | re.M)
 
 class DeduceTokenizer(dd.tokenize.Tokenizer):
     """
-    Tokenizes text, where a token is any sequence of alphanumeric characters (case insensitive), a single newline/tab
-    character, or a single special character. It does not include whitespaces as tokens.
+    Tokenizes text, where a token is any sequence of alphanumeric characters
+    (case insensitive), a single newline/tab character, or a single special character.
+    It does not include whitespaces as tokens.
 
     Arguments:
-        merge_terms: An iterable of strings that should not be split (i.e. always returned as tokens).
+        merge_terms: An iterable of strings that should not be split (i.e. always
+        returned as tokens).
     """
 
     def __init__(self, merge_terms: Optional[Iterable] = None) -> None:
@@ -35,8 +37,8 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):
     @staticmethod
     def _join_tokens(text: str, tokens: list[dd.tokenize.Token]) -> dd.tokenize.Token:
         """
-        Join a list of tokens into a single token. Does this by creating a new token, that ranges from the first token
-        start char to the last token end char.
+        Join a list of tokens into a single token. Does this by creating a new token,
+        that ranges from the first token start char to the last token end char.
 
         Args:
             text: The original text.

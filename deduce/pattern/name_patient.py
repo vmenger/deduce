@@ -6,8 +6,8 @@ from deduce.utils import str_match
 
 
 class PersonFirstNamePattern(dd.TokenPattern):
-    """Matches the token against all of the patients first names as defined in the "patient" Person in the document
-    metadata, with a max edit distance of 1."""
+    """Matches the token against all of the patients first names as defined in the
+    "patient" Person in the document metadata, with a max edit distance of 1."""
 
     def doc_precondition(self, doc: dd.Document) -> bool:
         patient = doc.metadata["patient"]
@@ -30,8 +30,8 @@ class PersonFirstNamePattern(dd.TokenPattern):
 
 class PersonInitialFromNamePattern(dd.TokenPattern):
     """
-    Matches the first characters of the patients first names, as defined in the "patient" Person in the document
-    metadata.
+    Matches the first characters of the patients first names, as defined in the
+    "patient" Person in the document metadata.
 
     Additionally matches the period following the initial, if any.
     """
@@ -58,7 +58,8 @@ class PersonInitialFromNamePattern(dd.TokenPattern):
 
 
 class PersonInitialsPattern(dd.TokenPattern):
-    """Matches the patients initials, as defined in the "patient" Person in the document metadata."""
+    """Matches the patients initials, as defined in the "patient" Person in the
+    document metadata."""
 
     def doc_precondition(self, doc: dd.Document) -> bool:
         patient = doc.metadata["patient"]
@@ -75,10 +76,11 @@ class PersonInitialsPattern(dd.TokenPattern):
 
 class PersonSurnamePattern(dd.TokenPattern):
     """
-    Matches the surname pattern, that is tokenized with the same tokenizer as the normal text.
+    Matches the surname pattern, that is tokenized with the same tokenizer as the
+    normal text.
 
-    All of the items in the tokenized surname sequence must match the corresponding token, with a max edit distance of
-    1.
+    All of the items in the tokenized surname sequence must match the corresponding
+    token, with a max edit distance of 1.
     """
 
     def __init__(self, tokenizer: dd.Tokenizer, *args, **kwargs) -> None:

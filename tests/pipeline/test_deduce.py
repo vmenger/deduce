@@ -4,9 +4,10 @@ from deduce import Deduce
 from deduce.person import Person
 
 text = (
-    "betreft: Jan Jansen, bsn 111222333, patnr 000334433. De patient J. Jansen is 64 jaar oud en woonachtig in "
-    "Utrecht. Hij werd op 10 oktober 2018 door arts Peter de Visser ontslagen van de kliniek van het UMCU. "
-    "Voor nazorg kan hij worden bereikt via j.JNSEN.123@gmail.com of (06)12345678."
+    "betreft: Jan Jansen, bsn 111222333, patnr 000334433. De patient J. Jansen is 64 "
+    "jaar oud en woonachtig in Utrecht. Hij werd op 10 oktober 2018 door arts "
+    "Peter de Visser ontslagen van de kliniek van het UMCU. Voor nazorg kan hij "
+    "worden bereikt via j.JNSEN.123@gmail.com of (06)12345678."
 )
 
 
@@ -62,9 +63,11 @@ class TestDeduce:
         doc = deduce.deidentify(text, metadata=metadata)
 
         expected_deidentified = (
-            "betreft: <PATIENT>, bsn <BSN-1>, patnr <ID-1>. De patient <PATIENT> is <LEEFTIJD-1> jaar oud en woonachtig "
-            "in <LOCATIE-1>. Hij werd op <DATUM-1> door arts <PERSOON-1> ontslagen van de kliniek van het "
-            "<INSTELLING-1>. Voor nazorg kan hij worden bereikt via <EMAIL-1> of <TELEFOONNUMMER-1>."
+            "betreft: <PATIENT>, bsn <BSN-1>, patnr <ID-1>. De patient <PATIENT> is "
+            "<LEEFTIJD-1> jaar oud en woonachtig in <LOCATIE-1>. Hij werd op "
+            "<DATUM-1> door arts <PERSOON-1> ontslagen van de kliniek van het "
+            "<INSTELLING-1>. Voor nazorg kan hij worden bereikt via <EMAIL-1> "
+            "of <TELEFOONNUMMER-1>."
         )
 
         assert doc.deidentified_text == expected_deidentified
@@ -75,11 +78,13 @@ class TestDeduce:
         doc = deduce.deidentify(text, metadata=metadata)
 
         expected_intext_annotated = (
-            "betreft: <PATIENT>Jan Jansen</PATIENT>, bsn <BSN>111222333</BSN>, patnr <ID>000334433</ID>. "
-            "De patient <PATIENT>J. Jansen</PATIENT> is <LEEFTIJD>64</LEEFTIJD> jaar oud en woonachtig in "
-            "<LOCATIE>Utrecht</LOCATIE>. Hij werd op <DATUM>10 oktober 2018</DATUM> door arts "
-            "<PERSOON>Peter de Visser</PERSOON> ontslagen van de kliniek van het <INSTELLING>UMCU</INSTELLING>. "
-            "Voor nazorg kan hij worden bereikt via <EMAIL>j.JNSEN.123@gmail.com</EMAIL> of "
+            "betreft: <PATIENT>Jan Jansen</PATIENT>, bsn <BSN>111222333</BSN>, "
+            "patnr <ID>000334433</ID>. De patient <PATIENT>J. Jansen</PATIENT> is "
+            "<LEEFTIJD>64</LEEFTIJD> jaar oud en woonachtig in <LOCATIE>Utrecht"
+            "</LOCATIE>. Hij werd op <DATUM>10 oktober 2018</DATUM> door arts "
+            "<PERSOON>Peter de Visser</PERSOON> ontslagen van de kliniek van het "
+            "<INSTELLING>UMCU</INSTELLING>. Voor nazorg kan hij worden bereikt "
+            "via <EMAIL>j.JNSEN.123@gmail.com</EMAIL> of "
             "<TELEFOONNUMMER>(06)12345678</TELEFOONNUMMER>."
         )
 

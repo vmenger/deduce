@@ -3,11 +3,11 @@
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-import toml
 import datetime
-
 import os
 import sys
+
+import toml
 
 sys.path.append(os.path.join(os.path.dirname(__name__)))
 
