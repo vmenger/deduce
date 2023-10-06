@@ -12,7 +12,6 @@ from deduce.str import (
 
 class TestStr:
     def test_uppercase_first_char(self):
-
         processor = UpperCaseFirstChar()
 
         assert processor.process("test") == "Test"

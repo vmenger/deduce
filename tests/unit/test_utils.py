@@ -34,18 +34,15 @@ class TestUtils:
 
 class TestOverwriteDict:
     def test_empty(self):
-
         for add in [{}, {"a": 1}, {"a": 1, "b": {}}, {"a": 1, "b": {"c": 2}}]:
             assert utils.overwrite_dict({}, add) == add
 
     def test_nonempty_no_nesting(self):
-
         assert utils.overwrite_dict({"a": 1}, {"a": 1}) == {"a": 1}
         assert utils.overwrite_dict({"a": 1}, {"a": 2}) == {"a": 2}
         assert utils.overwrite_dict({"a": 1}, {"b": 2}) == {"a": 1, "b": 2}
 
     def test_nonempty_with_nesting(self):
-
         assert utils.overwrite_dict({"a": 1, "b": {"c": 2}}, {"b": {"c": 4}}) == {
             "a": 1,
             "b": {"c": 4},

@@ -105,7 +105,6 @@ class TokenPatternAnnotator(dd.process.Annotator):
         skip: Optional[list[str]] = None,
         **kwargs,
     ) -> None:
-
         self.pattern = pattern
         self.ds = ds
         self.skip = set(skip or [])
@@ -116,9 +115,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
     def _get_chained_token(
         token: dd.Token, attr: str, skip: set[str]
     ) -> Optional[dd.Token]:
-
         while True:
-
             token = getattr(token, attr)()
 
             if token is None or token.text not in skip:
@@ -157,7 +154,6 @@ class TokenPatternAnnotator(dd.process.Annotator):
         end_token = start_token
 
         for pattern_position in pattern:
-
             if current_token is None or not _PatternPositionMatcher.match(
                 pattern_position=pattern_position, token=current_token, ds=self.ds
             ):
@@ -218,12 +214,10 @@ class ContextAnnotator(TokenPatternAnnotator):
     def _apply_context_pattern(
         self, doc: dd.Document, annotations: dd.AnnotationSet, context_pattern: dict
     ) -> dd.AnnotationSet:
-
         new_annotations = dd.AnnotationSet()
         direction = context_pattern["direction"]
 
         for annotation in annotations:
-
             tag = list(_DIRECTION_MAP[direction]["order"](annotation.tag.split("+")))[
                 -1
             ]
@@ -246,7 +240,6 @@ class ContextAnnotator(TokenPatternAnnotator):
             )
 
             if new_annotation:
-
                 left_ann, right_ann = _DIRECTION_MAP[direction]["order"](
                     (annotation, new_annotation)
                 )
@@ -269,7 +262,6 @@ class ContextAnnotator(TokenPatternAnnotator):
     def _annotate(
         self, doc: dd.Document, annotations: list[dd.Annotation]
     ) -> list[dd.Annotation]:
-
         original_annotations = annotations
 
         for context_pattern in self.pattern:
@@ -307,7 +299,6 @@ class BsnAnnotator(dd.process.Annotator):
 
     @staticmethod
     def _elfproef(bsn: str) -> bool:
-
         if len(bsn) != 9 or (any(not char.isdigit() for char in bsn)):
             raise ValueError(
                 "Elfproef for testing BSN can only be applied to strings with 9 digits."
@@ -321,11 +312,9 @@ class BsnAnnotator(dd.process.Annotator):
         return total % 11 == 0
 
     def annotate(self, doc: Document) -> list[Annotation]:
-
         annotations = []
 
         for match in self.bsn_regexp.finditer(doc.text):
-
             text = re.sub(r"\D", "", match.group(self.capture_group))
             start, end = match.span(self.capture_group)
 
@@ -354,7 +343,6 @@ class PhoneNumberAnnotator(dd.process.Annotator):
         max_digits: int = 11,
         **kwargs,
     ) -> None:
-
         self.phone_regexp = re.compile(phone_regexp)
         self.min_digits = min_digits
         self.max_digits = max_digits
@@ -362,11 +350,9 @@ class PhoneNumberAnnotator(dd.process.Annotator):
         super().__init__(*args, **kwargs)
 
     def annotate(self, doc: Document) -> list[Annotation]:
-
         annotations = []
 
         for match in self.phone_regexp.finditer(doc.text):
-
             digit_len_shift = 0
             left_index_shift = 0
             prefix_with_parens = match.group(1)

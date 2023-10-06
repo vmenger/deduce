@@ -90,7 +90,6 @@ def overwrite_dict(base: dict, add: dict) -> dict:
     """
 
     for key, value in add.items():
-
         if isinstance(value, dict):
             base[key] = overwrite_dict(base.get(key, {}), value)
         else:

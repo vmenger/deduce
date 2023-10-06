@@ -13,7 +13,6 @@ from deduce.tokenizer import DeduceTokenizer
 
 @pytest.fixture
 def ds():
-
     ds = dd.ds.DsCollection()
 
     first_names = ["Andries", "pieter", "Aziz", "Bernard"]
@@ -30,7 +29,6 @@ def ds():
 
 @pytest.fixture
 def pattern_doc():
-
     return dd.Document(
         text="De man heet Andries Meijer-Heerma, voornaam Andries.",
         tokenizers={"default": DeduceTokenizer()},
@@ -39,7 +37,6 @@ def pattern_doc():
 
 @pytest.fixture
 def bsn_doc():
-
     d = dd.DocDeid()
 
     return d.deidentify(
@@ -50,7 +47,6 @@ def bsn_doc():
 
 @pytest.fixture
 def phone_number_doc():
-
     d = dd.DocDeid()
 
     return d.deidentify(
@@ -66,12 +62,10 @@ def token(text: str):
 
 class TestPatternPositionMatcher:
     def test_equal(self):
-
         assert _PatternPositionMatcher.match({"equal": "test"}, token=token("test"))
         assert not _PatternPositionMatcher.match({"equal": "_"}, token=token("test"))
 
     def test_match_is_initial(self):
-
         pattern_position = {"is_initial": True}
 
         assert _PatternPositionMatcher.match(pattern_position, token=token("A"))
@@ -79,7 +73,6 @@ class TestPatternPositionMatcher:
         assert not _PatternPositionMatcher.match(pattern_position, token=token("Abcd"))
 
     def test_match_like_name(self):
-
         pattern_position = {"like_name": True}
 
         assert _PatternPositionMatcher.match(pattern_position, token=token("Diederik"))
@@ -92,7 +85,6 @@ class TestPatternPositionMatcher:
         )
 
     def test_match_lookup(self, ds):
-
         assert _PatternPositionMatcher.match(
             {"lookup": "first_names"}, token=token("Andries"), ds=ds
         )
@@ -113,7 +105,6 @@ class TestPatternPositionMatcher:
         )
 
     def test_match_neg_lookup(self, ds):
-
         assert not _PatternPositionMatcher.match(
             {"neg_lookup": "first_names"}, token=token("Andries"), ds=ds
         )
@@ -134,7 +125,6 @@ class TestPatternPositionMatcher:
         )
 
     def test_match_lowercase_lookup(self, ds):
-
         assert _PatternPositionMatcher.match(
             {"lowercase_lookup": "first_names"}, token=token("Pieter"), ds=ds
         )
@@ -146,7 +136,6 @@ class TestPatternPositionMatcher:
         )
 
     def test_match_lowercase_neg_lookup(self, ds):
-
         assert _PatternPositionMatcher.match(
             {"lowercase_neg_lookup": "first_names"}, token=token("Andries"), ds=ds
         )
@@ -158,7 +147,6 @@ class TestPatternPositionMatcher:
         )
 
     def test_match_and(self):
-
         assert _PatternPositionMatcher.match(
             {"and": [{"equal": "Abcd"}, {"like_name": True}]},
             token=token("Abcd"),
@@ -177,7 +165,6 @@ class TestPatternPositionMatcher:
         )
 
     def test_match_or(self):
-
         assert _PatternPositionMatcher.match(
             {"or": [{"equal": "Abcd"}, {"like_name": True}]}, token=token("Abcd"), ds=ds
         )
@@ -194,7 +181,6 @@ class TestPatternPositionMatcher:
 
 class TestTokenPatternAnnotator:
     def test_match_sequence(self, pattern_doc, ds):
-
         pattern = [{"lookup": "first_names"}, {"like_name": True}]
 
         tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
@@ -210,7 +196,6 @@ class TestTokenPatternAnnotator:
         )
 
     def test_match_sequence_left(self, pattern_doc, ds):
-
         pattern = [{"lookup": "first_names"}, {"like_name": True}]
 
         tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
@@ -233,7 +218,6 @@ class TestTokenPatternAnnotator:
         )
 
     def test_match_sequence_skip(self, pattern_doc, ds):
-
         pattern = [{"lookup": "surnames"}, {"like_name": True}]
 
         tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
@@ -255,7 +239,6 @@ class TestTokenPatternAnnotator:
         )
 
     def test_annotate(self, pattern_doc, ds):
-
         pattern = [{"lookup": "first_names"}, {"like_name": True}]
 
         tpa = TokenPatternAnnotator(pattern=pattern, ds=ds, tag="_")
@@ -267,7 +250,6 @@ class TestTokenPatternAnnotator:
 
 class TestContextAnnotator:
     def test_apply_context_pattern(self, pattern_doc):
-
         annotator = ContextAnnotator(pattern=[])
 
         annotations = dd.AnnotationSet(
@@ -304,7 +286,6 @@ class TestContextAnnotator:
         )
 
     def test_apply_context_pattern_left(self, pattern_doc):
-
         annotator = ContextAnnotator(pattern=[])
 
         annotations = dd.AnnotationSet(
@@ -341,7 +322,6 @@ class TestContextAnnotator:
         )
 
     def test_apply_context_pattern_skip(self, pattern_doc):
-
         annotator = ContextAnnotator(pattern=[])
 
         annotations = dd.AnnotationSet(
@@ -379,7 +359,6 @@ class TestContextAnnotator:
         )
 
     def test_annotate_multiple(self, pattern_doc):
-
         pattern = [
             {
                 "pattern": [{"like_name": True}],
@@ -423,7 +402,6 @@ class TestContextAnnotator:
         )
 
     def test_annotate_iterative(self, pattern_doc):
-
         pattern = [
             {
                 "pattern": [{"like_name": True}],
@@ -463,7 +441,6 @@ class TestContextAnnotator:
 
 class TestBsnAnnotator:
     def test_elfproef(self):
-
         an = BsnAnnotator(bsn_regexp="(\\D|^)(\\d{9})(\\D|$)", capture_group=2, tag="_")
 
         assert an._elfproef("111222333")
@@ -472,21 +449,18 @@ class TestBsnAnnotator:
         assert not an._elfproef("123456783")
 
     def test_elfproef_wrong_length(self):
-
         an = BsnAnnotator(bsn_regexp="(\\D|^)(\\d{9})(\\D|$)", capture_group=2, tag="_")
 
         with pytest.raises(ValueError):
             an._elfproef("12345678")
 
     def test_elfproef_non_numeric(self):
-
         an = BsnAnnotator(bsn_regexp="(\\D|^)(\\d{9})(\\D|$)", capture_group=2, tag="_")
 
         with pytest.raises(ValueError):
             an._elfproef("test")
 
     def test_annotate(self, bsn_doc):
-
         an = BsnAnnotator(bsn_regexp="(\\D|^)(\\d{9})(\\D|$)", capture_group=2, tag="_")
         annotations = an.annotate(bsn_doc)
 
@@ -500,7 +474,6 @@ class TestBsnAnnotator:
 
 class TestPhoneNumberAnnotator:
     def test_annotate_defaults(self, phone_number_doc):
-
         an = PhoneNumberAnnotator(
             phone_regexp=r"(?<!\d)"
             r"(\(?(0031|\+31|0)"
@@ -522,7 +495,6 @@ class TestPhoneNumberAnnotator:
         assert annotations == expected_annotations
 
     def test_annotate_short(self, phone_number_doc):
-
         an = PhoneNumberAnnotator(
             phone_regexp=r"(?<!\d)"
             r"(\(?(0031|\+31|0)"
@@ -543,7 +515,6 @@ class TestPhoneNumberAnnotator:
         assert annotations == expected_annotations
 
     def test_annotate_long(self, phone_number_doc):
-
         an = PhoneNumberAnnotator(
             phone_regexp=r"(?<!\d)"
             r"(\(?(0031|\+31|0)"
