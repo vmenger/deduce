@@ -7,7 +7,7 @@ import regex
 _TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=re.I | re.M)
 
 
-class DeduceTokenizer(dd.tokenize.Tokenizer):
+class DeduceTokenizer(dd.tokenize.Tokenizer):  # pylint: disable=R0903
     """
     Tokenizes text, where a token is any sequence of alphanumeric characters (case
     insensitive), a single newline/tab character, or a single special character. It does

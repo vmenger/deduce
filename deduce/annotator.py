@@ -20,11 +20,11 @@ _DIRECTION_MAP = {
 }
 
 
-class _PatternPositionMatcher:
+class _PatternPositionMatcher:  # pylint: disable=R0903
     """Checks if a token matches against a single pattern."""
 
     @classmethod
-    def match(cls, pattern_position: dict, **kwargs) -> bool:
+    def match(cls, pattern_position: dict, **kwargs) -> bool:  # pylint: disable=R0911
         """
         Matches a pattern position (a dict with one key). Other information should be
         presented as kwargs.
@@ -126,7 +126,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
         return token
 
-    def _match_sequence(
+    def _match_sequence(  # pylint: disable=R0913
         self,
         doc: Document,
         pattern: list[dict],

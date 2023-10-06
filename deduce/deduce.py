@@ -144,7 +144,7 @@ class Deduce(dd.DocDeid):
         )
 
 
-class _AnnotatorFactory:
+class _AnnotatorFactory:  # pylint: disable=R0903
     """Responsible for creating annotators, based on config."""
 
     def __init__(self) -> None:
@@ -173,7 +173,9 @@ class _AnnotatorFactory:
         return ContextAnnotator(**args, ds=extras["ds"])
 
     @staticmethod
-    def _get_regexp_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+    def _get_regexp_annotator(
+        args: dict, extras: dict
+    ) -> dd.process.Annotator:  # pylint: disable=W0613
         args["regexp_pattern"] = re.compile(args["regexp_pattern"])
         return dd.process.RegexpAnnotator(**args)
 
