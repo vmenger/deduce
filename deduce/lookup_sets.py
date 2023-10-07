@@ -106,12 +106,19 @@ def _get_surname_exceptions() -> dd.ds.LookupSet:
 def _get_residences() -> dd.ds.LookupSet:
     """Get residences LookupSet."""
 
+    residence_exceptions = dd.ds.LookupSet()
+
+    residence_exceptions.add_items_from_file(
+        file_path=os.path.join(data_path, "residence_exceptions.txt")
+    )
+
     residences = dd.ds.LookupSet()
 
     residences.add_items_from_file(
         file_path=os.path.join(data_path, "residences.txt"),
         cleaning_pipeline=[
             dd.str.StripString(),
+            FilterBasedOnLookupSet(filter_set=residence_exceptions),
         ],
     )
 
@@ -147,7 +154,7 @@ def _get_residences() -> dd.ds.LookupSet:
 
     residences.add_items_from_self(
         cleaning_pipeline=[
-            FilterBasedOnLookupSet(filter_set=get_whitelist(), case_sensitive=False)
+            FilterBasedOnLookupSet(filter_set=_get_whitelist(), case_sensitive=False),
         ],
         replace=True,
     )
@@ -155,7 +162,7 @@ def _get_residences() -> dd.ds.LookupSet:
     return residences
 
 
-def get_institutions() -> dd.ds.LookupSet:
+def _get_institutions() -> dd.ds.LookupSet:
     """Get institutions LookupSet."""
 
     institutions_raw = dd.ds.LookupSet()
@@ -203,7 +210,7 @@ def get_institutions() -> dd.ds.LookupSet:
         ]
     )
 
-    institutions = institutions - get_whitelist()
+    institutions = institutions - _get_whitelist()
 
     return institutions
 
@@ -228,7 +235,7 @@ def _get_top_terms() -> dd.ds.LookupSet:
     return top1000
 
 
-def get_whitelist() -> dd.ds.LookupSet:
+def _get_whitelist() -> dd.ds.LookupSet:
     """
     Get whitelist LookupSet.
 
@@ -273,8 +280,8 @@ def get_lookup_sets() -> dd.ds.DsCollection:
         "surnames": _get_surnames,
         "surname_exceptions": _get_surname_exceptions,
         "residences": _get_residences,
-        "institutions": get_institutions,
-        "whitelist": get_whitelist,
+        "institutions": _get_institutions,
+        "whitelist": _get_whitelist,
     }
 
     for name, init_function in lookup_set_mapping.items():
