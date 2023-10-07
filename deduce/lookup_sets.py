@@ -10,6 +10,7 @@ from deduce.str.processor import (
     TakeLastToken,
     TitleCase,
     UpperCaseFirstChar,
+    UpperCase,
 )
 
 data_path = Path(os.path.dirname(__file__)).parent / "data" / "lookup_lists"
@@ -141,6 +142,8 @@ def _get_residences() -> dd.ds.LookupSet:
             dd.str.ReplaceValue("  ", " "),
         ]
     )
+
+    residences.add_items_from_self(cleaning_pipeline=[UpperCase()])
 
     residences.add_items_from_self(
         cleaning_pipeline=[

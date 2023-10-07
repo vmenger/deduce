@@ -7,10 +7,20 @@ from deduce.str import (
     TakeLastToken,
     TitleCase,
     UpperCaseFirstChar,
+    UpperCase,
 )
 
 
 class TestStr:
+    def test_uppercase(self):
+        processor = UpperCase()
+
+        assert processor.process("test") == "TEST"
+        assert processor.process("Test") == "TEST"
+        assert processor.process("TEST") == "TEST"
+        assert processor.process("123") == "123"
+        assert processor.process("test_123") == "TEST_123"
+
     def test_uppercase_first_char(self):
         processor = UpperCaseFirstChar()
 

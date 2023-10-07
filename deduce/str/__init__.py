@@ -5,4 +5,5 @@ from deduce.str.processor import (
     TakeLastToken,
     TitleCase,
     UpperCaseFirstChar,
+    UpperCase,
 )
