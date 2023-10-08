@@ -118,9 +118,31 @@ def _get_residences() -> dd.ds.LookupSet:
         file_path=os.path.join(data_path, "residences.txt"),
         cleaning_pipeline=[
             dd.str.StripString(),
-            FilterBasedOnLookupSet(filter_set=residence_exceptions),
         ],
     )
+
+    residences.add_items_from_file(
+        file_path=os.path.join(data_path, "provinces.txt"),
+        cleaning_pipeline=[
+            dd.str.StripString(),
+        ],
+    )
+
+    residences.add_items_from_file(
+        file_path=os.path.join(data_path, "regions.txt"),
+        cleaning_pipeline=[
+            dd.str.StripString(),
+        ],
+    )
+
+    residences.add_items_from_file(
+        file_path=os.path.join(data_path, "municipalities.txt"),
+        cleaning_pipeline=[
+            dd.str.StripString(),
+        ],
+    )
+
+    residences.remove_items_from_iterable(residence_exceptions)
 
     residences.add_items_from_self(
         cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()]
