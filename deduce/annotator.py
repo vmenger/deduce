@@ -62,6 +62,8 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
                 and kwargs.get("token").text.istitle()
                 and not any(ch.isdigit() for ch in kwargs.get("token").text)
             ) == value
+        if func == "like_housenumber":
+            return re.match(r"\d{1,5}\w{1,3}?", kwargs.get("token")) is not None
         if func == "lookup":
             return kwargs.get("token").text in kwargs.get("ds")[value]
         if func == "neg_lookup":

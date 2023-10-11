@@ -103,6 +103,21 @@ def _get_surname_exceptions() -> dd.ds.LookupSet:
     return surname_exceptions
 
 
+def _get_streets() -> dd.ds.LookupSet:
+    """Get streets lookupset."""
+
+    streets = dd.ds.LookupSet()
+
+    streets.add_items_from_file(
+        file_path=os.path.join(data_path, "streets.txt"),
+        cleaning_pipeline=[dd.str.StripString(), dd.str.FilterByLength(min_len=4)],
+    )
+
+    streets.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()])
+
+    return streets
+
+
 def _get_residences() -> dd.ds.LookupSet:
     """Get residences LookupSet."""
 
@@ -301,6 +316,7 @@ def get_lookup_sets() -> dd.ds.DsCollection:
         "interfix_surnames": _get_interfix_surnames,
         "surnames": _get_surnames,
         "surname_exceptions": _get_surname_exceptions,
+        "streets": _get_streets,
         "residences": _get_residences,
         "institutions": _get_institutions,
         "whitelist": _get_whitelist,

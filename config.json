@@ -340,13 +340,35 @@
         "tag": "locatie"
       }
     },
-    "street_with_number": {
-      "annotator_type": "regexp",
+    "street": {
+      "annotator_type": "multi_token",
       "group": "locations",
       "args": {
-        "regexp_pattern": "([A-Z]\\w+(baan|bolwerk|dam|dijk|dreef|gracht|hof|kade|laan|markt|pad|park|plantsoen|plein|singel|steeg|straat|weg)(\\s(\\d+){1,6}\\w{0,2})?)(\\W|$)",
-        "tag": "locatie",
-        "capturing_group": 1
+        "lookup_values": "streets",
+        "tag": "straat"
+      }
+    },
+    "housenumber": {
+      "annotator_type": "annotation_context",
+      "group": "locations",
+      "args": {
+        "iterative": true,
+        "pattern": [
+          {
+            "name": "housenumber_right",
+            "direction": "right",
+            "pre_tag": [
+              "straat",
+            ],
+            "tag": "{tag}+huisnummer",
+            "skip": [],
+            "pattern": [
+              {
+                "like_housenumber": true
+              }
+            ]
+          }
+        ]
       }
     },
     "postal_code": {
