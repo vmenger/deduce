@@ -344,7 +344,7 @@
       "annotator_type": "regexp",
       "group": "locations",
       "args": {
-        "regexp_pattern": "([A-Z][a-z]+(baan|bolwerk|dam|dijk|dreef|gracht|hof|kade|laan|markt|pad|park|plantsoen|plein|singel|steeg|straat|weg) (\\d{1,4}[a-zA-Z]?))(\\W|$)",
+        "regexp_pattern": "([A-Z][a-z]+(baan|bolwerk|dam|dijk|dreef|drf|gr|gracht|hf|hof|kade|laan|ln|markt|mrkt|pad|park|pd|plantsoen|plein|pln|pltsn|prk|singel|sngl|st|steeg|stg|str|straat|weg|wg) (\\d{1,4}[a-zA-Z]?))(\\W|$)",
         "tag": "straat+huisnummer",
         "capturing_group": 1
       }
