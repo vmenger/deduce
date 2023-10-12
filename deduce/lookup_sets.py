@@ -106,6 +106,12 @@ def _get_surname_exceptions() -> dd.ds.LookupSet:
 def _get_streets() -> dd.ds.LookupSet:
     """Get streets lookupset."""
 
+    street_exceptions = dd.ds.LookupSet()
+
+    street_exceptions.add_items_from_file(
+        file_path=os.path.join(data_path, "street_exceptions.txt")
+    )
+
     streets = dd.ds.LookupSet()
 
     streets.add_items_from_file(
@@ -113,7 +119,13 @@ def _get_streets() -> dd.ds.LookupSet:
         cleaning_pipeline=[dd.str.StripString(), dd.str.FilterByLength(min_len=4)],
     )
 
+    streets.remove_items_from_iterable(street_exceptions)
+
     streets.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()])
+
+    streets.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("Sint", "St.")])
+    streets.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("Sint", "st.")])
+    streets.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("Sint", "st")])
 
     return streets
 

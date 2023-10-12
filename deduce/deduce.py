@@ -10,6 +10,8 @@ from deduce import utils
 from deduce.annotation_processing import (
     DeduceMergeAdjacentAnnotations,
     PersonAnnotationConverter,
+    CleanAnnotationTag,
+    RemoveAnnotations,
 )
 from deduce.annotator import ContextAnnotator, TokenPatternAnnotator
 from deduce.lookup_sets import get_lookup_sets
@@ -104,6 +106,15 @@ class Deduce(dd.DocDeid):
         )
         self.processors["names"].add_processor(
             "person_annotation_converter", PersonAnnotationConverter()
+        )
+
+        self.processors["locations"].add_processor(
+            "remove_street_tags", RemoveAnnotations(tags=["straat"])
+        )
+
+        self.processors["locations"].add_processor(
+            "clean_street_tags",
+            CleanAnnotationTag(tag_map={"straat+huisnummer": "locatie"}),
         )
 
         sort_by_attrs = self.config["resolve_overlap_strategy"]["attributes"]
