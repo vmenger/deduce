@@ -101,10 +101,10 @@
 11 Decemberlaantje
 11 Octoberstraat
 11e Wyk
-11e laan
+11e Laan
 12 Septemberstraat
 1213-Laan
-1213-laan
+1213-Laan
 126e Wingweg
 12e Laan
 12e Septemberlaan
@@ -123,9 +123,9 @@
 18 Novemberring
 18 Septemberplein
 18e Wyk
-18e laan
+18e Laan
 1940-45-Laan
-1940-45-laan
+1940-45-Laan
 19e Wyk
 1e Achterholtsweg
 1e Achterstraat
@@ -354,7 +354,7 @@
 24 Bunder
 24 Oktoberplein
 24e Laan
-24e laan
+24e Laan
 25 Juni Straat
 25 Junistraat
 28 Oktoberstraat
@@ -595,8 +595,8 @@
 2e van Leyden Gaelstraat
 2e van Reenenstraat
 300 Roedenlaan
-30e laan
-36e laan
+30e Laan
+36e Laan
 3e Achterstraat
 3e Barendrechtseweg
 3e Bataljonsdok
@@ -672,9 +672,9 @@
 3e Zijpad Grote Bospad
 3e Zijpad Gulp Grensweg
 4-Heemskinderenweg
-42e laan
+42e Laan
 44 R I-Straat
-48e laan
+48e Laan
 49e Laan
 4e Bataljonsdok
 4e Binnenvestgracht
@@ -709,7 +709,7 @@
 5-Meistraat
 5-mei Plein
 53RD Welsh Divisionplein
-54e laan
+54e Laan
 5e Bataljonsdok
 5e Binnenvestgracht
 5e Bosweg
@@ -723,9 +723,9 @@
 5e Saskiadwarsstraat
 5e Vegelindwarsstraat
 5e Wyk
-5e laan
+5e Laan
 6 Juni-Straat
-60e laan
+60e Laan
 6e Bosweg
 6e Morigerlaan
 6e Saskiadwarsstraat
@@ -1371,7 +1371,7 @@ Ab Meniststraat
 Ab de Molenaarpad
 Ab van Sprakelaarlaan
 Abadanstraat
-Abbe de Sint Pierre-laan
+Abbe de Sint Pierre-Laan
 Abbegeasterketting
 Abbekesdoel
 Abbekindersezandweg
@@ -1399,7 +1399,7 @@ Abbinkdijk
 Abbinkstraat
 Abbinksweg
 Abbringstraat
-Abbé de Sint Pierre-laan
+Abbé de Sint Pierre-Laan
 Abcoudehoeve
 Abcoudepad
 Abcoudermeer
@@ -1541,7 +1541,7 @@ Abraham Altstraat
 Abraham Amptstraat
 Abraham Andrieslaan
 Abraham Beeckmanlaan
-Abraham Berg-hof
+Abraham Berg-Hof
 Abraham Blankaartsingel
 Abraham Bloemaart Corneliszstraat
 Abraham Bloemaerthoek
@@ -1591,7 +1591,7 @@ Abraham Vermaaspad
 Abraham Westersstraat A
 Abraham Wisseweg
 Abraham de Haanstraat
-Abraham du Bois-hof
+Abraham du Bois-Hof
 Abraham ten Catestraat
 Abraham van Beyerenstraat
 Abraham van Diepenbeeckstraat
@@ -2083,7 +2083,7 @@ Adam van Harenhof
 Adam van Harenstraat
 Adam van Moorselstraat
 Adam van Noortstraat
-Adam van Nutta-hof
+Adam van Nutta-Hof
 Adam van Vianenstraat
 Adama van Scheltemabaan
 Adama van Scheltemalaan
@@ -4899,7 +4899,7 @@ Annette Versluys-Poelmanstraat
 Annette Versluyspad
 Annette Versluysstraat
 Annevelinkhof
-Anneville-laan
+Anneville-Laan
 Annevillelaan
 Annewas
 Annie Averinkstraat
@@ -5335,7 +5335,7 @@ Aplein
 Aploniastraat
 Apollaan
 Apollo
-Apollo 11-laan
+Apollo 11-Laan
 Apolloburg
 Apollodreef
 Apollohof
@@ -6009,7 +6009,7 @@ Arnt Venlostraat
 Arntzstraat
 Arnulfstraat
 Arodaveld
-Aroe-hof
+Aroe-Hof
 Aroldo
 Arolsenplein
 Arondeusstraat
@@ -7528,7 +7528,7 @@ Banckertweg
 Bancksdyk
 Banckspolder
 Banda Neira
-Banda-hof
+Banda-Hof
 Bandalaan
 Bandaneira
 Bandaplein
@@ -9800,7 +9800,7 @@ Berger Maasstraat
 Berger Oijeweg
 Berger Verbindingsweg
 Berger-allee
-Berger-ven
+Berger-Ven
 Bergeraclaan
 Bergerdensestraat
 Bergerdreef
@@ -14839,7 +14839,7 @@ Bosschenhoofdseweg
 Bosschenhuizen
 Bosschenhuizerweg
 Bosschepad
-Bosscher-ven
+Bosscher-Ven
 Bosscherhof
 Bosscherkampweg
 Bosschermolen
@@ -18326,7 +18326,7 @@ Burgemeester Brouwersstraat
 Burgemeester Brouwerstraat
 Burgemeester Brouwerweg
 Burgemeester Brugplein
-Burgemeester Bruijn hof
+Burgemeester Bruijn Hof
 Burgemeester Bruinemanstraat
 Burgemeester Bruins Slotsingel
 Burgemeester Bruinsmalaan
@@ -18887,7 +18887,7 @@ Burgemeester Meesplein
 Burgemeester Meesstraat
 Burgemeester Meester C. Kooimanweg
 Burgemeester Meester H. Popstraat
-Burgemeester Meester H.J. Engelkens-laan
+Burgemeester Meester H.J. Engelkens-Laan
 Burgemeester Meester Verbeekstraat
 Burgemeester Meester W. C. Tackstraat
 Burgemeester Meester W.J.Merckelbachlaan
@@ -19095,7 +19095,7 @@ Burgemeester Rouppe van der Voortlaan
 Burgemeester Royaardslaan
 Burgemeester Royerplein
 Burgemeester Ruttenplein
-Burgemeester Röell-laan
+Burgemeester Röell-Laan
 Burgemeester Röellstraat
 Burgemeester S. Gockingastraat
 Burgemeester S. Schagenstraat
@@ -19720,7 +19720,7 @@ Burgemeester van Tienenweg
 Burgemeester van Tienhovengracht
 Burgemeester van Trichtlaan
 Burgemeester van Tuinenplein
-Burgemeester van Tuyll-laan
+Burgemeester van Tuyll-Laan
 Burgemeester van Tuyllkade
 Burgemeester van Tuyllpl
 Burgemeester van Tuyllplein
@@ -20453,7 +20453,7 @@ C.W.A. de Jonghweg
 C.W.Bruinvisstraat
 CAB-rondom
 CBS-Weg
-CHV-hof
+CHV-Hof
 Caan van Necklaan
 Cab-rondom
 Cabaret
@@ -21447,7 +21447,7 @@ Cedule
 Ceelenweg
 Ceelman van Ommerenweg
 Cees Buddingh Pad
-Cees Buddingh'hof
+Cees Buddingh'Hof
 Cees Buddinghlaan
 Cees Buddinghstraat
 Cees Erkelenspad
@@ -22106,7 +22106,7 @@ Chrysantsingel
 Chrysantstraat
 Chrysanttuin
 Chrysantvallei
-Churchill-laan
+Churchill-Laan
 Churchilldreef
 Churchillflat
 Churchillhof
@@ -22322,7 +22322,7 @@ Clara van Delwigstraat
 Clara van Spaarnwoudestraat
 Clara van Sparwoudestraat
 Clara's Pad
-Clara's hof
+Clara's Hof
 Clara-Plein
 Clarapolder
 Clarapolderweg
@@ -24160,7 +24160,7 @@ D.W. Griffithpad
 D.W. Grifftihpad
 D.W. van Vreeswijklaan
 DRU-Kade
-DRU-laan
+DRU-Laan
 DSM-Straat
 DSVhof
 DSVlaan
@@ -26782,7 +26782,7 @@ Doctor A. Vondelingstraat
 Doctor A. Zijlmansstraat
 Doctor A. de Haanstraat
 Doctor A. van de Beekstoep
-Doctor A. van der Willigen Senior laan
+Doctor A. van der Willigen Senior Laan
 Doctor A.A.Jessestraat
 Doctor A.C. van Raaltestraat
 Doctor A.D. Sacharovlaan
@@ -27005,7 +27005,7 @@ Doctor Haverkorn van Rijsewijkweg
 Doctor Heijelaan
 Doctor Heijepad
 Doctor Heijmanstraat
-Doctor Hein Hoeben laan
+Doctor Hein Hoeben Laan
 Doctor Hein Hoebenlaan
 Doctor Hekmanstraat
 Doctor Henrarstraat
@@ -28372,7 +28372,7 @@ Dominee van der Tuukstraat
 Dominee van der Veenweg
 Dominee van der Vegtplein
 Dominee's Glop
-Dominee's hof
+Dominee's Hof
 Domineesakker
 Domineesbergweg
 Domineesbosje
@@ -30850,7 +30850,7 @@ E. Bruinekreeftstraat
 E. Buringhweg
 E. Doetshof
 E. Dorsstraat
-E. E. G. laan
+E. E. G. Laan
 E. E. Stolperlaan
 E. Flipsestraat
 E. Hamburgerstraat
@@ -30880,7 +30880,7 @@ E.C. Rahmspad
 E.C. de Greefhof
 E.D. van den Broeckestraat
 E.E. Stolperlaan
-E.E.G.-laan
+E.E.G.-Laan
 E.E.Napweg
 E.F. van den Banweg
 E.G. Balchstraat
@@ -33359,7 +33359,7 @@ Engelbertsstraat
 Engelbertstraat
 Engelbertsweg
 Engelbertusstraat
-Engelbrecht I laan
+Engelbrecht I Laan
 Engelbrechthoek
 Engelbrechtlaan
 Engelbrechtstraat
@@ -35755,7 +35755,7 @@ Floris Simonszstraat
 Floris V Dreef
 Floris V Straat
 Floris V-Straat
-Floris V-laan
+Floris V-Laan
 Floris Versterlaan
 Floris Versterstraat
 Floris Voslaan
@@ -36313,7 +36313,7 @@ Franciscus Romanusweg
 Franciscus Sonniusstraat
 Franciscus Xaveriuspad
 Franciscus van Assisiëlaan
-Franciscus van Sales hof
+Franciscus van Sales Hof
 Franciscus van de Reijdtlaan
 Franciscusberg
 Franciscusdal
@@ -36368,7 +36368,7 @@ Frank van Hulsentoplaan
 Frank van der Goesstraat
 Frankate
 Franke Deddenstraat
-Franke-ven
+Franke-Ven
 Frankemaheerd
 Frankemaheerdpad
 Frankenaweg
@@ -38556,7 +38556,7 @@ Geesbergen
 Geeserraai
 Geesinksbrink
 Geesinkweg
-Geesje's hof
+Geesje's Hof
 Geeskes Mienekensbosweg
 Geessinkbraakweg
 Geessinkbrink
@@ -38978,7 +38978,7 @@ Generaal Maczeklaan
 Generaal Maczekplantsoen
 Generaal Maczekplein
 Generaal Maczekstraat
-Generaal Marshall-laan
+Generaal Marshall-Laan
 Generaal Marshalllaan
 Generaal Marshallweg
 Generaal Meijerstraat
@@ -40541,7 +40541,7 @@ Godsplein
 Godsweerdersingel
 Godsweerderstraat
 Godwaldtlaan
-Goed Geluimd hof
+Goed Geluimd Hof
 Goedaerthof
 Goede Herder
 Goede Herderpad
@@ -40993,7 +40993,7 @@ Gotthardpas
 Gouberg
 Goud
 Goud-es
-Goud-es laan
+Goud-es Laan
 Goudakkerstraat
 Goudappel
 Goudastraat
@@ -41365,7 +41365,7 @@ Graaf Boudewijnlaan
 Graaf Coenraadlaan
 Graaf Diderikstraat
 Graaf Diederiklaan
-Graaf Dirk II laan
+Graaf Dirk II Laan
 Graaf Dirklaan
 Graaf Dirkplein
 Graaf Dirkstraat
@@ -41400,7 +41400,7 @@ Graaf Gerolfpad
 Graaf Gustaaflaan
 Graaf Hattolaan
 Graaf Hendrik III Plein
-Graaf Hendrik III laan
+Graaf Hendrik III Laan
 Graaf Hendrik van Dalestraat
 Graaf Hendrik van Nassaustraat
 Graaf Hendrik van den Bergstraat
@@ -41465,7 +41465,7 @@ Graaf Wigboldhof
 Graaf Willem
 Graaf Willem I Straat
 Graaf Willem II Straat
-Graaf Willem II laan
+Graaf Willem II Laan
 Graaf Willem III Straat
 Graaf Willem Lodewijkstraat
 Graaf Willem de Oudelaan
@@ -43836,7 +43836,7 @@ H. Koningstraat
 H. Kuipers-Rietbergpad
 H. Leefsmastraat
 H. Limbeekstraat
-H. M. Preuijt JDzn laan
+H. M. Preuijt JDzn Laan
 H. Marskamperf
 H. Marsmanplantsoen
 H. Marsmanstraat
@@ -44327,7 +44327,7 @@ Haaweg
 Haazenakker
 Habanera
 Habanerastraat
-Habets-hof
+Habets-Hof
 Habib Bourguibastraat
 Habijt
 Habijtstraat
@@ -45676,7 +45676,7 @@ Harry van Daalplein
 Harry van den Eerenbeemtstraat
 Harsaterdrecht
 Harselaarseweg
-Harsema's laan
+Harsema's Laan
 Harsema'slaan
 Harsenhorsterweg
 Harseveld
@@ -48009,7 +48009,7 @@ Hendrik Bulthuisweg
 Hendrik Burgerstraat
 Hendrik Casimirlaan
 Hendrik Casimirstraat
-Hendrik Chabot-laan
+Hendrik Chabot-Laan
 Hendrik Chabotlaan
 Hendrik Chabotstraat
 Hendrik Consciencelaan
@@ -49153,8 +49153,8 @@ Hertog Hendrikstraat
 Hertog Jan I Laan
 Hertog Jan I-Straat
 Hertog Jan II Laan
-Hertog Jan II-hof
-Hertog Jan II-laan
+Hertog Jan II-Hof
+Hertog Jan II-Laan
 Hertog Jan van Beierenlaan
 Hertog Jan van Brabantdreef
 Hertog Janlaan
@@ -49527,7 +49527,7 @@ Heuvelroos
 Heuvels Voetpad
 Heuvelsche Kerkpad
 Heuvelse Steeg
-Heuvelse hof
+Heuvelse Hof
 Heuvelsebosweg
 Heuvelsepad
 Heuvelsesteeg
@@ -52920,7 +52920,7 @@ Hortastraat
 Horteler
 Hortemansdijk
 Hortenbergh
-Hortense hof
+Hortense Hof
 Hortensia
 Hortensiadal
 Hortensiaerf
@@ -53055,7 +53055,7 @@ Houtenseweg
 Houtensewetering
 Houtenstraat
 Houtentorenweg
-Houter-ven
+Houter-Ven
 Houterbrugweg
 Houterd
 Houterdsedijk
@@ -53689,7 +53689,7 @@ Huize de Vliedberg
 Huizekamplaan
 Huizenbeemdweg
 Huizendijk
-Huizenga's laan
+Huizenga's Laan
 Huizenkade
 Huizerangerechterweg
 Huizerhoefpad
@@ -58493,7 +58493,7 @@ Johan Basiushof
 Johan Bastingstraat
 Johan Beenstraat
 Johan Berkstraat
-Johan Blokker-hof
+Johan Blokker-Hof
 Johan Bongastraat
 Johan Braakensiekhof
 Johan Braakensieklaan
@@ -58538,7 +58538,7 @@ Johan Fabriciusstraat
 Johan Falkenastraat
 Johan Fonteinpad
 Johan Fred. Gronoviusstraat
-Johan Friso-laan
+Johan Friso-Laan
 Johan Frisoflat
 Johan Frisohof
 Johan Frisolaan
@@ -58898,7 +58898,7 @@ Johannes Nagelhoutlaan
 Johannes Nederveenstraat
 Johannes Nolenstraat
 Johannes Peterselaan
-Johannes Petri-laan
+Johannes Petri-Laan
 Johannes Piersonstrjitte
 Johannes Plasweg
 Johannes Poelhekkestraat
@@ -59028,7 +59028,7 @@ John Davisstraat
 John Deelaan
 John Denverlaan
 John Erkensstraat
-John F. Kennedy-laan
+John F. Kennedy-Laan
 John F. Kennedybaan
 John F. Kennedylaan
 John F. Kennedyplantsoen
@@ -59052,7 +59052,7 @@ John Henry Wiltonlaan
 John Hicksstraat
 John Keatslaan
 John Kellypad
-John Kennedy-laan
+John Kennedy-Laan
 John Kenneth Galbraithweg
 John Kraaijkampstraat
 John Lee Hookerstraat
@@ -60019,17 +60019,17 @@ K.J.Blokstraat
 K.J.W. Ottolanderstraat
 K.L. de Vriesstraat
 K.L.H. van der Puttlaan
-K.L.M. laan
+K.L.M. Laan
 K.L.M.-Straat
 K.N. Kuperusstrjitte
 K.Nieuwenhuizenstraat
 K.P. van der Mandelelaan
 K.P. van der Veldestraat
-K.P.-laan
+K.P.-Laan
 K.P.C. de Bazelstraat
 K.P.C. de Bazelweg
 K.S.G.-Straat
-KNSM-laan
+KNSM-Laan
 KWL-Park
 Ka-Pad
 Kaafijzer
@@ -61146,7 +61146,7 @@ Kapitein de Haasstraat
 Kapitein de Langestraat
 Kapitein de Petithof
 Kapitein de Rijkstraat
-Kapitein van Zijll-laan
+Kapitein van Zijll-Laan
 Kapiteinsbuurt
 Kapiteinspark
 Kapiteinstraat
@@ -61345,9 +61345,9 @@ Karel Simmelinkstraat
 Karel Slabbaertstraat
 Karel V Laan
 Karel V Straat
-Karel V laan
+Karel V Laan
 Karel V-Straat
-Karel V-laan
+Karel V-Laan
 Karel Wiersmastraat
 Karel de Geerstraat
 Karel de Grote
@@ -65377,7 +65377,7 @@ Klooterweg
 Kloothoefstraat
 Klootsemastraat
 Klopdijk
-Kloppe-ven
+Kloppe-Ven
 Kloppenbergweg
 Kloppenborgweg
 Kloppenburg
@@ -65726,7 +65726,7 @@ Ko van Dijklaan
 Ko van Dijkplein
 Ko van Dijksingel
 Ko van Dijkstraat
-Ko van Mil-laan
+Ko van Mil-Laan
 Koaibosk
 Koaidobbe
 Koaidyk
@@ -66702,7 +66702,7 @@ Koning Willem Alexanderstraat
 Koning Willem I Straat
 Koning Willem I-Laan
 Koning Willem I-Park
-Koning Willem I-laan
+Koning Willem I-Laan
 Koning Willem II Plein
 Koning Willem II Straat
 Koning Willem II-Straat
@@ -66712,7 +66712,7 @@ Koning Willem III Weg
 Koning Willem III-Plein
 Koning Willem III-Straat
 Koning Willem III-Weg
-Koning Willem III-laan
+Koning Willem III-Laan
 Koning Willem-Alexander Boulevard
 Koning Willem-Alexanderhof
 Koning Willem-Alexanderlaan
@@ -69303,8 +69303,8 @@ Kromme Zandweg
 Kromme-Mijdrechtstraat
 Kromme-Rijnlaan
 Kromme-elleboog
-Kromme-elleboog 2e laan
-Kromme-elleboog 3e laan
+Kromme-elleboog 2e Laan
+Kromme-elleboog 3e Laan
 Krommeakker
 Krommebeemd
 Krommebrug
@@ -70479,7 +70479,7 @@ L.J.E. Kreuknietlaan
 L.J.M. Beelstraat
 L.M. Kuperusstrjitte
 L.M. van Noppenstraat
-L.O.-laan
+L.O.-Laan
 L.P. van Mallandstraat
 L.Ph. Michonlaan
 L.R. Beijnenlaan
@@ -73325,7 +73325,7 @@ Leerhoevestraat
 Leerinkbeek
 Leerinkbeekstraat
 Leerinkstraat
-Leerke ven
+Leerke Ven
 Leerlinggarage
 Leerlinghof
 Leerlooier
@@ -77174,7 +77174,7 @@ M.Th. Steynstraat
 M.W. Prohnstraat
 M.W. van de Waalstraat
 MAVO PIUS X-Plein
-MOVA-laan
+MOVA-Laan
 Ma Braunpad
 Ma Braunweg
 Ma Retraite
@@ -78398,7 +78398,7 @@ Maogien
 Maolderij
 Maple Hof
 Maple Leafpad
-Maple-hof
+Maple-Hof
 Maputoweg
 Mara
 Maraboehoek
@@ -78994,7 +78994,7 @@ Marius Godwaldtstraat
 Marius Meijboomstraat
 Marius Ouborglaan
 Marius Petipastraat
-Marius Richters-laan
+Marius Richters-Laan
 Marius Richterslaan
 Marius Richtersstraat
 Marius de Langenstraat
@@ -79339,7 +79339,7 @@ Marseillepad
 Marselaar
 Marsenbreek
 Marsgeel
-Marshall-laan
+Marshall-Laan
 Marshallaan
 Marshalldreef
 Marshallerf
@@ -79750,7 +79750,7 @@ Matenalaan
 Matenasche Scheidkade
 Matenaweg
 Matendijk
-Matenesse-hof
+Matenesse-Hof
 Matenpad
 Matenpark
 Matenpoort
@@ -80251,7 +80251,7 @@ Meer van Lugano
 Meer- en Geerweg
 Meerakkers
 Meerberg
-Meerbergsche laan
+Meerbergsche Laan
 Meerbergsven
 Meerblauw
 Meerbon
@@ -83658,7 +83658,7 @@ Molemansdijk
 Molemanspad
 Molemansstraat
 Molembaixweg
-Molen A laan
+Molen A Laan
 Molen Achterdijk
 Molen de Beerkade
 Molen de Beerstraat
@@ -85568,7 +85568,7 @@ N.A. Papestraat
 N.C. B.-Weg
 N.C. Kistweg
 N.C.B.-Weg
-N.C.B.-laan
+N.C.B.-Laan
 N.G.Piersonstraat
 N.H. Hannanstraat
 N.J. Hartestraat
@@ -86208,7 +86208,7 @@ Nelly Sachsstraat
 Nelly van Moorselhof
 Nelly van Moorselpad
 Nelson Mandela Dreef
-Nelson Mandela-laan
+Nelson Mandela-Laan
 Nelson Mandelaboulevard
 Nelson Mandeladreef
 Nelson Mandelahof
@@ -88965,7 +88965,7 @@ Nöllepedje
 O Lv Vrouw ter Duinenlaan
 O.-L.-Vrouwestraat
 O.C. Huismanstraat
-O.D.-laan
+O.D.-Laan
 O.F. Weisestraat
 O.L. Vrouwestraat
 O.L.Vrouwestraat
@@ -93479,7 +93479,7 @@ P.Turcqstraat
 P.W. Janssenlaan
 P.W.A.Cort van der Lindenstraat
 P.Walmastrjitte
-PSV-laan
+PSV-Laan
 PSV-paadje
 PSVlaan
 Pa Hoeklaan
@@ -96183,7 +96183,7 @@ Paus Adriaanstraat
 Paus Joanneslaan
 Paus Joannesstraat
 Paus Johannes XXIII Straat
-Paus Johannes XXIII-laan
+Paus Johannes XXIII-Laan
 Paus Johannesstraat
 Paus Leo 13 Plein
 Paus Leo 13 Straat
@@ -97161,7 +97161,7 @@ Philippusweg
 Philips Bentinckstraat
 Philips II Straat
 Philips II-Straat
-Philips II-laan
+Philips II-Laan
 Philips Lammekensstraat
 Philips Schonckstraat
 Philips Vingboonsstraat
@@ -98261,7 +98261,7 @@ Pitteloseweg
 Pittesteeg
 Pittsburghstraat
 Pius X-Straat
-Pius X-hof
+Pius X-Hof
 Pius XII Straat
 Pius XII-Plein
 Piushaven
@@ -99143,7 +99143,7 @@ Polkampen
 Polkastraat
 Polkenhoefstraat
 Polkestraat
-Poll-laan
+Poll-Laan
 Pollaan
 Pollackpaadje
 Pollaertshof
@@ -106623,7 +106623,7 @@ Royaledreef
 Royenstein
 Rozand
 Roze Flamingo
-Roze-ven
+Roze-Ven
 Rozebekepad
 Rozebeker
 Rozeboom
@@ -107808,7 +107808,7 @@ Samsö Belt
 Samuel Aardewerksteeg
 Samuel Beckettlaan
 Samuel Beckettstraat
-Samuel Dasberg-hof
+Samuel Dasberg-Hof
 Samuel Esmeijerplein
 Samuel Esmeijerstraat
 Samuel Gerssenlaan
@@ -108226,7 +108226,7 @@ Scarlattirode
 Scarlattistraat
 Scarlet Ducstraat
 Scarletstraat
-Scarpe Ee-laan
+Scarpe Ee-Laan
 Schaafdries
 Schaafpad
 Schaafsebosweg
@@ -108973,7 +108973,7 @@ Schelft
 Schelftweg
 Schelgeest
 Schelhout
-Schelkens-ven
+Schelkens-Ven
 Schellachseweg
 Schellaertstraat
 Schellardweg
@@ -112806,14 +112806,14 @@ Sint Vincentiusplantsoen
 Sint Vincentiusstraat
 Sint Vincentiusweg
 Sint Vitusholt
-Sint Vitusholt 1e laan
-Sint Vitusholt 2e laan
-Sint Vitusholt 3e laan
-Sint Vitusholt 4e laan
-Sint Vitusholt 5e laan
-Sint Vitusholt 6e laan
-Sint Vitusholt 7e laan
-Sint Vitusholt 8e laan
+Sint Vitusholt 1e Laan
+Sint Vitusholt 2e Laan
+Sint Vitusholt 3e Laan
+Sint Vitusholt 4e Laan
+Sint Vitusholt 5e Laan
+Sint Vitusholt 6e Laan
+Sint Vitusholt 7e Laan
+Sint Vitusholt 8e Laan
 Sint Vitusplein
 Sint Vitusstraat
 Sint Vitusweg
@@ -112919,7 +112919,7 @@ Sippenbroek
 Sir Frank Whittlestraat
 Sir Richard Aberdeenpad
 Sir Rowland Hillstraat
-Sir Winston Churchill-laan
+Sir Winston Churchill-Laan
 Sir Winston Churchilllaan
 Sir Winston Churchillplein
 Sir Winston Churchillweg
@@ -113707,7 +113707,7 @@ Slot Hillenradelaan
 Slot Loevesteinstraat
 Slot Mathenessestraat
 Slot Moermondstraat
-Slot Schaesberg-laan
+Slot Schaesberg-Laan
 Slot de Houvelaan
 Slot van Nieuwerkerkstraat
 Slot van Nieuwkerkstraat
@@ -116306,7 +116306,7 @@ Stadhoek
 Stadhoekweg
 Stadhouder
 Stadhouder Janstraat
-Stadhouder Willem II laan
+Stadhouder Willem II Laan
 Stadhouder Willem V Straat
 Stadhouder Willem V-Straat
 Stadhouderlaan
@@ -117715,7 +117715,7 @@ Stichtse Pad
 Stichtse Park
 Stichtse Rotonde
 Stichtse Weg
-Stichtse hof
+Stichtse Hof
 Stichtsepad
 Stichtseplein
 Stichtseweg
@@ -119924,7 +119924,7 @@ Tautenburg
 Tauvlinder
 Taveernedrift
 Taveernelaan
-Taxandria-hof
+Taxandria-Hof
 Taxandriahof
 Taxandrialaan
 Taxandriaplein
@@ -121553,7 +121553,7 @@ Tivolistraat
 Tivoliweg
 Tj. Nawijnstraat
 Tjaarda
-Tjaarda's laan
+Tjaarda's Laan
 Tjaardastate
 Tjaarderpolder
 Tjaarlingermeer
@@ -124465,12 +124465,12 @@ Uylenburgh
 Uytenbogaartsingel
 Uytenbosch
 Uytervlugterpad
-V N laan
+V N Laan
 V.C.J. Smitsstraat
 V.O.C.-Plein
 VAM-Weg
 VDMA-Plein
-VN-laan
+VN-Laan
 VOC-Kade
 VOCweg
 Vaalakkersweg
@@ -126677,7 +126677,7 @@ Verlengde Zestiende Wijk
 Verlengde Zijweg
 Verlengde Zuiderloswal
 Verlengde Zuiderstraat
-Verlengde laan van Romen
+Verlengde Laan van Romen
 Verlengde van Beresteijnstraat
 Verlengde van Echtenskanaal NZ
 Verlengde van Marwijk Kooystraat
@@ -131172,7 +131172,7 @@ Walramplein
 Walramstraat
 Walraven I-Straat
 Walraven van Brederodestraat
-Walraven van Hall-laan
+Walraven van Hall-Laan
 Walraven van Hallhof
 Walraven van Halllaan
 Walraven van Hallstraat
@@ -135721,21 +135721,21 @@ Willem Hovystraat
 Willem Hubertstraat
 Willem Hussemstraat
 Willem I Straat
-Willem I laan
+Willem I Laan
 Willem I-Plein
-Willem I-laan
+Willem I-Laan
 Willem II Singel
 Willem II Straat
 Willem II-Plein
 Willem II-Straat
-Willem II-laan
+Willem II-Laan
 Willem II-passage
 Willem III Laan
 Willem III Straat
-Willem III laan
+Willem III Laan
 Willem III-Laan
 Willem III-Straat
-Willem III-laan
+Willem III-Laan
 Willem Idenburglaan
 Willem Idenburgpad
 Willem J. Kolfflaan
@@ -139684,7 +139684,7 @@ Zoetenhoek
 Zoetermeerpad
 Zoetermeerplantsoen
 Zoetermeerse Rijweg
-Zoetermeerse laan
+Zoetermeerse Laan
 Zoetermeerstraat
 Zoeterwoudsesingel
 Zoeterwoudseweg
@@ -141862,7 +141862,7 @@ bij den Toren
 bij het Hooghuis
 bij het Kruitmagazijn
 bij het Station
-bij het ven
+bij het Ven
 binnenzijde
 d'Aasdonken
 d'Ablaing van Giessenburgstraat
@@ -142726,7 +142726,7 @@ de Crayerstraat
 de Cres
 de Crimpen
 de Croese
-de Croix hof
+de Croix Hof
 de Croon
 de Curaçao
 de Curtis
@@ -145704,7 +145704,7 @@ de Polder
 de Polderstraat
 de Polenkamp
 de Poll
-de Poll-laan
+de Poll-Laan
 de Polle
 de Pollen
 de Pollenbrink
@@ -146985,7 +146985,7 @@ de Veldhof
 de Veldhuizen
 de Veldjes
 de Veldkamp
-de Veldkamp-laan
+de Veldkamp-Laan
 de Veldkampen
 de Veldkers
 de Veldmaat
@@ -151365,7 +151365,7 @@ van Halenweg
 van Halewijnlaan
 van Halewijnplein
 van Halewijnstraat
-van Hall-laan
+van Hall-Laan
 van Hallhof
 van Halllaan
 van Hallstraat
@@ -152014,7 +152014,7 @@ van Naeldwijcklaan
 van Naeldwijckplein
 van Naeltwijckstraat
 van Nagelhof
-van Nagell-laan
+van Nagell-Laan
 van Nagellplein
 van Nagellstraat
 van Nahuijsstraat
@@ -152771,7 +152771,7 @@ van Welderenstraat
 van Weliestraat
 van Well Groeneveldlaan
 van Welveldenmarke
-van Wely-hof
+van Wely-Hof
 van Wenaeweg
 van Wenastraat
 van Werschstraat
@@ -152907,7 +152907,7 @@ van de Pasweg
 van de Plasschestraat
 van de Poelstraat
 van de Polerf
-van de Poll-laan
+van de Poll-Laan
 van de Pollstraat
 van de Polplein
 van de Putgang

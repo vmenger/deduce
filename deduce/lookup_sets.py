@@ -262,8 +262,10 @@ def _get_streets() -> dd.ds.LookupSet:
         r"\bDyk\b": ["Dyk", "dyk"],
         r"\bErf\b": ["Erf", "erf"],
         r"\bHeide\b": ["Heide", "heide"],
+        r"\bHof\b": ["Hof", "hof"],
         r"\bKade\b": ["Kade", "kade"],
         r"\bKanaal\b": ["Kanaal", "kanaal"],
+        r"\bLaan\b": ["Laan", "laan"],
         r"\bPad\b": ["Pad", "pad"],
         r"\bPark\b": ["Park", "park"],
         r"\bPlantsoen\b": ["Plantsoen", "plantsoen"],
@@ -279,6 +281,7 @@ def _get_streets() -> dd.ds.LookupSet:
         r"\bWeg\b": ["Weg", "weg"],
         r"\bWei\b": ["Wei", "wei"],
         r"\bWijk\b": ["Wijk", "wijk"],
+        r"\bVen\b": ["Ven", "ven"],
     }
 
     punct_mapping = {r"\.": [".", ""], "-": ["-", ""]}
