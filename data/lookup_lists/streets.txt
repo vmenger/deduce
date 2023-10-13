@@ -10677,7 +10677,7 @@ Beukenhoven
 Beukenkamp
 Beukenkampstraat
 Beukenlaan
-Beukenlaan Z
+Beukenlaan Zuid
 Beukenlaantje
 Beukenlint
 Beukenoord
@@ -31474,7 +31474,7 @@ Eendvogelsteeg
 Eendvogelstraat
 Eeneind
 Eeneindseweg
-Eenendertigste Wijk-N
+Eenendertigste Wijk-Noord
 Eenendertigste Wijk-Zuid
 Eenerstraat
 Eenheid
@@ -35438,7 +35438,7 @@ Fivelingosingel
 Fivelingostraat
 Fivelingoweg
 Fivelkade
-Fivelkade W
+Fivelkade West
 Fivellaan
 Fivelpad
 Fivelpoort
@@ -52029,9 +52029,7 @@ Hoofdpoortstraat
 Hoofdspoor
 Hoofdstel
 Hoofdstraat
-Hoofdstraat O
 Hoofdstraat Oost
-Hoofdstraat W
 Hoofdstraat West
 Hoofdstraat-Oost
 Hoofdstraat-West
@@ -66523,7 +66521,7 @@ Koloniepad
 Koloniesweg
 Kolonievaart
 Kolonieweg
-Kolonieweg O
+Kolonieweg Oost
 Kolpapad
 Kolpendestraat
 Kolperstraat
@@ -74943,8 +74941,8 @@ Lindehoevelaan
 Lindehof
 Lindehof B
 Lindehof M
-Lindehof N
-Lindehof Z
+Lindehof Noord
+Lindehof Zuid
 Lindehoutstraat
 Lindehove
 Lindeijerlaan
@@ -90270,7 +90268,7 @@ Oostbuurtseweg
 Oostdaallaan
 Oostdam
 Oostdijk
-Oostdijk W
+Oostdijk West
 Oostdijkje
 Oostdijkpad
 Oostdijkseweg
@@ -91843,7 +91841,7 @@ Oude Bleeksweg
 Oude Bleekweide
 Oude Boazstraat
 Oude Bocholtsebaan
-Oude Bocholtzerweg W
+Oude Bocholtzerweg West
 Oude Bocht
 Oude Boekelerdijk
 Oude Boekeloseweg
@@ -139590,7 +139588,7 @@ Zinkstuk
 Zinkveld
 Zinkviooltje
 Zinkweg
-Zinkweg N
+Zinkweg Noord
 Zinkweg of 1e Kruisweg
 Zinkwerf
 Zinneveltlaan
@@ -140130,7 +140128,7 @@ Zuiddiepe
 Zuiddiepje
 Zuiddiepjeskade
 Zuiddijk
-Zuiddijk W
+Zuiddijk West
 Zuiddijkenweg
 Zuiddijklaan
 Zuiddijkstraat

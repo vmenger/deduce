@@ -222,6 +222,10 @@ def _get_streets() -> dd.ds.LookupSet:
     }
 
     windrichting_mapping = {
+        r"\bNoord$": ["Noord", "noord", "N"],
+        r"\bOost$": ["Oost", "oost", "O"],
+        r"\bZuid$": ["Zuid", "zuid", "Z"],
+        r"\bWest$": ["West", "west", "W"],
         r"NZ$": ["N.Z.", "N.z.", "n.z.", "Noordzijde", "noordzijde"],
         r"OZ$": ["O.Z.", "O.z.", "o.z.", "Oostzijde", "oostzijde"],
         r"ZZ$": ["Z.Z.", "Z.z.", "z.z.", "Zuidzijde", "zuidzijde"],
