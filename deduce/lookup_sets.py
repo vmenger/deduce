@@ -216,7 +216,7 @@ def _get_streets() -> dd.ds.LookupSet:
         r"\btussen\b": ["Tussen", "tussen"],
         r"\but\b": ["Ut", "ut"],
         r"\buten\b": ["Uten", "uten"],
-        r"\bvan\b": ["Van", "van"],
+        r"\bvan\b": ["Van", "van", "v.", "V."],
         r"\bvon\b": ["Von", "von"],
         r"\bvoor\b": ["Voor", "voor"],
     }
