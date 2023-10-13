@@ -153393,6 +153393,7 @@ het Laar
 het Laarwoud
 het Lage Burgh
 het Lage Duyn
+het Lage Eind
 het Lage Sas
 het Lambertusstraatje
 het Lamslik
@@ -153738,8 +153739,6 @@ het Zwarte Wegje
 het Zwempad
 het Zwet
 het Zwint
-het-Hof
-het-Lage Eind
 l'Amistraat
 Árpád Weiszpad
 Ávenue Fréderic
