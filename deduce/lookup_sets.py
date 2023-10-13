@@ -9,8 +9,8 @@ from deduce.str.processor import (
     RemoveValues,
     TakeLastToken,
     TitleCase,
-    UpperCaseFirstChar,
     UpperCase,
+    UpperCaseFirstChar,
 )
 
 data_path = Path(os.path.dirname(__file__)).parent / "data" / "lookup_lists"

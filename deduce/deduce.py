@@ -8,9 +8,9 @@ import docdeid as dd
 
 from deduce import utils
 from deduce.annotation_processing import (
+    CleanAnnotationTag,
     DeduceMergeAdjacentAnnotations,
     PersonAnnotationConverter,
-    CleanAnnotationTag,
     RemoveAnnotations,
 )
 from deduce.annotator import ContextAnnotator, TokenPatternAnnotator

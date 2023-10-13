@@ -6,8 +6,8 @@ from deduce.str import (
     RemoveValues,
     TakeLastToken,
     TitleCase,
-    UpperCaseFirstChar,
     UpperCase,
+    UpperCaseFirstChar,
 )
 
 
