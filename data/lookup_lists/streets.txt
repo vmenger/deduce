@@ -33418,7 +33418,7 @@ Doctor A. Vondelingstraat
 Doctor A. Zijlmansstraat
 Doctor A. de Haanstraat
 Doctor A. van de Beekstoep
-Doctor A. van der Willigen Sr. laan
+Doctor A. van der Willigen Senior laan
 Doctor A.A.Jessestraat
 Doctor A.C. van Raaltestraat
 Doctor A.D. Sacharovlaan
@@ -87437,7 +87437,7 @@ Marten Peetershof
 Marten Putstraat
 Marten Snoodijkhof
 Marten Toonder Natuurpad
-Marten Toonder Sr. pad
+Marten Toonder Senior pad
 Marten Toonderlaan
 Marten Toonderpad
 Marten Toonderplein
