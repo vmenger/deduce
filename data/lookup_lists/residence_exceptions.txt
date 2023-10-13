@@ -17,6 +17,7 @@ Gasthuis
 Gooi
 Groet
 Hall
+Heenweg
 Hub
 Ie
 Juist
@@ -41,6 +42,7 @@ Rijk
 Schouw
 Smal
 Streek
+Uitweg
 Uitweg
 Val
 Ven
