@@ -393,7 +393,7 @@
       "annotator_type": "regexp",
       "group": "locations",
       "args": {
-        "regexp_pattern": "([Pp]ostbus\\s\\d{5})",
+        "regexp_pattern": "([Pp]ostbus\\s\\d{1,5})",
         "tag": "locatie"
       }
     },
