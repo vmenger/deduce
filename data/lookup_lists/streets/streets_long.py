@@ -168,6 +168,8 @@ loc_mapping = {
 
 punct_mapping = {r"\.": [".", ""], "-": ["-", "", " "]}
 
+spell_mapping = {'y': ['y', 'ij'], 'Y': ['Y', 'IJ'], 'ij': ['ij', 'y'], 'IJ': ['IJ', 'Y']}
+
 mappings = [
     prefix_mapping,
     prop_mapping,
@@ -175,6 +177,7 @@ mappings = [
     suffix_mapping,
     loc_mapping,
     punct_mapping,
+    spell_mapping,
 ]
 
 
