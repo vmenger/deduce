@@ -56,6 +56,24 @@ class TestRegression:
             known_failures={94},
         )
 
+    def test_regression_location(self, model):
+        regression_test(
+            model=model,
+            examples_file="tests/regression/data/locations.json",
+            enabled={
+                "locations",
+                "residence",
+                "street_pattern",
+                "street_lookup",
+                "housenumber",
+                "postal_code",
+                "postbus",
+                "remove_street_tags",
+                "clean_street_tags",
+            },
+            known_failures={19, 20, 22, 23},
+        )
+
     def test_regression_date(self, model):
         regression_test(
             model=model,

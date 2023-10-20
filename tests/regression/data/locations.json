@@ -1,0 +1,1243 @@
+{
+    "examples": [
+        {
+            "id": 0,
+            "text": "Utrecht",
+            "annotations": [
+                {
+                    "text": "Utrecht",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "text": "UTRECHT",
+            "annotations": [
+                {
+                    "text": "UTRECHT",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "text": "Utr\u00e9cht",
+            "annotations": []
+        },
+        {
+            "id": 3,
+            "text": "Utrechts",
+            "annotations": []
+        },
+        {
+            "id": 4,
+            "text": "utrecht",
+            "annotations": []
+        },
+        {
+            "id": 5,
+            "text": "Bolsward",
+            "annotations": [
+                {
+                    "text": "Bolsward",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "text": "Bontekoe",
+            "annotations": [
+                {
+                    "text": "Bontekoe",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "text": "Boornbergum",
+            "annotations": [
+                {
+                    "text": "Boornbergum",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "text": "Oost",
+            "annotations": []
+        },
+        {
+            "id": 9,
+            "text": "Centrum",
+            "annotations": []
+        },
+        {
+            "id": 10,
+            "text": "Noord",
+            "annotations": []
+        },
+        {
+            "id": 11,
+            "text": "West",
+            "annotations": []
+        },
+        {
+            "id": 12,
+            "text": "Zuid",
+            "annotations": []
+        },
+        {
+            "id": 13,
+            "text": "Borkel en Schaft",
+            "annotations": [
+                {
+                    "text": "Borkel en Schaft",
+                    "start_char": 0,
+                    "end_char": 16,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "text": "Bosch en Duin",
+            "annotations": [
+                {
+                    "text": "Bosch en Duin",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "text": "bosch en duin",
+            "annotations": []
+        },
+        {
+            "id": 16,
+            "text": "Boven-Leeuwen",
+            "annotations": [
+                {
+                    "text": "Boven-Leeuwen",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 17,
+            "text": "Boven Leeuwen",
+            "annotations": [
+                {
+                    "text": "Boven Leeuwen",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "text": "Bovenkerk",
+            "annotations": [
+                {
+                    "text": "Bovenkerk",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "text": "Bovenkerk (NH)",
+            "annotations": [
+                {
+                    "text": "Bovenkerk (NH)",
+                    "start_char": 0,
+                    "end_char": 14,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 20,
+            "text": "Bovenkerk (ZH)",
+            "annotations": [
+                {
+                    "text": "Bovenkerk (ZH)",
+                    "start_char": 0,
+                    "end_char": 14,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 21,
+            "text": "Bovenkerk (nh)",
+            "annotations": [
+                {
+                    "text": "Bovenkerk",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 22,
+            "text": "Bovenkerk ZH",
+            "annotations": [
+                {
+                    "text": "Bovenkerk ZH",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 23,
+            "text": "Bovenkerk NH",
+            "annotations": [
+                {
+                    "text": "Bovenkerk NH",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 24,
+            "text": "Bovenkerk L",
+            "annotations": [
+                {
+                    "text": "Bovenkerk",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 25,
+            "text": "Bovenkerk (L)",
+            "annotations": [
+                {
+                    "text": "Bovenkerk",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 26,
+            "text": "Drie\u00ebnhuizen",
+            "annotations": [
+                {
+                    "text": "Drie\u00ebnhuizen",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 27,
+            "text": "Drieenhuizen",
+            "annotations": [
+                {
+                    "text": "Drieenhuizen",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 28,
+            "text": "Friesland",
+            "annotations": [
+                {
+                    "text": "Friesland",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 29,
+            "text": "Noord Brabant",
+            "annotations": [
+                {
+                    "text": "Noord Brabant",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 30,
+            "text": "Noord-Brabant",
+            "annotations": [
+                {
+                    "text": "Noord-Brabant",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 31,
+            "text": "Eemvallei",
+            "annotations": [
+                {
+                    "text": "Eemvallei",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 32,
+            "text": "Friese Wouden",
+            "annotations": [
+                {
+                    "text": "Friese Wouden",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 33,
+            "text": "Goeree-Overflakkee",
+            "annotations": [
+                {
+                    "text": "Overflakkee",
+                    "start_char": 7,
+                    "end_char": 18,
+                    "tag": "locatie"
+                },
+                {
+                    "text": "Goeree-Overflakkee",
+                    "start_char": 0,
+                    "end_char": 18,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 34,
+            "text": "Alphen-Chaam",
+            "annotations": [
+                {
+                    "text": "Chaam",
+                    "start_char": 7,
+                    "end_char": 12,
+                    "tag": "locatie"
+                },
+                {
+                    "text": "Alphen-Chaam",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 35,
+            "text": "Molenlanden",
+            "annotations": [
+                {
+                    "text": "Molenlanden",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 36,
+            "text": "Nederweert",
+            "annotations": [
+                {
+                    "text": "Nederweert",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 37,
+            "text": "Smallingerland",
+            "annotations": [
+                {
+                    "text": "Smallingerland",
+                    "start_char": 0,
+                    "end_char": 14,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 38,
+            "text": "Aaaabaan 1",
+            "annotations": [
+                {
+                    "text": "Aaaabaan 1",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 39,
+            "text": "Aaaabolwerk 1",
+            "annotations": [
+                {
+                    "text": "Aaaabolwerk 1",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 40,
+            "text": "Aaaadam 1",
+            "annotations": [
+                {
+                    "text": "Aaaadam 1",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 41,
+            "text": "Aaaadijk 1",
+            "annotations": [
+                {
+                    "text": "Aaaadijk 1",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 42,
+            "text": "Aaaadreef 1",
+            "annotations": [
+                {
+                    "text": "Aaaadreef 1",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 43,
+            "text": "Aaaadrf 1",
+            "annotations": [
+                {
+                    "text": "Aaaadrf 1",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 44,
+            "text": "Aaaadyk 1",
+            "annotations": [
+                {
+                    "text": "Aaaadyk 1",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 45,
+            "text": "Aaaagr 1",
+            "annotations": [
+                {
+                    "text": "Aaaagr 1",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 46,
+            "text": "Aaaagracht 1",
+            "annotations": [
+                {
+                    "text": "Aaaagracht 1",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 47,
+            "text": "Aaaahf 1",
+            "annotations": [
+                {
+                    "text": "Aaaahf 1",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 48,
+            "text": "Aaaahof 1",
+            "annotations": [
+                {
+                    "text": "Aaaahof 1",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 49,
+            "text": "Aaaakade 1",
+            "annotations": [
+                {
+                    "text": "Aaaakade 1",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 50,
+            "text": "Aaaalaan 1",
+            "annotations": [
+                {
+                    "text": "Aaaalaan 1",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 51,
+            "text": "Aaaaln 1",
+            "annotations": [
+                {
+                    "text": "Aaaaln 1",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 52,
+            "text": "Aaaamarkt 1",
+            "annotations": [
+                {
+                    "text": "Aaaamarkt 1",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 53,
+            "text": "Aaaamrkt 1",
+            "annotations": [
+                {
+                    "text": "Aaaamrkt 1",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 54,
+            "text": "Aaaapad 1",
+            "annotations": [
+                {
+                    "text": "Aaaapad 1",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 55,
+            "text": "Aaaapark 1",
+            "annotations": [
+                {
+                    "text": "Aaaapark 1",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 56,
+            "text": "Aaaapd 1",
+            "annotations": [
+                {
+                    "text": "Aaaapd 1",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 57,
+            "text": "Aaaaplantsoen 1",
+            "annotations": [
+                {
+                    "text": "Aaaaplantsoen 1",
+                    "start_char": 0,
+                    "end_char": 15,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 58,
+            "text": "Aaaaplein 1",
+            "annotations": [
+                {
+                    "text": "Aaaaplein 1",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 59,
+            "text": "Aaaapln 1",
+            "annotations": [
+                {
+                    "text": "Aaaapln 1",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 60,
+            "text": "Aaaaplnts 1",
+            "annotations": [
+                {
+                    "text": "Aaaaplnts 1",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 61,
+            "text": "Aaaaprk 1",
+            "annotations": [
+                {
+                    "text": "Aaaaprk 1",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 62,
+            "text": "Aaaasingel 1",
+            "annotations": [
+                {
+                    "text": "Aaaasingel 1",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 63,
+            "text": "Aaaasngl 1",
+            "annotations": [
+                {
+                    "text": "Aaaasngl 1",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 64,
+            "text": "Aaaast 1",
+            "annotations": [
+                {
+                    "text": "Aaaast 1",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 65,
+            "text": "Aaaasteeg 1",
+            "annotations": [
+                {
+                    "text": "Aaaasteeg 1",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 66,
+            "text": "Aaaastg 1",
+            "annotations": [
+                {
+                    "text": "Aaaastg 1",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 67,
+            "text": "Aaaastr 1",
+            "annotations": [
+                {
+                    "text": "Aaaastr 1",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 68,
+            "text": "Aaaastraat 1",
+            "annotations": [
+                {
+                    "text": "Aaaastraat 1",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 69,
+            "text": "Aaaaweg 1",
+            "annotations": [
+                {
+                    "text": "Aaaaweg 1",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 70,
+            "text": "Aaaawg 1",
+            "annotations": [
+                {
+                    "text": "Aaaawg 1",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 71,
+            "text": "Aaaweg",
+            "annotations": []
+        },
+        {
+            "id": 72,
+            "text": "aaaweg",
+            "annotations": []
+        },
+        {
+            "id": 73,
+            "text": "aaaweg 1",
+            "annotations": []
+        },
+        {
+            "id": 74,
+            "text": "Professor Doctor J.C. Schoutelaan 1",
+            "annotations": [
+                {
+                    "text": "Schoutelaan 1",
+                    "start_char": 22,
+                    "end_char": 35,
+                    "tag": "locatie"
+                },
+                {
+                    "text": "Professor Doctor J.C. Schoutelaan 1",
+                    "start_char": 0,
+                    "end_char": 35,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 75,
+            "text": "Prof. Doctor J.C. Schoutelaan 1",
+            "annotations": [
+                {
+                    "text": "Prof. Doctor J.C. Schoutelaan 1",
+                    "start_char": 0,
+                    "end_char": 31,
+                    "tag": "locatie"
+                },
+                {
+                    "text": "Schoutelaan 1",
+                    "start_char": 18,
+                    "end_char": 31,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 76,
+            "text": "Prof. Dr. J.C. Schoutelaan 1",
+            "annotations": [
+                {
+                    "text": "Schoutelaan 1",
+                    "start_char": 15,
+                    "end_char": 28,
+                    "tag": "locatie"
+                },
+                {
+                    "text": "Prof. Dr. J.C. Schoutelaan 1",
+                    "start_char": 0,
+                    "end_char": 28,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 77,
+            "text": "Prof. Dr. JC Schoutelaan 1",
+            "annotations": [
+                {
+                    "text": "Schoutelaan 1",
+                    "start_char": 13,
+                    "end_char": 26,
+                    "tag": "locatie"
+                },
+                {
+                    "text": "Prof. Dr. JC Schoutelaan 1",
+                    "start_char": 0,
+                    "end_char": 26,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 78,
+            "text": "Prof. Dr. JC Schoutelaan 1",
+            "annotations": [
+                {
+                    "text": "Schoutelaan 1",
+                    "start_char": 13,
+                    "end_char": 26,
+                    "tag": "locatie"
+                },
+                {
+                    "text": "Prof. Dr. JC Schoutelaan 1",
+                    "start_char": 0,
+                    "end_char": 26,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 79,
+            "text": "Professor Lor\u00e9straat 1",
+            "annotations": [
+                {
+                    "text": "Professor Lor\u00e9straat 1",
+                    "start_char": 0,
+                    "end_char": 22,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 80,
+            "text": "Protonenlaan 1",
+            "annotations": [
+                {
+                    "text": "Protonenlaan 1",
+                    "start_char": 0,
+                    "end_char": 14,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 81,
+            "text": "Protterstrjitte 1",
+            "annotations": [
+                {
+                    "text": "Protterstrjitte 1",
+                    "start_char": 0,
+                    "end_char": 17,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 82,
+            "text": "Zomaar Een Straatnaam 1",
+            "annotations": []
+        },
+        {
+            "id": 83,
+            "text": "Heidelberglaan 1",
+            "annotations": [
+                {
+                    "text": "Heidelberglaan 1",
+                    "start_char": 0,
+                    "end_char": 16,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 84,
+            "text": "Heidelberglaan 11",
+            "annotations": [
+                {
+                    "text": "Heidelberglaan 11",
+                    "start_char": 0,
+                    "end_char": 17,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 85,
+            "text": "Heidelberglaan 111",
+            "annotations": [
+                {
+                    "text": "Heidelberglaan 111",
+                    "start_char": 0,
+                    "end_char": 18,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 86,
+            "text": "Heidelberglaan 1111",
+            "annotations": [
+                {
+                    "text": "Heidelberglaan 1111",
+                    "start_char": 0,
+                    "end_char": 19,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 87,
+            "text": "Heidelberglaan 11111",
+            "annotations": []
+        },
+        {
+            "id": 88,
+            "text": "Heidelberglaan 1a",
+            "annotations": [
+                {
+                    "text": "Heidelberglaan 1a",
+                    "start_char": 0,
+                    "end_char": 17,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 89,
+            "text": "Heidelberglaan 1A",
+            "annotations": [
+                {
+                    "text": "Heidelberglaan 1A",
+                    "start_char": 0,
+                    "end_char": 17,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 90,
+            "text": "Heidelberglaan 1 a",
+            "annotations": [
+                {
+                    "text": "Heidelberglaan 1 a",
+                    "start_char": 0,
+                    "end_char": 18,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 91,
+            "text": "Heidelberglaan 1 A",
+            "annotations": [
+                {
+                    "text": "Heidelberglaan 1 A",
+                    "start_char": 0,
+                    "end_char": 18,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 92,
+            "text": "Heidelberglaan 1ab",
+            "annotations": []
+        },
+        {
+            "id": 93,
+            "text": "Heidelberglaan 1Ab",
+            "annotations": []
+        },
+        {
+            "id": 94,
+            "text": "Heidelberglaan 1 ab",
+            "annotations": [
+                {
+                    "text": "Heidelberglaan 1",
+                    "start_char": 0,
+                    "end_char": 16,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 95,
+            "text": "Heidelberglaan 1 Ab",
+            "annotations": [
+                {
+                    "text": "Heidelberglaan 1",
+                    "start_char": 0,
+                    "end_char": 16,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 96,
+            "text": "Heidelberglaan 1 BIS",
+            "annotations": [
+                {
+                    "text": "Heidelberglaan 1",
+                    "start_char": 0,
+                    "end_char": 16,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 97,
+            "text": "1234AA",
+            "annotations": [
+                {
+                    "text": "1234AA",
+                    "start_char": 0,
+                    "end_char": 6,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 98,
+            "text": "1234aa",
+            "annotations": [
+                {
+                    "text": "1234aa",
+                    "start_char": 0,
+                    "end_char": 6,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 99,
+            "text": "1234 AA",
+            "annotations": [
+                {
+                    "text": "1234 AA",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 100,
+            "text": "1234 aa",
+            "annotations": []
+        },
+        {
+            "id": 101,
+            "text": "1250MG",
+            "annotations": []
+        },
+        {
+            "id": 102,
+            "text": "1250mg",
+            "annotations": []
+        },
+        {
+            "id": 103,
+            "text": "1250 MG",
+            "annotations": []
+        },
+        {
+            "id": 104,
+            "text": "1250 mg",
+            "annotations": []
+        },
+        {
+            "id": 105,
+            "text": "Postbus 1",
+            "annotations": [
+                {
+                    "text": "Postbus 1",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 106,
+            "text": "Postbus 12",
+            "annotations": [
+                {
+                    "text": "Postbus 12",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 107,
+            "text": "Postbus 123",
+            "annotations": [
+                {
+                    "text": "Postbus 123",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 108,
+            "text": "Postbus 1234",
+            "annotations": [
+                {
+                    "text": "Postbus 1234",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 109,
+            "text": "Postbus 12345",
+            "annotations": [
+                {
+                    "text": "Postbus 12345",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 110,
+            "text": "Postbus 123456",
+            "annotations": [
+                {
+                    "text": "Postbus 12345",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 111,
+            "text": "postbus 1234",
+            "annotations": [
+                {
+                    "text": "postbus 1234",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "locatie"
+                }
+            ]
+        }
+    ]
+}
