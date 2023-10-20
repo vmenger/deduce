@@ -114,8 +114,12 @@ class Deduce(dd.DocDeid):
 
         self.processors["locations"].add_processor(
             "clean_street_tags",
-            CleanAnnotationTag(tag_map={"straat+huisnummer": "locatie",
-                                        "straat+huisnummer+huisnummerletter": "locatie"}),
+            CleanAnnotationTag(
+                tag_map={
+                    "straat+huisnummer": "locatie",
+                    "straat+huisnummer+huisnummerletter": "locatie",
+                }
+            ),
         )
 
         sort_by_attrs = self.config["resolve_overlap_strategy"]["attributes"]
