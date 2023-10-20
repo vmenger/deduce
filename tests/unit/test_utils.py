@@ -1,6 +1,6 @@
-from deduce import utils
-
 import pytest
+
+from deduce import utils
 
 
 class TestUtils:
@@ -54,8 +54,8 @@ class TestOverwriteDict:
             "b": {"c": 2, "d": 4},
         }
 
-class TestStrVariations:
 
+class TestStrVariations:
     def test_has_overlap(self):
 
         assert utils.has_overlap([(0, 10), (5, 14)])
@@ -73,7 +73,7 @@ class TestStrVariations:
 
         segments = utils.repl_segments(s, matches)
 
-        assert segments == [['Prof. Lieflantlaan']]
+        assert segments == [["Prof. Lieflantlaan"]]
 
     def test_repl_segments_single_to_single(self):
 
@@ -82,25 +82,25 @@ class TestStrVariations:
 
         segments = utils.repl_segments(s, matches)
 
-        assert segments == [['Prof.'], [' Lieflantlaan']]
+        assert segments == [["Prof."], [" Lieflantlaan"]]
 
     def test_repl_segments_single_to_multiple(self):
 
         s = "Prof. Lieflantlaan"
-        matches = [(0, 5, ["Prof.", 'Professor'])]
+        matches = [(0, 5, ["Prof.", "Professor"])]
 
         segments = utils.repl_segments(s, matches)
 
-        assert segments == [['Prof.', 'Professor'], [' Lieflantlaan']]
+        assert segments == [["Prof.", "Professor"], [" Lieflantlaan"]]
 
     def test_repl_segments_multiple_to_multiple(self):
 
         s = "Prof. Lieflantlaan"
-        matches = [(0, 5, ["Prof.", 'Professor']), (14, 18, ["laan", "ln"])]
+        matches = [(0, 5, ["Prof.", "Professor"]), (14, 18, ["laan", "ln"])]
 
         segments = utils.repl_segments(s, matches)
 
-        assert segments == [['Prof.', 'Professor'], [' Lieflant'], ['laan', 'ln']]
+        assert segments == [["Prof.", "Professor"], [" Lieflant"], ["laan", "ln"]]
 
     def test_str_variations_no_matches(self):
 
@@ -114,7 +114,7 @@ class TestStrVariations:
     def test_str_variations_overlap(self):
 
         s = "Prof. Lieflantlaan"
-        repl = {'laan': ['laan', 'ln'], 'lantlaan': ['lantlaan', 'lantln']}
+        repl = {"laan": ["laan", "ln"], "lantlaan": ["lantlaan", "lantln"]}
 
         with pytest.raises(RuntimeError):
             _ = utils.str_variations(s, repl)
@@ -135,14 +135,18 @@ class TestStrVariations:
 
         variations = utils.str_variations(s, repl)
 
-        assert variations == ["Prof. Lieflantlaan", "Professor Lieflantlaan",
-                              "Prof. Lieflantln", "Professor Lieflantln"]
+        assert variations == [
+            "Prof. Lieflantlaan",
+            "Professor Lieflantlaan",
+            "Prof. Lieflantln",
+            "Professor Lieflantln",
+        ]
 
     def test_str_variations_regexp(self):
 
         s = "van Bevanstraat"
-        repl = {'^van': ['Van', 'van']}
+        repl = {"^van": ["Van", "van"]}
 
         variations = utils.str_variations(s, repl)
 
-        assert variations == ['Van Bevanstraat', 'van Bevanstraat']
+        assert variations == ["Van Bevanstraat", "van Bevanstraat"]

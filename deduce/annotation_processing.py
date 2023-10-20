@@ -92,6 +92,8 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
 
 
 class RemoveAnnotations(dd.process.AnnotationProcessor):
+    """Removes all annotations with corresponding tags."""
+
     def __init__(self, tags: list[str]) -> None:
         self.tags = tags
 
@@ -102,6 +104,8 @@ class RemoveAnnotations(dd.process.AnnotationProcessor):
 
 
 class CleanAnnotationTag(dd.process.AnnotationProcessor):
+    """Cleans annotation tags based on the corresponding mapping."""
+
     def __init__(self, tag_map: dict[str, str]) -> None:
         self.tag_map = tag_map
 

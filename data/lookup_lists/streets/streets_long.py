@@ -1,6 +1,10 @@
-"""Creates streets_long.txt from streets_manual.txt by applying combinations of
-replacements. As a separate script to improve startup time, needs to be rerun when
-changes in this script or in any of the street source lists are made. """
+"""
+Creates streets_long.txt from streets_manual.txt by applying combinations of
+replacements.
+
+As a separate script to improve startup time, needs to be rerun when changes in this
+script or in any of the street source lists are made.
+"""
 
 from deduce.utils import str_variations
 
@@ -170,7 +174,7 @@ mappings = [
     windrichting_mapping,
     suffix_mapping,
     loc_mapping,
-    punct_mapping
+    punct_mapping,
 ]
 
 
@@ -193,5 +197,5 @@ if __name__ == "__main__":
 
         streets.update(to_add)
 
-    with open('streets_long.txt', 'w') as file:
+    with open("streets_long.txt", "w") as file:
         file.write("\n".join(sorted(list(streets))))

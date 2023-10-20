@@ -113,8 +113,8 @@ def has_overlap(intervals: list[tuple]) -> bool:
 
     intervals_sorted = sorted(intervals, key=lambda tup: tup[0])
 
-    for i in range(len(intervals_sorted)-1):
-        if intervals_sorted[i][1] > intervals_sorted[i+1][0]:
+    for i in range(len(intervals_sorted) - 1):
+        if intervals_sorted[i][1] > intervals_sorted[i + 1][0]:
             return True
 
     return False
@@ -184,8 +184,10 @@ def str_variations(s: str, repl: dict[str, list[str]]) -> list[str]:
         return [s]
 
     if has_overlap(matches):
-        raise RuntimeError("Cannot explode input string, because there is overlap "
-                           "in the replacement mapping.")
+        raise RuntimeError(
+            "Cannot explode input string, because there is overlap "
+            "in the replacement mapping."
+        )
 
     variations = [""]
 
