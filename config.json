@@ -341,12 +341,15 @@
       }
     },
     "street_pattern": {
-      "annotator_type": "regexp",
+      "annotator_type": "token_pattern",
       "group": "locations",
       "args": {
-        "regexp_pattern": "([A-Z][a-z]+(baan|bolwerk|dam|dijk|dreef|drf|dyk|gr|gracht|hf|hof|kade|laan|ln|markt|mrkt|pad|park|pd|plantsoen|plein|pln|plnts|prk|singel|sngl|st|steeg|stg|str|straat|weg|wg) (\\d{1,4}( ?[a-zA-Z])?))(\\W|$)",
-        "tag": "straat+huisnummer",
-        "capturing_group": 1
+        "tag": "straat",
+        "pattern": [
+          {
+            "re_match": "[A-Z][a-z]+(baan|bolwerk|dam|dijk|dreef|drf|dyk|gr|gracht|hf|hof|kade|laan|ln|markt|mrkt|pad|park|pd|plantsoen|plein|pln|plnts|prk|singel|sngl|st|steeg|stg|str|straat|weg|wg)$"
+          }
+        ]
       }
     },
     "street_lookup": {
@@ -373,7 +376,35 @@
             "skip": [],
             "pattern": [
               {
-                "re_match": "\\d{1,4}( ?[a-zA-Z])?"
+                "re_match": "\\d{1,4}$"
+              }
+            ]
+          },
+          {
+            "name": "housenumber_housenumberletter_right",
+            "direction": "right",
+            "pre_tag": [
+              "straat"
+            ],
+            "tag": "{tag}+huisnummer+huisnummerletter",
+            "skip": [],
+            "pattern": [
+              {
+                "re_match": "\\d{1,4}[a-zA-Z]$"
+              }
+            ]
+          },
+          {
+            "name": "housenumberletter_right",
+            "direction": "right",
+            "pre_tag": [
+              "huisnummer"
+            ],
+            "tag": "{tag}+huisnummerletter",
+            "skip": [],
+            "pattern": [
+              {
+                "re_match": "[a-zA-Z]$"
               }
             ]
           }
