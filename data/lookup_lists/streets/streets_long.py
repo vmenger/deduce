@@ -162,7 +162,7 @@ loc_mapping = {
     r"\bVen\b": ["Ven", "ven"],
 }
 
-punct_mapping = {r"\.": [".", ""], "-": ["-", ""]}
+punct_mapping = {r"\.": [".", ""], "-": ["-", "", " "]}
 
 mappings = [
     prefix_mapping,
