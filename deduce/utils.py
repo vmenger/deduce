@@ -135,6 +135,9 @@ def repl_segments(s: str, matches: list[tuple]) -> list[list[str]]:
     "Professor"], [" "], ["Meester", "Mr."], [" Lievenslaan"]].
     """
 
+    if len(matches) == 0:
+        return [[s]]
+
     choices = []
     pos = 0
 
@@ -178,7 +181,7 @@ def str_variations(s: str, repl: dict[str, list[str]]) -> list[str]:
             matches.append((m.span()[0], m.span()[1], repl[pattern]))
 
     if len(matches) == 0:
-        return []
+        return [s]
 
     if has_overlap(matches):
         raise RuntimeError("Cannot explode input string, because there is overlap "
