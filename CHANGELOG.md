@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - lookup lists (and logic) for Dutch provinces, regions, municipalities and streets
 
 ### Changed
+- name of `residences` annotator to `placenames`, now includes provinces, regions and municipalities
 - lookup lists (and logic) for residences
 - logic for streets, housenumber and housenumber letters
 
