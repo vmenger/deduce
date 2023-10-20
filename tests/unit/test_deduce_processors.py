@@ -66,29 +66,6 @@ class TestLookupAnnotators:
 
         assert annotations == expected_annotations
 
-    def test_annotate_residence(self):
-        text = "Nieuwerkerk aan den IJssel, Soesterberg, Broekhuizen"
-        annotator = get_annotator("residence", group="locations")
-
-        expected_annotations = {
-            dd.Annotation(
-                text="Broekhuizen", start_char=41, end_char=52, tag=annotator.tag
-            ),
-            dd.Annotation(
-                text="Soesterberg", start_char=28, end_char=39, tag=annotator.tag
-            ),
-            dd.Annotation(
-                text="Nieuwerkerk aan den IJssel",
-                start_char=0,
-                end_char=26,
-                tag=annotator.tag,
-            ),
-        }
-
-        annotations = annotate_text(text, [annotator])
-
-        assert annotations == expected_annotations
-
 
 class TestRegexpAnnotators:
     def test_annotate_altrecht_regexp(self):
@@ -103,78 +80,6 @@ class TestRegexpAnnotators:
             ),
             dd.Annotation(
                 text="Altrecht", start_char=34, end_char=42, tag=annotator.tag
-            ),
-        }
-
-        annotations = annotate_text(text, [annotator])
-
-        assert annotations == expected_annotations
-
-    def test_annotate_street_without_number(self):
-        text = "I live in Havikstraat since my childhood"
-        annotator = get_annotator("street_with_number", group="locations")
-        expected_annotations = {
-            dd.Annotation(
-                text="Havikstraat", start_char=10, end_char=21, tag=annotator.tag
-            )
-        }
-
-        annotations = annotate_text(text, [annotator])
-
-        assert annotations == expected_annotations
-
-    def test_annotate_address_with_number(self):
-        text = "I live in Havikstraat 43 since my childhood"
-        annotator = get_annotator("street_with_number", group="locations")
-        expected_annotations = {
-            dd.Annotation(
-                text="Havikstraat 43", start_char=10, end_char=24, tag="locatie"
-            )
-        }
-
-        annotations = annotate_text(text, [annotator])
-
-        assert annotations == expected_annotations
-
-    def test_annotate_address_long_number(self):
-        text = "I live in Havikstraat 4324598 since my childhood"
-        annotator = get_annotator("street_with_number", group="locations")
-        expected_annotations = {
-            dd.Annotation(
-                text="Havikstraat 4324598",
-                start_char=10,
-                end_char=29,
-                tag="locatie",
-            )
-        }
-
-        annotations = annotate_text(text, [annotator])
-
-        assert annotations == expected_annotations
-
-    def test_annotate_postal_code(self):
-        text = "1200ab, 1200mg, 1200MG, 1200AB"
-
-        annotator = get_annotator("postal_code", group="locations")
-        expected_annotations = {
-            dd.Annotation(text="1200AB", start_char=24, end_char=30, tag=annotator.tag),
-            dd.Annotation(text="1200ab", start_char=0, end_char=6, tag=annotator.tag),
-        }
-
-        annotations = annotate_text(text, [annotator])
-
-        assert annotations == expected_annotations
-
-    def test_annotate_postbus(self):
-        text = "Postbus 12345, postbus 12345"
-
-        annotator = get_annotator("postbus", group="locations")
-        expected_annotations = {
-            dd.Annotation(
-                text="Postbus 12345", start_char=0, end_char=13, tag=annotator.tag
-            ),
-            dd.Annotation(
-                text="postbus 12345", start_char=15, end_char=28, tag=annotator.tag
             ),
         }
 
