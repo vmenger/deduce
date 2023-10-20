@@ -1,5 +1,4 @@
-""" TODO: only organization and residence/location tests below,
-needs to move to regression tests. """
+""" TODO: only organization tests below, needs to move to regression tests. """
 
 from typing import Optional
 

@@ -62,7 +62,7 @@ class TestRegression:
             examples_file="tests/regression/data/locations.json",
             enabled={
                 "locations",
-                "residence",
+                "placename",
                 "street_pattern",
                 "street_lookup",
                 "housenumber",

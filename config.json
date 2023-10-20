@@ -332,11 +332,11 @@
         ]
       }
     },
-    "residence": {
+    "placename": {
       "annotator_type": "multi_token",
       "group": "locations",
       "args": {
-        "lookup_values": "residences",
+        "lookup_values": "placenames",
         "tag": "locatie"
       }
     },
