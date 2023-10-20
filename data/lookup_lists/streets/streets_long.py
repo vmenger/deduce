@@ -108,14 +108,14 @@ windrichting_mapping = {
     r"\bOost$": ["Oost", "oost", "O"],
     r"\bZuid$": ["Zuid", "zuid", "Z"],
     r"\bWest$": ["West", "west", "W"],
-    r"NZ$": ["N.Z.", "N.z.", "n.z.", "Noordzijde", "noordzijde"],
-    r"OZ$": ["O.Z.", "O.z.", "o.z.", "Oostzijde", "oostzijde"],
-    r"ZZ$": ["Z.Z.", "Z.z.", "z.z.", "Zuidzijde", "zuidzijde"],
-    r"WZ$": ["W.Z.", "W.z.", "w.z.", "Westzijde", "westzijde"],
-    r"NO$": ["N.O.", "N.o.", "n.o."],
-    r"NW$": ["N.W.", "N.w.", "n.w."],
-    r"ZO$": ["Z.O.", "Z.o.", "z.o."],
-    r"ZW$": ["Z.W.", "Z.w.", "z.w."],
+    r"NZ$": ["N.Z.", "N.z.", "n.z.", "Noordzijde", "noordzijde", ""],
+    r"OZ$": ["O.Z.", "O.z.", "o.z.", "Oostzijde", "oostzijde", ""],
+    r"ZZ$": ["Z.Z.", "Z.z.", "z.z.", "Zuidzijde", "zuidzijde", ""],
+    r"WZ$": ["W.Z.", "W.z.", "w.z.", "Westzijde", "westzijde", ""],
+    r"NO$": ["N.O.", "N.o.", "n.o.", ""],
+    r"NW$": ["N.W.", "N.w.", "n.w.", ""],
+    r"ZO$": ["Z.O.", "Z.o.", "z.o.", ""],
+    r"ZW$": ["Z.W.", "Z.w.", "z.w.", ""],
 }
 
 suffix_mapping = {
@@ -196,6 +196,8 @@ if __name__ == "__main__":
             to_add += str_variations(street, mapping)
 
         streets.update(to_add)
+
+    streets = {s.strip() for s in streets}
 
     with open("streets_long.txt", "w") as file:
         file.write("\n".join(sorted(list(streets))))
