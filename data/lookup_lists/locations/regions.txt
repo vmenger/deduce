@@ -3,7 +3,7 @@ Achterhoek
 Alblasserwaard
 Ameland
 Amstelland
-Baronie van Breda
+Baronie Van Breda
 Beemster
 Beijerland
 Betuwe
@@ -30,12 +30,12 @@ Duurswold
 Eemland
 Eemvallei
 Eierland
-Eiland van Dordrecht
+Eiland Van Dordrecht
 Ellertsveld
 Fivelingo
 Flevopolder
+Friese Meren
 Friese Wouden
-Friese meren
 Gaasterland
 Gelderse Vallei
 Goeree-Overflakkee
@@ -63,16 +63,16 @@ Kanaalstreek
 Kempen
 Kennemerland
 Kleistreek
-Kop van Noord-Holland
-Kop van Overijssel
+Kop Van Noord-Holland
+Kop Van Overijssel
 Krimpenerwaard
 Kromme Rijnstreek
-Land van Cuijk
-Land van Heusden en Altena
-Land van Maas en Waal
-Land van Vollenhove
-Land van Voorne
-Land van Zwentibold
+Land Van Cuijk
+Land Van Heusden En Altena
+Land Van Maas En Waal
+Land Van Vollenhove
+Land Van Voorne
+Land Van Zwentibold
 Langewold
 Langstraat
 Liemers
@@ -80,10 +80,10 @@ Lopikerwaard
 Maasland
 Maasland
 Maasplassen
-Markizaat van Bergen op Zoom
+Markizaat Van Bergen Op Zoom
 Marne
 Marnewaard
-Meierij van 's-Hertogenbosch
+Meierij Van 'S-Hertogenbosch
 Menterne
 Mergelland
 Middag
@@ -109,13 +109,13 @@ Oostermoer
 Over-Betuwe
 Overflakkee
 Peel
-Plateau van Margraten
+Plateau Van Margraten
 Prins Alexanderpolder
 Purmer
 Putten
 Randstad
 Reiderland
-Rijk van Nijmegen
+Rijk Van Nijmegen
 Rijnland
 Rijnmond
 Rivierengebied
@@ -124,7 +124,7 @@ Rottum
 Saba
 Saeftinghe
 Salland
-Schelde- en Maasdelta
+Schelde- En Maasdelta
 Schermer
 Schermereiland
 Schieland

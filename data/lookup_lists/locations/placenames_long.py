@@ -14,6 +14,24 @@ prefix_mapping = {
     r"\bit\b": ["It", "it", "Het", "het", "'T", "'t", "`T", "`t", "T", "t"],
 }
 
+
+prop_mapping = {
+    r"(\b|^)Aan\b": ["Aan", "aan"],
+    r"(\b|^)Bij\b": ["Bij", "bij"],
+    r"(\b|^)De\b": ["De", "de"],
+    r"(\b|^)Den\b": ["Den", "den"],
+    r"(\b|^)En\b": ["En", "en"],
+    r"(\b|^)Het\b": ["Het", "het", "'T", "'t", "`T", "`t", "T", "t"],
+    r"(\b|^)In\b": ["In", "in"],
+    r"(\b|^)Oan\b": ["Oan", "oan"],
+    r"(\b|^)Of\b": ["Of", "of"],
+    r"(\b|^)Op\b": ["Op", "op"],
+    r"(\b|^)Over\b": ["Over", "over"],
+    r"(\b|^)'S\b": ["'S", "'s"],
+    r"(\b|^)Ter\b": ["Ter", "ter"],
+    r"(\b|^)Van\b": ["Van", "van", "v.", "V."],
+}
+
 province_mapping = {
     r"(?<=\()Fr(?=\))": ["Fr", "FR", "Frl", "FRL", "F"],
     r"(?<=\()Gr(?=\))": ["Gr", "GR", "Gn", "GN", "G"],
@@ -42,6 +60,7 @@ spell_mapping = {
 
 mappings = [
     prefix_mapping,
+    prop_mapping,
     province_mapping,
     punct_mapping,
     spell_mapping,
