@@ -1,8 +1,10 @@
 import docdeid as dd
 
 from deduce.annotation_processing import (
+    CleanAnnotationTag,
     DeduceMergeAdjacentAnnotations,
     PersonAnnotationConverter,
+    RemoveAnnotations,
 )
 
 
@@ -157,3 +159,60 @@ class TestPersonAnnotationConverter:
         )
 
         assert proc.process_annotations(annotations, text) == expected_annotations
+
+
+class TestRemoveAnnotations:
+    def test_remove_annotations(self):
+
+        ra = RemoveAnnotations(tags=["voornaam_patient", "nonexisting_tag"])
+
+        annotations = dd.AnnotationSet(
+            [
+                dd.Annotation(
+                    text="Jan", start_char=0, end_char=3, tag="voornaam_patient"
+                ),
+                dd.Annotation(
+                    text="Jansen", start_char=4, end_char=10, tag="achternaam_patient"
+                ),
+            ]
+        )
+
+        processed_annotations = ra.process_annotations(annotations, text="_")
+
+        assert processed_annotations == dd.AnnotationSet(
+            [
+                dd.Annotation(
+                    text="Jansen", start_char=4, end_char=10, tag="achternaam_patient"
+                )
+            ]
+        )
+
+
+class TestCleanAnnotationTag:
+    def test_remove_annotations(self):
+
+        cat = CleanAnnotationTag(
+            tag_map={"voornaam_patient": "voornaam", "nonexistent": "test"}
+        )
+
+        annotations = dd.AnnotationSet(
+            [
+                dd.Annotation(
+                    text="Jan", start_char=0, end_char=3, tag="voornaam_patient"
+                ),
+                dd.Annotation(
+                    text="Jansen", start_char=4, end_char=10, tag="achternaam_patient"
+                ),
+            ]
+        )
+
+        processed_annotations = cat.process_annotations(annotations, text="_")
+
+        assert processed_annotations == dd.AnnotationSet(
+            [
+                dd.Annotation(text="Jan", start_char=0, end_char=3, tag="voornaam"),
+                dd.Annotation(
+                    text="Jansen", start_char=4, end_char=10, tag="achternaam_patient"
+                ),
+            ]
+        )

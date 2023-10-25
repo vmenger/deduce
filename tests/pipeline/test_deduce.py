@@ -1,6 +1,5 @@
 import docdeid as dd
 
-from deduce import Deduce
 from deduce.person import Person
 
 text = (
@@ -12,10 +11,9 @@ text = (
 
 
 class TestDeduce:
-    def test_annotate(self):
-        deduce = Deduce()
+    def test_annotate(self, model):
         metadata = {"patient": Person(first_names=["Jan"], surname="Jansen")}
-        doc = deduce.deidentify(text, metadata=metadata)
+        doc = model.deidentify(text, metadata=metadata)
 
         expected_annotations = dd.AnnotationSet(
             [
@@ -57,10 +55,9 @@ class TestDeduce:
 
         assert doc.annotations == set(expected_annotations)
 
-    def test_deidentify(self):
-        deduce = Deduce()
+    def test_deidentify(self, model):
         metadata = {"patient": Person(first_names=["Jan"], surname="Jansen")}
-        doc = deduce.deidentify(text, metadata=metadata)
+        doc = model.deidentify(text, metadata=metadata)
 
         expected_deidentified = (
             "betreft: <PATIENT>, bsn <BSN-1>, patnr <ID-1>. De patient <PATIENT> is "
@@ -72,10 +69,9 @@ class TestDeduce:
 
         assert doc.deidentified_text == expected_deidentified
 
-    def test_annotate_intext(self):
-        deduce = Deduce()
+    def test_annotate_intext(self, model):
         metadata = {"patient": Person(first_names=["Jan"], surname="Jansen")}
-        doc = deduce.deidentify(text, metadata=metadata)
+        doc = model.deidentify(text, metadata=metadata)
 
         expected_intext_annotated = (
             "betreft: <PATIENT>Jan Jansen</PATIENT>, bsn <BSN>111222333</BSN>, "

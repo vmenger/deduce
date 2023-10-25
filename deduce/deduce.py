@@ -8,8 +8,10 @@ import docdeid as dd
 
 from deduce import utils
 from deduce.annotation_processing import (
+    CleanAnnotationTag,
     DeduceMergeAdjacentAnnotations,
     PersonAnnotationConverter,
+    RemoveAnnotations,
 )
 from deduce.annotator import ContextAnnotator, TokenPatternAnnotator
 from deduce.lookup_sets import get_lookup_sets
@@ -57,12 +59,10 @@ class Deduce(dd.DocDeid):
         default_config_path = Path(os.path.dirname(__file__)).parent / "config.json"
 
         if self.use_config_defaults:
-
             with open(default_config_path, "r", encoding="utf-8") as file:
                 config = json.load(file)
 
         if self.config_file is not None:
-
             with open(Path(self.config_file), "r", encoding="utf-8") as file:
                 custom_config = json.load(file)
 
@@ -106,6 +106,20 @@ class Deduce(dd.DocDeid):
         )
         self.processors["names"].add_processor(
             "person_annotation_converter", PersonAnnotationConverter()
+        )
+
+        self.processors["locations"].add_processor(
+            "remove_street_tags", RemoveAnnotations(tags=["straat"])
+        )
+
+        self.processors["locations"].add_processor(
+            "clean_street_tags",
+            CleanAnnotationTag(
+                tag_map={
+                    "straat+huisnummer": "locatie",
+                    "straat+huisnummer+huisnummerletter": "locatie",
+                }
+            ),
         )
 
         sort_by_attrs = self.config["resolve_overlap_strategy"]["attributes"]
@@ -187,13 +201,12 @@ class _AnnotatorFactory:  # pylint: disable=R0903
             args["lookup_values"] = lookup_set.items()
             args["matching_pipeline"] = lookup_set.matching_pipeline
 
-        args["tokenizer"] = DeduceTokenizer()
-
-        return dd.process.MultiTokenLookupAnnotator(**args)
+        return dd.process.MultiTokenLookupAnnotator(
+            **args, tokenizer=extras["tokenizer"]
+        )
 
     @staticmethod
     def _get_custom_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-
         return utils.import_and_initialize(args=args, extras=extras)
 
     def get_annotators(
@@ -216,7 +229,6 @@ class _AnnotatorFactory:  # pylint: disable=R0903
         annotators = dd.process.DocProcessorGroup()
 
         for annotator_name, annotator_info in annotator_cnfg.items():
-
             if annotator_info["annotator_type"] not in self.annotator_creators:
                 raise ValueError(
                     f"Unexpected annotator_type {annotator_info['annotator_type']}"
@@ -225,7 +237,6 @@ class _AnnotatorFactory:  # pylint: disable=R0903
             group = annotators
 
             if "group" in annotator_info:
-
                 if annotator_info["group"] not in annotators.get_names(recursive=False):
                     annotators.add_processor(
                         annotator_info["group"], dd.process.DocProcessorGroup()

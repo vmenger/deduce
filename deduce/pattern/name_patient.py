@@ -18,12 +18,10 @@ class PersonFirstNamePattern(dd.TokenPattern):
         self, token: dd.Token, metadata: dd.MetaData
     ) -> Optional[tuple[dd.Token, dd.Token]]:
         for first_name in metadata["patient"].first_names:
-
             if str_match(token.text, first_name) or (
                 len(token.text) > 3
                 and str_match(token.text, first_name, max_edit_distance=1)
             ):
-
                 return token, token
 
         return None
@@ -45,9 +43,7 @@ class PersonInitialFromNamePattern(dd.TokenPattern):
         self, token: dd.Token, metadata: dd.MetaData
     ) -> Optional[tuple[dd.Token, dd.Token]]:
         for _, first_name in enumerate(metadata["patient"].first_names):
-
             if str_match(token.text, first_name[0]):
-
                 next_token = token.next()
 
                 if (next_token is not None) and str_match(next_token.text, "."):
@@ -103,7 +99,6 @@ class PersonSurnamePattern(dd.TokenPattern):
         """Find the next token, while skipping some punctuation."""
 
         while True:
-
             token = token.next()
 
             if (token is None) or (token not in self.skip):
@@ -119,7 +114,6 @@ class PersonSurnamePattern(dd.TokenPattern):
         start_token = token
 
         while True:
-
             if not str_match(surname_token.text, token.text, max_edit_distance=1):
                 return None
 

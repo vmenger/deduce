@@ -332,28 +332,90 @@
         ]
       }
     },
-    "residence": {
+    "placename": {
       "annotator_type": "multi_token",
       "group": "locations",
       "args": {
-        "lookup_values": "residences",
+        "lookup_values": "placenames",
         "tag": "locatie"
       }
     },
-    "street_with_number": {
-      "annotator_type": "regexp",
+    "street_pattern": {
+      "annotator_type": "token_pattern",
       "group": "locations",
       "args": {
-        "regexp_pattern": "([A-Z]\\w+(baan|bolwerk|dam|dijk|dreef|gracht|hof|kade|laan|markt|pad|park|plantsoen|plein|singel|steeg|straat|weg)(\\s(\\d+){1,6}\\w{0,2})?)(\\W|$)",
-        "tag": "locatie",
-        "capturing_group": 1
+        "tag": "straat",
+        "pattern": [
+          {
+            "re_match": "[A-Z][a-z]+(baan|bolwerk|dam|dijk|dreef|drf|dyk|gr|gracht|hf|hof|kade|laan|ln|markt|mrkt|pad|park|pd|plantsoen|plein|pln|plnts|prk|singel|sngl|st|steeg|stg|str|straat|weg|wg)$"
+          }
+        ]
+      }
+    },
+    "street_lookup": {
+      "annotator_type": "multi_token",
+      "group": "locations",
+      "args": {
+        "lookup_values": "streets",
+        "tag": "straat"
+      }
+    },
+    "housenumber": {
+      "annotator_type": "annotation_context",
+      "group": "locations",
+      "args": {
+        "iterative": true,
+        "pattern": [
+          {
+            "name": "housenumber_right",
+            "direction": "right",
+            "pre_tag": [
+              "straat"
+            ],
+            "tag": "{tag}+huisnummer",
+            "skip": [],
+            "pattern": [
+              {
+                "re_match": "\\d{1,4}$"
+              }
+            ]
+          },
+          {
+            "name": "housenumber_housenumberletter_right",
+            "direction": "right",
+            "pre_tag": [
+              "straat"
+            ],
+            "tag": "{tag}+huisnummer+huisnummerletter",
+            "skip": [],
+            "pattern": [
+              {
+                "re_match": "\\d{1,4}[a-zA-Z]$"
+              }
+            ]
+          },
+          {
+            "name": "housenumberletter_right",
+            "direction": "right",
+            "pre_tag": [
+              "huisnummer"
+            ],
+            "tag": "{tag}+huisnummerletter",
+            "skip": [],
+            "pattern": [
+              {
+                "re_match": "[a-zA-Z]$"
+              }
+            ]
+          }
+        ]
       }
     },
     "postal_code": {
       "annotator_type": "regexp",
       "group": "locations",
       "args": {
-        "regexp_pattern": "(\\d{4} (?!MG)[A-Z]{2}|\\d{4}(?!mg|MG)[a-zA-Z]{2})(\\W|$)",
+        "regexp_pattern": "(\\d{4}([A-Za-z]{2}| [A-Z]{2}))(?<!mg|MG)(\\W|$)",
         "tag": "locatie",
         "capturing_group": 1
       }
@@ -362,7 +424,7 @@
       "annotator_type": "regexp",
       "group": "locations",
       "args": {
-        "regexp_pattern": "([Pp]ostbus\\s\\d{5})",
+        "regexp_pattern": "([Pp]ostbus\\s\\d{1,5})",
         "tag": "locatie"
       }
     },

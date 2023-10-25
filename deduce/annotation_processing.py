@@ -1,4 +1,5 @@
 import docdeid as dd
+from docdeid import AnnotationSet
 
 
 class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
@@ -88,3 +89,44 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
             )
             for annotation in new_annotations
         )
+
+
+class RemoveAnnotations(dd.process.AnnotationProcessor):
+    """Removes all annotations with corresponding tags."""
+
+    def __init__(self, tags: list[str]) -> None:
+        self.tags = tags
+
+    def process_annotations(
+        self, annotations: AnnotationSet, text: str
+    ) -> AnnotationSet:
+        return AnnotationSet(a for a in annotations if a.tag not in self.tags)
+
+
+class CleanAnnotationTag(dd.process.AnnotationProcessor):
+    """Cleans annotation tags based on the corresponding mapping."""
+
+    def __init__(self, tag_map: dict[str, str]) -> None:
+        self.tag_map = tag_map
+
+    def process_annotations(
+        self, annotations: AnnotationSet, text: str
+    ) -> AnnotationSet:
+        new_annotations = AnnotationSet()
+
+        for annotation in annotations:
+            if annotation.tag in self.tag_map:
+                new_annotations.add(
+                    dd.Annotation(
+                        start_char=annotation.start_char,
+                        end_char=annotation.end_char,
+                        text=annotation.text,
+                        start_token=annotation.start_token,
+                        end_token=annotation.end_token,
+                        tag=self.tag_map[annotation.tag],
+                    )
+                )
+            else:
+                new_annotations.add(annotation)
+
+        return new_annotations

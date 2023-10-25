@@ -25,7 +25,6 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):  # pylint: disable=R0903
         self._trie = None
 
         if merge_terms is not None:
-
             trie = dd.ds.LookupTrie()
 
             for term in merge_terms:
@@ -72,7 +71,6 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):  # pylint: disable=R0903
         i = 0
 
         while i < len(tokens):
-
             longest_matching_prefix = self._trie.longest_matching_prefix(
                 tokens_text[i:]
             )

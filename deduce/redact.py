@@ -17,22 +17,18 @@ class DeduceRedactor(dd.process.SimpleRedactor):
         for tag, annotation_group in self._group_annotations_by_tag(
             annotations
         ).items():
-
             annotations_to_replacement_group: dict[dd.Annotation, str] = {}
             counter = 1
 
             for annotation in sorted(
                 annotation_group, key=lambda a: a.get_sort_key(by=["end_char"])
             ):
-
                 if tag == "patient":
-
                     annotations_to_intext_replacement[annotation] = (
                         f"{self.open_char}" f"PATIENT" f"{self.close_char}"
                     )
 
                 else:
-
                     match = False
 
                     # Check match with any
@@ -40,20 +36,17 @@ class DeduceRedactor(dd.process.SimpleRedactor):
                         annotation_match,
                         replacement,
                     ) in annotations_to_replacement_group.items():
-
                         if (
                             DamerauLevenshtein.distance(
                                 annotation.text, annotation_match.text, score_cutoff=1
                             )
                             <= 1
                         ):
-
                             annotations_to_replacement_group[annotation] = replacement
                             match = True
                             break
 
                     if not match:
-
                         annotations_to_replacement_group[annotation] = (
                             f"{self.open_char}"
                             f"{annotation.tag.upper()}"

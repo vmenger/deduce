@@ -1,4 +1,5 @@
 import importlib
+import re
 from typing import Any, Optional
 
 from rapidfuzz.distance import DamerauLevenshtein
@@ -90,10 +91,111 @@ def overwrite_dict(base: dict, add: dict) -> dict:
     """
 
     for key, value in add.items():
-
         if isinstance(value, dict):
             base[key] = overwrite_dict(base.get(key, {}), value)
         else:
             base[key] = value
 
     return base
+
+
+def has_overlap(intervals: list[tuple]) -> bool:
+    """
+    Checks if there is any overlap in a list of tuples. Assumes the interval ranges from
+    the first to the second element of the tuple. Any other elements are ignored.
+
+    Args:
+        intervals: The intervals, as a list of tuples
+
+    Returns:
+        True if there is any overlap between tuples, False otherwise.
+    """
+
+    intervals_sorted = sorted(intervals, key=lambda tup: tup[0])
+
+    for i in range(len(intervals_sorted) - 1):
+        if intervals_sorted[i][1] > intervals_sorted[i + 1][0]:
+            return True
+
+    return False
+
+
+def repl_segments(s: str, matches: list[tuple]) -> list[list[str]]:
+    """
+    Segment a string into consecutive substrings, with one or more options for each
+    substring.
+
+    Args:
+        s: The input string.
+        matches: A list of matches, consisting of a tuple with start- and end char,
+        followed by a list of options for that substring, e.g.
+        (5, 8, ["Mr.", "Meester"]).
+
+    Returns: A list of options that together sgement the entire string, e.g. [["Prof.",
+    "Professor"], [" "], ["Meester", "Mr."], [" Lievenslaan"]].
+    """
+
+    if len(matches) == 0:
+        return [[s]]
+
+    choices = []
+    pos = 0
+
+    for match in sorted(matches, key=lambda tup: tup[0]):
+        if pos != match[0]:
+            choices.append([s[pos : match[0]]])
+
+        choices.append(match[2])
+        pos = match[1]
+
+    if matches[-1][1] != len(s):
+        choices.append([s[pos : len(s)]])
+
+    return choices
+
+
+def str_variations(s: str, repl: dict[str, list[str]]) -> list[str]:
+    """
+    Gets all possible textual variations of a string, by combining any subset of
+    replacements defined in the `repl` dictionary. E.g.: the input string
+    'Prof. Mr. Lievenslaan' combined with the mapping {'Prof.': ['Prof.',
+    'Professor'], 'Mr.': ['Mr.', 'Meester']} will result in the following
+    variations: ['Prof. Mr. Lievenslaan', 'Professor Mr. Lievenslaan', 'Prof.
+    Meester Lievenslaan', 'Professor Meester Lievenslaan'].
+
+    Args:
+        s: The input string
+        repl: A mapping of substrings to one or multiple replacements, e.g.
+            {'Professor': ['Professor', 'Prof.', 'prof.']}. The key will be matched
+            using `re.finditer`, so both literal phrases and  regular expressions
+            can be used.
+
+    Returns:
+        A list containing all possible textual variations.
+    """
+
+    matches = []
+
+    for pattern in repl:
+        for m in re.finditer(pattern, s):
+            matches.append((m.span()[0], m.span()[1], repl[pattern]))
+
+    if len(matches) == 0:
+        return [s]
+
+    if has_overlap(matches):
+        raise RuntimeError(
+            "Cannot explode input string, because there is overlap "
+            "in the replacement mapping."
+        )
+
+    variations = [""]
+
+    for segment in repl_segments(s, matches):
+        new_variations = []
+        for choice in segment:
+            for prefix in variations:
+                new_variations.append(prefix + choice)
+        variations = new_variations
+
+    return variations

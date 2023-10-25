@@ -4,6 +4,13 @@ import docdeid as dd
 from docdeid.str import LowercaseString, StringFilter, StringModifier
 
 
+class UpperCase(StringModifier):
+    """Uppercase string."""
+
+    def process(self, item: str) -> str:
+        return item.upper()
+
+
 class UpperCaseFirstChar(StringModifier):
     """Uppercase first character."""
 
@@ -38,7 +45,6 @@ class RemoveValues(StringModifier):
 
     def process(self, item: str) -> str:
         for filter_value in self.filter_values:
-
             item = re.sub(
                 r"(^"
                 + filter_value

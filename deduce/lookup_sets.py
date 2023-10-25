@@ -9,6 +9,7 @@ from deduce.str.processor import (
     RemoveValues,
     TakeLastToken,
     TitleCase,
+    UpperCase,
     UpperCaseFirstChar,
 )
 
@@ -20,7 +21,7 @@ def _get_prefixes() -> dd.ds.LookupSet:
 
     prefixes = dd.ds.LookupSet()
 
-    prefixes.add_items_from_file(os.path.join(data_path, "prefixes.txt"))
+    prefixes.add_items_from_file(os.path.join(data_path, "names", "prefixes.txt"))
     prefixes.add_items_from_self(cleaning_pipeline=[UpperCaseFirstChar()])
 
     return prefixes
@@ -32,7 +33,7 @@ def _get_first_names() -> dd.ds.LookupSet:
     first_names = dd.ds.LookupSet()
 
     first_names.add_items_from_file(
-        os.path.join(data_path, "first_names.txt"),
+        os.path.join(data_path, "names", "first_names.txt"),
         cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
     )
 
@@ -45,7 +46,7 @@ def _get_first_name_exceptions() -> dd.ds.LookupSet:
     first_name_exceptions = dd.ds.LookupSet()
 
     first_name_exceptions.add_items_from_file(
-        os.path.join(data_path, "first_name_exceptions.txt"),
+        os.path.join(data_path, "names", "first_name_exceptions.txt"),
     )
 
     return first_name_exceptions
@@ -56,7 +57,7 @@ def _get_interfixes() -> dd.ds.LookupSet:
 
     interfixes = dd.ds.LookupSet()
 
-    interfixes.add_items_from_file(os.path.join(data_path, "interfixes.txt"))
+    interfixes.add_items_from_file(os.path.join(data_path, "names", "interfixes.txt"))
     interfixes.add_items_from_self(cleaning_pipeline=[UpperCaseFirstChar()])
     interfixes.add_items_from_self(cleaning_pipeline=[TitleCase()])
     interfixes.remove_items_from_iterable(["V."])
@@ -70,7 +71,7 @@ def _get_interfix_surnames() -> dd.ds.LookupSet:
     interfix_surnames = dd.ds.LookupSet()
 
     interfix_surnames.add_items_from_file(
-        os.path.join(data_path, "interfix_surnames.txt"),
+        os.path.join(data_path, "names", "interfix_surnames.txt"),
         cleaning_pipeline=[TakeLastToken()],
     )
 
@@ -83,7 +84,7 @@ def _get_surnames() -> dd.ds.LookupSet:
     surnames = dd.ds.LookupSet()
 
     surnames.add_items_from_file(
-        os.path.join(data_path, "surnames.txt"),
+        os.path.join(data_path, "names", "surnames.txt"),
         cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
     )
 
@@ -96,42 +97,72 @@ def _get_surname_exceptions() -> dd.ds.LookupSet:
     surname_exceptions = dd.ds.LookupSet()
 
     surname_exceptions.add_items_from_file(
-        os.path.join(data_path, "surname_exceptions.txt"),
+        os.path.join(data_path, "names", "surname_exceptions.txt"),
     )
 
     return surname_exceptions
 
 
-def _get_residences() -> dd.ds.LookupSet:
-    """Get residences LookupSet."""
+def _get_streets() -> dd.ds.LookupSet:
+    """Get streets lookupset."""
 
-    residences = dd.ds.LookupSet()
-    residences.add_items_from_file(
-        file_path=os.path.join(data_path, "residences.txt"),
+    streets = dd.ds.LookupSet()
+
+    streets.add_items_from_file(
+        file_path=os.path.join(data_path, "locations", "streets", "streets_long.txt"),
         cleaning_pipeline=[
-            dd.str.ReplaceValueRegexp(r"\(.+\)", ""),
+            dd.str.StripString(),
+            dd.str.FilterByLength(min_len=4),
+        ],
+    )
+
+    streets.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()])
+
+    return streets
+
+
+def _get_placenames() -> dd.ds.LookupSet:
+    """Get place names LookupSet."""
+
+    placenames = dd.ds.LookupSet()
+
+    placenames.add_items_from_file(
+        file_path=os.path.join(data_path, "locations", "placenames_long.txt"),
+        cleaning_pipeline=[
             dd.str.StripString(),
         ],
     )
 
-    residences.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("-", " ")])
+    placenames.add_items_from_self(
+        cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()]
+    )
 
-    residences.add_items_from_self(
+    placenames.add_items_from_self(
         cleaning_pipeline=[
-            FilterBasedOnLookupSet(filter_set=get_whitelist(), case_sensitive=False)
+            dd.str.ReplaceValue("(", ""),
+            dd.str.ReplaceValue(")", ""),
+            dd.str.ReplaceValue("  ", " "),
+        ]
+    )
+
+    placenames.add_items_from_self(cleaning_pipeline=[UpperCase()])
+
+    placenames.add_items_from_self(
+        cleaning_pipeline=[
+            FilterBasedOnLookupSet(filter_set=_get_whitelist(), case_sensitive=False),
         ],
         replace=True,
     )
 
-    return residences
+    return placenames
 
 
-def get_institutions() -> dd.ds.LookupSet:
+def _get_institutions() -> dd.ds.LookupSet:
     """Get institutions LookupSet."""
 
     institutions_raw = dd.ds.LookupSet()
     institutions_raw.add_items_from_file(
-        os.path.join(data_path, "institutions.txt"),
+        os.path.join(data_path, "institutions", "institutions.txt"),
         cleaning_pipeline=[dd.str.FilterByLength(min_len=3), dd.str.LowercaseString()],
     )
 
@@ -174,13 +205,12 @@ def get_institutions() -> dd.ds.LookupSet:
         ]
     )
 
-    institutions = institutions - get_whitelist()
+    institutions = institutions - _get_whitelist()
 
     return institutions
 
 
 def _get_top_terms() -> dd.ds.LookupSet:
-
     top1000 = dd.ds.LookupSet()
     top1000.add_items_from_file(
         os.path.join(data_path, "top_1000_terms.txt"),
@@ -188,7 +218,7 @@ def _get_top_terms() -> dd.ds.LookupSet:
 
     surnames_lowercase = dd.ds.LookupSet()
     surnames_lowercase.add_items_from_file(
-        os.path.join(data_path, "surnames.txt"),
+        os.path.join(data_path, "names", "surnames.txt"),
         cleaning_pipeline=[
             dd.str.LowercaseString(),
             dd.str.FilterByLength(min_len=2),
@@ -200,7 +230,7 @@ def _get_top_terms() -> dd.ds.LookupSet:
     return top1000
 
 
-def get_whitelist() -> dd.ds.LookupSet:
+def _get_whitelist() -> dd.ds.LookupSet:
     """
     Get whitelist LookupSet.
 
@@ -244,9 +274,10 @@ def get_lookup_sets() -> dd.ds.DsCollection:
         "interfix_surnames": _get_interfix_surnames,
         "surnames": _get_surnames,
         "surname_exceptions": _get_surname_exceptions,
-        "residences": _get_residences,
-        "institutions": get_institutions,
-        "whitelist": get_whitelist,
+        "streets": _get_streets,
+        "placenames": _get_placenames,
+        "institutions": _get_institutions,
+        "whitelist": _get_whitelist,
     }
 
     for name, init_function in lookup_set_mapping.items():

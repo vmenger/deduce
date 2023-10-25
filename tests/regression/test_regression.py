@@ -3,15 +3,13 @@ from typing import Optional
 
 from docdeid import Annotation, AnnotationSet
 
-from deduce import Deduce
-
-model = Deduce()
-
 
 def regression_test(
-    examples_file: str, enabled: set[str], known_failures: Optional[set[int]] = None
+    model,
+    examples_file: str,
+    enabled: set[str],
+    known_failures: Optional[set[int]] = None,
 ):
-
     if known_failures is None:
         known_failures = set()
 
@@ -21,7 +19,6 @@ def regression_test(
     failures = set()
 
     for example in examples:
-
         trues = AnnotationSet(
             Annotation(**annotation) for annotation in example["annotations"]
         )
@@ -36,9 +33,9 @@ def regression_test(
 
 
 class TestRegression:
-    def test_regression_name(self):
-
+    def test_regression_name(self, model):
         regression_test(
+            model=model,
             examples_file="tests/regression/data/names.json",
             enabled={
                 "names",
@@ -59,45 +56,62 @@ class TestRegression:
             known_failures={94},
         )
 
-    def test_regression_date(self):
-
+    def test_regression_location(self, model):
         regression_test(
+            model=model,
+            examples_file="tests/regression/data/locations.json",
+            enabled={
+                "locations",
+                "placename",
+                "street_pattern",
+                "street_lookup",
+                "housenumber",
+                "postal_code",
+                "postbus",
+                "remove_street_tags",
+                "clean_street_tags",
+            },
+        )
+
+    def test_regression_date(self, model):
+        regression_test(
+            model=model,
             examples_file="tests/regression/data/dates.json",
             enabled={"dates", "date_dmy_1", "date_dmy_2", "date_ymd_1", "date_ymd_2"},
         )
 
-    def test_regression_age(self):
-
+    def test_regression_age(self, model):
         regression_test(
+            model=model,
             examples_file="tests/regression/data/ages.json",
             enabled={"ages", "age"},
             known_failures={3, 4, 8, 10, 13, 14},
         )
 
-    def test_regression_identifier(self):
-
+    def test_regression_identifier(self, model):
         regression_test(
+            model=model,
             examples_file="tests/regression/data/identifiers.json",
             enabled={"identifiers", "bsn", "identifier"},
         )
 
-    def test_regression_phone(self):
-
+    def test_regression_phone(self, model):
         regression_test(
+            model=model,
             examples_file="tests/regression/data/phone_numbers.json",
             enabled={"phone_numbers", "phone"},
         )
 
-    def test_regression_email(self):
-
+    def test_regression_email(self, model):
         regression_test(
+            model=model,
             examples_file="tests/regression/data/emails.json",
             enabled={"email_addresses", "email"},
         )
 
-    def test_regression_url(self):
-
+    def test_regression_url(self, model):
         regression_test(
+            model=model,
             examples_file="tests/regression/data/urls.json",
             enabled={"urls", "url"},
         )
