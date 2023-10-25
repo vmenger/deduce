@@ -71,7 +71,6 @@ class TestRegression:
                 "remove_street_tags",
                 "clean_street_tags",
             },
-            known_failures={19, 20, 22, 23},
         )
 
     def test_regression_date(self, model):
