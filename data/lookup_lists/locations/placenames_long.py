@@ -50,24 +50,39 @@ mappings = [
 
 if __name__ == "__main__":
 
-    with open("residences_raw.txt", "r") as file:
+    with open("residences.txt", "r") as file:
         residences = set(file.read().split("\n"))
 
     with open("residence_exceptions.txt", "r") as file:
-        residences_exceptions = set(file.read().split("\n"))
+        residence_exceptions = set(file.read().split("\n"))
 
-    residences.difference_update(residences_exceptions)
+    residences.difference_update(residence_exceptions)
+
+    with open("regions.txt", "r") as file:
+        regions = set(file.read().split("\n"))
+
+    with open("provinces.txt", "r") as file:
+        provinces = set(file.read().split("\n"))
+
+    with open("municipalities.txt", "r") as file:
+        municipalities = set(file.read().split("\n"))
+
+    placenames = set()
+    placenames.update(regions)
+    placenames.update(provinces)
+    placenames.update(municipalities)
+    placenames.update(residences)
 
     for mapping in mappings:
 
         to_add = []
 
-        for residence in residences:
-            to_add += str_variations(residence, mapping)
+        for placename in placenames:
+            to_add += str_variations(placename, mapping)
 
-        residences.update(to_add)
+        placenames.update(to_add)
 
-    residences = {s.strip() for s in residences}
+    placenames = {s.strip() for s in placenames}
 
-    with open("residences_long.txt", "w") as file:
-        file.write("\n".join(sorted(list(residences))))
+    with open("placenames_long.txt", "w") as file:
+        file.write("\n".join(sorted(list(placenames))))

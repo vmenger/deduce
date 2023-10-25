@@ -127,28 +127,7 @@ def _get_placenames() -> dd.ds.LookupSet:
     placenames = dd.ds.LookupSet()
 
     placenames.add_items_from_file(
-        file_path=os.path.join(data_path, "locations", "residences", "residences_long.txt"),
-        cleaning_pipeline=[
-            dd.str.StripString(),
-        ],
-    )
-
-    placenames.add_items_from_file(
-        file_path=os.path.join(data_path, "locations", "provinces.txt"),
-        cleaning_pipeline=[
-            dd.str.StripString(),
-        ],
-    )
-
-    placenames.add_items_from_file(
-        file_path=os.path.join(data_path, "locations", "regions.txt"),
-        cleaning_pipeline=[
-            dd.str.StripString(),
-        ],
-    )
-
-    placenames.add_items_from_file(
-        file_path=os.path.join(data_path, "locations", "municipalities.txt"),
+        file_path=os.path.join(data_path, "locations", "placenames_long.txt"),
         cleaning_pipeline=[
             dd.str.StripString(),
         ],
