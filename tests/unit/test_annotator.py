@@ -65,6 +65,19 @@ class TestPatternPositionMatcher:
         assert _PatternPositionMatcher.match({"equal": "test"}, token=token("test"))
         assert not _PatternPositionMatcher.match({"equal": "_"}, token=token("test"))
 
+    def test_re_match(self):
+        assert _PatternPositionMatcher.match({"re_match": "[a-z]"}, token=token("abc"))
+        assert _PatternPositionMatcher.match(
+            {"re_match": "[a-z]"}, token=token("abc123")
+        )
+        assert not _PatternPositionMatcher.match({"re_match": "[a-z]"}, token=token(""))
+        assert not _PatternPositionMatcher.match(
+            {"re_match": "[a-z]"}, token=token("123")
+        )
+        assert not _PatternPositionMatcher.match(
+            {"re_match": "[a-z]"}, token=token("123abc")
+        )
+
     def test_match_is_initial(self):
         pattern_position = {"is_initial": True}
 
