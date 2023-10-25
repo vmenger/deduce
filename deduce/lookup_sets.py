@@ -124,22 +124,14 @@ def _get_streets() -> dd.ds.LookupSet:
 def _get_placenames() -> dd.ds.LookupSet:
     """Get place names LookupSet."""
 
-    residence_exceptions = dd.ds.LookupSet()
-
-    residence_exceptions.add_items_from_file(
-        file_path=os.path.join(data_path, "locations", "residence_exceptions.txt")
-    )
-
     placenames = dd.ds.LookupSet()
 
     placenames.add_items_from_file(
-        file_path=os.path.join(data_path, "locations", "residences.txt"),
+        file_path=os.path.join(data_path, "locations", "residences", "residences_long.txt"),
         cleaning_pipeline=[
             dd.str.StripString(),
         ],
     )
-
-    placenames.remove_items_from_iterable(residence_exceptions)
 
     placenames.add_items_from_file(
         file_path=os.path.join(data_path, "locations", "provinces.txt"),
@@ -164,22 +156,6 @@ def _get_placenames() -> dd.ds.LookupSet:
 
     placenames.add_items_from_self(
         cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()]
-    )
-
-    placenames.add_items_from_self(
-        cleaning_pipeline=[dd.str.ReplaceValue("Sint", "St.")]
-    )
-    placenames.add_items_from_self(
-        cleaning_pipeline=[dd.str.ReplaceValue("Sint", "st.")]
-    )
-    placenames.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("'t", "Het")])
-    placenames.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceValue("'t", "het")])
-
-    placenames.add_items_from_self(
-        cleaning_pipeline=[
-            dd.str.ReplaceValue("-", " "),
-            dd.str.ReplaceValue("  ", " "),
-        ]
     )
 
     placenames.add_items_from_self(

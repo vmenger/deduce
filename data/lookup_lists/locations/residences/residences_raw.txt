@@ -13,68 +13,59 @@
 's-Heerenhoek
 's-Hertogenbosch
 's-Molenaarsbuurt
-'t Beijersche
-'t Bergje
-'t Buurtje
-'t Coll
-'t Fér
-'t Goy
-'t Haantje
-'t Haantje (Dr)
-'t Haantje (Nb)
-'t Haantje (O)
-'t Haantje (Ov)
-'t Haantje (Zh)
-'t Haantje Dr
-'t Haantje Nb
-'t Haantje O
-'t Haantje Ov
-'t Haantje Zh
-'t Harde
-'t Heem
-'t Herselt
-'t Hoekje
-'t Hoekske
-'t Hof
-'t Horntje
-'t Kabel
-'t Kalf
-'t Klooster
-'t Kruis
-'t Laar
-'t Lage van de Weg
-'t Leuken
-'t Loo
-'t Loo
-'t Malijk
-'t Marktje
-'t Noorden
-'t Noorn
-'t Nopeind
-'t Oever
-'t Rijpje
-'t Rolder
-'t Rooth
-'t Schot
-'t Stort
-'t Veld
-'t Villeken
-'t Vlot
-'t Waar
-'t Wad
-'t Westeinde
-'t Wild
-'t Wildeveld
-'t Winkel
-'t Woud
-'t Woudt
-'t Zand
-'t Zand (Nb)
-'t Zand (Nh)
-'t Zand Nb
-'t Zand Nh
-'t Zandstervoorwerk
-'t Zandt
+het Beijersche
+het Bergje
+het Buurtje
+het Coll
+het Fér
+het Goy
+het Haantje
+het Haantje (Dr)
+het Haantje (Nb)
+het Haantje (Ov)
+het Haantje (Zh)
+het Harde
+het Heem
+het Herselt
+het Hoekje
+het Hoekske
+het Hof
+het Horntje
+het Kabel
+het Kalf
+het Klooster
+het Kruis
+het Laar
+het Lage van de Weg
+het Leuken
+het Loo
+het Malijk
+het Marktje
+het Noorden
+het Noorn
+het Nopeind
+het Oever
+het Rijpje
+het Rolder
+het Rooth
+het Schot
+het Stort
+het Veld
+het Villeken
+het Vlot
+het Waar
+het Wad
+het Westeinde
+het Wild
+het Wildeveld
+het Winkel
+het Woud
+het Woudt
+het Zand
+het Zand (Nb)
+het Zand (Nh)
+het Zandstervoorwerk
+het Zandt
 1e Exloërmond
 2e Exloërmond
 2e Valthermond
@@ -89,19 +80,13 @@ Aalsmeerderbrug
 Aalst
 Aalst (Gld)
 Aalst (Nb)
-Aalst Gld
-Aalst Nb
 Aalstvoort
 Aalsum
 Aalsum (Fr)
-Aalsum (Gn)
 Aalsum (Gr)
-Aalsum Fr
-Aalsum Gn
-Aalsum Gr
 Aalten
 Aam
-Aan 't Kruis
+Aan het Kruis
 Aan de Berg
 Aan de Bergen
 Aan de Rijksweg
@@ -134,7 +119,7 @@ Abshoven
 Abtswoude
 Achlum
 Acht
-Achter 't Hout
+Achter het Hout
 Achter het Klooster
 Achter-Drempt
 Achter-Lindt
@@ -145,23 +130,15 @@ Achterbosch
 Achterbroek
 Achterbroek (Nb)
 Achterbroek (Zh)
-Achterbroek Nb
-Achterbroek Zh
 Achterdichting
 Achterdiep
 Achterdijk
 Achterdijk (Nb)
 Achterdijk (Ut)
-Achterdijk Nb
-Achterdijk Ut
 Achtereind
 Achterhoek
 Achterhoek (Gld)
-Achterhoek (O)
 Achterhoek (Ov)
-Achterhoek Gld
-Achterhoek O
-Achterhoek Ov
 Achtersloot
 Achterste Brug
 Achterste Diesdonk
@@ -174,8 +151,6 @@ Achterste Rith
 Achterveld
 Achterveld (Gld)
 Achterveld (Ut)
-Achterveld Gld
-Achterveld Ut
 Achterwetering
 Achthoven
 Achthoven-Oost
@@ -195,9 +170,7 @@ Aerdenhout
 Aerdt
 Afferden
 Afferden (Gld)
-Afferden (L)
-Afferden Gld
-Afferden L
+Afferden (Li)
 Agelo
 Agodorp
 Aijen
@@ -244,18 +217,12 @@ Almkerk
 Alphen
 Alphen (Gld)
 Alphen (Nb)
-Alphen Gld
-Alphen Nb
 Alphen aan den Rijn
 Alphen-Oosterwijk
 Altena
 Alteveer
 Alteveer (Dr)
-Alteveer (Gn)
 Alteveer (Gr)
-Alteveer Dr
-Alteveer Gn
-Alteveer Gr
 Altforst
 Alting
 Altweert
@@ -376,12 +343,8 @@ Baarle
 Baarle-Nassau
 Baarle-Nassau Grens
 Baarlo
-Baarlo (L)
-Baarlo (O)
+Baarlo (Li)
 Baarlo (Ov)
-Baarlo L
-Baarlo O
-Baarlo Ov
 Baarn
 Baars
 Baarschot
@@ -468,11 +431,8 @@ Bedum
 Beegden
 Beek
 Beek (Gld)
-Beek (L)
+Beek (Li)
 Beek (Nb)
-Beek Gld
-Beek L
-Beek Nb
 Beek en Donk
 Beek-Ubbergen
 Beekbergen
@@ -488,8 +448,6 @@ Beerenplaat
 Beers
 Beers (Fr)
 Beers (Nb)
-Beers Fr
-Beers Nb
 Beerschoten
 Beersterhoogen
 Beerta
@@ -546,10 +504,8 @@ Benzenrade
 Berdelingebuurte
 Berenbroek
 Berg
-Berg (L)
+Berg (Li)
 Berg (Nb)
-Berg L
-Berg Nb
 Berg aan de Maas
 Berg en Dal
 Berg en Terblijt
@@ -557,10 +513,8 @@ Bergakker
 Bergambacht
 Bergeijk
 Bergen
-Bergen (L)
+Bergen (Li)
 Bergen (Nh)
-Bergen L
-Bergen Nh
 Bergen aan Zee
 Bergen op Zoom
 Bergenhuizen
@@ -570,21 +524,14 @@ Bergerden
 Bergermeer
 Bergharen
 Berghem
-Berghem (L)
+Berghem (Li)
 Berghem (Nb)
-Berghem L
-Berghem Nb
 Berghoek
 Berghof
 Berghuizen
 Berghuizen (Dr)
 Berghuizen (Gld)
-Berghuizen (O)
 Berghuizen (Ov)
-Berghuizen Dr
-Berghuizen Gld
-Berghuizen O
-Berghuizen Ov
 Berghum
 Bergsche Heide
 Bergschenhoek
@@ -619,11 +566,7 @@ Beugt
 Beukelaar
 Beuningen
 Beuningen (Gld)
-Beuningen (O)
 Beuningen (Ov)
-Beuningen Gld
-Beuningen O
-Beuningen Ov
 Beusbergen
 Beuseberg
 Beusichem
@@ -703,8 +646,6 @@ Blokhuizen
 Blokland
 Blokland (Ut)
 Blokland (Zh)
-Blokland Ut
-Blokland Zh
 Blokum
 Blokzijl
 Boalsert
@@ -722,8 +663,6 @@ Boeiink
 Boekel
 Boekel (Nb)
 Boekel (Nh)
-Boekel Nb
-Boekel Nh
 Boekelo
 Boekend
 Boeket
@@ -801,18 +740,14 @@ Boschkapelle
 Boschoord
 Boshoek
 Boshoven
-Boshoven (L)
+Boshoven (Li)
 Boshoven (Nb)
-Boshoven L
-Boshoven Nb
 Boshuizen
 Bosje
 Boskamp
 Boskant
 Boskant (Gld)
 Boskant (Nb)
-Boskant Gld
-Boskant Nb
 Boskoop
 Boslust
 Bosschenhoofd
@@ -844,8 +779,6 @@ Bovenkarspel
 Bovenkerk
 Bovenkerk (Nh)
 Bovenkerk (Zh)
-Bovenkerk Nh
-Bovenkerk Zh
 Bovenrijge
 Bovensas
 Bovensluis
@@ -854,11 +787,7 @@ Bovenste Caumer
 Bovenstehuis
 Bovenstreek
 Bovenstreek (Dr)
-Bovenstreek (Gn)
 Bovenstreek (Gr)
-Bovenstreek Dr
-Bovenstreek Gn
-Bovenstreek Gr
 Bovenstreek of Tonkensoord
 Bovenveen
 Boxmeer
@@ -868,29 +797,19 @@ Bozum
 Braakeind
 Braakpeel
 Braamberg
-Braamberg (Gn)
 Braamberg (Gr)
-Braamberg (O)
 Braamberg (Ov)
-Braamberg Gn
-Braamberg Gr
-Braamberg O
-Braamberg Ov
 Braambosch
 Braamt
 Brachterbeek
 Brakel
 Brakel (Gld)
 Brakel (Nb)
-Brakel Gld
-Brakel Nb
 Brammelerbroek
 Brammelo
 Brand
-Brand (L)
+Brand (Li)
 Brand (Nb)
-Brand L
-Brand Nb
 Brandemolen
 Brandt
 Brandwijk
@@ -933,18 +852,10 @@ Britswert
 Broek
 Broek (Fr)
 Broek (Gld)
-Broek (Gn)
 Broek (Gr)
-Broek (L)
+Broek (Li)
 Broek (Nb)
 Broek (Ut)
-Broek Fr
-Broek Gld
-Broek Gn
-Broek Gr
-Broek L
-Broek Nb
-Broek Ut
 Broek in Waterland
 Broek op Langedijk
 Broeke
@@ -955,19 +866,12 @@ Broekheurne
 Broekhin
 Broekhorn
 Broekhoven
-Broekhoven (L)
+Broekhoven (Li)
 Broekhoven (Nb)
-Broekhoven L
-Broekhoven Nb
 Broekhuizen
 Broekhuizen (Dr)
-Broekhuizen (L)
-Broekhuizen (O)
+Broekhuizen (Li)
 Broekhuizen (Ov)
-Broekhuizen Dr
-Broekhuizen L
-Broekhuizen O
-Broekhuizen Ov
 Broekhuizenvorst
 Broekkant
 Broekland
@@ -983,8 +887,6 @@ Brongergea
 Bronkhorst
 Bronkhorst (Gld)
 Bronkhorst (Nb)
-Bronkhorst Gld
-Bronkhorst Nb
 Bronneger
 Bronnegerveen
 Bronsveen
@@ -1017,8 +919,6 @@ Buinerveen
 Buitenhuizen
 Buitenhuizen (Dr)
 Buitenhuizen (Nh)
-Buitenhuizen Dr
-Buitenhuizen Nh
 Buitenkaag
 Buitenpost
 Buitenstverlaat
@@ -1035,8 +935,6 @@ Burdaard
 Buren
 Buren (Fr)
 Buren (Gld)
-Buren Fr
-Buren Gld
 Burgemeester Beinsdorp
 Burger Nieuwland
 Burgerbrug
@@ -1072,9 +970,7 @@ Cadzand-Bad
 Calfven
 Californië
 Californië (Gld)
-Californië (L)
-Californië Gld
-Californië L
+Californië (Li)
 Callantsoog
 Calslagen
 Caluna
@@ -1083,11 +979,7 @@ Campagne
 Camperduin
 Capelle
 Capelle (Nb)
-Capelle (Z)
 Capelle (Ze)
-Capelle Nb
-Capelle Z
-Capelle Ze
 Capelle aan den IJssel
 Cartils
 Castelre
@@ -1141,8 +1033,6 @@ Dale
 Dalem
 Dalem (Nb)
 Dalem (Zh)
-Dalem Nb
-Dalem Zh
 Dalen
 Dalerpeel
 Dalerveen
@@ -1151,10 +1041,8 @@ Dalfserveld
 Dallingeweer
 Dalmsholte
 Dam
-Dam (L)
+Dam (Li)
 Dam (Nh)
-Dam L
-Dam Nh
 Damwoude
 Damwâld
 Daniken
@@ -1170,15 +1058,9 @@ De Banne
 De Beek
 De Beek (Gld)
 De Beek (Nb)
-De Beek Gld
-De Beek Nb
 De Belt
 De Belt (Nh)
-De Belt (O)
 De Belt (Ov)
-De Belt Nh
-De Belt O
-De Belt Ov
 De Berckt
 De Berg
 De Bergen
@@ -1198,22 +1080,11 @@ De Bree
 De Broek
 De Bruil
 De Bruil (Gld)
-De Bruil (Gn)
 De Bruil (Gr)
-De Bruil Gld
-De Bruil Gn
-De Bruil Gr
 De Bult
 De Bult (Fr)
-De Bult (Gn)
 De Bult (Gr)
-De Bult (O)
 De Bult (Ov)
-De Bult Fr
-De Bult Gn
-De Bult Gr
-De Bult O
-De Bult Ov
 De Bus
 De Buurt
 De Cocksdorp
@@ -1240,26 +1111,14 @@ De Gordyk
 De Groep
 De Groeve
 De Groeve (Dr)
-De Groeve (Gn)
 De Groeve (Gr)
-De Groeve Dr
-De Groeve Gn
-De Groeve Gr
 De Haal
 De Haandrik
 De Haar
 De Haar (Dr)
 De Haar (Gld)
-De Haar (Gn)
 De Haar (Gr)
-De Haar (O)
 De Haar (Ov)
-De Haar Dr
-De Haar Gld
-De Haar Gn
-De Haar Gr
-De Haar O
-De Haar Ov
 De Haart
 De Haere
 De Hale
@@ -1273,10 +1132,8 @@ De Hegge
 De Heiberg
 De Heid
 De Heide
-De Heide (L)
+De Heide (Li)
 De Heide (Nb)
-De Heide L
-De Heide Nb
 De Hem
 De Heul
 De Heurne
@@ -1286,16 +1143,11 @@ De Heuven
 De Hilte
 De Himrik
 De Hoef
-De Hoef
 De Hoef (Nb)
 De Hoef (Ut)
-De Hoef Nb
-De Hoef Ut
 De Hoek
 De Hoek (Nb)
 De Hoek (Nh)
-De Hoek Nb
-De Hoek Nh
 De Hoelm
 De Hoeve
 De Hoeven
@@ -1318,23 +1170,14 @@ De Jammer
 De Jonas
 De Jouwer
 De Jouwer (Fr)
-De Jouwer (Gn)
 De Jouwer (Gr)
-De Jouwer Fr
-De Jouwer Gn
-De Jouwer Gr
 De Kaag
 De Kade
 De Kamp
 De Kampen
 De Kampen (Fr)
-De Kampen (Gn)
 De Kampen (Gr)
 De Kampen (Nh)
-De Kampen Fr
-De Kampen Gn
-De Kampen Gr
-De Kampen Nh
 De Kapel
 De Kar
 De Kempkens
@@ -1347,23 +1190,14 @@ De Kling
 De Klomp
 De Klosse
 De Klosse (Dr)
-De Klosse (O)
 De Klosse (Ov)
-De Klosse Dr
-De Klosse O
-De Klosse Ov
 De Knijp
 De Knijpe
 De Knipe
 De Kolk
 De Kolk (Dr)
 De Kolk (Nh)
-De Kolk (O)
 De Kolk (Ov)
-De Kolk Dr
-De Kolk Nh
-De Kolk O
-De Kolk Ov
 De Kolonie
 De Koog
 De Kooi
@@ -1373,13 +1207,8 @@ De Kraats
 De Krieger
 De Krim
 De Krim (Gld)
-De Krim (O)
 De Krim (Ov)
 De Krim (Ut)
-De Krim Gld
-De Krim O
-De Krim Ov
-De Krim Ut
 De Krosselt
 De Kwakel
 De Laan
@@ -1387,11 +1216,7 @@ De Laatste Stuiver
 De Laren
 De Leijen
 De Leijen (Nh)
-De Leijen (O)
 De Leijen (Ov)
-De Leijen Nh
-De Leijen O
-De Leijen Ov
 De Lemmer
 De Lent
 De Lethe
@@ -1403,7 +1228,6 @@ De Loo
 De Loofaert
 De Looi
 De Lutte
-De Lutte
 De Lytse Geast
 De Lytse Jouwer
 De Lêste Stoer
@@ -1411,24 +1235,16 @@ De Maat
 De Mars
 De Mars (Dr)
 De Mars (Gld)
-De Mars Dr
-De Mars Gld
 De Marshoek
 De Maten
 De Meele
 De Meene
 De Meene (Gld)
-De Meene (O)
 De Meene (Ov)
-De Meene Gld
-De Meene O
-De Meene Ov
 De Meern
 De Meije
 De Meije (Ut)
 De Meije (Zh)
-De Meije Ut
-De Meije Zh
 De Moer
 De Mortel
 De Muis
@@ -1446,8 +1262,6 @@ De Palen
 De Pan
 De Pan (Nb)
 De Pan (Zh)
-De Pan Nb
-De Pan Zh
 De Pas
 De Pein
 De Piepert
@@ -1455,11 +1269,7 @@ De Plaats
 De Poffert
 De Pol
 De Pol (Dr)
-De Pol (O)
 De Pol (Ov)
-De Pol Dr
-De Pol O
-De Pol Ov
 De Pollen
 De Posthoorn
 De Praets
@@ -1469,8 +1279,6 @@ De Rietschoof
 De Rijp
 De Rijp (Fr)
 De Rijp (Nh)
-De Rijp Fr
-De Rijp Nh
 De Rijtjes
 De Rips
 De Roemer
@@ -1515,10 +1323,8 @@ De Vlietberg
 De Voorstad
 De Voort
 De Vorst
-De Vorst (L)
+De Vorst (Li)
 De Vorst (Nb)
-De Vorst L
-De Vorst Nb
 De Waal
 De Waarden
 De Wacht
@@ -1533,19 +1339,12 @@ De Westen
 De Westereen
 De Wieren
 De Wijk
-De Wijk
 De Wijk (Dr)
 De Wijk (Gld)
-De Wijk (Gn)
 De Wijk (Gr)
-De Wijk Dr
-De Wijk Gld
-De Wijk Gn
-De Wijk Gr
 De Wilgen
 De Wilp
 De Wind
-De Woude
 De Woude
 De Wylgen
 De Zande
@@ -1571,11 +1370,7 @@ Delbuorren
 Delburen
 Delden
 Delden (Gld)
-Delden (O)
 Delden (Ov)
-Delden Gld
-Delden O
-Delden Ov
 Deldenerbroek
 Deldeneresch
 Delfgauw
@@ -1599,14 +1394,8 @@ Den Dool
 Den Dungen
 Den Haag
 Den Ham
-Den Ham (Gn)
 Den Ham (Gr)
-Den Ham (O)
 Den Ham (Ov)
-Den Ham Gn
-Den Ham Gr
-Den Ham O
-Den Ham Ov
 Den Hander
 Den Haver
 Den Helder
@@ -1615,8 +1404,6 @@ Den Hoek
 Den Hoorn
 Den Hoorn (Nh)
 Den Hoorn (Zh)
-Den Hoorn Nh
-Den Hoorn Zh
 Den Horn
 Den Hout
 Den Huizen
@@ -1647,8 +1434,6 @@ Dieden
 Diefdijk
 Diefdijk (Gld)
 Diefdijk (Ut)
-Diefdijk Gld
-Diefdijk Ut
 Diekendaal
 Diemen
 Diemerbroek
@@ -1666,10 +1451,8 @@ Diever
 Dieverbrug
 Diffelen
 Dijk
-Dijk (L)
+Dijk (Li)
 Dijk (Nb)
-Dijk L
-Dijk Nb
 Dijken
 Dijkerhoek
 Dijkerstraat
@@ -1718,10 +1501,8 @@ Dongjum
 Doniaburen
 Doniaga
 Donk
-Donk (L)
+Donk (Li)
 Donk (Nb)
-Donk L
-Donk Nb
 Donkerbroek
 Donkereind
 Donkersvoort
@@ -1766,15 +1547,10 @@ Driehoek
 Driehuis
 Driehuis (Nb)
 Driehuis (Nh)
-Driehuis Nb
-Driehuis Nh
 Driehuizen
-Driehuizen (L)
+Driehuizen (Li)
 Driehuizen (Nb)
 Driehuizen (Nh)
-Driehuizen L
-Driehuizen Nb
-Driehuizen Nh
 Driel
 Driemond
 Dries
@@ -1857,8 +1633,6 @@ Echteld
 Echten
 Echten (Dr)
 Echten (Fr)
-Echten Dr
-Echten Fr
 Echtenerbrug
 Echterbosch
 Eck en Wiel
@@ -1878,11 +1652,7 @@ Eekwerderdraai
 Eelde
 Eelderwolde
 Eelderwolde (Dr)
-Eelderwolde (Gn)
 Eelderwolde (Gr)
-Eelderwolde Dr
-Eelderwolde Gn
-Eelderwolde Gr
 Eelen
 Eelswerd
 Eembrugge
@@ -1902,11 +1672,7 @@ Eenum
 Eerbeek
 Eerde
 Eerde (Nb)
-Eerde (O)
 Eerde (Ov)
-Eerde Nb
-Eerde O
-Eerde Ov
 Eernewoude
 Eersel
 Eerste Dwarsdiep
@@ -1937,36 +1703,27 @@ Egmond-Binnen
 Egmondermeer
 Egypte
 Egypte (Fr)
-Egypte (L)
+Egypte (Li)
 Egypte (Nb)
-Egypte Fr
-Egypte L
-Egypte Nb
 Egypteneinde
 Eibergen
 Eibersburen
 Eijsden
 Eikberg
 Eikelenbosch
-Eikelenbosch (L)
+Eikelenbosch (Li)
 Eikelenbosch (Nb)
-Eikelenbosch L
-Eikelenbosch Nb
 Eikelhof
 Eikenheuvel
 Eikenpeel
 Eiland
-Eiland (L)
+Eiland (Li)
 Eiland (Nb)
-Eiland L
-Eiland Nb
 Eilanderbult
 Eimeren
 Eind
-Eind (L)
+Eind (Li)
 Eind (Nb)
-Eind L
-Eind Nb
 Eind van den Hout
 Eindewege
 Eindhoven
@@ -2004,23 +1761,16 @@ Elsendorp
 Elsenerbroek
 Elshof
 Elshout
-Elshout (L)
+Elshout (Li)
 Elshout (Nb)
-Elshout L
-Elshout Nb
 Elsloo
 Elsloo (Fr)
-Elsloo (L)
-Elsloo Fr
-Elsloo L
+Elsloo (Li)
 Elspeet
 Elst
 Elst (Gld)
 Elst (Nb)
 Elst (Ut)
-Elst Gld
-Elst Nb
-Elst Ut
 Elsteren
 Elswerd
 Elzen
@@ -2030,11 +1780,7 @@ Emmaberg
 Emmeloord
 Emmen
 Emmen (Dr)
-Emmen (O)
 Emmen (Ov)
-Emmen Dr
-Emmen O
-Emmen Ov
 Emmer-Compascuum
 Emmer-Erfscheidenveen
 Emmerschans
@@ -2048,11 +1794,7 @@ Eng
 Engbergen
 Engeland
 Engeland (Gld)
-Engeland (O)
 Engeland (Ov)
-Engeland Gld
-Engeland O
-Engeland Ov
 Engelbert
 Engelen
 Engelum
@@ -2095,11 +1837,7 @@ Espelo
 Essebroek
 Essen
 Essen (Gld)
-Essen (Gn)
 Essen (Gr)
-Essen Gld
-Essen Gn
-Essen Gr
 Est
 Esveld
 Etenaken
@@ -2108,8 +1846,6 @@ Etsberg
 Etten
 Etten (Gld)
 Etten (Nb)
-Etten Gld
-Etten Nb
 Etten-Leur
 Etzenrade
 Europoort Rotterdam
@@ -2264,8 +2000,6 @@ Geersdijk
 Geerstraat
 Geerstraat (Gld)
 Geerstraat (Nb)
-Geerstraat Gld
-Geerstraat Nb
 Geertruidenberg
 Geervliet
 Gees
@@ -2273,11 +2007,7 @@ Geesbrug
 Geestdorp
 Geesteren
 Geesteren (Gld)
-Geesteren (O)
 Geesteren (Ov)
-Geesteren Gld
-Geesteren O
-Geesteren Ov
 Geeuwenbrug
 Geffen
 Geijsteren
@@ -2422,8 +2152,6 @@ Groenendaal
 Groenendijk
 Groenendijk (Nb)
 Groenendijk (Zh)
-Groenendijk Nb
-Groenendijk Zh
 Groeneweg
 Groenewoud
 Groeningen
@@ -2514,14 +2242,8 @@ Halfmijl
 Halfweg
 Halfweg (Fr)
 Halfweg (Nh)
-Halfweg (O)
 Halfweg (Ov)
 Halfweg (Zh)
-Halfweg Fr
-Halfweg Nh
-Halfweg O
-Halfweg Ov
-Halfweg Zh
 Hall
 Halle
 Hallerhoek
@@ -2532,10 +2254,8 @@ Halsteren
 Halte
 Halvinkhuizen
 Ham
-Ham (L)
+Ham (Li)
 Ham (Nb)
-Ham L
-Ham Nb
 Hamdijk
 Hamingen
 Hammeland
@@ -2570,19 +2290,12 @@ Harderhaven
 Harderwijk
 Harderwijk (Gld)
 Harderwijk (Nh)
-Harderwijk Gld
-Harderwijk Nh
 Hardeweer
 Hardinxveld-Giessendam
 Haren
-Haren (Gn)
 Haren (Gr)
-Haren (L)
+Haren (Li)
 Haren (Nb)
-Haren Gn
-Haren Gr
-Haren L
-Haren Nb
 Harendermolen
 Harfsen
 Hargen
@@ -2617,12 +2330,8 @@ Hasseberg
 Hasselderheide
 Hasselo
 Hasselt
-Hasselt (L)
-Hasselt (O)
+Hasselt (Li)
 Hasselt (Ov)
-Hasselt L
-Hasselt O
-Hasselt Ov
 Hatenboer
 Hatsum
 Hattelaar
@@ -2650,8 +2359,6 @@ Hebrecht
 Hedel
 Hedel (Gld)
 Hedel (Nb)
-Hedel Gld
-Hedel Nb
 Hedikhuizen
 Hee
 Heech
@@ -2669,8 +2376,6 @@ Heemskerkerduin
 Heemstede
 Heemstede (Nh)
 Heemstede (Ut)
-Heemstede Nh
-Heemstede Ut
 Heemstee
 Heensche Molen
 Heenvliet
@@ -2695,8 +2400,6 @@ Heerstraat
 Hees
 Hees (Dr)
 Hees (Ut)
-Hees Dr
-Hees Ut
 Heesakker
 Heesbeen
 Heesboom
@@ -2706,8 +2409,6 @@ Heesselt
 Heeswijk
 Heeswijk (Nb)
 Heeswijk (Ut)
-Heeswijk Nb
-Heeswijk Ut
 Heeswijk-Dinther
 Heeten
 Heetveld
@@ -2718,20 +2419,15 @@ Hegebeintum
 Hegelsom
 Hegge
 Hei
-Hei (L)
+Hei (Li)
 Hei (Nb)
-Hei L
-Hei Nb
 Hei- en Boeicop
 Heiakker
 Heibloem
 Heide
 Heide (Fr)
 Heide (Gld)
-Heide (L)
-Heide Fr
-Heide Gld
-Heide L
+Heide (Li)
 Heidekant
 Heidenhoek
 Heidenschap
@@ -2753,11 +2449,7 @@ Heikant (Nb)
 Heikant (Overloon)
 Heikant (Sambeek)
 Heikant (Sint Anthonis)
-Heikant (Z)
 Heikant (Ze)
-Heikant Nb
-Heikant Z
-Heikant Ze
 Heikantse Hoeve
 Heilig Landstichting
 Heiligeboom
@@ -2786,8 +2478,6 @@ Helenaveen
 Helhoek
 Helhoek (Gld)
 Helhoek (Zh)
-Helhoek Gld
-Helhoek Zh
 Helkant
 Hell
 Helle
@@ -2810,20 +2500,12 @@ Hembrug
 Hemelum
 Hemert
 Hemert (Fr)
-Hemert (Gn)
 Hemert (Gr)
-Hemert Fr
-Hemert Gn
-Hemert Gr
 Hemkewerf
 Hemmemabuurt
 Hemmen
 Hemmen (Gld)
-Hemmen (Gn)
 Hemmen (Gr)
-Hemmen Gld
-Hemmen Gn
-Hemmen Gr
 Hempens
 Hemrik
 Hemrikerverlaat
@@ -2831,11 +2513,7 @@ Hendrik-Ido-Ambacht
 Hengeland
 Hengelo
 Hengelo (Gld)
-Hengelo (O)
 Hengelo (Ov)
-Hengelo Gld
-Hengelo O
-Hengelo Ov
 Hengevelde
 Hengforden
 Hengstdijk
@@ -2877,12 +2555,8 @@ Het Reidland
 Het Sas
 Het Schier
 Het Schoor
-Het Schoor (Gn)
 Het Schoor (Gr)
 Het Schoor (Nb)
-Het Schoor Gn
-Het Schoor Gr
-Het Schoor Nb
 Het Schouw
 Het Stift
 Het Veen
@@ -2890,18 +2564,12 @@ Het Vorst
 Het Woud
 Het Zand
 Het Zand (Gld)
-Het Zand (Z)
 Het Zand (Ze)
-Het Zand Gld
-Het Zand Z
-Het Zand Ze
 Heteren
 Heugde
 Heukelom
-Heukelom (L)
+Heukelom (Li)
 Heukelom (Nb)
-Heukelom L
-Heukelom Nb
 Heukelum
 Heult
 Heumen
@@ -2963,15 +2631,9 @@ Hoef en Haag
 Hoefkens
 Hoek
 Hoek (Gld)
-Hoek (L)
+Hoek (Li)
 Hoek (Nb)
-Hoek (Z)
 Hoek (Ze)
-Hoek Gld
-Hoek L
-Hoek Nb
-Hoek Z
-Hoek Ze
 Hoek van Holland
 Hoek van de Dijk
 Hoekdries
@@ -2986,14 +2648,10 @@ Hoenzadriel
 Hoeve
 Hoeve (Gld)
 Hoeve (Nb)
-Hoeve Gld
-Hoeve Nb
 Hoevelaken
 Hoeven
-Hoeven (L)
+Hoeven (Li)
 Hoeven (Nb)
-Hoeven L
-Hoeven Nb
 Hoeves
 Hoevestein
 Hof
@@ -3078,8 +2736,6 @@ Hoogehaar
 Hoogeind
 Hoogeind (Nb)
 Hoogeind (Ut)
-Hoogeind Nb
-Hoogeind Ut
 Hoogeloon
 Hoogemeeden
 Hoogen-Aarle
@@ -3104,10 +2760,8 @@ Hoogmeien
 Hoogriebroek
 Hoogschans
 Hoogstraat
-Hoogstraat (L)
+Hoogstraat (Li)
 Hoogstraat (Nb)
-Hoogstraat L
-Hoogstraat Nb
 Hoogveld
 Hoogvliet
 Hoogvliet Rotterdam
@@ -3122,16 +2776,9 @@ Hoonte
 Hoorn
 Hoorn (Fr)
 Hoorn (Gld)
-Hoorn (Gn)
 Hoorn (Gr)
 Hoorn (Nh)
 Hoorn (Zh)
-Hoorn Fr
-Hoorn Gld
-Hoorn Gn
-Hoorn Gr
-Hoorn Nh
-Hoorn Zh
 Hoornaar
 Hoornderveen
 Hoornerveen
@@ -3142,10 +2789,8 @@ Hoptille
 Horick
 Horickheide
 Horn
-Horn (L)
+Horn (Li)
 Horn (Nh)
-Horn L
-Horn Nh
 Horne
 Hornhuizen
 Hornsterburen
@@ -3153,26 +2798,17 @@ Horp
 Horssen
 Horst
 Horst (Gld)
-Horst (L)
+Horst (Li)
 Horst (Nb)
-Horst Gld
-Horst L
-Horst Nb
 Horsten
-Horsten (Gn)
 Horsten (Gr)
-Horsten (L)
-Horsten Gn
-Horsten Gr
-Horsten L
+Horsten (Li)
 Horstermeer
 Horsthoek
 Horzik
 Hout
-Hout (L)
+Hout (Li)
 Hout (Nb)
-Hout L
-Hout Nb
 Hout-Blerick
 Houtbroek
 Houtdijken
@@ -3199,8 +2835,6 @@ Huins
 Huis ter Heide
 Huis ter Heide (Dr)
 Huis ter Heide (Ut)
-Huis ter Heide Dr
-Huis ter Heide Ut
 Huisduinen
 Huiskebuurt
 Huisseling
@@ -3218,12 +2852,8 @@ Hulsberg
 Hulsdonk
 Hulsel
 Hulsen
-Hulsen (L)
-Hulsen (O)
+Hulsen (Li)
 Hulsen (Ov)
-Hulsen L
-Hulsen O
-Hulsen Ov
 Hulshorst
 Hulst
 Hulten
@@ -3353,11 +2983,7 @@ Kadoelen
 Kaffeberg
 Kalenberg
 Kalenberg (Dr)
-Kalenberg (O)
 Kalenberg (Ov)
-Kalenberg Dr
-Kalenberg O
-Kalenberg Ov
 Kalishoek
 Kalkwijk
 Kallenbroek
@@ -3369,11 +2995,7 @@ Kamerik
 Kamp
 Kampen
 Kampen (Fr)
-Kampen (O)
 Kampen (Ov)
-Kampen Fr
-Kampen O
-Kampen Ov
 Kamperland
 Kampershoek
 Kamperveen
@@ -3387,8 +3009,6 @@ Kapel
 Kapel (Gld)
 Kapel (Nh)
 Kapel Avezaath
-Kapel Gld
-Kapel Nh
 Kapel-Avezaath
 Kapeleind
 Kapelle
@@ -3413,8 +3033,6 @@ Kattendijke
 Katwijk
 Katwijk (Nb)
 Katwijk (Zh)
-Katwijk Nb
-Katwijk Zh
 Katwijkerlaan
 Katwoude
 Kaumeshoek
@@ -3439,8 +3057,6 @@ Kerk-Avezaath
 Kerkbuurt
 Kerkbuurt (Nh)
 Kerkbuurt (Zh)
-Kerkbuurt Nh
-Kerkbuurt Zh
 Kerkdorp
 Kerkdriel
 Kerkeburen
@@ -3456,10 +3072,8 @@ Kerkwijk
 Kerspel Goor
 Keske
 Kessel
-Kessel (L)
+Kessel (Li)
 Kessel (Nb)
-Kessel L
-Kessel Nb
 Kessel-Eik
 Kesteren
 Ketelhaven
@@ -3486,11 +3100,7 @@ Kijfhoek
 Kijfwaard
 Kijkuit
 Kijkuit (Nb)
-Kijkuit (Z)
 Kijkuit (Ze)
-Kijkuit Nb
-Kijkuit Z
-Kijkuit Ze
 Kilder
 Kille
 Kimswerd
@@ -3550,9 +3160,7 @@ Klein-Zundert
 Kleinder-Liempde
 Kleindorp
 Kleindorp (Gld)
-Kleindorp (L)
-Kleindorp Gld
-Kleindorp L
+Kleindorp (Li)
 Kleine Bottel
 Kleine Gaastmeer
 Kleine Horst
@@ -3579,17 +3187,13 @@ Kling
 Klinkenberg
 Klinkenberg (Gld)
 Klinkenberg (Zh)
-Klinkenberg Gld
-Klinkenberg Zh
 Klispoel
 Kloetinge
 Klooster
 Klooster (Dr)
 Klooster (Nb)
 Klooster Anjum
-Klooster Dr
 Klooster Lidlum
-Klooster Nb
 Klooster-Lidlum
 Kloosterburen
 Kloostereind
@@ -3653,12 +3257,10 @@ Kooldert
 Koolwijk
 Koolwijk (Nb)
 Koolwijk (Zh)
-Koolwijk Nb
-Koolwijk Zh
 Kootstertille
 Kootwijk
 Kootwijkerbroek
-Kop van 't Land
+Kop van het Land
 Kopaf
 Kopstukken
 Korengarst
@@ -3742,12 +3344,8 @@ Kruispad
 Kruisschot
 Kruisstraat
 Kruisweg
-Kruisweg (Gn)
 Kruisweg (Gr)
 Kruisweg (Zh)
-Kruisweg Gn
-Kruisweg Gr
-Kruisweg Zh
 Kröddeburen
 Kubaard
 Kudelstaart
@@ -3773,8 +3371,6 @@ Kwakkel
 Kwartier
 Kwartier (Gld)
 Kwartier (Nb)
-Kwartier Gld
-Kwartier Nb
 Kwintsheul
 Kûbaard
 Kûkherne
@@ -3794,16 +3390,12 @@ Laagriebroek
 Laagstraat
 Laak
 Laak (Gld)
-Laak (L)
-Laak Gld
-Laak L
+Laak (Li)
 Laaksum
 Laakwerd
 Laar
-Laar (L)
+Laar (Li)
 Laar (Nb)
-Laar L
-Laar Nb
 Laarbroek
 Laareind
 Laarstraat
@@ -3826,12 +3418,8 @@ Lageland
 Lagemeeden
 Lagenheuvel
 Lageweg
-Lageweg (Gn)
 Lageweg (Gr)
 Lageweg (Zh)
-Lageweg Gn
-Lageweg Gr
-Lageweg Zh
 Lakei
 Lakerveld
 Lalleweer
@@ -3857,11 +3445,7 @@ Langeheit
 Langelille
 Langelo
 Langelo (Dr)
-Langelo (O)
 Langelo (Ov)
-Langelo Dr
-Langelo O
-Langelo Ov
 Langenberg
 Langenboom
 Langendijk
@@ -3870,8 +3454,6 @@ Langeraar
 Langerak
 Langerak (Gld)
 Langerak (Zh)
-Langerak Gld
-Langerak Zh
 Langereis
 Langerijp
 Langeschouw
@@ -3882,10 +3464,8 @@ Langeweide
 Langezwaag
 Langlaar
 Langstraat
-Langstraat (L)
+Langstraat (Li)
 Langstraat (Zh)
-Langstraat L
-Langstraat Zh
 Langsweagen
 Langwar
 Langweer
@@ -3894,8 +3474,6 @@ Lankhorst
 Laren
 Laren (Gld)
 Laren (Nh)
-Laren Gld
-Laren Nh
 Laskwerd
 Lathum
 Lattrop
@@ -3927,17 +3505,11 @@ Leeuw
 Leeuwarden
 Leeuwen
 Leeuwen (Gld)
-Leeuwen (L)
-Leeuwen Gld
-Leeuwen L
+Leeuwen (Li)
 Leeuwerik
 Leeuwte
 Leeuwte (Dr)
-Leeuwte (O)
 Leeuwte (Ov)
-Leeuwte Dr
-Leeuwte O
-Leeuwte Ov
 Leg
 Legemar
 Legemeer
@@ -3976,8 +3548,6 @@ Leunen
 Leur
 Leur (Gld)
 Leur (Nb)
-Leur Gld
-Leur Nb
 Leurke
 Leusden
 Leusden-Zuid
@@ -4004,8 +3574,6 @@ Lierop
 Lies
 Lies (Fr)
 Lies (Nb)
-Lies Fr
-Lies Nb
 Lieseind
 Lieshout
 Liessel
@@ -4018,8 +3586,6 @@ Ligtenberg
 Lijnden
 Lijnden (Gld)
 Lijnden (Nh)
-Lijnden Gld
-Lijnden Nh
 Lijndonk
 Lijst van gemeenten in Zuid-Holland naar inwoneraantal
 Lijst van voormalige gemeenten in Zuid-Holland
@@ -4028,12 +3594,7 @@ Limmen
 Linde
 Linde (Dr)
 Linde (Gld)
-Linde (O)
 Linde (Ov)
-Linde Dr
-Linde Gld
-Linde O
-Linde Ov
 Linden
 Lingsfort
 Linne
@@ -4056,10 +3617,8 @@ Ljussens
 Lobith
 Lochem
 Locht
-Locht (L)
+Locht (Li)
 Locht (Nb)
-Locht L
-Locht Nb
 Lochtenburg
 Lochuizen
 Loenen
@@ -4077,15 +3636,9 @@ Longerhouw
 Lonneker
 Loo
 Loo (Gld)
-Loo (L)
+Loo (Li)
 Loo (Nb)
-Loo (O)
 Loo (Ov)
-Loo Gld
-Loo L
-Loo Nb
-Loo O
-Loo Ov
 Loobeek
 Loobrink
 Looieind
@@ -4094,8 +3647,6 @@ Look
 Loon
 Loon (Dr)
 Loon (Nb)
-Loon Dr
-Loon Nb
 Loon op Zand
 Looneind
 Loons Hoekje
@@ -4196,8 +3747,6 @@ Makkingea
 Makkum
 Makkum (Dr)
 Makkum (Fr)
-Makkum Dr
-Makkum Fr
 Malden
 Maliskamp
 Mallem
@@ -4235,11 +3784,7 @@ Marrum
 Marssum
 Marsum
 Marsum (Fr)
-Marsum (Gn)
 Marsum (Gr)
-Marsum Fr
-Marsum Gn
-Marsum Gr
 Martenshoek
 Marum
 Marwijksoord
@@ -4263,11 +3808,7 @@ Meedhuizen
 Meemortel
 Meer
 Meer (Nb)
-Meer (O)
 Meer (Ov)
-Meer Nb
-Meer O
-Meer Ov
 Meerenbroek
 Meerkerk
 Meerland
@@ -4284,8 +3825,6 @@ Meerwijck
 Meerwijk
 Meerwijk (Gld)
 Meerwijk (Nb)
-Meerwijk Gld
-Meerwijk Nb
 Meeuwen
 Megchelen
 Megelsum
@@ -4307,8 +3846,6 @@ Menneweer
 Mennonietenbuurt
 Mennonietenbuurt (Nh)
 Mennonietenbuurt (Ut)
-Mennonietenbuurt Nh
-Mennonietenbuurt Ut
 Mensingeweer
 Menzel
 Meppel
@@ -4318,12 +3855,8 @@ Merlenberg
 Merm
 Merselo
 Merum
-Merum (Gn)
 Merum (Gr)
-Merum (L)
-Merum Gn
-Merum Gr
-Merum L
+Merum (Li)
 Mesch
 Meteren
 Meterik
@@ -4334,23 +3867,15 @@ Mheer
 Midbuul
 Middel
 Middel (Nh)
-Middel (O)
 Middel (Ov)
-Middel Nh
-Middel O
-Middel Ov
 Middelaar
 Middelbeers
 Middelbert
 Middelbuorren
 Middelburen
 Middelburg
-Middelburg (Z)
 Middelburg (Ze)
 Middelburg (Zh)
-Middelburg Z
-Middelburg Ze
-Middelburg Zh
 Middelharnis
 Middelie
 Middelkoop
@@ -4420,21 +3945,14 @@ Molenbelt
 Molenbuurt
 Molenbuurt (Nh)
 Molenbuurt (Ut)
-Molenbuurt Nh
-Molenbuurt Ut
 Molendijk
 Moleneind
 Molenend
 Molengat
 Molenhoek
 Molenhoek (Gld)
-Molenhoek (L)
-Molenhoek (O)
+Molenhoek (Li)
 Molenhoek (Ov)
-Molenhoek Gld
-Molenhoek L
-Molenhoek O
-Molenhoek Ov
 Molenhof
 Molenhuizen
 Molenpolder
@@ -4542,13 +4060,9 @@ Nekkeveld
 Nergena
 Nergena (Gld)
 Nergena (Nb)
-Nergena Gld
-Nergena Nb
 Nes
 Nes (Fr)
 Nes (Nh)
-Nes Fr
-Nes Nh
 Nes aan de Amstel
 Nessersluis
 Netersel
@@ -4603,11 +4117,7 @@ Nieuwe Krim
 Nieuwe Meer
 Nieuwe Molen
 Nieuwe Molen (Nb)
-Nieuwe Molen (Z)
 Nieuwe Molen (Ze)
-Nieuwe Molen Nb
-Nieuwe Molen Z
-Nieuwe Molen Ze
 Nieuwe Niedorp
 Nieuwe Pekela
 Nieuwe Schans
@@ -4616,12 +4126,8 @@ Nieuwe Strumpt
 Nieuwe Tuinen
 Nieuwe Vaart
 Nieuwe Wetering
-Nieuwe Wetering (O)
 Nieuwe Wetering (Ov)
 Nieuwe Wetering (Zh)
-Nieuwe Wetering O
-Nieuwe Wetering Ov
-Nieuwe Wetering Zh
 Nieuwe-Tonge
 Nieuwe-Vaart
 Nieuwe-Wetering
@@ -4630,12 +4136,7 @@ Nieuwebildtzijl
 Nieuwebrug
 Nieuwebrug (Fr)
 Nieuwebrug (Nh)
-Nieuwebrug (O)
 Nieuwebrug (Ov)
-Nieuwebrug Fr
-Nieuwebrug Nh
-Nieuwebrug O
-Nieuwebrug Ov
 Nieuwediep
 Nieuwegein
 Nieuwehorne
@@ -4644,8 +4145,6 @@ Nieuwenberg
 Nieuwendijk
 Nieuwendijk (Nb)
 Nieuwendijk (Zh)
-Nieuwendijk Nb
-Nieuwendijk Zh
 Nieuwenhagen
 Nieuwenhoorn
 Nieuwer Ter Aa
@@ -4674,8 +4173,6 @@ Nieuwolda-Oost
 Nieuwpoort
 Nieuwpoort (Nh)
 Nieuwpoort (Zh)
-Nieuwpoort Nh
-Nieuwpoort Zh
 Nieuwstadt
 Nieuwveen
 Nieuwvliet
@@ -4729,11 +4226,7 @@ Noetsele
 Nolde
 Nooitgedacht
 Nooitgedacht (Dr)
-Nooitgedacht (Gn)
 Nooitgedacht (Gr)
-Nooitgedacht Dr
-Nooitgedacht Gn
-Nooitgedacht Gr
 Noorbeek
 Noord
 Noord Deurningen
@@ -4753,24 +4246,15 @@ Noordbergum
 Noordbroek
 Noordburen
 Noorddijk
-Noorddijk (Gn)
 Noorddijk (Gr)
 Noorddijk (Nh)
-Noorddijk Gn
-Noorddijk Gr
-Noorddijk Nh
 Noorddorp
 Noordeinde
 Noordeinde (Gld)
 Noordeinde (Nh)
 Noordeinde (Ut)
-Noordeinde (Z)
+Noordeinde (Ze)
 Noordeinde (Zh)
-Noordeinde Gld
-Noordeinde Nh
-Noordeinde Ut
-Noordeinde Z
-Noordeinde Zh
 Noordeloos
 Noorden
 Noorderburen
@@ -4781,8 +4265,6 @@ Noorderkolonie
 Noordermeer
 Noordermeer (Fr)
 Noordermeer (Nh)
-Noordermeer Fr
-Noordermeer Nh
 Noorderwuppen
 Noordgouwe
 Noordhoek
@@ -4791,11 +4273,7 @@ Noordhornerga
 Noordhornertolhek
 Noordijk
 Noordijk (Gld)
-Noordijk (O)
 Noordijk (Ov)
-Noordijk Gld
-Noordijk O
-Noordijk Ov
 Noordijkerveld
 Noordink
 Noordkant
@@ -4808,21 +4286,13 @@ Noordse Dorp
 Noordwelle
 Noordwijk
 Noordwijk (Dr)
-Noordwijk (Gn)
 Noordwijk (Gr)
-Noordwijk Dr
-Noordwijk Gn
-Noordwijk Gr
 Noordwijk aan Zee
 Noordwijk-Binnen
 Noordwijkerhout
 Noordwolde
 Noordwolde (Fr)
-Noordwolde (Gn)
 Noordwolde (Gr)
-Noordwolde Fr
-Noordwolde Gn
-Noordwolde Gr
 Noordzijde
 Nootdorp
 Norg
@@ -4864,9 +4334,7 @@ Oene
 Oenkerk
 Oensel
 Oensel (Gld)
-Oensel (L)
-Oensel Gld
-Oensel L
+Oensel (Li)
 Oentsjerk
 Oerle
 Oerterp
@@ -4947,29 +4415,17 @@ Oostburg
 Oostburgsche Brug
 Oostbuurt
 Oostdijk
-Oostdijk (Z)
 Oostdijk (Ze)
 Oostdijk (Zh)
-Oostdijk Z
-Oostdijk Ze
-Oostdijk Zh
 Oosteind
 Oosteind (Nb)
 Oosteind (Zh)
-Oosteind Nb
-Oosteind Zh
 Oosteinde
 Oosteinde (Aalsmeer)
 Oosteinde (Dr)
 Oosteinde (Gld)
-Oosteinde (Gn)
 Oosteinde (Gr)
 Oosteinde (Zh)
-Oosteinde Dr
-Oosteinde Gld
-Oosteinde Gn
-Oosteinde Gr
-Oosteinde Zh
 Oostelbeers
 Oostendam
 Oostendorp
@@ -4987,8 +4443,6 @@ Oostereinde
 Oosterend
 Oosterend (Fr)
 Oosterend (Nh)
-Oosterend Fr
-Oosterend Nh
 Oosterens
 Oostergouw
 Oosterhesselen
@@ -4997,24 +4451,14 @@ Oosterhoogebrug
 Oosterhout
 Oosterhout (Gld)
 Oosterhout (Nb)
-Oosterhout Gld
-Oosterhout Nb
 Oosterhuizen
 Oosterhuizen (Gld)
-Oosterhuizen (Gn)
 Oosterhuizen (Gr)
-Oosterhuizen Gld
-Oosterhuizen Gn
-Oosterhuizen Gr
 Oosterik
 Oosterklief
 Oosterland
 Oosterland (Nh)
-Oosterland (Z)
 Oosterland (Ze)
-Oosterland Nh
-Oosterland Z
-Oosterland Ze
 Oosterleek
 Oosterlittens
 Oostermeer
@@ -5028,15 +4472,11 @@ Oosterwierum
 Oosterwijk
 Oosterwijk (Gld)
 Oosterwijk (Ut)
-Oosterwijk Gld
-Oosterwijk Ut
 Oosterwijtwerd
 Oosterwijzend
 Oosterwolde
 Oosterwolde (Fr)
 Oosterwolde (Gld)
-Oosterwolde Fr
-Oosterwolde Gld
 Oosterzand
 Oosterzee
 Oosterzee-Buren
@@ -5052,9 +4492,7 @@ Oostmahorn
 Oostmijzen
 Oostrum
 Oostrum (Fr)
-Oostrum (L)
-Oostrum Fr
-Oostrum L
+Oostrum (Li)
 Oostum
 Oostvoorne
 Oostwold
@@ -5063,18 +4501,14 @@ Oostwolderpolder
 Oostwoud
 Oostwoud (Fr)
 Oostwoud (Nh)
-Oostwoud Fr
-Oostwoud Nh
 Oostzaan
 Ootmarsum
 Op de Belt
 Op de Bies
 Op de Bos
 Op den Bosch
-Op den Bosch (L)
+Op den Bosch (Li)
 Op den Bosch (Nb)
-Op den Bosch L
-Op den Bosch Nb
 Op den Bout
 Op den Hering
 Op den Hert
@@ -5164,17 +4598,9 @@ Oude Maasdijk
 Oude Meer
 Oude Molen
 Oude Molen (Nb)
-Oude Molen (O)
 Oude Molen (Ov)
-Oude Molen (Z)
 Oude Molen (Ze)
 Oude Molen (Zh)
-Oude Molen Nb
-Oude Molen O
-Oude Molen Ov
-Oude Molen Z
-Oude Molen Ze
-Oude Molen Zh
 Oude Niedorp
 Oude Pekela
 Oude Polder
@@ -5200,16 +4626,11 @@ Oudemirdum
 Oudemolen
 Oudemolen (Dr)
 Oudemolen (Nb)
-Oudemolen Dr
-Oudemolen Nb
 Oudenbosch
 Oudendijk
 Oudendijk (Nb)
 Oudendijk (Nh)
 Oudendijk (Zh)
-Oudendijk Nb
-Oudendijk Nh
-Oudendijk Zh
 Oudenhoorn
 Oudenmolen
 Oudenrijn
@@ -5233,8 +4654,6 @@ Oudwoude
 Oukoop
 Oukoop (Ut)
 Oukoop (Zh)
-Oukoop Ut
-Oukoop Zh
 Ousterhaule
 Ousternijegea
 Ouwe-Syl
@@ -5250,8 +4669,6 @@ Overasselt
 Overberg
 Overberg (Nb)
 Overberg (Ut)
-Overberg Nb
-Overberg Ut
 Overbiel
 Overboeicop
 Overbroek
@@ -5307,11 +4724,7 @@ Papenvoort
 Papervoort
 Paradijs
 Paradijs (Nh)
-Paradijs (Z)
 Paradijs (Ze)
-Paradijs Nh
-Paradijs Z
-Paradijs Ze
 Park
 Park Leeuwenbergh
 Parrega
@@ -5322,11 +4735,7 @@ Passewaaij
 Passluis
 Paterswolde
 Paterswolde (Dr)
-Paterswolde (Gn)
 Paterswolde (Gr)
-Paterswolde Dr
-Paterswolde Gn
-Paterswolde Gr
 Peazens
 Peebos
 Peelkant
@@ -5402,11 +4811,7 @@ Posterenk
 Posterholt
 Posthoorn
 Posthoorn (Gld)
-Posthoorn (Z)
 Posthoorn (Ze)
-Posthoorn Gld
-Posthoorn Z
-Posthoorn Ze
 Pothoek
 Pottenberg
 Pottum
@@ -5523,8 +4928,6 @@ Rietmolen
 Rietveld
 Rietveld (Ut)
 Rietveld (Zh)
-Rietveld Ut
-Rietveld Zh
 Rietven
 Riis
 Rijckholt
@@ -5550,9 +4953,6 @@ Rijswijk
 Rijswijk (Gld)
 Rijswijk (Nb)
 Rijswijk (Zh)
-Rijswijk Gld
-Rijswijk Nb
-Rijswijk Zh
 Rijt
 Rijtseterp
 Rilland
@@ -5615,11 +5015,7 @@ Roskam
 Rosmalen
 Rossum
 Rossum (Gld)
-Rossum (O)
 Rossum (Ov)
-Rossum Gld
-Rossum O
-Rossum Ov
 Rosveld
 Roswinkel
 Rotbrink
@@ -5634,24 +5030,16 @@ Rotterdam-Albrandswaard
 Rottevalle
 Rottum
 Rottum (Fr)
-Rottum (Gn)
 Rottum (Gr)
-Rottum Fr
-Rottum Gn
-Rottum Gr
 Rottumeroog
 Rottumerplaat
 Rouveen
 Rozenburg
 Rozenburg (Nh)
 Rozenburg (Zh)
-Rozenburg Nh
-Rozenburg Zh
 Rozendaal
 Rozendaal (Gld)
-Rozendaal (L)
-Rozendaal Gld
-Rozendaal L
+Rozendaal (Li)
 Rozewerf
 Rucphen
 Rugdijk
@@ -5714,11 +5102,8 @@ Schaluinen
 Schandelo
 Schans
 Schans (Gld)
-Schans (L)
+Schans (Li)
 Schans (Nb)
-Schans Gld
-Schans L
-Schans Nb
 Schapehals
 Schapenbout
 Schaphalsterzijl
@@ -5751,8 +5136,6 @@ Scherpenisse
 Scherpenzeel
 Scherpenzeel (Fr)
 Scherpenzeel (Gld)
-Scherpenzeel Fr
-Scherpenzeel Gld
 Schettens
 Scheulder
 Scheveningen
@@ -5815,11 +5198,7 @@ Schrins
 Schuddebeurs
 Schuilenburg
 Schuilenburg (Fr)
-Schuilenburg (O)
 Schuilenburg (Ov)
-Schuilenburg Fr
-Schuilenburg O
-Schuilenburg Ov
 Schuinesloot
 Schulpstet
 Schurega
@@ -5845,9 +5224,7 @@ Sibbe
 Sibculo
 Siberië
 Siberië (Dr)
-Siberië (L)
-Siberië Dr
-Siberië L
+Siberië (Li)
 Sibrandabuorren
 Sibrandahûs
 Siddeburen
@@ -5867,11 +5244,7 @@ Sinselbeek
 Sint Agatha
 Sint Andries
 Sint Andries (Gld)
-Sint Andries (Z)
 Sint Andries (Ze)
-Sint Andries Gld
-Sint Andries Z
-Sint Andries Ze
 Sint Anna ter Muiden
 Sint Annaparochie
 Sint Anne
@@ -5945,11 +5318,7 @@ Slijkplaat
 Slijkwell
 Slikkenburg
 Slikkenburg (Nb)
-Slikkenburg (Z)
 Slikkenburg (Ze)
-Slikkenburg Nb
-Slikkenburg Z
-Slikkenburg Ze
 Slikkerveer
 Slochteren
 Sloot
@@ -5958,18 +5327,12 @@ Slootgaard
 Sloten
 Sloten (Fr)
 Sloten (Nh)
-Sloten Fr
-Sloten Nh
 Sluipwijk
 Sluis
 Sluis (Ut)
-Sluis (Z)
 Sluis (Ze)
 Sluis 13
 Sluis 7
-Sluis Ut
-Sluis Z
-Sluis Ze
 Sluiskil
 Smakt
 Smal
@@ -6042,21 +5405,13 @@ Spiesberg
 Spijk
 Spijk (Fr)
 Spijk (Gld)
-Spijk (Gn)
 Spijk (Gr)
 Spijk (Nb)
-Spijk Fr
-Spijk Gld
-Spijk Gn
-Spijk Gr
-Spijk Nb
 Spijkdorp
 Spijkenisse
 Spijkerboor
 Spijkerboor (Dr)
 Spijkerboor (Nh)
-Spijkerboor Dr
-Spijkerboor Nh
 Spijkert
 Spik
 Spilbroek
@@ -6075,8 +5430,7 @@ Sprokkelbosch
 Sprundel
 Spui
 Spurkt
-St. Willebrord
-Stad aan 't Haringvliet
+Stad aan het Haringvliet
 Stad van Gerwen
 Stadsdam
 Stadse Dijk
@@ -6101,16 +5455,12 @@ Steelhoven
 Steenbergen
 Steenbergen (Dr)
 Steenbergen (Nb)
-Steenbergen Dr
-Steenbergen Nb
 Steendam
 Steenderen
 Steenenkamer
 Steenoven
-Steenoven (L)
+Steenoven (Li)
 Steenoven (Nb)
-Steenoven L
-Steenoven Nb
 Steenovens
 Steenpaal
 Steenplaats
@@ -6124,10 +5474,8 @@ Stegeren
 Stegerveld
 Steggerda
 Stein
-Stein (L)
+Stein (Li)
 Stein (Zh)
-Stein L
-Stein Zh
 Stellendam
 Stenenheul
 Stepelo
@@ -6153,11 +5501,7 @@ Stokkelaarsbrug
 Stokkelen
 Stokkum
 Stokkum (Gld)
-Stokkum (O)
 Stokkum (Ov)
-Stokkum Gld
-Stokkum O
-Stokkum Ov
 Stokske
 Stokt
 Stolpervlotbrug
@@ -6192,31 +5536,19 @@ Strijensas
 Strijp
 Strijp (Nb)
 Strijp (Zh)
-Strijp Nb
-Strijp Zh
 Strijthagen
 Strikberg
 Stroe
 Stroe (Gld)
 Stroe (Nh)
-Stroe Gld
-Stroe Nh
 Stroet
 Stroobos
 Stroobos (Fr)
-Stroobos (Gn)
 Stroobos (Gr)
-Stroobos Fr
-Stroobos Gn
-Stroobos Gr
 Stroodorpe
 Strooiendorp
 Strooiendorp (Nb)
-Strooiendorp (O)
 Strooiendorp (Ov)
-Strooiendorp Nb
-Strooiendorp O
-Strooiendorp Ov
 Strubben
 Strucht
 Struikberg
@@ -6309,9 +5641,7 @@ Terhole
 Terhorne
 Terhorst
 Terhorst (Dr)
-Terhorst (L)
-Terhorst Dr
-Terhorst L
+Terhorst (Li)
 Terkaple
 Terlet
 Terlinden
@@ -6359,8 +5689,6 @@ Tiengemeten
 Tienhoven
 Tienhoven (Nh)
 Tienhoven (Ut)
-Tienhoven Nh
-Tienhoven Ut
 Tienhoven aan de Lek
 Tienray
 Tietjerk
@@ -6398,8 +5726,6 @@ Tonden
 Tongeren
 Tongeren (Gld)
 Tongeren (Nb)
-Tongeren Gld
-Tongeren Nb
 Tongerlo
 Tonnekreek
 Tonsel
@@ -6437,12 +5763,10 @@ Tuikwerd
 Tuil
 Tuindorp
 Tuindorp (Gld)
-Tuindorp (L)
-Tuindorp Gld
-Tuindorp L
+Tuindorp (Li)
 Tuitjenhorn
 Tuk
-Tull en 't Waal
+Tull en het Waal
 Tungelroy
 Turkeye
 Turns
@@ -6486,11 +5810,7 @@ Uilesprong
 Uitdam
 Uiteinde
 Uiteinde (Fr)
-Uiteinde (Gn)
 Uiteinde (Gr)
-Uiteinde Fr
-Uiteinde Gn
-Uiteinde Gr
 Uiterburen
 Uiterdijken
 Uitermeer
@@ -6535,10 +5855,8 @@ Val
 Valburg
 Valenberg
 Valkenburg
-Valkenburg (L)
+Valkenburg (Li)
 Valkenburg (Zh)
-Valkenburg L
-Valkenburg Zh
 Valkenlaagte
 Valkenswaard
 Valkeveen
@@ -6570,13 +5888,8 @@ Veenendaal
 Veenhof
 Veenhuizen
 Veenhuizen (Dr)
-Veenhuizen (Gn)
 Veenhuizen (Gr)
 Veenhuizen (Nh)
-Veenhuizen Dr
-Veenhuizen Gn
-Veenhuizen Gr
-Veenhuizen Nh
 Veenhuizerveld
 Veeningen
 Veenklooster
@@ -6597,18 +5910,12 @@ Velddriel
 Velden
 Veldhoek
 Veldhoek (Gld)
-Veldhoek (O)
 Veldhoek (Ov)
-Veldhoek Gld
-Veldhoek O
-Veldhoek Ov
 Veldhoven
 Veldhuis
 Veldhuizen
 Veldhuizen (Gld)
 Veldhuizen (Ut)
-Veldhuizen Gld
-Veldhuizen Ut
 Veldhunten
 Veldschuur
 Veldstreek
@@ -6617,8 +5924,6 @@ Velmolen
 Velp
 Velp (Gld)
 Velp (Nb)
-Velp Gld
-Velp Nb
 Velsen-Noord
 Velsen-Zuid
 Velserbroek
@@ -6656,8 +5961,6 @@ Veulen
 Vianen
 Vianen (Nb)
 Vianen (Ut)
-Vianen Nb
-Vianen Ut
 Viel
 Vierakker
 Vierbannen
@@ -6666,11 +5969,7 @@ Vierhouten
 Vierhuis
 Vierhuizen
 Vierhuizen (Fr)
-Vierhuizen (Gn)
 Vierhuizen (Gr)
-Vierhuizen Fr
-Vierhuizen Gn
-Vierhuizen Gr
 Vierlingsbeek
 Vierpolders
 Vieruitersten
@@ -6681,9 +5980,6 @@ Vijfhuizen
 Vijfhuizen (Fr)
 Vijfhuizen (Nb)
 Vijfhuizen (Nh)
-Vijfhuizen Fr
-Vijfhuizen Nb
-Vijfhuizen Nh
 Vijlen
 Vilgert
 Vilsteren
@@ -6716,11 +6012,7 @@ Vledder
 Vledderhuizen
 Vledderveen
 Vledderveen (Dr)
-Vledderveen (Gn)
 Vledderveen (Gr)
-Vledderveen Dr
-Vledderveen Gn
-Vledderveen Gr
 Vleet
 Vlengendaal
 Vleuten
@@ -6760,9 +6052,7 @@ Voorne
 Voorschoten
 Voorst
 Voorst (Gld)
-Voorst (L)
-Voorst Gld
-Voorst L
+Voorst (Li)
 Voorste Beerdonk
 Voorste Brug
 Voorste Diesdonk
@@ -6930,9 +6220,7 @@ Welberg
 Welgelegen
 Well
 Well (Gld)
-Well (L)
-Well Gld
-Well L
+Well (Li)
 Wellerlooi
 Wellseind
 Welsrijp
@@ -6967,10 +6255,8 @@ West-Terschelling
 West-Vlieland
 Westbeemster
 Westbroek
-Westbroek (L)
+Westbroek (Li)
 Westbroek (Ut)
-Westbroek L
-Westbroek Ut
 Westdijk
 Westdorp
 Westdorpe
@@ -6979,15 +6265,8 @@ Westeinde
 Westeinde (Dr)
 Westeinde (Gld)
 Westeinde (Nh)
-Westeinde (O)
 Westeinde (Ov)
 Westeinde (Zh)
-Westeinde Dr
-Westeinde Gld
-Westeinde Nh
-Westeinde O
-Westeinde Ov
-Westeinde Zh
 Westelbeers
 Westendorp
 Westeneng
@@ -7007,8 +6286,6 @@ Westergeast
 Westergeest
 Westergeest (Fr)
 Westergeest (Nh)
-Westergeest Fr
-Westergeest Nh
 Westerhaar-Vriezenveensewijk
 Westerhoeven
 Westerhorn
@@ -7019,12 +6296,8 @@ Westerklief
 Westerklooster
 Westerland
 Westerlee
-Westerlee (Gn)
 Westerlee (Gr)
 Westerlee (Zh)
-Westerlee Gn
-Westerlee Gr
-Westerlee Zh
 Westerlittens
 Westermeer
 Westermient
@@ -7079,11 +6352,7 @@ Wieringerwaard
 Wieringerwerf
 Wierum
 Wierum (Fr)
-Wierum (Gn)
 Wierum (Gr)
-Wierum Fr
-Wierum Gn
-Wierum Gr
 Wierumerschouw
 Wieuwerd
 Wijbosch
@@ -7124,18 +6393,12 @@ Willemsdorp
 Willemsoord
 Willemsstreek
 Willemstad
-Willemstad (Gn)
 Willemstad (Gr)
 Willemstad (Nb)
-Willemstad Gn
-Willemstad Gr
-Willemstad Nb
 Willeskop
 Willige Langerak
 Willige Langerak (Ut)
 Willige Langerak (Zh)
-Willige Langerak Ut
-Willige Langerak Zh
 Wilnis
 Wilp
 Wilp-Achterhoek
@@ -7150,8 +6413,6 @@ Windraak
 Winkel
 Winkel (Nb)
 Winkel (Nh)
-Winkel Nb
-Winkel Nh
 Winkelshoek
 Winkelstraat
 Winneweer
@@ -7159,11 +6420,7 @@ Winschoten
 Winssen
 Winsum
 Winsum (Fr)
-Winsum (Gn)
 Winsum (Gr)
-Winsum Fr
-Winsum Gn
-Winsum Gr
 Wintelre
 Winterswijk
 Winterswijk Brinkheurne
@@ -7178,11 +6435,7 @@ Winterswijk Woold
 Winthagen
 Wirdum
 Wirdum (Fr)
-Wirdum (Gn)
 Wirdum (Gr)
-Wirdum Fr
-Wirdum Gn
-Wirdum Gr
 Wirdumerdraai
 Wisbroek
 Wissel
@@ -7286,13 +6539,8 @@ Zaltbommel
 Zand
 Zandberg
 Zandberg (Gld)
-Zandberg (Gn)
 Zandberg (Gr)
-Zandberg (L)
-Zandberg Gld
-Zandberg Gn
-Zandberg Gr
-Zandberg L
+Zandberg (Li)
 Zandbulten
 Zandburen
 Zandeind
@@ -7300,10 +6548,8 @@ Zandeweer
 Zandfort
 Zandheuvel
 Zandhoek
-Zandhoek (L)
+Zandhoek (Li)
 Zandhoek (Nb)
-Zandhoek L
-Zandhoek Nb
 Zandhuizen
 Zandkant
 Zandoerle
@@ -7313,15 +6559,9 @@ Zandstraat
 Zandvoort
 Zandvoort (Gld)
 Zandvoort (Nh)
-Zandvoort Gld
-Zandvoort Nh
 Zandwijk
-Zandwijk (Gn)
 Zandwijk (Gr)
 Zandwijk (Nb)
-Zandwijk Gn
-Zandwijk Gr
-Zandwijk Nb
 Zanegeest
 Zeddam
 Zedde
@@ -7330,13 +6570,9 @@ Zeegse
 Zeeland
 Zeeland (Gld)
 Zeeland (Nb)
-Zeeland Gld
-Zeeland Nb
 Zeelberg
-Zeelberg (L)
+Zeelberg (Li)
 Zeelberg (Nb)
-Zeelberg L
-Zeelberg Nb
 Zeerijp
 Zeesse
 Zeewolde
@@ -7367,18 +6603,11 @@ Zevender
 Zevenhoven
 Zevenhuis
 Zevenhuizen
-Zevenhuizen (Gn)
 Zevenhuizen (Gr)
 Zevenhuizen (Nb)
 Zevenhuizen (Nh)
 Zevenhuizen (Ut)
 Zevenhuizen (Zh)
-Zevenhuizen Gn
-Zevenhuizen Gr
-Zevenhuizen Nb
-Zevenhuizen Nh
-Zevenhuizen Ut
-Zevenhuizen Zh
 Zevenhutten
 Zevenmorgen
 Ziek
@@ -7391,19 +6620,13 @@ Zijldijk
 Zijp
 Zijpe
 Zijpe (Nh)
-Zijpe (Z)
 Zijpe (Ze)
-Zijpe Nh
-Zijpe Z
-Zijpe Ze
 Zijpersluis
 Zijtaart
 Zinkweg
 Zittard
-Zittard (L)
+Zittard (Li)
 Zittard (Nb)
-Zittard L
-Zittard Nb
 Zittend
 Zoeke
 Zoelen
@@ -7431,33 +6654,19 @@ Zuid-Scharwoude
 Zuid-Spierdijk
 Zuidbarge
 Zuidbroek
-Zuidbroek (Gn)
 Zuidbroek (Gr)
 Zuidbroek (Zh)
-Zuidbroek Gn
-Zuidbroek Gr
-Zuidbroek Zh
 Zuidbuurt
 Zuiddorpe
 Zuideind
 Zuideinde
 Zuideinde (Nh)
-Zuideinde (O)
 Zuideinde (Ov)
 Zuideinde (Ut)
 Zuideinde (Zh)
-Zuideinde Nh
-Zuideinde O
-Zuideinde Ov
-Zuideinde Ut
-Zuideinde Zh
 Zuiderburen
 Zuiderburen (Fr)
-Zuiderburen (Gn)
 Zuiderburen (Gr)
-Zuiderburen Fr
-Zuiderburen Gn
-Zuiderburen Gr
 Zuidereind
 Zuiderend
 Zuiderkolonie
@@ -7476,20 +6685,12 @@ Zuidschermer
 Zuidveen
 Zuidveld
 Zuidveld (Dr)
-Zuidveld (Gn)
 Zuidveld (Gr)
-Zuidveld Dr
-Zuidveld Gn
-Zuidveld Gr
 Zuidvelde
 Zuidwending
 Zuidwolde
 Zuidwolde (Dr)
-Zuidwolde (Gn)
 Zuidwolde (Gr)
-Zuidwolde Dr
-Zuidwolde Gn
-Zuidwolde Gr
 Zuidzande
 Zuidzijde
 Zuilichem
@@ -7540,8 +6741,4 @@ Zwindorp
 Zwingelspaan
 Zwolle
 Zwolle (Gld)
-Zwolle (O)
 Zwolle (Ov)
-Zwolle Gld
-Zwolle O
-Zwolle Ov
