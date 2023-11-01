@@ -35,10 +35,6 @@ jobs:
         pip install dist/deduce-*.whl
         poetry install --only dev
 
-    - name: Remove source
-      run: |
-        rm -rf deduce/
-
     - name: Test build
       run: python -m pytest .
 
@@ -46,4 +42,4 @@ jobs:
       run: poetry config pypi-token.pypi ${{ SECRETS.PYPI_TOKEN }}
 
     - name: Publish package
-      run: poetry publish --dry-run
+      run: poetry publish
