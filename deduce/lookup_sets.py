@@ -13,7 +13,7 @@ from deduce.str.processor import (
     UpperCaseFirstChar,
 )
 
-data_path = Path(os.path.dirname(__file__)).parent / "data" / "lookup_lists"
+data_path = Path(os.path.dirname(__file__)).parent / "deduce-data" / "lookup_lists"
 
 
 def _get_prefixes() -> dd.ds.LookupSet:
