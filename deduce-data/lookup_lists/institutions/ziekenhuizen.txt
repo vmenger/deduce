@@ -1,0 +1,361 @@
+Academisch Medisch Centrum
+Academisch Ziekenhuis Amsterdam
+Academisch Ziekenhuis Groningen
+Academisch Ziekenhuis Leiden
+Academisch Ziekenhuis Maastricht
+Academisch Ziekenhuis Nijmegen
+Academisch Ziekenhuis Rotterdam
+Academisch Ziekenhuis Utrecht
+Admiraal de Ruyter
+Admiraal de Ruyter Ziekenhuis
+Albert Schweitzer
+Albert Schweitzer Ziekenhuis
+Aleida Kramer
+Aleida Kramer Ziekenhuis
+Alexander van der Leeuw Kliniek
+Algemeen Burger Gasthuis
+Algemeen Ziekenhuis
+Algemeen Ziekenhuis Zonnestraal
+Alrijne
+Alrijne Ziekenhuis
+Amphia
+Amphia Ziekenhuis
+Amsterdam Universitair Medisch Centrum
+Amsterdam Universitair Medisch Centrum locatie AMC
+Amsterdam Universitair Medisch Centrum locatie VU
+Amsterdam Universitair Medisch Centrum locatie VUmc
+Anna Zorggroep
+Antonius
+Antonius Ziekenhuis
+Atrium Medisch Centrum
+Azivo
+Azivo Ziekenhuis
+Barbara Ziekenhuis
+Beatrix Ziekenhuis
+Berg en Bosch
+Bergweg
+Bergweg Ziekenhuis
+Bergzicht
+Bernhoven
+Bethel
+Bethel Ziekenhuis
+Bethesda
+Bethesda Ziekenhuis
+Bethlehem
+Bethlehem Ziekenhuis
+Binnen Ziekenhuis
+Binnengasthuis
+Bleuland
+Bleuland Ziekenhuis
+Boerhaave
+Boerhaave Ziekenhuis
+Boerhaavekliniek
+BovenIJ
+BovenIJ Ziekenhuis
+Bravis
+Bravis Ziekenhuis
+Bronovo
+Bronovo Ziekenhuis
+Burger Ziekenhuis
+Burger Ziekenhuis Amsterdam
+Canisius-Wilhelmina Ziekenhuis
+Carolus Ziekenhuis
+Catharijnegasthuis
+Catharina Ziekenhuis
+Centraal Militair Hospitaal
+Centraal Militair Hospitaal Utrecht
+Centraal Ziekenhuis
+Charitas
+Coolsingel
+Coolsingel Ziekenhuis
+Daniel den Hoedkliniek
+De Gelderse Vallei
+De Klokkenberg
+De Sionsberg
+De Stadsmaten
+De Villa
+De Weezenlanden
+Delfzicht
+Delfzicht Ziekenhuis
+Deventer Ziekenhuis
+Diaconessen
+Diaconessen Ziekenhuis
+Diaconessenhuis
+Diaconessenhuis De Wijk
+Diakonessenhuis
+Dijklander
+Dijklander Ziekenhuis
+Dinkel
+Dinkel Ziekenhuis
+Dokter Jansen Ziekenhuis
+Elisabeth Twee Steden
+Elisabeth Twee Steden Ziekenhuis
+Elisabeth TweeSteden
+Elisabeth TweeSteden Ziekenhuis
+Elisabeth Ziekenhuis
+Elkerliek
+Elkerliek Ziekenhuis
+Erasmus
+Erasmus Medisch Centrum
+Eudokia
+Eudokia Ziekenhuis
+Fermerie
+Flevo
+Flevo Ziekenhuis
+Franciscus Gasthuis
+Gelderse Vallei
+Gelre
+Gelre Ziekenhuis
+Gelre Ziekenhuizen
+Gemeente Ziekenhuis
+Gemeentelijk Ziekenhuis
+Gemini
+Gemini Ziekenhuis
+Groene Hart
+Groene Hart Ziekenhuis
+Groot Ziekengasthuis
+Haaglanden
+Haaglanden Medisch Centrum
+Haga
+Haga Ziekenhuis
+HagaZiekenhuis
+Haven Ziekenhuis
+Heil der Kranken
+Hervormd Diaconessenhuis
+Hofpoort
+Hofpoort Ziekenhuis
+Holy
+Holy Ziekenhuis
+IJsselland
+IJsselland Ziekenhuis
+Ikazia
+Ikazia Ziekenhuis
+Irene Kinder
+Irene Kinder Ziekenhuis
+Isala
+Isala Ziekenhuis
+Isselwaerde
+Iterson
+Iterson Ziekenhuis
+Jeroen Bosch
+Jeroen Bosch Ziekenhuis
+Johannes
+Johannes Ziekenhuis
+Johannes de Deo
+Juliana Kinder
+Juliana Kinder Ziekenhuis
+Juliana Ziekenhuis
+Kennemer Gasthuis
+Kliniek Knol
+Laurentius
+Laurentius Ziekenhuis
+Leeuwenbergh Gasthuis
+Leids Universitair Medisch Centrum
+Lichtenberg
+Lichtenberg Ziekenhuis
+Liduina Ziekenhuis
+Liefdehuis
+Lievensberg
+Lievensberg
+Lievensberg Ziekenhuis
+Lucas Ziekenhuis
+Luthers Diaconessenhuis
+Maas Ziekenhuis Pantein
+Maasland
+Maasland Ziekenhuis
+Maasstad
+Maasstad Ziekenhuis
+Maastricht Universitair Medisch Centrum
+Maastricht Universitair Medisch Centrum+
+Majella
+Majella Ziekenhuis
+Maria Ziekenhuis
+Mariastichting
+Marinehospitaal
+Martini
+Martini Ziekenhuis
+Meander
+Meander Medisch Centrum
+Medisch Centrum Amstelveen
+Medisch Centrum Haaglanden
+Medisch Centrum Leeuwarden
+Medisch Centrum Leeuwarden Midden
+Medisch Centrum Leeuwarden Noord
+Medisch Spectrum Twente
+Mesos
+Mesos Medisch Centrum
+Militair Hospitaal
+Militair Hospitaal Dokter A. Mathijsen
+Máxima Medisch Centrum
+Nebo
+Nij Smellinghe
+Nolet
+Nolet Ziekenhuis
+Noordwest Ziekenhuis
+Ommelander
+Ommelander Ziekenhuis
+Onze Lieve Vrouwe Gasthuis
+Oude en Nieuwe Gasthuis
+P.W. Janssen Ziekenhuis
+Parkzicht
+Pieter Pauw Ziekenhuis
+Pius
+Pius Ziekenhuis
+Prinsengracht Ziekenhuis
+Prinses Irene
+Prinses Irene Ziekenhuis
+Prinses Máxima Centrum
+Protestants
+Protestants Ziekenhuis
+Radboud Universitair Medisch Centrum
+Refaja
+Refaja Ziekenhuis
+Reinier de Graaf Gasthuis
+Rijks Psychiatrische Inrichting
+Rijnland
+Rijnland Ziekenhuis
+Rijnstate
+Rivas Zorggroep
+Rivierenland
+Rode Kruis
+Rode Kruis Ziekenhuis
+Rooms Katholiek
+Rooms Katholiek Ziekenhuis
+Ruwaard Van Putten
+Ruwaard Van Putten Ziekenhuis
+Salem
+Sanatorium Zonnestraal
+Santeon
+Saxenburgh
+Saxenburgh Medisch Centrum
+Schieland
+Schieland Ziekenhuis
+Sint Agnes Ziekenhuis
+Sint Andreas Ziekenhuis
+Sint Anna Ziekenhuis
+Sint Annadal
+Sint Antonius Stichting
+Sint Antonius Ziekenhuis
+Sint Barbara Ziekenhuis
+Sint Bonifatius Hospitaal
+Sint Catharinagasthuis
+Sint Clara Ziekenhuis
+Sint Elisabeth Gasthuis
+Sint Elisabeth Ziekenhuis
+Sint Elisabeths Gasthuis
+Sint Elizabeth Ziekenhuis
+Sint Franciscus Gasthuis
+Sint Geertruiden Ziekenhuis
+Sint Gerardus Majella
+Sint Gerardus Majella Ziekenhuis
+Sint Ignatius Ziekenhuis
+Sint Jan Ziekenhuis
+Sint Jans Gasthuis
+Sint Jansdal
+Sint Jansdal Ziekenhuis
+Sint Joanna Ziekenhuis
+Sint Joannes de Deo
+Sint Joannes de Deo Ziekenhuis
+Sint Johannes de Deo
+Sint Johannes de Deo Ziekenhuis
+Sint Josef Ziekenhuis
+Sint Joseph
+Sint Joseph Ziekenhuis
+Sint Jozef Ziekenhuis
+Sint Jozeph Ziekenhuis
+Sint Liduina Ziekenhuis
+Sint Lucas Andreas
+Sint Lucas Andreas Ziekenhuis
+Sint Nicolaas Ziekenhuis
+Sint Radboud Universitair Medisch Centrum
+Sint Ursula Kliniek
+Sint Vincentius Ziekenhuis
+Sint Walburgis Ziekenhuis
+Sint Willibrord Ziekenhuis
+Sint-Hippolytus Ziekenhuis
+Slingeland
+Slingeland Ziekenhuis
+Slotervaart
+Slotervaart Ziekenhuis
+Snouck van Loosen
+Snouck van Loosen Ziekenhuis
+Sophia Kinder
+Sophia Kinder Ziekenhuis
+Sophia Ziekenhuis
+Spaarne
+Spaarne Gasthuis
+Spaarne Ziekenhuis
+Spijkenisse Medisch Centrum
+Spinoza Kliniek
+Stads Ziekenhuis
+Stads en Academisch
+Stads en Academisch Ziekenhuis
+Stichting Engelenberg
+Streek Ziekenhuis
+Streek Ziekenhuis Koningin Beatrix
+Tergooi
+Tergooi Medisch Centrum
+Tergooi Ziekenhuis
+Tjongerschans
+Treant Zorggroep
+Triotel
+TweeSteden
+TweeSteden Ziekenhuis
+Twenteborg
+Twenteborg Ziekenhuis
+Universitair Medisch Centrum Groningen
+Universitair Medisch Centrum Sint Radboud
+Universitair Medisch Centrum Utrecht
+VU Medisch Centrum
+Van Weel-Bethesda Ziekenhuis
+VieCuri Medisch Centrum
+Vlietland
+Vlietland Ziekenhuis
+Volharding
+Vrije Universiteit Medisch Centrum
+Waterland
+Waterland Ziekenhuis
+Weesperplein
+Weesperplein Ziekenhuis
+Westeinde
+Westeinde Ziekenhuis
+Wilhelmina Gasthuis
+Wilhelmina Kinder
+Wilhelmina Kinder Ziekenhuis
+Wilhelmina Ziekenhuis
+Zaans Medisch Centrum
+Zeeweg
+Zeeweg Ziekenhuis
+Ziekenhuis Amstelland
+Ziekenhuis Amsterdam-Noord
+Ziekenhuis Bergzicht
+Ziekenhuis Bernhoven
+Ziekenhuis De Gelderse Vallei
+Ziekenhuis Enschede
+Ziekenhuis Gelderse Vallei
+Ziekenhuis Isselwaerde
+Ziekenhuis Johannes de Deo
+Ziekenhuis Lievensberg
+Ziekenhuis Nebo
+Ziekenhuis Oldenzaal
+Ziekenhuis Rivierenland
+Ziekenhuis Salem
+Ziekenhuis Sint Annadal
+Ziekenhuis Sint Jansdal
+Ziekenhuis Sint Joseph
+Ziekenhuis Twente
+Ziekenhuis Walcheren
+Ziekenhuis Zuidwal
+Ziekenhuisgroep Twente
+Ziekenzorg
+ZorgSaam
+ZorgSaam Ziekenhuis
+Zuider Ziekenhuis
+Zuwe Hofpoort
+Zuwe Hofpoort Ziekenhuis
+Zuyderland
+Zuyderland Medisch Centrum
+het Catharina Gasthuis
+het Lange Land
+het Lange Land Ziekenhuis
+mProve

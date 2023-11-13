@@ -1,21 +1,14 @@
 't Bolwerk
 't Huis aan de Vecht
-'t Lange Land Ziekenhuis
 't Oude Landt
 't Zand
 7nP
 abc
 Abrona
-Academisch Medisch Centrum
-Academisch Sportmedisch Centrum
-Academisch Ziekenhuis Maastricht
-Academisch Ziekenhuis Utrecht
 ADHD Centraal
-Admiraal De Ruyter Ziekenhuis
 Afdeling Dolfijn
 Afdeling Panda 1
 Afdeling Panda 2
-Albert Schweitzer Ziekenhuis
 Albert van Koningsbruggen
 Alexander Monro
 AllerZorg
@@ -27,18 +20,12 @@ Amandelboom
 Amandelhof
 Amaris De Amerhorst
 Ambulante Begeleiding Het Spectrum 
-AMC
-Amphia Ziekenhuis
-Ander Ziekenhuis 
 Angio van Carotiss
-antonius
-antonius zkh
 Antonius Zorggroep
 Antroposofisch Verpleeghuis
 Arcohove
 Arta Projecten
 Artemis
-Atrium Medisch Centrum
 Aveant
 Aventurijn
 aventurijn
@@ -65,24 +52,18 @@ Blom Stichting
 Bontenbal
 Bosman Geestelijke Gezondheidszorg
 bosmanggz
-BovenIJ Ziekenhuis
 Bovenwegen
 Breedstraat
 brinkwal
 Bunninchem
 bureau paardeveld
 Burgemeester van Randwijckhuis
-Burgerziekenhuis
 Burn Out
 Buurtzorg Nederland
 Bynkershoek
-Canisius Wilhelmina Ziekenhuis
 care for change
 Careyn Zorgcentrum
 Cascade
-Catharina Ziekenhuis
-Centraal Militair Hospitaal
-Centraal Militair Hospitaal Bacteriologie
 Centrum Vaartserijn
 Chiron Corporation Study
 Chris Sanatorium 
@@ -176,26 +157,20 @@ Dysselhofkliniek
 Eerstelijns Behandelcentra
 eikeboom
 Eleos
-Elkerliek Ziekenhuis
-Erasmus Medisch Centrum
 Ewoud Gasthuis
 Eyescan
 fact
 Fidalelfia Zorgverlening
 Finspong
-Flevoziekenhuis
-Focus Cura Telezorg 
+Focus Cura Telezorg
 fornhese
-Franciscus Ziekenhuis
 FS Meyersinstituut
 Geinsche Hof
 gelderse vallei
-Gelre Ziekenhuizen
 geynwijs
 Gezonde Geest
 GGZ Centraal
-Groene Hart Ziekenhuis
-Groot Gelre 
+Groot Gelre
 GVT Damhert
 GVT De Opbouw
 GVT De Reiger
@@ -205,7 +180,6 @@ Haltna
 Hart En Vaatgroep
 Hart voor Nederland
 Harting Bank 
-Havenziekenhuis
 HBank
 Heart For Health
 Heartlife
@@ -232,8 +206,6 @@ Huize Salvia
 Huize Sonneheerdt
 Huize Valkenbosch
 Hymans Van Den Bergh
-IJsselland Ziekenhuis
-Ikazia Ziekenhuis
 IKMN
 IKS
 Illuminatus
@@ -248,7 +220,6 @@ Isselwaerde
 Jan Arends
 Jan Arends GGZ
 Janivo 
-Jeroen Bosch Ziekenhuis
 jeugdzorg
 Joost Zorgt Nederland
 Jozefzorg
@@ -270,17 +241,14 @@ Koningsbruggen
 Krisiscentrum
 Krommerijnhof
 Kwintes
-Laurentius Ziekenhuis
 Leendert Meeshuis
 Leiblum
-Leids Universitair Medisch Centrum
 leo kannerhuis
 Levensverz
 lijn 5
 Lisiduinahof
 Locum Ga
 Maartenskliniek
-Maasstad ziekenhuis
 Magenta
 Makhan Reintegratie en Mediation
 Maliebaan
@@ -290,25 +258,19 @@ Mariaoord
 Marienstein
 marina de wolf
 Marine Hospitaal
-Martini Ziekenhuis
 Mauritskliniek
 mauritzhof
 Max Ernst
-Maxima Medisch Centrum
 MC Groep
 MCA Gemini Groep
 meander
-Meander Medisch Centrum
-Medicare Haaglanden 
+Medicare Haaglanden
 Medicasa
-Medisch Centrum Amstelveen
-Medisch Centrum Haaglanden
 Medisch Spectrum Twente
 Medtzorg
 Mentaal Beter
 Merenhoef
 Mesos
-Mesos Medisch Centrum
 Mggz Utrecht
 Militair Geestelijke Gezondheidszorg
 Miroya
@@ -330,7 +292,6 @@ Nijho
 NKCV
 NOAGG 
 Oikos
-Ommelander Ziekenhuisgroep
 Onderzoek Metab
 Onze Lieve Vrouwe Gasthuis
 Oogheelkunde Centrum Visie
@@ -346,7 +307,6 @@ Philadelphia Zorg
 Pieter Baan Centrum
 Plantage
 Preventicon
-Prinses Maxima Centrum
 PrivaZorg
 PrivaZorg 
 PrivaZorg AWBZ
@@ -378,18 +338,15 @@ ribw
 RIBW Beschermende Woonvormen 
 RIBW Eleos
 RIBW Leger des Heils
-Rijnland Ziekenhuis
 rintveld
 Rivas Zorggroep
 rivierduinen
 RIVM
 Rivm
-Rode Kruis Ziekenhuis
 Rosendael
 Roubos
 Rumke Groep
-Ruwaard Van Putten Ziekenhuis
-S Heeren Loo 
+S Heeren Loo
 Sabu Huis
 Saltro
 samen veilig
@@ -409,50 +366,35 @@ Sinai-centrum
 Singelzicht
 Sint Franciscus 
 Skippy
-Slingeland Ziekenhuis
-Slotervaartziekenhuis
 Snavelenburg
 Solide Zorg
 Sonneheerdt
-Spaarne Ziekenhuis
 Sparrenheide
 Spechtenkamp
 St Continu
 St Warande
 St. Anna Zorggroep
-st. antonius
-St. Antonius Ziekenhuis
 St. Eemland
-St. Elisabeth
-St. Elisabeth Ziekenhuis
 St. Flexicare
 St. Intermedicare Eemland
 St. Jans Gasthuis
-St. Lucas Andreas Ziekenhuis
 St. Pieters en Blokland
 Stade
 STAGG
 Stenia
 Sticht Leidse
 Stichting Bronovo Nebo
-Stichting Deventer Ziekenhuisgroep
 stichting geynwijs
-Stichting het Van Weel Bethesda Ziekenhuis
 Stichting Reinier Haga Groep
-Stichting Rijnstate
-Stichting Ziekenhuis Lievensberg
 STN Zorg
 Stoute Schoenen
 Stratenum
-Streekziekenhuis Koningin Beatrix
 Studie Amgen
 Symfora Groep
 Symforameander
 Tamarinde
 Temozolomide
 tergooi
-tergooi ziekenhuis
-Tergooiziekenhuizen
 Theater Totaal
 Thuishulp Zorgzaam
 Thuiszorgservice Nederland
@@ -463,13 +405,6 @@ Trajectum Novum
 Transwijk
 Trial Begut
 Trombose Dienst
-TweeSteden ziekenhuis
-UMC
-UMC Utrecht
-UMCU
-Universitair Medisch Centrum Groningen
-Universitair Medisch Centrum St. Radboud
-Universitair Medisch Centrum Utrecht
 Universiteit Utrecht
 Upper Room
 uwv
@@ -481,8 +416,7 @@ Veldheim
 Verpleeghuis De Biltse Hof
 Verzorgingshuis Vreeswyk
 Victas
-VieCuri Medisch Centrum
-VieJa 
+VieJa
 Viken
 Villa Hooghe Heide
 virenze
@@ -495,9 +429,7 @@ vosseveld
 Vreeland
 Vreeswijk
 Vroeg Determinanten
-VU Medisch Centrum
 Warande
-Waterlandziekenhuis
 Weddesteijn
 Weddesteyn
 Weerdsingel
@@ -511,22 +443,13 @@ Westfries Gasthuis
 Widar
 wier
 wij 3.0
-Wilhelmina Kinderziekenhuis
-Wilhelmina Ziekenhuis Assen
 Willem Arntsz
 Wolfshoek
 WZC Veldhof
 Xpert Clinic 
 youk
-Zaans Medisch Centrum
 Zeisterwoude Extra Murale Zorg
 Zeylmanns V Emmichovenkliniek
-Ziekenhuis Amstelland
-Ziekenhuis Bernhoven
-Ziekenhuis De Gelderse Vallei
-Ziekenhuis Rivierenland
-Ziekenhuis St. Jansdal
-Ziekenhuisgroep Twente
 Zon En Schild
 Zonnehuis
 Zonnehuizen 
@@ -546,8 +469,6 @@ Zorgpartners Friesland
 ZorgSaam Zeeuws Vlaanderen
 Zuilenstein
 Zuwe
-Zuwe Hofpoort
-Zuwe Hofpoort Ziekenhuis
 Zuwe zorg
 Zuwe Zorg
 Zuylenstede

@@ -162,7 +162,7 @@ def _get_institutions() -> dd.ds.LookupSet:
 
     institutions_raw = dd.ds.LookupSet()
     institutions_raw.add_items_from_file(
-        os.path.join(data_path, "institutions", "institutions.txt"),
+        os.path.join(data_path, "institutions", "_institutions_old.txt"),
         cleaning_pipeline=[dd.str.FilterByLength(min_len=3), dd.str.LowercaseString()],
     )
 
@@ -205,7 +205,31 @@ def _get_institutions() -> dd.ds.LookupSet:
         ]
     )
 
+    institutions_new = dd.ds.LookupSet()
+
+    institutions_new.add_items_from_file(
+        os.path.join(data_path, "institutions", "institutions_long.txt"),
+    )
+
+    institutions_new.add_items_from_file(
+        os.path.join(data_path, "institutions", "ziekenhuis_colloquial.txt")
+    )
+
+    institutions_new.add_items_from_self(
+        cleaning_pipeline=[dd.str.LowercaseString()],
+    )
+
+    institutions_new.add_items_from_self(
+        cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()],
+    )
+
+    institutions_new.add_items_from_file(
+        os.path.join(data_path, "institutions", "ziekenhuis_abbr.txt")
+    )
+
     institutions = institutions - _get_whitelist()
+
+    institutions = institutions + institutions_new
 
     return institutions
 
