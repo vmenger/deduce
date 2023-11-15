@@ -39,10 +39,10 @@ mappings = [
 
 if __name__ == "__main__":
 
-    with open("institutions.txt", "r") as file:
+    with open("healthcare_institutions.txt", "r") as file:
         institutions = set(file.read().split("\n"))
 
-    with open('institution_exceptions.txt', 'r') as file:
+    with open('healthcare_institution_exceptions.txt', 'r') as file:
         exceptions = set(file.read().split("\n"))
 
     institutions = institutions - exceptions
@@ -58,5 +58,5 @@ if __name__ == "__main__":
 
     placenames = {s.strip() for s in institutions}
 
-    with open("institutions_long.txt", "w") as file:
+    with open("healthcare_institutions_long.txt", "w") as file:
         file.write("\n".join(sorted(list(placenames))))

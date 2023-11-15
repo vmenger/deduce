@@ -440,7 +440,7 @@
       "annotator_type": "multi_token",
       "group": "institutions",
       "args": {
-        "lookup_values": "institutions",
+        "lookup_values": "healthcare_institutions",
         "tag": "instelling"
       }
     },

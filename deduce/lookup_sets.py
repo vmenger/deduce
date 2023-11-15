@@ -166,10 +166,6 @@ def _get_hospitals() -> dd.ds.LookupSet:
     )
 
     hospitals.add_items_from_file(
-        os.path.join(data_path, "institutions", "ziekenhuis_colloquial.txt")
-    )
-
-    hospitals.add_items_from_file(
         os.path.join(data_path, "institutions", "ziekenhuis_abbr.txt")
     )
 
@@ -188,15 +184,6 @@ def _get_institutions() -> dd.ds.LookupSet:
         os.path.join(data_path, "institutions", "institutions_long.txt"),
         cleaning_pipeline=[dd.str.StripString(), dd.str.FilterByLength(min_len=4)],
     )
-
-    # institutions.add_items_from_self(
-    #     cleaning_pipeline=[
-    #         RemoveValues(
-    #             filter_values=["dr.", "der", "van", "de", "het", "'t", "in", "d'"]
-    #         ),
-    #         dd.str.StripString(),
-    #     ],
-    # )
 
     institutions.add_items_from_self(
         cleaning_pipeline=[
@@ -276,7 +263,7 @@ def get_lookup_sets() -> dd.ds.DsCollection:
         "streets": _get_streets,
         "placenames": _get_placenames,
         "hospitals": _get_hospitals,
-        "institutions": _get_institutions,
+        "healthcare_institutions": _get_institutions,
         "whitelist": _get_whitelist,
     }
 

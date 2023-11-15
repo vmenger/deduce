@@ -51,7 +51,7 @@ mappings = [
 
 if __name__ == "__main__":
 
-    with open("ziekenhuizen.txt", "r") as file:
+    with open("hospitals.txt", "r") as file:
         hospitals = set(file.read().split("\n"))
 
     for mapping in mappings:
@@ -65,5 +65,5 @@ if __name__ == "__main__":
 
     placenames = {s.strip() for s in hospitals}
 
-    with open("ziekenhuis_long.txt", "w") as file:
+    with open("hospital_long.txt", "w") as file:
         file.write("\n".join(sorted(list(placenames))))

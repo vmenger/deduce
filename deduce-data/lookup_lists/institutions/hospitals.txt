@@ -349,6 +349,7 @@ Ziekenzorg
 ZorgSaam
 ZorgSaam Ziekenhuis
 Zuider Ziekenhuis
+Zuwe
 Zuwe Hofpoort
 Zuwe Hofpoort Ziekenhuis
 Zuyderland
@@ -357,3 +358,4 @@ het Catharina Gasthuis
 het Lange Land
 het Lange Land Ziekenhuis
 mProve
+Radboud
