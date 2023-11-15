@@ -9,14 +9,42 @@ script or in any of the street source lists are made.
 from deduce.utils import str_variations
 
 zkh_mapping = {
-    r" (Ziekenhuis|Gasthuis|Kliniek)": [" Ziekenhuis", " Ziekenhuizen", " Zkh", " Zkh.", " Gasthuis", " Kliniek", " Klinieken",
-                      " ziekenhuis", " ziekenhuizen", " zkh", " zkh.", " gasthuis", " kliniek", " klinieken",
-                      "ziekenhuis", "ziekenhuizen", "zkh", "zkh.", "gasthuis", "kliniek", "klinieken"
-                                        ],
-    r"^(Ziekenhuis|Gasthuis|Kliniek)": ["Ziekenhuis", "Zkh", "Zkh.", "Gasthuis", "Kliniek",
-                     "ziekenhuis", "zkh", "zkh.", "gasthuis", "kliniek"],
+    r" (Ziekenhuis|Gasthuis|Kliniek)": [
+        " Ziekenhuis",
+        " Ziekenhuizen",
+        " Zkh",
+        " Zkh.",
+        " Gasthuis",
+        " Kliniek",
+        " Klinieken",
+        " ziekenhuis",
+        " ziekenhuizen",
+        " zkh",
+        " zkh.",
+        " gasthuis",
+        " kliniek",
+        " klinieken",
+        "ziekenhuis",
+        "ziekenhuizen",
+        "zkh",
+        "zkh.",
+        "gasthuis",
+        "kliniek",
+        "klinieken",
+    ],
+    r"^(Ziekenhuis|Gasthuis|Kliniek)": [
+        "Ziekenhuis",
+        "Zkh",
+        "Zkh.",
+        "Gasthuis",
+        "Kliniek",
+        "ziekenhuis",
+        "zkh",
+        "zkh.",
+        "gasthuis",
+        "kliniek",
+    ],
     r"Medisch Centrum": ["Medisch Centrum", "MC"],
-
 }
 
 zkh_mapping_2 = {

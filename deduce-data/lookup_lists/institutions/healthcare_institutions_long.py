@@ -9,18 +9,17 @@ script or in any of the street source lists are made.
 from deduce.utils import str_variations
 
 inst_mapping = {
-    "Huisartsenpraktijk": ["Huisartsenpraktijk", "huisartsenpraktijk", "Huisartspraktijk", "huisartspraktijk"]
+    "Huisartsenpraktijk": [
+        "Huisartsenpraktijk",
+        "huisartsenpraktijk",
+        "Huisartspraktijk",
+        "huisartspraktijk",
+    ]
 }
 
-prefix_mapping = {
-    r"\bDe\b": ["De", "de"]
-}
+prefix_mapping = {r"\bDe\b": ["De", "de"]}
 
-punct_mapping = {
-    r"\.": [".", ""],
-    r"-": ["-", "", " "],
-    r" & ": [" & ", " en "]
-}
+punct_mapping = {r"\.": [".", ""], r"-": ["-", "", " "], r" & ": [" & ", " en "]}
 
 spell_mapping = {
     "y": ["y", "ij"],
@@ -42,7 +41,7 @@ if __name__ == "__main__":
     with open("healthcare_institutions.txt", "r") as file:
         institutions = set(file.read().split("\n"))
 
-    with open('healthcare_institution_exceptions.txt', 'r') as file:
+    with open("healthcare_institution_exceptions.txt", "r") as file:
         exceptions = set(file.read().split("\n"))
 
     institutions = institutions - exceptions
