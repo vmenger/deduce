@@ -76,12 +76,12 @@ class TestRegression:
     def test_regression_institution(self, model):
         regression_test(
             model=model,
-            examples_file='tests/regression/data/institutions.json',
+            examples_file="tests/regression/data/institutions.json",
             enabled={
-                'institutions',
-                'hospital',
-                'institution',
-            }
+                "institutions",
+                "hospital",
+                "institution",
+            },
         )
 
     def test_regression_date(self, model):
