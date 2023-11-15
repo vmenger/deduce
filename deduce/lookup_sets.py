@@ -160,11 +160,11 @@ def _get_hospitals() -> dd.ds.LookupSet:
     hospitals = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
 
     hospitals.add_items_from_file(
-        os.path.join(data_path, "institutions", "ziekenhuis_long.txt")
+        os.path.join(data_path, "institutions", "hospital_long.txt")
     )
 
     hospitals.add_items_from_file(
-        os.path.join(data_path, "institutions", "ziekenhuis_abbr.txt")
+        os.path.join(data_path, "institutions", "hospital_abbr.txt")
     )
 
     hospitals.add_items_from_self(
@@ -179,15 +179,11 @@ def _get_institutions() -> dd.ds.LookupSet:
 
     institutions = dd.ds.LookupSet()
     institutions.add_items_from_file(
-        os.path.join(data_path, "institutions", "institutions_long.txt"),
+        os.path.join(data_path, "institutions", "healthcare_institutions_long.txt"),
         cleaning_pipeline=[dd.str.StripString(), dd.str.FilterByLength(min_len=4)],
     )
 
-    institutions.add_items_from_self(
-        cleaning_pipeline=[
-            UpperCase()
-        ]
-    )
+    institutions.add_items_from_self(cleaning_pipeline=[UpperCase()])
 
     institutions = institutions - _get_whitelist()
 
