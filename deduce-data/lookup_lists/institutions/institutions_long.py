@@ -8,13 +8,18 @@ script or in any of the street source lists are made.
 
 from deduce.utils import str_variations
 
+inst_mapping = {
+    "Huisartsenpraktijk": ["Huisartsenpraktijk", "huisartsenpraktijk", "Huisartspraktijk", "huisartspraktijk"]
+}
+
 prefix_mapping = {
     r"\bDe\b": ["De", "de"]
 }
 
 punct_mapping = {
     r"\.": [".", ""],
-    "-": ["-", "", " "],
+    r"-": ["-", "", " "],
+    r" & ": [" & ", " en "]
 }
 
 spell_mapping = {
@@ -25,6 +30,7 @@ spell_mapping = {
 }
 
 mappings = [
+    inst_mapping,
     prefix_mapping,
     punct_mapping,
     spell_mapping,

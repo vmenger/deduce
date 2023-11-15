@@ -6,8 +6,8 @@ Academisch Ziekenhuis Maastricht
 Academisch Ziekenhuis Nijmegen
 Academisch Ziekenhuis Rotterdam
 Academisch Ziekenhuis Utrecht
-Admiraal de Ruyter
-Admiraal de Ruyter Ziekenhuis
+Admiraal De Ruyter
+Admiraal De Ruyter Ziekenhuis
 Albert Schweitzer
 Albert Schweitzer Ziekenhuis
 Aleida Kramer
@@ -117,7 +117,6 @@ Haaglanden
 Haaglanden Medisch Centrum
 Haga
 Haga Ziekenhuis
-HagaZiekenhuis
 Haven Ziekenhuis
 Heil der Kranken
 Hervormd Diaconessenhuis
@@ -140,7 +139,7 @@ Jeroen Bosch
 Jeroen Bosch Ziekenhuis
 Johannes
 Johannes Ziekenhuis
-Johannes de Deo
+Johannes De Deo
 Juliana Kinder
 Juliana Kinder Ziekenhuis
 Juliana Ziekenhuis
@@ -209,7 +208,7 @@ Protestants Ziekenhuis
 Radboud Universitair Medisch Centrum
 Refaja
 Refaja Ziekenhuis
-Reinier de Graaf Gasthuis
+Reinier De Graaf Gasthuis
 Rijks Psychiatrische Inrichting
 Rijnland
 Rijnland Ziekenhuis
@@ -253,10 +252,10 @@ Sint Jans Gasthuis
 Sint Jansdal
 Sint Jansdal Ziekenhuis
 Sint Joanna Ziekenhuis
-Sint Joannes de Deo
-Sint Joannes de Deo Ziekenhuis
-Sint Johannes de Deo
-Sint Johannes de Deo Ziekenhuis
+Sint Joannes De Deo
+Sint Joannes De Deo Ziekenhuis
+Sint Johannes De Deo
+Sint Johannes De Deo Ziekenhuis
 Sint Josef Ziekenhuis
 Sint Joseph
 Sint Joseph Ziekenhuis
@@ -333,7 +332,7 @@ Ziekenhuis De Gelderse Vallei
 Ziekenhuis Enschede
 Ziekenhuis Gelderse Vallei
 Ziekenhuis Isselwaerde
-Ziekenhuis Johannes de Deo
+Ziekenhuis Johannes De Deo
 Ziekenhuis Lievensberg
 Ziekenhuis Nebo
 Ziekenhuis Oldenzaal
