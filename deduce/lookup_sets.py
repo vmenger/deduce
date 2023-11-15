@@ -185,6 +185,9 @@ def _get_institutions() -> dd.ds.LookupSet:
 
     institutions.add_items_from_self(cleaning_pipeline=[UpperCase()])
 
+    institutions.add_items_from_self(
+        cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()],
+    )
     institutions = institutions - _get_whitelist()
 
     return institutions
