@@ -3097,6 +3097,7 @@ Protestantsziekenhuis
 Protestantsziekenhuizen
 Protestantszkh
 Protestantszkh.
+Radboud
 Radboud UMC
 Radboud Universitair MC
 Radboud Universitair Medisch Centrum
@@ -6485,6 +6486,7 @@ Zuiderzkh.
 Zuijderland
 Zuijderland MC
 Zuijderland Medisch Centrum
+Zuwe
 Zuwe Hofpoort
 Zuwe Hofpoort Gasthuis
 Zuwe Hofpoort Kliniek
