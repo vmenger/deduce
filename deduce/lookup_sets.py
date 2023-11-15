@@ -4,9 +4,7 @@ from pathlib import Path
 import docdeid as dd
 
 from deduce.str.processor import (
-    Acronimify,
     FilterBasedOnLookupSet,
-    RemoveValues,
     TakeLastToken,
     TitleCase,
     UpperCase,
