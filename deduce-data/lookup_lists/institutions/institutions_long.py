@@ -8,25 +8,8 @@ script or in any of the street source lists are made.
 
 from deduce.utils import str_variations
 
-zkh_mapping = {
-    r" Ziekenhuis": [" Ziekenhuis", " Ziekenhuizen", " Zkh", " Zkh.", " Gasthuis",
-                      " ziekenhuis", " ziekenhuizen", " gasthuis", " zkh", " zkh.",
-                      "ziekenhuis", "ziekenhuizen", "gasthuis", "zkh", "zkh."],
-    r"^Ziekenhuis": ["Ziekenhuis", "Zkh", "Zkh.", "Gasthuis", "ziekenhuis", "zkh", "zkh.", "gasthuis"],
-    r"Medisch Centrum": ["Medisch Centrum", "MC"],
-}
-
-# Gasthuis -> gasthuis
-# kliniek -> kliniek
-# ziekenhuizen, ziekenhuisgroep?
-
-zkh_mapping_2 = {
-    r"Universitair Medisch Centrum": ["Universitair Medisch Centrum", "UMC"],
-}
-
 prefix_mapping = {
-    r"\bhet\b": ["Het", "het", "'T", "'t", "`T", "`t", "T", "t", ""],
-    r"\bSint\b": ["Sint", "sint", "St.", "st.", "st", ""],
+    r"\bDe\b": ["De", "de"]
 }
 
 punct_mapping = {
@@ -42,8 +25,6 @@ spell_mapping = {
 }
 
 mappings = [
-    zkh_mapping,
-    zkh_mapping_2,
     prefix_mapping,
     punct_mapping,
     spell_mapping,
@@ -52,8 +33,13 @@ mappings = [
 
 if __name__ == "__main__":
 
-    with open("ziekenhuizen.txt", "r") as file:
+    with open("institutions.txt", "r") as file:
         institutions = set(file.read().split("\n"))
+
+    with open('institution_exceptions.txt', 'r') as file:
+        exceptions = set(file.read().split("\n"))
+
+    institutions = institutions - exceptions
 
     for mapping in mappings:
 

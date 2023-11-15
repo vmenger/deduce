@@ -1,25 +1,21 @@
+'s Heeren Loo
 't Bolwerk
 't Huis aan de Vecht
 't Oude Landt
 't Zand
 7nP
-abc
-Abrona
 ADHD Centraal
-Afdeling Dolfijn
-Afdeling Panda 1
-Afdeling Panda 2
+Abrona
 Albert van Koningsbruggen
 Alexander Monro
 AllerZorg
 Altaconsult
 Altrecht
-Altrecht locatie Centrum Maliebaan
-altrecht senior
+Altrecht senior
 Amandelboom
 Amandelhof
 Amaris De Amerhorst
-Ambulante Begeleiding Het Spectrum 
+Ambulante Begeleiding Het Spectrum
 Angio van Carotiss
 Antonius Zorggroep
 Antroposofisch Verpleeghuis
@@ -28,20 +24,20 @@ Arta Projecten
 Artemis
 Aveant
 Aventurijn
-aventurijn
-aventurijn wier
+Aventurijn
+Aventurijn wier
 Axion Voorhoevehuis
-b-open
+B-open
 Baantraject Care en Preventie
 Barents en Broekhuis Psychotherapeuten
 Barthimeushage
 Bartholomeus Gasthuis
 Bartimeus
 Bartimeushage
-be open
+Be open
 Bedrijfsbureau
 Bergkwartier
-bernard lievegoed kliniek
+Bernard lievegoed kliniek
 Bernhard Lievegoed Kliniek
 Bethesda
 Beukenstein
@@ -51,38 +47,37 @@ Birkhoven Zorggoed
 Blom Stichting
 Bontenbal
 Bosman Geestelijke Gezondheidszorg
-bosmanggz
+Bosmanggz
 Bovenwegen
 Breedstraat
-brinkwal
+Brinkwal
 Bunninchem
-bureau paardeveld
+Bureau paardeveld
 Burgemeester van Randwijckhuis
 Burn Out
 Buurtzorg Nederland
 Bynkershoek
-care for change
+CMD
+Care for change
+Careyn
 Careyn Zorgcentrum
 Cascade
 Centrum Vaartserijn
 Chiron Corporation Study
-Chris Sanatorium 
+Chris Sanatorium
 Civilian Medical Care
 Clinica Roks
 Clotscher
-CMD
 Companion Diagnostics
 Crusada
 Cyt Universitair
+DC zorg op Tijd
 Daelsche Hoek
 Dame Menkveld
 Das Studie
-DC zorg op Tijd
-De Aa
 De Akker
 De Amandelhof
 De Amerpoort
-de bascule
 De Batau
 De Berk
 De Bijnkershoek
@@ -95,20 +90,17 @@ De Bundeling
 De Dertiende Maan
 De Doorslag
 De Drie Uilen
-de enk
-de evenaar
 De Geinsche Hof
 De Grienden
 De Gulden Snede
 De Heem
 De Heijgraeff
 De Heuvelrug
-de Heuvelrug
+De Heuvelrug
 De Heygraeff
 De Hondspol
 De Hoogstraat
 De Horizon
-de keerkring
 De Kei
 De Koperhorst
 De Koperwiek
@@ -118,7 +110,6 @@ De Liendert
 De Looborch
 De Mirtehof
 De Parkgraaf
-de passie
 De Tjongerschans
 De Trappenberg
 De Tusenvoorziening
@@ -133,6 +124,11 @@ De Wijngaard
 De Wiltzangk
 De Wyngaard
 De Zwaluw
+De bascule
+De enk
+De evenaar
+De keerkring
+De passie
 Dedoensserre
 Demisal Communicatie
 Demuwahu
@@ -140,65 +136,62 @@ Dencor Company
 Dennendal
 Dermalink
 Dermis
-Diaconessenhuis Leiden
-Diakonessenhuis
 Diamuraal
 Dianet
-dinsele
+Dinsele
 Do Care Nederland
 Dokkum
 Dongemond St Theresia
-Dr Fs Meijers Instituut
-Dr Henri van der Hoeven Kliniek
+Dr. F.S. Meijers Instituut
+Dr. Henri van der Hoeven Kliniek
 Dreeslaan
 Drie Ringen
-Drs H Pekelharing
+Drs. H. Pekelharing
 Dysselhofkliniek
 Eerstelijns Behandelcentra
-eikeboom
+Eikeboom
 Eleos
 Ewoud Gasthuis
 Eyescan
-fact
+F.S. Meyersinstituut
+Fact
 Fidalelfia Zorgverlening
 Finspong
 Focus Cura Telezorg
-fornhese
-FS Meyersinstituut
-Geinsche Hof
-gelderse vallei
-geynwijs
-Gezonde Geest
+Fornhese
 GGZ Centraal
-Groot Gelre
 GVT Damhert
 GVT De Opbouw
 GVT De Reiger
 GVT Faros
+Geinsche Hof
+Gelderse vallei
+Geynwijs
+Gezonde Geest
+Groot Gelre
+HBank
+HSK
+HSK
 Hallefors
 Haltna
 Hart En Vaatgroep
 Hart voor Nederland
-Harting Bank 
-HBank
+Harting Bank
 Heart For Health
 Heartlife
 Heimerstein
 Helen Dowling Instituut
-herlaarhof
-Het Centrum
-Het geloof in 't Hart
+Herlaarhof
 Het Helen Dowling Instituut
 Het Houtens Erf
 Het Sinai Centrum
+Het geloof in 't Hart
 Heuvelrug
 Hofman La Roche
 Hogerzeil
 Hondspol
 Hoofdpijnpolikliniek
-Houtenserf 
-HSK
-HSK 
+Houtenserf
 Huis Van Bewaring Nieuwersluis
 Huize De Vossenschans
 Huize Het Oosten
@@ -211,62 +204,58 @@ IKS
 Illuminatus
 Ingelanden
 Intbrein
-Intermedicare 
-intermetzo
+Intermedicare
+Intermetzo
 Interzorg Regulier
-ipg
+Ipg
 Isala Klinieken
 Isselwaerde
 Jan Arends
 Jan Arends GGZ
-Janivo 
-jeugdzorg
+Janivo
+Jeugdzorg
 Joost Zorgt Nederland
 Jozefzorg
 Julius Centrum
 Julius Gezondheidscentra
 Juliuscentrum
 KAG Zorg
-Kampstichting
-karakter
-Karma Health Care
 KBO Agnietenhove
+Kampstichting
+Karakter
+Karma Health Care
 Kennemer Gasthuis
 Kentalis Zorg
 KidzTower
 Kinderurologie
-Klavertje Vier 
+Klavertje Vier
 Knoopkazerne
 Koningsbruggen
-Krisiscentrum
 Krommerijnhof
 Kwintes
 Leendert Meeshuis
 Leiblum
-leo kannerhuis
+Leo Kannerhuis
 Levensverz
-lijn 5
+Lijn 5
 Lisiduinahof
 Locum Ga
+MC Groep
+MCA Gemini Groep
 Maartenskliniek
 Magenta
 Makhan Reintegratie en Mediation
-Maliebaan
 Mapta
 Maria Dommer
 Mariaoord
 Marienstein
-marina de wolf
-Marine Hospitaal
+Marina de wolf
 Mauritskliniek
-mauritzhof
+Mauritzhof
 Max Ernst
-MC Groep
-MCA Gemini Groep
-meander
+Meander
 Medicare Haaglanden
 Medicasa
-Medisch Spectrum Twente
 Medtzorg
 Mentaal Beter
 Merenhoef
@@ -274,97 +263,94 @@ Mesos
 Mggz Utrecht
 Militair Geestelijke Gezondheidszorg
 Miroya
-molemann
-molemann tielens
+Molemann
+Molemann Tielens
 Montas ordening en coaching
 Muiderpoort
 Multi Maatzorg
 Multiculturele Dagverzorging
+NKCV
+NOAGG
 Nassau Odijckhof
 Nassau Odyckhof
 Nedereind
 Nedzorg Woerden
-Nij Smellinghe
 Nijenheim
 Nijenstede
 Nijevelt
 Nijho
-NKCV
-NOAGG 
 Oikos
 Onderzoek Metab
 Onze Lieve Vrouwe Gasthuis
 Oogheelkunde Centrum Visie
 Oogkliniek
-Oosten 
+Oosten
 Orbis Medisch en Zorgconcern
-paardeveld
 Pantein
 Pasana Zorggroep
 Pedagogen Psychologen Praktijk Salm en Martin
 Petrus Werthweyn
-Philadelphia Zorg 
+Philadelphia Zorg
 Pieter Baan Centrum
 Plantage
 Preventicon
 PrivaZorg
-PrivaZorg 
+PrivaZorg
 PrivaZorg AWBZ
-pro persona
+Pro Persona
 Profzorg
-Psych.afdeling Militair Hospitaal
-psycho informa groep
-psychosomatiek eikeboom
-psymens
 PsyQ
 PsyQ Utrecht BV
-psytrecht
+Psych.afdeling Militair Hospitaal
+Psycho Informa Groep
+Psychosomatiek Eikeboom
+Psymens
+Psytrecht
 Quarijn
-Quintes 
-Rapsydie
-redl
-redl school
-redl-school
-redlschool
-Rehoboth
-Reinaerde
-Reinaerde 
-reinarde
-Riagg
+Quintes
 RIAGG
-riagg
 RIAGG Eleos
-ribw
-RIBW Beschermende Woonvormen 
+RIBW Beschermende Woonvormen
 RIBW Eleos
 RIBW Leger des Heils
-rintveld
+Rapsydie
+Redl
+Redl school
+Redl-school
+Redlschool
+Rehoboth
+Reinaerde
+Reinaerde
+Reinaerde
+Riagg
+Riagg
+Ribw
+Rintveld
 Rivas Zorggroep
-rivierduinen
-RIVM
-Rivm
+Rivierduinen
 Rosendael
 Roubos
 Rumke Groep
-S Heeren Loo
+STAGG
+STN Zorg
 Sabu Huis
 Saltro
-samen veilig
+Samen Veilig
 Samenzorg Diensten
-save
+Save
 Saxenburgh Groep
-sbo
-sbo kristal
-sbwu
+Sbo
+Sbo Kristal
+Sbwu
 Schoorel
 Seracosa
 Sherpa
 Sherpa Dieze
-Sigma zorg 
+Sigma zorg
 Sinai
 Sinai-centrum
 Singelzicht
-Sint Franciscus 
+Sint Franciscus
 Skippy
 Snavelenburg
 Solide Zorg
@@ -380,26 +366,22 @@ St. Intermedicare Eemland
 St. Jans Gasthuis
 St. Pieters en Blokland
 Stade
-STAGG
 Stenia
 Sticht Leidse
 Stichting Bronovo Nebo
-stichting geynwijs
+Stichting Geynwijs
 Stichting Reinier Haga Groep
-STN Zorg
 Stoute Schoenen
-Stratenum
 Studie Amgen
 Symfora Groep
 Symforameander
 Tamarinde
 Temozolomide
-tergooi
+Tergooi
 Theater Totaal
 Thuishulp Zorgzaam
 Thuiszorgservice Nederland
 Timon
-Titan
 Tolsteeg
 Trajectum Novum
 Transwijk
@@ -407,9 +389,9 @@ Trial Begut
 Trombose Dienst
 Universiteit Utrecht
 Upper Room
-uwv
+Uwv
 Van Gasselt
-Van Tellingen 
+Van Tellingen
 Vecht En Zaan
 Vela
 Veldheim
@@ -419,16 +401,17 @@ Victas
 VieJa
 Viken
 Villa Hooghe Heide
-virenze
+Virenze
 Vitras
 Vliegbasis Soesterberg
 Vlietland Groep
 Voordorp
 Voorhoeve
-vosseveld
+Vosseveld
 Vreeland
 Vreeswijk
 Vroeg Determinanten
+WZC Veldhof
 Warande
 Weddesteijn
 Weddesteyn
@@ -436,27 +419,25 @@ Weerdsingel
 Weids
 WelCom Careshop
 Welcom careshop
-wellant
-wellantcollege
 Weltevreden
 Westfries Gasthuis
 Widar
-wier
-wij 3.0
+Wier
+Wij 3.0
 Willem Arntsz
 Wolfshoek
-WZC Veldhof
-Xpert Clinic 
-youk
+Xpert Clinic
+Youz
 Zeisterwoude Extra Murale Zorg
 Zeylmanns V Emmichovenkliniek
 Zon En Schild
 Zonnehuis
-Zonnehuizen 
+Zonnehuizen
 Zonnehuizen Kind en Jeugd
 Zonnehuizen Veldheim
 Zorg Thuis
 ZorgBewust
+ZorgSaam Zeeuws Vlaanderen
 Zorgcombinatie Noorderboog
 Zorgconcept
 Zorggarant
@@ -466,9 +447,8 @@ Zorgmeesters
 Zorgnet Thuisbest
 Zorgpalet
 Zorgpartners Friesland
-ZorgSaam Zeeuws Vlaanderen
 Zuilenstein
 Zuwe
-Zuwe zorg
 Zuwe Zorg
+Zuwe zorg
 Zuylenstede

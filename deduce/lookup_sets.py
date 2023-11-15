@@ -157,79 +157,54 @@ def _get_placenames() -> dd.ds.LookupSet:
     return placenames
 
 
-def _get_institutions() -> dd.ds.LookupSet:
-    """Get institutions LookupSet."""
+def _get_hospitals() -> dd.ds.LookupSet:
 
-    institutions_raw = dd.ds.LookupSet()
-    institutions_raw.add_items_from_file(
-        os.path.join(data_path, "institutions", "_institutions_old.txt"),
-        cleaning_pipeline=[dd.str.FilterByLength(min_len=3), dd.str.LowercaseString()],
+    hospitals = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
+
+    hospitals.add_items_from_file(
+        os.path.join(data_path, "institutions", "ziekenhuis_long.txt")
     )
 
-    institutions = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
-    institutions.add_items_from_iterable(
-        institutions_raw, cleaning_pipeline=[dd.str.StripString()]
-    )
-
-    institutions.add_items_from_iterable(
-        institutions_raw,
-        cleaning_pipeline=[
-            RemoveValues(
-                filter_values=["dr.", "der", "van", "de", "het", "'t", "in", "d'"]
-            ),
-            dd.str.StripString(),
-        ],
-    )
-
-    institutions.add_items_from_self(
-        cleaning_pipeline=[dd.str.ReplaceValue(".", ""), dd.str.StripString()]
-    )
-
-    institutions.add_items_from_self(
-        cleaning_pipeline=[dd.str.ReplaceValue("st ", "sint ")]
-    )
-
-    institutions.add_items_from_self(
-        cleaning_pipeline=[dd.str.ReplaceValue("st. ", "sint ")]
-    )
-
-    institutions.add_items_from_self(
-        cleaning_pipeline=[dd.str.ReplaceValue("ziekenhuis", "zkh")]
-    )
-
-    institutions.add_items_from_self(
-        cleaning_pipeline=[
-            dd.str.LowercaseString(),
-            Acronimify(),
-            dd.str.FilterByLength(min_len=3),
-        ]
-    )
-
-    institutions_new = dd.ds.LookupSet()
-
-    institutions_new.add_items_from_file(
-        os.path.join(data_path, "institutions", "institutions_long.txt"),
-    )
-
-    institutions_new.add_items_from_file(
+    hospitals.add_items_from_file(
         os.path.join(data_path, "institutions", "ziekenhuis_colloquial.txt")
     )
 
-    institutions_new.add_items_from_self(
-        cleaning_pipeline=[dd.str.LowercaseString()],
-    )
-
-    institutions_new.add_items_from_self(
-        cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()],
-    )
-
-    institutions_new.add_items_from_file(
+    hospitals.add_items_from_file(
         os.path.join(data_path, "institutions", "ziekenhuis_abbr.txt")
     )
 
-    institutions = institutions - _get_whitelist()
+    hospitals.add_items_from_self(
+        cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()],
+    )
 
-    institutions = institutions + institutions_new
+    return hospitals
+
+
+def _get_institutions() -> dd.ds.LookupSet:
+    """Get institutions LookupSet."""
+
+    institutions = dd.ds.LookupSet()
+    institutions.add_items_from_file(
+        os.path.join(data_path, "institutions", "institutions_long.txt"),
+        cleaning_pipeline=[dd.str.StripString(), dd.str.FilterByLength(min_len=4)],
+    )
+
+    # institutions.add_items_from_self(
+    #     cleaning_pipeline=[
+    #         RemoveValues(
+    #             filter_values=["dr.", "der", "van", "de", "het", "'t", "in", "d'"]
+    #         ),
+    #         dd.str.StripString(),
+    #     ],
+    # )
+
+    institutions.add_items_from_self(
+        cleaning_pipeline=[
+            UpperCase()
+        ]
+    )
+
+    institutions = institutions - _get_whitelist()
 
     return institutions
 
@@ -300,6 +275,7 @@ def get_lookup_sets() -> dd.ds.DsCollection:
         "surname_exceptions": _get_surname_exceptions,
         "streets": _get_streets,
         "placenames": _get_placenames,
+        "hospitals": _get_hospitals,
         "institutions": _get_institutions,
         "whitelist": _get_whitelist,
     }

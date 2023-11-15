@@ -428,6 +428,14 @@
         "tag": "locatie"
       }
     },
+    "hospital": {
+      "annotator_type": "multi_token",
+      "group": "institutions",
+      "args": {
+        "lookup_values": "hospitals",
+        "tag": "instelling"
+      }
+    },
     "institution": {
       "annotator_type": "multi_token",
       "group": "institutions",

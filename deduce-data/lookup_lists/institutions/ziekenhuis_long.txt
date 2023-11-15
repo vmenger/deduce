@@ -404,7 +404,6 @@ Antoniusziekenhuis
 Antoniusziekenhuizen
 Antoniuszkh
 Antoniuszkh.
-Atrium
 Atrium MC
 Atrium Medisch Centrum
 Azivo
@@ -740,7 +739,6 @@ Catharinaziekenhuizen
 Catharinazkh
 Catharinazkh.
 Catharynegasthuis
-Centraal
 Centraal Gasthuis
 Centraal Militair Hospitaal
 Centraal Militair Hospitaal Utrecht
@@ -813,7 +811,6 @@ Delfzichtziekenhuis
 Delfzichtziekenhuizen
 Delfzichtzkh
 Delfzichtzkh.
-Deventer
 Deventer Gasthuis
 Deventer Ziekenhuis
 Deventer Ziekenhuizen
