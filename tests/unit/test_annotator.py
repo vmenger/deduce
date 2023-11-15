@@ -82,7 +82,12 @@ class TestPatternPositionMatcher:
         pattern_position = {"is_initial": True}
 
         assert _PatternPositionMatcher.match(pattern_position, token=token("A"))
+        assert _PatternPositionMatcher.match(pattern_position, token=token("Ch"))
+        assert _PatternPositionMatcher.match(pattern_position, token=token("Chr"))
+        assert _PatternPositionMatcher.match(pattern_position, token=token("Ph"))
+        assert _PatternPositionMatcher.match(pattern_position, token=token("Th"))
         assert not _PatternPositionMatcher.match(pattern_position, token=token("a"))
+        assert not _PatternPositionMatcher.match(pattern_position, token=token("Ah"))
         assert not _PatternPositionMatcher.match(pattern_position, token=token("Abcd"))
 
     def test_match_like_name(self):

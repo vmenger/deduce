@@ -901,6 +901,96 @@
                     "tag": "persoon"
                 }
             ]
+        },
+        {
+            "id": 101,
+            "text": "Ph. Van der Laan",
+            "annotations": [
+                {
+                    "text": "Ph. Van der Laan",
+                    "start_char": 0,
+                    "end_char": 16,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 102,
+            "text": "A.Th.Chr. Van der Laan",
+            "annotations": [
+                {
+                    "text": "A.Th.Chr. Van der Laan",
+                    "start_char": 0,
+                    "end_char": 22,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 103,
+            "text": "Ah. Van der Laan",
+            "annotations": [
+                {
+                    "text": "Van der Laan",
+                    "start_char": 4,
+                    "end_char": 16,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 104,
+            "text": "J. Th. Bakker",
+            "annotations": [
+                {
+                    "text": "J. Th. Bakker",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 105,
+            "text": "J. Th. A. Bakker",
+            "annotations": [
+                {
+                    "text": "J. Th. A. Bakker",
+                    "start_char": 0,
+                    "end_char": 16,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 106,
+            "text": "Prof. Dr. Th. Bakker",
+            "annotations": [
+                {
+                    "text": "Prof. Dr. Th. Bakker",
+                    "start_char": 0,
+                    "end_char": 20,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 107,
+            "text": "Prof. Dr. Th. Ir. Bakker",
+            "annotations": [
+                {
+                    "text": "Prof. Dr. Th",
+                    "start_char": 0,
+                    "end_char": 12,
+                    "tag": "persoon"
+                },
+                {
+                    "text": "Ir. Bakker",
+                    "start_char": 14,
+                    "end_char": 24,
+                    "tag": "persoon"
+                }
+            ]
         }
     ]
 }
