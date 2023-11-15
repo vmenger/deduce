@@ -1286,31 +1286,20 @@ Altra
 Altra Care
 AltraCura
 Altrecht
-Altrecht Acute Psychiatrie Nieuwegein
-Altrecht Acute Psychiatrie Utrecht
-Altrecht Acute Psychiatrie Zeist
-Altrecht Angststoornissen Utrecht
+Altrecht Acute Psychiatrie
+Altrecht Angststoornissen
 Altrecht Bipolair
-Altrecht Eetstoornissen Rintveld Zeist
+Altrecht Eetstoornissen Rintveld
 Altrecht Kinder- en jeugdpsychiatrie
-Altrecht Neuropsychiatrie Vesalius Woerden
-Altrecht Ouderenpsychiatrie Utrecht
-Altrecht Ouderenpsychiatrie Zeist
-Altrecht Persoonlijkheidsstoornissen Nieuwegein
-Altrecht Persoonlijkheidsstoornissen Utrecht
-Altrecht Persoonlijkheidsstoornissen Woerden
-Altrecht Persoonlijkheidsstoornissen Zeist
+Altrecht Neuropsychiatrie Vesalius
+Altrecht Ouderenpsychiatrie
+Altrecht Persoonlijkheidsstoornissen
 Altrecht Psychiatrie en verslaving
-Altrecht Psychosomatiek Eikenboom Zeist
-Altrecht Voortgezette Klinische Behandeling, Mariënburg
-Altrecht Voortgezette Klinische Behandeling, Meijboom
-Altrecht Voortgezette Klinische Behandeling, Reijnvaan
+Altrecht Psychosomatiek Eikenboom
+Altrecht Voortgezette Klinische Behandeling
 Altrecht Vroege psychose ABC
 Altrecht senior
-Altrecht, Expertise Centrum Diagnostiek Houten
-Altrecht, Expertise Centrum Diagnostiek Nieuwegein
-Altrecht, Expertise Centrum Diagnostiek Woerden
-Altrecht, Expertise Centrum Diagnostiek Zeist
+Altrecht, Expertise Centrum Diagnostiek
 Alumni Arbodiensten
 Alvleeskliervereniging
 Alwes Voeding & Diëtetiek
@@ -9331,8 +9320,6 @@ Diëtistenpraktijk De Haan-Pottjegort
 Diëtistenpraktijk De Kuiper & Den Besten
 Diëtistenpraktijk De Lage Korn
 Diëtistenpraktijk De Langstraat
-Diëtistenpraktijk De Langstraat
-Diëtistenpraktijk De Linge
 Diëtistenpraktijk De Linge
 Diëtistenpraktijk De Meermin
 Diëtistenpraktijk De Noordoostpolder
@@ -11953,7 +11940,6 @@ Fysio Dana
 Fysio Daryl
 Fysio De Backere
 Fysio De Bevelanden
-Fysio De Bevelanden
 Fysio De Cirkel
 Fysio De Hofstraat
 Fysio De Hoofdzaak
@@ -13349,7 +13335,6 @@ Fysiotherapie De Boekt
 Fysiotherapie De Boer en Schoenmaker
 Fysiotherapie De Brigantijn
 Fysiotherapie De Brug
-Fysiotherapie De Brug
 Fysiotherapie De Bruijn
 Fysiotherapie De Buitenpepers
 Fysiotherapie De Buitenpraktijk
@@ -13358,7 +13343,6 @@ Fysiotherapie De Bunders
 Fysiotherapie De Carrousel
 Fysiotherapie De Carrousel, ergotherapie
 Fysiotherapie De Clavers Wilhelminadorp
-Fysiotherapie De Colvenier
 Fysiotherapie De Colvenier
 Fysiotherapie De Commissaris
 Fysiotherapie De Dijken
@@ -14944,7 +14928,6 @@ Fysiotherapiepraktijk De Hooge Rijt
 Fysiotherapiepraktijk De Jonge
 Fysiotherapiepraktijk De Morsch
 Fysiotherapiepraktijk De Regentes
-Fysiotherapiepraktijk De Rooy
 Fysiotherapiepraktijk De Rooy
 Fysiotherapiepraktijk De Schermer
 Fysiotherapiepraktijk De Vlinder
@@ -18348,7 +18331,6 @@ Huisartsenpraktijk Albers en Zegger
 Huisartsenpraktijk Albronda
 Huisartsenpraktijk Aldlân
 Huisartsenpraktijk Aletta
-Huisartsenpraktijk Aletta
 Huisartsenpraktijk Alferink en Spel
 Huisartsenpraktijk Alhoda
 Huisartsenpraktijk Alkemade
@@ -18464,14 +18446,12 @@ Huisartsenpraktijk Bakkeveen
 Huisartsenpraktijk Bakkum
 Huisartsenpraktijk Balans
 Huisartsenpraktijk Balk
-Huisartsenpraktijk Balk
 Huisartsenpraktijk Balkbrug
 Huisartsenpraktijk Bandkeramiek
 Huisartsenpraktijk Bangaerde
 Huisartsenpraktijk Bangert en Oosterpolder
 Huisartsenpraktijk Bansraj
 Huisartsenpraktijk Barek
-Huisartsenpraktijk Barendrecht
 Huisartsenpraktijk Barendrecht
 Huisartsenpraktijk Barten en Dorhout
 Huisartsenpraktijk Bartstra en Kant
@@ -18521,7 +18501,6 @@ Huisartsenpraktijk Bergrand
 Huisartsenpraktijk Bergse Bos
 Huisartsenpraktijk Berkenhove
 Huisartsenpraktijk Berkenlaan
-Huisartsenpraktijk Berkhout
 Huisartsenpraktijk Berkhout
 Huisartsenpraktijk Berkhout en van Markus
 Huisartsenpraktijk Berkum
@@ -18606,7 +18585,6 @@ Huisartsenpraktijk Boon en De Ruiter
 Huisartsenpraktijk Bordui
 Huisartsenpraktijk Borgman
 Huisartsenpraktijk Born
-Huisartsenpraktijk Bos
 Huisartsenpraktijk Bos
 Huisartsenpraktijk Bos en Lommer
 Huisartsenpraktijk Bos en Lommer Dokters
@@ -18814,7 +18792,6 @@ Huisartsenpraktijk De Besterd, Praktijk Brugts, Van Geel, Smits
 Huisartsenpraktijk De Besterd, Praktijk Van der Zijden, Klinkhamer, Thijssen
 Huisartsenpraktijk De Bethaan
 Huisartsenpraktijk De Beuk
-Huisartsenpraktijk De Beuk
 Huisartsenpraktijk De Beuken
 Huisartsenpraktijk De Beus
 Huisartsenpraktijk De Biezen
@@ -18824,9 +18801,7 @@ Huisartsenpraktijk De Blauwe Tulp
 Huisartsenpraktijk De Blokkendoos
 Huisartsenpraktijk De Boekhorst
 Huisartsenpraktijk De Boer
-Huisartsenpraktijk De Boer
 Huisartsenpraktijk De Boer en Agema
-Huisartsenpraktijk De Bongerd
 Huisartsenpraktijk De Bongerd
 Huisartsenpraktijk De Boog
 Huisartsenpraktijk De Boswachter
@@ -18908,7 +18883,6 @@ Huisartsenpraktijk De Groenendijk
 Huisartsenpraktijk De Groenling
 Huisartsenpraktijk De Groenzoom
 Huisartsenpraktijk De Groot
-Huisartsenpraktijk De Groot
 Huisartsenpraktijk De Groot-Weis
 Huisartsenpraktijk De Groote Polder
 Huisartsenpraktijk De Groote Wielen
@@ -18916,7 +18890,6 @@ Huisartsenpraktijk De Grooth
 Huisartsenpraktijk De Grote Rivieren, Praktijk Touber / Haeck
 Huisartsenpraktijk De Grote Rivieren, Praktijk W.B. van Duijn
 Huisartsenpraktijk De Gruijl
-Huisartsenpraktijk De Haan
 Huisartsenpraktijk De Haan
 Huisartsenpraktijk De Haan Heiloo
 Huisartsenpraktijk De Haas
@@ -18936,7 +18909,6 @@ Huisartsenpraktijk De Horden
 Huisartsenpraktijk De Hoven
 Huisartsenpraktijk De Hunze
 Huisartsenpraktijk De Ijsvogel
-Huisartsenpraktijk De Jasmijn
 Huisartsenpraktijk De Jasmijn
 Huisartsenpraktijk De Jong
 Huisartsenpraktijk De Jong & Nikulina
@@ -19002,7 +18974,6 @@ Huisartsenpraktijk De Lindeboom
 Huisartsenpraktijk De Lindehoeve
 Huisartsenpraktijk De Linge
 Huisartsenpraktijk De Linie
-Huisartsenpraktijk De Linie
 Huisartsenpraktijk De Lis
 Huisartsenpraktijk De Luit
 Huisartsenpraktijk De Lunette
@@ -19043,10 +19014,8 @@ Huisartsenpraktijk De Peperstoep
 Huisartsenpraktijk De Pionier
 Huisartsenpraktijk De Plantage
 Huisartsenpraktijk De Plataan
-Huisartsenpraktijk De Plataan
 Huisartsenpraktijk De Pleiaden, praktijk Smit
 Huisartsenpraktijk De Pleiaden, praktijk Vochteloo
-Huisartsenpraktijk De Poort
 Huisartsenpraktijk De Poort
 Huisartsenpraktijk De Poort van Borne
 Huisartsenpraktijk De Potgieter
@@ -19102,7 +19071,6 @@ Huisartsenpraktijk De Velden
 Huisartsenpraktijk De Veluwe
 Huisartsenpraktijk De Venen
 Huisartsenpraktijk De Verbinding
-Huisartsenpraktijk De Verdieping
 Huisartsenpraktijk De Verdieping
 Huisartsenpraktijk De Vesting
 Huisartsenpraktijk De Vijver, Praktijk Lunter
@@ -19570,7 +19538,6 @@ Huisartsenpraktijk Heerlerbaan
 Huisartsenpraktijk Hegge
 Huisartsenpraktijk Heijnen
 Huisartsenpraktijk Heikens
-Huisartsenpraktijk Heikens
 Huisartsenpraktijk Heilaren
 Huisartsenpraktijk Heimansweg
 Huisartsenpraktijk Heinenoord
@@ -19656,7 +19623,6 @@ Huisartsenpraktijk Hingstman en Hingstman
 Huisartsenpraktijk Hodes en Van Beek
 Huisartsenpraktijk Hoef en Haag
 Huisartsenpraktijk Hoeks
-Huisartsenpraktijk Hoekstra
 Huisartsenpraktijk Hoekstra
 Huisartsenpraktijk Hoekstra en De Doelder
 Huisartsenpraktijk Hoensbroek
@@ -20489,7 +20455,6 @@ Huisartsenpraktijk Pantaleon, Praktijk van der Linden
 Huisartsenpraktijk Papenvoort
 Huisartsenpraktijk Parijsch
 Huisartsenpraktijk Parkhof
-Huisartsenpraktijk Parkhof
 Huisartsenpraktijk Parkplantsoen
 Huisartsenpraktijk Parmentier-van Loon
 Huisartsenpraktijk Pasdeloup - De Vries
@@ -20541,7 +20506,6 @@ Huisartsenpraktijk Post-De Gooijer
 Huisartsenpraktijk Posterholt
 Huisartsenpraktijk Posthouwer
 Huisartsenpraktijk Postjesweg
-Huisartsenpraktijk Postma
 Huisartsenpraktijk Postma
 Huisartsenpraktijk Pottenberg
 Huisartsenpraktijk Pourfar en Khalili
@@ -20730,7 +20694,6 @@ Huisartsenpraktijk SassemBourg
 Huisartsenpraktijk Sassen
 Huisartsenpraktijk Saunier
 Huisartsenpraktijk Sauwerd
-Huisartsenpraktijk Schaafsma
 Huisartsenpraktijk Schaafsma
 Huisartsenpraktijk Schaapskamp
 Huisartsenpraktijk Schadenberg en Verdenius
@@ -21114,7 +21077,6 @@ Huisartsenpraktijk Verstraten Medico
 Huisartsenpraktijk Verweijen
 Huisartsenpraktijk Verwielstraat
 Huisartsenpraktijk Verzijl
-Huisartsenpraktijk Verzijl
 Huisartsenpraktijk Vessem
 Huisartsenpraktijk Veur, Praktijk Bootsma en Joustra
 Huisartsenpraktijk Veur, Praktijk Sitters en Spijker
@@ -21158,7 +21120,6 @@ Huisartsenpraktijk Vooijs
 Huisartsenpraktijk Voordorp
 Huisartsenpraktijk Voorkamp
 Huisartsenpraktijk Voorwijk
-Huisartsenpraktijk Vos
 Huisartsenpraktijk Vos
 Huisartsenpraktijk Vos, van Aalen en van den Heuvel
 Huisartsenpraktijk Voshart
@@ -21476,7 +21437,6 @@ Huisartsenpraktijk van Reisen
 Huisartsenpraktijk van Rhijn & Ghahramani
 Huisartsenpraktijk van Riet
 Huisartsenpraktijk van Rijn
-Huisartsenpraktijk van Rijn
 Huisartsenpraktijk van Rooijen
 Huisartsenpraktijk van Sambeek
 Huisartsenpraktijk van Santvoort
@@ -21493,12 +21453,10 @@ Huisartsenpraktijk van Urk
 Huisartsenpraktijk van Velden
 Huisartsenpraktijk van Veldhuizen
 Huisartsenpraktijk van Vliet
-Huisartsenpraktijk van Vliet
 Huisartsenpraktijk van Wincoop
 Huisartsenpraktijk van Winkel
 Huisartsenpraktijk van Zuiden
 Huisartsenpraktijk van Zuylen
-Huisartsenpraktijk van den Berg
 Huisartsenpraktijk van den Berg
 Huisartsenpraktijk van den Berg & Kerschoten
 Huisartsenpraktijk van den Boom
@@ -23443,7 +23401,6 @@ Kinderfysiotherapie Dauwendaele
 Kinderfysiotherapie De Bilt
 Kinderfysiotherapie De Groeisprong
 Kinderfysiotherapie De Kikkersprong
-Kinderfysiotherapie De Kikkersprong
 Kinderfysiotherapie De Molengaard
 Kinderfysiotherapie De Parel-Heemskerk
 Kinderfysiotherapie De Singel
@@ -24024,7 +23981,6 @@ Kraamzorg Danuta
 Kraamzorg Daphne
 Kraamzorg Daphne - Harderwijk
 Kraamzorg De 9 maanden
-Kraamzorg De Baby Boom
 Kraamzorg De Baby Boom
 Kraamzorg De Bakermand
 Kraamzorg De Drechtstromen
@@ -25444,7 +25400,6 @@ Logopediepraktijk D. van De Klundert, Vredenburgstraat
 Logopediepraktijk De Bremhorst
 Logopediepraktijk De Groot
 Logopediepraktijk De Kempen
-Logopediepraktijk De Kempen
 Logopediepraktijk De Kletskampioen
 Logopediepraktijk De Kletsmaat
 Logopediepraktijk De Kock voor moeilijke eters
@@ -26270,7 +26225,6 @@ MET ggz Weert
 MET ggz Zuid
 MFO Maatschap Fysiotherapie Oldenzaal
 MFT De Woldstreek
-MFT De Woldstreek
 MFT De Woldstreek locatie Harkstede
 MGH Mondzorg
 MH Mondhygiënisten
@@ -26346,7 +26300,6 @@ MT thuiszorg
 MTC - Gezond Wilnis
 MTC Bernheze
 MTC BeterGezonder Ede
-MTC De Fysioclub
 MTC De Fysioclub
 MTC De Gelderse Poort, Tandartsenpraktijk S. Baykir
 MTC De Ronde Venen
@@ -30879,7 +30832,6 @@ Paramedisch Centrum Breda Zuid, Haagse Beemden
 Paramedisch Centrum De Brug, Eerstelijnspsychologiepraktijk
 Paramedisch Centrum De Hoek
 Paramedisch Centrum De Nieuwe Dam
-Paramedisch Centrum De Nieuwe Dam
 Paramedisch Centrum De Schoof, Ergotherapeuten
 Paramedisch Centrum De Schoof, Fysiotherapeuten
 Paramedisch Centrum De Schoof, Oefentherapeuten
@@ -31964,7 +31916,6 @@ Podotherapie De Boer Wemeldinge
 Podotherapie De Boer Zoutelande
 Podotherapie De Dinkel
 Podotherapie De Heuvelrug
-Podotherapie De Meierij
 Podotherapie De Meierij
 Podotherapie De Wit
 Podotherapie Dennemann Beuningen
@@ -39235,7 +39186,6 @@ Stichting De Mantelmeeuw
 Stichting De Naobere
 Stichting De Novo
 Stichting De Okkernoot
-Stichting De Okkernoot
 Stichting De Okkernoot, Kleinschalige wooninitiatieven
 Stichting De Ontbrekende Schakel
 Stichting De Opbouw
@@ -43698,7 +43648,6 @@ Thuiszorg De Spil
 Thuiszorg De Wereld
 Thuiszorg De Wijngaerd
 Thuiszorg De Zellingen
-Thuiszorg De Zellingen
 Thuiszorg De Zonnestralen
 Thuiszorg De ZorgSter
 Thuiszorg De Zorgende Hand
@@ -44089,7 +44038,6 @@ Tract psychologen
 Tragel Zorg
 Tragel Zorg, Logeerhuis Scheldebalkon 2
 Trail Centrum voor Parodontologie en Implantologie
-Trajectum
 Trajectum
 Trajectum Novum
 Trampolien praktijk voor psychotherapie
@@ -46673,7 +46621,6 @@ Widar, Huisartsenpraktijk Laan van Beek en Royen
 Widdershins
 Wiechmann Psychotherapie
 Wieggers & De Jongste Oefenexperts
-Wieggers & De Jongste Oefenexperts
 Wieggers Kunstgebitten
 Wielders & Co
 Wielewaal Beleefboerderij
@@ -48137,7 +48084,6 @@ Zorggroep Liante
 Zorggroep Liante, Zorg Thuis Ooststellingwerf
 Zorggroep Liante, Zorg Thuis Smallingerland
 Zorggroep Liante, Zorg Thuis Weststellingwerf
-Zorggroep Maas en Waal
 Zorggroep Maas en Waal
 Zorggroep Maas en Waal, Klein Waelwick
 Zorggroep Maas en Waal, Revalidatie- en Behandelcentrum Waelwick
