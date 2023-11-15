@@ -247,7 +247,6 @@ ADHDcentraal Nijmegen
 ADHDcentraal Rotterdam
 ADHDcentraal Utrecht
 ADHDcentraal Zwolle
-ADRZ
 AEN Zorg Nederland
 AFM zorggroep
 AFP Fysio
@@ -733,8 +732,6 @@ Albero Dagbesteding Gendt
 Albers en Van Dommelen, Fysio- en Manuele Therapie
 Albert Mulder, Praktijk voor psychosomatische therapie en stresshantering
 Albert Pot - Expert in Spine Problems
-Albert Schweitzer ziekenhuis
-Albert Schweitzer ziekenhuis, Buitenpoli GOED Ridderkerk
 Albert van Koningsbruggen
 Alberta zorg met plezier
 Alberts Fysiotherapie
@@ -1270,15 +1267,9 @@ Alphega apotheek van der Veen
 Alpo zorg
 Alrijne Apotheek Leiden
 Alrijne Apotheek Leiderdorp
-Alrijne Ziekenhuis Alphen aan den Rijn
-Alrijne Ziekenhuis Leiden
-Alrijne Ziekenhuis Leiderdorp
-Alrijne Zorggroep
 Alrijne Zorggroep Fysiotherapie
 Alrijne Zorggroep, Verpleeghuis Leythenrode
 Alrijne Zorggroep, Verpleeghuis Oudshoorn
-Alrijne buitenpoli Katwijk
-Alrijne buitenpoli Sassenheim
 AlsCare
 Altaconsult
 Altena Fysio +
@@ -1443,7 +1434,6 @@ Amicitia Zorg
 Amira Thuiszorg
 Amor Zorg
 Amphia Apotheek
-Amphia Ziekenhuis
 Amphora fysiotherapie
 Amsta
 Amsta Herstel
@@ -1556,7 +1546,6 @@ Amsterdam Central Pharmacy
 Amsterdam Fysio
 Amsterdam Plastic Surgery (APS)
 Amsterdam Podotherapie
-Amsterdam UMC
 Amsterdam UMC, Niercentrum
 Amsterdam-Centrum Fysio- en Manuele Therapie
 Amsterdams Centrum voor Cosmetische Tandheelkunde
@@ -1645,7 +1634,6 @@ Anna Ouderenzorg, Woonzorgcentrum Heuvel
 Anna Ouderenzorg, Woonzorgcentrum Heuvel - Geriatrische Revalidatie
 Anna Ouderenzorg, Woonzorgcentrum Nicasius
 Anna TopSupport
-Anna Ziekenhuis
 Anna-Vita Podotherapie
 Annadal Kliniek
 Anne Helpt
@@ -1701,13 +1689,11 @@ Anticonceptie Den Haag
 Antje Pijl Psychiater
 Antoinette van Summeren, bedrijfsarts
 Anton Jurgens Apotheek
-Antoni van Leeuwenhoek
 Antoni van Leeuwenhoek, afdeling Radiotherapie
 Antoni van Leeuwenhoek, afdeling Radiotherapie Hoofddorp
 Antonius Apotheek
 Antonius Hypercare
 Antonius Kindzorg Thuis
-Antonius Ziekenhuis
 Antonius Zorg Thuis
 Antonius Zorggroep
 Antropos Zorg
@@ -2595,8 +2581,9 @@ Apotheek vanNoord
 ApotheekZorg
 Apotheekhoudend Huisartsenpraktijk Bax
 Apotheekhoudend Huisartsenpraktijk P.R. Paans
-Apotheekhoudend huisartsenpraktijk Timmermans
 Apotheekhoudend Huisartsenpraktijk Seroos
+Apotheekhoudend huisartsenpraktijk Timmermans
+Apotheekhoudende Huisartsenpraktijk A.G.H.M. van Vlaardingen-Kieven
 Apotheekhoudende Huisartsenpraktijk Almen
 Apotheekhoudende Huisartsenpraktijk America
 Apotheekhoudende Huisartsenpraktijk Anjum
@@ -2609,17 +2596,21 @@ Apotheekhoudende Huisartsenpraktijk De Compagnie
 Apotheekhoudende Huisartsenpraktijk De Krim
 Apotheekhoudende Huisartsenpraktijk De Wijk
 Apotheekhoudende Huisartsenpraktijk Diever
+Apotheekhoudende Huisartsenpraktijk Dijkdoc
 Apotheekhoudende Huisartsenpraktijk Feij en Van der Wal
 Apotheekhoudende Huisartsenpraktijk G.P.J.M. van Delft
 Apotheekhoudende Huisartsenpraktijk Hallum
 Apotheekhoudende Huisartsenpraktijk Heijstra-Kremer
+Apotheekhoudende Huisartsenpraktijk Heukels
 Apotheekhoudende Huisartsenpraktijk Hulshof
+Apotheekhoudende Huisartsenpraktijk J. De Kroon
 Apotheekhoudende Huisartsenpraktijk Jaspers
 Apotheekhoudende Huisartsenpraktijk Kolderveen
 Apotheekhoudende Huisartsenpraktijk Koudum/Wijckel
 Apotheekhoudende Huisartsenpraktijk Kuinre
 Apotheekhoudende Huisartsenpraktijk Loppersum
 Apotheekhoudende Huisartsenpraktijk Massuger
+Apotheekhoudende Huisartsenpraktijk Mheer
 Apotheekhoudende Huisartsenpraktijk Middenmeer
 Apotheekhoudende Huisartsenpraktijk Nieuwerbrug
 Apotheekhoudende Huisartsenpraktijk Oldeberkoop
@@ -2629,10 +2620,9 @@ Apotheekhoudende Huisartsenpraktijk Ruinerwold
 Apotheekhoudende Huisartsenpraktijk S.A.A.B. Vaes
 Apotheekhoudende Huisartsenpraktijk Vledder
 Apotheekhoudende Huisartsenpraktijk Voorpoort
+Apotheekhoudende Huisartsenpraktijk Wedde
 Apotheekhoudende Huisartsenpraktijk West Schouwen
 Apotheekhoudende Huisartsenpraktijk Woldendorp
-Apotheekhoudende Huisartsenpraktijk Dijkdoc
-Apotheekhoudende Huisartsenpraktijk Heukels
 Apotheekhoudende huisartsenpraktijk Blijham
 Apotheekhoudende huisartsenpraktijk C. Pet
 Apotheekhoudende huisartsenpraktijk Comello
@@ -2644,10 +2634,6 @@ Apotheekhoudende huisartsenpraktijk J.E. De Groot
 Apotheekhoudende huisartsenpraktijk Menaldum
 Apotheekhoudende huisartsenpraktijk Schut
 Apotheekhoudende huisartsenpraktijk Slagharen
-Apotheekhoudende Huisartsenpraktijk A.G.H.M. van Vlaardingen-Kieven
-Apotheekhoudende Huisartsenpraktijk J. De Kroon
-Apotheekhoudende Huisartsenpraktijk Mheer
-Apotheekhoudende Huisartsenpraktijk Wedde
 Apothekers van Salland, Apotheek Luttenberg
 Apothekers van Salland, Apotheek Raalte
 Appétit Voedings- en Dieetadvies
@@ -3814,7 +3800,6 @@ Bea Zorg
 Bea's Bioresonantie Praktijk
 Beahuis en Bloemenhovekliniek
 Beatrix Apotheek
-Beatrixziekenhuis
 Beatum Zorg
 Beau Victoire Thuiszorg
 BeauDent Amsterdam
@@ -4064,9 +4049,7 @@ Bernadetta Zorg
 Bernard lievegoed kliniek
 Berne Kliniek
 Bernhard Lievegoed Kliniek
-Bernhoven
 Bernhoven Diagnostisch Centrum
-Bernhoven, Polikliniek Oss
 Bert Super GZ Psycholoog
 Bert Super GZ psycholoog
 Bertelkamp Fysiotherapie
@@ -4332,7 +4315,6 @@ BlinQ Concordialaan
 BlinQ Vijverstraat
 Blinkers
 Blinq Dagbesteding
-Bloedpriklocatie Pro Vita R
 Bloei Verloskundigen
 Bloej in De buurt
 Bloemen Consult
@@ -4523,7 +4505,6 @@ Boval Arbo
 Boven IJ Mondhygiënisten
 Boven Mark, praktijk voor psychotherapie, psychologie, coaching en levensvragen
 BovenIJ apotheek
-BovenIJ ziekenhuis
 BovenMaas Prenataal
 BovenMaas Prenataal Zoetermeer
 Bovend'Eerdt Orthodontie
@@ -4591,14 +4572,6 @@ Brandsen Arbo Advies
 Brandwondencentrum Beverwijk
 Brandwondencentrum Groningen
 Brandwondencentrum Rotterdam
-Bravis ziekenhuis
-Bravis ziekenhuis Bergen op Zoom
-Bravis ziekenhuis Roosendaal
-Bravis ziekenhuis, Buitenpolikliniek Etten-Leur
-Bravispunt Huijbergen
-Bravispunt Oudenbosch
-Bravispunt Steenbergen
-Bravispunt Tholen
 Bravo'Smile Dental Design
 Bravocado
 BrederRaad Fysiotherapie
@@ -5749,12 +5722,7 @@ CTI Haaksbergen
 CVB Point
 CVS Zorg
 CVS/ME centrum Amsterdam
-CWZ
-CWZ - Canisius-Wilhelmina Ziekenhuis Druten
-CWZ - Canisius-Wilhelmina Ziekenhuis Nijmegen
-CWZ - Canisius-Wilhelmina Ziekenhuis Waalsprong
 CWZ - Sportgeneeskunde
-CWZ -Polikliniek Jonkerbosch
 CWZ Apotheek
 CZ Zorgkantoor
 CZ Zorgverzekering
@@ -6057,8 +6025,6 @@ Castle Craig Zeist
 Cathalina Care
 Catharina Apotheek
 Catharina Schrader, Verloskundigenpraktijk Dokkum e.o.
-Catharina Ziekenhuis
-Catharina Ziekenhuis Eindhoven
 Catharina, thuis op Voorne
 Catharina, thuis op Voorne, Bollaarshoeve
 Catharina, thuis op Voorne, Catharina Gasthuis
@@ -6133,7 +6099,6 @@ Centiv psychologen Nijmegen
 Centraal Apotheek Haarlem
 Centraal Apotheek Leiden
 Centraal Apotheek Zwijndrecht
-Centraal Militair Hospitaal
 Centraal Nederland
 Centraalzorg
 Centrale Dienstapotheek Eindhoven
@@ -8714,9 +8679,6 @@ Detentiezorg Nederland
 Detzo De Thuiszorg Organisatie
 Deva Psychologiepraktijk
 Deventer Orthodontie
-Deventer Ziekenhuis
-Deventer Ziekenhuis, Polikliniek Raalte
-Deventer Ziekenhuis, Polikliniek Rijssen
 Devi-eet
 Devine Acupunctuur en Fysiotherapie
 Devotas
@@ -8738,7 +8700,6 @@ Diagnostiek voor U
 Diagnostisch Centrum DiaSana
 Diagnostisch Centrum Teikyo
 Diagnostisch Therapeutisch Centrum Zwolle
-Diakonessenhuis
 Dialyse Centrum Apeldoorn
 Dialyse Tergooi MC
 Dialyse aan Huis
@@ -8968,7 +8929,6 @@ Dignis, Woonzorgcentrum Heymanscentrum
 Dignis, Zorg Thuis Drenthe
 Dignis, Zorg Thuis Groningen
 Dignus Arbo
-Dijklander Ziekenhuis
 Dijklander Ziekenhuis, Niercentrum
 Dijkstra & De Wet Tandheelkunde
 Dijkstra Fysiotherapie
@@ -10261,12 +10221,7 @@ ERIU voedingsadviesbureau
 ESF Praktijk
 ESP Centrum
 ESTL Tandprothetiek
-ETZ
 ETZ Dialyse Koetshuis
-ETZ Elisabeth
-ETZ Oisterwijk
-ETZ TweeSteden
-ETZ Waalwijk
 EU Zorg Bureau
 EV Fysiotherapie & Fitness
 EV fysiotherapie en fitness
@@ -10551,7 +10506,6 @@ Elker Jeugdhulp & Onderwijs, afdeling JeugdzorgPlus
 Elker Jeugdhulp & Onderwijs, afdeling Medisch Kinderdagverblijf Veendam
 Elker Jeugdhulp & Onderwijs, afdeling Medisch Kleuterdagverblijf Haren
 Elkerliek apotheek
-Elkerliek ziekenhuis
 Ella Verloskundigen
 Elle Midwives
 Elle! Vrouw & Geboortezorg
@@ -10692,11 +10646,8 @@ Equilibrium Maastricht, Oefentherapie Mensendieck en Yoga L.J.M. Verbooy-Tatipat
 Equipe Physique
 Er beter uitzien
 Erasmus Care - Tandartsen Mariastraat
-Erasmus MC
-Erasmus MC - Algemeen
 Erasmus MC - Kanker Instituut
 Erasmus MC - Poliklinische apotheek
-Erasmus MC - Sophia Kinderziekenhuis
 Erasmus Psy
 Erbse Parese Vereniging Nederland
 Erdem Zorg
@@ -11293,12 +11244,6 @@ FTSA Van Eesteren
 FYEO
 FYEO Arnhem
 FYNN Fysio
-Fysio BernHeesch
-Fysio plus
-Fysio plus Echt - Sportcity
-Fysio plus Maasbracht
-Fysio plus Maasbracht - Medisch Centrum De Vlinder
-Fysio plus Roermond
 FYSIOBEST
 FYTA
 Faam Fysiotherapie
@@ -11507,8 +11452,6 @@ Fleurâge Residences Bloemendaal, De Villa
 Flevo Mondhygiëne
 FlevoFysiotherapie
 Flevostate
-Flevoziekenhuis
-Flevoziekenhuis Almere
 Flex Care Thuiszorg
 Flex Fysiotherapie
 Flex Oefentherapie
@@ -11772,15 +11715,9 @@ Fox-Gorter psychotherapie
 Fraai Tandartsen
 Fragiele X Vereniging Nederland
 Francare Thuiszorg
-Franciscus Berkel
-Franciscus Gasthuis
-Franciscus Gasthuis & Vlietland
 Franciscus Gasthuis Apotheek
 Franciscus Hospice
-Franciscus Maassluis
 Franciscus Thuis
-Franciscus Vlietland
-Franciscus Willemsplein
 Franck Handskills
 Frangipani Zorg Nederland
 Frank Hillebrand, Praktijk voor Psycho(sociale) therapie en Psychosomatiek
@@ -11958,6 +11895,7 @@ Fysio Bathmen e.o.
 Fysio Benoordenhout
 Fysio Berendes
 Fysio Berlicum
+Fysio BernHeesch
 Fysio Beter Bewegen Jongkindstraat
 Fysio Beter Bewegen Overtoom
 Fysio Beter Bewegen Veeteeltstraat
@@ -12368,6 +12306,11 @@ Fysio on the Move
 Fysio op Maat
 Fysio op Maat Berkel-Enschot
 Fysio op Maat Tilburg-West
+Fysio plus
+Fysio plus Echt - Sportcity
+Fysio plus Maasbracht
+Fysio plus Maasbracht - Medisch Centrum De Vlinder
+Fysio plus Roermond
 Fysio praktijk Heerhugowaard
 Fysio van Andel
 Fysio van De Gevel
@@ -15614,14 +15557,8 @@ Gelderblom Sportfysiotherapie
 Gelderse vallei
 Geldrop Tandtechniek
 Geldrop Vitaal
-Gelre Apeldoorn
 Gelre Apotheek Apeldoorn
 Gelre Apotheek Zutphen
-Gelre Zutphen
-Gelre polikliniek Dieren
-Gelre polikliniek Epe
-Gelre polikliniek Lochem
-Gelre ziekenhuizen
 Gelreland Parodontologie
 Gelukkig Lijf Apeldoorn
 Gelukkig Lijf Arnhem
@@ -16021,8 +15958,8 @@ Gezondheidscentrum Mathenesserlaan, Huisartsenpraktijk KMD
 Gezondheidscentrum Mathenesserlaan, Huisartsenpraktijk Niemantsverdriet, Struik & Veraart
 Gezondheidscentrum Mathenesserlaan, Huisartsenpraktijk Van Manen en Van der Lugt
 Gezondheidscentrum Mathenesserlaan, Oefentherapie Mensendieck
-Gezondheidscentrum MensZorg, Huisartsenpraktijk Ten Berge
 Gezondheidscentrum MensZorg, Huisartsenpraktijk Hoefnagel & Malyhina
+Gezondheidscentrum MensZorg, Huisartsenpraktijk Ten Berge
 Gezondheidscentrum Mercuur, Huisartsen
 Gezondheidscentrum Merenwijk, Fysiotherapeuten
 Gezondheidscentrum Merenwijk, Huisartsen
@@ -16327,7 +16264,6 @@ Groen, Baby en Kind
 Groen, Praktijk voor Sport-, Fysio- en Manuele therapie
 Groene Hart Dieetadvies
 Groene Hart Thuiszorg
-Groene Hart Ziekenhuis
 Groene Kruis Wijkverpleging
 Groene Kruis Wijkverpleging, Team America
 Groene Kruis Wijkverpleging, Team Arcen Lomm Velden
@@ -16573,13 +16509,8 @@ HIPPP, Hulpverleningsinstituut voor pedagogische en psychologische problemen
 HK Zorg
 HKN Praktijk
 HM Care
-HMC - Haaglanden Medisch Centrum
-HMC Antoniushove
-HMC Bronovo
 HMC VErloskundigen
 HMC Verloskundigen
-HMC Westeinde
-HMC, Buitenpoli Gezondheidscentrum Wassenaar
 HME-MO Vereniging Nederland
 HOED De Blikvanger
 HOED De Plataan Huisartsenpraktijk Geerlings
@@ -16685,12 +16616,7 @@ Habitus Maatschappelijk Zorg & Welzijn
 Hadassa Care
 Haesebroeck Particuliere Thuiszorg
 HagaApotheek
-HagaZiekenhuis
 HagaZiekenhuis Huidkliniek
-HagaZiekenhuis Zoetermeer
-HagaZiekenhuis, Den Haag
-HagaZiekenhuis, Juliana Kinderziekenhuis
-HagaZiekenhuis, Zorgplein Westland
 Hagar
 Hagazorg
 Hage Fysiotherapie
@@ -17365,8 +17291,6 @@ Het Naoberhuis
 Het Oefenlokaal
 Het Oefenlokaal, Praktijk voor Oefentherapie Cesar/Mensendieck, Slaaptherapie en Sportmassage
 Het Ooglasercentrum
-Het Oogziekenhuis Rotterdam
-Het Oogziekenhuis Rotterdam, hoofdlocatie
 Het Ouden Huis Bodegraven-Rijnleven
 Het Palet
 Het Parkhuis
@@ -17413,11 +17337,6 @@ Het Talenten-Huis
 Het Tand Atelier
 Het Tandenhuis
 Het Torenkamertje, Behandeling en Begeleiding voor Jong en Oud(er)
-Het Van Weel-Bethesda Ziekenhuis
-Het Van Weel-Bethesda Ziekenhuis Dirksland
-Het Van Weel-Bethesda Ziekenhuis, Polikliniek Brielle
-Het Van Weel-Bethesda Ziekenhuis, Polikliniek Hellevoetsluis - 't Dok Medisch Centrum
-Het Van Weel-Bethesda Ziekenhuis, Polikliniek Hellevoetsluis - Het Nieuwe Weergors
 Het Verbeelden
 Het Verloskundig Centrum Meppel en De Wolden
 Het Verloskundig Huys
@@ -18327,6 +18246,7 @@ Huisartsenposten Rijnmond
 Huisartsenprakijk Heijmans
 Huisartsenprakijk Roelofsen & Peterse
 Huisartsenprakijk Sarana
+Huisartsenpraktijk & Apotheek De Lutte
 Huisartsenpraktijk 's-Gravensant
 Huisartsenpraktijk 't Dijkhuis
 Huisartsenpraktijk 't Dok
@@ -18354,23 +18274,32 @@ Huisartsenpraktijk 't Seuverick
 Huisartsenpraktijk 't Thaal
 Huisartsenpraktijk 't Veen
 Huisartsenpraktijk 't Veld
+Huisartsenpraktijk 't Voorhuis
 Huisartsenpraktijk 't Weeshuis
 Huisartsenpraktijk 't Woud
 Huisartsenpraktijk 't Zand
 Huisartsenpraktijk A'dam Doctors
 Huisartsenpraktijk A. De Jonge
 Huisartsenpraktijk A. Donker
+Huisartsenpraktijk A. Goslinga
 Huisartsenpraktijk A. Louwenaar
 Huisartsenpraktijk A. Mungra
 Huisartsenpraktijk A. Schipper en M. van Cleef
 Huisartsenpraktijk A. van Dalen
 Huisartsenpraktijk A.A. van Vollevelde
 Huisartsenpraktijk A.A. van der Vaart
+Huisartsenpraktijk A.A.P. van Delft
+Huisartsenpraktijk A.B. van Pelt
 Huisartsenpraktijk A.C. Verhaar
+Huisartsenpraktijk A.G.M. Janssen
 Huisartsenpraktijk A.H. van der Wal
 Huisartsenpraktijk A.J. Metzemaekers
 Huisartsenpraktijk A.J. van Verseveld
+Huisartsenpraktijk A.J.H. van der Vinne
 Huisartsenpraktijk A.J.J. Link
+Huisartsenpraktijk A.J.M. Sweere
+Huisartsenpraktijk A.M. De Wit
+Huisartsenpraktijk A.M. van den Braken
 Huisartsenpraktijk A.N. Tuna-Tüzün
 Huisartsenpraktijk A.R. Robbers
 Huisartsenpraktijk A.S. Vijlbrief
@@ -18398,6 +18327,10 @@ Huisartsenpraktijk Admiraalsplein
 Huisartsenpraktijk Admiralengracht
 Huisartsenpraktijk Adriaansens en Aukes
 Huisartsenpraktijk Aduard
+Huisartsenpraktijk Aemstelwijck, Praktijk Clemens en De Waard
+Huisartsenpraktijk Aemstelwijck, Praktijk Corssmit
+Huisartsenpraktijk Aemstelwijck, Praktijk Griever-Bos en Tamboer
+Huisartsenpraktijk Aemstelwijck, Praktijk Podzimek en De Raad
 Huisartsenpraktijk Aequilan
 Huisartsenpraktijk Afferden
 Huisartsenpraktijk Afiya Almere Centrum
@@ -18415,23 +18348,30 @@ Huisartsenpraktijk Albers en Zegger
 Huisartsenpraktijk Albronda
 Huisartsenpraktijk Aldlân
 Huisartsenpraktijk Aletta
+Huisartsenpraktijk Aletta
 Huisartsenpraktijk Alferink en Spel
 Huisartsenpraktijk Alhoda
 Huisartsenpraktijk Alkemade
 Huisartsenpraktijk Almkerk
 Huisartsenpraktijk Alons
 Huisartsenpraktijk Alphen
+Huisartsenpraktijk Altrade
 Huisartsenpraktijk Amazone
 Huisartsenpraktijk Ambachtsheer
+Huisartsenpraktijk Amekran
 Huisartsenpraktijk Amersfoort
 Huisartsenpraktijk Amsteldijk
 Huisartsenpraktijk Amsteldorp
 Huisartsenpraktijk Amstelkade
+Huisartsenpraktijk Amstelveen Zuid
 Huisartsenpraktijk Amstelveld
 Huisartsenpraktijk Amsterdam Noord
 Huisartsenpraktijk Amsterdam west
 Huisartsenpraktijk Andel
+Huisartsenpraktijk Andeweg
 Huisartsenpraktijk Andreas Vesalius, Praktijk F. Legemate
+Huisartsenpraktijk Andriessen
+Huisartsenpraktijk Angenent
 Huisartsenpraktijk Ankone en Doppen
 Huisartsenpraktijk Anna Elting-Wartan
 Huisartsenpraktijk Anna's Hoeve
@@ -18440,6 +18380,7 @@ Huisartsenpraktijk Anne Frankplein, praktijk De Koning
 Huisartsenpraktijk Anne Frankplein, praktijk Fleerakkers
 Huisartsenpraktijk Anne Frankplein, praktijk Hendricx & Van Thiel
 Huisartsenpraktijk Anne Frankplein, praktijk Verrest & De Vos
+Huisartsenpraktijk Ansari
 Huisartsenpraktijk Antarus
 Huisartsenpraktijk Antoniusveld
 Huisartsenpraktijk Apenhuizen
@@ -18483,23 +18424,32 @@ Huisartsenpraktijk Aukema
 Huisartsenpraktijk Avecinna
 Huisartsenpraktijk Avenhorn
 Huisartsenpraktijk Averroes
+Huisartsenpraktijk Averroes Haagdijk
 Huisartsenpraktijk Avicenna
 Huisartsenpraktijk Aziz
 Huisartsenpraktijk B-Hoed
+Huisartsenpraktijk B. Balhuizen
 Huisartsenpraktijk B. Evenhuis
+Huisartsenpraktijk B. Jongens
 Huisartsenpraktijk B. Nikkels
 Huisartsenpraktijk B. Prenger
 Huisartsenpraktijk B. Strijdhorst
 Huisartsenpraktijk B.E. Noack Duran
 Huisartsenpraktijk B.G. Steijlen
+Huisartsenpraktijk B.J. Olthof
 Huisartsenpraktijk B.M.F. Gerts
+Huisartsenpraktijk B.R.C. Kooij
 Huisartsenpraktijk B.W.G.J. Arntzen
+Huisartsenpraktijk Baake
 Huisartsenpraktijk Baambrugge
+Huisartsenpraktijk Baar-Poort en Van der Does
 Huisartsenpraktijk Baardwijk
 Huisartsenpraktijk Baarle-Nassau
 Huisartsenpraktijk Baarlo
 Huisartsenpraktijk Baars
+Huisartsenpraktijk Baars & Boelaars
 Huisartsenpraktijk Bac
+Huisartsenpraktijk Backx
 Huisartsenpraktijk Baden Powelllaan
 Huisartsenpraktijk Bader & Toutenhoofd
 Huisartsenpraktijk Baecke en Nobel
@@ -18514,12 +18464,14 @@ Huisartsenpraktijk Bakkeveen
 Huisartsenpraktijk Bakkum
 Huisartsenpraktijk Balans
 Huisartsenpraktijk Balk
+Huisartsenpraktijk Balk
 Huisartsenpraktijk Balkbrug
 Huisartsenpraktijk Bandkeramiek
 Huisartsenpraktijk Bangaerde
 Huisartsenpraktijk Bangert en Oosterpolder
 Huisartsenpraktijk Bansraj
 Huisartsenpraktijk Barek
+Huisartsenpraktijk Barendrecht
 Huisartsenpraktijk Barendrecht
 Huisartsenpraktijk Barten en Dorhout
 Huisartsenpraktijk Bartstra en Kant
@@ -18531,6 +18483,7 @@ Huisartsenpraktijk Bedaux
 Huisartsenpraktijk Beek Centrum
 Huisartsenpraktijk Beekhuis en Versteeg-Zeilstra
 Huisartsenpraktijk Beeklaan
+Huisartsenpraktijk Beelen
 Huisartsenpraktijk Beemdhof
 Huisartsenpraktijk Beerling
 Huisartsenpraktijk Beers en Tigchelaar
@@ -18541,6 +18494,7 @@ Huisartsenpraktijk Beinum
 Huisartsenpraktijk Beissel
 Huisartsenpraktijk Bekker
 Huisartsenpraktijk Bel
+Huisartsenpraktijk Belcrum
 Huisartsenpraktijk Beljaart Rood
 Huisartsenpraktijk Bellamyplein
 Huisartsenpraktijk Bellavista
@@ -18559,16 +18513,20 @@ Huisartsenpraktijk Berestein
 Huisartsenpraktijk Berg en Bos
 Huisartsenpraktijk Berg en Dal
 Huisartsenpraktijk Bergerhoef
+Huisartsenpraktijk Bergervoet
 Huisartsenpraktijk Berghem
+Huisartsenpraktijk Berghout
 Huisartsenpraktijk Berghuizen
 Huisartsenpraktijk Bergrand
 Huisartsenpraktijk Bergse Bos
 Huisartsenpraktijk Berkenhove
 Huisartsenpraktijk Berkenlaan
 Huisartsenpraktijk Berkhout
+Huisartsenpraktijk Berkhout
 Huisartsenpraktijk Berkhout en van Markus
 Huisartsenpraktijk Berkum
 Huisartsenpraktijk Bernisse Heenvliet
+Huisartsenpraktijk Berntzen
 Huisartsenpraktijk Bertholet
 Huisartsenpraktijk Besara aan 't IJ
 Huisartsenpraktijk Best
@@ -18577,6 +18535,7 @@ Huisartsenpraktijk Beulen
 Huisartsenpraktijk Beumer & Schoenmakers
 Huisartsenpraktijk Beunder
 Huisartsenpraktijk Beurskens
+Huisartsenpraktijk Bevrijdingsplein
 Huisartsenpraktijk Bhogal-Statham
 Huisartsenpraktijk Biddinghuizen
 Huisartsenpraktijk Bierens en van Cleef
@@ -18586,6 +18545,8 @@ Huisartsenpraktijk Biesheuvel
 Huisartsenpraktijk Bij De Dokter
 Huisartsenpraktijk Bij De Haven
 Huisartsenpraktijk Bijdorplaan
+Huisartsenpraktijk Bijl
+Huisartsenpraktijk Bijland
 Huisartsenpraktijk Bijleveld, Huurman en Hennekam
 Huisartsenpraktijk Bijstra
 Huisartsenpraktijk Bilgaard
@@ -18594,6 +18555,7 @@ Huisartsenpraktijk Bilthoven Noord
 Huisartsenpraktijk Binck-Zorg
 Huisartsenpraktijk Binckhorst
 Huisartsenpraktijk Binkhorst
+Huisartsenpraktijk Binnekamp
 Huisartsenpraktijk Binnenstad
 Huisartsenpraktijk Blaak
 Huisartsenpraktijk Blaauwhof
@@ -18612,6 +18574,7 @@ Huisartsenpraktijk Bloemberg
 Huisartsenpraktijk Bloemendal
 Huisartsenpraktijk Bloemgracht
 Huisartsenpraktijk Blok en Huisman
+Huisartsenpraktijk Blokker
 Huisartsenpraktijk Blokland
 Huisartsenpraktijk Blokzijl
 Huisartsenpraktijk Blonk
@@ -18621,6 +18584,7 @@ Huisartsenpraktijk Bodde
 Huisartsenpraktijk Boddeus en Steenbergen
 Huisartsenpraktijk Boddeus, Cornelissen en Van Stekelenburg
 Huisartsenpraktijk Bode
+Huisartsenpraktijk Boejharat
 Huisartsenpraktijk Boekel
 Huisartsenpraktijk Boender
 Huisartsenpraktijk Boer Balink
@@ -18633,17 +18597,24 @@ Huisartsenpraktijk Bohemen
 Huisartsenpraktijk Bok en Grapendaal
 Huisartsenpraktijk Bolnes
 Huisartsenpraktijk Bonaire
+Huisartsenpraktijk Bonda
 Huisartsenpraktijk Bong en Klokke
 Huisartsenpraktijk Bongers
 Huisartsenpraktijk Bonn
+Huisartsenpraktijk Boode
 Huisartsenpraktijk Boon en De Ruiter
 Huisartsenpraktijk Bordui
+Huisartsenpraktijk Borgman
 Huisartsenpraktijk Born
 Huisartsenpraktijk Bos
+Huisartsenpraktijk Bos
 Huisartsenpraktijk Bos en Lommer
+Huisartsenpraktijk Bos en Lommer Dokters
 Huisartsenpraktijk Bosboomstraat
 Huisartsenpraktijk Boschdijk
+Huisartsenpraktijk Boshoven
 Huisartsenpraktijk Bosma en Buurman
+Huisartsenpraktijk Boszicht
 Huisartsenpraktijk Boteringestraat R. Boersma
 Huisartsenpraktijk Boting-Klomp
 Huisartsenpraktijk Botman
@@ -18678,20 +18649,24 @@ Huisartsenpraktijk Bregman
 Huisartsenpraktijk Bressers
 Huisartsenpraktijk Breuking
 Huisartsenpraktijk Brinkhuysen en Karstens
+Huisartsenpraktijk Broekema
 Huisartsenpraktijk Broekhof
 Huisartsenpraktijk Broekman
 Huisartsenpraktijk Broekpolder
+Huisartsenpraktijk Broere
 Huisartsenpraktijk Bronckhorstlaan
 Huisartsenpraktijk Bronkhorst
 Huisartsenpraktijk Brouwer & Hakkeling
 Huisartsenpraktijk Brouwer & Truin
 Huisartsenpraktijk Brouwer en De Reijger
 Huisartsenpraktijk Brouwer en Van der Kallen
+Huisartsenpraktijk Brouwersgracht
 Huisartsenpraktijk Bruggeman & Nugteren
 Huisartsenpraktijk Brugman Westervoort
 Huisartsenpraktijk Bruijns
 Huisartsenpraktijk Bruin, Burger en van der Wielen
 Huisartsenpraktijk Bruinisse
+Huisartsenpraktijk Bruinsel
 Huisartsenpraktijk Bruinsma
 Huisartsenpraktijk Bruynzeel
 Huisartsenpraktijk Bruëlis
@@ -18710,10 +18685,12 @@ Huisartsenpraktijk Busink
 Huisartsenpraktijk Busser en Leeuw
 Huisartsenpraktijk Butterhuizen
 Huisartsenpraktijk Buurma
+Huisartsenpraktijk Buursink
 Huisartsenpraktijk Bögels
 Huisartsenpraktijk C. D. Bijholt en R. van Wissen
 Huisartsenpraktijk C. Verheijen
 Huisartsenpraktijk C. Vroom
+Huisartsenpraktijk C. Wijbenga
 Huisartsenpraktijk C. Wille
 Huisartsenpraktijk C.A.C.M. Aardenburg
 Huisartsenpraktijk C.C. Dekker
@@ -18726,8 +18703,11 @@ Huisartsenpraktijk C.J.A.P. Buijsen
 Huisartsenpraktijk C.M. Thang
 Huisartsenpraktijk C.N. Nieuwenhuis
 Huisartsenpraktijk C.P. De Bie en C.A. De Kock
+Huisartsenpraktijk C.P. De Bruin
 Huisartsenpraktijk C.P.J. van der Spek
 Huisartsenpraktijk C.W. Edgar
+Huisartsenpraktijk CEntric Health / van Zwieteren
+Huisartsenpraktijk Cadier en Keer
 Huisartsenpraktijk Caljouw
 Huisartsenpraktijk Cals
 Huisartsenpraktijk Campanula
@@ -18746,6 +18726,7 @@ Huisartsenpraktijk Centric Health
 Huisartsenpraktijk Centrum Hoensbroek
 Huisartsenpraktijk Centrum Swalmen
 Huisartsenpraktijk Chin-A-Tam
+Huisartsenpraktijk Christiaanse - Therapeuticum
 Huisartsenpraktijk Cihanbeyli
 Huisartsenpraktijk Cimen
 Huisartsenpraktijk City Plaza
@@ -18784,14 +18765,17 @@ Huisartsenpraktijk Cucinotta
 Huisartsenpraktijk Curtevenne
 Huisartsenpraktijk Céramique
 Huisartsenpraktijk D. Moser
+Huisartsenpraktijk D. Oskam
 Huisartsenpraktijk D. Reis
 Huisartsenpraktijk D. Soeters
 Huisartsenpraktijk D. Stevens
 Huisartsenpraktijk D. Valckenier
 Huisartsenpraktijk D. Witsel en P.M. Veldhoen
+Huisartsenpraktijk D. van Wijngaarden
 Huisartsenpraktijk D.A. Nijman
 Huisartsenpraktijk D.E. Mulder
 Huisartsenpraktijk D.G. Uyterlinden
+Huisartsenpraktijk D.J. van den Berg
 Huisartsenpraktijk D.P. Slofstra
 Huisartsenpraktijk Daalhof
 Huisartsenpraktijk Daalwijk
@@ -18824,6 +18808,7 @@ Huisartsenpraktijk De Baandert
 Huisartsenpraktijk De Back en De Jong
 Huisartsenpraktijk De Bazuin
 Huisartsenpraktijk De Beemd
+Huisartsenpraktijk De Beer
 Huisartsenpraktijk De Berkel
 Huisartsenpraktijk De Besterd, Praktijk Brugts, Van Geel, Smits
 Huisartsenpraktijk De Besterd, Praktijk Van der Zijden, Klinkhamer, Thijssen
@@ -18837,8 +18822,11 @@ Huisartsenpraktijk De Blauwe Jachthoorn, Praktijk Kok en Koster
 Huisartsenpraktijk De Blauwe Jachthoorn, Praktijk Spekhorst en Wolff
 Huisartsenpraktijk De Blauwe Tulp
 Huisartsenpraktijk De Blokkendoos
+Huisartsenpraktijk De Boekhorst
+Huisartsenpraktijk De Boer
 Huisartsenpraktijk De Boer
 Huisartsenpraktijk De Boer en Agema
+Huisartsenpraktijk De Bongerd
 Huisartsenpraktijk De Bongerd
 Huisartsenpraktijk De Boog
 Huisartsenpraktijk De Boswachter
@@ -18851,6 +18839,7 @@ Huisartsenpraktijk De Brink Sevenum
 Huisartsenpraktijk De Brink Werkhoven
 Huisartsenpraktijk De Brink Wezep
 Huisartsenpraktijk De Brinken
+Huisartsenpraktijk De Brinkhof
 Huisartsenpraktijk De Brug
 Huisartsenpraktijk De Buitenhof
 Huisartsenpraktijk De Bundeling
@@ -18862,6 +18851,7 @@ Huisartsenpraktijk De Componist
 Huisartsenpraktijk De Compositie
 Huisartsenpraktijk De Dame
 Huisartsenpraktijk De Dennenkamp Oost
+Huisartsenpraktijk De Dennenkamp West
 Huisartsenpraktijk De Dennenlaan
 Huisartsenpraktijk De Diependaal
 Huisartsenpraktijk De Dijken
@@ -18918,18 +18908,22 @@ Huisartsenpraktijk De Groenendijk
 Huisartsenpraktijk De Groenling
 Huisartsenpraktijk De Groenzoom
 Huisartsenpraktijk De Groot
+Huisartsenpraktijk De Groot
 Huisartsenpraktijk De Groot-Weis
 Huisartsenpraktijk De Groote Polder
 Huisartsenpraktijk De Groote Wielen
 Huisartsenpraktijk De Grooth
 Huisartsenpraktijk De Grote Rivieren, Praktijk Touber / Haeck
 Huisartsenpraktijk De Grote Rivieren, Praktijk W.B. van Duijn
+Huisartsenpraktijk De Gruijl
+Huisartsenpraktijk De Haan
 Huisartsenpraktijk De Haan
 Huisartsenpraktijk De Haan Heiloo
 Huisartsenpraktijk De Haas
 Huisartsenpraktijk De Haer
 Huisartsenpraktijk De Hagen
 Huisartsenpraktijk De Haven
+Huisartsenpraktijk De Heelhoek
 Huisartsenpraktijk De Heer en Van Gorcum
 Huisartsenpraktijk De Heuvelink
 Huisartsenpraktijk De Hoed
@@ -18938,6 +18932,7 @@ Huisartsenpraktijk De Hof
 Huisartsenpraktijk De Hof van Blom
 Huisartsenpraktijk De Hooge Boom
 Huisartsenpraktijk De Hoogstraat
+Huisartsenpraktijk De Horden
 Huisartsenpraktijk De Hoven
 Huisartsenpraktijk De Hunze
 Huisartsenpraktijk De Ijsvogel
@@ -18952,6 +18947,7 @@ Huisartsenpraktijk De Kaap
 Huisartsenpraktijk De Kaapsche Poort
 Huisartsenpraktijk De Kade
 Huisartsenpraktijk De Kadoelerbreek
+Huisartsenpraktijk De Kameleon
 Huisartsenpraktijk De Karmel
 Huisartsenpraktijk De Kastanje
 Huisartsenpraktijk De Keiler
@@ -18960,17 +18956,20 @@ Huisartsenpraktijk De Kern
 Huisartsenpraktijk De Klaproos
 Huisartsenpraktijk De Kleine Dommel
 Huisartsenpraktijk De Kleine Heemtuin
+Huisartsenpraktijk De Kleuver
 Huisartsenpraktijk De Klop
 Huisartsenpraktijk De Koepel
 Huisartsenpraktijk De Kolk
 Huisartsenpraktijk De Koningin
 Huisartsenpraktijk De Kopertoren
 Huisartsenpraktijk De Koppel Buijs-Wilts
+Huisartsenpraktijk De Koppel van der Velde & Hans
 Huisartsenpraktijk De Korenaar
 Huisartsenpraktijk De Korenmolen
 Huisartsenpraktijk De Korenmolen Poortvliet Scherpenisse Stavenisse
 Huisartsenpraktijk De Kort
 Huisartsenpraktijk De Kort-De Bont & Lindhout-Jansen
+Huisartsenpraktijk De Korte
 Huisartsenpraktijk De Krijgsman
 Huisartsenpraktijk De Kroonsteen Beneden
 Huisartsenpraktijk De Kroonsteen Boven
@@ -18989,6 +18988,7 @@ Huisartsenpraktijk De Leilinde, Praktijk Aalberts
 Huisartsenpraktijk De Leilinde, Praktijk Baans & van den Hurk
 Huisartsenpraktijk De Leilinde, Praktijk Laan
 Huisartsenpraktijk De Leilinde, Praktijk Witteveen
+Huisartsenpraktijk De Lenne
 Huisartsenpraktijk De Libelle
 Huisartsenpraktijk De Lichtenberch
 Huisartsenpraktijk De Lier
@@ -19027,12 +19027,14 @@ Huisartsenpraktijk De Nes
 Huisartsenpraktijk De Nieuwe Linie
 Huisartsenpraktijk De Nieuwe Vesting
 Huisartsenpraktijk De Nijs & van Heugten
+Huisartsenpraktijk De Noord
 Huisartsenpraktijk De Noot
 Huisartsenpraktijk De Oude Maas
 Huisartsenpraktijk De Paltz
 Huisartsenpraktijk De Parelvisser
 Huisartsenpraktijk De Parken
 Huisartsenpraktijk De Pastorie
+Huisartsenpraktijk De Peel
 Huisartsenpraktijk De Pelgrim
 Huisartsenpraktijk De Pelikaan Boxmeer
 Huisartsenpraktijk De Pelikaan Valkenswaard
@@ -19040,6 +19042,7 @@ Huisartsenpraktijk De Pelikaan Zelhem
 Huisartsenpraktijk De Peperstoep
 Huisartsenpraktijk De Pionier
 Huisartsenpraktijk De Plantage
+Huisartsenpraktijk De Plataan
 Huisartsenpraktijk De Plataan
 Huisartsenpraktijk De Pleiaden, praktijk Smit
 Huisartsenpraktijk De Pleiaden, praktijk Vochteloo
@@ -19055,6 +19058,7 @@ Huisartsenpraktijk De Ringvaart Vijfhuizen
 Huisartsenpraktijk De Rode Hoed
 Huisartsenpraktijk De Rode Schouw
 Huisartsenpraktijk De Ronde Tafel
+Huisartsenpraktijk De Roo
 Huisartsenpraktijk De Rooij-Grandia en Lelieveld-van Reisen
 Huisartsenpraktijk De Roos
 Huisartsenpraktijk De Rozenhof
@@ -19073,6 +19077,7 @@ Huisartsenpraktijk De Schelfhoed, Praktijk K.C. Start
 Huisartsenpraktijk De Schelfhoed, Praktijk M.F. Lubbers
 Huisartsenpraktijk De Schelfhoed, Praktijk W.F. De Boer
 Huisartsenpraktijk De Schermer
+Huisartsenpraktijk De Schoof N. Demir
 Huisartsenpraktijk De Schuitvaart
 Huisartsenpraktijk De Singel
 Huisartsenpraktijk De Smet
@@ -19094,8 +19099,10 @@ Huisartsenpraktijk De Tweestroom
 Huisartsenpraktijk De Valom
 Huisartsenpraktijk De Vecht
 Huisartsenpraktijk De Velden
+Huisartsenpraktijk De Veluwe
 Huisartsenpraktijk De Venen
 Huisartsenpraktijk De Verbinding
+Huisartsenpraktijk De Verdieping
 Huisartsenpraktijk De Verdieping
 Huisartsenpraktijk De Vesting
 Huisartsenpraktijk De Vijver, Praktijk Lunter
@@ -19109,6 +19116,7 @@ Huisartsenpraktijk De Vliet
 Huisartsenpraktijk De Vlieter
 Huisartsenpraktijk De Vocht en Van den Hurk
 Huisartsenpraktijk De Vondel
+Huisartsenpraktijk De Voogd
 Huisartsenpraktijk De Vorssel
 Huisartsenpraktijk De Vos Loosduinen
 Huisartsenpraktijk De Vries
@@ -19116,6 +19124,7 @@ Huisartsenpraktijk De Vries en Bleijendaal
 Huisartsenpraktijk De Vrij-Kesselaer
 Huisartsenpraktijk De Vrije Gang
 Huisartsenpraktijk De Waag
+Huisartsenpraktijk De Waluwe
 Huisartsenpraktijk De Waterkant
 Huisartsenpraktijk De Waterlelie
 Huisartsenpraktijk De Waterring
@@ -19139,6 +19148,8 @@ Huisartsenpraktijk De Wilg
 Huisartsenpraktijk De Wilgen
 Huisartsenpraktijk De Wilp
 Huisartsenpraktijk De Wippenbelt, Praktijk Heslinga
+Huisartsenpraktijk De Wit
+Huisartsenpraktijk De Wit-Casaverde
 Huisartsenpraktijk De Witte
 Huisartsenpraktijk De Woerd
 Huisartsenpraktijk De Wolff en Simon
@@ -19171,10 +19182,13 @@ Huisartsenpraktijk Den Bosch Oost, Praktijk Herrings
 Huisartsenpraktijk Den Bosch Oost, Praktijk Mw. Aussems en Mw. Piek
 Huisartsenpraktijk Den Bosch Oost, Praktijk Van den Brand en Van Lamsweerde
 Huisartsenpraktijk Den Duijf
+Huisartsenpraktijk Den Hartog
 Huisartsenpraktijk Den Hoek
 Huisartsenpraktijk Den Papendiek
 Huisartsenpraktijk Derks
+Huisartsenpraktijk Dermaux
 Huisartsenpraktijk Deunisvelt
+Huisartsenpraktijk Diederen
 Huisartsenpraktijk Dieleman
 Huisartsenpraktijk Diepenheim
 Huisartsenpraktijk Diepenveen
@@ -19194,6 +19208,7 @@ Huisartsenpraktijk Ditvoorst
 Huisartsenpraktijk DocLine Arnhem
 Huisartsenpraktijk DocLine Utrecht
 Huisartsenpraktijk Docwerk
+Huisartsenpraktijk Dodewaard
 Huisartsenpraktijk Doeksen & Weijer
 Huisartsenpraktijk Doelpunt
 Huisartsenpraktijk Doeven-Eriks
@@ -19210,6 +19225,7 @@ Huisartsenpraktijk Dokwerk
 Huisartsenpraktijk Dolman
 Huisartsenpraktijk Domburg
 Huisartsenpraktijk Donkerbroek
+Huisartsenpraktijk Donné
 Huisartsenpraktijk Dool
 Huisartsenpraktijk Doorn
 Huisartsenpraktijk Doornenburg
@@ -19219,6 +19235,7 @@ Huisartsenpraktijk Dorine Verschure
 Huisartsenpraktijk Dorpsstraat
 Huisartsenpraktijk Douwes Dekker en Feith
 Huisartsenpraktijk Dovenetel
+Huisartsenpraktijk Dr. Surie
 Huisartsenpraktijk Drabbe
 Huisartsenpraktijk Dreessen
 Huisartsenpraktijk DrieDok
@@ -19255,21 +19272,29 @@ Huisartsenpraktijk E. Bajramova
 Huisartsenpraktijk E. Braak
 Huisartsenpraktijk E. Coster
 Huisartsenpraktijk E. Oostendorp
+Huisartsenpraktijk E. Schoorl
+Huisartsenpraktijk E. van der Lek
 Huisartsenpraktijk E.A. De Beijl
 Huisartsenpraktijk E.A. Oelen
+Huisartsenpraktijk E.A. van Gijssel
 Huisartsenpraktijk E.E. van Waning
 Huisartsenpraktijk E.F. Weve
 Huisartsenpraktijk E.J. Kooijman
 Huisartsenpraktijk E.J.H. Hut
 Huisartsenpraktijk E.J.L. Hueting
+Huisartsenpraktijk E.M. Herman
 Huisartsenpraktijk E.M. Ketzer en M.C. Tempelman-Biewenga
 Huisartsenpraktijk E.M. Oldenhuis
 Huisartsenpraktijk E.M. Smit
+Huisartsenpraktijk E.M.E. Brugman
 Huisartsenpraktijk E.N. Stenfert
 Huisartsenpraktijk E.P. Bartels
 Huisartsenpraktijk E.P.M. Bolsius
+Huisartsenpraktijk E.R.C. Rijken
+Huisartsenpraktijk E.W. van Beek
 Huisartsenpraktijk Ebbens en Rosendal
 Huisartsenpraktijk Echtenerbrug
+Huisartsenpraktijk Ecury
 Huisartsenpraktijk Ederveen
 Huisartsenpraktijk Eenkema van Dijk
 Huisartsenpraktijk Eenrum
@@ -19287,10 +19312,12 @@ Huisartsenpraktijk Elden
 Huisartsenpraktijk Elean
 Huisartsenpraktijk Elft
 Huisartsenpraktijk Elim
+Huisartsenpraktijk Elings
 Huisartsenpraktijk Elinkwijk, praktijk Geurts, Leenders en Gathier
 Huisartsenpraktijk Elinkwijk, praktijk Verboom, Chan en van Kuijk
 Huisartsenpraktijk Elinkwijk, praktijk Vermue en van Haeff
 Huisartsenpraktijk Ellenbroek en Bastiaansen
+Huisartsenpraktijk Ellis
 Huisartsenpraktijk Elsbroek, L. Bosch en E.F. Wallaart
 Huisartsenpraktijk Elspeet
 Huisartsenpraktijk Elst
@@ -19317,30 +19344,43 @@ Huisartsenpraktijk Ewijk
 Huisartsenpraktijk Ewoud en Elisabeth
 Huisartsenpraktijk Exloo-Valthe
 Huisartsenpraktijk Eykmanplein
+Huisartsenpraktijk F. Andringa
 Huisartsenpraktijk F. Drost
 Huisartsenpraktijk F. Poelstra
 Huisartsenpraktijk F. Smits
+Huisartsenpraktijk F. van Alphen
 Huisartsenpraktijk F. van der Heide en G.H. Wesseler
 Huisartsenpraktijk F.A. Poelakker
+Huisartsenpraktijk F.A. Wittkämper
 Huisartsenpraktijk F.A.H. Erven
 Huisartsenpraktijk F.B. Weenink
 Huisartsenpraktijk F.E.M.T. Verbraeken
+Huisartsenpraktijk F.G. Schuch
 Huisartsenpraktijk F.H. Hartmann
 Huisartsenpraktijk F.J. Spijker
 Huisartsenpraktijk F.J. van Schie
 Huisartsenpraktijk F.J.H. van De Poel
+Huisartsenpraktijk F.Y. Kuypers
 Huisartsenpraktijk Faber
 Huisartsenpraktijk Fallaux en Van der Tang
+Huisartsenpraktijk Familia
 Huisartsenpraktijk Fan Marren
 Huisartsenpraktijk Fascinatio
+Huisartsenpraktijk Feis
+Huisartsenpraktijk Fellinger
 Huisartsenpraktijk Filius
 Huisartsenpraktijk Fleminghof, Praktijk Hesselink
+Huisartsenpraktijk Fleminghof,Praktijk Muller & Busscher
 Huisartsenpraktijk Floralaan
 Huisartsenpraktijk Florijn
 Huisartsenpraktijk Florishof
 Huisartsenpraktijk Fluitman & van Beek
+Huisartsenpraktijk Fontein
+Huisartsenpraktijk Fortuin
 Huisartsenpraktijk Fraaij en Terpstra
 Huisartsenpraktijk Frakking en Tjin-A-Ton
+Huisartsenpraktijk Frank Liebregts
+Huisartsenpraktijk Franke
 Huisartsenpraktijk Franke Nijhof
 Huisartsenpraktijk Frankendael
 Huisartsenpraktijk Frans Halsstraat
@@ -19350,20 +19390,26 @@ Huisartsenpraktijk Franssen - Wijsmuller
 Huisartsenpraktijk Frederiksoord
 Huisartsenpraktijk Frenken
 Huisartsenpraktijk Fydok Prinsenland
+Huisartsenpraktijk G. Di Giulio
 Huisartsenpraktijk G. Geerdink
 Huisartsenpraktijk G.A.J.M. Theeuwen
 Huisartsenpraktijk G.A.P. Bulthuis
 Huisartsenpraktijk G.C. Wezelenburg
+Huisartsenpraktijk G.D.R. Mohn
 Huisartsenpraktijk G.H.W. Saaf
+Huisartsenpraktijk G.J. De Bruijn
 Huisartsenpraktijk G.J. van der Ben
 Huisartsenpraktijk G.M.F.M. van Herwaarden
 Huisartsenpraktijk G.P. Nillessen
 Huisartsenpraktijk G.P. Pasma
 Huisartsenpraktijk Gagelhof
+Huisartsenpraktijk Gagic
 Huisartsenpraktijk Galecop
+Huisartsenpraktijk Galema
 Huisartsenpraktijk Galjaard Benoordenhout
 Huisartsenpraktijk Garssen en Collard
 Huisartsenpraktijk Gasthuiskwartier
+Huisartsenpraktijk Geboers
 Huisartsenpraktijk Geels
 Huisartsenpraktijk Geenen en Lesterhuis
 Huisartsenpraktijk Geerits
@@ -19379,6 +19425,7 @@ Huisartsenpraktijk Gennep
 Huisartsenpraktijk Gerling
 Huisartsenpraktijk Gerrits
 Huisartsenpraktijk Gest en van der Linden
+Huisartsenpraktijk Geulle
 Huisartsenpraktijk Geuzenwaard
 Huisartsenpraktijk Gezondheidscentrum Dillenburg
 Huisartsenpraktijk Gezondheidscentrum Ondiep
@@ -19388,6 +19435,8 @@ Huisartsenpraktijk Gezondheidscentrum Vlaardingen Centrum
 Huisartsenpraktijk Gezondheidslaan
 Huisartsenpraktijk Gezondheidsplein
 Huisartsenpraktijk Ghantous
+Huisartsenpraktijk Ghedri
+Huisartsenpraktijk Gianotten
 Huisartsenpraktijk Giard en Ketel
 Huisartsenpraktijk Gideonse en Boekhout
 Huisartsenpraktijk Gielen
@@ -19398,10 +19447,12 @@ Huisartsenpraktijk Gietema en Van Kapel
 Huisartsenpraktijk Gijsbers & Rondeel
 Huisartsenpraktijk Gijzen & Looije
 Huisartsenpraktijk Gilani & Slooter
+Huisartsenpraktijk Gilow
 Huisartsenpraktijk Gimbel
 Huisartsenpraktijk Ginneken
 Huisartsenpraktijk Gloudemans
 Huisartsenpraktijk Goekoop
+Huisartsenpraktijk Gouweloos
 Huisartsenpraktijk Goyarts
 Huisartsenpraktijk Gramsbergen
 Huisartsenpraktijk Grathem
@@ -19410,12 +19461,16 @@ Huisartsenpraktijk Griffioen Hazerswoude-Rijndijk
 Huisartsenpraktijk Groenenhagen
 Huisartsenpraktijk Groener
 Huisartsenpraktijk Groenewegen en Van Kuik
+Huisartsenpraktijk Groenewold
 Huisartsenpraktijk Groenkamp
 Huisartsenpraktijk Groenstraat
 Huisartsenpraktijk Groenveld
 Huisartsenpraktijk Groningen
 Huisartsenpraktijk Gronsveld
+Huisartsenpraktijk Groot
+Huisartsenpraktijk Groot en Ketelaars
 Huisartsenpraktijk Grootes en Allick
+Huisartsenpraktijk Grote Fok
 Huisartsenpraktijk Grote Waal
 Huisartsenpraktijk Grou
 Huisartsenpraktijk Grubbenvorst
@@ -19430,24 +19485,32 @@ Huisartsenpraktijk H. Chtatou
 Huisartsenpraktijk H. De Rooij
 Huisartsenpraktijk H. De Vos
 Huisartsenpraktijk H. Gorter en M. Koelman
+Huisartsenpraktijk H. Ruijters
 Huisartsenpraktijk H. Tigchelaar en M. Peeters, Gezondheidscentrum De Schaafdries
+Huisartsenpraktijk H. Veentjer
 Huisartsenpraktijk H. Venes
 Huisartsenpraktijk H. ter Horst
 Huisartsenpraktijk H. van De Riet
 Huisartsenpraktijk H.A. van der Sluijs
 Huisartsenpraktijk H.A.M. van Haasteren
 Huisartsenpraktijk H.B. Haerens
+Huisartsenpraktijk H.C. Graafland
 Huisartsenpraktijk H.E. Dunk
 Huisartsenpraktijk H.E.J. Kool
 Huisartsenpraktijk H.F.C.M. van Mierlo
+Huisartsenpraktijk H.G.B. Lanzing
 Huisartsenpraktijk H.J. Bezemer
+Huisartsenpraktijk H.J. Hazelhorst
 Huisartsenpraktijk H.J.M. Nijentap
 Huisartsenpraktijk H.L. Kwee
 Huisartsenpraktijk H.N. De Thouars
+Huisartsenpraktijk H.P.L. Deckers
+Huisartsenpraktijk H.W.D. Uijthof
 Huisartsenpraktijk HCS Calandria
 Huisartsenpraktijk Haaften
 Huisartsenpraktijk Haagse Beemden
 Huisartsenpraktijk Haaitsma
+Huisartsenpraktijk Haaren
 Huisartsenpraktijk Haarlemmerpoort
 Huisartsenpraktijk Haastrecht
 Huisartsenpraktijk Haaswijk
@@ -19465,6 +19528,8 @@ Huisartsenpraktijk Hamers
 Huisartsenpraktijk Hammink & Wibbelink
 Huisartsenpraktijk Hamstra De Ronde
 Huisartsenpraktijk Hanje
+Huisartsenpraktijk Hank
+Huisartsenpraktijk Hanssen en De Vries
 Huisartsenpraktijk Hapert & Hoogeloon
 Huisartsenpraktijk Haps
 Huisartsenpraktijk Harkink en van der Veen
@@ -19486,20 +19551,25 @@ Huisartsenpraktijk Haverkamp/Bastick
 Huisartsenpraktijk Haverkorn
 Huisartsenpraktijk Hazerswoude-Dorp
 Huisartsenpraktijk Heckman
+Huisartsenpraktijk Heelhuys
 Huisartsenpraktijk Heemskerk en Heemskerk-Esseveld
 Huisartsenpraktijk Heemskerk-Maat
 Huisartsenpraktijk Heemstede, Praktijk Nagy
 Huisartsenpraktijk Heemstede, Praktijk Van Seggelen
 Huisartsenpraktijk Heemstra en Horstman
+Huisartsenpraktijk Heer
 Huisartsenpraktijk Heerde, Praktijk Brouwer
 Huisartsenpraktijk Heerde, Praktijk De Ruiter
 Huisartsenpraktijk Heerde, Praktijk Roseboom
 Huisartsenpraktijk Heerde, Praktijk Wartanian
 Huisartsenpraktijk Heeres en De Groot
 Huisartsenpraktijk Heerjansdam
+Huisartsenpraktijk Heerle
 Huisartsenpraktijk Heerlen Noord
 Huisartsenpraktijk Heerlerbaan
+Huisartsenpraktijk Hegge
 Huisartsenpraktijk Heijnen
+Huisartsenpraktijk Heikens
 Huisartsenpraktijk Heikens
 Huisartsenpraktijk Heilaren
 Huisartsenpraktijk Heimansweg
@@ -19513,15 +19583,20 @@ Huisartsenpraktijk Hellendaal
 Huisartsenpraktijk Hellevoetsluis-West
 Huisartsenpraktijk Helmond Centrum
 Huisartsenpraktijk Helvoirt
+Huisartsenpraktijk Hendricks en Adriaens
 Huisartsenpraktijk Hendriks
 Huisartsenpraktijk Hendriks & Huizing
 Huisartsenpraktijk Hendriks & Olthuis
+Huisartsenpraktijk Hengelosestraat
 Huisartsenpraktijk Herengracht
 Huisartsenpraktijk Herkenbosch
+Huisartsenpraktijk Hermans
 Huisartsenpraktijk Hermeling & Telgenkamp
 Huisartsenpraktijk Hermsen
 Huisartsenpraktijk Herpen
 Huisartsenpraktijk Hertel
+Huisartsenpraktijk Herwen en Aerdt
+Huisartsenpraktijk Herwijnen
 Huisartsenpraktijk Het Ambacht
 Huisartsenpraktijk Het Anker
 Huisartsenpraktijk Het Atrium
@@ -19530,9 +19605,11 @@ Huisartsenpraktijk Het Borgse Huis
 Huisartsenpraktijk Het Dokhuis
 Huisartsenpraktijk Het Doktershuus
 Huisartsenpraktijk Het Duyfken
+Huisartsenpraktijk Het Eikske Weerts
 Huisartsenpraktijk Het Erf
 Huisartsenpraktijk Het Groene Hart
 Huisartsenpraktijk Het Groene Kruis
+Huisartsenpraktijk Het Hogeland
 Huisartsenpraktijk Het Homeer
 Huisartsenpraktijk Het Juk
 Huisartsenpraktijk Het Klooster
@@ -19556,6 +19633,7 @@ Huisartsenpraktijk Het Rafoelken
 Huisartsenpraktijk Het Roosendael
 Huisartsenpraktijk Het Station
 Huisartsenpraktijk Het Trefpunt
+Huisartsenpraktijk Het Veen
 Huisartsenpraktijk Het Ven
 Huisartsenpraktijk Het Wijkgebouw
 Huisartsenpraktijk Het Wolderwijd
@@ -19564,6 +19642,7 @@ Huisartsenpraktijk Het Zorgkwartier
 Huisartsenpraktijk Heugem
 Huisartsenpraktijk Heun
 Huisartsenpraktijk Heusden
+Huisartsenpraktijk Hiemstra
 Huisartsenpraktijk Hierden
 Huisartsenpraktijk Hiern
 Huisartsenpraktijk Hildegard
@@ -19578,6 +19657,7 @@ Huisartsenpraktijk Hodes en Van Beek
 Huisartsenpraktijk Hoef en Haag
 Huisartsenpraktijk Hoeks
 Huisartsenpraktijk Hoekstra
+Huisartsenpraktijk Hoekstra
 Huisartsenpraktijk Hoekstra en De Doelder
 Huisartsenpraktijk Hoensbroek
 Huisartsenpraktijk Hoeve
@@ -19588,6 +19668,8 @@ Huisartsenpraktijk Hoevense Veld, Praktijk Rozendaal
 Huisartsenpraktijk Hoflaan
 Huisartsenpraktijk Hofman & Janmaat
 Huisartsenpraktijk Hofman en Kremers
+Huisartsenpraktijk Hofmans Voorburg
+Huisartsenpraktijk Hoge Poel
 Huisartsenpraktijk Hogenbosch
 Huisartsenpraktijk Hogeveen en Verhoef
 Huisartsenpraktijk Hogeweg
@@ -19609,6 +19691,7 @@ Huisartsenpraktijk Honingraat
 Huisartsenpraktijk Honkoop en Spoek
 Huisartsenpraktijk Hoofdstaete
 Huisartsenpraktijk Hoofdweg 366
+Huisartsenpraktijk Hoog Kanje
 Huisartsenpraktijk Hoogbergen
 Huisartsenpraktijk Hooge Platen
 Huisartsenpraktijk Hoogeland
@@ -19617,10 +19700,12 @@ Huisartsenpraktijk Hoogh Teijlingen
 Huisartsenpraktijk Hooghkamer
 Huisartsenpraktijk Hoogland & Hemels
 Huisartsenpraktijk Hooglugt
+Huisartsenpraktijk Hoogslag
 Huisartsenpraktijk Hoogwoud
 Huisartsenpraktijk Hoornaar
 Huisartsenpraktijk Hoornse Hop
 Huisartsenpraktijk Hoornsemeer
+Huisartsenpraktijk Hoppenbrouwer
 Huisartsenpraktijk Hoppenbrouwers
 Huisartsenpraktijk Hopveld
 Huisartsenpraktijk Hosainy en Veugelers
@@ -19630,14 +19715,19 @@ Huisartsenpraktijk Hu
 Huisartsenpraktijk Hueting en Essers
 Huisartsenpraktijk Hueting-Libourel
 Huisartsenpraktijk Huijben-Ploemen
+Huisartsenpraktijk Huijbens
 Huisartsenpraktijk Huijbergen
 Huisartsenpraktijk Huijs en Doornink
+Huisartsenpraktijk Huisman
 Huisartsenpraktijk Huisman en De Moor
 Huisartsenpraktijk Huisman en Wijnmaalen
+Huisartsenpraktijk Huitema
 Huisartsenpraktijk Hulsberg
 Huisartsenpraktijk Hulsbergen Harskamp
+Huisartsenpraktijk Hulscher en De Bruin
 Huisartsenpraktijk Hummelo en Keppel
 Huisartsenpraktijk Hundscheid
+Huisartsenpraktijk Hunzedal
 Huisartsenpraktijk Hus en van 't Lindenhout
 Huisartsenpraktijk Hussain
 Huisartsenpraktijk Hut
@@ -19659,6 +19749,7 @@ Huisartsenpraktijk Iemhoff en Landmeter
 Huisartsenpraktijk Iepenhof
 Huisartsenpraktijk Iest
 Huisartsenpraktijk Ingang Zuid
+Huisartsenpraktijk Integraal
 Huisartsenpraktijk Irisplein
 Huisartsenpraktijk Israel
 Huisartsenpraktijk Issa
@@ -19672,11 +19763,17 @@ Huisartsenpraktijk J. De Kuijper
 Huisartsenpraktijk J. De Waard
 Huisartsenpraktijk J. Hornstra
 Huisartsenpraktijk J. Koper
+Huisartsenpraktijk J. Lindenhovius
+Huisartsenpraktijk J. Miedema
 Huisartsenpraktijk J. Verboom
 Huisartsenpraktijk J. Vingerhoets
+Huisartsenpraktijk J. van Andel
+Huisartsenpraktijk J. van Dok
 Huisartsenpraktijk J. van Valkenburg
 Huisartsenpraktijk J. van Woudenberg
 Huisartsenpraktijk J. van der Wal
+Huisartsenpraktijk J.A. Boodt
+Huisartsenpraktijk J.A. De Jong en J.L. van der Wel
 Huisartsenpraktijk J.A. De Schepper
 Huisartsenpraktijk J.A. Kanhai
 Huisartsenpraktijk J.A. Kooij
@@ -19684,7 +19781,12 @@ Huisartsenpraktijk J.A. van Veen
 Huisartsenpraktijk J.B. Sanders
 Huisartsenpraktijk J.B.M. Nijkamp
 Huisartsenpraktijk J.C. Bos
+Huisartsenpraktijk J.C. Voskamp
 Huisartsenpraktijk J.C. Zoon
+Huisartsenpraktijk J.C.M. Vrij
+Huisartsenpraktijk J.D.B.M. Verhoeff
+Huisartsenpraktijk J.G. Borgman
+Huisartsenpraktijk J.G.H.M. van Otterdijk
 Huisartsenpraktijk J.G.M. Kroon
 Huisartsenpraktijk J.H. Bouwman en M.J. Stuldreher
 Huisartsenpraktijk J.H. ten Hove / H.A. ten Hove
@@ -19693,18 +19795,24 @@ Huisartsenpraktijk J.H.A. Bleiker
 Huisartsenpraktijk J.J. Boersma
 Huisartsenpraktijk J.J. Kramer
 Huisartsenpraktijk J.J. Wolters
+Huisartsenpraktijk J.J. van De Putte
 Huisartsenpraktijk J.J.M. Bakx
 Huisartsenpraktijk J.M. Stoter
+Huisartsenpraktijk J.M.L. Rietveld
 Huisartsenpraktijk J.N.P. Brull
 Huisartsenpraktijk J.P. Borst
+Huisartsenpraktijk J.P. Heinstra
 Huisartsenpraktijk J.P. Smit-Smouter en S.J.M. van der Wereld
 Huisartsenpraktijk J.P. van Tussenbroek
+Huisartsenpraktijk J.P.B.H.A. Reinartz
+Huisartsenpraktijk J.R. van der Brugge
 Huisartsenpraktijk J.S. Burgers
 Huisartsenpraktijk J.S. Sporrel
 Huisartsenpraktijk J.S. Wijpkema
 Huisartsenpraktijk J.T.E. De Penning
 Huisartsenpraktijk J.W. De With
 Huisartsenpraktijk J.W. van Doorn
+Huisartsenpraktijk Jacobs
 Huisartsenpraktijk Jacobs, Lammers en Smits
 Huisartsenpraktijk Jacobskerk
 Huisartsenpraktijk Jager
@@ -19719,6 +19827,8 @@ Huisartsenpraktijk Janskerkhof
 Huisartsenpraktijk Janson
 Huisartsenpraktijk Janssen Breda
 Huisartsenpraktijk Janssen Eindhoven
+Huisartsenpraktijk Japenga
+Huisartsenpraktijk Java-Eiland
 Huisartsenpraktijk Jenkins Service Huisartsen Woerden
 Huisartsenpraktijk Jiawan
 Huisartsenpraktijk Joeloemsingh
@@ -19726,6 +19836,7 @@ Huisartsenpraktijk Johan De Witt & Cornelis
 Huisartsenpraktijk Jongepier en Tillema
 Huisartsenpraktijk Jongmans en Mulling
 Huisartsenpraktijk Jongschaap
+Huisartsenpraktijk Jongsma
 Huisartsenpraktijk Jongsma en Nouwens
 Huisartsenpraktijk Jonker en van Blijderveen
 Huisartsenpraktijk Jorritsma
@@ -19734,6 +19845,9 @@ Huisartsenpraktijk Julianalaan
 Huisartsenpraktijk Jupiter
 Huisartsenpraktijk K. Claessen
 Huisartsenpraktijk K. Lasage
+Huisartsenpraktijk K.A. Zuurmond -Tromp
+Huisartsenpraktijk K.D. Begashaw
+Huisartsenpraktijk K.I. Holdijk
 Huisartsenpraktijk K.J. Mikulski
 Huisartsenpraktijk K.J. van den Nieuwendijk
 Huisartsenpraktijk KMD
@@ -19746,12 +19860,14 @@ Huisartsenpraktijk Kalsbeek
 Huisartsenpraktijk Kamerik
 Huisartsenpraktijk Kamermans
 Huisartsenpraktijk Kamperland
+Huisartsenpraktijk Kapenga
 Huisartsenpraktijk Kappeyne van De Coppello
 Huisartsenpraktijk Kapsenberg
 Huisartsenpraktijk Karasu
 Huisartsenpraktijk Karman
 Huisartsenpraktijk Karstel
 Huisartsenpraktijk Kasbergen
+Huisartsenpraktijk Kaspers
 Huisartsenpraktijk Kastelenbuurt
 Huisartsenpraktijk Kattenbroek
 Huisartsenpraktijk Keijer
@@ -19782,12 +19898,15 @@ Huisartsenpraktijk Keulemans en Geelen (Reeshof)
 Huisartsenpraktijk Keuning & Okma
 Huisartsenpraktijk Kevenaar, Van den Berg, Danen en Van den Berge
 Huisartsenpraktijk Keverdijk
+Huisartsenpraktijk Khajehi
 Huisartsenpraktijk Khatibi
 Huisartsenpraktijk Khawar
 Huisartsenpraktijk Kidane
 Huisartsenpraktijk Kieldiep
+Huisartsenpraktijk Kielman
 Huisartsenpraktijk Kievitstraat
 Huisartsenpraktijk Kinderdijk
+Huisartsenpraktijk Kingma
 Huisartsenpraktijk Kisman
 Huisartsenpraktijk Klaar en Vincent
 Huisartsenpraktijk Klaaswaal
@@ -19795,7 +19914,9 @@ Huisartsenpraktijk Klamer-Stöver
 Huisartsenpraktijk Klarenbeek
 Huisartsenpraktijk Klarendal
 Huisartsenpraktijk Klatte en Cleveringa
+Huisartsenpraktijk Klatter
 Huisartsenpraktijk Kleerekooper-Corsten
+Huisartsenpraktijk Klein
 Huisartsenpraktijk Klein Alenvelt
 Huisartsenpraktijk Klein Ikkink
 Huisartsenpraktijk Klein Vlijmen
@@ -19810,7 +19931,10 @@ Huisartsenpraktijk Kloosterstraat
 Huisartsenpraktijk Kloosterveen
 Huisartsenpraktijk Kloosterweg
 Huisartsenpraktijk Kluft-Wladasch
+Huisartsenpraktijk Knaeps
 Huisartsenpraktijk Knies
+Huisartsenpraktijk Knobben
+Huisartsenpraktijk Koch
 Huisartsenpraktijk Kockengen
 Huisartsenpraktijk Koedijk
 Huisartsenpraktijk Koegras
@@ -19831,6 +19955,7 @@ Huisartsenpraktijk Kooij | Hammerborg
 Huisartsenpraktijk Kooijman
 Huisartsenpraktijk Kool en Weytingh
 Huisartsenpraktijk Koolhoven
+Huisartsenpraktijk Kools & Van Liempd
 Huisartsenpraktijk Koonings
 Huisartsenpraktijk Koopman, Hodes en van Schaik
 Huisartsenpraktijk Kootstertille
@@ -19842,7 +19967,9 @@ Huisartsenpraktijk Korpershoek
 Huisartsenpraktijk Korte Akkeren
 Huisartsenpraktijk Korte Geer
 Huisartsenpraktijk Kortmann
+Huisartsenpraktijk Korvel
 Huisartsenpraktijk Koster en Krielen
+Huisartsenpraktijk Kotey
 Huisartsenpraktijk Koudekerk aan De Rijn
 Huisartsenpraktijk Koudekerke
 Huisartsenpraktijk Kraag
@@ -19862,16 +19989,23 @@ Huisartsenpraktijk Kromme Rijn, Huisartsenpraktijk D. van Steenis en L. Buis
 Huisartsenpraktijk Kromme Rijn, Huisartsenpraktijk Franssens en Hassink-Franke
 Huisartsenpraktijk Krommenie
 Huisartsenpraktijk Kronenberg
+Huisartsenpraktijk Kruiskamp
 Huisartsenpraktijk Kruithof
 Huisartsenpraktijk Kruizinga en van Rooij
 Huisartsenpraktijk Krukerink & De Wolde
+Huisartsenpraktijk Kuijpers
 Huisartsenpraktijk Kuijpers en Fransen
 Huisartsenpraktijk Kuiken en De Valk
+Huisartsenpraktijk Kuiperij
 Huisartsenpraktijk Kuipers
 Huisartsenpraktijk Kuipers en De Groot
 Huisartsenpraktijk Kummeling
 Huisartsenpraktijk Kwakersplein
 Huisartsenpraktijk Kwintrum
+Huisartsenpraktijk L. Broek
+Huisartsenpraktijk L. van Eijk
+Huisartsenpraktijk L. van der Zee
+Huisartsenpraktijk L.J. Doensen
 Huisartsenpraktijk L.M.E.F. Breukers
 Huisartsenpraktijk Laan ter Catten
 Huisartsenpraktijk Lage Meren
@@ -19882,25 +20016,34 @@ Huisartsenpraktijk Lambers
 Huisartsenpraktijk Lambertus
 Huisartsenpraktijk Lamers
 Huisartsenpraktijk Lammers en Luehof
+Huisartsenpraktijk Land
 Huisartsenpraktijk Lander
+Huisartsenpraktijk Langbroek
+Huisartsenpraktijk Langenhuizen
 Huisartsenpraktijk Langeraar
 Huisartsenpraktijk Langezwaag
 Huisartsenpraktijk Lankhorst
 Huisartsenpraktijk Lansdorp
+Huisartsenpraktijk Laurens Decates
 Huisartsenpraktijk Leemhuis & Van der Maarel
+Huisartsenpraktijk Leenen
 Huisartsenpraktijk Leesten
 Huisartsenpraktijk Legemaat & Van Gijn
 Huisartsenpraktijk Leiderdorp
 Huisartsenpraktijk Leidschendam Zuid
+Huisartsenpraktijk Leidseweg 95
 Huisartsenpraktijk Leijnse
 Huisartsenpraktijk Leliestraat, Savelkouls en Plum
 Huisartsenpraktijk Lelij en Termaat
+Huisartsenpraktijk Lely
 Huisartsenpraktijk Lelystraat
+Huisartsenpraktijk Lemelerveld
 Huisartsenpraktijk Lemmer Rijn
 Huisartsenpraktijk Lempers
 Huisartsenpraktijk Lentemorgen
 Huisartsenpraktijk Leonardus
 Huisartsenpraktijk Lewenborg
+Huisartsenpraktijk Lexmond
 Huisartsenpraktijk Leyweg
 Huisartsenpraktijk Lidwina
 Huisartsenpraktijk Liempde
@@ -19926,6 +20069,7 @@ Huisartsenpraktijk Lodewijkstraat
 Huisartsenpraktijk Loenen
 Huisartsenpraktijk Lofvers
 Huisartsenpraktijk Lommelaars
+Huisartsenpraktijk Loncin
 Huisartsenpraktijk Lonij
 Huisartsenpraktijk Lonneker
 Huisartsenpraktijk Loopuytpark
@@ -19937,27 +20081,45 @@ Huisartsenpraktijk Lupine
 Huisartsenpraktijk Lutjebroek
 Huisartsenpraktijk Lutmastraat
 Huisartsenpraktijk Löwenberg en Kuipers
+Huisartsenpraktijk Lüling
+Huisartsenpraktijk M. Aghabozorg
 Huisartsenpraktijk M. Hamelink
 Huisartsenpraktijk M. Hart
+Huisartsenpraktijk M. Heinsdijk
 Huisartsenpraktijk M. Kenters
+Huisartsenpraktijk M. Milius
 Huisartsenpraktijk M. Stoque
 Huisartsenpraktijk M. Sönmez
 Huisartsenpraktijk M. Tack
 Huisartsenpraktijk M. Witte-Libeton
+Huisartsenpraktijk M. van Duivenboden
+Huisartsenpraktijk M. van der Plas
+Huisartsenpraktijk M.A. Windhausen
 Huisartsenpraktijk M.A. Wynia
 Huisartsenpraktijk M.A. van den Hurk
+Huisartsenpraktijk M.A.J. Balm
 Huisartsenpraktijk M.A.M. van Lange
+Huisartsenpraktijk M.B.M. Peters
 Huisartsenpraktijk M.E. Gelling-Frankes
 Huisartsenpraktijk M.E.C. Neijens
 Huisartsenpraktijk M.F. van Dijk
+Huisartsenpraktijk M.H.E. Smale
+Huisartsenpraktijk M.J. Bakker
 Huisartsenpraktijk M.J. Ufkes
+Huisartsenpraktijk M.J.A. Hermans
+Huisartsenpraktijk M.J.M. Horstink
 Huisartsenpraktijk M.J.M. Valk en L.J. Meijer
 Huisartsenpraktijk M.J.O. Kreuger
+Huisartsenpraktijk M.K. Balk
 Huisartsenpraktijk M.K. Briedjlal
 Huisartsenpraktijk M.L. Liefeld
 Huisartsenpraktijk M.M. Heiszwolf
+Huisartsenpraktijk M.N. Azim
+Huisartsenpraktijk M.N. Azizi
+Huisartsenpraktijk M.N.O. Al-Rushdy
 Huisartsenpraktijk M.P. Vermeulen
 Huisartsenpraktijk M.S. van 't Grunewold en B. van Kralingen
+Huisartsenpraktijk M.S.I. Vermeer-Witteveen
 Huisartsenpraktijk M.S.M. Steijn
 Huisartsenpraktijk M.W. Zandijk-van Assenbergh en J.A. Weick-Vijge
 Huisartsenpraktijk M3 Leerdam
@@ -19970,23 +20132,27 @@ Huisartsenpraktijk Maasbommel
 Huisartsenpraktijk Maasbracht
 Huisartsenpraktijk Maasbree
 Huisartsenpraktijk Maasdam
+Huisartsenpraktijk Maasdijk
 Huisartsenpraktijk Maasduinen
 Huisartsenpraktijk Maasoever
 Huisartsenpraktijk Maaspoort / Geerke
 Huisartsenpraktijk Maastricht Centrum West
 Huisartsenpraktijk Madioenstraat
 Huisartsenpraktijk Maessen
+Huisartsenpraktijk Mahabir
 Huisartsenpraktijk Mahler
 Huisartsenpraktijk Majdandzic
 Huisartsenpraktijk Malberg
 Huisartsenpraktijk Malyar
 Huisartsenpraktijk Mangal
 Huisartsenpraktijk Mangard
+Huisartsenpraktijk Mantingh
 Huisartsenpraktijk Marco Bakker
 Huisartsenpraktijk Marepark
 Huisartsenpraktijk Mariahoek
 Huisartsenpraktijk Mariahoeve
 Huisartsenpraktijk Mariaparochie
+Huisartsenpraktijk Maring te Tolbert
 Huisartsenpraktijk Marinus
 Huisartsenpraktijk Mariënweerd
 Huisartsenpraktijk Marken
@@ -20025,6 +20191,7 @@ Huisartsenpraktijk Medisch Centrum Maandereng
 Huisartsenpraktijk Medisch Centrum Molenstraat Beilen
 Huisartsenpraktijk Medisch Centrum West
 Huisartsenpraktijk Medisch Centrum Zuid
+Huisartsenpraktijk Mediscoop
 Huisartsenpraktijk Medistate
 Huisartsenpraktijk Medius
 Huisartsenpraktijk Mediversum
@@ -20036,11 +20203,14 @@ Huisartsenpraktijk Meerlo
 Huisartsenpraktijk Meerssen van Empel - Verschuren
 Huisartsenpraktijk Meerweg
 Huisartsenpraktijk Mees
+Huisartsenpraktijk Mees aan De Brink
 Huisartsenpraktijk Meeuwenplein
 Huisartsenpraktijk Megen
 Huisartsenpraktijk Meijer
+Huisartsenpraktijk Meijer Schagen
 Huisartsenpraktijk Meijers
 Huisartsenpraktijk Meinsma
+Huisartsenpraktijk Melbourne, Praktijk Ten Veen
 Huisartsenpraktijk Melbourne, Praktijk Versteegh/Homan
 Huisartsenpraktijk Melick
 Huisartsenpraktijk Melissant
@@ -20061,6 +20231,7 @@ Huisartsenpraktijk Meuwissen-Monquil
 Huisartsenpraktijk Meyra
 Huisartsenpraktijk Michaël
 Huisartsenpraktijk Michiel Boersma
+Huisartsenpraktijk Michon
 Huisartsenpraktijk Middelstum
 Huisartsenpraktijk Middelwatering
 Huisartsenpraktijk Middelwijck
@@ -20073,6 +20244,7 @@ Huisartsenpraktijk Millenaar en Ramadhin
 Huisartsenpraktijk Milsbeek
 Huisartsenpraktijk Minken
 Huisartsenpraktijk Mir
+Huisartsenpraktijk Mitrasing
 Huisartsenpraktijk Mocking
 Huisartsenpraktijk Moen en Warnier
 Huisartsenpraktijk Moerkapelle
@@ -20088,6 +20260,7 @@ Huisartsenpraktijk Molenweg
 Huisartsenpraktijk Molenwijk
 Huisartsenpraktijk Montfort
 Huisartsenpraktijk Montis
+Huisartsenpraktijk Mooij
 Huisartsenpraktijk Mookhram
 Huisartsenpraktijk Moolenburgh
 Huisartsenpraktijk Moret
@@ -20096,6 +20269,7 @@ Huisartsenpraktijk Morgenstond
 Huisartsenpraktijk Mosa
 Huisartsenpraktijk Mosae Forum Heg-Reitz
 Huisartsenpraktijk Mozaiek
+Huisartsenpraktijk Mozaïek
 Huisartsenpraktijk Muiderberg
 Huisartsenpraktijk Mulder
 Huisartsenpraktijk Mulder & Waalkes
@@ -20105,25 +20279,32 @@ Huisartsenpraktijk Munnik
 Huisartsenpraktijk Munstergeleen
 Huisartsenpraktijk Musselpark Keizer Prak
 Huisartsenpraktijk Muthu
+Huisartsenpraktijk Mutsaerts
 Huisartsenpraktijk Mw. M. Pen & Mw. M. Voorberg
 Huisartsenpraktijk Mw. N.M. Ferguson
+Huisartsenpraktijk Mw. R. Berghuis
 Huisartsenpraktijk Mûnewei
 Huisartsenpraktijk N. Georgis
 Huisartsenpraktijk N. Wichers
 Huisartsenpraktijk N. van der Meer
 Huisartsenpraktijk N.A. Neshat Rotterdam-Alexander
 Huisartsenpraktijk N.A. Niehot
+Huisartsenpraktijk N.P. Woudenberg
 Huisartsenpraktijk Naarden
 Huisartsenpraktijk Naimi
 Huisartsenpraktijk Najafi
 Huisartsenpraktijk Nap en Eijsenga
 Huisartsenpraktijk Nassaulaan
+Huisartsenpraktijk Nazareth
 Huisartsenpraktijk Neede
 Huisartsenpraktijk Neer
+Huisartsenpraktijk Neeteson
 Huisartsenpraktijk Negenborn en Seesing
 Huisartsenpraktijk Nibbixwoud
 Huisartsenpraktijk Nicolaas Witsenkade 13
+Huisartsenpraktijk Nicolay
 Huisartsenpraktijk Niekerk
+Huisartsenpraktijk Niemeijer en Brouwer
 Huisartsenpraktijk Niessen
 Huisartsenpraktijk Nieuw Dordrecht
 Huisartsenpraktijk Nieuw Huys
@@ -20133,7 +20314,9 @@ Huisartsenpraktijk Nieuw Plettenburgh
 Huisartsenpraktijk Nieuw Rapenburg
 Huisartsenpraktijk Nieuw Rhenen
 Huisartsenpraktijk Nieuw Rijswijk
+Huisartsenpraktijk Nieuw Vossemeer
 Huisartsenpraktijk Nieuw West
+Huisartsenpraktijk Nieuw Zuid
 Huisartsenpraktijk Nieuw-Beijerland
 Huisartsenpraktijk NieuwDelft
 Huisartsenpraktijk Nieuwe Baan
@@ -20174,11 +20357,13 @@ Huisartsenpraktijk Noordscheschut
 Huisartsenpraktijk Noordveld
 Huisartsenpraktijk Noordzij
 Huisartsenpraktijk Nota en Swart
+Huisartsenpraktijk NuevoCare
 Huisartsenpraktijk Nugteren-Meijler
 Huisartsenpraktijk Nuland
 Huisartsenpraktijk Nuri
 Huisartsenpraktijk Nusteling
 Huisartsenpraktijk Nylân
+Huisartsenpraktijk Nüssler
 Huisartsenpraktijk Obbicht
 Huisartsenpraktijk Obbink
 Huisartsenpraktijk Obdam
@@ -20189,6 +20374,7 @@ Huisartsenpraktijk Oelrich, Wit en Pelger
 Huisartsenpraktijk Oirsbeek
 Huisartsenpraktijk Oldemarkt
 Huisartsenpraktijk Olgers en Cornelissen
+Huisartsenpraktijk Olieslagers
 Huisartsenpraktijk Olthof
 Huisartsenpraktijk Olympia
 Huisartsenpraktijk Omarkhel
@@ -20210,9 +20396,11 @@ Huisartsenpraktijk Oostendorp
 Huisartsenpraktijk Oosterboer, praktijk Brinkman
 Huisartsenpraktijk Oosterboer, praktijk Oldenburger en Diever
 Huisartsenpraktijk Oosterhesselen
+Huisartsenpraktijk Oosterhout
 Huisartsenpraktijk Oosterland
 Huisartsenpraktijk Oosterloo
 Huisartsenpraktijk Oosterpoort
+Huisartsenpraktijk Oosthout
 Huisartsenpraktijk Oosthuizen
 Huisartsenpraktijk Oostindjer
 Huisartsenpraktijk Oostveen en Kamp
@@ -20220,6 +20408,7 @@ Huisartsenpraktijk Oostvoorne
 Huisartsenpraktijk Oostzaan
 Huisartsenpraktijk Op 't Zand
 Huisartsenpraktijk Op De Paap
+Huisartsenpraktijk Op Koers, praktijk Wesselius
 Huisartsenpraktijk Opeinde
 Huisartsenpraktijk Opheij
 Huisartsenpraktijk Ophemert
@@ -20235,41 +20424,54 @@ Huisartsenpraktijk Ossendrecht
 Huisartsenpraktijk Osterman
 Huisartsenpraktijk Oteman
 Huisartsenpraktijk Ottengraf
+Huisartsenpraktijk Ottenhoff
 Huisartsenpraktijk Ottersum
 Huisartsenpraktijk Ottevanger
 Huisartsenpraktijk Oud Geleen
 Huisartsenpraktijk Oud-Alblas
 Huisartsenpraktijk Oude Ophuis en De Vries
 Huisartsenpraktijk Oude Tonge
+Huisartsenpraktijk Oude Turfmarkt
+Huisartsenpraktijk Oudehaske
 Huisartsenpraktijk Oudeman
 Huisartsenpraktijk Oudemans
 Huisartsenpraktijk Overasselt
 Huisartsenpraktijk Overbeeke
 Huisartsenpraktijk Overbos
 Huisartsenpraktijk Overcingel
+Huisartsenpraktijk Overgaauw
 Huisartsenpraktijk Overhoven-Hoogveld
 Huisartsenpraktijk Overman
+Huisartsenpraktijk Overmeer
 Huisartsenpraktijk Overschie
 Huisartsenpraktijk Overveen
 Huisartsenpraktijk Overwhere
+Huisartsenpraktijk P. Akbari
 Huisartsenpraktijk P. Olie
 Huisartsenpraktijk P. Staal
 Huisartsenpraktijk P. Vroon en A. Busch
 Huisartsenpraktijk P. van Esseveldt
 Huisartsenpraktijk P. van den Berg
+Huisartsenpraktijk P.A.J. Buis
 Huisartsenpraktijk P.A.M. De Bruijckere
 Huisartsenpraktijk P.B.A. Crama
 Huisartsenpraktijk P.C. Huijsman
 Huisartsenpraktijk P.G.M. van Leeuwen
+Huisartsenpraktijk P.J. Leermakers
+Huisartsenpraktijk P.J.C. Vioen
 Huisartsenpraktijk P.M. Broekhuyse
 Huisartsenpraktijk P.M. Grannetia
 Huisartsenpraktijk P.P. Groen
+Huisartsenpraktijk P.R.H. Alders
 Huisartsenpraktijk P.T. Buffinga
 Huisartsenpraktijk P.T. Folmer
+Huisartsenpraktijk P.T. Hutchison
+Huisartsenpraktijk P.W. van Broekhoven
 Huisartsenpraktijk P.W.A.M. Borghans
 Huisartsenpraktijk P.W.J. Plantinga
 Huisartsenpraktijk Paas & Cremers
 Huisartsenpraktijk Pabst
+Huisartsenpraktijk Pala
 Huisartsenpraktijk Paleiskwartier
 Huisartsenpraktijk Palissade
 Huisartsenpraktijk Pallion
@@ -20287,9 +20489,13 @@ Huisartsenpraktijk Pantaleon, Praktijk van der Linden
 Huisartsenpraktijk Papenvoort
 Huisartsenpraktijk Parijsch
 Huisartsenpraktijk Parkhof
+Huisartsenpraktijk Parkhof
 Huisartsenpraktijk Parkplantsoen
+Huisartsenpraktijk Parmentier-van Loon
 Huisartsenpraktijk Pasdeloup - De Vries
 Huisartsenpraktijk Passewaay
+Huisartsenpraktijk Pasteur
+Huisartsenpraktijk Patandin
 Huisartsenpraktijk Paterswoldseweg
 Huisartsenpraktijk Paulus Potter
 Huisartsenpraktijk Pauwenkamp
@@ -20323,6 +20529,7 @@ Huisartsenpraktijk Polsbroek
 Huisartsenpraktijk Polseweg
 Huisartsenpraktijk Poort van West
 Huisartsenpraktijk Poortugaal Dorp
+Huisartsenpraktijk Poortvliet
 Huisartsenpraktijk Pootstraat Ham & Rick
 Huisartsenpraktijk Portland
 Huisartsenpraktijk Pos - E.A.B. Pos en I. Hovinga
@@ -20332,9 +20539,12 @@ Huisartsenpraktijk Poseidon, Praktijk Ligtenberg
 Huisartsenpraktijk Poseidon, Praktijk Sikkens
 Huisartsenpraktijk Post-De Gooijer
 Huisartsenpraktijk Posterholt
+Huisartsenpraktijk Posthouwer
 Huisartsenpraktijk Postjesweg
 Huisartsenpraktijk Postma
+Huisartsenpraktijk Postma
 Huisartsenpraktijk Pottenberg
+Huisartsenpraktijk Pourfar en Khalili
 Huisartsenpraktijk Pouw & Verkuil
 Huisartsenpraktijk Pouwels en Stiggelbout
 Huisartsenpraktijk Poyraz
@@ -20355,6 +20565,9 @@ Huisartsenpraktijk Pura Vita
 Huisartsenpraktijk Puth
 Huisartsenpraktijk Puttershoek
 Huisartsenpraktijk Q.L. Nguyen
+Huisartsenpraktijk R. Baarsma
+Huisartsenpraktijk R. Chin
+Huisartsenpraktijk R. Jonkheijm
 Huisartsenpraktijk R. Niebuur
 Huisartsenpraktijk R. Verdijk
 Huisartsenpraktijk R. van De Meent
@@ -20365,8 +20578,10 @@ Huisartsenpraktijk R.C.C. Weijnen
 Huisartsenpraktijk R.E.A. Jansen
 Huisartsenpraktijk R.F.W. Schuurman en D. Teunissen
 Huisartsenpraktijk R.G. Bank
+Huisartsenpraktijk R.G. Tuinman
 Huisartsenpraktijk R.G.A.M. Beumer
 Huisartsenpraktijk R.J. Hendriksen
+Huisartsenpraktijk R.J. Sonnenberg
 Huisartsenpraktijk R.M. Foppen
 Huisartsenpraktijk R.M. Hage
 Huisartsenpraktijk R.M. Kluitman
@@ -20375,14 +20590,19 @@ Huisartsenpraktijk R.P. Snelder
 Huisartsenpraktijk R.P. van Gent
 Huisartsenpraktijk R.R. Blees
 Huisartsenpraktijk R.T.N. Oud
+Huisartsenpraktijk R.W. van Oosterhout
+Huisartsenpraktijk R.W.M. Hooijen
 Huisartsenpraktijk Raaijmakers
 Huisartsenpraktijk Radesingel
 Huisartsenpraktijk Raedts en Migo
 Huisartsenpraktijk Raheel-Maqbool
 Huisartsenpraktijk Rambharose
+Huisartsenpraktijk Ramyad
 Huisartsenpraktijk Randwijck
 Huisartsenpraktijk Rapenland
+Huisartsenpraktijk Rasenberg
 Huisartsenpraktijk Rasi
+Huisartsenpraktijk Raupp
 Huisartsenpraktijk Ravellaan
 Huisartsenpraktijk Rechters & Rutten
 Huisartsenpraktijk Reddingius
@@ -20392,7 +20612,9 @@ Huisartsenpraktijk Reguliersgracht
 Huisartsenpraktijk Reigerskamp
 Huisartsenpraktijk Reimer & Beenders
 Huisartsenpraktijk Reinoud
+Huisartsenpraktijk Rekkers
 Huisartsenpraktijk Rembrandt
+Huisartsenpraktijk Remmelzwaal
 Huisartsenpraktijk Remmerswaal & Van der Bijl
 Huisartsenpraktijk Renes en Wouterson
 Huisartsenpraktijk Renesse
@@ -20401,6 +20623,7 @@ Huisartsenpraktijk Rensing en Van Voorst, De La Reyweg
 Huisartsenpraktijk Rensing en Van Voorst, President Kennedylaan
 Huisartsenpraktijk Renswoude
 Huisartsenpraktijk Respons
+Huisartsenpraktijk Reuvekamp
 Huisartsenpraktijk Rhijngeest
 Huisartsenpraktijk Rhoon Dorp
 Huisartsenpraktijk Rhynenburch
@@ -20409,6 +20632,7 @@ Huisartsenpraktijk Richters en van Huizen
 Huisartsenpraktijk Richtershagen
 Huisartsenpraktijk Ridha
 Huisartsenpraktijk Riel
+Huisartsenpraktijk Riethoven
 Huisartsenpraktijk Rietkampen
 Huisartsenpraktijk Rijckehoef
 Huisartsenpraktijk Rijkers en Holwarda
@@ -20422,6 +20646,7 @@ Huisartsenpraktijk Rijsenhout
 Huisartsenpraktijk Rijswijk Buiten
 Huisartsenpraktijk Rinnebeek, Praktijk Vromen
 Huisartsenpraktijk Ritter en Kuipers
+Huisartsenpraktijk Ritz
 Huisartsenpraktijk Rivierenbuurt
 Huisartsenpraktijk Rivierstaete
 Huisartsenpraktijk Rob Smits
@@ -20433,6 +20658,7 @@ Huisartsenpraktijk Roebroeck en Van Russen Groen
 Huisartsenpraktijk Roeloffs
 Huisartsenpraktijk Roelofs
 Huisartsenpraktijk Roelofsen
+Huisartsenpraktijk Roerdomplaan
 Huisartsenpraktijk Roest
 Huisartsenpraktijk Roland & Hogewoning
 Huisartsenpraktijk Rolde, Huisarts G. van der Linden
@@ -20452,13 +20678,17 @@ Huisartsenpraktijk Rosing en Bruins Slot
 Huisartsenpraktijk Rosmalen Centrum
 Huisartsenpraktijk Rossum en Heerewaarden
 Huisartsenpraktijk Rottevalle
+Huisartsenpraktijk Rottschäfer
+Huisartsenpraktijk Roubos
 Huisartsenpraktijk Roukema en Munnik
+Huisartsenpraktijk Rouveen
 Huisartsenpraktijk Rozemuller en Schippers
 Huisartsenpraktijk Rozenburcht, Praktijk A. Tewarie
 Huisartsenpraktijk Rozenburcht, Praktijk H.P.A. Born
 Huisartsenpraktijk Rozenburcht, Praktijk M.A. Hofstetter
 Huisartsenpraktijk Rozenburcht, Praktijk Olieman en Van Woerden
 Huisartsenpraktijk Rozet
+Huisartsenpraktijk Rozing
 Huisartsenpraktijk Rubens, van Cromvoirt en Mooren
 Huisartsenpraktijk Ruinen
 Huisartsenpraktijk Ruiter
@@ -20468,6 +20698,8 @@ Huisartsenpraktijk Ruting en Ybema
 Huisartsenpraktijk Ruurda
 Huisartsenpraktijk S. Bas
 Huisartsenpraktijk S. Broens
+Huisartsenpraktijk S. Farsi
+Huisartsenpraktijk S. Tedjoe
 Huisartsenpraktijk S. Zwerver
 Huisartsenpraktijk S.D. Walschots
 Huisartsenpraktijk S.D. van Noort
@@ -20477,6 +20709,7 @@ Huisartsenpraktijk S.M. Oei
 Huisartsenpraktijk S.M. Terborg
 Huisartsenpraktijk S.P. Lemmens
 Huisartsenpraktijk Saado
+Huisartsenpraktijk Sadijo
 Huisartsenpraktijk Saendelft, Praktijk Kloek
 Huisartsenpraktijk Saendelft, Praktijk Koster
 Huisartsenpraktijk Saendelft, Praktijk Rietbergen
@@ -20486,6 +20719,7 @@ Huisartsenpraktijk Samba
 Huisartsenpraktijk Samen Gezond
 Huisartsenpraktijk Samsom
 Huisartsenpraktijk Sana
+Huisartsenpraktijk Sanderbout
 Huisartsenpraktijk Sanders
 Huisartsenpraktijk Sanders / van der Steen
 Huisartsenpraktijk Sanders/ Hendriks
@@ -20495,6 +20729,8 @@ Huisartsenpraktijk Sas van Gent
 Huisartsenpraktijk SassemBourg
 Huisartsenpraktijk Sassen
 Huisartsenpraktijk Saunier
+Huisartsenpraktijk Sauwerd
+Huisartsenpraktijk Schaafsma
 Huisartsenpraktijk Schaafsma
 Huisartsenpraktijk Schaapskamp
 Huisartsenpraktijk Schadenberg en Verdenius
@@ -20502,6 +20738,8 @@ Huisartsenpraktijk Schalkhaar
 Huisartsenpraktijk Schalkwijk
 Huisartsenpraktijk Schalkwijk Rotterdam
 Huisartsenpraktijk Scharn
+Huisartsenpraktijk Scheepvaartkwartier
+Huisartsenpraktijk Scheer
 Huisartsenpraktijk Scheijmans en Laauwen
 Huisartsenpraktijk Schellekens, Roemers & Lans
 Huisartsenpraktijk Schellingwoude (Amsterdam-Noord)
@@ -20509,23 +20747,28 @@ Huisartsenpraktijk Schelmeroord
 Huisartsenpraktijk Scheltens en van De Kamp
 Huisartsenpraktijk Schenk
 Huisartsenpraktijk Schenkel
+Huisartsenpraktijk Scherpenzeel
 Huisartsenpraktijk Scheveningen
 Huisartsenpraktijk Schiebroek
 Huisartsenpraktijk Schiermonnikoog
 Huisartsenpraktijk Schiffers
 Huisartsenpraktijk Schilder
 Huisartsenpraktijk Schilder en Spijkerman
+Huisartsenpraktijk Schimmert
 Huisartsenpraktijk Schinkelkade
 Huisartsenpraktijk Schinnen
 Huisartsenpraktijk Schinveld
 Huisartsenpraktijk Schipluiden
+Huisartsenpraktijk Schoenmakers
 Huisartsenpraktijk Scholte
 Huisartsenpraktijk Scholte en Scholte-Talsma
 Huisartsenpraktijk Schonenberg
 Huisartsenpraktijk Schoonbrood en De Bruijn
+Huisartsenpraktijk Schoone/Medisch Centrum Westerhoven
 Huisartsenpraktijk Schoonebeek
 Huisartsenpraktijk Schoonoord met apotheek
 Huisartsenpraktijk Schoorlemmer
+Huisartsenpraktijk Schoten
 Huisartsenpraktijk Schoterpoort, Praktijk Limmen
 Huisartsenpraktijk Schoterpoort, Praktijk Louwet
 Huisartsenpraktijk Schoterpoort, Praktijk Sikkel
@@ -20536,14 +20779,17 @@ Huisartsenpraktijk Schraa
 Huisartsenpraktijk Schraven
 Huisartsenpraktijk Schravenhoff
 Huisartsenpraktijk Schrijver
+Huisartsenpraktijk Schruer
 Huisartsenpraktijk Schubertplein
 Huisartsenpraktijk Schulte Amsterdam
 Huisartsenpraktijk Schulte Gorinchem
 Huisartsenpraktijk Schutsboom
 Huisartsenpraktijk Schuttevaer
 Huisartsenpraktijk Schuurman
+Huisartsenpraktijk Segaar
 Huisartsenpraktijk Selissen
 Huisartsenpraktijk SenS
+Huisartsenpraktijk Sep
 Huisartsenpraktijk Setz en van der Knaap
 Huisartsenpraktijk Severen
 Huisartsenpraktijk Severens
@@ -20552,9 +20798,11 @@ Huisartsenpraktijk Siemerink & Van der Spek
 Huisartsenpraktijk Siersema - Noga
 Huisartsenpraktijk SilverStaete
 Huisartsenpraktijk Silvolde
+Huisartsenpraktijk Simon
 Huisartsenpraktijk Simpelveld
 Huisartsenpraktijk Sint Geertruid
 Huisartsenpraktijk Sint Martinus
+Huisartsenpraktijk Sint Philipsland
 Huisartsenpraktijk Sint Pieter
 Huisartsenpraktijk Sint-Mariastraat, Praktijk Dam-Weststrate
 Huisartsenpraktijk Sint-Mariastraat, Praktijk De Jong
@@ -20569,13 +20817,17 @@ Huisartsenpraktijk Sloetjes en Krijger
 Huisartsenpraktijk Slot
 Huisartsenpraktijk Slotervaart
 Huisartsenpraktijk Sluijs
+Huisartsenpraktijk Sluimer
 Huisartsenpraktijk Sluis
 Huisartsenpraktijk Sluisoordlaan
 Huisartsenpraktijk Sluitersveld
 Huisartsenpraktijk Smaal
+Huisartsenpraktijk Smedes
+Huisartsenpraktijk Smeets
 Huisartsenpraktijk Smid Voorburg
 Huisartsenpraktijk Smidsplein
 Huisartsenpraktijk Smilde
+Huisartsenpraktijk Smit
 Huisartsenpraktijk Smit-Warlé
 Huisartsenpraktijk Smith
 Huisartsenpraktijk Smithuis en Diez Canseco
@@ -20598,6 +20850,7 @@ Huisartsenpraktijk Spaarndam
 Huisartsenpraktijk Spaarndammerbuurt
 Huisartsenpraktijk Sparen
 Huisartsenpraktijk Sparreboom
+Huisartsenpraktijk Spaubeek
 Huisartsenpraktijk Speeks
 Huisartsenpraktijk Speelman
 Huisartsenpraktijk Speelman en Vrolijk
@@ -20613,34 +20866,45 @@ Huisartsenpraktijk Stadsring, Praktijk dhr. C. Hauck
 Huisartsenpraktijk Stadsring, Praktijk mw. L.H. De Vries
 Huisartsenpraktijk Stalman en Teunissen
 Huisartsenpraktijk Stalpers
+Huisartsenpraktijk Stam
 Huisartsenpraktijk Standdaarbuiten
+Huisartsenpraktijk Star
 Huisartsenpraktijk Starmans, van Oirschot en Schram
 Huisartsenpraktijk Statenkwartier
 Huisartsenpraktijk Statenwold
 Huisartsenpraktijk Stationsstraat
 Huisartsenpraktijk Stationsstraat Cuijk
+Huisartsenpraktijk Steenbank
 Huisartsenpraktijk Steenbergen & Smits
 Huisartsenpraktijk Steenhuisen & Van Mastrigt
+Huisartsenpraktijk Steenkist
+Huisartsenpraktijk Steensel
 Huisartsenpraktijk Steenweg
 Huisartsenpraktijk Stelder
 Huisartsenpraktijk Stellendam
 Huisartsenpraktijk Steltenpool en Brouwers
 Huisartsenpraktijk Sterrenkwartier
 Huisartsenpraktijk Sterrenlaan
+Huisartsenpraktijk Sterringa
 Huisartsenpraktijk Stevenshof
 Huisartsenpraktijk Stiphout
+Huisartsenpraktijk Stockmann
 Huisartsenpraktijk Stoffer en Blackstone
 Huisartsenpraktijk Stokdijkkade
 Huisartsenpraktijk Stokhasselt
 Huisartsenpraktijk Stolk
 Huisartsenpraktijk Stolp en Dolmans
 Huisartsenpraktijk Stoppels
+Huisartsenpraktijk Storm De Grave
 Huisartsenpraktijk Straatweg
 Huisartsenpraktijk Strijbosch
 Huisartsenpraktijk Strijp-S
 Huisartsenpraktijk Stroe
 Huisartsenpraktijk Stroes & Lems
 Huisartsenpraktijk Stroeve
+Huisartsenpraktijk Stronkhorst
+Huisartsenpraktijk Strootman
+Huisartsenpraktijk Struijk
 Huisartsenpraktijk Stuveling-De Bree
 Huisartsenpraktijk Suijker
 Huisartsenpraktijk Sumatra
@@ -20652,6 +20916,8 @@ Huisartsenpraktijk Swijgman
 Huisartsenpraktijk Sûnenz
 Huisartsenpraktijk Sündermann
 Huisartsenpraktijk T. van Pelt-Roowaan
+Huisartsenpraktijk T.N. Ibssa- De Boer
+Huisartsenpraktijk T.S.J.V.M. Frequin
 Huisartsenpraktijk Tabak
 Huisartsenpraktijk Tabor
 Huisartsenpraktijk Takens, Zuidwijk & Karsten
@@ -20671,8 +20937,10 @@ Huisartsenpraktijk Terra Medici
 Huisartsenpraktijk Terra Nova
 Huisartsenpraktijk Terschelling-Midsland
 Huisartsenpraktijk Terwolde
+Huisartsenpraktijk Teszler
 Huisartsenpraktijk Teteringen
 Huisartsenpraktijk Teteringsedijk
+Huisartsenpraktijk Teunissen en Huisartsenpraktijk Bicer
 Huisartsenpraktijk Texelstroom
 Huisartsenpraktijk Thermion
 Huisartsenpraktijk Thijinge
@@ -20706,6 +20974,7 @@ Huisartsenpraktijk Trip
 Huisartsenpraktijk Trompert
 Huisartsenpraktijk Troost, Crielaard en Padt
 Huisartsenpraktijk Ttito Fernandez Baca
+Huisartsenpraktijk Tubbergen
 Huisartsenpraktijk Tuindorp Tilburg
 Huisartsenpraktijk Tuindorp Utrecht
 Huisartsenpraktijk Tuinenburg, MC De Groene Loper
@@ -20732,8 +21001,11 @@ Huisartsenpraktijk Ursem
 Huisartsenpraktijk Usquert
 Huisartsenpraktijk Ussen
 Huisartsenpraktijk V.C. Piket
+Huisartsenpraktijk V.M. van Dongen
+Huisartsenpraktijk V.S. Mahabier
 Huisartsenpraktijk V.S. Puite
 Huisartsenpraktijk Vaarkamp
+Huisartsenpraktijk Valk
 Huisartsenpraktijk ValkenHOED, Praktijk Schoemakers
 Huisartsenpraktijk Valkenberg
 Huisartsenpraktijk Valkenburg (L)
@@ -20746,13 +21018,18 @@ Huisartsenpraktijk Van Bemmel
 Huisartsenpraktijk Van Bentveld & Rijkée
 Huisartsenpraktijk Van Beusekom
 Huisartsenpraktijk Van Beusekom en Veen-Reedijk
+Huisartsenpraktijk Van Brummen
 Huisartsenpraktijk Van De Ridder
 Huisartsenpraktijk Van De Veerdonk en Geuze
 Huisartsenpraktijk Van Dijk
+Huisartsenpraktijk Van Eijk
 Huisartsenpraktijk Van Eijk en Vos
+Huisartsenpraktijk Van Elselo
 Huisartsenpraktijk Van Enk en Van De Stouwe
+Huisartsenpraktijk Van Eunen
 Huisartsenpraktijk Van Gils en Mulder
 Huisartsenpraktijk Van Graafeiland
+Huisartsenpraktijk Van Grieken
 Huisartsenpraktijk Van Grondelle en Littooij
 Huisartsenpraktijk Van Hasselt
 Huisartsenpraktijk Van Heerde
@@ -20762,6 +21039,7 @@ Huisartsenpraktijk Van Kleef
 Huisartsenpraktijk Van Kuppevelt
 Huisartsenpraktijk Van Lennep en Meiland
 Huisartsenpraktijk Van Londen en Van Moppes
+Huisartsenpraktijk Van Malenstein
 Huisartsenpraktijk Van Manen
 Huisartsenpraktijk Van Meeteren en Van Dop
 Huisartsenpraktijk Van Miert en Damen
@@ -20784,19 +21062,25 @@ Huisartsenpraktijk Van den Dool
 Huisartsenpraktijk Van den Heuvel
 Huisartsenpraktijk Van den Hurk
 Huisartsenpraktijk Van der Gaag
+Huisartsenpraktijk Van der Holst
 Huisartsenpraktijk Van der Klei en Oomen
 Huisartsenpraktijk Van der Kooij
 Huisartsenpraktijk Van der Krabben, Roek en Wagenvoort
 Huisartsenpraktijk Van der Leelie
+Huisartsenpraktijk Van der Maas
 Huisartsenpraktijk Van der Meulen
 Huisartsenpraktijk Van der Poorte
+Huisartsenpraktijk Van der Stelt
 Huisartsenpraktijk Van der Vegt en Strikwerda
+Huisartsenpraktijk Van der Velde Apeldoorn
 Huisartsenpraktijk Vanneste en Berends
 Huisartsenpraktijk Varkevisser
+Huisartsenpraktijk Vatankhah
 Huisartsenpraktijk Vathorst
 Huisartsenpraktijk Vechtrijk
 Huisartsenpraktijk Veen
 Huisartsenpraktijk Veenkruid
+Huisartsenpraktijk Veere
 Huisartsenpraktijk Velberg
 Huisartsenpraktijk Velden
 Huisartsenpraktijk Veldhuis/ Blom
@@ -20816,14 +21100,20 @@ Huisartsenpraktijk Verdilaan
 Huisartsenpraktijk Vergeer & De Koning
 Huisartsenpraktijk Verhaar
 Huisartsenpraktijk Verhaaren
+Huisartsenpraktijk Verhaegh
+Huisartsenpraktijk Verkruisen
 Huisartsenpraktijk Verlaan
 Huisartsenpraktijk Vermaas en Bettman
 Huisartsenpraktijk Vermaat Baarda
 Huisartsenpraktijk Vermeer
+Huisartsenpraktijk Vermeulen
 Huisartsenpraktijk Vernhout
 Huisartsenpraktijk Verstappen
+Huisartsenpraktijk Verstijnen
 Huisartsenpraktijk Verstraten Medico
+Huisartsenpraktijk Verweijen
 Huisartsenpraktijk Verwielstraat
+Huisartsenpraktijk Verzijl
 Huisartsenpraktijk Verzijl
 Huisartsenpraktijk Vessem
 Huisartsenpraktijk Veur, Praktijk Bootsma en Joustra
@@ -20832,8 +21122,12 @@ Huisartsenpraktijk Veur, Praktijk van der Bend & Alkemade
 Huisartsenpraktijk Via Jacobs
 Huisartsenpraktijk Vierlingsbeek
 Huisartsenpraktijk Vijverberg
+Huisartsenpraktijk Villa Nova
 Huisartsenpraktijk Vincent van Gogh
+Huisartsenpraktijk Vinkel
 Huisartsenpraktijk Vinkeveld
+Huisartsenpraktijk Visschedijk
+Huisartsenpraktijk Visser
 Huisartsenpraktijk Visser & van der Velde
 Huisartsenpraktijk Visser en Hoffmann
 Huisartsenpraktijk Vita
@@ -20842,12 +21136,14 @@ Huisartsenpraktijk Vlaslant, Praktijk Corbey
 Huisartsenpraktijk Vlaslant, Praktijk De Boer
 Huisartsenpraktijk Vlaslant, Praktijk Mertens
 Huisartsenpraktijk Vlaslant, Praktijk Verhoeckx
+Huisartsenpraktijk Vlasveld
 Huisartsenpraktijk Vleutenseweg
 Huisartsenpraktijk Vlieland
 Huisartsenpraktijk Vliethof
 Huisartsenpraktijk Vloemans
 Huisartsenpraktijk Voerendaal
 Huisartsenpraktijk Vogel
+Huisartsenpraktijk Vogelenbuurt
 Huisartsenpraktijk Vogelplein, Praktijk Rijsdijk
 Huisartsenpraktijk Vogelplein, Praktijk Stek
 Huisartsenpraktijk Vogelplein, Praktijk Verhage
@@ -20857,10 +21153,12 @@ Huisartsenpraktijk Vondellaan
 Huisartsenpraktijk Vondelplein, Praktijk Bos
 Huisartsenpraktijk Vondelplein, Praktijk Kreek
 Huisartsenpraktijk Vondelplein, Praktijk Opstelten/ Scholten
+Huisartsenpraktijk Vons
 Huisartsenpraktijk Vooijs
 Huisartsenpraktijk Voordorp
 Huisartsenpraktijk Voorkamp
 Huisartsenpraktijk Voorwijk
+Huisartsenpraktijk Vos
 Huisartsenpraktijk Vos
 Huisartsenpraktijk Vos, van Aalen en van den Heuvel
 Huisartsenpraktijk Voshart
@@ -20869,23 +21167,34 @@ Huisartsenpraktijk Vosselmanstraat
 Huisartsenpraktijk Vossenbergselaan
 Huisartsenpraktijk Vredenburch
 Huisartsenpraktijk Vredesplein
+Huisartsenpraktijk Vreehof - Backes & Dekker
 Huisartsenpraktijk Vreeling & Van Lieshout
+Huisartsenpraktijk Vreeswijk
+Huisartsenpraktijk Vriends
+Huisartsenpraktijk Vrijdag
 Huisartsenpraktijk Vrijheidslaan
 Huisartsenpraktijk Vrijheidslaan 37
 Huisartsenpraktijk Vrijheidslaan 67
 Huisartsenpraktijk Vrijheidslaan Amsterdam
+Huisartsenpraktijk Vrijthof
+Huisartsenpraktijk Vuijk
 Huisartsenpraktijk Vuren
+Huisartsenpraktijk W. Douma
 Huisartsenpraktijk W. Flapper
 Huisartsenpraktijk W. Hartong
+Huisartsenpraktijk W. Witting
+Huisartsenpraktijk W. van Breugel
 Huisartsenpraktijk W. van Egmond
 Huisartsenpraktijk W.B.M. Harmsen
 Huisartsenpraktijk W.E. Schrader
 Huisartsenpraktijk W.J. van De Kar
 Huisartsenpraktijk Waadsicht
+Huisartsenpraktijk Waale
 Huisartsenpraktijk Waalfront
 Huisartsenpraktijk Waardenburg
 Huisartsenpraktijk Waas, Voskuilen & Lijten
 Huisartsenpraktijk Walvis
+Huisartsenpraktijk Wang
 Huisartsenpraktijk Wanroij
 Huisartsenpraktijk Wapenveld
 Huisartsenpraktijk Warande
@@ -20907,16 +21216,20 @@ Huisartsenpraktijk Watertoren
 Huisartsenpraktijk Weber
 Huisartsenpraktijk Wedemeijer
 Huisartsenpraktijk Weemelanden
+Huisartsenpraktijk Weenink en Meulenaar
 Huisartsenpraktijk Weerdsingel
 Huisartsenpraktijk Weers
 Huisartsenpraktijk Weeshuisplein
 Huisartsenpraktijk Weezenland
 Huisartsenpraktijk Wehl
 Huisartsenpraktijk Weidedreef
+Huisartsenpraktijk Weidevenne
+Huisartsenpraktijk Weissmann
 Huisartsenpraktijk Wekker
 Huisartsenpraktijk Weltevrede en Wisse
 Huisartsenpraktijk Wemeldinge
 Huisartsenpraktijk Wendel en van Heezik
+Huisartsenpraktijk Wesepe
 Huisartsenpraktijk West
 Huisartsenpraktijk West-Terschelling
 Huisartsenpraktijk West-Terschelling, Verloskundige
@@ -20929,12 +21242,15 @@ Huisartsenpraktijk Westerdokters
 Huisartsenpraktijk Westertoren
 Huisartsenpraktijk Westerveld
 Huisartsenpraktijk Westkapelle
+Huisartsenpraktijk Westlandgracht
 Huisartsenpraktijk Westpoort
 Huisartsenpraktijk Westrand
 Huisartsenpraktijk Westzaan
 Huisartsenpraktijk Westzijderveld
+Huisartsenpraktijk Weyts
 Huisartsenpraktijk Wheermolen
 Huisartsenpraktijk Whemerhof
+Huisartsenpraktijk Wiechers
 Huisartsenpraktijk Wiegman
 Huisartsenpraktijk Wielders-Kuijpers en Van Lier
 Huisartsenpraktijk Wiersema
@@ -20943,6 +21259,7 @@ Huisartsenpraktijk Wieënhof
 Huisartsenpraktijk Wijbenga en Wiegersma
 Huisartsenpraktijk Wijk aan Zee, Burger & Hooijberg
 Huisartsenpraktijk Wijlre
+Huisartsenpraktijk Wijnandsrade
 Huisartsenpraktijk Wijngaardenlaan
 Huisartsenpraktijk Wijngracht
 Huisartsenpraktijk Wijnhaven
@@ -20958,13 +21275,16 @@ Huisartsenpraktijk Wildervank, Praktijk Van der Veen
 Huisartsenpraktijk Wildschut en De Bruin
 Huisartsenpraktijk Willem van Oranje
 Huisartsenpraktijk Willems
+Huisartsenpraktijk Willemsen
 Huisartsenpraktijk Willemsen en Boerma
 Huisartsenpraktijk Willemsen en De Vet
 Huisartsenpraktijk Willemstad
+Huisartsenpraktijk Willemstraat
 Huisartsenpraktijk Wilms
 Huisartsenpraktijk Wilnis
 Huisartsenpraktijk Wind & Van der Werf
 Huisartsenpraktijk Wind en Bruns
+Huisartsenpraktijk Windhorst
 Huisartsenpraktijk Winkel en Nieuwe Niedorp
 Huisartsenpraktijk Winkel en Wauters
 Huisartsenpraktijk Winssen
@@ -20987,12 +21307,16 @@ Huisartsenpraktijk Woudsend
 Huisartsenpraktijk Wouterswoude
 Huisartsenpraktijk Wouwse Markt
 Huisartsenpraktijk Wuister
+Huisartsenpraktijk Wymenga
 Huisartsenpraktijk Yaylali
 Huisartsenpraktijk Yazdani
 Huisartsenpraktijk Yerseke
 Huisartsenpraktijk Yilmaz en Milli
 Huisartsenpraktijk Yn Sicht
 Huisartsenpraktijk Yvonne Roijen
+Huisartsenpraktijk Z. Regtop
+Huisartsenpraktijk Z. Zomra
+Huisartsenpraktijk Z.D.G. De Ruiter
 Huisartsenpraktijk ZONBOOG Gezondheidscentrum Oosterflank
 Huisartsenpraktijk ZONBOOG Gezondheidscentrum Rotterdam Noord
 Huisartsenpraktijk Zaaijer
@@ -21008,6 +21332,7 @@ Huisartsenpraktijk Zeeburg, Praktijk Verduijn
 Huisartsenpraktijk Zeeburgerdijk
 Huisartsenpraktijk Zeeburgereiland
 Huisartsenpraktijk Zegveld
+Huisartsenpraktijk Zeist West
 Huisartsenpraktijk Zeswegen
 Huisartsenpraktijk Zevenblad
 Huisartsenpraktijk Zielhorst
@@ -21016,6 +21341,7 @@ Huisartsenpraktijk Zijpe
 Huisartsenpraktijk Zilster Molen
 Huisartsenpraktijk Zoakman
 Huisartsenpraktijk Zoeterwoude Rijndijk
+Huisartsenpraktijk Zoggel
 Huisartsenpraktijk Zomra
 Huisartsenpraktijk Zonnehoed
 Huisartsenpraktijk Zonneoord
@@ -21044,13 +21370,17 @@ Huisartsenpraktijk Zwager en Siemensma
 Huisartsenpraktijk Zwagers
 Huisartsenpraktijk Zwammerdam
 Huisartsenpraktijk Zwanenkamp
+Huisartsenpraktijk Zwart
 Huisartsenpraktijk Zwartebroek
 Huisartsenpraktijk Zwartemeer
 Huisartsenpraktijk Zwarteweg
+Huisartsenpraktijk Zwartsenburg
 Huisartsenpraktijk Zweeloo
+Huisartsenpraktijk Zwelef
 Huisartsenpraktijk Zwerver
 Huisartsenpraktijk Zwietering
 Huisartsenpraktijk aan De Laan, Praktijk Schnackers
+Huisartsenpraktijk aan De Maas
 Huisartsenpraktijk bij De Molen
 Huisartsenpraktijk d'n Iemhof
 Huisartsenpraktijk den Hartog
@@ -21061,6 +21391,8 @@ Huisartsenpraktijk doccs Utrecht Veilinghaven
 Huisartsenpraktijk dokter Verstappen
 Huisartsenpraktijk dr. Beeker
 Huisartsenpraktijk dr. Esskili
+Huisartsenpraktijk drs. A. Vereecken
+Huisartsenpraktijk drs. F. Ogbuli
 Huisartsenpraktijk en apotheek H. Maters
 Huisartsenpraktijk het Baken
 Huisartsenpraktijk het Bolwerk
@@ -21072,12 +21404,15 @@ Huisartsenpraktijk it Doktershûs
 Huisartsenpraktijk it Krúswetter
 Huisartsenpraktijk mevr. K. De Hooge, huisarts
 Huisartsenpraktijk mw. A. van Uden
+Huisartsenpraktijk mw. H. Gabriëls
 Huisartsenpraktijk op 11
 Huisartsenpraktijk te Lintelo
+Huisartsenpraktijk te Paske
 Huisartsenpraktijk te Slaa
 Huisartsenpraktijk ten Hove en De Jong
 Huisartsenpraktijk ten Kate
 Huisartsenpraktijk ten Thije
+Huisartsenpraktijk ter Horst
 Huisartsenpraktijk van A tot Z
 Huisartsenpraktijk van Adrichem
 Huisartsenpraktijk van Alfen
@@ -21087,6 +21422,7 @@ Huisartsenpraktijk van Berkel
 Huisartsenpraktijk van Beukering
 Huisartsenpraktijk van Binsbergen
 Huisartsenpraktijk van Bracht & Dorgelo
+Huisartsenpraktijk van Brenk
 Huisartsenpraktijk van Burink
 Huisartsenpraktijk van Campen
 Huisartsenpraktijk van Coothstraat
@@ -21096,11 +21432,13 @@ Huisartsenpraktijk van Dam
 Huisartsenpraktijk van De Fliert
 Huisartsenpraktijk van De Pas
 Huisartsenpraktijk van De Sande
+Huisartsenpraktijk van De Sanden
 Huisartsenpraktijk van Deutekom en Olthof
 Huisartsenpraktijk van Die en Teunissen
 Huisartsenpraktijk van Dijk en Uffen
 Huisartsenpraktijk van Dijk en van De Kar
 Huisartsenpraktijk van Duinen
+Huisartsenpraktijk van Eck
 Huisartsenpraktijk van Eerd
 Huisartsenpraktijk van Eijkeren en van Heusden
 Huisartsenpraktijk van Elsen
@@ -21108,8 +21446,10 @@ Huisartsenpraktijk van Etten
 Huisartsenpraktijk van Geest & van der Putten
 Huisartsenpraktijk van Gemerden
 Huisartsenpraktijk van Gent
+Huisartsenpraktijk van Gestel
 Huisartsenpraktijk van Gool
 Huisartsenpraktijk van Halteren
+Huisartsenpraktijk van Hasselt
 Huisartsenpraktijk van Hootegem
 Huisartsenpraktijk van Houten & van Houten-De Koning
 Huisartsenpraktijk van Ingen en Breugem
@@ -21129,38 +21469,52 @@ Huisartsenpraktijk van Nispen tot Pannerden-Moorrees
 Huisartsenpraktijk van Noort en van der Pol
 Huisartsenpraktijk van Oosterhout en Kempinski
 Huisartsenpraktijk van Orsouw
+Huisartsenpraktijk van Osch en van Kempen
 Huisartsenpraktijk van Overbeek en Ben-Zvi
 Huisartsenpraktijk van Reenen
 Huisartsenpraktijk van Reisen
 Huisartsenpraktijk van Rhijn & Ghahramani
+Huisartsenpraktijk van Riet
+Huisartsenpraktijk van Rijn
 Huisartsenpraktijk van Rijn
 Huisartsenpraktijk van Rooijen
 Huisartsenpraktijk van Sambeek
+Huisartsenpraktijk van Santvoort
 Huisartsenpraktijk van Schaik
+Huisartsenpraktijk van Sint Fiet
+Huisartsenpraktijk van Soerland
 Huisartsenpraktijk van Spelde
 Huisartsenpraktijk van Steyn
 Huisartsenpraktijk van Straaten en van Schie
 Huisartsenpraktijk van Teeffelen en Lutken
 Huisartsenpraktijk van Tienen
+Huisartsenpraktijk van Tuijl
 Huisartsenpraktijk van Urk
 Huisartsenpraktijk van Velden
+Huisartsenpraktijk van Veldhuizen
+Huisartsenpraktijk van Vliet
 Huisartsenpraktijk van Vliet
 Huisartsenpraktijk van Wincoop
 Huisartsenpraktijk van Winkel
 Huisartsenpraktijk van Zuiden
 Huisartsenpraktijk van Zuylen
 Huisartsenpraktijk van den Berg
+Huisartsenpraktijk van den Berg
+Huisartsenpraktijk van den Berg & Kerschoten
 Huisartsenpraktijk van den Boom
 Huisartsenpraktijk van den Helder
 Huisartsenpraktijk van den Top
 Huisartsenpraktijk van der Flier
 Huisartsenpraktijk van der Heijden
+Huisartsenpraktijk van der Horst
 Huisartsenpraktijk van der Hulst
 Huisartsenpraktijk van der Kaaden
 Huisartsenpraktijk van der Knaap
 Huisartsenpraktijk van der Linden
 Huisartsenpraktijk van der Lugt en Kuschbert
 Huisartsenpraktijk van der Meij
+Huisartsenpraktijk van der Ploeg
+Huisartsenpraktijk van der Putte
 Huisartsenpraktijk van der Sande
 Huisartsenpraktijk van der Sanden
 Huisartsenpraktijk van der Sluis-Lentelink
@@ -21168,6 +21522,9 @@ Huisartsenpraktijk van der Sluiszen
 Huisartsenpraktijk van der Vegt
 Huisartsenpraktijk van der Vlist en De Wilde
 Huisartsenpraktijk van der Wal
+Huisartsenpraktijk van der Windt
+Huisartsenpraktijk Özveren
+Huisartsenpraktijk Ühl-Jonker
 Huisartsenpraktijken Biltstraat, Praktijk Barels
 Huisartsenpraktijken Biltstraat, Praktijk Wittevrouwen
 Huisartsenpraktijken Craneveld, Praktijk De Bruijn/Boddaert
@@ -21192,444 +21549,6 @@ Huisartsenzorg Pekkeriet
 Huisartsenzorg Sysselt
 Huisartsenzorg Wanes
 Huisartskliniek Elst, praktijk voor cosmetische chirurgie
-Huisartsenpraktijk & Apotheek De Lutte
-Huisartsenpraktijk 't Voorhuis
-Huisartsenpraktijk A. Goslinga
-Huisartsenpraktijk A.A.P. van Delft
-Huisartsenpraktijk A.B. van Pelt
-Huisartsenpraktijk A.G.M. Janssen
-Huisartsenpraktijk A.J.H. van der Vinne
-Huisartsenpraktijk A.J.M. Sweere
-Huisartsenpraktijk A.M. De Wit
-Huisartsenpraktijk A.M. van den Braken
-Huisartsenpraktijk Aemstelwijck, Praktijk Clemens en De Waard
-Huisartsenpraktijk Aemstelwijck, Praktijk Corssmit
-Huisartsenpraktijk Aemstelwijck, Praktijk Griever-Bos en Tamboer
-Huisartsenpraktijk Aemstelwijck, Praktijk Podzimek en De Raad
-Huisartsenpraktijk Aletta
-Huisartsenpraktijk Altrade
-Huisartsenpraktijk Amekran
-Huisartsenpraktijk Amstelveen Zuid
-Huisartsenpraktijk Andeweg
-Huisartsenpraktijk Andriessen
-Huisartsenpraktijk Angenent
-Huisartsenpraktijk Ansari
-Huisartsenpraktijk Averroes Haagdijk
-Huisartsenpraktijk B. Balhuizen
-Huisartsenpraktijk B. Jongens
-Huisartsenpraktijk B.J. Olthof
-Huisartsenpraktijk B.R.C. Kooij
-Huisartsenpraktijk Baake
-Huisartsenpraktijk Baar-Poort en Van der Does
-Huisartsenpraktijk Baars & Boelaars
-Huisartsenpraktijk Backx
-Huisartsenpraktijk Balk
-Huisartsenpraktijk Barendrecht
-Huisartsenpraktijk Beelen
-Huisartsenpraktijk Belcrum
-Huisartsenpraktijk Bergervoet
-Huisartsenpraktijk Berghout
-Huisartsenpraktijk Berkhout
-Huisartsenpraktijk Berntzen
-Huisartsenpraktijk Bevrijdingsplein
-Huisartsenpraktijk Bijl
-Huisartsenpraktijk Bijland
-Huisartsenpraktijk Binnekamp
-Huisartsenpraktijk Blokker
-Huisartsenpraktijk Boejharat
-Huisartsenpraktijk Bonda
-Huisartsenpraktijk Boode
-Huisartsenpraktijk Borgman
-Huisartsenpraktijk Bos
-Huisartsenpraktijk Bos en Lommer Dokters
-Huisartsenpraktijk Boshoven
-Huisartsenpraktijk Boszicht
-Huisartsenpraktijk Broekema
-Huisartsenpraktijk Broere
-Huisartsenpraktijk Brouwersgracht
-Huisartsenpraktijk Bruinsel
-Huisartsenpraktijk Buursink
-Huisartsenpraktijk C. Wijbenga
-Huisartsenpraktijk C.P. De Bruin
-Huisartsenpraktijk CEntric Health / van Zwieteren
-Huisartsenpraktijk Cadier en Keer
-Huisartsenpraktijk Christiaanse - Therapeuticum
-Huisartsenpraktijk D. Oskam
-Huisartsenpraktijk D. van Wijngaarden
-Huisartsenpraktijk D.J. van den Berg
-Huisartsenpraktijk De Beer
-Huisartsenpraktijk De Boekhorst
-Huisartsenpraktijk De Boer
-Huisartsenpraktijk De Bongerd
-Huisartsenpraktijk De Brinkhof
-Huisartsenpraktijk De Dennenkamp West
-Huisartsenpraktijk De Groot
-Huisartsenpraktijk De Gruijl
-Huisartsenpraktijk De Haan
-Huisartsenpraktijk De Heelhoek
-Huisartsenpraktijk De Horden
-Huisartsenpraktijk De Kameleon
-Huisartsenpraktijk De Kleuver
-Huisartsenpraktijk De Koppel van der Velde & Hans
-Huisartsenpraktijk De Korte
-Huisartsenpraktijk De Lenne
-Huisartsenpraktijk De Noord
-Huisartsenpraktijk De Peel
-Huisartsenpraktijk De Plataan
-Huisartsenpraktijk De Roo
-Huisartsenpraktijk De Schoof N. Demir
-Huisartsenpraktijk De Veluwe
-Huisartsenpraktijk De Verdieping
-Huisartsenpraktijk De Voogd
-Huisartsenpraktijk De Waluwe
-Huisartsenpraktijk De Wit
-Huisartsenpraktijk De Wit-Casaverde
-Huisartsenpraktijk Den Hartog
-Huisartsenpraktijk Dermaux
-Huisartsenpraktijk Diederen
-Huisartsenpraktijk Dodewaard
-Huisartsenpraktijk Donné
-Huisartsenpraktijk Dr. Surie
-Huisartsenpraktijk E. Schoorl
-Huisartsenpraktijk E. van der Lek
-Huisartsenpraktijk E.A. van Gijssel
-Huisartsenpraktijk E.M. Herman
-Huisartsenpraktijk E.M.E. Brugman
-Huisartsenpraktijk E.R.C. Rijken
-Huisartsenpraktijk E.W. van Beek
-Huisartsenpraktijk Ecury
-Huisartsenpraktijk Elings
-Huisartsenpraktijk Ellis
-Huisartsenpraktijk F. Andringa
-Huisartsenpraktijk F. van Alphen
-Huisartsenpraktijk F.A. Wittkämper
-Huisartsenpraktijk F.G. Schuch
-Huisartsenpraktijk F.Y. Kuypers
-Huisartsenpraktijk Familia
-Huisartsenpraktijk Feis
-Huisartsenpraktijk Fellinger
-Huisartsenpraktijk Fleminghof,Praktijk Muller & Busscher
-Huisartsenpraktijk Fontein
-Huisartsenpraktijk Fortuin
-Huisartsenpraktijk Frank Liebregts
-Huisartsenpraktijk Franke
-Huisartsenpraktijk G. Di Giulio
-Huisartsenpraktijk G.D.R. Mohn
-Huisartsenpraktijk G.J. De Bruijn
-Huisartsenpraktijk Gagic
-Huisartsenpraktijk Galema
-Huisartsenpraktijk Geboers
-Huisartsenpraktijk Geulle
-Huisartsenpraktijk Ghedri
-Huisartsenpraktijk Gianotten
-Huisartsenpraktijk Gilow
-Huisartsenpraktijk Gouweloos
-Huisartsenpraktijk Groenewold
-Huisartsenpraktijk Groot
-Huisartsenpraktijk Groot en Ketelaars
-Huisartsenpraktijk Grote Fok
-Huisartsenpraktijk H. Ruijters
-Huisartsenpraktijk H. Veentjer
-Huisartsenpraktijk H.C. Graafland
-Huisartsenpraktijk H.G.B. Lanzing
-Huisartsenpraktijk H.J. Hazelhorst
-Huisartsenpraktijk H.P.L. Deckers
-Huisartsenpraktijk H.W.D. Uijthof
-Huisartsenpraktijk Haaren
-Huisartsenpraktijk Hank
-Huisartsenpraktijk Hanssen en De Vries
-Huisartsenpraktijk Heelhuys
-Huisartsenpraktijk Heer
-Huisartsenpraktijk Heerle
-Huisartsenpraktijk Hegge
-Huisartsenpraktijk Heikens
-Huisartsenpraktijk Hendricks en Adriaens
-Huisartsenpraktijk Hengelosestraat
-Huisartsenpraktijk Hermans
-Huisartsenpraktijk Herwen en Aerdt
-Huisartsenpraktijk Herwijnen
-Huisartsenpraktijk Het Eikske Weerts
-Huisartsenpraktijk Het Hogeland
-Huisartsenpraktijk Het Veen
-Huisartsenpraktijk Hiemstra
-Huisartsenpraktijk Hoekstra
-Huisartsenpraktijk Hofmans Voorburg
-Huisartsenpraktijk Hoge Poel
-Huisartsenpraktijk Hoog Kanje
-Huisartsenpraktijk Hoogslag
-Huisartsenpraktijk Hoppenbrouwer
-Huisartsenpraktijk Huijbens
-Huisartsenpraktijk Huisman
-Huisartsenpraktijk Huitema
-Huisartsenpraktijk Hulscher en De Bruin
-Huisartsenpraktijk Hunzedal
-Huisartsenpraktijk Integraal
-Huisartsenpraktijk J. Lindenhovius
-Huisartsenpraktijk J. Miedema
-Huisartsenpraktijk J. van Andel
-Huisartsenpraktijk J. van Dok
-Huisartsenpraktijk J.A. Boodt
-Huisartsenpraktijk J.A. De Jong en J.L. van der Wel
-Huisartsenpraktijk J.C. Voskamp
-Huisartsenpraktijk J.C.M. Vrij
-Huisartsenpraktijk J.D.B.M. Verhoeff
-Huisartsenpraktijk J.G. Borgman
-Huisartsenpraktijk J.G.H.M. van Otterdijk
-Huisartsenpraktijk J.J. van De Putte
-Huisartsenpraktijk J.M.L. Rietveld
-Huisartsenpraktijk J.P. Heinstra
-Huisartsenpraktijk J.P.B.H.A. Reinartz
-Huisartsenpraktijk J.R. van der Brugge
-Huisartsenpraktijk Jacobs
-Huisartsenpraktijk Japenga
-Huisartsenpraktijk Java-Eiland
-Huisartsenpraktijk Jongsma
-Huisartsenpraktijk K.A. Zuurmond -Tromp
-Huisartsenpraktijk K.D. Begashaw
-Huisartsenpraktijk K.I. Holdijk
-Huisartsenpraktijk Kapenga
-Huisartsenpraktijk Kaspers
-Huisartsenpraktijk Khajehi
-Huisartsenpraktijk Kielman
-Huisartsenpraktijk Kingma
-Huisartsenpraktijk Klatter
-Huisartsenpraktijk Klein
-Huisartsenpraktijk Knaeps
-Huisartsenpraktijk Knobben
-Huisartsenpraktijk Koch
-Huisartsenpraktijk Kools & Van Liempd
-Huisartsenpraktijk Korvel
-Huisartsenpraktijk Kotey
-Huisartsenpraktijk Kruiskamp
-Huisartsenpraktijk Kuijpers
-Huisartsenpraktijk Kuiperij
-Huisartsenpraktijk L. Broek
-Huisartsenpraktijk L. van Eijk
-Huisartsenpraktijk L. van der Zee
-Huisartsenpraktijk L.J. Doensen
-Huisartsenpraktijk Land
-Huisartsenpraktijk Langbroek
-Huisartsenpraktijk Langenhuizen
-Huisartsenpraktijk Laurens Decates
-Huisartsenpraktijk Leenen
-Huisartsenpraktijk Leidseweg 95
-Huisartsenpraktijk Lely
-Huisartsenpraktijk Lemelerveld
-Huisartsenpraktijk Lexmond
-Huisartsenpraktijk Loncin
-Huisartsenpraktijk Lüling
-Huisartsenpraktijk M. Aghabozorg
-Huisartsenpraktijk M. Heinsdijk
-Huisartsenpraktijk M. Milius
-Huisartsenpraktijk M. van Duivenboden
-Huisartsenpraktijk M. van der Plas
-Huisartsenpraktijk M.A. Windhausen
-Huisartsenpraktijk M.A.J. Balm
-Huisartsenpraktijk M.B.M. Peters
-Huisartsenpraktijk M.H.E. Smale
-Huisartsenpraktijk M.J. Bakker
-Huisartsenpraktijk M.J.A. Hermans
-Huisartsenpraktijk M.J.M. Horstink
-Huisartsenpraktijk M.K. Balk
-Huisartsenpraktijk M.N. Azim
-Huisartsenpraktijk M.N. Azizi
-Huisartsenpraktijk M.N.O. Al-Rushdy
-Huisartsenpraktijk M.S.I. Vermeer-Witteveen
-Huisartsenpraktijk Maasdijk
-Huisartsenpraktijk Mahabir
-Huisartsenpraktijk Mantingh
-Huisartsenpraktijk Maring te Tolbert
-Huisartsenpraktijk Mediscoop
-Huisartsenpraktijk Mees aan De Brink
-Huisartsenpraktijk Meijer Schagen
-Huisartsenpraktijk Melbourne, Praktijk Ten Veen
-Huisartsenpraktijk Michon
-Huisartsenpraktijk Mitrasing
-Huisartsenpraktijk Mooij
-Huisartsenpraktijk Mozaïek
-Huisartsenpraktijk Mutsaerts
-Huisartsenpraktijk Mw. R. Berghuis
-Huisartsenpraktijk N.P. Woudenberg
-Huisartsenpraktijk Nazareth
-Huisartsenpraktijk Neeteson
-Huisartsenpraktijk Nicolay
-Huisartsenpraktijk Niemeijer en Brouwer
-Huisartsenpraktijk Nieuw Vossemeer
-Huisartsenpraktijk Nieuw Zuid
-Huisartsenpraktijk NuevoCare
-Huisartsenpraktijk Nüssler
-Huisartsenpraktijk Olieslagers
-Huisartsenpraktijk Oosterhout
-Huisartsenpraktijk Oosthout
-Huisartsenpraktijk Op Koers, praktijk Wesselius
-Huisartsenpraktijk Ottenhoff
-Huisartsenpraktijk Oude Turfmarkt
-Huisartsenpraktijk Oudehaske
-Huisartsenpraktijk Overgaauw
-Huisartsenpraktijk Overmeer
-Huisartsenpraktijk P. Akbari
-Huisartsenpraktijk P.A.J. Buis
-Huisartsenpraktijk P.J. Leermakers
-Huisartsenpraktijk P.J.C. Vioen
-Huisartsenpraktijk P.R.H. Alders
-Huisartsenpraktijk P.T. Hutchison
-Huisartsenpraktijk P.W. van Broekhoven
-Huisartsenpraktijk Pala
-Huisartsenpraktijk Parkhof
-Huisartsenpraktijk Parmentier-van Loon
-Huisartsenpraktijk Pasteur
-Huisartsenpraktijk Patandin
-Huisartsenpraktijk Poortvliet
-Huisartsenpraktijk Posthouwer
-Huisartsenpraktijk Postma
-Huisartsenpraktijk Pourfar en Khalili
-Huisartsenpraktijk R. Baarsma
-Huisartsenpraktijk R. Chin
-Huisartsenpraktijk R. Jonkheijm
-Huisartsenpraktijk R.G. Tuinman
-Huisartsenpraktijk R.J. Sonnenberg
-Huisartsenpraktijk R.W. van Oosterhout
-Huisartsenpraktijk R.W.M. Hooijen
-Huisartsenpraktijk Ramyad
-Huisartsenpraktijk Rasenberg
-Huisartsenpraktijk Raupp
-Huisartsenpraktijk Rekkers
-Huisartsenpraktijk Remmelzwaal
-Huisartsenpraktijk Reuvekamp
-Huisartsenpraktijk Riethoven
-Huisartsenpraktijk Ritz
-Huisartsenpraktijk Roerdomplaan
-Huisartsenpraktijk Rottschäfer
-Huisartsenpraktijk Roubos
-Huisartsenpraktijk Rouveen
-Huisartsenpraktijk Rozing
-Huisartsenpraktijk S. Farsi
-Huisartsenpraktijk S. Tedjoe
-Huisartsenpraktijk Sadijo
-Huisartsenpraktijk Sanderbout
-Huisartsenpraktijk Sauwerd
-Huisartsenpraktijk Schaafsma
-Huisartsenpraktijk Scheepvaartkwartier
-Huisartsenpraktijk Scheer
-Huisartsenpraktijk Scherpenzeel
-Huisartsenpraktijk Schimmert
-Huisartsenpraktijk Schoenmakers
-Huisartsenpraktijk Schoone/Medisch Centrum Westerhoven
-Huisartsenpraktijk Schoten
-Huisartsenpraktijk Schruer
-Huisartsenpraktijk Segaar
-Huisartsenpraktijk Sep
-Huisartsenpraktijk Simon
-Huisartsenpraktijk Sint Philipsland
-Huisartsenpraktijk Sluimer
-Huisartsenpraktijk Smedes
-Huisartsenpraktijk Smeets
-Huisartsenpraktijk Smit
-Huisartsenpraktijk Spaubeek
-Huisartsenpraktijk Stam
-Huisartsenpraktijk Star
-Huisartsenpraktijk Steenbank
-Huisartsenpraktijk Steenkist
-Huisartsenpraktijk Steensel
-Huisartsenpraktijk Sterringa
-Huisartsenpraktijk Stockmann
-Huisartsenpraktijk Storm De Grave
-Huisartsenpraktijk Stronkhorst
-Huisartsenpraktijk Strootman
-Huisartsenpraktijk Struijk
-Huisartsenpraktijk T.N. Ibssa- De Boer
-Huisartsenpraktijk T.S.J.V.M. Frequin
-Huisartsenpraktijk Teszler
-Huisartsenpraktijk Teunissen en Huisartsenpraktijk Bicer
-Huisartsenpraktijk Tubbergen
-Huisartsenpraktijk V.M. van Dongen
-Huisartsenpraktijk V.S. Mahabier
-Huisartsenpraktijk Valk
-Huisartsenpraktijk Van Brummen
-Huisartsenpraktijk Van Eijk
-Huisartsenpraktijk Van Elselo
-Huisartsenpraktijk Van Eunen
-Huisartsenpraktijk Van Grieken
-Huisartsenpraktijk Van Malenstein
-Huisartsenpraktijk Van der Holst
-Huisartsenpraktijk Van der Maas
-Huisartsenpraktijk Van der Stelt
-Huisartsenpraktijk Van der Velde Apeldoorn
-Huisartsenpraktijk Vatankhah
-Huisartsenpraktijk Veere
-Huisartsenpraktijk Verhaegh
-Huisartsenpraktijk Verkruisen
-Huisartsenpraktijk Vermeulen
-Huisartsenpraktijk Verstijnen
-Huisartsenpraktijk Verweijen
-Huisartsenpraktijk Verzijl
-Huisartsenpraktijk Villa Nova
-Huisartsenpraktijk Vinkel
-Huisartsenpraktijk Visschedijk
-Huisartsenpraktijk Visser
-Huisartsenpraktijk Vlasveld
-Huisartsenpraktijk Vogelenbuurt
-Huisartsenpraktijk Vons
-Huisartsenpraktijk Vos
-Huisartsenpraktijk Vreehof - Backes & Dekker
-Huisartsenpraktijk Vreeswijk
-Huisartsenpraktijk Vriends
-Huisartsenpraktijk Vrijdag
-Huisartsenpraktijk Vrijthof
-Huisartsenpraktijk Vuijk
-Huisartsenpraktijk W. Douma
-Huisartsenpraktijk W. Witting
-Huisartsenpraktijk W. van Breugel
-Huisartsenpraktijk Waale
-Huisartsenpraktijk Wang
-Huisartsenpraktijk Weenink en Meulenaar
-Huisartsenpraktijk Weidevenne
-Huisartsenpraktijk Weissmann
-Huisartsenpraktijk Wesepe
-Huisartsenpraktijk Westlandgracht
-Huisartsenpraktijk Weyts
-Huisartsenpraktijk Wiechers
-Huisartsenpraktijk Wijnandsrade
-Huisartsenpraktijk Willemsen
-Huisartsenpraktijk Willemstraat
-Huisartsenpraktijk Windhorst
-Huisartsenpraktijk Wymenga
-Huisartsenpraktijk Z. Regtop
-Huisartsenpraktijk Z. Zomra
-Huisartsenpraktijk Z.D.G. De Ruiter
-Huisartsenpraktijk Zeist West
-Huisartsenpraktijk Zoggel
-Huisartsenpraktijk Zwart
-Huisartsenpraktijk Zwartsenburg
-Huisartsenpraktijk Zwelef
-Huisartsenpraktijk aan De Maas
-Huisartsenpraktijk drs. A. Vereecken
-Huisartsenpraktijk drs. F. Ogbuli
-Huisartsenpraktijk mw. H. Gabriëls
-Huisartsenpraktijk te Paske
-Huisartsenpraktijk ter Horst
-Huisartsenpraktijk van Brenk
-Huisartsenpraktijk van De Sanden
-Huisartsenpraktijk van Eck
-Huisartsenpraktijk van Gestel
-Huisartsenpraktijk van Hasselt
-Huisartsenpraktijk van Osch en van Kempen
-Huisartsenpraktijk van Riet
-Huisartsenpraktijk van Rijn
-Huisartsenpraktijk van Santvoort
-Huisartsenpraktijk van Sint Fiet
-Huisartsenpraktijk van Soerland
-Huisartsenpraktijk van Tuijl
-Huisartsenpraktijk van Veldhuizen
-Huisartsenpraktijk van Vliet
-Huisartsenpraktijk van den Berg
-Huisartsenpraktijk van den Berg & Kerschoten
-Huisartsenpraktijk van der Horst
-Huisartsenpraktijk van der Ploeg
-Huisartsenpraktijk van der Putte
-Huisartsenpraktijk van der Windt
-Huisartsenpraktijk Özveren
-Huisartsenpraktijk Ühl-Jonker
 Huize Anna
 Huize Avondrust
 Huize Brandsen
@@ -21785,11 +21704,6 @@ IJsselheem, Zorg- en wooncentrum, Brinkhoven
 IJsselheem, Zorghuis Anna Heerkens
 IJsselheem, Zorghuis Theodora Vos De Wael
 IJsselheem, Zorghuis Wilhelmina van Sonsbeeck
-IJsselland Ziekenhuis
-IJsselland Ziekenhuis, Polikliniek Kralingen
-IJsselland Ziekenhuis, Polikliniek Krimpen
-IJsselland Ziekenhuis, Polikliniek Nesselande
-IJsselland Ziekenhuis, hoofdlocatie
 IJsselstate Tandartsen
 IJsselsteinse Praktijk voor Psychotherapie en Eerstelijnspsychologie
 IJsselstreek Kraamzorg
@@ -21932,10 +21846,6 @@ Ihtom
 Ik BeTeken
 Ik Zorg Thuiszorg
 Ik kies zelf van a.s.r.
-Ikazia ziekenhuis
-Ikazia ziekenhuis Rotterdam
-Ikazia ziekenhuis, Buitenpolikliniek Carnisselande
-Ikazia ziekenhuis, Polikliniek Ridderkerk-Slikkerveer
 Ilaria
 Illuminatus
 Ilonka De Vos, homeopathisch arts
@@ -22699,13 +22609,8 @@ Iriz thuiszorg
 Irmgard Berende Voeding en Dieet
 Isabel De Groot
 Isala Fertiliteitscentrum
-Isala Heerde
-Isala Kampen
 Isala Klinieken
-Isala Meppel
 Isala Meppel - HD thuishemodialyse
-Isala Steenwijk
-Isala Zwolle
 Isala Zwolle - hemodialyse, peritoneale dialyse en thuisdialyse
 Isis Kraamzorg
 Islamitische Kraamzorg Hakima
@@ -22754,7 +22659,6 @@ J.W. ergotherapie
 JA Kinder- en Jeugdpraktijk
 JAzorg Jolanda
 JB Mondzorg
-JBZ Dichtbij
 JC Huidkliniek
 JC Kliniek
 JESS I Coach & Advice
@@ -22889,7 +22793,6 @@ Jentha Specialisten in Fysiotherapie
 Jeps Kinder- & Jeugdpsychotherapie
 Jera Movement
 Jeroen Bosch Apotheek
-Jeroen Bosch Ziekenhuis
 Jeroen Bosch Ziekenhuis, Tolbrug
 Jeroen Bosch Ziekenhuis, Tolbrug Specialistische Revalidatie
 Jeroen Novak, Praktijk voor Psychiatrie
@@ -24700,8 +24603,6 @@ Laurens woonzorglocatie Nijeveld
 Laurens woonzorglocatie Simeon en Anna
 Laurens woonzorglocatie Stadzicht
 Laurenskwartier Tandheelkunde
-Laurentius Echt
-Laurentius Ziekenhuis Roermond
 Laurentius Ziekenhuis, Dialysecentrum Weerterbergen
 Laurier Psychologie
 Laurier Zorg
@@ -26332,7 +26233,6 @@ MC Transmuraal, Diëtist Gezondheidscentrum De Haven
 MC2 Reïntegratie Psychologie Fysiotherapie
 MCA Gemini Groep
 MCE Zorg
-MCL - Medisch Centrum Leeuwarden
 MCL - Medisch Centrum Leeuwarden, Dialysecentrum Leeuwarden
 MCL - Medisch Centrum Leeuwarden, Dialysecentrum Súdhaghe
 MCN-Thuiszorg
@@ -26494,17 +26394,13 @@ Maashorst Oogkliniek
 Maasmedics
 Maaspoort Mondzorg
 Maasstad Apotheek
-Maasstad Ziekenhuis
 Maasstad Ziekenhuis, Dialysecentrum
-Maasstad Ziekenhuis, hoofdlocatie
-Maasstad Ziekenhuis, polikliniek Willemsplein
 Maastricht UMC+
 Maastricht UMC+ Universiteitskliniek voor Oogheelkunde
 Maastricht UMC+, hoofdlocatie
 Maastro
 Maaswaarden ouderenzorg
 Maaswaarden ouderenzorg, Thuiszorg
-Maasziekenhuis Pantein
 Maat Care
 Maatschap 'De Vos'
 Maatschap Altink & Wolff
@@ -26852,7 +26748,6 @@ Martine van Bokhoven Diëtist
 Martini Apotheek
 Martini Niercentrum
 Martini Sportmedisch Centrum
-Martini Ziekenhuis
 Martini Ziekenhuis, afdeling Ziekenhuispsychiatrie
 Mary Smits Huid&Laser
 Maryam Skin Therapy
@@ -26925,7 +26820,6 @@ Mea Fysio Zwolle MoviMiento
 Mea Zorg
 Meander
 Meander Apotheek
-Meander Medisch Centrum
 Meander Medisch Centrum, afdeling Trombosedienst
 Meander Voeding en dieet
 MeanderGroep
@@ -27188,8 +27082,8 @@ Medisch Centrum Koornhorst, Huisartsen
 Medisch Centrum Kruisstraat Huisartsenpraktijk
 Medisch Centrum Leebrug, Eerstelijnspsychologen
 Medisch Centrum Leebrug, Huisartsenpraktijk Baars-Aertssen/Blonk/Rutgers
-Medisch Centrum Leebrug, Huisartsenpraktijk Tijchon
 Medisch Centrum Leebrug, Huisartsenpraktijk Sleijffers
+Medisch Centrum Leebrug, Huisartsenpraktijk Tijchon
 Medisch Centrum Lichtenberg
 Medisch Centrum Loudon Fysiotherapie
 Medisch Centrum Loudon, Huisartsenpraktijk Aken/Siccama
@@ -27221,8 +27115,8 @@ Medisch Centrum Molenzoom
 Medisch Centrum Mook
 Medisch Centrum Mullerpier
 Medisch Centrum Nieuwenhagen, Huisartsenpraktijk Huisman
-Medisch Centrum Nieuwenhagen, Huisartsenpraktijk M. van Gelderen
 Medisch Centrum Nieuwenhagen, Huisartsenpraktijk Janssen
+Medisch Centrum Nieuwenhagen, Huisartsenpraktijk M. van Gelderen
 Medisch Centrum Nieuwenhagen, Huisartsenpraktijk Sluysmans
 Medisch Centrum Nijmegen-Oost, Huisartsen
 Medisch Centrum Nijmegen-Oost, Tandartsen
@@ -27260,8 +27154,8 @@ Medisch Centrum Rilland-Kruiningen, Huisartsenpraktijk Kruiningen
 Medisch Centrum Rilland-Kruiningen, Huisartsenpraktijk Rilland
 Medisch Centrum Roelof Hart, Huisartsenpraktijk Husmann
 Medisch Centrum Roelof Hart, Huisartsenpraktijk Vrolijk
-Medisch Centrum Roelof Hart, Huisartsenpraktijk van Raalte
 Medisch Centrum Roelof Hart, Huisartsenpraktijk W.B. Vermeulen
+Medisch Centrum Roelof Hart, Huisartsenpraktijk van Raalte
 Medisch Centrum Sandelingplein
 Medisch Centrum Schaepmanlaan, Huisartsenpraktijk Loukes en Hobbelen
 Medisch Centrum Schaepmanlaan, Huisartsenpraktijk Maatjens
@@ -28806,7 +28700,6 @@ Myofysio
 Myosana
 Myriad
 Myrna Dral Coaching
-Máxima MC
 MéDé, praktijk voor psychotherapie en psycho-sociale begeleiding
 Méér dan Logopdie! Mardy Thomassen
 Méér dan Logopedie! Mardy Thomassen
@@ -29164,10 +29057,7 @@ Noorderzorg, De Mieden
 Noorderzorg, Hunsingoheerd
 Noorderzorg, Van Julsingha
 Noordhuis, zelfstandig specialist ouderengeneeskunde
-Noordwest Ziekenhuisgroep
 Noordwest Ziekenhuisgroep Apotheek Alkmaar
-Noordwest Ziekenhuisgroep, Alkmaar Bergermeer
-Noordwest Ziekenhuisgroep, Alkmaar Pijncentrum
 Noordwest Ziekenhuisgroep, Vakantiedialyse Texel
 Noordzij Tandprothetiek
 Noortman Psychotherapie
@@ -29315,7 +29205,6 @@ OFCN
 OHRA
 OIM Orthopedie
 OLEA Zorg&Welzijn
-OLVG
 OLVG Apotheek
 OMC Amstelland
 OMC Amsterdam
@@ -29820,7 +29709,6 @@ Olympic Health Fysiotherapie
 Omedi Diagnostisch Medisch Adviescentrum
 Omega Groep
 Ommekeer Psychologie
-Ommelander Ziekenhuis Groningen
 Ommer Apotheek
 Ommert Medisch Advies
 OmniFysio
@@ -30443,7 +30331,6 @@ Orthoptie Purmerend
 Orthoptistenpraktijk Bastiaans Optiek
 Orthoptistenpraktijk De Knipoogjes
 Orthoptistenpraktijk Grit Optiek Nieuwerkerk
-Orthoradius
 Orthospecialist Alphen aan den Rijn
 Orthospecialist Benoordenhout
 Orthospecialist Delft
@@ -36687,9 +36574,7 @@ Radar Woonvorm Wilhelminasingel
 Radar, Woonvorm Heugem
 Radboud Ambulatorium
 Radboud Apotheek
-Radboudumc
 Radboudumc, Dialysecentrum
-Radboudumc, hoofdlocatie
 Rademakers & Kinsbergen Tandheelkunde
 Radha Jagroep Psycholoog
 Radioloog Online
@@ -36931,9 +36816,6 @@ Reinders Huidtherapie
 Reinders oefentherapie
 Reineke Wiegman, Psychotherapie Kinderen en Jongeren
 Reinerde, Fort Werk aan De Korte Uitweg
-Reinier De Graaf
-Reinier De Graaf Groep
-Reinier De Graaf Ziekenhuis
 Reinier De Graaf, diëtisten
 Reinier Haga MDC
 Reinier Haga Medisch Diagnostisch Centrum
@@ -37102,13 +36984,8 @@ RijnWaal Zorggroep
 RijnWaal Zorggroep, Thuiszorg
 Rijndam Revalidatie
 Rijnland Orthopaedie - Behandelcentrum voor bot- en gewrichtaandoeningen
-Rijnstate
-Rijnstate Arnhem
-Rijnstate Arnhem-Zuid
-Rijnstate Elst
 Rijnstate Poli-apotheek Arnhem
 Rijnstate Poli-apotheek Velp
-Rijnstate Zevenaar
 Rijntjens, praktijk voor fysiotherapie
 Rijssense Apotheek
 Rimpelconsult
@@ -37186,8 +37063,6 @@ Robert Coppes Stichting, Woonvoorziening Taalstraat
 Robert van der Sluis, praktijk voor manuele- en fysiotherapie
 Robijn en Van der Feen, praktijk voor fysio- en manuele therapie
 Rochayda Care
-Rode Kruis Ziekenhuis
-Rode Kruis Ziekenhuis, Buitenpolikliniek Heemskerk
 Rodin Dental Clinic
 Roelands Coaching
 Roeleven, Voedings- en Dieetadvies
@@ -37504,11 +37379,6 @@ SIG, Logeerhuis
 SIG, woonproject Alkmaarseweg
 SINA Voetballab - Nederlands Sport Revalidatie Centrum
 SIVSG - Instituut voor slaapgeneeskunde
-SJG Weert
-SJG Weert - St. Jans Gasthuis Weert
-SJG Weert, Buitenpolikliniek Budel
-SJG Weert, Buitenpolikliniek Ittervoort
-SJG Weert, Buitenpolikliniek Panningen
 SJSJ-Almata
 SK Specialistische Kliniek
 SK Zorg & Welzijn
@@ -38074,11 +37944,6 @@ Savelsberg Muurling en van Heijst, bedrijfsartsen
 SaviorZorg
 Saxenburgh
 Saxenburgh Groep
-Saxenburgh Medisch Centrum
-Saxenburgh Medisch Centrum, Polikliniek Gezondheidscentrum De Veltstroom
-Saxenburgh Medisch Centrum, Polikliniek Ommen
-Saxenburgh Medisch Centrum, Polikliniek Westerhaar
-Saxenburgh Medisch Centrum, hoofdlocatie
 Saxenburgh thuis, team Gramsbergen
 Saxenburgh thuis, team Hardenberg
 Saxenburgh thuis, team Ommen
@@ -38684,17 +38549,6 @@ Sint Jozef wonen en zorg, sector Thuiszorg
 Sint Jozefoord
 Sint Jozefoord, verzorgings- en verpleeghuis
 Sint Jozefoord, wijkverpleging en thuiszorg
-Sint MaartensKinderkliniek Boxmeer - Sint Maartenskliniek
-Sint Maartenskliniek
-Sint Maartenskliniek Alphen aan den Rijn
-Sint Maartenskliniek Barneveld
-Sint Maartenskliniek Boxmeer
-Sint Maartenskliniek Ede
-Sint Maartenskliniek Geldrop
-Sint Maartenskliniek Nijmegen
-Sint Maartenskliniek Nijmegen, Polikliniek CWZ
-Sint Maartenskliniek Veenendaal
-Sint Maartenskliniek Woerden
 Sion Zorg
 Sionsberg Netwerk Ziekenhuis
 Sisa Zorggroep
@@ -38858,8 +38712,6 @@ Slim Fysio
 Slim Oefentherapie
 Slim Thuiszorg
 Slimfit Diëtistenpraktijk en Personal Training
-Slingeland Ziekenhuis
-Slingeland Ziekenhuis, Poli Dermatologie
 Slippens Thuiszorg
 Slockers Psychologen, praktijk voor generalistische basis GGZ
 Slot Keerssemeeckers, fysio- en manuele therapie
@@ -38979,12 +38831,9 @@ Sorgh
 Sosha
 SpaMedica Els van Gogh
 Spaarndammer Apotheek
-Spaarne Gasthuis
 Spaarne Gasthuis, Dialysecentrum Haarlem Zuid
 Spaarne Gasthuis, Dialysecentrum Hoofddorp
 Spaarne Gasthuis, Dialysecentrum Velsen Noord
-Spaarne Gasthuis, polikliniek Hillegom
-Spaarne Gasthuis, polikliniek Nieuw-Vennep
 Spaarne Huisartsen
 Spaarne Zorg
 Spaarnezorg
@@ -39022,10 +38871,6 @@ Spelende Wijzer Kinderergotherapie
 Spelender.wijs kinderfysiotherapie
 Spelenderwijs Fysiotherapie
 Spierziekten Nederland
-Spijkenisse Medisch Centrum
-Spijkenisse Medisch Centrum, Buitenpolikliniek Hoogvliet
-Spijkenisse Medisch Centrum, Buitenpolikliniek Rozenburg
-Spijkenisse Medisch Centrum, hoofdlocatie
 Spijs dieetadvies
 Spina Bifida en Hydrocephalus Nederland
 Spine & Joint Centre, Revalidatie
@@ -39154,18 +38999,11 @@ Springvloed Fysiotherapie
 Sprout Transparante ggz
 Spurt, psychologiepraktijk voor kinderen
 Spygel
-St Antonius
 St Antonius Apotheek Nieuwegein
 St Antonius Apotheek Utrecht
 St Antonius Dialysecentrum
-St Antonius Nieuwegein
 St Antonius Spatadercentrum
 St Antonius SportsClinic
-St Antonius Utrecht
-St Antonius Woerden
-St Antonius, polikliniek Houten
-St Antonius, polikliniek Mijdrecht
-St Antonius, polikliniek Utrecht Overvecht
 St Continu
 St Warande
 St-iek Fysiotherapie
@@ -39513,10 +39351,8 @@ Stichting IVPG
 Stichting Indra
 Stichting Internationale Zorg aan Huis - IZAH Thuiszorg
 Stichting Inversa
-Stichting Isala Klinieken
 Stichting JJC
 Stichting Jan Berchmans, Aqua Viva
-Stichting Jeroen Bosch Ziekenhuis
 Stichting Jeugdbescherming West Zeeland
 Stichting Jeugdgezondheidszorg Zuid-Holland West
 Stichting Jij
@@ -39569,7 +39405,6 @@ Stichting Land van Horne, Zorgcentrum St. Joseph
 Stichting Land van Horne, Zorgcentrum Ververshof
 Stichting Landelijk Wonen Klein Houtdijk
 Stichting Lange Mensen Nederland
-Stichting Laurentius Ziekenhuis
 Stichting Lentekind
 Stichting Leren Interactie Zorg
 Stichting Les Vaux
@@ -39755,7 +39590,6 @@ Stichting Woonzorg Lojal
 Stichting ZEHG
 Stichting ZO
 Stichting Zaadbalkanker
-Stichting Zaans Medisch Centrum
 Stichting Zahet
 Stichting Zahet, Gasthuis Schependomlaan
 Stichting Zahet, Thuiszorg
@@ -39763,7 +39597,6 @@ Stichting Zeister Trombosedienst
 Stichting Zekere Basis
 Stichting Zeldzame Bloedziekten
 Stichting Zeldzame Ziekten Fonds
-Stichting Ziekenhuis Gelderse Vallei
 Stichting Zonnewende
 Stichting Zonnewende, Huize Buitenlust
 Stichting Zonnewende, Huize Horizon
@@ -39876,9 +39709,6 @@ Stoute Schoenen
 Stralend Gestemd
 Stralenderwijs, kinderfysiotherapie & kindercoaching
 Strea Nova verloskundige praktijk
-Streekziekenhuis Koningin Beatrix
-Streekziekenhuis Koningin Beatrix, Buitenpolikliniek Eibergen
-Streekziekenhuis Koningin Beatrix, Buitenpolikliniek Ruurlo
 Stress-te-lijf
 Striatum Psychologie
 Strokecoach
@@ -43383,7 +43213,6 @@ Ter Harmsel, fysiotherapie, training en revalidatie
 Ter Keurs Praktijk voor Fysiotherapie en Manueletherapie
 Ter Wal Woonzorg
 Tergooi
-Tergooi MC
 Terminal 18 Jeugdhulp en GGZ
 Terra & Luna
 Terra Mental Health
@@ -44151,11 +43980,6 @@ Tipu Hauora
 Tjarda Kraamt
 Tjon A Joe Tandheelkunde
 Tjongeroog Trainingsinstituut voor persoonlijke ontwikkeling
-Tjongerschans
-Tjongerschans Polikliniek Joure
-Tjongerschans Polikliniek Lemmer
-Tjongerschans Polikliniek Steenwijk
-Tjongerschans, hoofdlocatie
 To The Point Fysiotherapie
 ToFlexit GGZ
 ToP Kinderfysiotherapie Simone van Merkhoven
@@ -44298,7 +44122,6 @@ Trauma Centrum Nederland
 Trauma en Transitie
 Traumadebaas / praktijk Nederland
 Traumapraktijk Verhees
-Treant
 Treant Dialysekliniek
 Treant, Advies- en BehandelCentrum Weidesteyn
 Treant, Geriatrische Revalidatie Zorg De Horst
@@ -44334,10 +44157,6 @@ Treant, Woonzorgcentrum Oostermarke
 Treant, Woonzorgcentrum Selkersgoorn
 Treant, Woonzorgcentrum Valkenhof
 Treant, Woonzorgcentrum Zuidermarke
-Treant, Ziekenhuislocatie Bethesda
-Treant, Ziekenhuislocatie Refaja
-Treant, Ziekenhuislocatie Refaja, Buitenpolikliniek Veendam
-Treant, Ziekenhuislocatie Scheper
 Treatment Company
 Tredente Tandartsen
 Tree of Life Verloskundigenzorg
@@ -44514,9 +44333,7 @@ UGC Heyendael
 UMC Groningen (UMCG)
 UMC Groningen (UMCG), Beatrix Kinderziekenhuis
 UMC Groningen (UMCG), Centrum voor Tandheelkunde en Mondzorgkunde
-UMC Utrecht
 UMC Utrecht, Dialyseafdeling
-UMC Utrecht, Wilhelmina Kinderziekenhuis
 UMC Utrecht, Wilhelmina Kinderziekenhuis, afdeling Kinderperitoneale dialyse
 UMC zorgverzekering
 UMCG Centrum voor Revalidatie
@@ -45146,6 +44963,7 @@ Verloskundige Bergeijk en omstreken
 Verloskundige Daniëlle
 Verloskundige Emmelot
 Verloskundige Groepspraktijk Helmond
+Verloskundige Huisartsenpraktijk De Stethoscoop
 Verloskundige Lente
 Verloskundige Maatschap Lammenschans
 Verloskundige Maatschap Zuidwijk
@@ -45197,7 +45015,6 @@ Verloskundige Sabrina Goossens
 Verloskundige Sanne
 Verloskundige Stadspraktijk Groningen
 Verloskundige en lactatiekundige praktijk Tineke De Backer
-Verloskundige Huisartsenpraktijk De Stethoscoop
 Verloskundige in Amsterdam
 Verloskundige praktijk Amstelveen/Buitenveldert
 Verloskundige praktijk Beuningen
@@ -45686,10 +45503,6 @@ Videnti Marnixlaan
 Videnti Streuvelslaan
 Vidialis
 Vidiem, praktijk voor psychologische behandeling op locatie
-VieCuri
-VieCuri, Medisch Centrum voor Noord-Limburg
-VieCuri, Regiopoli Horst
-VieCuri, Regiopoli Panningen
 VieDenta Kliniek
 VieJa
 VieTAAL Sneek
@@ -47379,11 +47192,8 @@ ZEP XL
 ZGR
 ZGR, Mien Zorg
 ZGR, Residentie Alleliefs
-ZGT
-ZGT Almelo
 ZGT Almelo, afdeling Psychiatrie
 ZGT Helon Huid- en Laserkliniek
-ZGT Hengelo
 ZGT dialyse- en obesitascentrum
 ZGZ Nationaal Zorg
 ZHA Eyescan Amstelveen
@@ -47500,8 +47310,6 @@ ZZWD Thuiszorg Zuidwest-Drenthe - Vledder
 ZZWD Woonzorg Zuidwest-Drenthe
 ZaanApotheek
 Zaanbocht Apotheek
-Zaans Medisch Centrum
-Zaans Medisch Centrum, Polikliniek Saendelft
 Zaans Tandheelkundig Centrum
 Zaanspraak
 Zaanspraak Logopediepraktijk voor Kinderen
@@ -47610,18 +47418,6 @@ Zideris Wageningen, wonen Generaal Foulkesweg
 Zideris Wageningen, wonen Tarthorst
 ZieZo van Zilveren Kruis
 Ziebena@home
-Ziekenhuis Amstelland
-Ziekenhuis Gelderse Vallei
-Ziekenhuis Gelderse Vallei, Polikliniek Barneveld
-Ziekenhuis Gelderse Vallei, Polikliniek Veenendaal
-Ziekenhuis Gelderse Vallei, Polikliniek Wageningen
-Ziekenhuis Nij Smellinghe
-Ziekenhuis Rivierenland
-Ziekenhuis Rivierenland, Barbara Polikliniek
-Ziekenhuis Rivierenland, hoofdlocatie
-Ziekenhuis St Jansdal
-Ziekenhuis St Jansdal, Polikliniek Dronten
-Ziekenhuis St Jansdal, Polikliniek Putten
 ZiekenhuisApotheek Midden-Brabant
 Zielhorst, Praktijk Psychiatrie Psychotherapie
 Zielsbelang
@@ -47953,7 +47749,6 @@ ZorgSaam Thuiszorg, wijkteam Sluis
 ZorgSaam Vremdieke
 ZorgSaam Wonen & Zorg
 ZorgSaam Zeeuws Vlaanderen
-ZorgSaam Ziekenhuis
 ZorgSelectief BV
 ZorgSpectrum
 ZorgSpectrum Bij u thuis
@@ -48939,12 +48734,6 @@ Zuyderland GGz Sittard-Geleen - Kind en adolesent
 Zuyderland GGz Sittard-Geleen - Ouderen
 Zuyderland GGz Sittard-Geleen - Volwassenen
 Zuyderland Jeugdgezondheidszorg
-Zuyderland Medisch Centrum
-Zuyderland Medisch Centrum Brunssum
-Zuyderland Medisch Centrum Buitenpoli Echt
-Zuyderland Medisch Centrum Heerlen
-Zuyderland Medisch Centrum Kerkrade
-Zuyderland Medisch Centrum Sittard-Geleen
 Zuyderland Psychiatrische afdeling Heerlen
 Zuyderland Revalidatie
 Zuyderland Thuiszorg
