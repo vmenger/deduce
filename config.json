@@ -428,19 +428,19 @@
         "tag": "locatie"
       }
     },
+    "hospital": {
+      "annotator_type": "multi_token",
+      "group": "institutions",
+      "args": {
+        "lookup_values": "hospitals",
+        "tag": "instelling"
+      }
+    },
     "institution": {
       "annotator_type": "multi_token",
       "group": "institutions",
       "args": {
-        "lookup_values": "institutions",
-        "tag": "instelling"
-      }
-    },
-    "altrecht": {
-      "annotator_type": "regexp",
-      "group": "institutions",
-      "args": {
-        "regexp_pattern": "[aA][lL][tT][rR][eE][cC][hH][tT]((\\s[A-Z][\\w]*)*)",
+        "lookup_values": "healthcare_institutions",
         "tag": "instelling"
       }
     },

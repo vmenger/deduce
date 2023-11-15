@@ -4,9 +4,7 @@ from pathlib import Path
 import docdeid as dd
 
 from deduce.str.processor import (
-    Acronimify,
     FilterBasedOnLookupSet,
-    RemoveValues,
     TakeLastToken,
     TitleCase,
     UpperCase,
@@ -157,54 +155,39 @@ def _get_placenames() -> dd.ds.LookupSet:
     return placenames
 
 
+def _get_hospitals() -> dd.ds.LookupSet:
+
+    hospitals = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
+
+    hospitals.add_items_from_file(
+        os.path.join(data_path, "institutions", "hospital_long.txt")
+    )
+
+    hospitals.add_items_from_file(
+        os.path.join(data_path, "institutions", "hospital_abbr.txt")
+    )
+
+    hospitals.add_items_from_self(
+        cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()],
+    )
+
+    return hospitals
+
+
 def _get_institutions() -> dd.ds.LookupSet:
     """Get institutions LookupSet."""
 
-    institutions_raw = dd.ds.LookupSet()
-    institutions_raw.add_items_from_file(
-        os.path.join(data_path, "institutions", "institutions.txt"),
-        cleaning_pipeline=[dd.str.FilterByLength(min_len=3), dd.str.LowercaseString()],
+    institutions = dd.ds.LookupSet()
+    institutions.add_items_from_file(
+        os.path.join(data_path, "institutions", "healthcare_institutions_long.txt"),
+        cleaning_pipeline=[dd.str.StripString(), dd.str.FilterByLength(min_len=4)],
     )
 
-    institutions = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
-    institutions.add_items_from_iterable(
-        institutions_raw, cleaning_pipeline=[dd.str.StripString()]
-    )
-
-    institutions.add_items_from_iterable(
-        institutions_raw,
-        cleaning_pipeline=[
-            RemoveValues(
-                filter_values=["dr.", "der", "van", "de", "het", "'t", "in", "d'"]
-            ),
-            dd.str.StripString(),
-        ],
-    )
+    institutions.add_items_from_self(cleaning_pipeline=[UpperCase()])
 
     institutions.add_items_from_self(
-        cleaning_pipeline=[dd.str.ReplaceValue(".", ""), dd.str.StripString()]
+        cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()],
     )
-
-    institutions.add_items_from_self(
-        cleaning_pipeline=[dd.str.ReplaceValue("st ", "sint ")]
-    )
-
-    institutions.add_items_from_self(
-        cleaning_pipeline=[dd.str.ReplaceValue("st. ", "sint ")]
-    )
-
-    institutions.add_items_from_self(
-        cleaning_pipeline=[dd.str.ReplaceValue("ziekenhuis", "zkh")]
-    )
-
-    institutions.add_items_from_self(
-        cleaning_pipeline=[
-            dd.str.LowercaseString(),
-            Acronimify(),
-            dd.str.FilterByLength(min_len=3),
-        ]
-    )
-
     institutions = institutions - _get_whitelist()
 
     return institutions
@@ -276,7 +259,8 @@ def get_lookup_sets() -> dd.ds.DsCollection:
         "surname_exceptions": _get_surname_exceptions,
         "streets": _get_streets,
         "placenames": _get_placenames,
-        "institutions": _get_institutions,
+        "hospitals": _get_hospitals,
+        "healthcare_institutions": _get_institutions,
         "whitelist": _get_whitelist,
     }
 
