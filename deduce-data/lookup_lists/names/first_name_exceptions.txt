@@ -1,4 +1,3 @@
-
 Aard
 Ab
 Abd
@@ -14,6 +13,7 @@ Ama
 Anca
 Anders
 Ante
+Antonius
 Apollo
 April
 Aries
@@ -29,6 +29,8 @@ Barthel
 Bartolomeus
 Bent
 Blue
+Bowen
+Broer
 Broer
 Candida
 Canisius
@@ -40,6 +42,7 @@ Cong
 Cor
 Corona
 Costa
+Da
 Da
 Dan
 Date
@@ -55,7 +58,6 @@ Dior
 Do
 Door
 Dune
-Durie
 Duurt
 Ecrin
 Ede
@@ -64,6 +66,7 @@ Elke
 Emery
 Erasmus
 Erna
+Ernst
 Eustachius
 Fabe
 Fe
@@ -140,6 +143,7 @@ Pandora
 Paskal
 Per
 Po
+Radboud
 Ramadan
 Rende
 Rennie
@@ -153,11 +157,13 @@ Roche
 Rome
 Rox
 Ru
+Salmon
 San
 Santa
 Sau
 Semi
 Sent
+Sep
 Signe
 Sint
 Sla
@@ -165,17 +171,19 @@ Son
 Sri
 Sun
 Swan
+Tex
 Tias
 To
 Tong
+Toon
 Tu
 Van
 Vesta
 Vi
 Vida
-Vinci
 Vitalis
 Vlinder
+Wilhelmina
 Will
 Willebrord
 Willi
@@ -183,17 +191,4 @@ Wilt
 Witte
 You
 Young
-Zoon
 Zusje
-Antonius
-Wilhelmina
-Radboud
-Piek
-Broer
-Toon
-Ernst
-Sep
-Snel
-Sneller
-Tex
-Bowen

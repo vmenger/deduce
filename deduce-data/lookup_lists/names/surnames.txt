@@ -3951,14 +3951,6 @@ Huynh
 Huzen
 Hölscher
 Hölzken
-Ibrahim
-Ibrahimi
-Idema
-Idrissi
-Idsinga
-Idzenga
-Iedema
-Ignacio
 IJbema
 IJdema
 IJdo
@@ -3977,6 +3969,14 @@ IJzendoorn
 IJzer
 IJzerman
 IJzermans
+Ibrahim
+Ibrahimi
+Idema
+Idrissi
+Idsinga
+Idzenga
+Iedema
+Ignacio
 Ikink
 Ilbrink
 Ilhan
@@ -4506,11 +4506,11 @@ Kleijwegt
 Klein
 Klein Gunnewiek
 Klein Nagelvoort
+KleinJan
 Kleine
 Kleinendorst
 Kleingeld
 Kleinherenbrink
-KleinJan
 Kleinjan
 Kleinlugtenbeld
 Kleinsman
