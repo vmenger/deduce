@@ -44,7 +44,9 @@ calmday
 camcolit
 campral
 carbamazepine
+cardiologie
 catapresan
+centrum
 champix
 chloordiazepoxide
 chloorpromazine
@@ -88,6 +90,7 @@ doxepine
 duloxetine
 efexor
 evg
+factor
 farmacotherapie
 fase
 fenelzine
@@ -103,9 +106,12 @@ fluspirileen
 fluvoxamine
 frenactil
 frisium
+geb
 gedwongen
+geslacht
 gezin
 groepsleiding
+gzc
 haar
 halcion
 haldol
@@ -116,8 +122,10 @@ haren
 hart
 hersenen
 heteroanamnese
+hodgkin
 honos
 huisarts
+huisartsenpraktijk
 huispostnummer
 ibs
 imap
@@ -127,6 +135,7 @@ impromen
 inderal
 intake
 juridische
+kamer
 ketazolam
 kind
 kinder
@@ -160,6 +169,7 @@ lormetazepam
 ludiomil
 maprotiline
 medicatie
+medisch
 melleril
 methadon
 mianserine
@@ -195,6 +205,7 @@ ogen
 olanzapine
 oog
 oor
+operateur
 opname
 orap
 oren
@@ -204,6 +215,7 @@ oudergesprek
 ouders
 overleg
 oxazepam
+parkinson
 parnate
 paroxetine
 patient
@@ -214,6 +226,7 @@ perazine
 perfenazine
 periciazine
 pertrofran
+pfeiffer
 pimozide
 pipamperon
 poli
@@ -246,6 +259,7 @@ rohypnol
 sarotex
 schizofrenie
 school
+score
 semap
 seresta
 seroquel
@@ -302,6 +316,7 @@ verpleegkundige
 verpleegkundige
 verwijzer
 verzoek
+visite
 voet
 voeten
 vrijheden

@@ -73,6 +73,7 @@ beroep
 bescherm
 beslissen
 best
+beste
 betalen
 beter
 bevatten
@@ -209,6 +210,7 @@ enkele
 enthousiast
 er
 erg
+erna
 eten
 even
 examen
@@ -355,6 +357,7 @@ ijzer
 ik
 in
 instrument
+iom
 ja
 jaar
 jagen
