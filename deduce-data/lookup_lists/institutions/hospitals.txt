@@ -138,8 +138,8 @@ Iterson Ziekenhuis
 Jeroen Bosch
 Jeroen Bosch Ziekenhuis
 Johannes
-Johannes Ziekenhuis
 Johannes De Deo
+Johannes Ziekenhuis
 Juliana Kinder
 Juliana Kinder Ziekenhuis
 Juliana Ziekenhuis
@@ -156,6 +156,8 @@ Liefdehuis
 Lievensberg
 Lievensberg
 Lievensberg Ziekenhuis
+Lorentz
+Lorentz Ziekenhuis
 Lucas Ziekenhuis
 Luthers Diaconessenhuis
 Maas Ziekenhuis Pantein
@@ -205,6 +207,7 @@ Prinses Irene Ziekenhuis
 Prinses Máxima Centrum
 Protestants
 Protestants Ziekenhuis
+Radboud
 Radboud Universitair Medisch Centrum
 Refaja
 Refaja Ziekenhuis
@@ -358,4 +361,3 @@ het Catharina Gasthuis
 het Lange Land
 het Lange Land Ziekenhuis
 mProve
-Radboud
