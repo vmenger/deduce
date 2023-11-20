@@ -5,7 +5,6 @@ import docdeid as dd
 
 from deduce.str.processor import (
     FilterBasedOnLookupSet,
-    TakeLastToken,
     TitleCase,
     UpperCase,
     UpperCaseFirstChar,
