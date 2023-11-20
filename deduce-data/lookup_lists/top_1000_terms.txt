@@ -1031,3 +1031,8 @@ zwak
 zwembad
 zwemmen
 één
+man
+piek
+hoi
+hallo
+algemene
