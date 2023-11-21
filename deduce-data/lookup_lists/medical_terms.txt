@@ -1,4 +1,6 @@
 aambei
+aambeien
+aandoening
 aandoening
 aandrang
 aandrift
@@ -7,6 +9,7 @@ aangeboren
 aangelegd
 aangetrokken
 aangezicht
+aangezichtschirurg
 aanhechting
 aanhechting
 aanhoudend
@@ -57,6 +60,7 @@ abstinentie
 acamprosaat
 acantholyse
 acantholysis
+accident
 accidental
 accidenteel
 accommodatie
@@ -84,8 +88,10 @@ acidose
 acidosis
 acidum
 acne
+acnes
 acrocyanose
 acrocyanosis
+acromegalie
 acromion
 acth
 actief
@@ -100,6 +106,7 @@ acute
 acuut
 adaptatie
 adaptation
+add
 addictie
 addiction
 addison
@@ -122,6 +129,7 @@ ader
 aderontsteking
 aders
 aderverkalking
+adhd
 adhd
 adhesie
 adhesion
@@ -149,6 +157,7 @@ aeroob
 aerophagy
 aerosol
 aetiology
+afasie
 afasie
 afbraak
 afbraakprodukten
@@ -217,7 +226,9 @@ agonist
 agranulocytose
 agranulocytosis
 agressiviteit
+aids
 aio
+aios
 aios
 akinesia
 akinesie
@@ -232,6 +243,7 @@ alcoholisch
 alcoholism
 alcoholisme
 alert
+algemeen
 algemeen
 alimemazine
 alimentair
@@ -253,11 +265,13 @@ allergic
 allergie
 allergisch
 allergische
+allergoloog
 allergy
 alopecia
 alopecie
 alpha
 alprazolam
+als
 alsof
 alternate
 alternatief
@@ -266,10 +280,14 @@ alterneren
 alveolitis
 alvleesklier
 alvleesklier
+alvleesklierkanker
+alzheimer
 alzheimer
 amandelontsteking
 ambly
 amblyopia
+ambulancechauffeur
+ambulancier
 ambulant
 amenorrhoea
 amenorroe
@@ -318,12 +336,16 @@ ander
 anders
 androgenen
 androgenic
+androloog
 anemie
 anergia
 anergie
 anesthesie
+anesthesiemedewerker
+anesthesioloog
 anestheticum
 aneurysm
+aneurysma
 aneurysma
 anexate
 angiitis
@@ -344,6 +366,7 @@ anhydrous
 ani
 anionic
 anionisch
+anios
 anisocoria
 anisocorie
 anker
@@ -354,6 +377,7 @@ anomalie
 anomaly
 anorectaal
 anorectal
+anorexia
 anorexia
 anorganisch
 anosmia
@@ -483,6 +507,7 @@ aplastic
 aplastische
 apnoe
 apotheek
+apothekersassistent
 applicatie
 application
 approximaal
@@ -528,6 +553,8 @@ artralgie
 artritis
 artropathie
 artrose
+artrose
+arts
 arts
 aryepiglotticus
 arytaenoideus
@@ -537,16 +564,20 @@ aseptic
 aseptisch
 aspecifiek
 aspecten
+asperger
 aspiratie
 aspiration
 assay
 assist
+assistent
 assisteren
 associatie
 association
 asthenia
 asthenie
 asthmaticum
+astigmatisme
+astma
 astma
 asymptomatic
 asymptomatisch
@@ -575,6 +606,8 @@ atrophy
 atropine
 atypical
 atypisch
+audicien
+audioloog
 auditief
 auditory
 auditus
@@ -589,6 +622,7 @@ auricularis
 aurorix
 auscultatie
 auscultation
+autisme
 autisme
 auto
 autochtone
@@ -629,6 +663,7 @@ bacteriologisch
 bacteriostatic
 bacteriostaticum
 bacteroid
+baker
 balanitis
 baring
 barrier
@@ -638,17 +673,20 @@ base
 basilaris
 basilica
 basis
+basisarts
 basiskootje
 beademen
 beademings
 bechterew
 bedaart
 bedekken
+bedrijfsarts
 bedwateren
 beeld
 been
 beenderen
 beenmerg
+beenmergkanker
 beenspieren
 beentje
 beenuitwas
@@ -695,6 +733,7 @@ bepaalde
 beperkte
 bereiding
 berekend
+beroerte
 berust
 berustende
 beschadiging
@@ -755,6 +794,7 @@ bezorgdheid
 beïnvloedt
 biceps
 bifasisch
+bifida
 bijeenbrengen
 bijholte
 bijkomend
@@ -771,6 +811,7 @@ bijv
 bijvoeging
 bijwerking
 bijziendheid
+bijziendheid
 bijzonder
 bilateraal
 bilateral
@@ -782,6 +823,7 @@ bilzenuw
 binden
 binding
 bindingsproces
+bindvliesontsteking
 bindvliesontsteking
 bindweefsel
 bindweefselband
@@ -814,6 +856,7 @@ biotransformatie
 biotransformation
 biperideen
 biphasic
+bipolaire
 blaarvorming
 blaas
 blaasontsteking
@@ -826,6 +869,7 @@ blijft
 blijvend
 blijvende
 blinde
+blindheid
 blister
 blisterverpakking
 block
@@ -884,6 +928,7 @@ bocht
 boekjes
 boezems
 bof
+bof
 bolus
 bolusinjectie
 bootvormig
@@ -903,6 +948,7 @@ borstwand
 bot
 botalli
 botontkalking
+botontkalking
 botontsteking
 botstofwisseling
 botverdikking
@@ -920,12 +966,14 @@ bovenste
 bovenste
 bovenste
 bovenstuk
+boviene
 bowen
 braakmiddel
 braaksel
 brachialis
 brachialis
 brachialis
+brachialisletsel
 brachii
 brachii
 brachiocefale
@@ -952,6 +1000,7 @@ bronchial
 bronchiectasis
 bronchinctasie
 bronchitis
+bronchitis
 bronchoconstric
 bronchoconstrictie
 bronchodilatatie
@@ -966,6 +1015,8 @@ bronchospasme
 bronchus
 broomperidol
 brotizolam
+brucellose
+bse
 buccaal
 buccal
 buccinator
@@ -978,6 +1029,7 @@ buik
 buikloop
 buikspier
 buikspieren
+buiktyfus
 buikvliesontsteking
 buikwand
 buikwaterzucht
@@ -999,6 +1051,7 @@ bulleus
 bullous
 buprenorfine
 bupropion
+burn
 bursitis
 buspar
 buspiron
@@ -1042,6 +1095,7 @@ cardiogenic
 cardiological
 cardiologie
 cardiologisch
+cardioloog
 cardiomegalie
 cardiomegaly
 cardiomyopathie
@@ -1061,6 +1115,7 @@ cardiotoxisch
 cardiovasculair
 cardiovascular
 caries
+cariës
 carotis communis
 carpi
 cartilago
@@ -1069,6 +1124,7 @@ castration
 catabolism
 catalyse
 catapresan
+cataract
 cataract
 catarre
 catarrh
@@ -1108,8 +1164,10 @@ cerebral
 cerebral
 cerebri
 cerebri
+cerebri
 cerebrospinaal
 cerebrospinal
+cerebrovasculair
 cerebrovasculair
 cerebrovascular
 cerumen
@@ -1117,9 +1175,11 @@ cervicaal
 cervical
 cervicis
 cervix
+chalazion
 champix
 chelatie
 chelation
+chemical
 chemical
 chemisch
 chemische
@@ -1128,7 +1188,9 @@ chemotherapeutic
 chemotherapeuticum
 chemotherapie
 chemotherapy
+chirurg
 chirurgisch
+chlamydiasis
 chloasma
 chloordiazepoxide
 chloorpromazine
@@ -1151,8 +1213,11 @@ chromosomen
 chronic
 chronisch
 chronische
+chronischevermoeidheidssyndroom
 chronotroop
 chronotropic
+cht
+churg
 cicatrisatie
 cicatrization
 cijfermatig
@@ -1190,14 +1255,17 @@ clozapine
 co2
 coagulatie
 coagulation
+coassistent
 coated
 cochleair
 cochlear
+coeliakie
 coenzyme
 cognitief
 cognitive
 coitus
 coli
+colitis
 colitis
 collageen
 collageenziekten
@@ -1260,12 +1328,14 @@ confusie
 confusion
 congenitaal
 congenital
+congenitale
 congestie
 congestion
 conjugated
 conjugatie
 conjugation
 conjugatus
+conjunctivitis
 conjunctivitis
 conservatief
 conservative
@@ -1277,6 +1347,7 @@ constitutional
 constitutioneel
 constrictor
 contact
+contagiosum
 contaminatie
 contamination
 continu
@@ -1308,6 +1379,7 @@ convulsie
 convulsion
 coordinatie
 coordination
+copd
 cor
 coracobrachialis
 cornea
@@ -1335,10 +1407,12 @@ costa
 costae
 costae
 costarum
+covid
 coxalgia
 coxalgie
 craniaal
 cranial
+craniosynostose
 cranium
 creatinaemia
 creatinine
@@ -1350,6 +1424,7 @@ crisis
 crista
 criterion
 criterium
+crohn
 crohn
 crossallergy
 crossinfection
@@ -1369,10 +1444,13 @@ curarize
 curatief
 curative
 curettage
+curtis
 curve
 cushing
 cutaan
 cutaneous
+cva
+cvs
 cyanose
 cyanosis
 cycle
@@ -1385,6 +1463,7 @@ cyclus
 cymbalta
 cyst
 cystic
+cystinose
 cystitis
 cystoscopie
 cystoscopy
@@ -1403,7 +1482,9 @@ dagcentrum
 daling
 dalmadorm
 dampen
+danlos
 dans
+darm
 darm
 darmader
 darmbacteriën
@@ -1412,6 +1493,7 @@ darmbeweging
 darmen
 darmflora
 darmgeruis
+darmkanker
 darmontsteking
 darmuitgang
 darmuitstulpingen
@@ -1424,6 +1506,7 @@ decompensation
 decongestant
 decongestivum
 decorum
+decubitus
 decubitus
 deel
 deeltje
@@ -1446,6 +1529,7 @@ dehydratatie
 dehydration
 dekweefsel
 delen
+deletiesyndroom
 delirium
 deltaspier
 deltoideus
@@ -1470,6 +1554,8 @@ depletion
 depolarisatie
 depolarization
 depressie
+depressie
+depressieve
 depression
 depressor
 deprivatie
@@ -1481,6 +1567,7 @@ dermatitis
 dermatofytose
 dermatological
 dermatologisch
+dermatoloog
 dermatomycose
 dermatomycosis
 dermatophytosis
@@ -1511,6 +1598,7 @@ dezelfde
 dgedeelte
 dgs
 diabetes
+diabetes
 diagnose
 diagnosis
 diakonessenhuis
@@ -1518,6 +1606,7 @@ dialyse
 dialysis
 diameter
 diaphoresis
+diarree
 diarree
 diarrhoea
 diastolic
@@ -1533,6 +1622,7 @@ dichtst
 diepe
 diepe
 dieren
+dierenarts
 dietist
 differentiatie
 differentiation
@@ -1540,6 +1630,7 @@ diffuse
 diffusie
 diffusion
 diffuus
+difterie
 difterie
 digastricus
 digestief
@@ -1594,8 +1685,10 @@ diureticum
 diurnal
 diurnus
 diverticulitis
+diverticulose
 divisie
 dixarit
+diëtist
 dna
 document
 documenteren
@@ -1606,12 +1699,14 @@ doelmatig
 doelstelling
 doeltreffend
 dogmatil
+doktersassistent
 dominance
 dominantie
 donkere
 donor
 dood
 doodt
+doofheid
 doofheid
 doorboring
 doorbraakbloeding
@@ -1645,6 +1740,7 @@ dossier
 dosulepine
 doubleblind
 douching
+down
 doxepine
 draaiing
 drachttijd
@@ -1679,15 +1775,18 @@ dun
 dunne
 duodenaal
 duodenum
+duplicatiesyndroom
 dura
 durend
 duur
 duurzaamheid
 dwangvoorstelling
 dwarse
+dwarslaesie
 dwarsuitsteeksel
 dysarthria
 dysartrie
+dyscalculie
 dyscrasia
 dyscrasie
 dysenterie
@@ -1702,6 +1801,7 @@ dysgeusia
 dysgeusie
 dyskinesia
 dyskinesie
+dyslexie
 dysmennorroe
 dysmenorrhoea
 dyspareunia
@@ -1714,12 +1814,14 @@ dysplasia
 dysplasie
 dyspnoe
 dyspnoea
+dyspraxie
 dystonia
 dystonie
 dystrofie
 dystrophy
 dysuria
 dysurie
+ebola
 ecchymose
 ecchymosis
 ecg
@@ -1728,6 +1830,7 @@ echography
 eclampsie
 ectopic
 ectopisch
+eczeem
 eczeem
 eczema
 eenheden
@@ -1741,6 +1844,7 @@ effective
 efficient
 effusie
 effusion
+ehlers
 eicel
 eierstok
 eierstokken
@@ -1762,6 +1866,7 @@ ejaculatie
 ejaculation
 ejectiefractie
 ejection
+eksterogen
 elastic
 elastisch
 electief
@@ -1810,6 +1915,8 @@ enantheem
 enanthema
 encefalitis
 encefalo
+encefalomyelitis
+encefalopathie
 encefalopathie
 encephalitis
 encephalopathy
@@ -1820,10 +1927,13 @@ endemisch
 endocarditis
 endocrien
 endocrine
+endocrinoloog
 endogeen
 endogenous
 endometriose
+endometriose
 endometriosis
+endoscopendeskundige
 endoscopie
 endoscopy
 endotheel
@@ -1836,6 +1946,7 @@ energetic
 energetisch
 energie
 engelse
+engelse
 enkel
 enteric
 entericcoated
@@ -1843,6 +1954,7 @@ enteritis
 enterocolitis
 enterohepatic
 enterohepatisch
+enteroloog
 entstof
 enurese
 enuresis
@@ -1870,6 +1982,7 @@ epigastralgie
 epigastric
 epigastrisch
 epilepsie
+epilepsie
 epilepsy
 epilepticum
 epileptische
@@ -1884,10 +1997,12 @@ epithelioom
 epithelium
 equivalent
 erectie
+erectiestoornis
 erection
 erector
 erfelijke
 erfelijkheid
+ergotherapeut
 ergotism
 ergotisme
 erin
@@ -1903,6 +2018,7 @@ erwtvormig
 erysipelas
 erytheem
 erythema
+erythematodes
 erythrasma
 erythropoiesis
 erytroponse
@@ -1976,6 +2092,7 @@ externa
 external
 externe
 externi
+externum
 externus
 extracellulair
 extracellular
@@ -2009,10 +2126,12 @@ faeces
 fagocytose
 fallisch
 falx
+farmaceut
 farmaceutisch
 farmacodynamie
 farmacokineticum
 farmacologisch
+farmacoloog
 farmacon
 farmacotherapie
 faryngitis
@@ -2028,6 +2147,7 @@ faucium
 feacal
 febriel
 febrile
+federale
 feedback
 feiten
 femoral
@@ -2040,11 +2160,13 @@ femoris
 femur
 fenelzine
 fenomeen
+fenylketonurie
 fermentatie
 fermentation
 ferriprief
 ferriprive
 fertiliteit
+fertiliteitsarts
 fertility
 fevarin
 fibrillatie
@@ -2053,6 +2175,8 @@ fibrin
 fibrine
 fibrinolytic
 fibrinolytisch
+fibrodysplasia
+fibromyalgie
 fibrose
 fibrosis
 fibula
@@ -2070,6 +2194,7 @@ fissure
 fissuur
 fistel
 fistual
+fitz
 fixatie
 fixation
 flaccid
@@ -2081,6 +2206,7 @@ flauwvallen
 flebitis
 flebografie
 flegmone
+flexibele
 flexie
 flexion
 flexor
@@ -2100,6 +2226,8 @@ fluspirileen
 flutter
 fluvoxamine
 fobie
+fobieën
+foetaal
 foetaal
 foetal
 foetoplacentaal
@@ -2110,9 +2238,11 @@ foetus
 folliculitis
 fontanel
 fontanelle
+fop
 foramen
 foramen
 forectomie
+forensisch
 foto
 fotofobie
 fotograferen
@@ -2143,7 +2273,9 @@ fungus
 furunculose
 furunculosis
 fysico
+fysicus
 fysiologisch
+fysiotherapeut
 fysisch
 gaan
 gaand
@@ -2173,10 +2305,12 @@ gastralgia
 gastralgie
 gastritis
 gastro
+gastro
 gastrocnemius
 gastroduodenal
 gastroenteritis
 gastrointestinal
+gastroloog
 gastrooesophageal
 gat
 geb
@@ -2204,6 +2338,7 @@ geestelijk
 geestelijke
 geestesziekte
 gehalte
+gehandicapten
 geheel
 geheugenverlies
 gehoor
@@ -2226,6 +2361,7 @@ gelijktijdig
 gelijkwaardig
 geluidsgolven
 gemaakt
+gemeentearts
 gemengd
 gemis
 genees
@@ -2236,6 +2372,7 @@ geneesmiddelen
 geneesmiddelendosis
 geneeswijze
 genetic
+geneticus
 genetisch
 genezend
 genioglossus
@@ -2247,6 +2384,7 @@ genitourinary
 gepaard
 gepaarde
 geraamte
+geriater
 geriatric
 geriatrisch
 gericht
@@ -2304,6 +2442,9 @@ gezichtsuitdrukking
 gezichtsveld
 gezin
 gezondheid
+gezondheid
+gezondheidsinspecteur
+gezondheidszorgpsycholoog
 gezwel
 gezwellen
 gical
@@ -2313,12 +2454,14 @@ gifstoffen
 giftig
 giftige
 giftigheid
+gilles
 gingivitis
 gisting
 giststof
 glandulae
 glasachtig
 glaucoma
+glaucoom
 glaucoom
 glomerulair
 glomerular
@@ -2335,6 +2478,7 @@ gluten
 glycoside
 glycosuria
 goedaardig
+golfsyndroom
 gonadaal
 gonadal
 gonadale
@@ -2367,6 +2511,8 @@ graphy
 graves
 graviditeit
 gravidity
+gravis
+griep
 griep
 groei
 groeihormoon
@@ -2382,10 +2528,12 @@ grootste
 grootte
 grote
 gynaecological
+gynaecoloog
 gynaecomastia
 gynaecomastie
 gynecologisch
 gyri
+gz
 gzc
 haakvormig
 haargroei
@@ -2431,6 +2579,7 @@ handeling
 handelingen
 handen
 handhaving
+handicap
 handschrift
 handwortel
 hardhorigheid
@@ -2439,15 +2588,19 @@ haren
 harstilstand
 hart
 hart
+hartaanval
 hartaritme
 hartboezem
+hartchirurg
 hartfilmpje
 hartgeruis
+hartinfarct
 hartkamer
 hartkamers
 hartkramp
 hartprikkelaar
 hartritmestoornis
+hartritmestoornissen
 hartsamentrekking
 hartslag
 hartspier
@@ -2460,7 +2613,9 @@ hartwand
 hartziekte
 hartziekten
 hashimoto
+havenarts
 hebbend
+hechtingsstoornis
 heelkundig
 heelkundige
 heen
@@ -2470,8 +2625,10 @@ heilzaam
 hele
 helft
 helicis
+hellp
 hemaetolo
 hematologisch
+hematoloog
 hematoom
 hematurie
 hemeralopie
@@ -2479,6 +2636,7 @@ hemiazygos
 hemiplegia
 hemiplegie
 hemisfeer
+hemochromatose
 hemodialyse
 hemofilie
 hemolyse
@@ -2489,16 +2647,20 @@ hemopton
 hemorragie
 hemorro
 hemostase
+hemothorax
 hepatic
 hepatica
 hepaticae
 hepatis
 hepatisch
+hepatische
+hepatitis
 hepatitis
 hepatobiliair
 hepatobiliary
 hepatocellulair
 hepatocellular
+hepatoloog
 hepatomegalie
 hepatomegaly
 hepatotoxic
@@ -2512,16 +2674,21 @@ herleiding
 hermetic
 hermetisch
 hernia
+hernia
 hernieuwde
 herpes
 hersen
 hersenaandoening
 hersenaanhangsel
+hersenbloeding
 hersenen
+herseninfarct
 hersenontsteking
 hersenschudding
 hersenstroom
+hersentumor
 hersenvlies
+hersenvliesontsteking
 hersenvliesontsteking
 hersenzenuw
 hersenziekte
@@ -2531,10 +2698,12 @@ herwaardering
 heteroanamnese
 hetzelfde
 heupader
+heupdysplasie
 heuppijn
 hevig
 hevige
 hielbeen
+hielspoor
 hik
 hindernis
 hirschsprung
@@ -2557,29 +2726,36 @@ homogeen
 homogeneous
 homologous
 homoloog
+hondsdolheid
 honos
 hoofd
+hoofdpijn
 hoofdpijn
 hoofdspieren
 hoofdvormig
 hoog
 hoogste
+hooikoorts
 hoornlaag
 hoornvlies
+hordeolum
 hormonaal
 hormonal
 hormonen
 hormoon
 hormoonafgifte
 hormoonspiraal
+hospik
 hospitalisatie
 hospitalization
 houden
 houding
+hugh
 huid
 huidaandoening
 huidademhaling
 huidafwijking
+huidarts
 huidbloedingen
 huidinfectie
 huidknobbeltje
@@ -2590,6 +2766,7 @@ huidschimmelziekte
 huidspier
 huidstrepen
 huidstriem
+huidtherapeut
 huiduitslag
 huidverdikking
 huidverkleuring
@@ -2597,12 +2774,14 @@ huidverkleuringen
 huidziekte
 huidziekten
 huisarts
+huisarts
 huisartsenpraktijk
 huisartspraktijk
 huispost
 huispostnr
 huispostnummer
 hulpmiddel
+hulpverlener
 hulpverlener
 humeral
 humeralis
@@ -2614,10 +2793,12 @@ humor
 humoraal
 humoral
 humour
+huntington
 hydradatie
 hydration
 hydro
 hydroalcoholic
+hydrocefalus
 hydrocephalus
 hydrofiel
 hydrofoob
@@ -2683,6 +2864,7 @@ hypertrophy
 hyperuricaemia
 hyperurikemie
 hyperventilatie
+hyperventilatie
 hyperventilation
 hypervitaminose
 hypervitaminosis
@@ -2699,6 +2881,7 @@ hypodermaal
 hypodermic
 hypofysair
 hypoglycaemia
+hypoglykemie
 hypoglykemie
 hypogonadism
 hypogonadisme
@@ -2719,6 +2902,7 @@ hypothermia
 hypothermie
 hypothese
 hypothesis
+hypothyreoïdie
 hypothyro
 hypothyroidism
 hypotonia
@@ -2749,6 +2933,7 @@ identical
 identiek
 identificatie
 identification
+idic
 idiopathic
 idiopathisch
 idiosyncrasie
@@ -2856,6 +3041,7 @@ infectie
 infectieus
 infectieverwekker
 infectieziekte
+infectioloog
 infection
 inferior
 inferior
@@ -2867,6 +3053,7 @@ infiltration
 inflammatie
 inflammation
 inflammatoir
+influenza
 influenza
 informatie
 infrahyoidei
@@ -2942,6 +3129,7 @@ intelligence
 intelligentie
 intensiteit
 intensity
+intensivist
 intentietremor
 intention
 interactie
@@ -2967,6 +3155,8 @@ interna
 interna
 internal
 interni
+internist
+internum
 internus
 interossei
 interpretatie
@@ -3053,10 +3243,12 @@ jaren
 jejenum
 jejunum
 jeugd
+jeugdarts
 jeugdig
 jeuk
 jeukend
 jeukwerend
+jicht
 jichtknobbel
 jugularis
 jukbeen
@@ -3064,7 +3256,10 @@ jukbeenspier
 juridische
 juveniel
 juvenile
+kaak
+kaakchirurg
 kaakkramp
+kahler
 kahler
 kaliumspiegel
 kalkzouten
@@ -3073,6 +3268,7 @@ kamer
 kamers
 kanaal
 kanalen
+kanker
 kanker
 kankergezwel
 kankergezwellen
@@ -3090,6 +3286,7 @@ kauwspier
 kauwspieren
 keel
 keelheelkunde
+keelontsteking
 keelontsteking
 keer
 kelo
@@ -3113,6 +3310,7 @@ kijk
 kijkonderzoek
 kind
 kinder
+kinderarts
 kindergeneeskunde
 kinderlijk
 kinderziekenhuis
@@ -3132,6 +3330,7 @@ klepje
 kleur
 kleurbaar
 kleurenband
+kleurenblindheid
 kleurend
 kleuring
 kleurstof
@@ -3139,15 +3338,18 @@ kleurstoffen
 kleverigheid
 klier
 klieren
+klierkoorts
 klierontsteking
 klierweefsel
 klierweefselgezwel
 kliniek
 klinisch
+klinisch
 kloof
 klysma
 kneuzing
 knieschijf
+kno
 knobbel
 knobbelig
 knobbeltje
@@ -3159,6 +3361,7 @@ komt
 koolhydraat
 koolstof
 koolwaterstof
+koorts
 koorts
 koortsig
 koortsuitslag
@@ -3175,6 +3378,7 @@ korte
 kortstondig
 koudvuur
 kraambed
+kraamverzorgster
 kraamvloed
 kracht
 krachteloosheid
@@ -3222,6 +3426,7 @@ laatste
 labiel
 labii
 labile
+laborant
 laborant
 laceratie
 laceration
@@ -3280,6 +3485,7 @@ lenticulair
 lenticular
 lepeltjesnagels
 leponex
+lepra
 lesie
 lesion
 letaal
@@ -3288,6 +3494,7 @@ lethargie
 lethargy
 letsel
 leukaemia
+leukemie
 leukemie
 leukocytair
 leukocytic
@@ -3306,13 +3513,17 @@ leven
 levenbedreigende
 levend
 levende
+levenseindebegeleider
 lever
 lever
 leveraandoening
 leverader
+leverarts
 levercellen
+leverkanker
 leverkwab
 leverkwabben
+leverontsteking
 leverontsteking
 leververgroting
 levervlekken
@@ -3350,6 +3561,8 @@ lichtschuwheid
 lid
 lienais
 lies
+lies
+liesbreuk
 liesstreek
 liezen
 ligament
@@ -3357,6 +3570,7 @@ ligamentum
 liggend
 ligging
 ligt
+lijfarts
 lijkende
 lijn
 lijnvormig
@@ -3366,6 +3580,7 @@ lineair
 linguae
 lipid
 lipide
+lipidoloog
 lipodystrofie
 lipodystrophy
 lipofiel
@@ -3393,17 +3608,22 @@ locomotor
 locomotorisch
 locoregionaal
 locoregional
+logopedist
 lokaal
 lokalisatie
 long
 longaandoening
+longarts
 longblaasjes
+longchirurg
 longen
 longi
 longinhoud
 longissimus
 longitudinale
 longitudinalis
+longkanker
+longontsteking
 longontsteking
 longus
 longziekte
@@ -3444,6 +3664,7 @@ lumborum
 lumbricales
 lumen
 lunatum
+lupus
 lusteloosheid
 lustgevoelens
 luteum
@@ -3468,6 +3689,8 @@ lytic
 lytisch
 maadelijkse
 maag
+maag
+maagkanker
 maagkramp
 maaguitgang
 maagwandontsteking
@@ -3478,6 +3701,7 @@ maaltijd
 maandelijkse
 maandstonden
 maanvormig
+maatschappij
 maceratie
 maceration
 macr
@@ -3496,6 +3720,7 @@ mal
 malabsorptie
 malabsorption
 malaise
+malaria
 malformatie
 malformation
 malignant
@@ -3512,6 +3737,7 @@ manifest
 manifestatie
 manifestation
 manisch
+manisch
 mannelijk
 mannelijke
 mantel
@@ -3519,6 +3745,7 @@ manubrium
 manuele
 manus
 maprotiline
+marfan
 massage
 masseter
 massief
@@ -3543,6 +3770,9 @@ maximaal
 maximal
 maximum
 maximus
+mazelen
+mcad
+mdl
 mechanism
 mechanisme
 medegevoelig
@@ -3571,6 +3801,7 @@ medicijnflesje
 medicinaal
 medicinal
 medisch
+medisch
 medische
 medium
 medius
@@ -3593,6 +3824,7 @@ melanosis
 melkachtige
 melkvloed
 melleril
+mellitus
 membraan
 membrane
 membrorum
@@ -3650,6 +3882,7 @@ micel
 micelle
 microbiological
 microbiologisch
+microbioloog
 microcirculatie
 microcirculation
 micrografie
@@ -3677,14 +3910,18 @@ middenhandsbeen
 middenkootje
 middenoor
 middenrif
+middenrif
 middenstuk
 middenvoetsbeen
 mie
 migraine
+migraine
 milieu
+militair
 miljoenste
 miltader
 miltvergroting
+miltvuur
 miltvuur
 mime
 mimeticum
@@ -3713,6 +3950,7 @@ misvorming
 misvormingen
 mitose
 mitosis
+mka
 mobilisatie
 mobiliteit
 mobility
@@ -3734,10 +3972,14 @@ mogelijke
 mogelijkheden
 moleculair
 moleculen
+molluscum
 molucular
+mond
 mond
 mondhoek
 mondholte
+mondhygiënist
+mondkanker
 mondkringspier
 mondslijmvlies
 monitoring
@@ -3760,6 +4002,8 @@ motility
 motor
 motorisch
 motorische
+moyamoya
+ms
 mucociliair
 mucociliary
 mucocutaan
@@ -3768,6 +4012,7 @@ mucolytic
 mucolyticum
 mucopurulent
 mucosa
+mucoviscidose
 mucus
 multidose
 multidosis
@@ -3775,6 +4020,8 @@ multifidus
 multipara
 multiparous
 multipel
+multipele
+multiple
 multiple
 muntstuk
 muscle
@@ -3791,6 +4038,8 @@ mutation
 mutism
 mutisme
 myalgie
+myalgische
+myasthenia
 myasthenia
 myasthenie
 mycobacterie
@@ -3819,6 +4068,8 @@ myopathy
 myopia
 myopie
 myositis
+möbius
+münchhausen
 naam
 naast
 nabelasting
@@ -3833,6 +4084,7 @@ nalorex
 naloxon
 naltrexon
 narcan
+narcolepsie
 narcose
 narcotic
 narcoticum
@@ -3865,6 +4117,7 @@ neerslachtigheid
 neerslag
 nefritis
 nefroliet
+nefroloog
 nefropathie
 nefrotisch
 nefrotoxic
@@ -3873,11 +4126,13 @@ negatief
 negative
 neiging
 nek
+nek
 nekspieren
 nekwervel
 neonataal
 neonatal
 neonatologie
+neonatoloog
 neoplastic
 neoplastisch
 nephritis
@@ -3890,6 +4145,7 @@ netelroos
 netelroosschrift
 netvlies
 netvliesaandoening
+netvliesdegeneratie
 netwerk
 neuleptil
 neuraal
@@ -3897,6 +4153,7 @@ neural
 neuralgia
 neuralgie
 neuritis
+neurochirurg
 neurodermatitis
 neurodermitis
 neuroleptanalgesia
@@ -3905,12 +4162,14 @@ neuroleptic
 neurolepticum
 neurological
 neurologisch
+neuroloog
 neuromusculair
 neuromuscular
 neuronaal
 neuronal
 neuropathie
 neuropathy
+neurose
 neurotic
 neurotisch
 neurotoxic
@@ -3955,6 +4214,7 @@ nihil
 nil
 nisch
 nitrazapam
+nko
 noctamid
 nocturia
 nocturnal
@@ -3978,6 +4238,7 @@ nortriptyline
 nosocomiaal
 nosocomial
 nozinan
+nucleair
 nullipara
 nulliparous
 nummulair
@@ -4028,6 +4289,7 @@ oestrogeen
 oestrogen
 oftalmisch
 oftalmologisch
+oftalmoloog
 ogen
 oksel
 olanzapine
@@ -4055,6 +4317,7 @@ onbeduidend
 onbekende
 onbestendigheid
 onbeweeglijk
+oncoloog
 oncolytic
 oncolyticum
 oncotic
@@ -4084,6 +4347,7 @@ onderste
 ondervoeding
 ondervulling
 onderzoek
+onderzoeker
 ongeboren
 ongecontroleeerde
 ongecontroleerde
@@ -4143,10 +4407,12 @@ onwillekeurige
 onzekere
 onzichtbaar
 oog
+oogarts
 oogbewegingen
 oogbindvlies
 oogbindvliesontsteking
 oogbol
+oogchirurg
 oogchirurgie
 oogheelkunde
 oogkamerhoek
@@ -4178,6 +4444,7 @@ open
 opening
 operateur
 operatie
+operatieassistent
 operatief
 operatieve
 opgeblazenheid
@@ -4223,6 +4490,7 @@ opportunistic
 opportunistisch
 oprichting
 oprisping
+ops
 opslorping
 opsporing
 optic
@@ -4255,6 +4523,7 @@ orgaandonor
 orgaanholte
 organen
 organisch
+organisch
 organische
 organisme
 orgasm
@@ -4264,9 +4533,13 @@ orientation
 oris
 orofaciaal
 orofacial
+orthodontist
 orthopaedic
 orthopedagoog
 orthopedisch
+orthopedisch
+orthopedist
+orthoptist
 orthostatic
 orthostatisch
 osmolaliteit
@@ -4278,6 +4551,7 @@ osmotische
 ossicle
 ossiculorum
 ossiculum
+ossificans
 ossificatie
 ossification
 osteoarthritis
@@ -4289,12 +4563,14 @@ osteomalacia
 osteomalacie
 osteomyelitis
 osteoporose
+osteoporose
 osteoporosis
 osteotomie
 osteotomy
 otitis
 otorhinolaryngology
 otorinolaryngologie
+otorinolaryngoloog
 otorrhoea
 otorroe
 otosclerose
@@ -4305,6 +4581,7 @@ oudenrijn
 ouderbegeleider
 ouderdomsverschijnselen
 oudere
+ouderengeneeskunde
 oudergesprek
 ouders
 ovale
@@ -4324,6 +4601,7 @@ overdosage
 overdose
 overdosering
 overdosis
+overdraagbare
 overdracht
 overdragen
 overdreven
@@ -4341,6 +4619,7 @@ overmaat
 overmatig
 overmatige
 overplanting
+overspannenheid
 ovulatie
 ovulation
 ovum
@@ -4360,6 +4639,7 @@ palati
 palatini
 palatoglossus
 palatopharyngeus
+palliatief
 palliatief
 palliative
 palmares
@@ -4391,11 +4671,13 @@ paraesthesia
 parallel
 paralyse
 paralysis
+paramedicus
 parameter
 paranoia
 paraplegia
 paraplegie
 parasiet
+parasieten
 parasieten
 parasitair
 parasitic
@@ -4403,6 +4685,7 @@ parasympathicomimeticum
 parasympathomimetic
 parathyreo
 parathyroid
+paratyfus
 paraveneus
 paravenous
 parenchym
@@ -4417,9 +4700,11 @@ parietal
 parietale
 paringspijn
 parkinson
+parkinson
 parkinsonism
 parkinsonisme
 parnate
+parodontitis
 paronychia
 parotis
 parotitis
@@ -4431,6 +4716,7 @@ parssigmoide
 particle
 partikel
 partum
+partumdepressie
 parturition
 partus
 parva
@@ -4445,6 +4731,7 @@ pathogeen
 pathogen
 pathological
 pathologisch
+patholoog
 pati
 patient
 patientnummer
@@ -4454,6 +4741,7 @@ peak
 pectineus
 pectoralis
 pectoris
+pediater
 pediatrisch
 pediculose
 pediculosis
@@ -4487,6 +4775,7 @@ perforatie
 perforation
 perfusie
 perfusion
+perfusionist
 perianaal
 perianal
 periarthritis
@@ -4546,6 +4835,7 @@ petechiae
 petechie
 petit
 pfeiffer
+pfeiffer
 phagocytosis
 phalanx
 phallic
@@ -4558,6 +4848,7 @@ pharyngis
 pharyngitis
 phase
 phenomenon
+phenylketonurie
 phlebitis
 phlebography
 phlegmon
@@ -4590,6 +4881,7 @@ piramidebaan
 piramidevormige
 pisiforme
 pityriasis
+pku
 plaats
 plaatsbepaling
 plaatselijk
@@ -4599,6 +4891,7 @@ plaatsheeft
 placebo
 placenta
 placenta
+plagiocefalie
 plant
 plantaardige
 plantae
@@ -4610,6 +4903,7 @@ plasmaprote
 plasminogeen
 plasminogen
 plastic
+plastische
 platte
 platysma
 plek
@@ -4618,16 +4912,21 @@ pleurisy
 pleuritis
 pleurooesophageus
 plexus
+plexus
 plotseling
 plotselinge
+pneumoloog
 pneumonia
 pneumonie
 pneumopathie
 pneumopathy
 poatpartum
+podotherapeut
+pokken
 pokstof
 poli
 polikliniek
+polio
 poliomyelitis
 pollicis
 polyarthritis
@@ -4636,6 +4935,7 @@ polydipsie
 polymorf
 polymorphic
 polyneuritis
+polyneuropathie
 polypeptide
 polytherapie
 polytherapy
@@ -4739,6 +5039,7 @@ processus
 procreatie
 procreation
 proctitis
+proctoloog
 produceren
 productie
 production
@@ -4753,11 +5054,13 @@ profunda
 profundi
 profundus
 profylaxe
+progeria
 progestageen
 progestogen
 prognose
 prognosis
 progressief
+progressiva
 progressive
 prolaps
 prolapse
@@ -4772,6 +5075,7 @@ proptosis
 propulsief
 propulsive
 prostaat
+prostaatkanker
 prostaglandin
 prostaglandine
 prostatism
@@ -4804,8 +5108,11 @@ pruritus
 pseudomembraneus
 pseudomembranous
 pseudotumor
+pseudotumor
 pseudotumour
 psoriasis
+psoriasis
+psychiater
 psychiater
 psychiatric
 psychiatrisch
@@ -4817,14 +5124,19 @@ psychogenic
 psycholeptic
 psycholepticum
 psychological
+psychologie
 psychologisch
+psycholoog
 psycholoog
 psychomotor
 psychomotorisch
+psychopathie
+psychose
 psychose
 psychosis
 psychosomatic
 psychosomatisch
+psychosyndroom
 psychotherapie
 psychoticum
 psychotisch
@@ -4844,6 +5156,7 @@ pulmonair
 pulmonale
 pulmonalis
 pulmonary
+pulmonoloog
 pulsatie
 pulsation
 punctie
@@ -4892,6 +5205,7 @@ quetiapine
 quiescent
 raad
 rachitis
+rachitis
 radiale
 radialis
 radialis
@@ -4903,6 +5217,9 @@ radiografie
 radiography
 radiological
 radiologisch
+radioloog
+radiotherapeut
+radiotherapeutisch
 radiotherapie
 radiotherapy
 radius
@@ -4917,6 +5234,7 @@ reabsorptie
 reabsorption
 reactie
 reacties
+reactieve
 reaction
 reactivation
 reactivering
@@ -5059,8 +5377,11 @@ retrosternaal
 retrosternal
 reukzin
 reuma
+reuma
+reumatoloog
 reumatoïd
 reutelgeruis
+revalidatiearts
 revalidatiecentrum
 revaluatie
 revaluation
@@ -5096,6 +5417,7 @@ risperidon
 ritmisch
 rivotril
 rodehond
+rodehond
 roentgenonderzoek
 rohypnol
 rol
@@ -5109,16 +5431,20 @@ rontgenstralen
 rood
 roodheid
 roodvonk
+roodvonk
 rotatores
 routinely
 routinematig
+rsi
 rubber
 rubella
+rug
 rug
 ruggemerg
 ruggemergsvliezen
 ruggenmergvlies
 rugmusculatuur
+rugpijn
 rugspier
 rugspieren
 rugzijde
@@ -5158,6 +5484,7 @@ saprofyt
 saprophyte
 sarcoma
 sarcoom
+sarcoïdose
 sarotex
 sartorius
 scabies
@@ -5180,6 +5507,7 @@ schedel
 schedeldakspieren
 schedule
 scheefhals
+scheelzien
 scheelzien
 scheenbeen
 scheenbeenknobbel
@@ -5204,9 +5532,11 @@ schimmelwerend
 schimmelziekte
 schippersbeentje
 schizofrenie
+schizofrenie
 schizophrenia
 scholspier
 school
+schoolarts
 schoonheidsmiddel
 schors
 schouder
@@ -5226,7 +5556,9 @@ schurft
 sciatica
 sclera
 sclerose
+sclerose
 sclerosis
+scoliose
 score
 scotoma
 scotoom
@@ -5244,6 +5576,7 @@ sediment
 sedimentatie
 sedimentation
 segment
+seksueel
 seksuele
 sekwester
 selectief
@@ -5258,6 +5591,7 @@ semitendinosus
 seniliteit
 senility
 sensibilisatie
+sensitivity
 sensitization
 sensorieel
 sensorisch
@@ -5347,6 +5681,7 @@ slijmvliezen
 slijtage
 slikstoornis
 slokdarm
+slokdarmafsluiting
 sloomheid
 sluimeren
 sluimerend
@@ -5355,6 +5690,7 @@ smaakstoornis
 snelheid
 snelle
 snijdend
+soa
 soleus
 solutio
 solution
@@ -5394,6 +5730,7 @@ spasticiteit
 spasticity
 spastisch
 spatader
+specialist
 species
 specific
 specifiek
@@ -5429,6 +5766,7 @@ spierzwakte
 spijsvertering
 spijsverteringsstelsel
 spina
+spina
 spinaal
 spinae
 spinal
@@ -5442,12 +5780,16 @@ splenius
 splenomegalie
 splenomegaly
 splitsing
+spoedeisendehulparts
 spondylitis
+spondylolyse
+spongiforme
 spontaan
 spoorelement
 sporadic
 sporadisch
 sporen
+sportarts
 spotting
 spraakstoornis
 spray
@@ -5533,11 +5875,14 @@ stomatologisch
 stomazak
 stomazakje
 stoornis
+stoornis
 stoornissen
 stop
+stotteren
 straallichaam
 strabismus
 straling
+strauss
 streek
 strekgroep
 strekken
@@ -5631,6 +5976,7 @@ surmontil
 suspensie
 suspension
 sverschijnselen
+syfilis
 symopathomimetic
 symoron
 sympathetic
@@ -5649,6 +5995,7 @@ synaptisch
 syncope
 syndrome
 syndroom
+syndroom
 synergistic
 synergistisch
 synoviaal
@@ -5665,6 +6012,7 @@ systemic
 systemisch
 systolic
 systolisch
+taaislijmziekte
 taak
 taal
 tachyaritmie
@@ -5677,6 +6025,7 @@ talgklier
 talgvloed
 talus
 tandaanslag
+tandarts
 tandbederf
 tanden
 tandplaque
@@ -5685,6 +6034,7 @@ tandvleesontsteking
 tardief
 tardive
 taxilan
+technicus
 teelbal
 teelballen
 teen
@@ -5756,6 +6106,7 @@ testicularis
 testis
 tetanie
 tetanus
+tetanus
 tetany
 teveel
 teweegbrengt
@@ -5793,10 +6144,12 @@ thyrostatic
 thyrostaticum
 thyrotoxicose
 thyrotoxicosis
+tia
 tibia
 tibiae
 tibialis
 tibiaplateau
+tic
 tic
 tiende
 tijd
@@ -5814,6 +6167,7 @@ toe
 toedienen
 toediening
 toegediend
+toegepaste
 toegevoegd
 toename
 toeneemt
@@ -5854,6 +6208,8 @@ topology
 torsie
 torsion
 torticollis
+tourette
+tourette
 toxaemia
 toxemie
 toxic
@@ -5898,6 +6254,7 @@ transitory
 transmissie
 transmission
 transplantatie
+transplantatiechirurg
 transplantation
 transurethral
 transuretraal
@@ -5911,6 +6268,7 @@ trapezium
 trapezius
 trapezoideum
 trapsgewijs
+traumachirurg
 traumatic
 traumatisch
 trazodon
@@ -5929,6 +6287,7 @@ trihexyfenidyl
 trilafon
 trilharen
 trimipramine
+triple
 triquetrum
 trismus
 trivalent
@@ -5954,8 +6313,10 @@ tuber
 tubercular
 tuberculeus
 tuberculose
+tuberculose
 tuberculostatic
 tuberculostaticum
+tubereuze
 tuberkelbacil
 tuberositas
 tubulair
@@ -5977,6 +6338,7 @@ tweebuikige
 tweehoofdige
 tympani
 tympanum
+tyrosinemie
 uitademing
 uitademingssnelheid
 uitblijven
@@ -6018,6 +6380,7 @@ ulceratie
 ulceration
 ulcerogeen
 ulcerogenic
+ulcerosa
 ulcus
 ulna
 ulnae
@@ -6039,6 +6402,7 @@ uremie
 urethritis
 urgency
 urgentie
+urgentiearts
 uricosuric
 uricosuricum
 urinair
@@ -6055,6 +6419,8 @@ urogenitaal
 urogenital
 urografie
 urography
+uroloog
+urticaria
 urticaria
 uteri
 uterine
@@ -6062,6 +6428,7 @@ uterus
 uveitis
 uvulae
 vaatafwijking
+vaatchirurg
 vaatkluwens
 vaatonsteking
 vaatverbinding
@@ -6193,6 +6560,7 @@ verkalking
 verkeert
 verkleurde
 verkleuring
+verkoudheid
 verkozen
 verlaagd
 verlaagde
@@ -6206,6 +6574,7 @@ verloop
 verlopend
 verloren
 verloskundig
+verloskundige
 verloskundige
 vermannelijking
 vermeerderde
@@ -6234,6 +6603,7 @@ verplaatsing
 verpleegafdeling
 verpleegkundig
 verpleegkundige
+verpleegkundige
 verpulveren
 verrichtingen
 verscheuring
@@ -6248,6 +6618,8 @@ verslaving
 verspreid
 verspreiding
 verstandelijk
+verstandelijk
+verstandelijke
 verstandelijke
 versterkend
 versterking
@@ -6289,6 +6661,8 @@ verzachtend
 verzadiging
 verzakking
 verzamelnaam
+verzekeringsarts
+verziendheid
 verzoek
 verzwering
 vesicaal
@@ -6334,6 +6708,7 @@ visueel
 vital
 vitale
 vitamine
+vitiligo
 vitreous
 vitreus
 vitro
@@ -6341,6 +6716,7 @@ vivo
 vlak
 vlek
 vlekken
+vlektyfus
 vleugelspier
 vlies
 vloed
@@ -6362,6 +6738,7 @@ voedingsstof
 voedingsstoffen
 voedingsstoornis
 voedsel
+voedselvergiftiging
 voeren
 voet
 voet
@@ -6449,6 +6826,7 @@ waarneembaar
 waarneming
 waarnemingsvermogen
 waarop
+wagenziekte
 wand
 wandbeen
 wandbeen
@@ -6466,8 +6844,10 @@ waterige
 wateroppervlak
 wateropslorpend
 waterpokken
+waterpokken
 waterstofatoom
 watervrij
+waterwratten
 waterzucht
 wederinstorting
 wederzijdse
@@ -6516,6 +6896,7 @@ wetten
 wezenlijk
 wezens
 wharton
+whiplash
 wigvormig
 wijzigen
 willebrand
@@ -6526,6 +6907,7 @@ wondpijn
 wondroos
 wormdrijvend
 wrat
+wratten
 xanax
 xanthoma
 xanthoom
@@ -6540,6 +6922,7 @@ zaadcel
 zaadcellen
 zaadlozing
 zeer
+zeeziekte
 zeldzaam
 zelfregulering
 zelfstandig
@@ -6547,6 +6930,7 @@ zelfstandige
 zemelenuitslag
 zenuw
 zenuwachtigheid
+zenuwarts
 zenuwbanen
 zenuwcel
 zenuwcellen
@@ -6574,6 +6958,8 @@ ziekelijke
 ziekenbg
 ziekenhuis
 ziekenhuiscentrum
+ziekenhuishygiënist
+ziekte
 ziekte
 ziekteaanval
 ziektebeeld
@@ -6637,6 +7023,7 @@ zweervorming
 zweetafscheiding
 zwellichaam
 zwelling
+zwemmerseczeem
 zyban
 zygomaticum
 zygomaticus
