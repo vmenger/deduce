@@ -767,7 +767,6 @@ biphasic
 blaarvorming
 blaas
 blaasontsteking
-blauw
 blauwe
 blauwkleuring
 bleekheid
@@ -850,7 +849,6 @@ botstofwisseling
 botverdikking
 bouwen
 bouwstof
-boven
 bovenbuik
 bovenkaak
 bovenmatige
@@ -2132,7 +2130,6 @@ gluten
 glycoside
 glycosuria
 goedaardig
-goede
 gonadaal
 gonadal
 gonadotroop
@@ -2164,7 +2161,6 @@ graves
 graviditeit
 gravidity
 griep
-grijze
 groei
 groeihormoon
 groeischijf
@@ -2865,7 +2861,6 @@ klierweefselgezwel
 kliniek
 klinisch
 kloof
-klopping
 klysma
 kneuzing
 knobbel
@@ -4590,7 +4585,6 @@ risperdal
 risperidon
 ritmisch
 rivotril
-rode
 rodehond
 roentgenonderzoek
 rohypnol
@@ -4668,7 +4662,6 @@ schildklier
 schildklierhormoon
 schildklierwerking
 schilfers
-schimmel
 schimmels
 schimmelwerend
 schimmelziekte
@@ -4791,7 +4784,6 @@ sluimeren
 sluimerend
 sluitspier
 smaakstoornis
-snel
 snelheid
 snelle
 snijdend
@@ -4862,7 +4854,6 @@ spinaal
 spinal
 spinnewebvlies
 spiraaltje
-spit
 spleet
 splenomegalie
 splenomegaly
@@ -5260,7 +5251,6 @@ transurethral
 transuretraal
 tranxene
 tranylcypromine
-trap
 trapsgewijs
 traumatic
 traumatisch
@@ -5623,8 +5613,6 @@ vetweefsel
 vetzucht
 vezelbundel
 vezelstof
-via
-vial
 viertallig
 vigilance
 vigiliteit
@@ -5708,7 +5696,6 @@ voorschrift
 voorschrijven
 voorspelling
 voorstellen
-voort
 voortbrengend
 voortbrenging
 voortdurend
@@ -5935,3 +5922,4 @@ zwellichaam
 zwelling
 zyban
 zyprexa
+lange
