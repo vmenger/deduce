@@ -20,6 +20,7 @@ afspraak
 afval
 al
 algemeen
+algemene
 alle
 alleen
 alles
@@ -302,6 +303,7 @@ hal
 halen
 half
 hallo
+hallo
 hamer
 hand
 hard
@@ -331,6 +333,7 @@ hoek
 hoeveel
 hoeveelheid
 hoewel
+hoi
 hond
 honderd
 honger
@@ -492,6 +495,7 @@ maken
 makkelijk
 mama
 man
+man
 mand
 manier
 map
@@ -640,6 +644,7 @@ perfect
 periode
 persoon
 piano
+piek
 pijn
 pistool
 plaat
@@ -1031,8 +1036,3 @@ zwak
 zwembad
 zwemmen
 één
-man
-piek
-hoi
-hallo
-algemene
