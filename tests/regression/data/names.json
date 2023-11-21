@@ -1001,6 +1001,48 @@
             "id": 109,
             "text": "M. Alzheimer",
             "annotations": []
+        },
+        {
+            "id": 110,
+            "text": "N. Suralis",
+            "annotations": []
+        },
+        {
+            "id": 111,
+            "text": "M. Auricularis",
+            "annotations": []
+        },
+        {
+            "id": 112,
+            "text": "I. Multiple",
+            "annotations": []
+        },
+        {
+            "id": 113,
+            "text": "I. Ulna",
+            "annotations": []
+        },
+        {
+            "id": 114,
+            "text": "A. Brachialis",
+            "annotations": []
+        },
+        {
+            "id": 115,
+            "text": "V. Cava Inferior",
+            "annotations": []
+        },
+        {
+            "id": 116,
+            "text": "B. Bakker Neuroloog",
+            "annotations": [
+                {
+                    "text": "B. Bakker",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "persoon"
+                }
+            ]
         }
     ]
 }
