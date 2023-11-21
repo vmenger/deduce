@@ -991,6 +991,16 @@
                     "tag": "persoon"
                 }
             ]
+        },
+        {
+            "id": 108,
+            "text": "Ziekenhuis te Amersfoort",
+            "annotations": []
+        },
+        {
+            "id": 109,
+            "text": "M. Alzheimer",
+            "annotations": []
         }
     ]
 }

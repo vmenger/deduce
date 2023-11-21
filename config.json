@@ -67,7 +67,7 @@
         "skip": [],
         "pattern": [
           {
-            "lowercase_lookup": "interfixes"
+            "lookup": "interfixes"
           },
           {
             "and": [

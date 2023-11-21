@@ -5,7 +5,6 @@ import docdeid as dd
 
 from deduce.str.processor import (
     FilterBasedOnLookupSet,
-    TakeLastToken,
     TitleCase,
     UpperCase,
     UpperCaseFirstChar,
@@ -70,8 +69,15 @@ def _get_interfix_surnames() -> dd.ds.LookupSet:
 
     interfix_surnames.add_items_from_file(
         os.path.join(data_path, "names", "interfix_surnames.txt"),
-        cleaning_pipeline=[TakeLastToken()],
     )
+
+    interfix_surname_exceptions = dd.ds.LookupSet()
+
+    interfix_surname_exceptions.add_items_from_file(
+        os.path.join(data_path, "names", "interfix_surname_exceptions.txt")
+    )
+
+    interfix_surnames.remove_items_from_iterable(interfix_surname_exceptions)
 
     return interfix_surnames
 

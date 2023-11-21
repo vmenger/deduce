@@ -20,6 +20,7 @@ afspraak
 afval
 al
 algemeen
+algemene
 alle
 alleen
 alles
@@ -73,6 +74,7 @@ beroep
 bescherm
 beslissen
 best
+beste
 betalen
 beter
 bevatten
@@ -209,6 +211,7 @@ enkele
 enthousiast
 er
 erg
+erna
 eten
 even
 examen
@@ -300,6 +303,7 @@ hal
 halen
 half
 hallo
+hallo
 hamer
 hand
 hard
@@ -329,6 +333,7 @@ hoek
 hoeveel
 hoeveelheid
 hoewel
+hoi
 hond
 honderd
 honger
@@ -355,6 +360,7 @@ ijzer
 ik
 in
 instrument
+iom
 ja
 jaar
 jagen
@@ -488,6 +494,7 @@ machine
 maken
 makkelijk
 mama
+man
 man
 mand
 manier
@@ -637,6 +644,7 @@ perfect
 periode
 persoon
 piano
+piek
 pijn
 pistool
 plaat
