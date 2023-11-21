@@ -283,6 +283,7 @@ alvleesklier
 alvleesklierkanker
 alzheimer
 alzheimer
+alzheimer
 amandelontsteking
 ambly
 amblyopia
@@ -678,6 +679,7 @@ basiskootje
 beademen
 beademings
 bechterew
+bechterew
 bedaart
 bedekken
 bedrijfsarts
@@ -790,6 +792,7 @@ bewustzijnsverlies
 bezichtiging
 bezinking
 bezinksel
+bezoekdatum
 bezorgdheid
 beïnvloedt
 biceps
@@ -952,6 +955,7 @@ botontkalking
 botontsteking
 botstofwisseling
 botverdikking
+bourneville
 bouwen
 bouwstof
 bovenarmspier
@@ -1022,6 +1026,7 @@ buccal
 buccinator
 buccofaryngeaal
 buccopharyngeal
+buerger
 buigbeweging
 buiging
 buigspieren
@@ -1175,6 +1180,7 @@ cervicaal
 cervical
 cervicis
 cervix
+chagas
 chalazion
 champix
 chelatie
@@ -1257,6 +1263,7 @@ coagulatie
 coagulation
 coassistent
 coated
+coats
 cochleair
 cochlear
 coeliakie
@@ -1418,12 +1425,14 @@ creatinaemia
 creatinine
 creatininemie
 cremaster
+creutzfeldt
 cricoarytaenoideus
 cricothyreoideus
 crisis
 crista
 criterion
 criterium
+crohn
 crohn
 crohn
 crossallergy
@@ -1444,6 +1453,7 @@ curarize
 curatief
 curative
 curettage
+curschmann
 curtis
 curve
 cushing
@@ -2117,6 +2127,7 @@ extreme
 extremiteit
 extremity
 exudate
+fabry
 faciaal
 facial
 facialis
@@ -2243,6 +2254,7 @@ foramen
 foramen
 forectomie
 forensisch
+forestier
 foto
 fotofobie
 fotograferen
@@ -2313,6 +2325,7 @@ gastrointestinal
 gastroloog
 gastrooesophageal
 gat
+gaucher
 geb
 gebaard
 gebeuren
@@ -2459,6 +2472,7 @@ gingivitis
 gisting
 giststof
 glandulae
+glanzmann
 glasachtig
 glaucoma
 glaucoom
@@ -2508,6 +2522,7 @@ granulocyten
 granulocytopenia
 granulocytopenie
 graphy
+graves
 graves
 graviditeit
 gravidity
@@ -2613,6 +2628,7 @@ hartwand
 hartziekte
 hartziekten
 hashimoto
+hashimoto
 havenarts
 hebbend
 hechtingsstoornis
@@ -2706,6 +2722,7 @@ hielbeen
 hielspoor
 hik
 hindernis
+hippel
 hirschsprung
 hirsutism
 hirsutisme
@@ -2713,6 +2730,7 @@ histamine
 histological
 histologisch
 historische
+hodgkin
 hodgkin
 hoedanigheid
 hoesje
@@ -2794,6 +2812,8 @@ humoraal
 humoral
 humour
 huntington
+huntington
+hurler
 hydradatie
 hydration
 hydro
@@ -3261,6 +3281,7 @@ kaakchirurg
 kaakkramp
 kahler
 kahler
+kahler
 kaliumspiegel
 kalkzouten
 kalmerend
@@ -3284,6 +3305,7 @@ katalyseren
 kauwen
 kauwspier
 kauwspieren
+kawasaki
 keel
 keelheelkunde
 keelontsteking
@@ -3380,6 +3402,7 @@ koudvuur
 kraambed
 kraamverzorgster
 kraamvloed
+krabbe
 kracht
 krachteloosheid
 krachten
@@ -3576,6 +3599,7 @@ lijn
 lijnvormig
 limbic
 limbisch
+lindau
 lineair
 linguae
 lipid
@@ -3670,6 +3694,7 @@ lustgevoelens
 luteum
 luxatie
 luxation
+lyme
 lyme
 lymf
 lymfadenopathie
@@ -3833,6 +3858,7 @@ mengbaar
 mengsel
 meningica
 meningitis
+menkes
 menopause
 menopauze
 menorragie
@@ -4701,6 +4727,7 @@ parietale
 paringspijn
 parkinson
 parkinson
+parkinson
 parkinsonism
 parkinsonisme
 parnate
@@ -4834,6 +4861,8 @@ pessary
 petechiae
 petechie
 petit
+peyronie
+pfeiffer
 pfeiffer
 pfeiffer
 phagocytosis
@@ -4943,6 +4972,7 @@ polyuria
 polyurie
 polyvalent
 pomp
+pompe
 pons
 poortader
 poplitea
@@ -5201,6 +5231,7 @@ qualitative
 quantitative
 quaternair
 quaternary
+quervain
 quetiapine
 quiescent
 raad
@@ -5228,6 +5259,7 @@ rangschikking
 raucousness
 ravenbek
 ravenbekopperarmspier
+raynaud
 raynaudfenomeen
 raynauds
 reabsorptie
@@ -5258,6 +5290,7 @@ recidief
 recidivist
 recipi
 recipient
+recklinghausen
 recombinant
 reconstitutie
 reconstitution
@@ -5454,6 +5487,7 @@ ruitvormige
 rupture
 ruptuur
 rusteloze
+sachs
 sacrococcygeus
 sacrum
 sagittalis
@@ -5479,6 +5513,7 @@ samentrekkende
 samentrekking
 samentrekkingskracht
 samenwerkend
+sanfilippo
 saphena
 saprofyt
 saprophyte
@@ -5830,6 +5865,7 @@ steatorroe
 steatose
 steatosis
 steenpuistziekte
+steinert
 stelselmatig
 stemmenpoli
 stemming
@@ -5898,11 +5934,13 @@ strottenhoofd
 structural
 structureel
 struma
+strümpell
 stuip
 stuipen
 stuit
 stukje
 stupor
+sturge
 styloglossus
 stylohyoideus
 stylopharyngeus
@@ -6034,6 +6072,7 @@ tandvleesontsteking
 tardief
 tardive
 taxilan
+tay
 technicus
 teelbal
 teelballen
@@ -6122,6 +6161,7 @@ thermisch
 thermoregulatie
 thermoregulation
 thioridazine
+thomsen
 thoracaal
 thoracaal
 thoracic
@@ -6827,6 +6867,7 @@ waarneming
 waarnemingsvermogen
 waarop
 wagenziekte
+waldenström
 wand
 wandbeen
 wandbeen
@@ -6849,6 +6890,7 @@ waterstofatoom
 watervrij
 waterwratten
 waterzucht
+weber
 wederinstorting
 wederzijdse
 weefsel
@@ -6868,8 +6910,10 @@ weergegeven
 weerstand
 wegblijven
 wegener
+wegener
 weggepompt
 wegzuigen
+weil
 weke
 weken
 weker
@@ -6897,9 +6941,11 @@ wezenlijk
 wezens
 wharton
 whiplash
+whipple
 wigvormig
 wijzigen
 willebrand
+wilson
 windzucht
 withdrawal
 woekering
@@ -6988,6 +7034,7 @@ zodat
 zoloft
 zolpidem
 zone
+zoon
 zopiclon
 zorg
 zorgverlener
