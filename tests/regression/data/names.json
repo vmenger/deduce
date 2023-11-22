@@ -844,19 +844,6 @@
             ]
         },
         {
-            "id": 94,
-            "text": "Voornaam-Voornaam Achternaam",
-            "annotations": [
-                {
-                    "text": "Voornaam-Voornaam Achternaam",
-                    "start_char": 0,
-                    "end_char": 28,
-                    "tag": "persoon"
-                }
-            ]
-        },
-
-        {
             "id": 95,
             "text": "de Heer",
             "annotations": []
@@ -1040,6 +1027,90 @@
                     "text": "B. Bakker",
                     "start_char": 0,
                     "end_char": 9,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 117,
+            "text": "Jan-Willem",
+            "annotations": [
+                {
+                    "text": "Jan-Willem",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 118,
+            "text": "Jan-Onbekendenaam",
+            "annotations": [
+                {
+                    "text": "Jan-Onbekendenaam",
+                    "start_char": 0,
+                    "end_char": 17,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 119,
+            "text": "Onbekendenaam-Willem",
+            "annotations": [
+                {
+                    "text": "Onbekendenaam-Willem",
+                    "start_char": 0,
+                    "end_char": 20,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 120,
+            "text": "El Ahmadi",
+            "annotations": [
+                {
+                    "text": "Ahmadi",
+                    "start_char": 3,
+                    "end_char": 9,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 121,
+            "text": "Bruins Slot",
+            "annotations": [
+                {
+                    "text": "Bruins Slot",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 122,
+            "text": "Groot Wassink",
+            "annotations": [
+                {
+                    "text": "Groot Wassink",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 123,
+            "text": "Pieter Oude Nijhuis",
+            "annotations": [
+                {
+                    "text": "Pieter Oude Nijhuis",
+                    "start_char": 0,
+                    "end_char": 19,
                     "tag": "persoon"
                 }
             ]

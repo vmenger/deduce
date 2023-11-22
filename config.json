@@ -128,49 +128,19 @@
       }
     },
     "first_name_lookup": {
-      "annotator_type": "token_pattern",
+      "annotator_type": "multi_token",
       "group": "names",
       "args": {
         "tag": "voornaam",
-        "skip": [],
-        "pattern": [
-          {
-            "and": [
-              {
-                "lookup": "first_names"
-              },
-              {
-                "neg_lookup": "first_name_exceptions"
-              },
-              {
-                "neg_lookup": "whitelist"
-              }
-            ]
-          }
-        ]
+        "lookup_values": "first_names"
       }
     },
     "surname_lookup": {
-      "annotator_type": "token_pattern",
+      "annotator_type": "multi_token",
       "group": "names",
       "args": {
         "tag": "achternaam",
-        "skip": [],
-        "pattern": [
-          {
-            "and": [
-              {
-                "lookup": "surnames"
-              },
-              {
-                "neg_lookup": "surname_exceptions"
-              },
-              {
-                "neg_lookup": "whitelist"
-              }
-            ]
-          }
-        ]
+        "lookup_values": "surnames"
       }
     },
     "person_first_name": {

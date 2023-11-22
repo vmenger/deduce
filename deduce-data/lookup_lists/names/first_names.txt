@@ -854,7 +854,6 @@ Anne-Roos
 Anne-Ruth
 Anne-Sophie
 Anne-Wil
-Anne-marie
 Annebel
 Annebelle
 Annebet
@@ -7134,8 +7133,6 @@ Jo-An
 Jo-Ann
 Jo-Anna
 Jo-Anne
-Jo-ann
-Jo-anne
 Joa
 Joab
 Joachem
@@ -8009,7 +8006,6 @@ Kwint
 Kwinten
 Kwok
 Ky-Mani
-Ky-mani
 Kyan
 Kyana
 Kyandro

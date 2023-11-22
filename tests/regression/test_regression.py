@@ -53,7 +53,6 @@ class TestRegression:
                 "name_context",
                 "person_annotation_converter",
             },
-            known_failures={94},
         )
 
     def test_regression_location(self, model):

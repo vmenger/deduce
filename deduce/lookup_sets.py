@@ -34,6 +34,17 @@ def _get_first_names() -> dd.ds.LookupSet:
         cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
     )
 
+    first_name_exceptions = _get_first_name_exceptions()
+
+    first_names.remove_items_from_iterable(first_name_exceptions)
+
+    first_names.add_items_from_self(
+        cleaning_pipeline=[
+            FilterBasedOnLookupSet(filter_set=_get_whitelist(), case_sensitive=False),
+        ],
+        replace=True,
+    )
+
     return first_names
 
 
@@ -90,6 +101,17 @@ def _get_surnames() -> dd.ds.LookupSet:
     surnames.add_items_from_file(
         os.path.join(data_path, "names", "surnames.txt"),
         cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
+    )
+
+    surname_exceptions = _get_surname_exceptions()
+
+    surnames.remove_items_from_iterable(surname_exceptions)
+
+    surnames.add_items_from_self(
+        cleaning_pipeline=[
+            FilterBasedOnLookupSet(filter_set=_get_whitelist(), case_sensitive=False),
+        ],
+        replace=True,
     )
 
     return surnames
