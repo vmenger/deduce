@@ -643,7 +643,6 @@ papier
 park
 partner
 pas
-pas
 passeren
 pauw
 pen
