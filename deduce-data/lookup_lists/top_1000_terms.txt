@@ -128,6 +128,7 @@ bui
 buiten
 bureau
 buren
+burger
 bus
 buurman
 buurvrouw
@@ -184,8 +185,10 @@ drinken
 drogen
 dromen
 droog
+droog
 druk
 dubbel
+duits
 dun
 dus
 duur
@@ -207,6 +210,7 @@ elektrisch
 elk
 elke
 en
+engels
 enkele
 enthousiast
 er
@@ -266,6 +270,7 @@ geur
 gevaar
 gevaarlijk
 gevangenis
+geven
 geven
 gevolg
 gewicht
@@ -550,6 +555,7 @@ naam
 naar
 naast
 nacht
+nader
 nat
 natuur
 natuurlijk
@@ -621,6 +627,7 @@ opnemen
 oranje
 orde
 oud
+oud
 ouder
 over
 overeenkomen
@@ -636,7 +643,9 @@ papier
 park
 partner
 pas
+pas
 passeren
+pauw
 pen
 peper
 per

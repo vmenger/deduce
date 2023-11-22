@@ -3386,6 +3386,7 @@ lange
 langs
 langzame
 langzamer
+lap
 laquo
 largactil
 laryngeus
@@ -4872,6 +4873,7 @@ population
 porfyrie
 porphyria
 portae
+pos
 positief
 positive
 postbus
@@ -5421,6 +5423,7 @@ scheikunde
 scheikundig
 scheikundige
 schele
+schep
 scherp
 scherpe
 scherpstelling
@@ -5500,6 +5503,7 @@ sensitization
 sensorieel
 sensorisch
 sensory
+sep
 sepsis
 septi
 septic
@@ -5681,6 +5685,7 @@ spondylitis
 spondylolyse
 spongiforme
 spontaan
+spoor
 spoorelement
 sporadic
 sporadisch
