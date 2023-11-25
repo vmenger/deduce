@@ -396,7 +396,7 @@
       "annotator_type": "regexp",
       "group": "locations",
       "args": {
-        "regexp_pattern": "([Pp]ostbus\\s\\d{1,5})",
+        "regexp_pattern": "([Pp]ostbus\\s\\d{1,5}(\\.\\d{2,4})?)",
         "tag": "locatie"
       }
     },
