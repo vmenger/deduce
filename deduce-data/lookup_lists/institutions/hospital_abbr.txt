@@ -1,6 +1,7 @@
 AMC
 AZU
 CMH
+Diak
 EKZ
 EMC
 ETZ
