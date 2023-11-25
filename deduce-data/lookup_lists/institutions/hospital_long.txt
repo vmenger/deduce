@@ -1,3 +1,4 @@
+
 'T Catharina Gasthuis
 'T Catharina Kliniek
 'T Catharina Klinieken
@@ -1236,7 +1237,29 @@ Diaconessenziekenhuis
 Diaconessenziekenhuizen
 Diaconessenzkh
 Diaconessenzkh.
+Diakonessen
+Diakonessen Gasthuis
+Diakonessen Kliniek
+Diakonessen Klinieken
+Diakonessen Ziekenhuis
+Diakonessen Ziekenhuizen
+Diakonessen Zkh
+Diakonessen Zkh.
+Diakonessen gasthuis
+Diakonessen kliniek
+Diakonessen klinieken
+Diakonessen ziekenhuis
+Diakonessen ziekenhuizen
+Diakonessen zkh
+Diakonessen zkh.
+Diakonessengasthuis
 Diakonessenhuis
+Diakonessenkliniek
+Diakonessenklinieken
+Diakonessenziekenhuis
+Diakonessenziekenhuizen
+Diakonessenzkh
+Diakonessenzkh.
 Dijklander
 Dijklander Gasthuis
 Dijklander Kliniek
@@ -1534,6 +1557,7 @@ Gasthuis Bernhoven
 Gasthuis De Gelderse Vallei
 Gasthuis Enschede
 Gasthuis Gelderse Vallei
+Gasthuis Hilversum
 Gasthuis Isselwaerde
 Gasthuis Johannes De Deo
 Gasthuis Knol
@@ -2402,6 +2426,7 @@ Kliniek Bernhoven
 Kliniek De Gelderse Vallei
 Kliniek Enschede
 Kliniek Gelderse Vallei
+Kliniek Hilversum
 Kliniek Isselwaerde
 Kliniek Johannes De Deo
 Kliniek Knol
@@ -2566,6 +2591,28 @@ Lievensbergziekenhuis
 Lievensbergziekenhuizen
 Lievensbergzkh
 Lievensbergzkh.
+Lorentz
+Lorentz Gasthuis
+Lorentz Kliniek
+Lorentz Klinieken
+Lorentz Ziekenhuis
+Lorentz Ziekenhuizen
+Lorentz Zkh
+Lorentz Zkh.
+Lorentz gasthuis
+Lorentz kliniek
+Lorentz klinieken
+Lorentz ziekenhuis
+Lorentz ziekenhuizen
+Lorentz zkh
+Lorentz zkh.
+Lorentzgasthuis
+Lorentzkliniek
+Lorentzklinieken
+Lorentzziekenhuis
+Lorentzziekenhuizen
+Lorentzzkh
+Lorentzzkh.
 Lucas Andreas
 Lucas Andreas Gasthuis
 Lucas Andreas Kliniek
@@ -2770,6 +2817,7 @@ Militair Hospitaal Dokter A Mathijsen
 Militair Hospitaal Dokter A Mathysen
 Militair Hospitaal Dokter A. Mathijsen
 Militair Hospitaal Dokter A. Mathysen
+Máxima
 Máxima MC
 Máxima Medisch Centrum
 Nebo
@@ -2988,6 +3036,27 @@ PW. Janssenziekenhuizen
 PW. Janssenzkh
 PW. Janssenzkh.
 Parkzicht
+Pasteur Gasthuis
+Pasteur Kliniek
+Pasteur Klinieken
+Pasteur Ziekenhuis
+Pasteur Ziekenhuizen
+Pasteur Zkh
+Pasteur Zkh.
+Pasteur gasthuis
+Pasteur kliniek
+Pasteur klinieken
+Pasteur ziekenhuis
+Pasteur ziekenhuizen
+Pasteur zkh
+Pasteur zkh.
+Pasteurgasthuis
+Pasteurkliniek
+Pasteurklinieken
+Pasteurziekenhuis
+Pasteurziekenhuizen
+Pasteurzkh
+Pasteurzkh.
 Pieter Pauw Gasthuis
 Pieter Pauw Kliniek
 Pieter Pauw Klinieken
@@ -5953,6 +6022,7 @@ Twenteborgziekenhuis
 Twenteborgziekenhuizen
 Twenteborgzkh
 Twenteborgzkh.
+UMC
 UMC  Radboud
 UMC Groningen
 UMC Sint Radboud
@@ -5962,6 +6032,7 @@ UMC Utrecht
 UMC sint Radboud
 UMC st Radboud
 UMC st. Radboud
+Universitair MC
 Universitair MC  Radboud
 Universitair MC Groningen
 Universitair MC Sint Radboud
@@ -5971,6 +6042,7 @@ Universitair MC Utrecht
 Universitair MC sint Radboud
 Universitair MC st Radboud
 Universitair MC st. Radboud
+Universitair Medisch Centrum
 Universitair Medisch Centrum  Radboud
 Universitair Medisch Centrum Groningen
 Universitair Medisch Centrum Sint Radboud
@@ -6325,6 +6397,7 @@ Ziekenhuis Bernhoven
 Ziekenhuis De Gelderse Vallei
 Ziekenhuis Enschede
 Ziekenhuis Gelderse Vallei
+Ziekenhuis Hilversum
 Ziekenhuis Isselwaerde
 Ziekenhuis Johannes De Deo
 Ziekenhuis Knol
@@ -6368,6 +6441,7 @@ Zkh Bernhoven
 Zkh De Gelderse Vallei
 Zkh Enschede
 Zkh Gelderse Vallei
+Zkh Hilversum
 Zkh Isselwaerde
 Zkh Johannes De Deo
 Zkh Knol
@@ -6409,6 +6483,7 @@ Zkh. Bernhoven
 Zkh. De Gelderse Vallei
 Zkh. Enschede
 Zkh. Gelderse Vallei
+Zkh. Hilversum
 Zkh. Isselwaerde
 Zkh. Johannes De Deo
 Zkh. Knol
@@ -6610,6 +6685,7 @@ gasthuis Bernhoven
 gasthuis De Gelderse Vallei
 gasthuis Enschede
 gasthuis Gelderse Vallei
+gasthuis Hilversum
 gasthuis Isselwaerde
 gasthuis Johannes De Deo
 gasthuis Knol
@@ -6695,6 +6771,7 @@ kliniek Bernhoven
 kliniek De Gelderse Vallei
 kliniek Enschede
 kliniek Gelderse Vallei
+kliniek Hilversum
 kliniek Isselwaerde
 kliniek Johannes De Deo
 kliniek Knol
@@ -9088,6 +9165,7 @@ ziekenhuis Bernhoven
 ziekenhuis De Gelderse Vallei
 ziekenhuis Enschede
 ziekenhuis Gelderse Vallei
+ziekenhuis Hilversum
 ziekenhuis Isselwaerde
 ziekenhuis Johannes De Deo
 ziekenhuis Knol
@@ -9130,6 +9208,7 @@ zkh Bernhoven
 zkh De Gelderse Vallei
 zkh Enschede
 zkh Gelderse Vallei
+zkh Hilversum
 zkh Isselwaerde
 zkh Johannes De Deo
 zkh Knol
@@ -9171,6 +9250,7 @@ zkh. Bernhoven
 zkh. De Gelderse Vallei
 zkh. Enschede
 zkh. Gelderse Vallei
+zkh. Hilversum
 zkh. Isselwaerde
 zkh. Johannes De Deo
 zkh. Knol

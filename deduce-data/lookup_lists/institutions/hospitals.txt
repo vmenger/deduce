@@ -82,6 +82,8 @@ Diaconessen
 Diaconessen Ziekenhuis
 Diaconessenhuis
 Diaconessenhuis De Wijk
+Diakonessen
+Diakonessen Ziekenhuis
 Diakonessenhuis
 Dijklander
 Dijklander Ziekenhuis
@@ -186,6 +188,7 @@ Mesos
 Mesos Medisch Centrum
 Militair Hospitaal
 Militair Hospitaal Dokter A. Mathijsen
+Máxima
 Máxima Medisch Centrum
 Nebo
 Nij Smellinghe
@@ -198,6 +201,7 @@ Onze Lieve Vrouwe Gasthuis
 Oude en Nieuwe Gasthuis
 P.W. Janssen Ziekenhuis
 Parkzicht
+Pasteur Ziekenhuis
 Pieter Pauw Ziekenhuis
 Pius
 Pius Ziekenhuis
@@ -304,6 +308,7 @@ TweeSteden
 TweeSteden Ziekenhuis
 Twenteborg
 Twenteborg Ziekenhuis
+Universitair Medisch Centrum
 Universitair Medisch Centrum Groningen
 Universitair Medisch Centrum Sint Radboud
 Universitair Medisch Centrum Utrecht
@@ -334,6 +339,7 @@ Ziekenhuis Bernhoven
 Ziekenhuis De Gelderse Vallei
 Ziekenhuis Enschede
 Ziekenhuis Gelderse Vallei
+Ziekenhuis Hilversum
 Ziekenhuis Isselwaerde
 Ziekenhuis Johannes De Deo
 Ziekenhuis Lievensberg
