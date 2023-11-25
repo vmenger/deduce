@@ -314,12 +314,13 @@
       "annotator_type": "token_pattern",
       "group": "locations",
       "args": {
-        "tag": "straat",
         "pattern": [
           {
             "re_match": "[A-Z][a-z]+(baan|bolwerk|dam|dijk|dreef|drf|dyk|gr|gracht|hf|hof|kade|laan|ln|markt|mrkt|pad|park|pd|plantsoen|plein|pln|plnts|prk|singel|sngl|st|steeg|stg|str|straat|weg|wg)$"
           }
-        ]
+        ],
+        "tag": "straat",
+        "priority": 1
       }
     },
     "street_lookup": {
@@ -327,7 +328,8 @@
       "group": "locations",
       "args": {
         "lookup_values": "streets",
-        "tag": "straat"
+        "tag": "straat",
+        "priority": 1
       }
     },
     "housenumber": {
@@ -386,8 +388,8 @@
       "group": "locations",
       "args": {
         "regexp_pattern": "(\\d{4}([A-Za-z]{2}| [A-Z]{2}))(?<!mg|MG)(\\W|$)",
-        "tag": "locatie",
-        "capturing_group": 1
+        "capturing_group": 1,
+        "tag": "locatie"
       }
     },
     "postbus": {
