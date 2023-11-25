@@ -11,6 +11,7 @@ Been
 Bel
 Belt
 Bent
+Berbers
 Best
 Boos
 Borsten
@@ -18,6 +19,7 @@ Bosch
 Bot
 Braken
 Braken
+Bril
 Broer
 Broer
 Broertjes
@@ -62,6 +64,7 @@ Kan
 Kennis
 Kies
 Kind
+Klaren
 Kleef
 Klein
 Kleine
@@ -95,10 +98,12 @@ Merk
 Mijnheer
 Min
 Mol
+Naalden
 Onrust
 Oost
 Out
 Papa
+Pet
 Pfeifer
 Piek
 Pols
@@ -142,6 +147,7 @@ Verloop
 Vet
 Viel
 Vlak
+Vlot
 Voogd
 Vrij
 Vrijdag
