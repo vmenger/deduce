@@ -176,6 +176,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
             start_char=start_token.start_char,
             end_char=end_token.end_char,
             tag=self.tag,
+            priority=self.priority,
             start_token=start_token,
             end_token=end_token,
         )
@@ -257,6 +258,7 @@ class ContextAnnotator(TokenPatternAnnotator):
                         start_token=left_ann.start_token,
                         end_token=right_ann.end_token,
                         tag=context_pattern["tag"].format(tag=annotation.tag),
+                        priority=annotation.priority
                     )
                 )
             else:
