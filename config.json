@@ -36,6 +36,25 @@
         ]
       }
     },
+    "prefix_with_interfix": {
+      "annotator_type": "token_pattern",
+      "group": "names",
+      "args": {
+        "tag": "prefix+interfix+naam",
+        "skip": ["."],
+        "pattern": [
+          {
+            "lookup": "prefixes"
+          },
+          {
+            "lookup": "interfixes"
+          },
+          {
+            "like_name": true
+          }
+        ]
+      }
+    },
     "prefix_with_name": {
       "annotator_type": "token_pattern",
       "group": "names",
