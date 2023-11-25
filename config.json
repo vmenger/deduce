@@ -387,7 +387,7 @@
       "annotator_type": "regexp",
       "group": "locations",
       "args": {
-        "regexp_pattern": "(\\d{4}([A-Za-z]{2}| [A-Z]{2}))(?<!mg|MG)(\\W|$)",
+        "regexp_pattern": "(\\d{4}([A-Za-z]{2}| [A-Z]{2}))(?<!mg|MG|gr|ie)(\\W|$)",
         "capturing_group": 1,
         "tag": "locatie"
       }
