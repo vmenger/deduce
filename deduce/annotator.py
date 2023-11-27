@@ -259,7 +259,7 @@ class ContextAnnotator(TokenPatternAnnotator):
                         start_token=left_ann.start_token,
                         end_token=right_ann.end_token,
                         tag=context_pattern["tag"].format(tag=annotation.tag),
-                        priority=annotation.priority
+                        priority=annotation.priority,
                     )
                 )
             else:
@@ -296,8 +296,23 @@ class ContextAnnotator(TokenPatternAnnotator):
 
 
 class RegexpPseudoAnnotator(RegexpAnnotator):
+    """
+    Regexp annotator that filters out matches preceded or followed by certain terms.
+    Currently matches on sequential alhpa characters preceding or following the match.
 
-    def __init__(self, *args, pre_pseudo: Optional[list[str]] = None, post_pseudo: Optional[list[str]] = None, lowercase=True, **kwargs):
+    pre_pseudo: A list of strings that invalidate a match when preceding it
+    post_pseudo: A list of strings that invalidate a match when following it
+    lowercase: Whether to match lowercase
+    """
+
+    def __init__(
+        self,
+        *args,
+        pre_pseudo: Optional[list[str]] = None,
+        post_pseudo: Optional[list[str]] = None,
+        lowercase: bool = True,
+        **kwargs,
+    ) -> None:
 
         self.pre_pseudo = set(pre_pseudo or [])
         self.post_pseudo = set(post_pseudo or [])
@@ -306,41 +321,75 @@ class RegexpPseudoAnnotator(RegexpAnnotator):
         super().__init__(*args, **kwargs)
 
     @staticmethod
-    def _get_next_word(char_index: int, text: str) -> str:
+    def _is_word_char(char: str) -> bool:
+        """
+        Determines whether a character can be part of a word.
 
-        if char_index == len(text):
-            return ""
+        Args:
+            char: The character
 
-        if text[char_index] == ' ':
-            char_index += 1
+        Returns: True when the character can be part of a word, false otherwise.
+        """
 
-        sub_text = text[char_index:] + " "
+        return char.isalpha()
 
-        for i, ch in enumerate(sub_text):
+    def _get_previous_word(self, char_index: int, text: str) -> str:
+        """
+        Get the previous word starting at some character index.
 
-            if not ch.isalpha():
-                return sub_text[:i].strip()
+        Args:
+            char_index: The character index to start searching.
+            text: The text.
 
-        return ""
-    @staticmethod
-    def _get_previous_word(char_index: int, text: str) -> str:
+        Returns: The previous word, or an empty string if at beginning of text.
+        """
 
-        if char_index == 0:
-            return ""
+        text = text[:char_index].strip()
+        result = ""
 
-        if text[char_index - 1] == ' ':
-            char_index -= 1
+        for ch in text[::-1]:
 
-        sub_text = " " + text[:char_index]
+            if not self._is_word_char(ch):
+                break
 
-        for i, ch in enumerate(sub_text[::-1]):
+            result = ch + result
 
-            if not ch.isalpha():
-                return sub_text[-i:].strip()
+        return result.strip()
 
-        return ""
+    def _get_next_word(self, char_index: int, text: str) -> str:
+        """
+        Get the next word starting at some character index.
+
+        Args:
+            char_index: The character index to start searching.
+            text: The text.
+
+        Returns: The next word, or an empty string if at end of text.
+        """
+
+        text = text[char_index:].strip()
+        result = ""
+
+        for ch in text:
+
+            if not self._is_word_char(ch):
+                break
+
+            result = result + ch
+
+        return result
 
     def _validate_match(self, match: re.Match, doc: Document) -> bool:
+        """
+        Validate match, by checking the preceding or following words against the defined
+        pseudo sets.
+
+        Args:
+            match: The regexp match.
+            doc: The doc object.
+
+        Returns: True when the match is valid, False when invalid.
+        """
 
         start_char, end_char = match.span(0)
 
@@ -351,7 +400,9 @@ class RegexpPseudoAnnotator(RegexpAnnotator):
             previous_word = previous_word.lower()
             next_word = next_word.lower()
 
-        return (previous_word not in self.pre_pseudo) and (next_word not in self.post_pseudo)
+        return (previous_word not in self.pre_pseudo) and (
+            next_word not in self.post_pseudo
+        )
 
 
 class BsnAnnotator(dd.process.Annotator):
