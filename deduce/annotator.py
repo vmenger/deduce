@@ -336,7 +336,7 @@ class RegexpPseudoAnnotator(RegexpAnnotator):
         for i, ch in enumerate(sub_text[::-1]):
 
             if not ch.isalpha():
-                return sub_text[-(i + 1):].strip()
+                return sub_text[-i:].strip()
 
         return ""
 
