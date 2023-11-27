@@ -297,10 +297,11 @@ class ContextAnnotator(TokenPatternAnnotator):
 
 class RegexpPseudoAnnotator(RegexpAnnotator):
 
-    def __init__(self, *args, pre_pseudo: Optional[list[str]] = None, post_pseudo: Optional[list[str]] = None, **kwargs):
+    def __init__(self, *args, pre_pseudo: Optional[list[str]] = None, post_pseudo: Optional[list[str]] = None, lowercase=True, **kwargs):
 
         self.pre_pseudo = set(pre_pseudo or [])
         self.post_pseudo = set(post_pseudo or [])
+        self.lowercase = lowercase
 
         super().__init__(*args, **kwargs)
 
@@ -345,6 +346,10 @@ class RegexpPseudoAnnotator(RegexpAnnotator):
 
         previous_word = self._get_previous_word(start_char, doc.text)
         next_word = self._get_next_word(end_char, doc.text)
+
+        if self.lowercase:
+            previous_word = previous_word.lower()
+            next_word = next_word.lower()
 
         return (previous_word not in self.pre_pseudo) and (next_word not in self.post_pseudo)
 
