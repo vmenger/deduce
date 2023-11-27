@@ -472,10 +472,14 @@
       }
     },
     "age": {
-      "annotator_type": "regexp",
+      "annotator_type": "custom",
       "group": "ages",
       "args": {
-        "regexp_pattern": "(?i)((((\\d-|\\d\\d-))?(\\d[,\\.]\\d|\\d{1,3})e?)([ -](jarige|jarig|jaar|jr)))(?!\\w)(?! (geleden|na|aanwezig|getrouwd|gestopt|gerookt|gebruikt|gestaakt))",
+        "module": "deduce.annotator",
+        "class": "RegexpPseudoAnnotator",
+        "regexp_pattern": "(?i)((((\\d-|\\d\\d-))?(\\d[,\\.]\\d|\\d{1,3})e?)([ -](jarige|jarig|jaar|jr)))(?!\\w)",
+        "pre_pseudo": [],
+        "post_pseudo": ["geleden", "na", "aanwezig", "getrouwd", "gestopt", "gerookt", "gebruikt", "gestaakt"],
         "tag": "leeftijd",
         "capturing_group": 2
       }

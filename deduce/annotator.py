@@ -3,6 +3,7 @@ from typing import Literal, Optional
 
 import docdeid as dd
 from docdeid import Annotation, Document
+from docdeid.process import RegexpAnnotator
 
 import deduce.utils
 
@@ -292,6 +293,60 @@ class ContextAnnotator(TokenPatternAnnotator):
 
         doc.annotations = self._annotate(doc, list(doc.annotations))
         return []
+
+
+class RegexpPseudoAnnotator(RegexpAnnotator):
+
+    def __init__(self, *args, pre_pseudo: Optional[list[str]] = None, post_pseudo: Optional[list[str]] = None, **kwargs):
+
+        self.pre_pseudo = set(pre_pseudo or [])
+        self.post_pseudo = set(post_pseudo or [])
+
+        super().__init__(*args, **kwargs)
+
+    @staticmethod
+    def _get_next_word(char_index: int, text: str) -> str:
+
+        if char_index == len(text):
+            return ""
+
+        if text[char_index] == ' ':
+            char_index += 1
+
+        sub_text = text[char_index:] + " "
+
+        for i, ch in enumerate(sub_text):
+
+            if not ch.isalpha():
+                return sub_text[:i].strip()
+
+        return ""
+    @staticmethod
+    def _get_previous_word(char_index: int, text: str) -> str:
+
+        if char_index == 0:
+            return ""
+
+        if text[char_index - 1] == ' ':
+            char_index -= 1
+
+        sub_text = " " + text[:char_index]
+
+        for i, ch in enumerate(sub_text[::-1]):
+
+            if not ch.isalpha():
+                return sub_text[-i:].strip()
+
+        return ""
+
+    def _validate_match(self, match: re.Match, doc: Document) -> bool:
+
+        start_char, end_char = match.span(0)
+
+        previous_word = self._get_previous_word(start_char, doc.text)
+        next_word = self._get_next_word(end_char, doc.text)
+
+        return (previous_word not in self.pre_pseudo) and (next_word not in self.post_pseudo)
 
 
 class BsnAnnotator(dd.process.Annotator):
