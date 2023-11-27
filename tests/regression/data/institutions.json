@@ -86,6 +86,12 @@
                     "start_char": 0,
                     "end_char": 22,
                     "tag": "instelling"
+                },
+                {
+                    "text": "Maxima",
+                    "start_char": 8,
+                    "end_char": 14,
+                    "tag": "instelling"
                 }
             ]
         },
@@ -97,6 +103,12 @@
                     "text": "Prinses M\u00e1xima Centrum",
                     "start_char": 0,
                     "end_char": 22,
+                    "tag": "instelling"
+                },
+                {
+                    "text": "M\u00e1xima",
+                    "start_char": 8,
+                    "end_char": 14,
                     "tag": "instelling"
                 }
             ]
