@@ -95,7 +95,6 @@ class TestRegression:
             model=model,
             examples_file="tests/regression/data/ages.json",
             enabled={"ages", "age"},
-            known_failures={3, 4, 8, 10, 13, 14},
         )
 
     def test_regression_identifier(self, model):
