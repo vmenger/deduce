@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "deduce"
-version = "2.4.4"
+version = "2.5.0"
 description = "Deduce: de-identification method for Dutch medical text"
 authors = ["Vincent Menger <vmenger@protonmail.com>"]
 maintainers = ["Vincent Menger <vmenger@protonmail.com>"]
@@ -27,7 +27,7 @@ author = "Vincent Menger"
 [tool.poetry.dependencies]
 python = "^3.9"
 rapidfuzz = "^2.11.1"
-docdeid = "0.1.9"
+docdeid = "0.1.10"
 regex = "^2022.9.13"
 
 [tool.poetry.group.dev]

@@ -1,3 +1,5 @@
+import re
+
 import docdeid as dd
 import pytest
 
@@ -5,6 +7,7 @@ from deduce.annotator import (
     BsnAnnotator,
     ContextAnnotator,
     PhoneNumberAnnotator,
+    RegexpPseudoAnnotator,
     TokenPatternAnnotator,
     _PatternPositionMatcher,
 )
@@ -25,6 +28,15 @@ def ds():
     ds["surnames"].add_items_from_iterable(items=surnames)
 
     return ds
+
+
+@pytest.fixture
+def regexp_pseudo_doc():
+
+    return dd.Document(
+        text="De patient is Na 12 jaar gestopt met medicijnen.",
+        tokenizers={"default": DeduceTokenizer()},
+    )
 
 
 @pytest.fixture
@@ -457,6 +469,78 @@ class TestContextAnnotator:
         )
 
 
+class TestRegexpPseudoAnnotator:
+    def test_is_word_char(self):
+
+        assert RegexpPseudoAnnotator._is_word_char("a")
+        assert RegexpPseudoAnnotator._is_word_char("abc")
+        assert not RegexpPseudoAnnotator._is_word_char("123")
+        assert not RegexpPseudoAnnotator._is_word_char(" ")
+        assert not RegexpPseudoAnnotator._is_word_char("\n")
+        assert not RegexpPseudoAnnotator._is_word_char(".")
+
+    def test_get_previous_word(self):
+
+        r = RegexpPseudoAnnotator(regexp_pattern="_", tag="_")
+
+        assert r._get_previous_word(0, "12 jaar") == ""
+        assert r._get_previous_word(1, "<12 jaar") == ""
+        assert r._get_previous_word(8, "patient 12 jaar") == "patient"
+        assert r._get_previous_word(7, "(sinds 12 jaar)") == "sinds"
+        assert r._get_previous_word(11, "patient is 12 jaar)") == "is"
+
+    def test_get_next(self):
+
+        r = RegexpPseudoAnnotator(regexp_pattern="_", tag="_")
+
+        assert r._get_next_word(7, "12 jaar") == ""
+        assert r._get_next_word(7, "12 jaar, geleden") == ""
+        assert r._get_next_word(7, "12 jaar geleden") == "geleden"
+        assert r._get_next_word(7, "12 jaar geleden geopereerd") == "geleden"
+
+    def test_validate_match(self, regexp_pseudo_doc):
+
+        r = RegexpPseudoAnnotator(regexp_pattern="_", tag="_")
+        pattern = re.compile(r"\d+ jaar")
+
+        match = list(pattern.finditer(regexp_pseudo_doc.text))[0]
+
+        assert r._validate_match(match, regexp_pseudo_doc)
+
+    def test_validate_match_pre(self, regexp_pseudo_doc):
+
+        r = RegexpPseudoAnnotator(
+            regexp_pattern="_", tag="_", pre_pseudo=["sinds", "al", "vanaf"]
+        )
+        pattern = re.compile(r"\d+ jaar")
+
+        match = list(pattern.finditer(regexp_pseudo_doc.text))[0]
+
+        assert r._validate_match(match, regexp_pseudo_doc)
+
+    def test_validate_match_post(self, regexp_pseudo_doc):
+
+        r = RegexpPseudoAnnotator(
+            regexp_pattern="_", tag="_", post_pseudo=["geleden", "getrouwd", "gestopt"]
+        )
+        pattern = re.compile(r"\d+ jaar")
+
+        match = list(pattern.finditer(regexp_pseudo_doc.text))[0]
+
+        assert not r._validate_match(match, regexp_pseudo_doc)
+
+    def test_validate_match_lower(self, regexp_pseudo_doc):
+
+        r = RegexpPseudoAnnotator(
+            regexp_pattern="_", tag="_", pre_pseudo=["na"], lowercase=True
+        )
+        pattern = re.compile(r"\d+ jaar")
+
+        match = list(pattern.finditer(regexp_pseudo_doc.text))[0]
+
+        assert not r._validate_match(match, regexp_pseudo_doc)
+
+
 class TestBsnAnnotator:
     def test_elfproef(self):
         an = BsnAnnotator(bsn_regexp="(\\D|^)(\\d{9})(\\D|$)", capture_group=2, tag="_")
@@ -485,6 +569,17 @@ class TestBsnAnnotator:
         expected_annotations = [
             dd.Annotation(text="111222333", start_char=26, end_char=35, tag="_"),
             dd.Annotation(text="123456782", start_char=39, end_char=48, tag="_"),
+        ]
+
+        assert annotations == expected_annotations
+
+    def test_annotate_with_nondigits(self, bsn_doc):
+        an = BsnAnnotator(bsn_regexp=r"\d{4}\.\d{2}\.\d{3}", tag="_")
+        doc = dd.Document("1234.56.782")
+        annotations = an.annotate(doc)
+
+        expected_annotations = [
+            dd.Annotation(text="1234.56.782", start_char=0, end_char=11, tag="_"),
         ]
 
         assert annotations == expected_annotations

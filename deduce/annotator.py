@@ -3,6 +3,7 @@ from typing import Literal, Optional
 
 import docdeid as dd
 from docdeid import Annotation, Document
+from docdeid.process import RegexpAnnotator
 
 import deduce.utils
 
@@ -176,6 +177,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
             start_char=start_token.start_char,
             end_char=end_token.end_char,
             tag=self.tag,
+            priority=self.priority,
             start_token=start_token,
             end_token=end_token,
         )
@@ -257,6 +259,7 @@ class ContextAnnotator(TokenPatternAnnotator):
                         start_token=left_ann.start_token,
                         end_token=right_ann.end_token,
                         tag=context_pattern["tag"].format(tag=annotation.tag),
+                        priority=annotation.priority,
                     )
                 )
             else:
@@ -292,6 +295,116 @@ class ContextAnnotator(TokenPatternAnnotator):
         return []
 
 
+class RegexpPseudoAnnotator(RegexpAnnotator):
+    """
+    Regexp annotator that filters out matches preceded or followed by certain terms.
+    Currently matches on sequential alhpa characters preceding or following the match.
+
+    pre_pseudo: A list of strings that invalidate a match when preceding it
+    post_pseudo: A list of strings that invalidate a match when following it
+    lowercase: Whether to match lowercase
+    """
+
+    def __init__(
+        self,
+        *args,
+        pre_pseudo: Optional[list[str]] = None,
+        post_pseudo: Optional[list[str]] = None,
+        lowercase: bool = True,
+        **kwargs,
+    ) -> None:
+
+        self.pre_pseudo = set(pre_pseudo or [])
+        self.post_pseudo = set(post_pseudo or [])
+        self.lowercase = lowercase
+
+        super().__init__(*args, **kwargs)
+
+    @staticmethod
+    def _is_word_char(char: str) -> bool:
+        """
+        Determines whether a character can be part of a word.
+
+        Args:
+            char: The character
+
+        Returns: True when the character can be part of a word, false otherwise.
+        """
+
+        return char.isalpha()
+
+    def _get_previous_word(self, char_index: int, text: str) -> str:
+        """
+        Get the previous word starting at some character index.
+
+        Args:
+            char_index: The character index to start searching.
+            text: The text.
+
+        Returns: The previous word, or an empty string if at beginning of text.
+        """
+
+        text = text[:char_index].strip()
+        result = ""
+
+        for ch in text[::-1]:
+
+            if not self._is_word_char(ch):
+                break
+
+            result = ch + result
+
+        return result.strip()
+
+    def _get_next_word(self, char_index: int, text: str) -> str:
+        """
+        Get the next word starting at some character index.
+
+        Args:
+            char_index: The character index to start searching.
+            text: The text.
+
+        Returns: The next word, or an empty string if at end of text.
+        """
+
+        text = text[char_index:].strip()
+        result = ""
+
+        for ch in text:
+
+            if not self._is_word_char(ch):
+                break
+
+            result = result + ch
+
+        return result
+
+    def _validate_match(self, match: re.Match, doc: Document) -> bool:
+        """
+        Validate match, by checking the preceding or following words against the defined
+        pseudo sets.
+
+        Args:
+            match: The regexp match.
+            doc: The doc object.
+
+        Returns: True when the match is valid, False when invalid.
+        """
+
+        start_char, end_char = match.span(0)
+
+        previous_word = self._get_previous_word(start_char, doc.text)
+        next_word = self._get_next_word(end_char, doc.text)
+
+        if self.lowercase:
+            previous_word = previous_word.lower()
+            next_word = next_word.lower()
+
+        return (previous_word not in self.pre_pseudo) and (
+            next_word not in self.post_pseudo
+        )
+
+
 class BsnAnnotator(dd.process.Annotator):
     """Annotates BSN nummers."""
 
@@ -320,10 +433,13 @@ class BsnAnnotator(dd.process.Annotator):
         annotations = []
 
         for match in self.bsn_regexp.finditer(doc.text):
-            text = re.sub(r"\D", "", match.group(self.capture_group))
+
+            text = match.group(self.capture_group)
+            digits = re.sub(r"\D", "", text)
+
             start, end = match.span(self.capture_group)
 
-            if self._elfproef(text):
+            if self._elfproef(digits):
                 annotations.append(
                     Annotation(
                         text=text,

@@ -5,13 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.5.0 (2023-11-28)
+
+### Added
+- the `RegexpPseudoAnnotator` component for filtering regexp matches based on preceding/following words
+- a `prefix_with_interfix` pattern for names, detecting e.g. `Dr. van Loon`
+
+### Fixed
+- a bug with `BsnAnnotator` with non-digit characters in regexp
+
+### Changed
+- the age detection component, with improved logic and pseudo patterns
+- annotations are no longer counted adjacent when separated by a comma
+- streets are prioritized over names when merging overlapping annotations
+- removed some false positives for postal codes ending in `gr` or `ie`
+- extended the postbus pattern for `xx.xxx` format (old notation)
+- some smaller optimizations and exceptions for institution, hospital, placename, residence, medical term, first name, and last name lookup lists
+
 ## 2.4.2 (2023-11-22)
 
 ### Changed
 - multi-token lookup for first- and last names, so multi token names are now detected
 - some small lookup list additions
 
-## 2.4.3 (2023-11-22) 
+## 2.4.3 (2023-11-22)
 
 ### Changed
 - extended list of medical terms

@@ -1,5 +1,5 @@
 {
-  "adjacent_annotations_slack": "[\\. \\-,]?[\\. ]?",
+  "adjacent_annotations_slack": "[\\. \\-]?[\\. ]?",
   "resolve_overlap_strategy": {
     "attributes": [
       "priority",
@@ -32,6 +32,25 @@
                 "is_initials": true
               }
             ]
+          }
+        ]
+      }
+    },
+    "prefix_with_interfix": {
+      "annotator_type": "token_pattern",
+      "group": "names",
+      "args": {
+        "tag": "prefix+interfix+naam",
+        "skip": ["."],
+        "pattern": [
+          {
+            "lookup": "prefixes"
+          },
+          {
+            "lookup": "interfixes"
+          },
+          {
+            "like_name": true
           }
         ]
       }
@@ -314,12 +333,13 @@
       "annotator_type": "token_pattern",
       "group": "locations",
       "args": {
-        "tag": "straat",
         "pattern": [
           {
             "re_match": "[A-Z][a-z]+(baan|bolwerk|dam|dijk|dreef|drf|dyk|gr|gracht|hf|hof|kade|laan|ln|markt|mrkt|pad|park|pd|plantsoen|plein|pln|plnts|prk|singel|sngl|st|steeg|stg|str|straat|weg|wg)$"
           }
-        ]
+        ],
+        "tag": "straat",
+        "priority": 1
       }
     },
     "street_lookup": {
@@ -327,7 +347,8 @@
       "group": "locations",
       "args": {
         "lookup_values": "streets",
-        "tag": "straat"
+        "tag": "straat",
+        "priority": 1
       }
     },
     "housenumber": {
@@ -385,16 +406,16 @@
       "annotator_type": "regexp",
       "group": "locations",
       "args": {
-        "regexp_pattern": "(\\d{4}([A-Za-z]{2}| [A-Z]{2}))(?<!mg|MG)(\\W|$)",
-        "tag": "locatie",
-        "capturing_group": 1
+        "regexp_pattern": "(\\d{4}([A-Za-z]{2}| [A-Z]{2}))(?<!mg|MG|gr|ie)(\\W|$)",
+        "capturing_group": 1,
+        "tag": "locatie"
       }
     },
     "postbus": {
       "annotator_type": "regexp",
       "group": "locations",
       "args": {
-        "regexp_pattern": "([Pp]ostbus\\s\\d{1,5})",
+        "regexp_pattern": "([Pp]ostbus\\s\\d{1,5}(\\.\\d{2,4})?)",
         "tag": "locatie"
       }
     },
@@ -451,12 +472,16 @@
       }
     },
     "age": {
-      "annotator_type": "regexp",
+      "annotator_type": "custom",
       "group": "ages",
       "args": {
-        "regexp_pattern": "(?i)((((\\d-|\\d\\d-))?(\\d[,\\.]\\d|\\d{1,3}))([ -](jarige|jarig|jaar)))(?!\\w)(?! (geleden|na|aanwezig|getrouwd|gestopt|gerookt|gebruikt|gestaakt))",
+        "module": "deduce.annotator",
+        "class": "RegexpPseudoAnnotator",
+        "regexp_pattern": "(?i)(?<![\\d,\\.])((1?\\d?\\d)([\\.,]5)?(-(1?\\d?\\d)([\\.,]5)?)?)([ -](jarige|jarig|jaar|jr))(?!\\w)",
+        "pre_pseudo": ["sinds", "vanaf", "controle", "policontrole", "gedurende", "de", "over", "elke", "nog", "na", "al", "up", "ongeveer", "<"],
+        "post_pseudo": ["geleden", "na", "naar", "nadien", "aanwezig", "getrouwd", "gestopt", "gerookt", "gebruikt", "gestaakt"],
         "tag": "leeftijd",
-        "capturing_group": 2
+        "capturing_group": 1
       }
     },
     "bsn": {

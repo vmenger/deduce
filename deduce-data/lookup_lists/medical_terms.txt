@@ -5427,6 +5427,7 @@ schep
 scherp
 scherpe
 scherpstelling
+scheuermann
 scheurtje
 scheve
 schijfvormig
@@ -5459,6 +5460,7 @@ schuin
 schuine
 schuitvormig
 schurft
+schwester
 sciatica
 sclera
 sclerose

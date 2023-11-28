@@ -124,6 +124,7 @@ class CleanAnnotationTag(dd.process.AnnotationProcessor):
                         start_token=annotation.start_token,
                         end_token=annotation.end_token,
                         tag=self.tag_map[annotation.tag],
+                        priority=annotation.priority,
                     )
                 )
             else:
