@@ -5,11 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## (unreleased)
+## 2.5.0 (2023-11-28)
 
 ### Added
 - the `RegexpPseudoAnnotator` component for filtering regexp matches based on preceding/following words
 - a `prefix_with_interfix` pattern for names, detecting e.g. `Dr. van Loon`
+
+### Fixed
+- a bug with `BsnAnnotator` with non-digit characters in regexp
 
 ### Changed
 - the age detection component, with improved logic and pseudo patterns
