@@ -433,10 +433,13 @@ class BsnAnnotator(dd.process.Annotator):
         annotations = []
 
         for match in self.bsn_regexp.finditer(doc.text):
-            text = re.sub(r"\D", "", match.group(self.capture_group))
+
+            text = match.group(self.capture_group)
+            digits = re.sub(r"\D", "", text)
+
             start, end = match.span(self.capture_group)
 
-            if self._elfproef(text):
+            if self._elfproef(digits):
                 annotations.append(
                     Annotation(
                         text=text,
