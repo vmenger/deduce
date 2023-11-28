@@ -574,7 +574,7 @@ class TestBsnAnnotator:
         assert annotations == expected_annotations
 
     def test_annotate_with_nondigits(self, bsn_doc):
-        an = BsnAnnotator(bsn_regexp="\d{4}\.\d{2}\.\d{3}", tag="_")
+        an = BsnAnnotator(bsn_regexp=r"\d{4}\.\d{2}\.\d{3}", tag="_")
         doc = dd.Document("1234.56.782")
         annotations = an.annotate(doc)
 
