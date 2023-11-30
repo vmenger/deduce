@@ -107,6 +107,14 @@ class TokenPatternAnnotator(dd.process.Annotator):
         self.ds = ds
         self.skip = set(skip or [])
 
+        self._start_words = None
+        self._matching_pipeline = None
+
+        if len(self.pattern) > 0 and "lookup" in self.pattern[0]:
+            lookup_list = ds[self.pattern[0]['lookup']]
+            self._start_words = lookup_list.items()
+            self._matching_pipeline = lookup_list.matching_pipeline
+
         super().__init__(*args, **kwargs)
 
     @staticmethod
@@ -185,16 +193,23 @@ class TokenPatternAnnotator(dd.process.Annotator):
             A list of Annotation.
         """
 
-        return [
-            annotation
-            for token in doc.get_tokens()
-            if (
-                annotation := self._match_sequence(
-                    doc, self.pattern, token, direction="right", skip=self.skip
-                )
+        annotations = []
+
+        tokens = doc.get_tokens()
+
+        if self._start_words is not None:
+            tokens = tokens.token_lookup(lookup_values=self._start_words, matching_pipeline=self._matching_pipeline)
+
+        for token in tokens:
+
+            annotation = self._match_sequence(
+                doc, self.pattern, token, direction="right", skip=self.skip
             )
-            is not None
-        ]
+
+            if annotation is not None:
+                annotations.append(annotation)
+
+        return annotations
 
 
 class ContextAnnotator(TokenPatternAnnotator):
