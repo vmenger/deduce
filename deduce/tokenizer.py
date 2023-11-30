@@ -7,7 +7,7 @@ import regex
 _TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=re.I | re.M)
 
 
-class DeduceTokenizer(dd.tokenize.Tokenizer):  # pylint: disable=R0903
+class DeduceTokenizer(dd.tokenizer.Tokenizer):  # pylint: disable=R0903
     """
     Tokenizes text, where a token is any sequence of alphanumeric characters (case
     insensitive), a single newline/tab character, or a single special character. It does
@@ -34,7 +34,7 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):  # pylint: disable=R0903
             self._trie = trie
 
     @staticmethod
-    def _join_tokens(text: str, tokens: list[dd.tokenize.Token]) -> dd.tokenize.Token:
+    def _join_tokens(text: str, tokens: list[dd.tokenizer.Token]) -> dd.tokenizer.Token:
         """
         Join a list of tokens into a single token. Does this by creating a new token,
         that ranges from the first token start char to the last token end char.
@@ -54,8 +54,8 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):  # pylint: disable=R0903
         )
 
     def _merge(
-        self, text: str, tokens: list[dd.tokenize.Token]
-    ) -> list[dd.tokenize.Token]:
+        self, text: str, tokens: list[dd.tokenizer.Token]
+    ) -> list[dd.tokenizer.Token]:
         """
         Merge a list of tokens based on the trie.
 
@@ -88,7 +88,7 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):  # pylint: disable=R0903
 
         return tokens_merged
 
-    def _split_text(self, text: str) -> list[dd.tokenize.Token]:
+    def _split_text(self, text: str) -> list[dd.tokenizer.Token]:
         """
         Split text, based on the regexp pattern.
 

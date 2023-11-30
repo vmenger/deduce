@@ -133,7 +133,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
         self,
         doc: Document,
         pattern: list[dict],
-        start_token: dd.tokenize.Token,
+        start_token: dd.tokenizer.Token,
         direction: Literal["left", "right"] = "right",
         skip: Optional[set[str]] = None,
     ) -> Optional[dd.Annotation]:

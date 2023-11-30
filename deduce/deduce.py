@@ -83,7 +83,7 @@ class Deduce(dd.DocDeid):
     def _initialize_annotators(
         annotator_cnfg: dict,
         lookup_sets: dd.ds.DsCollection,
-        tokenizer: dd.tokenize.Tokenizer,
+        tokenizer: dd.tokenizer.Tokenizer,
     ) -> dd.process.DocProcessorGroup:
         """Initializes annotators."""
 
