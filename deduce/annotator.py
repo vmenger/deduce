@@ -49,14 +49,6 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
             return kwargs.get("token").text == value
         if func == "re_match":
             return re.match(value, kwargs.get("token").text) is not None
-        if func == "is_initial":
-            return (
-                (
-                    len(kwargs.get("token").text) == 1
-                    and kwargs.get("token").text[0].isupper()
-                )
-                or kwargs.get("token").text in {"Ch", "Chr", "Ph", "Th"}
-            ) == value
         if func == "is_initials":
             return (
                 len(kwargs.get("token").text) <= 4

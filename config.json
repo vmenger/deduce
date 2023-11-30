@@ -26,7 +26,7 @@
           {
             "or": [
               {
-                "is_initial": true
+                "lookup": "initials"
               },
               {
                 "is_initials": true
@@ -109,7 +109,7 @@
         "skip": ["."],
         "pattern": [
           {
-            "is_initial": true
+            "lookup": "initials"
           },
           {
             "and": [
@@ -135,7 +135,7 @@
         "skip": ["."],
         "pattern": [
           {
-            "is_initial": true
+            "lookup": "initials"
           },
           {
             "lookup": "interfixes"
@@ -244,7 +244,7 @@
             "skip": ["."],
             "pattern": [
               {
-                "is_initial": true
+                "lookup": "initials"
               }
             ]
           },

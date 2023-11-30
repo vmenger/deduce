@@ -24,6 +24,15 @@ def _get_prefixes() -> dd.ds.LookupSet:
     return prefixes
 
 
+def _get_initials() -> dd.ds.LookupSet:
+    """ Get initials LookupSet """
+
+    initials = dd.ds.LookupSet()
+    initials.add_items_from_file(os.path.join(data_path, "names", "initials.txt"))
+
+    return initials
+
+
 def _get_first_names() -> dd.ds.LookupSet:
     """Get first names LookupSet."""
 
@@ -279,6 +288,7 @@ def get_lookup_sets() -> dd.ds.DsCollection:
 
     lookup_set_mapping = {
         "prefixes": _get_prefixes,
+        "initials": _get_initials,
         "first_names": _get_first_names,
         "first_name_exceptions": _get_first_name_exceptions,
         "interfixes": _get_interfixes,
