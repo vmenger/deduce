@@ -151,6 +151,7 @@
       "group": "names",
       "args": {
         "tag": "voornaam",
+        "overlapping": true,
         "lookup_values": "first_names"
       }
     },
@@ -159,6 +160,7 @@
       "group": "names",
       "args": {
         "tag": "achternaam",
+        "overlapping": true,
         "lookup_values": "surnames"
       }
     },
@@ -326,6 +328,7 @@
       "group": "locations",
       "args": {
         "lookup_values": "placenames",
+        "overlapping": true,
         "tag": "locatie"
       }
     },
@@ -347,6 +350,7 @@
       "group": "locations",
       "args": {
         "lookup_values": "streets",
+        "overlapping": true,
         "tag": "straat",
         "priority": 1
       }
@@ -424,6 +428,7 @@
       "group": "institutions",
       "args": {
         "lookup_values": "hospitals",
+        "overlapping": true,
         "tag": "instelling"
       }
     },
@@ -432,6 +437,7 @@
       "group": "institutions",
       "args": {
         "lookup_values": "healthcare_institutions",
+        "overlapping": true,
         "tag": "instelling"
       }
     },
