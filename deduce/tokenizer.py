@@ -24,12 +24,15 @@ class DeduceTokenizer(dd.tokenizer.Tokenizer):  # pylint: disable=R0903
         self._pattern = _TOKENIZER_PATTERN
         self._trie = None
 
+        self._merge_words = set()
+
         if merge_terms is not None:
             trie = dd.ds.LookupTrie()
 
             for term in merge_terms:
                 tokens = [token.text for token in self._split_text(text=term)]
                 trie.add_item(tokens)
+                self._merge_words.add(tokens[0])
 
             self._trie = trie
 
@@ -71,8 +74,14 @@ class DeduceTokenizer(dd.tokenizer.Tokenizer):  # pylint: disable=R0903
         i = 0
 
         while i < len(tokens):
+
+            if tokens_text[i] not in self._merge_words:
+                tokens_merged.append(tokens[i])
+                i += 1
+                continue
+
             longest_matching_prefix = self._trie.longest_matching_prefix(
-                tokens_text[i:]
+                tokens_text, offset=i
             )
 
             if longest_matching_prefix is None:
