@@ -81,7 +81,7 @@ class DeduceTokenizer(dd.tokenizer.Tokenizer):  # pylint: disable=R0903
                 continue
 
             longest_matching_prefix = self._trie.longest_matching_prefix(
-                tokens_text, offset=i
+                tokens_text, start_i=i
             )
 
             if longest_matching_prefix is None:
