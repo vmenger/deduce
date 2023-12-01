@@ -2,6 +2,7 @@ import docdeid as dd
 from docdeid import AnnotationSet
 from frozendict import frozendict
 
+
 class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
     """
     Merge adjacent tags, according to deduce logic:

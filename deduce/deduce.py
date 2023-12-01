@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Optional
 
 import docdeid as dd
+from frozendict import frozendict
 
 from deduce import utils
 from deduce.annotation_processing import (
@@ -18,7 +19,6 @@ from deduce.lookup_sets import get_lookup_sets
 from deduce.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
 
-from frozendict import frozendict
 
 class Deduce(dd.DocDeid):
     """

@@ -5,8 +5,6 @@ import docdeid as dd
 from docdeid import Annotation, Document
 from docdeid.process import RegexpAnnotator
 
-import deduce.utils
-
 _DIRECTION_MAP = {
     "left": {
         "attr": "previous",
@@ -111,7 +109,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
         self._matching_pipeline = None
 
         if len(self.pattern) > 0 and "lookup" in self.pattern[0]:
-            lookup_list = ds[self.pattern[0]['lookup']]
+            lookup_list = ds[self.pattern[0]["lookup"]]
             self._start_words = lookup_list.items()
             self._matching_pipeline = lookup_list.matching_pipeline
 
@@ -198,7 +196,10 @@ class TokenPatternAnnotator(dd.process.Annotator):
         tokens = doc.get_tokens()
 
         if self._start_words is not None:
-            tokens = tokens.token_lookup(lookup_values=self._start_words, matching_pipeline=self._matching_pipeline)
+            tokens = tokens.token_lookup(
+                lookup_values=self._start_words,
+                matching_pipeline=self._matching_pipeline,
+            )
 
         for token in tokens:
 
@@ -227,7 +228,7 @@ class ContextAnnotator(TokenPatternAnnotator):
 
     def _apply_context_pattern(
         self, text: str, annotations: dd.AnnotationSet, context_pattern: dict
-    ):
+    ) -> None:
 
         direction = context_pattern["direction"]
         skip = set(context_pattern.get("skip", []))
@@ -259,7 +260,7 @@ class ContextAnnotator(TokenPatternAnnotator):
                 )
 
                 merged_annotation = dd.Annotation(
-                    text=text[left_ann.start_char: right_ann.end_char],
+                    text=text[left_ann.start_char : right_ann.end_char],
                     start_char=left_ann.start_char,
                     end_char=right_ann.end_char,
                     start_token=left_ann.start_token,
@@ -273,19 +274,21 @@ class ContextAnnotator(TokenPatternAnnotator):
 
         return annotations
 
-    def _annotate(
-        self, text: str, annotations: dd.AnnotationSet
-    ) -> dd.AnnotationSet:
+    def _annotate(self, text: str, annotations: dd.AnnotationSet) -> dd.AnnotationSet:
 
         original_annotations = annotations.copy()
 
         for context_pattern in self.pattern:
-            annotations = self._apply_context_pattern(text, annotations, context_pattern)
+            annotations = self._apply_context_pattern(
+                text, annotations, context_pattern
+            )
 
         if self.iterative:
 
             changed = dd.AnnotationSet(annotations.difference(original_annotations))
-            annotations = dd.AnnotationSet(annotations.intersection(original_annotations))
+            annotations = dd.AnnotationSet(
+                annotations.intersection(original_annotations)
+            )
 
             if changed:
                 annotations.update(self._annotate(text, changed))

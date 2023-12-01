@@ -25,7 +25,7 @@ def _get_prefixes() -> dd.ds.LookupSet:
 
 
 def _get_initials() -> dd.ds.LookupSet:
-    """ Get initials LookupSet """
+    """Get initials LookupSet."""
 
     initials = dd.ds.LookupSet()
     initials.add_items_from_file(os.path.join(data_path, "names", "initials.txt"))
