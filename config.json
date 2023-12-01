@@ -420,7 +420,8 @@
       "group": "locations",
       "args": {
         "regexp_pattern": "([Pp]ostbus\\s\\d{1,5}(\\.\\d{2,4})?)",
-        "tag": "locatie"
+        "tag": "locatie",
+        "pre_tokens": ["postbus"]
       }
     },
     "hospital": {
@@ -456,7 +457,8 @@
       "args": {
         "regexp_pattern": "(?i)(?<!\\d)(([1-9]|0[1-9]|[12][0-9]|3[01])[-/\\. ]{,2}(januari|jan|februari|feb|maart|mrt|april|apr|mei|juni|jun|juli|jul|augustus|aug|september|sep|sept|oktober|okt|november|nov|december|dec)[-/\\. ]((19|20|\\'|`)?\\d{2}))(?!\\d)",
         "tag": "datum",
-        "capturing_group": 1
+        "capturing_group": 1,
+        "pre_tokens": ["januari", "jan", "februari", "feb", "maart", "mrt", "april", "apr", "mei", "juni", "jun", "juli", "jul", "augustus", "aug", "september", "sep", "sept", "oktober", "okt", "november", "nov", "december", "dec"]
       }
     },
     "date_ymd_1": {
@@ -474,7 +476,8 @@
       "args": {
         "regexp_pattern": "(?i)(?<!\\d)(((19|20|\\'|`)\\d{2})[-/\\. ]{,2}(januari|jan|februari|feb|maart|mrt|april|apr|mei|juni|jun|juli|jul|augustus|aug|september|sep|sept|oktober|okt|november|nov|december|dec)[-/\\. ]([1-9]|0[1-9]|[12][0-9]|3[01]))(?!\\d)",
         "tag": "datum",
-        "capturing_group": 1
+        "capturing_group": 1,
+        "pre_tokens": ["januari", "jan", "februari", "feb", "maart", "mrt", "april", "apr", "mei", "juni", "jun", "juli", "jul", "augustus", "aug", "september", "sep", "sept", "oktober", "okt", "november", "nov", "december", "dec"]
       }
     },
     "age": {
@@ -486,6 +489,7 @@
         "regexp_pattern": "(?i)(?<![\\d,\\.])((1?\\d?\\d)([\\.,]5)?(-(1?\\d?\\d)([\\.,]5)?)?)([ -](jarige|jarig|jaar|jr))(?!\\w)",
         "pre_pseudo": ["sinds", "vanaf", "controle", "policontrole", "gedurende", "de", "over", "elke", "nog", "na", "al", "up", "ongeveer", "<"],
         "post_pseudo": ["geleden", "na", "naar", "nadien", "aanwezig", "getrouwd", "gestopt", "gerookt", "gebruikt", "gestaakt"],
+        "pre_tokens": ["jarige", "jarig", "jaar", "jr"],
         "tag": "leeftijd",
         "capturing_group": 1
       }
@@ -527,7 +531,8 @@
       "group": "email_addresses",
       "args": {
         "regexp_pattern": "(([-a-zA-Z0-9:%._\\+~#=]{1,256})@([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(com|net|org|co|us|uk|nl|be|fr|sp|gov|nu))",
-        "tag": "email"
+        "tag": "email",
+        "pre_tokens": ["com", "net", "org", "co", "us", "uk", "nl", "be", "fr", "sp", "gov", "nu"]
       }
     },
     "url": {
@@ -535,7 +540,8 @@
       "group": "urls",
       "args": {
         "regexp_pattern": "((https?:\\/\\/(?:www\\.)?)?([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(com|net|org|co|us|uk|nl|be|fr|sp|gov|nu)(\\b)([():%_\\+.~,]*[-a-zA-Z-0-9#?&/=]+)*)",
-        "tag": "url"
+        "tag": "url",
+        "pre_tokens": ["com", "net", "org", "co", "us", "uk", "nl", "be", "fr", "sp", "gov", "nu"]
       }
     }
   }
