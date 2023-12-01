@@ -4,17 +4,6 @@ from deduce import utils
 
 
 class TestUtils:
-    def test_any_in_text(self):
-        assert utils.any_in_text(["hans", "piet", "karel"], "ik heet hans")
-        assert utils.any_in_text(["hans", "piet", "karel"], "ik heet piet")
-        assert utils.any_in_text(["hans", "piet", "karel"], "ik heet karel")
-        assert utils.any_in_text(
-            ["hans", "piet", "karel"], "wij heten hans, piet en karel"
-        )
-        assert not utils.any_in_text(["hans", "piet", "karel"], "ik heet peter")
-        assert utils.any_in_text(["hans", "piet", "karel"], "wat een leuk hansopje")
-        assert utils.any_in_text(["hans", "piet", "karel"], "mijn oom heet pieter")
-
     def test_str_match(self):
         assert utils.str_match("a", "a")
         assert utils.str_match("willem", "willem")

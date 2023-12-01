@@ -5,21 +5,6 @@ from typing import Any, Optional
 from rapidfuzz.distance import DamerauLevenshtein
 
 
-def any_in_text(match_list: list[str], term: str) -> bool:
-    """
-    Check if any of the strings in matchlist are in the term.
-
-    Args:
-        match_list: A list of strings to match.
-        term: A string to match against.
-
-    Returns:
-        ``True`` if any of the terms in match list are contained in the term,
-        ``False`` otherwise.
-    """
-    return any(m in term for m in match_list)
-
-
 def str_match(str_1: str, str_2: str, max_edit_distance: Optional[int] = None) -> bool:
     """
     Match two strings.
