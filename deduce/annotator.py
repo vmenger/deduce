@@ -131,7 +131,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
     def _match_sequence(  # pylint: disable=R0913
         self,
-        doc: Document,
+        text: str,
         pattern: list[dict],
         start_token: dd.tokenizer.Token,
         direction: Literal["left", "right"] = "right",
@@ -173,7 +173,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
         )
 
         return dd.Annotation(
-            text=doc.text[start_token.start_char : end_token.end_char],
+            text=text[start_token.start_char : end_token.end_char],
             start_char=start_token.start_char,
             end_char=end_token.end_char,
             tag=self.tag,
@@ -203,7 +203,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
         for token in tokens:
 
             annotation = self._match_sequence(
-                doc, self.pattern, token, direction="right", skip=self.skip
+                doc.text, self.pattern, token, direction="right", skip=self.skip
             )
 
             if annotation is not None:
@@ -226,19 +226,19 @@ class ContextAnnotator(TokenPatternAnnotator):
         super().__init__(*args, **kwargs, tag="_")
 
     def _apply_context_pattern(
-        self, doc: dd.Document, annotations: dd.AnnotationSet, context_pattern: dict
-    ) -> dd.AnnotationSet:
-        new_annotations = dd.AnnotationSet()
-        direction = context_pattern["direction"]
+        self, text: str, annotations: dd.AnnotationSet, context_pattern: dict
+    ):
 
-        for annotation in annotations:
+        direction = context_pattern["direction"]
+        skip = set(context_pattern.get("skip", []))
+
+        for annotation in annotations.copy():
+
             tag = list(_DIRECTION_MAP[direction]["order"](annotation.tag.split("+")))[
                 -1
             ]
-            skip = set(context_pattern.get("skip", []))
 
             if not deduce.utils.any_in_text(context_pattern["pre_tag"], tag):
-                new_annotations.add(annotation)
                 continue
 
             attr = _DIRECTION_MAP[direction]["attr"]
@@ -246,7 +246,7 @@ class ContextAnnotator(TokenPatternAnnotator):
                 _DIRECTION_MAP[direction]["start_token"](annotation), attr, skip
             )
             new_annotation = self._match_sequence(
-                doc,
+                text,
                 context_pattern["pattern"],
                 start_token,
                 direction=direction,
@@ -258,32 +258,45 @@ class ContextAnnotator(TokenPatternAnnotator):
                     (annotation, new_annotation)
                 )
 
-                new_annotations.add(
-                    dd.Annotation(
-                        text=doc.text[left_ann.start_char : right_ann.end_char],
-                        start_char=left_ann.start_char,
-                        end_char=right_ann.end_char,
-                        start_token=left_ann.start_token,
-                        end_token=right_ann.end_token,
-                        tag=context_pattern["tag"].format(tag=annotation.tag),
-                        priority=annotation.priority,
-                    )
+                merged_annotation = dd.Annotation(
+                    text=text[left_ann.start_char: right_ann.end_char],
+                    start_char=left_ann.start_char,
+                    end_char=right_ann.end_char,
+                    start_token=left_ann.start_token,
+                    end_token=right_ann.end_token,
+                    tag=context_pattern["tag"].format(tag=annotation.tag),
+                    priority=annotation.priority,
                 )
-            else:
-                new_annotations.add(annotation)
 
-        return new_annotations
+                annotations.remove(annotation)
+                annotations.add(merged_annotation)
+
+        return annotations
 
     def _annotate(
-        self, doc: dd.Document, annotations: list[dd.Annotation]
-    ) -> list[dd.Annotation]:
-        original_annotations = annotations
+        self, text: str, annotations: dd.AnnotationSet
+    ) -> dd.AnnotationSet:
+
+        original_annotations = annotations.copy()
 
         for context_pattern in self.pattern:
-            annotations = self._apply_context_pattern(doc, annotations, context_pattern)
+            annotations = self._apply_context_pattern(text, annotations, context_pattern)
 
-        if self.iterative and (annotations != original_annotations):
-            annotations = self._annotate(doc, annotations)
+        if self.iterative:
+
+            unchanged = dd.AnnotationSet()
+            changed = dd.AnnotationSet()
+
+            for ann in annotations:
+                if ann in original_annotations:
+                    unchanged.add(ann)
+                else:
+                    changed.add(ann)
+
+            annotations = unchanged
+
+            if changed:
+                unchanged.update(self._annotate(text, changed))
 
         return annotations
 
@@ -298,7 +311,7 @@ class ContextAnnotator(TokenPatternAnnotator):
             An empty list, as annotations are modified and not added.
         """
 
-        doc.annotations = self._annotate(doc, list(doc.annotations))
+        doc.annotations = self._annotate(doc.text, doc.annotations)
         return []
 
 
