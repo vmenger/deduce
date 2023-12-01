@@ -24,17 +24,27 @@ class DeduceTokenizer(dd.tokenizer.Tokenizer):  # pylint: disable=R0903
         self._pattern = _TOKENIZER_PATTERN
         self._trie = None
 
-        self._merge_words = set()
+        self._start_words = set()
 
         if merge_terms is not None:
-            trie = dd.ds.LookupTrie()
+            self._init_merge_structures(merge_terms=merge_terms)
 
-            for term in merge_terms:
-                tokens = [token.text for token in self._split_text(text=term)]
-                trie.add_item(tokens)
-                self._merge_words.add(tokens[0])
+    def _init_merge_structures(self, merge_terms: Optional[Iterable]) -> None:
+        """
+        Initializes the merge structures.
 
-            self._trie = trie
+        Args:
+            merge_terms: The provided terms that should be merged into a single token.
+        """
+
+        trie = dd.ds.LookupTrie()
+
+        for term in merge_terms:
+            tokens = [token.text for token in self._split_text(text=term)]
+            trie.add_item(tokens)
+            self._start_words.add(tokens[0])
+
+        self._trie = trie
 
     @staticmethod
     def _join_tokens(text: str, tokens: list[dd.tokenizer.Token]) -> dd.tokenizer.Token:
@@ -75,7 +85,7 @@ class DeduceTokenizer(dd.tokenizer.Tokenizer):  # pylint: disable=R0903
 
         while i < len(tokens):
 
-            if tokens_text[i] not in self._merge_words:
+            if tokens_text[i] not in self._start_words:
                 tokens_merged.append(tokens[i])
                 i += 1
                 continue
