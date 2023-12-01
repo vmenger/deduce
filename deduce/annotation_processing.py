@@ -1,6 +1,6 @@
 import docdeid as dd
 from docdeid import AnnotationSet
-
+from frozendict import frozendict
 
 class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
     """
@@ -66,11 +66,11 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
 
     def __init__(self) -> None:
         self._overlap_resolver = dd.process.OverlapResolver(
-            sort_by=["tag", "length"],
-            sort_by_callbacks={
-                "tag": lambda x: "patient" not in x,
-                "length": lambda x: -x,
-            },
+            sort_by=("tag", "length"),
+            sort_by_callbacks=frozendict(
+                tag=lambda x: "patient" not in x,
+                length=lambda x: -x,
+            ),
         )
 
     def process_annotations(

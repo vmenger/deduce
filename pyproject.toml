@@ -29,6 +29,7 @@ python = "^3.9"
 rapidfuzz = "^2.11.1"
 docdeid = "0.1.10"
 regex = "^2022.9.13"
+frozendict = "^2.3.10"
 
 [tool.poetry.group.dev]
 optional = false

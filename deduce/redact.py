@@ -21,7 +21,7 @@ class DeduceRedactor(dd.process.SimpleRedactor):
             counter = 1
 
             for annotation in sorted(
-                annotation_group, key=lambda a: a.get_sort_key(by=["end_char"])
+                annotation_group, key=lambda a: a.get_sort_key(by=("end_char",))
             ):
                 if tag == "patient":
                     annotations_to_intext_replacement[annotation] = (

@@ -18,6 +18,7 @@ from deduce.lookup_sets import get_lookup_sets
 from deduce.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
 
+from frozendict import frozendict
 
 class Deduce(dd.DocDeid):
     """
@@ -131,6 +132,9 @@ class Deduce(dd.DocDeid):
         for attr, ascending in zip(sort_by_attrs, sort_by_ascending):
             sort_by.append(attr)
             sort_by_callbacks[attr] = (lambda x: x) if ascending else (lambda y: -y)
+
+        sort_by = tuple(sort_by)
+        sort_by_callbacks = frozendict(sort_by_callbacks)
 
         post_group = dd.process.DocProcessorGroup()
         self.processors.add_processor("post_processing", post_group)
