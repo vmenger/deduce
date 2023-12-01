@@ -238,7 +238,7 @@ class ContextAnnotator(TokenPatternAnnotator):
                 -1
             ]
 
-            if not deduce.utils.any_in_text(context_pattern["pre_tag"], tag):
+            if tag not in context_pattern["pre_tag"]:
                 continue
 
             attr = _DIRECTION_MAP[direction]["attr"]
@@ -284,19 +284,11 @@ class ContextAnnotator(TokenPatternAnnotator):
 
         if self.iterative:
 
-            unchanged = dd.AnnotationSet()
-            changed = dd.AnnotationSet()
-
-            for ann in annotations:
-                if ann in original_annotations:
-                    unchanged.add(ann)
-                else:
-                    changed.add(ann)
-
-            annotations = unchanged
+            changed = dd.AnnotationSet(annotations.difference(original_annotations))
+            annotations = dd.AnnotationSet(annotations.intersection(original_annotations))
 
             if changed:
-                unchanged.update(self._annotate(text, changed))
+                annotations.update(self._annotate(text, changed))
 
         return annotations
 

@@ -219,7 +219,11 @@
             "direction": "right",
             "pre_tag": [
               "initiaal",
-              "naam"
+              "naam",
+              "voornaam",
+              "achternaam",
+              "voornaam_patient",
+              "achternaam_patient"
             ],
             "tag": "{tag}+interfix+achternaam",
             "skip": [".", "-"],
@@ -238,6 +242,10 @@
             "pre_tag": [
               "initiaal",
               "naam",
+              "voornaam",
+              "achternaam",
+              "voornaam_patient",
+              "achternaam_patient",
               "interfix"
             ],
             "tag": "initiaal+{tag}",
@@ -252,7 +260,11 @@
             "name": "naam_left",
             "direction": "left",
             "pre_tag": [
-              "naam"
+              "naam",
+              "voornaam",
+              "achternaam",
+              "voornaam_patient",
+              "achternaam_patient"
             ],
             "tag": "naam+{tag}",
             "skip": ["-"],
@@ -278,8 +290,12 @@
             "pre_tag": [
               "prefix",
               "initiaal",
-              "interfix",
-              "naam"
+              "naam",
+              "voornaam",
+              "achternaam",
+              "voornaam_patient",
+              "achternaam_patient",
+              "interfix"
             ],
             "tag": "{tag}+naam",
             "skip": ["-"],
@@ -305,8 +321,12 @@
             "pre_tag": [
               "prefix",
               "initiaal",
-              "interfix",
-              "naam"
+              "naam",
+              "voornaam",
+              "achternaam",
+              "voornaam_patient",
+              "achternaam_patient",
+              "interfix"
             ],
             "tag": "prefix+{tag}",
             "skip": ["."],
