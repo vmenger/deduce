@@ -1,6 +1,5 @@
 import glob
 import json
-import os
 from typing import Optional
 
 import docdeid as dd
@@ -20,7 +19,7 @@ def safe_load_items(path: str) -> Optional[set[str]]:
     try:
         with open(path, "r") as file:
             items = {line.strip() for line in file.readlines()}
-    except FileNotFoundError as e:
+    except FileNotFoundError:
         return None
 
     return items
@@ -31,7 +30,7 @@ def safe_load_json(path: str) -> Optional[dict]:
     try:
         with open(path, "r") as file:
             data = json.load(file)
-    except FileNotFoundError as e:
+    except FileNotFoundError:
         return None
 
     return data
@@ -98,7 +97,7 @@ def _get_prefix(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
 
     prefix = dd.ds.LookupSet()
 
-    prefix.add_items_from_iterable(base_items['prefix'])
+    prefix.add_items_from_iterable(base_items["prefix"])
     prefix.add_items_from_self(cleaning_pipeline=[UpperCaseFirstChar()])
 
     return prefix
@@ -110,13 +109,15 @@ def _get_first_name(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
     fisrt_name = dd.ds.LookupSet()
 
     fisrt_name.add_items_from_iterable(
-        base_items['first_name'],
+        base_items["first_name"],
         cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
     )
 
     fisrt_name.add_items_from_self(
         cleaning_pipeline=[
-            FilterBasedOnLookupSet(filter_set=_get_whitelist(base_items), case_sensitive=False),
+            FilterBasedOnLookupSet(
+                filter_set=_get_whitelist(base_items), case_sensitive=False
+            ),
         ],
         replace=True,
     )
@@ -129,7 +130,7 @@ def _get_interfix(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
 
     interfix = dd.ds.LookupSet()
 
-    interfix.add_items_from_iterable(base_items['interfix'])
+    interfix.add_items_from_iterable(base_items["interfix"])
     interfix.add_items_from_self(cleaning_pipeline=[UpperCaseFirstChar()])
     interfix.add_items_from_self(cleaning_pipeline=[TitleCase()])
     interfix.remove_items_from_iterable(["V."])
@@ -143,13 +144,15 @@ def _get_surname(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
     surname = dd.ds.LookupSet()
 
     surname.add_items_from_iterable(
-        base_items['surname'],
+        base_items["surname"],
         cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
     )
 
     surname.add_items_from_self(
         cleaning_pipeline=[
-            FilterBasedOnLookupSet(filter_set=_get_whitelist(base_items), case_sensitive=False),
+            FilterBasedOnLookupSet(
+                filter_set=_get_whitelist(base_items), case_sensitive=False
+            ),
         ],
         replace=True,
     )
@@ -163,7 +166,7 @@ def _get_street(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
     street = dd.ds.LookupSet()
 
     street.add_items_from_iterable(
-        base_items['street'],
+        base_items["street"],
         cleaning_pipeline=[
             dd.str.StripString(),
             dd.str.FilterByLength(min_len=4),
@@ -181,7 +184,7 @@ def _get_placename(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
     placename = dd.ds.LookupSet()
 
     placename.add_items_from_iterable(
-        base_items['placename'],
+        base_items["placename"],
         cleaning_pipeline=[
             dd.str.StripString(),
         ],
@@ -203,7 +206,9 @@ def _get_placename(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
 
     placename.add_items_from_self(
         cleaning_pipeline=[
-            FilterBasedOnLookupSet(filter_set=_get_whitelist(base_items), case_sensitive=False),
+            FilterBasedOnLookupSet(
+                filter_set=_get_whitelist(base_items), case_sensitive=False
+            ),
         ],
         replace=True,
     )
@@ -215,13 +220,9 @@ def _get_hospital(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
 
     hospital = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
 
-    hospital.add_items_from_iterable(
-        base_items['hospital']
-    )
+    hospital.add_items_from_iterable(base_items["hospital"])
 
-    hospital.add_items_from_iterable(
-        base_items['hospital_abbr']
-    )
+    hospital.add_items_from_iterable(base_items["hospital_abbr"])
 
     hospital.add_items_from_self(
         cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()],
@@ -235,7 +236,7 @@ def _get_institution(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
 
     institution = dd.ds.LookupSet()
     institution.add_items_from_iterable(
-        base_items['healthcare_institution'],
+        base_items["healthcare_institution"],
         cleaning_pipeline=[dd.str.StripString(), dd.str.FilterByLength(min_len=4)],
     )
 
@@ -253,12 +254,12 @@ def _get_common_word(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
 
     common_word = dd.ds.LookupSet()
     common_word.add_items_from_iterable(
-        base_items['common_word'],
+        base_items["common_word"],
     )
 
     surnames_lowercase = dd.ds.LookupSet()
     surnames_lowercase.add_items_from_iterable(
-        base_items['surname'],
+        base_items["surname"],
         cleaning_pipeline=[
             dd.str.LowercaseString(),
             dd.str.FilterByLength(min_len=2),
@@ -280,13 +281,13 @@ def _get_whitelist(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
     medical_term = dd.ds.LookupSet()
 
     medical_term.add_items_from_iterable(
-        base_items['medical_term'],
+        base_items["medical_term"],
     )
 
     common_word = _get_common_word(base_items)
 
     stop_word = dd.ds.LookupSet()
-    stop_word.add_items_from_iterable(base_items['stop_word'])
+    stop_word.add_items_from_iterable(base_items["stop_word"])
 
     whitelist = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
     whitelist.add_items_from_iterable(
@@ -297,7 +298,7 @@ def _get_whitelist(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
     return whitelist
 
 
-def _default_loader(name, lists: dict[str, set[str]]) -> dd.ds.LookupSet:
+def _default_loader(name: str, lists: dict[str, set[str]]) -> dd.ds.LookupSet:
 
     lookup_set = dd.ds.LookupSet()
     lookup_set.add_items_from_iterable(lists[name])
