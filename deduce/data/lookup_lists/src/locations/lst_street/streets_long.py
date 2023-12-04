@@ -188,10 +188,10 @@ mappings = [
 
 if __name__ == "__main__":
 
-    with open("streets_manual.txt", "r") as file:
+    with open("items.txt", "r") as file:
         streets = set(file.read().split("\n"))
 
-    with open("street_exceptions.txt", "r") as file:
+    with open("exceptions.txt", "r") as file:
         streets_exceptions = set(file.read().split("\n"))
 
     streets.difference_update(streets_exceptions)

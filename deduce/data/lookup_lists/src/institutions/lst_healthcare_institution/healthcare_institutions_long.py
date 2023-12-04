@@ -38,10 +38,10 @@ mappings = [
 
 if __name__ == "__main__":
 
-    with open("healthcare_institutions.txt", "r") as file:
+    with open("items.txt", "r") as file:
         institutions = set(file.read().split("\n"))
 
-    with open("healthcare_institution_exceptions.txt", "r") as file:
+    with open("exceptions.txt", "r") as file:
         exceptions = set(file.read().split("\n"))
 
     institutions = institutions - exceptions

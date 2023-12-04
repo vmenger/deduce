@@ -1,0 +1,101 @@
+{
+  "transformations": {
+    "zkh": {
+      " (Ziekenhuis|Gasthuis|Kliniek)": [
+        " Ziekenhuis",
+        " Ziekenhuizen",
+        " Zkh",
+        " Zkh.",
+        " Gasthuis",
+        " Kliniek",
+        " Klinieken",
+        " ziekenhuis",
+        " ziekenhuizen",
+        " zkh",
+        " zkh.",
+        " gasthuis",
+        " kliniek",
+        " klinieken",
+        "ziekenhuis",
+        "ziekenhuizen",
+        "zkh",
+        "zkh.",
+        "gasthuis",
+        "kliniek",
+        "klinieken"
+      ],
+      "^(Ziekenhuis|Gasthuis|Kliniek)": [
+        "Ziekenhuis",
+        "Zkh",
+        "Zkh.",
+        "Gasthuis",
+        "Kliniek",
+        "ziekenhuis",
+        "zkh",
+        "zkh.",
+        "gasthuis",
+        "kliniek"
+      ],
+      "Medisch Centrum": [
+        "Medisch Centrum",
+        "MC"
+      ]
+    },
+    "zkh_2": {
+      "Universitair Medisch Centrum": [
+        "Universitair Medisch Centrum",
+        "UMC"
+      ]
+    },
+    "prefix": {
+      "\\bhet\\b": [
+        "Het",
+        "het",
+        "'T",
+        "'t",
+        "`T",
+        "`t",
+        "T",
+        "t",
+        ""
+      ],
+      "\\bSint\\b": [
+        "Sint",
+        "sint",
+        "St.",
+        "st.",
+        "st",
+        ""
+      ]
+    },
+    "punct": {
+      "\\.": [
+        ".",
+        ""
+      ],
+      "-": [
+        "-",
+        "",
+        " "
+      ]
+    },
+    "spelling": {
+      "y": [
+        "y",
+        "ij"
+      ],
+      "Y": [
+        "Y",
+        "IJ"
+      ],
+      "ij": [
+        "ij",
+        "y"
+      ],
+      "IJ": [
+        "IJ",
+        "Y"
+      ]
+    }
+  }
+}

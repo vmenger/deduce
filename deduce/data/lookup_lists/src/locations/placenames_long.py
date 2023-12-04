@@ -69,21 +69,21 @@ mappings = [
 
 if __name__ == "__main__":
 
-    with open("residences.txt", "r") as file:
+    with open("lst_residence/items.txt", "r") as file:
         residences = set(file.read().split("\n"))
 
-    with open("residence_exceptions.txt", "r") as file:
+    with open("lst_residence/exceptions.txt", "r") as file:
         residence_exceptions = set(file.read().split("\n"))
 
     residences.difference_update(residence_exceptions)
 
-    with open("regions.txt", "r") as file:
+    with open("lst_region/items.txt", "r") as file:
         regions = set(file.read().split("\n"))
 
-    with open("provinces.txt", "r") as file:
+    with open("lst_provice/items.txt", "r") as file:
         provinces = set(file.read().split("\n"))
 
-    with open("municipalities.txt", "r") as file:
+    with open("lst_municipality/items.txt", "r") as file:
         municipalities = set(file.read().split("\n"))
 
     placenames = set()
