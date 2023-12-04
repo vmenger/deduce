@@ -1,5 +1,5 @@
 {
-  "transformations": {
+  "transforms": {
     "zkh": {
       " (Ziekenhuis|Gasthuis|Kliniek)": [
         " Ziekenhuis",

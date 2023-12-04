@@ -1,5 +1,5 @@
 {
-  "transformations": {
+  "transforms": {
     "prefix": {
       "\\bAbraham\\b": [
         "Abraham",

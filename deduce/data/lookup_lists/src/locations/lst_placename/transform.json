@@ -1,5 +1,5 @@
 {
-  "transformations": {
+  "transforms": {
     "prefix": {
       "\\bhet\\b": [
         "Het",
