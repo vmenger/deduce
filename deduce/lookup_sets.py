@@ -1,178 +1,197 @@
+import glob
+import json
 import os
-from pathlib import Path
+from typing import Optional
 
 import docdeid as dd
 
+from deduce.data.lookup_lists.src import _all_lists
 from deduce.str.processor import (
     FilterBasedOnLookupSet,
     TitleCase,
     UpperCase,
     UpperCaseFirstChar,
 )
-
-data_path = Path(os.path.dirname(__file__)).parent / "deduce-data" / "lookup_lists"
-
-
-def _get_prefixes() -> dd.ds.LookupSet:
-    """Get prefixes LookupSet (e.g. 'dr', 'mw')"""
-
-    prefixes = dd.ds.LookupSet()
-
-    prefixes.add_items_from_file(os.path.join(data_path, "names", "prefixes.txt"))
-    prefixes.add_items_from_self(cleaning_pipeline=[UpperCaseFirstChar()])
-
-    return prefixes
+from deduce.utils import str_variations
 
 
-def _get_initials() -> dd.ds.LookupSet:
-    """Get initials LookupSet."""
+def safe_load_items(path: str) -> Optional[set[str]]:
 
-    initials = dd.ds.LookupSet()
-    initials.add_items_from_file(os.path.join(data_path, "names", "initials.txt"))
+    try:
+        with open(path, "r") as file:
+            items = {line.strip() for line in file.readlines()}
+    except FileNotFoundError as e:
+        return None
 
-    return initials
+    return items
 
 
-def _get_first_names() -> dd.ds.LookupSet:
-    """Get first names LookupSet."""
+def safe_load_json(path: str) -> Optional[dict]:
 
-    first_names = dd.ds.LookupSet()
+    try:
+        with open(path, "r") as file:
+            data = json.load(file)
+    except FileNotFoundError as e:
+        return None
 
-    first_names.add_items_from_file(
-        os.path.join(data_path, "names", "first_names.txt"),
+    return data
+
+
+def apply_transform(items: set[str], transform: dict) -> set[str]:
+
+    strip_lines = transform.get("strip_lines", True)
+    transforms = transform.get("transforms", {})
+
+    for name, transform in transforms.items():
+
+        to_add = []
+
+        for item in items:
+            to_add += str_variations(item, transform)
+
+        items.update(to_add)
+
+    if strip_lines:
+        items = {i.strip() for i in items}
+
+    return items
+
+
+def load_base_items(path: str) -> set[str]:
+
+    items = safe_load_items(path + "items.txt")
+    exceptions = safe_load_items(path + "exceptions.txt")
+
+    if items is None:
+        raise RuntimeError(f"Cannot import lookup list {path}, no items.txt found.")
+
+    if exceptions is not None:
+        items -= exceptions
+
+    for dir in glob.glob(path + "lst_*"):
+        items = items.union(load_base_items(dir + "/"))
+
+    transform = safe_load_json(path + "transform.json")
+
+    if transform is not None:
+        items = apply_transform(items, transform)
+
+    return items
+
+
+def load_lists(path: str) -> dict[str, set[str]]:
+
+    lists = dict()
+
+    for lst in _all_lists:
+
+        name = lst.split("/")[-1]
+        name = name.removeprefix("lst_")
+
+        lists[name] = load_base_items(str(path + lst) + "/")
+
+    return lists
+
+
+def _get_prefix(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
+    """Get prefix LookupSet (e.g. 'dr', 'mw')"""
+
+    prefix = dd.ds.LookupSet()
+
+    prefix.add_items_from_iterable(base_items['prefix'])
+    prefix.add_items_from_self(cleaning_pipeline=[UpperCaseFirstChar()])
+
+    return prefix
+
+
+def _get_first_name(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
+    """Get first name LookupSet."""
+
+    fisrt_name = dd.ds.LookupSet()
+
+    fisrt_name.add_items_from_iterable(
+        base_items['first_name'],
         cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
     )
 
-    first_name_exceptions = _get_first_name_exceptions()
-
-    first_names.remove_items_from_iterable(first_name_exceptions)
-
-    first_names.add_items_from_self(
+    fisrt_name.add_items_from_self(
         cleaning_pipeline=[
-            FilterBasedOnLookupSet(filter_set=_get_whitelist(), case_sensitive=False),
+            FilterBasedOnLookupSet(filter_set=_get_whitelist(base_items), case_sensitive=False),
         ],
         replace=True,
     )
 
-    return first_names
+    return fisrt_name
 
 
-def _get_first_name_exceptions() -> dd.ds.LookupSet:
-    """Get first name exceptions."""
+def _get_interfix(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
+    """Get interfix LookupSet ('van der', etc.)"""
 
-    first_name_exceptions = dd.ds.LookupSet()
+    interfix = dd.ds.LookupSet()
 
-    first_name_exceptions.add_items_from_file(
-        os.path.join(data_path, "names", "first_name_exceptions.txt"),
-    )
+    interfix.add_items_from_iterable(base_items['interfix'])
+    interfix.add_items_from_self(cleaning_pipeline=[UpperCaseFirstChar()])
+    interfix.add_items_from_self(cleaning_pipeline=[TitleCase()])
+    interfix.remove_items_from_iterable(["V."])
 
-    return first_name_exceptions
-
-
-def _get_interfixes() -> dd.ds.LookupSet:
-    """Get interfixes LookupSet ('van der', etc.)"""
-
-    interfixes = dd.ds.LookupSet()
-
-    interfixes.add_items_from_file(os.path.join(data_path, "names", "interfixes.txt"))
-    interfixes.add_items_from_self(cleaning_pipeline=[UpperCaseFirstChar()])
-    interfixes.add_items_from_self(cleaning_pipeline=[TitleCase()])
-    interfixes.remove_items_from_iterable(["V."])
-
-    return interfixes
+    return interfix
 
 
-def _get_interfix_surnames() -> dd.ds.LookupSet:
-    """Get interfix surnames LookupSet (e.g. 'Jong' for 'de Jong')"""
+def _get_surname(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
+    """Get surname LookupSet."""
 
-    interfix_surnames = dd.ds.LookupSet()
+    surname = dd.ds.LookupSet()
 
-    interfix_surnames.add_items_from_file(
-        os.path.join(data_path, "names", "interfix_surnames.txt"),
-    )
-
-    interfix_surname_exceptions = dd.ds.LookupSet()
-
-    interfix_surname_exceptions.add_items_from_file(
-        os.path.join(data_path, "names", "interfix_surname_exceptions.txt")
-    )
-
-    interfix_surnames.remove_items_from_iterable(interfix_surname_exceptions)
-
-    return interfix_surnames
-
-
-def _get_surnames() -> dd.ds.LookupSet:
-    """Get surnames LookupSet."""
-
-    surnames = dd.ds.LookupSet()
-
-    surnames.add_items_from_file(
-        os.path.join(data_path, "names", "surnames.txt"),
+    surname.add_items_from_iterable(
+        base_items['surname'],
         cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
     )
 
-    surname_exceptions = _get_surname_exceptions()
-
-    surnames.remove_items_from_iterable(surname_exceptions)
-
-    surnames.add_items_from_self(
+    surname.add_items_from_self(
         cleaning_pipeline=[
-            FilterBasedOnLookupSet(filter_set=_get_whitelist(), case_sensitive=False),
+            FilterBasedOnLookupSet(filter_set=_get_whitelist(base_items), case_sensitive=False),
         ],
         replace=True,
     )
 
-    return surnames
+    return surname
 
 
-def _get_surname_exceptions() -> dd.ds.LookupSet:
-    """Get surname exceptions."""
+def _get_street(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
+    """Get street lookupset."""
 
-    surname_exceptions = dd.ds.LookupSet()
+    street = dd.ds.LookupSet()
 
-    surname_exceptions.add_items_from_file(
-        os.path.join(data_path, "names", "surname_exceptions.txt"),
-    )
-
-    return surname_exceptions
-
-
-def _get_streets() -> dd.ds.LookupSet:
-    """Get streets lookupset."""
-
-    streets = dd.ds.LookupSet()
-
-    streets.add_items_from_file(
-        file_path=os.path.join(data_path, "locations", "streets", "streets_long.txt"),
+    street.add_items_from_iterable(
+        base_items['street'],
         cleaning_pipeline=[
             dd.str.StripString(),
             dd.str.FilterByLength(min_len=4),
         ],
     )
 
-    streets.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()])
+    street.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()])
 
-    return streets
+    return street
 
 
-def _get_placenames() -> dd.ds.LookupSet:
-    """Get place names LookupSet."""
+def _get_placename(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
+    """Get placename LookupSet."""
 
-    placenames = dd.ds.LookupSet()
+    placename = dd.ds.LookupSet()
 
-    placenames.add_items_from_file(
-        file_path=os.path.join(data_path, "locations", "placenames_long.txt"),
+    placename.add_items_from_iterable(
+        base_items['placename'],
         cleaning_pipeline=[
             dd.str.StripString(),
         ],
     )
 
-    placenames.add_items_from_self(
+    placename.add_items_from_self(
         cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()]
     )
 
-    placenames.add_items_from_self(
+    placename.add_items_from_self(
         cleaning_pipeline=[
             dd.str.ReplaceValue("(", ""),
             dd.str.ReplaceValue(")", ""),
@@ -180,103 +199,112 @@ def _get_placenames() -> dd.ds.LookupSet:
         ]
     )
 
-    placenames.add_items_from_self(cleaning_pipeline=[UpperCase()])
+    placename.add_items_from_self(cleaning_pipeline=[UpperCase()])
 
-    placenames.add_items_from_self(
+    placename.add_items_from_self(
         cleaning_pipeline=[
-            FilterBasedOnLookupSet(filter_set=_get_whitelist(), case_sensitive=False),
+            FilterBasedOnLookupSet(filter_set=_get_whitelist(base_items), case_sensitive=False),
         ],
         replace=True,
     )
 
-    return placenames
+    return placename
 
 
-def _get_hospitals() -> dd.ds.LookupSet:
+def _get_hospital(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
 
-    hospitals = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
+    hospital = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
 
-    hospitals.add_items_from_file(
-        os.path.join(data_path, "institutions", "hospital_long.txt")
+    hospital.add_items_from_iterable(
+        base_items['hospital']
     )
 
-    hospitals.add_items_from_file(
-        os.path.join(data_path, "institutions", "hospital_abbr.txt")
+    hospital.add_items_from_iterable(
+        base_items['hospital_abbr']
     )
 
-    hospitals.add_items_from_self(
+    hospital.add_items_from_self(
         cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()],
     )
 
-    return hospitals
+    return hospital
 
 
-def _get_institutions() -> dd.ds.LookupSet:
-    """Get institutions LookupSet."""
+def _get_institution(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
+    """Get institution LookupSet."""
 
-    institutions = dd.ds.LookupSet()
-    institutions.add_items_from_file(
-        os.path.join(data_path, "institutions", "healthcare_institutions_long.txt"),
+    institution = dd.ds.LookupSet()
+    institution.add_items_from_iterable(
+        base_items['healthcare_institution'],
         cleaning_pipeline=[dd.str.StripString(), dd.str.FilterByLength(min_len=4)],
     )
 
-    institutions.add_items_from_self(cleaning_pipeline=[UpperCase()])
+    institution.add_items_from_self(cleaning_pipeline=[UpperCase()])
 
-    institutions.add_items_from_self(
+    institution.add_items_from_self(
         cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()],
     )
-    institutions = institutions - _get_whitelist()
+    institution = institution - _get_whitelist(base_items)
 
-    return institutions
+    return institution
 
 
-def _get_top_terms() -> dd.ds.LookupSet:
-    top1000 = dd.ds.LookupSet()
-    top1000.add_items_from_file(
-        os.path.join(data_path, "top_1000_terms.txt"),
+def _get_common_word(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
+
+    common_word = dd.ds.LookupSet()
+    common_word.add_items_from_iterable(
+        base_items['common_word'],
     )
 
     surnames_lowercase = dd.ds.LookupSet()
-    surnames_lowercase.add_items_from_file(
-        os.path.join(data_path, "names", "surnames.txt"),
+    surnames_lowercase.add_items_from_iterable(
+        base_items['surname'],
         cleaning_pipeline=[
             dd.str.LowercaseString(),
             dd.str.FilterByLength(min_len=2),
         ],
     )
 
-    top1000 = top1000 - surnames_lowercase
+    common_word -= surnames_lowercase
 
-    return top1000
+    return common_word
 
 
-def _get_whitelist() -> dd.ds.LookupSet:
+def _get_whitelist(base_items: dict[str, set[str]]) -> dd.ds.LookupSet:
     """
     Get whitelist LookupSet.
 
     Composed of medical terms, top 1000 frequent words (except surnames), and stopwords.
     Returns:
     """
-    med_terms = dd.ds.LookupSet()
-    med_terms.add_items_from_file(
-        os.path.join(data_path, "medical_terms.txt"),
+    medical_term = dd.ds.LookupSet()
+
+    medical_term.add_items_from_iterable(
+        base_items['medical_term'],
     )
 
-    top1000 = _get_top_terms()
+    common_word = _get_common_word(base_items)
 
-    stopwords = dd.ds.LookupSet()
-    stopwords.add_items_from_file(os.path.join(data_path, "stop_words.txt"))
+    stop_word = dd.ds.LookupSet()
+    stop_word.add_items_from_iterable(base_items['stop_word'])
 
     whitelist = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
     whitelist.add_items_from_iterable(
-        med_terms + top1000 + stopwords,
+        medical_term + common_word + stop_word,
         cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
     )
 
     return whitelist
 
 
-def get_lookup_sets() -> dd.ds.DsCollection:
+def _default_loader(name, lists: dict[str, set[str]]) -> dd.ds.LookupSet:
+
+    lookup_set = dd.ds.LookupSet()
+    lookup_set.add_items_from_iterable(lists[name])
+    return lookup_set
+
+
+def get_lookup_sets(path: str) -> dd.ds.DsCollection:
     """
     Get all lookupsets.
 
@@ -285,24 +313,26 @@ def get_lookup_sets() -> dd.ds.DsCollection:
     """
 
     lookup_sets = dd.ds.DsCollection()
+    base_items = load_lists(path=path)
 
-    lookup_set_mapping = {
-        "prefixes": _get_prefixes,
-        "initials": _get_initials,
-        "first_names": _get_first_names,
-        "first_name_exceptions": _get_first_name_exceptions,
-        "interfixes": _get_interfixes,
-        "interfix_surnames": _get_interfix_surnames,
-        "surnames": _get_surnames,
-        "surname_exceptions": _get_surname_exceptions,
-        "streets": _get_streets,
-        "placenames": _get_placenames,
-        "hospitals": _get_hospitals,
-        "healthcare_institutions": _get_institutions,
+    lookup_set_loaders = {
+        "prefix": _get_prefix,
+        "first_name": _get_first_name,
+        "interfix": _get_interfix,
+        "surname": _get_surname,
+        "street": _get_street,
+        "placename": _get_placename,
+        "hospital": _get_hospital,
+        "healthcare_institution": _get_institution,
         "whitelist": _get_whitelist,
     }
 
-    for name, init_function in lookup_set_mapping.items():
-        lookup_sets[name] = init_function()
+    defaults = set(base_items.keys()) - set(lookup_set_loaders.keys())
+
+    for name in defaults:
+        lookup_sets[name] = _default_loader(name, base_items)
+
+    for name, init_function in lookup_set_loaders.items():
+        lookup_sets[name] = init_function(base_items)
 
     return lookup_sets

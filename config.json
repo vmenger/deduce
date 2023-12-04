@@ -21,12 +21,12 @@
         "skip": ["."],
         "pattern": [
           {
-            "lookup": "prefixes"
+            "lookup": "prefix"
           },
           {
             "or": [
               {
-                "lookup": "initials"
+                "lookup": "initial"
               },
               {
                 "is_initials": true
@@ -44,10 +44,10 @@
         "skip": ["."],
         "pattern": [
           {
-            "lookup": "prefixes"
+            "lookup": "prefix"
           },
           {
-            "lookup": "interfixes"
+            "lookup": "interfix"
           },
           {
             "like_name": true
@@ -63,7 +63,7 @@
         "skip": ["."],
         "pattern": [
           {
-            "lookup": "prefixes"
+            "lookup": "prefix"
           },
           {
             "and": [
@@ -86,12 +86,12 @@
         "skip": [],
         "pattern": [
           {
-            "lookup": "interfixes"
+            "lookup": "interfix"
           },
           {
             "and": [
               {
-                "lookup": "interfix_surnames"
+                "lookup": "interfix_surname"
               },
               {
                 "neg_lookup": "whitelist"
@@ -109,7 +109,7 @@
         "skip": ["."],
         "pattern": [
           {
-            "lookup": "initials"
+            "lookup": "initial"
           },
           {
             "and": [
@@ -120,7 +120,7 @@
                 "neg_lookup": "whitelist"
               },
               {
-                "neg_lookup": "prefixes"
+                "neg_lookup": "prefix"
               }
             ]
           }
@@ -135,10 +135,10 @@
         "skip": ["."],
         "pattern": [
           {
-            "lookup": "initials"
+            "lookup": "initial"
           },
           {
-            "lookup": "interfixes"
+            "lookup": "interfix"
           },
           {
             "like_name": true
@@ -152,7 +152,7 @@
       "args": {
         "tag": "voornaam",
         "overlapping": true,
-        "lookup_values": "first_names"
+        "lookup_values": "first_name"
       }
     },
     "surname_lookup": {
@@ -161,7 +161,7 @@
       "args": {
         "tag": "achternaam",
         "overlapping": true,
-        "lookup_values": "surnames"
+        "lookup_values": "surname"
       }
     },
     "person_first_name": {
@@ -229,7 +229,7 @@
             "skip": [".", "-"],
             "pattern": [
               {
-                "lookup": "interfixes"
+                "lookup": "interfix"
               },
               {
                 "like_name": true
@@ -252,7 +252,7 @@
             "skip": ["."],
             "pattern": [
               {
-                "lookup": "initials"
+                "lookup": "initial"
               }
             ]
           },
@@ -278,7 +278,7 @@
                     "neg_lookup": "whitelist"
                   },
                   {
-                    "neg_lookup": "prefixes"
+                    "neg_lookup": "prefix"
                   }
                 ]
               }
@@ -309,7 +309,7 @@
                     "neg_lookup": "whitelist"
                   },
                   {
-                    "neg_lookup": "prefixes"
+                    "neg_lookup": "prefix"
                   }
                 ]
               }
@@ -334,7 +334,7 @@
               {
                 "and": [
                   {
-                    "lookup": "prefixes"
+                    "lookup": "prefix"
                   }
                 ]
               }
@@ -347,7 +347,7 @@
       "annotator_type": "multi_token",
       "group": "locations",
       "args": {
-        "lookup_values": "placenames",
+        "lookup_values": "placename",
         "overlapping": true,
         "tag": "locatie"
       }
@@ -369,7 +369,7 @@
       "annotator_type": "multi_token",
       "group": "locations",
       "args": {
-        "lookup_values": "streets",
+        "lookup_values": "street",
         "overlapping": true,
         "tag": "straat",
         "priority": 1
@@ -448,7 +448,7 @@
       "annotator_type": "multi_token",
       "group": "institutions",
       "args": {
-        "lookup_values": "hospitals",
+        "lookup_values": "hospital",
         "overlapping": true,
         "tag": "instelling"
       }
@@ -457,7 +457,7 @@
       "annotator_type": "multi_token",
       "group": "institutions",
       "args": {
-        "lookup_values": "healthcare_institutions",
+        "lookup_values": "healthcare_institution",
         "overlapping": true,
         "tag": "instelling"
       }

@@ -19,6 +19,9 @@ from deduce.lookup_sets import get_lookup_sets
 from deduce.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
 
+_BASE_PATH = str(Path(os.path.dirname(__file__)).parent)
+_LOOKUP_LIST_PATH = _BASE_PATH + "/" + "deduce/data/lookup_lists/src/"
+
 
 class Deduce(dd.DocDeid):
     """
@@ -40,7 +43,7 @@ class Deduce(dd.DocDeid):
 
         self.config = self._initialize_config()
 
-        self.lookup_sets = get_lookup_sets()
+        self.lookup_sets = get_lookup_sets(path=_LOOKUP_LIST_PATH)
         self.tokenizers = self._initialize_tokenizers()
         self.initialize_doc_processors()
 
@@ -75,8 +78,8 @@ class Deduce(dd.DocDeid):
         """Initializes tokenizers."""
 
         merge_terms = dd.ds.LookupSet()
-        merge_terms += self.lookup_sets["interfixes"]
-        merge_terms += self.lookup_sets["prefixes"]
+        merge_terms += self.lookup_sets["interfix"]
+        merge_terms += self.lookup_sets["prefix"]
 
         return {"default": DeduceTokenizer(merge_terms=merge_terms)}
 
