@@ -80,7 +80,7 @@ if __name__ == "__main__":
     with open("lst_region/items.txt", "r") as file:
         regions = set(file.read().split("\n"))
 
-    with open("lst_provice/items.txt", "r") as file:
+    with open("lst_province/items.txt", "r") as file:
         provinces = set(file.read().split("\n"))
 
     with open("lst_municipality/items.txt", "r") as file:
