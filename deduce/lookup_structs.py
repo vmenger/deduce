@@ -424,9 +424,7 @@ def get_lookup_structs(
     print("Building lookup structures. This may take 1-2 minutes.")
 
     lookup_structs = dd.ds.DsCollection()
-    base_items = load_raw_itemsets(
-        base_path=path, list_names=_all_lists
-    )
+    base_items = load_raw_itemsets(base_path=path, list_names=_all_lists)
 
     lookup_set_loaders = {
         "prefix": _load_prefix_lookup,
