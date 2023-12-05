@@ -36,7 +36,7 @@ class TestRegression:
     def test_regression_name(self, model):
         regression_test(
             model=model,
-            examples_file="tests/regression/data/names.json",
+            examples_file="tests/data/regression_cases/names.json",
             enabled={
                 "names",
                 "prefix_with_initial",
@@ -58,7 +58,7 @@ class TestRegression:
     def test_regression_location(self, model):
         regression_test(
             model=model,
-            examples_file="tests/regression/data/locations.json",
+            examples_file="tests/data/regression_cases/locations.json",
             enabled={
                 "locations",
                 "placename",
@@ -75,7 +75,7 @@ class TestRegression:
     def test_regression_institution(self, model):
         regression_test(
             model=model,
-            examples_file="tests/regression/data/institutions.json",
+            examples_file="tests/data/regression_cases/institutions.json",
             enabled={
                 "institutions",
                 "hospital",
@@ -86,41 +86,41 @@ class TestRegression:
     def test_regression_date(self, model):
         regression_test(
             model=model,
-            examples_file="tests/regression/data/dates.json",
+            examples_file="tests/data/regression_cases/dates.json",
             enabled={"dates", "date_dmy_1", "date_dmy_2", "date_ymd_1", "date_ymd_2"},
         )
 
     def test_regression_age(self, model):
         regression_test(
             model=model,
-            examples_file="tests/regression/data/ages.json",
+            examples_file="tests/data/regression_cases/ages.json",
             enabled={"ages", "age"},
         )
 
     def test_regression_identifier(self, model):
         regression_test(
             model=model,
-            examples_file="tests/regression/data/identifiers.json",
+            examples_file="tests/data/regression_cases/identifiers.json",
             enabled={"identifiers", "bsn", "identifier"},
         )
 
     def test_regression_phone(self, model):
         regression_test(
             model=model,
-            examples_file="tests/regression/data/phone_numbers.json",
+            examples_file="tests/data/regression_cases/phone_numbers.json",
             enabled={"phone_numbers", "phone"},
         )
 
     def test_regression_email(self, model):
         regression_test(
             model=model,
-            examples_file="tests/regression/data/emails.json",
+            examples_file="tests/data/regression_cases/emails.json",
             enabled={"email_addresses", "email"},
         )
 
     def test_regression_url(self, model):
         regression_test(
             model=model,
-            examples_file="tests/regression/data/urls.json",
+            examples_file="tests/data/regression_cases/urls.json",
             enabled={"urls", "url"},
         )
