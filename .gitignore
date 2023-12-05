@@ -1,5 +1,7 @@
 # General file exclusion 
 deduce/data/lookup_lists/cache/*
+
+# Top level scripts ignored by default
 *.py
 
 # Exclude the following filetypes
