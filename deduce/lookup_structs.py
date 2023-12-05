@@ -1,3 +1,5 @@
+"""Responsible for loading, building and caching all lookup structures."""
+
 import logging
 import os
 import pickle
@@ -9,38 +11,37 @@ import docdeid as dd
 from docdeid.tokenizer import Tokenizer
 
 from deduce.data.lookup.src import all_lists
-from deduce.str.processor import (
-    FilterBasedOnLookupSet,
-    TitleCase,
-    UpperCase,
-    UpperCaseFirstChar,
+from deduce.lookup_struct_loader import (
+    _load_prefix_lookup,
+    load_first_name_lookup,
+    load_hospital_lookup,
+    load_institution_lookup,
+    load_interfix_lookup,
+    load_placename_lookup,
+    load_street_lookup,
+    load_surname_lookup,
+    load_whitelist,
 )
 from deduce.utils import optional_load_items, optional_load_json, str_variations
 
 _SRC_SUBDIR = "src"
 _CACHE_SUBDIR = "cache"
+_CACHE_FILE = "lookup_structs.pickle"
 
+_LOOKUP_SET_LOADERS = {
+    "prefix": _load_prefix_lookup,
+    "interfix": load_interfix_lookup,
+    "whitelist": load_whitelist,
+}
 
-def lookup_set_to_trie(
-    lookup_set: dd.ds.LookupSet, tokenizer: Tokenizer
-) -> dd.ds.LookupTrie:
-    """
-    Converts a LookupSet into an equivalent LookupTrie.
-
-    Args:
-        lookup_set: The input LookupSet
-        tokenizer: The tokenizer used to create sequences
-
-    Returns: A LookupTrie with the same items and matching pipeline as the
-    input LookupSet.
-    """
-
-    trie = dd.ds.LookupTrie(matching_pipeline=lookup_set.matching_pipeline)
-
-    for item in lookup_set.items():
-        trie.add_item([token.text for token in tokenizer.tokenize(item)])
-
-    return trie
+_LOOKUP_TRIE_LOADERS = {
+    "first_name": load_first_name_lookup,
+    "surname": load_surname_lookup,
+    "street": load_street_lookup,
+    "placename": load_placename_lookup,
+    "hospital": load_hospital_lookup,
+    "healthcare_institution": load_institution_lookup,
+}
 
 
 def apply_transform(items: set[str], transform_config: dict) -> set[str]:
@@ -73,7 +74,7 @@ def apply_transform(items: set[str], transform_config: dict) -> set[str]:
     return items
 
 
-def load_raw_items(path: Path) -> set[str]:
+def load_raw_itemset(path: Path) -> set[str]:
     """
     Load the raw items from a lookup list. This works by loading the data in items.txt,
     removing the data in exceptions.txt (if any), and then applying the transformations
@@ -91,17 +92,21 @@ def load_raw_items(path: Path) -> set[str]:
 
     sub_list_dirs = list(path.glob("lst_*"))
 
-    if items is None and len(sub_list_dirs) == 0:
-        raise RuntimeError(
-            f"Cannot import lookup list {path}, did not find "
-            f"items.txt or any sublists."
-        )
+    if items is None:
+
+        if len(sub_list_dirs) == 0:
+            raise RuntimeError(
+                f"Cannot import lookup list {path}, did not find "
+                f"items.txt or any sublists."
+            )
+
+        items = set()
 
     if exceptions is not None:
         items -= exceptions
 
     for sub_list_dir in sub_list_dirs:
-        items = items.union(load_raw_items(sub_list_dir))
+        items = items.union(load_raw_itemset(sub_list_dir))
 
     transform_config = optional_load_json(path / "transform.json")
 
@@ -111,13 +116,13 @@ def load_raw_items(path: Path) -> set[str]:
     return items
 
 
-def load_raw_itemsets(base_path: Path, list_names: list[str]) -> dict[str, set[str]]:
+def load_raw_itemsets(base_path: Path, subdirs: list[str]) -> dict[str, set[str]]:
     """
     Loads one or more raw itemsets. Automatically parses its name from the folder name.
 
     Args:
-        base_path: The base path to open the raw items.
-        list_names: THe lists to load.
+        base_path: The base path containing the lists.
+        subdirs: The lists to load.
 
     Returns: The raw itemsetes, represented as a dictionary mapping the name of the
     lookup list to a set of strings.
@@ -125,310 +130,124 @@ def load_raw_itemsets(base_path: Path, list_names: list[str]) -> dict[str, set[s
 
     lists = {}
 
-    for lst in list_names:
-
+    def parse_name(lst: str) -> str:
         name = lst.split("/")[-1]
         name = name.removeprefix("lst_")
 
-        lists[name] = load_raw_items(base_path / _SRC_SUBDIR / lst)
+        return name
+
+    for lst in subdirs:
+        lists[parse_name(lst)] = load_raw_itemset(base_path / _SRC_SUBDIR / lst)
 
     return lists
 
 
-def _load_prefix_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
-    """Load prefix LookupSet (e.g. 'dr', 'mw')"""
-
-    prefix = dd.ds.LookupSet()
-
-    prefix.add_items_from_iterable(raw_itemsets["prefix"])
-    prefix.add_items_from_self(cleaning_pipeline=[UpperCaseFirstChar()])
-
-    return prefix
-
-
-def _load_first_name_lookup(
-    raw_itemsets: dict[str, set[str]], tokenizer: Tokenizer
-) -> dd.ds.LookupTrie:
-    """Load first_name LookupSet."""
-
-    first_name = dd.ds.LookupSet()
-
-    first_name.add_items_from_iterable(
-        raw_itemsets["first_name"],
-        cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
-    )
-
-    first_name.add_items_from_self(
-        cleaning_pipeline=[
-            FilterBasedOnLookupSet(
-                filter_set=_load_whitelist(raw_itemsets), case_sensitive=False
-            ),
-        ],
-        replace=True,
-    )
-
-    return lookup_set_to_trie(first_name, tokenizer)
-
-
-def _load_interfix_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
-    """Load interfix LookupSet ('van der', etc.)"""
-
-    interfix = dd.ds.LookupSet()
-
-    interfix.add_items_from_iterable(raw_itemsets["interfix"])
-    interfix.add_items_from_self(cleaning_pipeline=[UpperCaseFirstChar()])
-    interfix.add_items_from_self(cleaning_pipeline=[TitleCase()])
-    interfix.remove_items_from_iterable(["V."])
-
-    return interfix
-
-
-def _load_surname_lookup(
-    raw_itemsets: dict[str, set[str]], tokenizer: Tokenizer
-) -> dd.ds.LookupTrie:
-    """Load surname LookupSet."""
-
-    surname = dd.ds.LookupSet()
-
-    surname.add_items_from_iterable(
-        raw_itemsets["surname"],
-        cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
-    )
-
-    surname.add_items_from_self(
-        cleaning_pipeline=[
-            FilterBasedOnLookupSet(
-                filter_set=_load_whitelist(raw_itemsets), case_sensitive=False
-            ),
-        ],
-        replace=True,
-    )
-
-    return lookup_set_to_trie(surname, tokenizer)
-
-
-def _load_street_lookup(
-    raw_itemsets: dict[str, set[str]], tokenizer: Tokenizer
-) -> dd.ds.LookupTrie:
-    """Load street lookupset."""
-
-    street = dd.ds.LookupSet()
-
-    street.add_items_from_iterable(
-        raw_itemsets["street"],
-        cleaning_pipeline=[
-            dd.str.StripString(),
-            dd.str.FilterByLength(min_len=4),
-        ],
-    )
-
-    street.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()])
-
-    return lookup_set_to_trie(street, tokenizer)
-
-
-def _load_placename_lookup(
-    raw_itemsets: dict[str, set[str]], tokenizer: Tokenizer
-) -> dd.ds.LookupTrie:
-    """Load placename LookupSet."""
-
-    placename = dd.ds.LookupSet()
-
-    placename.add_items_from_iterable(
-        raw_itemsets["placename"],
-        cleaning_pipeline=[
-            dd.str.StripString(),
-        ],
-    )
-
-    placename.add_items_from_self(
-        cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()]
-    )
-
-    placename.add_items_from_self(
-        cleaning_pipeline=[
-            dd.str.ReplaceValue("(", ""),
-            dd.str.ReplaceValue(")", ""),
-            dd.str.ReplaceValue("  ", " "),
-        ]
-    )
-
-    placename.add_items_from_self(cleaning_pipeline=[UpperCase()])
-
-    placename.add_items_from_self(
-        cleaning_pipeline=[
-            FilterBasedOnLookupSet(
-                filter_set=_load_whitelist(raw_itemsets), case_sensitive=False
-            ),
-        ],
-        replace=True,
-    )
-
-    return lookup_set_to_trie(placename, tokenizer)
-
-
-def _load_hospital_lookup(
-    raw_itemsets: dict[str, set[str]], tokenizer: Tokenizer
-) -> dd.ds.LookupTrie:
-    """Load hopsital LookupSet."""
-
-    hospital = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
-
-    hospital.add_items_from_iterable(raw_itemsets["hospital"])
-
-    hospital.add_items_from_iterable(raw_itemsets["hospital_abbr"])
-
-    hospital.add_items_from_self(
-        cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()],
-    )
-
-    return lookup_set_to_trie(hospital, tokenizer)
-
-
-def _load_institution_lookup(
-    raw_itemsets: dict[str, set[str]], tokenizer: Tokenizer
-) -> dd.ds.LookupTrie:
-    """Load institution LookupSet."""
-
-    institution = dd.ds.LookupSet()
-    institution.add_items_from_iterable(
-        raw_itemsets["healthcare_institution"],
-        cleaning_pipeline=[dd.str.StripString(), dd.str.FilterByLength(min_len=4)],
-    )
-
-    institution.add_items_from_self(cleaning_pipeline=[UpperCase()])
-
-    institution.add_items_from_self(
-        cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()],
-    )
-    institution = institution - _load_whitelist(raw_itemsets)
-
-    return lookup_set_to_trie(institution, tokenizer)
-
-
-def _load_common_word_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
-    """Load common_word LookupSet."""
-
-    common_word = dd.ds.LookupSet()
-    common_word.add_items_from_iterable(
-        raw_itemsets["common_word"],
-    )
-
-    surnames_lowercase = dd.ds.LookupSet()
-    surnames_lowercase.add_items_from_iterable(
-        raw_itemsets["surname"],
-        cleaning_pipeline=[
-            dd.str.LowercaseString(),
-            dd.str.FilterByLength(min_len=2),
-        ],
-    )
-
-    common_word -= surnames_lowercase
-
-    return common_word
-
-
-def _load_whitelist(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
+def validate_lookup_struct_cache(
+    cache: dict, base_path: Path, deduce_version: str
+) -> bool:
     """
-    Load whitelist LookupSet.
+    Validates lookup structure data loaded from cache. Invalidates when changes in
+    source are detected, or when deduce version doesn't match.
 
-    Composed of medical terms, top 1000 frequent words (except surnames), and stopwords.
-    Returns:
+    Args:
+        cache: The data loaded from the pickled cache.
+        base_path: The base path to check for changed files.
+        deduce_version: The current deduce version.
+
+    Returns: True when the lookup structure data is valid, False otherwise.
     """
-    medical_term = dd.ds.LookupSet()
 
-    medical_term.add_items_from_iterable(
-        raw_itemsets["medical_term"],
-    )
-
-    common_word = _load_common_word_lookup(raw_itemsets)
-
-    stop_word = dd.ds.LookupSet()
-    stop_word.add_items_from_iterable(raw_itemsets["stop_word"])
-
-    whitelist = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseString()])
-    whitelist.add_items_from_iterable(
-        medical_term + common_word + stop_word,
-        cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
-    )
-
-    return whitelist
-
-
-def _default_lookup_loader(name: str, lists: dict[str, set[str]]) -> dd.ds.LookupSet:
-    """Default loader for raw items that returns a LookupSet, if no
-    specific loader is needed."""
-
-    lookup_set = dd.ds.LookupSet()
-    lookup_set.add_items_from_iterable(lists[name])
-    return lookup_set
-
-
-def save_lookup_structs(
-    path: Path, lookup_structs: dd.ds.DsCollection, deduce_version: str
-) -> None:
-
-    data = {
-        "deduce_version": deduce_version,
-        "saved_datetime": str(datetime.now()),
-        "lookup_structs": lookup_structs,
-    }
-
-    with open(path / "cache" / "lookup_structs.pickle", "wb") as file:
-        pickle.dump(data, file)
-
-
-def validate_cache(path: Path, data: dict, deduce_version: str) -> bool:
-
-    if data["deduce_version"] != deduce_version:
+    if cache["deduce_version"] != deduce_version:
         return False
 
-    src_path = path / _SRC_SUBDIR
+    src_path = base_path / _SRC_SUBDIR
 
     for file in src_path.glob("**"):
         if datetime.fromtimestamp(os.stat(file).st_mtime) > datetime.fromisoformat(
-            data["saved_datetime"]
+            cache["saved_datetime"]
         ):
             return False
 
     return True
 
 
-def load_lookup_structs(
-    path: Path, deduce_version: str
+def load_lookup_structs_from_cache(
+    base_path: Path, deduce_version: str
 ) -> Optional[dd.ds.DsCollection]:
+    """
+    Loads lookup struct data from cache. Returns None when no cache is present, or when
+    it's invalid.
 
-    cache_file = path / _CACHE_SUBDIR / "lookup_structs.pickle"
+    Args:
+        base_path: The base path where to look for the cache.
+        deduce_version: The current deduce version, used to validate.
+
+    Returns: A DsCollection if present and valid, None otherwise.
+    """
+
+    cache_file = base_path / _CACHE_SUBDIR / _CACHE_FILE
 
     try:
         with open(cache_file, "rb") as file:
-            data = pickle.load(file)
+            cache = pickle.load(file)
     except FileNotFoundError:
         return None
 
-    if validate_cache(path, data, deduce_version):
-        return data["lookup_structs"]
+    if validate_lookup_struct_cache(
+        cache=cache, base_path=base_path, deduce_version=deduce_version
+    ):
+        return cache["lookup_structs"]
 
     return None
 
 
+def cache_lookup_structs(
+    lookup_structs: dd.ds.DsCollection, base_path: Path, deduce_version: str
+) -> None:
+    """
+    Saves lookup structs to cache, along with some metadata.
+
+    Args:
+        lookup_structs: The lookup structures to cache.
+        base_path: The base path for lookup structures.
+        deduce_version: The current deduce version.
+    """
+
+    cache_file = base_path / _CACHE_SUBDIR / _CACHE_FILE
+
+    cache = {
+        "deduce_version": deduce_version,
+        "saved_datetime": str(datetime.now()),
+        "lookup_structs": lookup_structs,
+    }
+
+    with open(cache_file, "wb") as file:
+        pickle.dump(cache, file)
+
+
 def get_lookup_structs(
-    path: Path,
+    lookup_path: Path,
     tokenizer: Tokenizer,
     deduce_version: str,
     build: bool = False,
     save_cache: bool = True,
 ) -> dd.ds.DsCollection:
     """
-    Get all lookupsets.
+    Loads all lookup structures, and handles caching.
+    Args:
+        lookup_path: The base path for lookup sets.
+        tokenizer: The tokenizer, used to create sequences for LookupTrie
+        deduce_version: The current deduce version, used to validate cache.
+        build: Whether to do a full build, even when cache is present and valid.
+        save_cache: Whether to save to cache. Only used after building.
 
-    Returns:
-        A DsCollection with all lookup sets.
+    Returns: The lookup structures.
+
     """
 
     if not build:
 
-        lookup_structs = load_lookup_structs(path, deduce_version)
+        lookup_structs = load_lookup_structs_from_cache(lookup_path, deduce_version)
 
         if lookup_structs is not None:
             return lookup_structs
@@ -441,41 +260,30 @@ def get_lookup_structs(
     )
 
     lookup_structs = dd.ds.DsCollection()
-    base_items = load_raw_itemsets(base_path=path, list_names=all_lists)
-
-    lookup_set_loaders = {
-        "prefix": _load_prefix_lookup,
-        "interfix": _load_interfix_lookup,
-        "whitelist": _load_whitelist,
-    }
-
-    lookup_trie_loaders = {
-        "first_name": _load_first_name_lookup,
-        "surname": _load_surname_lookup,
-        "street": _load_street_lookup,
-        "placename": _load_placename_lookup,
-        "hospital": _load_hospital_lookup,
-        "healthcare_institution": _load_institution_lookup,
-    }
+    base_items = load_raw_itemsets(base_path=lookup_path, subdirs=all_lists)
 
     defaults = (
         set(base_items.keys())
-        - set(lookup_set_loaders.keys())
-        - set(lookup_trie_loaders.keys())
+        - set(_LOOKUP_SET_LOADERS.keys())
+        - set(_LOOKUP_TRIE_LOADERS.keys())
     )
 
     for name in defaults:
-        lookup_structs[name] = _default_lookup_loader(name, base_items)
+        lookup_set = dd.ds.LookupSet()
+        lookup_set.add_items_from_iterable(base_items[name])
+        lookup_structs[name] = lookup_set
 
-    for name, init_function in lookup_set_loaders.items():
+    for name, init_function in _LOOKUP_SET_LOADERS.items():
         lookup_structs[name] = init_function(base_items)
 
-    for name, init_function in lookup_trie_loaders.items():
+    for name, init_function in _LOOKUP_TRIE_LOADERS.items():
         lookup_structs[name] = init_function(base_items, tokenizer)
 
     if save_cache:
-        save_lookup_structs(
-            path=path, lookup_structs=lookup_structs, deduce_version=deduce_version
+        cache_lookup_structs(
+            lookup_structs=lookup_structs,
+            base_path=lookup_path,
+            deduce_version=deduce_version,
         )
 
     return lookup_structs

@@ -1,3 +1,5 @@
+"""Loads Deduce and all its components."""
+
 import importlib.metadata
 import itertools
 import json
@@ -6,7 +8,7 @@ import os
 import re
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 
 import docdeid as dd
 from frozendict import frozendict
@@ -19,12 +21,8 @@ from deduce.annotation_processing import (
     RemoveAnnotations,
 )
 from deduce.annotator import ContextAnnotator, TokenPatternAnnotator
-from deduce.lookup_structs import (
-    _load_interfix_lookup,
-    _load_prefix_lookup,
-    get_lookup_structs,
-    load_raw_itemsets,
-)
+from deduce.lookup_struct_loader import _load_prefix_lookup, load_interfix_lookup
+from deduce.lookup_structs import get_lookup_structs, load_raw_itemsets
 from deduce.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
 
@@ -32,7 +30,7 @@ __version__ = importlib.metadata.version(__package__ or __name__)
 
 
 _BASE_PATH = Path(os.path.dirname(__file__)).parent
-_LOOKUP_LIST_PATH = _BASE_PATH / "deduce" / "data" / "lookup_lists"
+_LOOKUP_LIST_PATH = _BASE_PATH / "deduce" / "data" / "lookup"
 
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
@@ -50,19 +48,24 @@ class Deduce(dd.DocDeid):
         self,
         config_file: Optional[str] = None,
         use_config_defaults: Optional[bool] = True,
+        lookup_data_path: Union[str, Path] = _LOOKUP_LIST_PATH,
         build_lookup_structs: bool = False,
     ) -> None:
         super().__init__()
 
         self.config_file = config_file
         self.use_config_defaults = use_config_defaults
-
         self.config = self._initialize_config()
+
+        self.lookup_data_path = lookup_data_path
+
+        if isinstance(lookup_data_path, Path):
+            self.lookup_data_path = Path(self.lookup_data_path)
 
         self.tokenizers = self._initialize_tokenizer()
 
         self.lookup_structs = get_lookup_structs(
-            path=_LOOKUP_LIST_PATH,
+            lookup_path=self.lookup_data_path,
             tokenizer=self.tokenizers["default"],
             deduce_version=__version__,
             build=build_lookup_structs,
@@ -101,12 +104,12 @@ class Deduce(dd.DocDeid):
         """Initializes tokenizer."""
 
         raw_itemsets = load_raw_itemsets(
-            base_path=_LOOKUP_LIST_PATH,
-            list_names=["names/lst_interfix", "names/lst_prefix"],
+            base_path=self.lookup_data_path,
+            subdirs=["names/lst_interfix", "names/lst_prefix"],
         )
 
         prefix = _load_prefix_lookup(raw_itemsets)
-        interfix = _load_interfix_lookup(raw_itemsets)
+        interfix = load_interfix_lookup(raw_itemsets)
 
         merge_terms = itertools.chain(prefix.items(), interfix.items())
 
