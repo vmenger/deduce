@@ -1,6 +1,6 @@
 # General file exclusion 
 deduce/data/lookup_lists/cache/*
-
+*.py
 
 # Exclude the following filetypes
 *.sav
