@@ -1,5 +1,7 @@
 import importlib
+import json
 import re
+from pathlib import Path
 from typing import Any, Optional
 
 from rapidfuzz.distance import DamerauLevenshtein
@@ -184,3 +186,41 @@ def str_variations(s: str, repl: dict[str, list[str]]) -> list[str]:
         variations = new_variations
 
     return variations
+
+
+def optional_load_items(path: Path) -> Optional[set[str]]:
+    """
+    Load lines of a textfile, returning None if file does not exist.
+
+    Args:
+        path: The full path to the file.
+
+    Returns: The lines of the file as a set if the file exists, None otherwise.
+    """
+
+    try:
+        with open(path, "r", encoding="utf-8") as file:
+            items = {line.strip() for line in file.readlines()}
+    except FileNotFoundError:
+        return None
+
+    return items
+
+
+def optional_load_json(path: Path) -> Optional[dict]:
+    """
+    Load json, returning None if file does not exist.
+
+    Args:
+        path: The full path to the file.
+
+    Returns: The json data as a dict if the file exists, None otherwise.
+    """
+
+    try:
+        with open(path, "r", encoding="utf-8") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        return None
+
+    return data

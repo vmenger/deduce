@@ -1,12 +1,14 @@
+import itertools
 import json
 import os
 import re
 from pathlib import Path
-from typing import Optional
+from typing import Iterable, Optional
 
 import docdeid as dd
 from frozendict import frozendict
 
+import deduce
 from deduce import utils
 from deduce.annotation_processing import (
     CleanAnnotationTag,
@@ -15,12 +17,17 @@ from deduce.annotation_processing import (
     RemoveAnnotations,
 )
 from deduce.annotator import ContextAnnotator, TokenPatternAnnotator
-from deduce.lookup_sets import get_lookup_sets
+from deduce.lookup_structs import (
+    _load_interfix_lookup,
+    _load_prefix_lookup,
+    get_lookup_structs,
+    load_raw_itemsets,
+)
 from deduce.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
 
-_BASE_PATH = str(Path(os.path.dirname(__file__)).parent)
-_LOOKUP_LIST_PATH = _BASE_PATH + "/" + "deduce/data/lookup_lists/src/"
+_BASE_PATH = Path(os.path.dirname(__file__)).parent
+_LOOKUP_LIST_PATH = _BASE_PATH / "deduce" / "data" / "lookup_lists"
 
 
 class Deduce(dd.DocDeid):
@@ -35,6 +42,7 @@ class Deduce(dd.DocDeid):
         self,
         config_file: Optional[str] = None,
         use_config_defaults: Optional[bool] = True,
+        build_lookup_data: bool = False,
     ) -> None:
         super().__init__()
 
@@ -43,8 +51,15 @@ class Deduce(dd.DocDeid):
 
         self.config = self._initialize_config()
 
-        self.lookup_sets = get_lookup_sets(path=_LOOKUP_LIST_PATH)
         self.tokenizers = self._initialize_tokenizers()
+
+        self.lookup_structs = get_lookup_structs(
+            path=_LOOKUP_LIST_PATH,
+            tokenizer=self.tokenizers["default"],
+            deduce_version=deduce.__version__,
+            build=build_lookup_data,
+        )
+
         self.initialize_doc_processors()
 
     def _initialize_config(self) -> dict:
@@ -74,24 +89,37 @@ class Deduce(dd.DocDeid):
 
         return config
 
+    @staticmethod
+    def _load_merge_terms() -> Iterable[str]:
+
+        s = load_raw_itemsets(
+            base_path=_LOOKUP_LIST_PATH,
+            list_names=["names/lst_interfix", "names/lst_prefix"],
+        )
+
+        prefixes = _load_prefix_lookup(s)
+        interfixes = _load_interfix_lookup(s)
+
+        return itertools.chain(prefixes.items(), interfixes.items())
+
     def _initialize_tokenizers(self) -> dict:
         """Initializes tokenizers."""
 
-        merge_terms = dd.ds.LookupSet()
-        merge_terms += self.lookup_sets["interfix"]
-        merge_terms += self.lookup_sets["prefix"]
-
-        return {"default": DeduceTokenizer(merge_terms=merge_terms)}
+        return {"default": DeduceTokenizer(merge_terms=self._load_merge_terms())}
 
     @staticmethod
     def _initialize_annotators(
         annotator_cnfg: dict,
-        lookup_sets: dd.ds.DsCollection,
+        lookup_structs: dd.ds.DsCollection,
         tokenizer: dd.tokenizer.Tokenizer,
     ) -> dd.process.DocProcessorGroup:
         """Initializes annotators."""
 
-        extras = {"ds": lookup_sets, "lookup_sets": lookup_sets, "tokenizer": tokenizer}
+        extras = {
+            "ds": lookup_structs,
+            "lookup_structs": lookup_structs,
+            "tokenizer": tokenizer,
+        }
         return _AnnotatorFactory().get_annotators(annotator_cnfg, extras)
 
     def initialize_doc_processors(self) -> None:
@@ -106,7 +134,7 @@ class Deduce(dd.DocDeid):
         )  # copy to prevent accidental overwrites, deletes, etc
 
         self.processors = self._initialize_annotators(
-            config["annotators"].copy(), self.lookup_sets, self.tokenizers["default"]
+            config["annotators"].copy(), self.lookup_structs, self.tokenizers["default"]
         )
         self.processors["names"].add_processor(
             "person_annotation_converter", PersonAnnotationConverter()
@@ -202,11 +230,21 @@ class _AnnotatorFactory:  # pylint: disable=R0903
 
     @staticmethod
     def _get_multi_token_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-        if isinstance(args["lookup_values"], str):
-            lookup_set = extras["lookup_sets"][args["lookup_values"]]
 
-            args["lookup_values"] = lookup_set.items()
-            args["matching_pipeline"] = lookup_set.matching_pipeline
+        if isinstance(args["lookup_values"], str):
+
+            lookup_struct = extras["lookup_structs"][args["lookup_values"]]
+
+            if isinstance(lookup_struct, dd.ds.LookupSet):
+                args["lookup_values"] = lookup_struct.items()
+                args["matching_pipeline"] = lookup_struct.matching_pipeline
+            elif isinstance(lookup_struct, dd.ds.LookupTrie):
+                args["trie"] = lookup_struct
+            else:
+                raise ValueError(
+                    "Don't know how to present lookup structure with type "
+                    "{type(lookup_struct)} to MultiTokenLookupAnnotator"
+                )
 
         return dd.process.MultiTokenLookupAnnotator(
             **args, tokenizer=extras["tokenizer"]
