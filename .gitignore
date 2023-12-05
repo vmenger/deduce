@@ -1,4 +1,6 @@
 # General file exclusion 
+deduce/data/lookup_lists/cache/*
+
 
 # Exclude the following filetypes
 *.sav
