@@ -7,7 +7,7 @@ from typing import Optional
 import docdeid as dd
 from docdeid.tokenizer import Tokenizer
 
-from deduce.data.lookup_lists.src import _all_lists
+from deduce.data.lookup_lists.src import all_lists
 from deduce.str.processor import (
     FilterBasedOnLookupSet,
     TitleCase,

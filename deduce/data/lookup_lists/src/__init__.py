@@ -1,4 +1,4 @@
-_all_lists = [
+all_lists = [
     "institutions/lst_healthcare_institution",
     "institutions/lst_hospital",
     "institutions/lst_hospital_abbr",
