@@ -2,7 +2,7 @@
 deduce/data/lookup/cache/*
 
 # Top level scripts ignored by default
-*.py
+/*.py
 
 # Exclude the following filetypes
 *.sav
