@@ -1,10 +1,10 @@
-import logging
-import sys
 import importlib.metadata
 import itertools
 import json
+import logging
 import os
 import re
+import sys
 from pathlib import Path
 from typing import Optional
 
@@ -36,6 +36,7 @@ _LOOKUP_LIST_PATH = _BASE_PATH / "deduce" / "data" / "lookup_lists"
 
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+
 
 class Deduce(dd.DocDeid):
     """
