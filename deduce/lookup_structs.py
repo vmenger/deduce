@@ -23,6 +23,16 @@ _CACHE_SUBDIR = "cache"
 def lookup_set_to_trie(
     lookup_set: dd.ds.LookupSet, tokenizer: Tokenizer
 ) -> dd.ds.LookupTrie:
+    """
+    Converts a LookupSet into an equivalent LookupTrie.
+
+    Args:
+        lookup_set: The input LookupSet
+        tokenizer: The tokenizer used to create sequences
+
+    Returns: A LookupTrie with the same items and matching pipeline as the
+    input LookupSet.
+    """
 
     trie = dd.ds.LookupTrie(matching_pipeline=lookup_set.matching_pipeline)
 
@@ -424,7 +434,7 @@ def get_lookup_structs(
     print("Building lookup structures. This may take 1-2 minutes.")
 
     lookup_structs = dd.ds.DsCollection()
-    base_items = load_raw_itemsets(base_path=path, list_names=_all_lists)
+    base_items = load_raw_itemsets(base_path=path, list_names=all_lists)
 
     lookup_set_loaders = {
         "prefix": _load_prefix_lookup,
