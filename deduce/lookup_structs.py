@@ -8,7 +8,7 @@ from typing import Optional
 import docdeid as dd
 from docdeid.tokenizer import Tokenizer
 
-from deduce.data.lookup_lists.src import all_lists
+from deduce.data.lookup.src import all_lists
 from deduce.str.processor import (
     FilterBasedOnLookupSet,
     TitleCase,
@@ -356,7 +356,8 @@ def _load_whitelist(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
 
 
 def _default_lookup_loader(name: str, lists: dict[str, set[str]]) -> dd.ds.LookupSet:
-    """Default loader for lookup set, if no specific loader is needed."""
+    """Default loader for raw items that returns a LookupSet, if no
+    specific loader is needed."""
 
     lookup_set = dd.ds.LookupSet()
     lookup_set.add_items_from_iterable(lists[name])
@@ -373,7 +374,7 @@ def save_lookup_structs(
         "lookup_structs": lookup_structs,
     }
 
-    with open(path / "cache" / "lookup_data.pickle", "wb") as file:
+    with open(path / "cache" / "lookup_structs.pickle", "wb") as file:
         pickle.dump(data, file)
 
 
@@ -397,7 +398,7 @@ def load_lookup_structs(
     path: Path, deduce_version: str
 ) -> Optional[dd.ds.DsCollection]:
 
-    cache_file = path / _CACHE_SUBDIR / "lookup_data.pickle"
+    cache_file = path / _CACHE_SUBDIR / "lookup_structs.pickle"
 
     try:
         with open(cache_file, "rb") as file:
