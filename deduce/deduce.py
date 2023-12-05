@@ -1,14 +1,14 @@
+import importlib.metadata
 import itertools
 import json
 import os
 import re
 from pathlib import Path
-from typing import Iterable, Optional
+from typing import Optional
 
 import docdeid as dd
 from frozendict import frozendict
 
-import deduce
 from deduce import utils
 from deduce.annotation_processing import (
     CleanAnnotationTag,
@@ -25,6 +25,9 @@ from deduce.lookup_structs import (
 )
 from deduce.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
+
+__version__ = importlib.metadata.version(__package__ or __name__)
+
 
 _BASE_PATH = Path(os.path.dirname(__file__)).parent
 _LOOKUP_LIST_PATH = _BASE_PATH / "deduce" / "data" / "lookup_lists"
@@ -51,12 +54,12 @@ class Deduce(dd.DocDeid):
 
         self.config = self._initialize_config()
 
-        self.tokenizers = self._initialize_tokenizers()
+        self.tokenizers = self._initialize_tokenizer()
 
         self.lookup_structs = get_lookup_structs(
             path=_LOOKUP_LIST_PATH,
             tokenizer=self.tokenizers["default"],
-            deduce_version=deduce.__version__,
+            deduce_version=__version__,
             build=build_lookup_data,
         )
 
@@ -89,23 +92,20 @@ class Deduce(dd.DocDeid):
 
         return config
 
-    @staticmethod
-    def _load_merge_terms() -> Iterable[str]:
+    def _initialize_tokenizer(self) -> dict:
+        """Initializes tokenizer."""
 
-        s = load_raw_itemsets(
+        raw_itemsets = load_raw_itemsets(
             base_path=_LOOKUP_LIST_PATH,
             list_names=["names/lst_interfix", "names/lst_prefix"],
         )
 
-        prefixes = _load_prefix_lookup(s)
-        interfixes = _load_interfix_lookup(s)
+        prefix = _load_prefix_lookup(raw_itemsets)
+        interfix = _load_interfix_lookup(raw_itemsets)
 
-        return itertools.chain(prefixes.items(), interfixes.items())
+        merge_terms = itertools.chain(prefix.items(), interfix.items())
 
-    def _initialize_tokenizers(self) -> dict:
-        """Initializes tokenizers."""
-
-        return {"default": DeduceTokenizer(merge_terms=self._load_merge_terms())}
+        return {"default": DeduceTokenizer(merge_terms=merge_terms)}
 
     @staticmethod
     def _initialize_annotators(
