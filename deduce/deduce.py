@@ -239,6 +239,7 @@ class _AnnotatorFactory:  # pylint: disable=R0903
                 args["lookup_values"] = lookup_struct.items()
                 args["matching_pipeline"] = lookup_struct.matching_pipeline
             elif isinstance(lookup_struct, dd.ds.LookupTrie):
+                del args["lookup_values"]
                 args["trie"] = lookup_struct
             else:
                 raise ValueError(
