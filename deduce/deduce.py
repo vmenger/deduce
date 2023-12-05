@@ -1,3 +1,5 @@
+import logging
+import sys
 import importlib.metadata
 import itertools
 import json
@@ -33,6 +35,8 @@ _BASE_PATH = Path(os.path.dirname(__file__)).parent
 _LOOKUP_LIST_PATH = _BASE_PATH / "deduce" / "data" / "lookup_lists"
 
 
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+
 class Deduce(dd.DocDeid):
     """
     Main class for de-identifiation.
@@ -45,7 +49,7 @@ class Deduce(dd.DocDeid):
         self,
         config_file: Optional[str] = None,
         use_config_defaults: Optional[bool] = True,
-        build_lookup_data: bool = False,
+        build_lookup_structs: bool = False,
     ) -> None:
         super().__init__()
 
@@ -60,7 +64,7 @@ class Deduce(dd.DocDeid):
             path=_LOOKUP_LIST_PATH,
             tokenizer=self.tokenizers["default"],
             deduce_version=__version__,
-            build=build_lookup_data,
+            build=build_lookup_structs,
         )
 
         self.initialize_doc_processors()

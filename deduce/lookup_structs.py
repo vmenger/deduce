@@ -1,5 +1,7 @@
+import logging
 import os
 import pickle
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -431,7 +433,10 @@ def get_lookup_structs(
         if lookup_structs is not None:
             return lookup_structs
 
-    print("Building lookup structures. This may take 1-2 minutes.")
+    logging.info("Please wait 1-2 minutes while lookup data structures are being "
+                 "loaded and built. This process is only triggered for new installs, "
+                 "when the source lookup lists have changed on disk, or when "
+                 "explicitly triggered with Deduce(build_lookup_structs=True).")
 
     lookup_structs = dd.ds.DsCollection()
     base_items = load_raw_itemsets(base_path=path, list_names=all_lists)
