@@ -12,6 +12,8 @@ from deduce.lookup_structs import (
     validate_lookup_struct_cache,
 )
 
+import io
+
 DATA_PATH = Path(".").cwd() / "tests" / "data" / "lookup"
 
 
@@ -126,8 +128,9 @@ class TestLookupStruct:
 
         assert ds_collection is None
 
+    @patch("builtins.open", return_value=io.BytesIO())
     @patch("pickle.dump")
-    def test_cache_lookup_structs(self, mock_pickle_dump):
+    def test_cache_lookup_structs(self, _, mock_pickle_dump):
 
         cache_lookup_structs(
             lookup_structs=dd.ds.DsCollection(),
