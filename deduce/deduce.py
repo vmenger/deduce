@@ -25,7 +25,7 @@ from deduce.annotator import (
     PatientNameAnnotator,
     TokenPatternAnnotator,
 )
-from deduce.lookup_struct_loader import _load_prefix_lookup, load_interfix_lookup
+from deduce.lookup_struct_loader import load_interfix_lookup, load_prefix_lookup
 from deduce.lookup_structs import get_lookup_structs, load_raw_itemsets
 from deduce.redact import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
@@ -112,7 +112,7 @@ class Deduce(dd.DocDeid):
             subdirs=["names/lst_interfix", "names/lst_prefix"],
         )
 
-        prefix = _load_prefix_lookup(raw_itemsets)
+        prefix = load_prefix_lookup(raw_itemsets)
         interfix = load_interfix_lookup(raw_itemsets)
 
         merge_terms = itertools.chain(prefix.items(), interfix.items())

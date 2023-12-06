@@ -12,15 +12,16 @@ from docdeid.tokenizer import Tokenizer
 
 from deduce.data.lookup.src import all_lists
 from deduce.lookup_struct_loader import (
-    _load_prefix_lookup,
+    load_eponymous_disease_lookup,
     load_first_name_lookup,
     load_hospital_lookup,
     load_institution_lookup,
     load_interfix_lookup,
     load_placename_lookup,
+    load_prefix_lookup,
     load_street_lookup,
     load_surname_lookup,
-    load_whitelist,
+    load_whitelist_lookup,
 )
 from deduce.utils import optional_load_items, optional_load_json, str_variations
 
@@ -29,9 +30,9 @@ _CACHE_SUBDIR = "cache"
 _CACHE_FILE = "lookup_structs.pickle"
 
 _LOOKUP_SET_LOADERS = {
-    "prefix": _load_prefix_lookup,
+    "prefix": load_prefix_lookup,
     "interfix": load_interfix_lookup,
-    "whitelist": load_whitelist,
+    "whitelist": load_whitelist_lookup,
 }
 
 _LOOKUP_TRIE_LOADERS = {
@@ -41,6 +42,7 @@ _LOOKUP_TRIE_LOADERS = {
     "placename": load_placename_lookup,
     "hospital": load_hospital_lookup,
     "healthcare_institution": load_institution_lookup,
+    "eponymous_disease": load_eponymous_disease_lookup,
 }
 
 

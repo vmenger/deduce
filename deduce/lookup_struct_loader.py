@@ -50,7 +50,7 @@ def load_common_word_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSe
     return common_word
 
 
-def load_whitelist(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
+def load_whitelist_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
     """
     Load whitelist LookupSet.
 
@@ -77,7 +77,17 @@ def load_whitelist(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
     return whitelist
 
 
-def _load_prefix_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
+def load_eponymous_disease_lookup(
+    raw_itemsets: dict[str, set[str]], tokenizer: Tokenizer
+) -> dd.ds.LookupTrie:
+
+    epo_disease = dd.ds.LookupSet()
+    epo_disease.add_items_from_iterable(raw_itemsets["eponymous_disease"])
+
+    return lookup_set_to_trie(epo_disease, tokenizer)
+
+
+def load_prefix_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
     """Load prefix LookupSet (e.g. 'dr', 'mw')"""
 
     prefix = dd.ds.LookupSet()
@@ -103,7 +113,7 @@ def load_first_name_lookup(
     first_name.add_items_from_self(
         cleaning_pipeline=[
             FilterBasedOnLookupSet(
-                filter_set=load_whitelist(raw_itemsets), case_sensitive=False
+                filter_set=load_whitelist_lookup(raw_itemsets), case_sensitive=False
             ),
         ],
         replace=True,
@@ -140,7 +150,7 @@ def load_surname_lookup(
     surname.add_items_from_self(
         cleaning_pipeline=[
             FilterBasedOnLookupSet(
-                filter_set=load_whitelist(raw_itemsets), case_sensitive=False
+                filter_set=load_whitelist_lookup(raw_itemsets), case_sensitive=False
             ),
         ],
         replace=True,
@@ -200,7 +210,7 @@ def load_placename_lookup(
     placename.add_items_from_self(
         cleaning_pipeline=[
             FilterBasedOnLookupSet(
-                filter_set=load_whitelist(raw_itemsets), case_sensitive=False
+                filter_set=load_whitelist_lookup(raw_itemsets), case_sensitive=False
             ),
         ],
         replace=True,
@@ -243,6 +253,6 @@ def load_institution_lookup(
     institution.add_items_from_self(
         cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()],
     )
-    institution = institution - load_whitelist(raw_itemsets)
+    institution = institution - load_whitelist_lookup(raw_itemsets)
 
     return lookup_set_to_trie(institution, tokenizer)
