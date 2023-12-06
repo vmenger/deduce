@@ -306,6 +306,15 @@
         ]
       }
     },
+    "eponymous_disease": {
+      "annotator_type": "multi_token",
+      "group": "names",
+      "args": {
+        "lookup_values": "eponymous_disease",
+        "tag": "pseudo_name",
+        "overlapping": true
+      }
+    },
     "placename": {
       "annotator_type": "multi_token",
       "group": "locations",

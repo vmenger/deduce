@@ -55,6 +55,16 @@ class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
         )
 
 
+def map_tag_to_prio(tag: str) -> int:
+
+    if "pseudo" in tag:
+        return 0
+    elif "patient" not in tag:
+        return 1
+
+    return 2
+
+
 class PersonAnnotationConverter(dd.process.AnnotationProcessor):
     """
     Responsible for processing the annotations produced by all name annotators (regular
@@ -69,7 +79,7 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
         self._overlap_resolver = dd.process.OverlapResolver(
             sort_by=("tag", "length"),
             sort_by_callbacks=frozendict(
-                tag=lambda x: "patient" not in x,
+                tag=map_tag_to_prio,
                 length=lambda x: -x,
             ),
         )
@@ -89,6 +99,7 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
                 tag="patient" if "patient" in annotation.tag else "persoon",
             )
             for annotation in new_annotations
+            if ("pseudo" not in annotation.tag and len(annotation.text.strip()) != 0)
         )
 
 
