@@ -1,0 +1,251 @@
+Aarskog-Scott
+Aase-Smith
+Abdallat-Davis-Farrage
+Abderhalden-Kaufmann-Lignac
+Abderhalden-Lignac-Kaufmann
+Achard-Thiers
+Adams-Oliver
+Adams-Stokes
+Adson-Caffey
+Ahumada-Del Castillo
+Aicardi-Goutières
+Albers-Schönberg
+Albright-Butler-Bloomberg
+Albright-Hadorn
+Alibert-Bazin
+Alice in Wonderland
+Alpers-Huttenlocher
+Andersen-Tawil
+Anderson-Fabry
+Anton-Babinski
+Aran-Duchenne
+Arnold-Chiari
+Ayerza-Arrillaga
+Babinski-Froment
+Babinski-Fröhlich
+Babinski-Nageotte
+Baller-Gerold
+Bamberger-Marie
+Bamforth-Lazarus
+Bannayan-Riley-Ruvalcaba
+Bannayan-Zonana
+Bardet-Biedl
+Barraquer-Simons
+Barré-Liéou
+Bart-Pumphrey
+Bassen-Kornzweig
+Beckwith-Wiedemann
+Berardinelli-Seip
+Bernard-Horner
+Bernard-Soulier
+Bernhardt-Roth
+Besnier-Boeck-Schaumann
+Bing-Horton
+Bing-Neel
+Birt-Hogg-Dubé
+Bland-White-Garland
+Bloch-Sulzberger
+Bonnevie-Ullrich
+Bourneville-Pringle
+Brachman-de Lange
+Brailsford-Morquio
+Brill-Symmers
+Brill-Zinsser
+Brissaud-Sicard
+Brown-Séquard
+Bruck-de Lange
+Bruns-Garland
+Bruton-Gitlin
+Budd-Chiari
+Bürger-Grütz
+Caffey-Silverman
+Camurati-Engelmann
+Carney-Stratakis
+Charcot-Marie-Tooth
+Charles Bonnet
+Chiari-Frommel
+Christ-Siemens-Touraine
+Christensen-Krabbe
+Churg-Strauss
+Chédiak-Higashi
+Claude Bernard-Horner
+Clerambault-Kandinsky
+Coffin-Lowry
+Coffin-Siris
+Collet-Sicard
+Cornelia de Lange
+Creutzfeldt-Jakob
+Crigler-Najjar
+Crocq-Cassirer
+Cronkhite-Canada
+Cruveilhier-Baumgarten
+Curschmann-Batten-Steinert
+Curschmann-Steinert
+Céstan-Chenais
+Danbolt-Closs
+Dandy-Walker
+Dejerine-Sottas
+Dennie-Marfan
+Denys-Drash
+Diamond-Blackfan
+Doege-Potter
+Donnai-Barrow
+Dubin-Johnson
+Duchenne-Aran
+Ehlers-Danlos
+Emery-Dreifuss
+Erb-Duchenne
+Erdheim-Chester
+Fitz-Hugh-Curtis
+Flajani-Basedow
+Foix-Alajouanine
+Foix-Chavany-Marie
+Forbes-Albright
+Fritsch-Asherman
+Gerbec-Morgagni-Adams-Stokes
+Gerbezius-Morgagni-Adams-Stokes
+Gilles de la Tourette
+Gorlin-Goltz
+Graves-Basedow
+Guillain-Barré
+Guillain-Barré-Strohl
+Hailey-Hailey
+Hallervorden-Spatz
+Hand-Schüller-Christian
+Hecht-Scott
+Henoch-Schönlein
+Holt-Oram
+Hurler-Scheie
+Hutchinson-Gilford
+Irvine-Gass
+Jakob-Creutzfeldt
+Jarvi-Nasu-Hakola
+Johanson-Blizzard
+Jones-Smith
+Kasabach-Merritt
+Kashin-Beck
+Kearns-Sayre
+Kelly-Patterson
+Kenny-Caffey
+Kimmelstiel-Wilson
+King-Kopetzky
+Klüver-Bucy
+Kugelberg-Welander
+Laband-Zimmermann
+Laurence-Moon
+Laurence-Moon-Bardet-Biedl
+Laurence-Moon-Biedl
+Laurence-Moon-Biedl-Bardet
+Legg-Calvé-Perthes
+Lennox-Gastaut
+Lesch-Nyhan
+Letterer-Siwe
+Lewandowsky-Lutz
+Li-Fraumeni
+Libman-Sacks
+Loeys-Dietz
+Lou Gehrig
+Lujan-Fryns
+Machado-Joseph
+Mallory-Weiss
+Marie-Foix-Alajouanine
+Marshall-Smith
+Marshall-Smith-Weaver
+Martin-Albright
+May-Hegglin
+Mayer-Rokitansky-Küster-Hauser
+McCune-Albight
+McCune-Albright
+Meckel-Gruber
+Miss Havisham
+Mowat-Wilson
+Mucha-Habermann
+Mulvihill-Smith
+Munchausen by proxy
+Myhre-Riley-Smith
+Nasu-Hakola
+Non-Hodgkin
+Opitz-Kaveggia
+Osgood-Schlatter
+Osler-Weber-Rendu
+Paget-Schroetter
+Paget-Von Schrötter
+Paterson-Brown-Kelly
+Pelizaeus-Merzbacher
+Peutz-Jeghers
+Pfaundler-Hurler
+Pierre-Robin
+Plummer-Vinson
+Potocki-Lupski
+Potocki-Shaffer
+Prader-Willi
+Ramsay Hunts
+Raymond Céstan
+Riley-Day
+Riley-Smith
+Rubinstein-Taybi
+Russell-Silver
+Ruvalcaba-Myhre
+Ruvalcaba-Myhre-Smith
+Ruzicka-Goerz-Anton
+Sanjad-Sakati
+Sanjad-Sakati-Richardson-Kirk
+Schinzel-Giedion
+Seaver Cassidy
+Shwachman-Bodian-Diamond
+Silver-Russell
+Sjögren-Larsson
+Smith-Lemli-Opitz
+Steele-Richardson-Olszewski
+Stevens-Johnson
+Stokes-Adams
+Sturge-Weber
+Tatton-Brown-Rahman
+Tay-Sachs
+Tay-Sachs
+Temple-Baraitser
+Treacher Collins
+Unverricht-Lundborg
+Verner Morrison
+Vogt-Koyanagi-Harada
+Von Hippel-Lindau
+Waldenstrom-Kjellberg
+Waterhouse-Friderichsen
+Weber-Christian
+Werdnig-Hoffmann
+Wernicke-Korsakoff
+Westerhof-Beemer-Cormane
+Willis-Ekbom
+Wiskott-Aldrich
+Wittmaack-Ekbom
+Wohlfart-Kugelberg-Welander
+Wolff-Parkinson-White
+Zimmermann-Laband
+Zollinger-Ellison
+Zondek-Bromberg-Rozin
+Zuelzer-Kaplan
+Zuelzer-Ogden
+type I
+type II
+type III
+type IV
+type V
+type VI
+type VII
+type VIII
+type IIX
+type IX
+type X
+type XI
+graad I
+graad II
+graad III
+graad IV
+graad V
+graad VI
+graad VII
+graad VIII
+graad IIX
+graad IX
+graad X
+graad XI

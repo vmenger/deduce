@@ -11,6 +11,7 @@ all_lists = [
     "names/lst_prefix",
     "names/lst_surname",
     "whitelist/lst_common_word",
+    "whitelist/lst_eponymous_disease",
     "whitelist/lst_medical_term",
     "whitelist/lst_stop_word",
 ]
