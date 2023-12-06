@@ -1114,6 +1114,21 @@
                     "tag": "persoon"
                 }
             ]
+        },
+        {
+            "id": 124,
+            "text": "ziekte van Zoon",
+            "annotations":  []
+        },
+        {
+            "id": 125,
+            "text": "Turner's ziekte",
+            annotations: []
+        },
+        {
+            "id": 126,
+            "text": "Pierre-Robin sequentie",
+            "annotations": []
         }
     ]
 }
