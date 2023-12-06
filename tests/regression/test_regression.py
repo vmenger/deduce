@@ -3,9 +3,11 @@ from typing import Optional
 
 from docdeid import Annotation, AnnotationSet
 
+from deduce import Deduce
+
 
 def regression_test(
-    model,
+    model: Deduce,
     examples_file: str,
     enabled: set[str],
     known_failures: Optional[set[int]] = None,
@@ -32,95 +34,70 @@ def regression_test(
     assert failures == known_failures
 
 
+def annotators_from_group(model: Deduce, group: str) -> set[str]:
+    return {name for name, _ in model.processors[group]}.union({group})
+
+
 class TestRegression:
     def test_regression_name(self, model):
         regression_test(
             model=model,
             examples_file="tests/data/regression_cases/names.json",
-            enabled={
-                "names",
-                "prefix_with_initial",
-                "prefix_with_name",
-                "interfix_with_name",
-                "initial_with_capital",
-                "initial_interfix",
-                "first_name_lookup",
-                "surname_lookup",
-                "person_first_name",
-                "person_initial_from_name",
-                "person_initials",
-                "person_surname",
-                "name_context",
-                "person_annotation_converter",
-            },
+            enabled=annotators_from_group(model, "names"),
         )
 
     def test_regression_location(self, model):
         regression_test(
             model=model,
             examples_file="tests/data/regression_cases/locations.json",
-            enabled={
-                "locations",
-                "placename",
-                "street_pattern",
-                "street_lookup",
-                "housenumber",
-                "postal_code",
-                "postbus",
-                "remove_street_tags",
-                "clean_street_tags",
-            },
+            enabled=annotators_from_group(model, "locations"),
         )
 
     def test_regression_institution(self, model):
         regression_test(
             model=model,
             examples_file="tests/data/regression_cases/institutions.json",
-            enabled={
-                "institutions",
-                "hospital",
-                "institution",
-            },
+            enabled=annotators_from_group(model, "institutions"),
         )
 
     def test_regression_date(self, model):
         regression_test(
             model=model,
             examples_file="tests/data/regression_cases/dates.json",
-            enabled={"dates", "date_dmy_1", "date_dmy_2", "date_ymd_1", "date_ymd_2"},
+            enabled=annotators_from_group(model, "dates"),
         )
 
     def test_regression_age(self, model):
         regression_test(
             model=model,
             examples_file="tests/data/regression_cases/ages.json",
-            enabled={"ages", "age"},
+            enabled=annotators_from_group(model, "ages"),
         )
 
     def test_regression_identifier(self, model):
         regression_test(
             model=model,
             examples_file="tests/data/regression_cases/identifiers.json",
-            enabled={"identifiers", "bsn", "identifier"},
+            enabled=annotators_from_group(model, "identifiers"),
         )
 
     def test_regression_phone(self, model):
         regression_test(
             model=model,
             examples_file="tests/data/regression_cases/phone_numbers.json",
-            enabled={"phone_numbers", "phone"},
+            enabled=annotators_from_group(model, "phone_numbers"),
         )
 
     def test_regression_email(self, model):
         regression_test(
             model=model,
             examples_file="tests/data/regression_cases/emails.json",
-            enabled={"email_addresses", "email"},
+            enabled=annotators_from_group(model, "email_addresses"),
         )
 
     def test_regression_url(self, model):
         regression_test(
             model=model,
             examples_file="tests/data/regression_cases/urls.json",
-            enabled={"urls", "url"},
+            enabled=annotators_from_group(model, "urls"),
         )
