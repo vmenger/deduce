@@ -19,7 +19,7 @@ classifiers = [
     "Topic :: Text Processing",
     "Topic :: Text Processing :: Linguistic",
 ]
-include = ["deduce-data/lookup_lists/**/*", "config.json"]
+include = ["config.json"]
 
 [tool.sphinx]
 author = "Vincent Menger"
