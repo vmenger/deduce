@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - speed optimizations, ~300%
+- removed false positives caused by eponymous diseases (e.g. Creutzfeldt-Jakob)
 
 ### Changed
 - initials now detected by lookup list, rather than pattern
