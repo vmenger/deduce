@@ -5,4 +5,4 @@ from deduce import Deduce
 
 @pytest.fixture(scope="session")
 def model():
-    return Deduce()
+    return Deduce(build_lookup_structs=True)
