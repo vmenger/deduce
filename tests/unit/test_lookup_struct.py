@@ -1,3 +1,4 @@
+import io
 from pathlib import Path
 from unittest.mock import patch
 
@@ -11,8 +12,6 @@ from deduce.lookup_structs import (
     load_raw_itemsets,
     validate_lookup_struct_cache,
 )
-
-import io
 
 DATA_PATH = Path(".").cwd() / "tests" / "data" / "lookup"
 
