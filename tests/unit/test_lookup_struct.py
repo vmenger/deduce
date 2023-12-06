@@ -93,7 +93,7 @@ class TestLookupStruct:
 
         with patch("pathlib.Path.glob", return_value=[1, 2, 3]):
             with patch("os.stat", return_value=MockStats()):
-                assert validate_lookup_struct_cache(
+                assert not validate_lookup_struct_cache(
                     cache=cache, base_path=DATA_PATH, deduce_version="2.5.0"
                 )
 
