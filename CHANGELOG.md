@@ -15,9 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - speedup for `TokenPatternAnnotator`
 - some internals of `ContextPatternAnnotator`
 - loading of lookup structures (lists and tries), with caching
+- changed patient name patterns into `PatientNameAnnotator`
 
 ### Deleted
 - `utils.any_in_text`
+- patient name patterns (`deduce.patterns`)
 
 ## 2.5.0 (2023-11-28)
 
