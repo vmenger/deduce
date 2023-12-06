@@ -160,6 +160,25 @@ class TestPersonAnnotationConverter:
 
         assert proc.process_annotations(annotations, text) == expected_annotations
 
+    def test_pseudo(self):
+
+        proc = PersonAnnotationConverter()
+        text = "Henoch Schonlein"
+
+        annotations = dd.AnnotationSet(
+            [
+                dd.Annotation(text="Henoch", start_char=0, end_char=6, tag="voornaam"),
+                dd.Annotation(
+                    text="Henoch Schonlein",
+                    start_char=0,
+                    end_char=16,
+                    tag="pseudo_naam",
+                ),
+            ]
+        )
+
+        assert proc.process_annotations(annotations, text) == dd.AnnotationSet()
+
 
 class TestRemoveAnnotations:
     def test_remove_annotations(self):
