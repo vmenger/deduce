@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - initials now detected by lookup list, rather than pattern
 - speedup for `TokenPatternAnnotator`
-- some inernals of `ContextPatternAnnotator`
+- some internals of `ContextPatternAnnotator`
+- loading of lookup structures (lists and tries), with caching
 
 ### Deleted
 - `utils.any_in_text`
