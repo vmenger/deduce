@@ -163,6 +163,7 @@ def validate_lookup_struct_cache(
     src_path = base_path / _SRC_SUBDIR
 
     for file in src_path.glob("**"):
+
         if datetime.fromtimestamp(os.stat(file).st_mtime) > datetime.fromisoformat(
             cache["saved_datetime"]
         ):
