@@ -435,8 +435,6 @@ class PatientNameAnnotator(dd.process.Annotator):
 
                 start_token, end_token = match
 
-                print(start_token, end_token)
-
                 annotations.append(
                     dd.Annotation(
                         text=doc.text[start_token.start_char : end_token.end_char],
