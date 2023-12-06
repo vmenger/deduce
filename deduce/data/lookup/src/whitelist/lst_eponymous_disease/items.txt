@@ -225,27 +225,3 @@ Zollinger-Ellison
 Zondek-Bromberg-Rozin
 Zuelzer-Kaplan
 Zuelzer-Ogden
-type I
-type II
-type III
-type IV
-type V
-type VI
-type VII
-type VIII
-type IIX
-type IX
-type X
-type XI
-graad I
-graad II
-graad III
-graad IV
-graad V
-graad VI
-graad VII
-graad VIII
-graad IIX
-graad IX
-graad X
-graad XI
