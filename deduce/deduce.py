@@ -20,7 +20,11 @@ from deduce.annotation_processing import (
     PersonAnnotationConverter,
     RemoveAnnotations,
 )
-from deduce.annotator import ContextAnnotator, TokenPatternAnnotator
+from deduce.annotator import (
+    ContextAnnotator,
+    PatientNameAnnotator,
+    TokenPatternAnnotator,
+)
 from deduce.lookup_struct_loader import _load_prefix_lookup, load_interfix_lookup
 from deduce.lookup_structs import get_lookup_structs, load_raw_itemsets
 from deduce.redact import DeduceRedactor
@@ -207,8 +211,8 @@ class _AnnotatorFactory:  # pylint: disable=R0903
     def __init__(self) -> None:
         self.annotator_creators = {
             "token_pattern": self._get_token_pattern_annotator,
-            "dd_token_pattern": self._get_dd_token_pattern_annotator,
             "annotation_context": self._get_context_annotator,
+            "patient_name": self._get_patient_name_annotator,
             "regexp": self._get_regexp_annotator,
             "multi_token": self._get_multi_token_annotator,
             "custom": self._get_custom_annotator,
@@ -219,15 +223,12 @@ class _AnnotatorFactory:  # pylint: disable=R0903
         return TokenPatternAnnotator(**args, ds=extras["ds"])
 
     @staticmethod
-    def _get_dd_token_pattern_annotator(
-        args: dict, extras: dict
-    ) -> dd.process.Annotator:
-        pattern = utils.import_and_initialize(args.pop("pattern"), extras=extras)
-        return dd.process.TokenPatternAnnotator(pattern=pattern)
-
-    @staticmethod
     def _get_context_annotator(args: dict, extras: dict) -> dd.process.Annotator:
         return ContextAnnotator(**args, ds=extras["ds"])
+
+    @staticmethod
+    def _get_patient_name_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+        return PatientNameAnnotator(**args, tokenizer=extras["tokenizer"])
 
     @staticmethod
     def _get_regexp_annotator(

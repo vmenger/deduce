@@ -2,8 +2,10 @@ import re
 from typing import Literal, Optional
 
 import docdeid as dd
-from docdeid import Annotation, Document
+from docdeid import Annotation, Document, Tokenizer
 from docdeid.process import RegexpAnnotator
+
+from deduce.utils import str_match
 
 _DIRECTION_MAP = {
     "left": {
@@ -308,6 +310,146 @@ class ContextAnnotator(TokenPatternAnnotator):
 
         doc.annotations = self._annotate(doc.text, doc.annotations)
         return []
+
+
+class PatientNameAnnotator(dd.process.Annotator):
+    """Annotates Patient names, based on information present in document metadata."""
+
+    def __init__(self, tokenizer: Tokenizer, *args, **kwargs) -> None:
+
+        self.tokenizer = tokenizer
+        self.skip = [".", "-", " "]
+
+        super().__init__(*args, **kwargs)
+
+    @staticmethod
+    def _match_first_names(
+        doc: dd.Document, token: dd.Token
+    ) -> Optional[tuple[dd.Token, dd.Token]]:
+
+        for first_name in doc.metadata["patient"].first_names:
+
+            if str_match(token.text, first_name) or (
+                len(token.text) > 3
+                and str_match(token.text, first_name, max_edit_distance=1)
+            ):
+                return token, token
+
+        return None
+
+    @staticmethod
+    def _match_initial_from_name(
+        doc: dd.Document, token: dd.Token
+    ) -> Optional[tuple[dd.Token, dd.Token]]:
+
+        for _, first_name in enumerate(doc.metadata["patient"].first_names):
+            if str_match(token.text, first_name[0]):
+                next_token = token.next()
+
+                if (next_token is not None) and str_match(next_token.text, "."):
+                    return token, next_token
+
+                return token, token
+
+        return None
+
+    @staticmethod
+    def _match_initials(
+        doc: dd.Document, token: dd.Token
+    ) -> Optional[tuple[dd.Token, dd.Token]]:
+
+        if str_match(token.text, doc.metadata["patient"].initials):
+            return token, token
+
+        return None
+
+    def next_with_skip(self, token: dd.Token) -> Optional[dd.Token]:
+        """Find the next token, while skipping some punctuation."""
+
+        while True:
+            token = token.next()
+
+            if (token is None) or (token not in self.skip):
+                break
+
+        return token
+
+    def _match_surname(
+        self, doc: dd.Document, token: dd.Token
+    ) -> Optional[tuple[dd.Token, dd.Token]]:
+
+        if doc.metadata["surname_pattern"] is None:
+            doc.metadata["surname_pattern"] = self.tokenizer.tokenize(
+                doc.metadata["patient"].surname
+            )
+
+        surname_pattern = doc.metadata["surname_pattern"]
+
+        surname_token = surname_pattern[0]
+        start_token = token
+
+        while True:
+            if not str_match(surname_token.text, token.text, max_edit_distance=1):
+                return None
+
+            match_end_token = token
+
+            surname_token = self.next_with_skip(surname_token)
+            token = self.next_with_skip(token)
+
+            if surname_token is None:
+                return start_token, match_end_token  # end of pattern
+
+            if token is None:
+                return None  # end of tokens
+
+    def annotate(self, doc: Document) -> list[Annotation]:
+
+        if doc.metadata is None or doc.metadata["patient"] is None:
+            return []
+
+        matcher_to_attr = {
+            self._match_first_names: ("first_names", "voornaam_patient"),
+            self._match_initial_from_name: ("first_names", "initiaal_patient"),
+            self._match_initials: ("initials", "initiaal_patient"),
+            self._match_surname: ("surname", "achternaam_patient"),
+        }
+
+        matchers = []
+        patient_metadata = doc.metadata["patient"]
+
+        for matcher, (attr, tag) in matcher_to_attr.items():
+            if getattr(patient_metadata, attr) is not None:
+                matchers.append((matcher, tag))
+
+        annotations = []
+
+        for token in doc.get_tokens():
+
+            for matcher, tag in matchers:
+
+                match = matcher(doc, token)
+
+                if match is None:
+                    continue
+
+                start_token, end_token = match
+
+                print(start_token, end_token)
+
+                annotations.append(
+                    dd.Annotation(
+                        text=doc.text[start_token.start_char : end_token.end_char],
+                        start_char=start_token.start_char,
+                        end_char=end_token.end_char,
+                        tag=tag,
+                        priority=self.priority,
+                        start_token=start_token,
+                        end_token=end_token,
+                    )
+                )
+
+        return annotations
 
 
 class RegexpPseudoAnnotator(RegexpAnnotator):

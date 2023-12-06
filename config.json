@@ -164,48 +164,11 @@
         "lookup_values": "surname"
       }
     },
-    "person_first_name": {
-      "annotator_type": "dd_token_pattern",
+    "patient_name": {
+      "annotator_type": "patient_name",
       "group": "names",
       "args": {
-        "pattern": {
-          "module": "deduce.pattern",
-          "class": "PersonFirstNamePattern",
-          "tag": "voornaam_patient"
-        }
-      }
-    },
-    "person_initial_from_name": {
-      "annotator_type": "dd_token_pattern",
-      "group": "names",
-      "args": {
-        "pattern": {
-          "module": "deduce.pattern",
-          "class": "PersonInitialFromNamePattern",
-          "tag": "initiaal_patient"
-        }
-      }
-    },
-    "person_initials": {
-      "annotator_type": "dd_token_pattern",
-      "group": "names",
-      "args": {
-        "pattern": {
-          "module": "deduce.pattern",
-          "class": "PersonInitialsPattern",
-          "tag": "achternaam_patient"
-        }
-      }
-    },
-    "person_surname": {
-      "annotator_type": "dd_token_pattern",
-      "group": "names",
-      "args": {
-        "pattern": {
-          "module": "deduce.pattern",
-          "class": "PersonSurnamePattern",
-          "tag": "achternaam_patient"
-        }
+        "tag": "_"
       }
     },
     "name_context": {
