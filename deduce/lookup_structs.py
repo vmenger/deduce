@@ -50,7 +50,7 @@ def apply_transform(items: set[str], transform_config: dict) -> set[str]:
 
     Args:
         items: The input items.
-        transform_config: The trasnformation, including configuration (see
+        transform_config: The transformation, including configuration (see
         transform.json for examples).
 
     Returns: The transformed items.
