@@ -109,7 +109,7 @@ class TestLookupStruct:
         assert "test_nested" in ds_collection
 
     @patch("deduce.lookup_structs.validate_lookup_struct_cache", return_value=True)
-    def test_load_lookup_structs_from_cache(self, _):
+    def test_load_lookup_structs_from_cache_nofile(self, _):
 
         ds_collection = load_lookup_structs_from_cache(
             base_path=DATA_PATH / "non_existing_dir", deduce_version="_"
@@ -118,7 +118,7 @@ class TestLookupStruct:
         assert ds_collection is None
 
     @patch("deduce.lookup_structs.validate_lookup_struct_cache", return_value=False)
-    def test_load_lookup_structs_from_cache(self, _):
+    def test_load_lookup_structs_from_cache_invalid(self, _):
 
         ds_collection = load_lookup_structs_from_cache(
             base_path=DATA_PATH, deduce_version="_"
