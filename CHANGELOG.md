@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - speed optimizations, ~300%
 - removed false positives caused by eponymous diseases (e.g. Creutzfeldt-Jakob)
+- option to present a user config as dict (using `config` keyword)
 
 ### Changed
 - initials now detected by lookup list, rather than pattern
@@ -17,10 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - some internals of `ContextPatternAnnotator`
 - loading of lookup structures (lists and tries), with caching
 - changed patient name patterns into `PatientNameAnnotator`
+- refactored and simplified annotator loading, specifically the `annotator_type` config keyword now accepts references to classes (e.g `deduce.annotator.TokenPatternAnnotator`)
+- changed redactor open and close chars from `<` `>` to `[` `]`, as previous chars caused issues in html (so deidentified text now shows `[PATIENT]`, `[LOCATIE]`, etc.)
 
 ### Deleted
 - `utils.any_in_text`
 - patient name patterns (`deduce.patterns`)
+- `config_file` keyword, now replaced by `config` (still accepts filenames)
 
 ## 2.5.0 (2023-11-28)
 
