@@ -224,13 +224,21 @@ class ContextAnnotator(TokenPatternAnnotator):
         iteration.
     """
 
-    def __init__(self, *args, iterative: bool = True, **kwargs) -> None:
+    def __init__(
+        self,
+        *args,
+        ds: Optional[dd.ds.DsCollection] = None,
+        iterative: bool = True,
+        **kwargs,
+    ) -> None:
         self.iterative = iterative
-        super().__init__(*args, **kwargs, tag="_")
+        super().__init__(*args, **kwargs, ds=ds, tag="_")
 
     def _apply_context_pattern(
         self, text: str, annotations: dd.AnnotationSet, context_pattern: dict
     ) -> None:
+
+        print(self.ds)
 
         direction = context_pattern["direction"]
         skip = set(context_pattern.get("skip", []))

@@ -59,7 +59,7 @@ def map_tag_to_prio(tag: str) -> int:
 
     if "pseudo" in tag:
         return 0
-    elif "patient" in tag:
+    if "patient" in tag:
         return 1
 
     return 2

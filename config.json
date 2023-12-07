@@ -14,7 +14,7 @@
   "redactor_close_char": ">",
   "annotators": {
     "prefix_with_initial": {
-      "annotator_type": "token_pattern",
+      "annotator_type": "deduce.annotator.TokenPatternAnnotator",
       "group": "names",
       "args": {
         "tag": "prefix+initiaal",
@@ -37,7 +37,7 @@
       }
     },
     "prefix_with_interfix": {
-      "annotator_type": "token_pattern",
+      "annotator_type": "deduce.annotator.TokenPatternAnnotator",
       "group": "names",
       "args": {
         "tag": "prefix+interfix+naam",
@@ -56,7 +56,7 @@
       }
     },
     "prefix_with_name": {
-      "annotator_type": "token_pattern",
+      "annotator_type": "deduce.annotator.TokenPatternAnnotator",
       "group": "names",
       "args": {
         "tag": "prefix+naam",
@@ -79,7 +79,7 @@
       }
     },
     "interfix_with_name": {
-      "annotator_type": "token_pattern",
+      "annotator_type": "deduce.annotator.TokenPatternAnnotator",
       "group": "names",
       "args": {
         "tag": "interfix+achternaam",
@@ -102,7 +102,7 @@
       }
     },
     "initial_with_capital": {
-      "annotator_type": "token_pattern",
+      "annotator_type": "deduce.annotator.TokenPatternAnnotator",
       "group": "names",
       "args": {
         "tag": "initiaal+naam",
@@ -128,7 +128,7 @@
       }
     },
     "initial_interfix": {
-      "annotator_type": "token_pattern",
+      "annotator_type": "deduce.annotator.TokenPatternAnnotator",
       "group": "names",
       "args": {
         "tag": "initiaal+interfix+naam",
@@ -165,14 +165,14 @@
       }
     },
     "patient_name": {
-      "annotator_type": "patient_name",
+      "annotator_type": "deduce.annotator.PatientNameAnnotator",
       "group": "names",
       "args": {
         "tag": "_"
       }
     },
     "name_context": {
-      "annotator_type": "annotation_context",
+      "annotator_type": "deduce.annotator.ContextAnnotator",
       "group": "names",
       "args": {
         "iterative": true,
@@ -325,7 +325,7 @@
       }
     },
     "street_pattern": {
-      "annotator_type": "token_pattern",
+      "annotator_type": "deduce.annotator.TokenPatternAnnotator",
       "group": "locations",
       "args": {
         "pattern": [
@@ -348,7 +348,7 @@
       }
     },
     "housenumber": {
-      "annotator_type": "annotation_context",
+      "annotator_type": "deduce.annotator.ContextAnnotator",
       "group": "locations",
       "args": {
         "iterative": true,
@@ -399,7 +399,7 @@
       }
     },
     "postal_code": {
-      "annotator_type": "regexp",
+      "annotator_type": "docdeid.process.RegexpAnnotator",
       "group": "locations",
       "args": {
         "regexp_pattern": "(\\d{4}([A-Za-z]{2}| [A-Z]{2}))(?<!mg|MG|gr|ie)(\\W|$)",
@@ -408,7 +408,7 @@
       }
     },
     "postbus": {
-      "annotator_type": "regexp",
+      "annotator_type": "docdeid.process.RegexpAnnotator",
       "group": "locations",
       "args": {
         "regexp_pattern": "([Pp]ostbus\\s\\d{1,5}(\\.\\d{2,4})?)",
@@ -435,7 +435,7 @@
       }
     },
     "date_dmy_1": {
-      "annotator_type": "regexp",
+      "annotator_type": "docdeid.process.RegexpAnnotator",
       "group": "dates",
       "args": {
         "regexp_pattern": "(?<!\\d)(([1-9]|0[1-9]|[12][0-9]|3[01])(?P<sep>[-/\\. ])([1-9]|0[1-9]|1[012])(?P=sep)((19|20|\\'|`)?\\d{2}))(?!\\d)",
@@ -444,7 +444,7 @@
       }
     },
     "date_dmy_2": {
-      "annotator_type": "regexp",
+      "annotator_type": "docdeid.process.RegexpAnnotator",
       "group": "dates",
       "args": {
         "regexp_pattern": "(?i)(?<!\\d)(([1-9]|0[1-9]|[12][0-9]|3[01])[-/\\. ]{,2}(januari|jan|februari|feb|maart|mrt|april|apr|mei|juni|jun|juli|jul|augustus|aug|september|sep|sept|oktober|okt|november|nov|december|dec)[-/\\. ]((19|20|\\'|`)?\\d{2}))(?!\\d)",
@@ -454,7 +454,7 @@
       }
     },
     "date_ymd_1": {
-      "annotator_type": "regexp",
+      "annotator_type": "docdeid.process.RegexpAnnotator",
       "group": "dates",
       "args": {
         "regexp_pattern": "(?<!\\d)(((19|20|\\'|`)\\d{2})(?P<sep>[-/\\. ])([1-9]|0[1-9]|1[012])(?P=sep)([1-9]|0[1-9]|[12][0-9]|3[01]))(\\D|$)",
@@ -463,7 +463,7 @@
       }
     },
     "date_ymd_2": {
-      "annotator_type": "regexp",
+      "annotator_type": "docdeid.process.RegexpAnnotator",
       "group": "dates",
       "args": {
         "regexp_pattern": "(?i)(?<!\\d)(((19|20|\\'|`)\\d{2})[-/\\. ]{,2}(januari|jan|februari|feb|maart|mrt|april|apr|mei|juni|jun|juli|jul|augustus|aug|september|sep|sept|oktober|okt|november|nov|december|dec)[-/\\. ]([1-9]|0[1-9]|[12][0-9]|3[01]))(?!\\d)",
@@ -473,11 +473,9 @@
       }
     },
     "age": {
-      "annotator_type": "custom",
+      "annotator_type": "deduce.annotator.RegexpPseudoAnnotator",
       "group": "ages",
       "args": {
-        "module": "deduce.annotator",
-        "class": "RegexpPseudoAnnotator",
         "regexp_pattern": "(?i)(?<![\\d,\\.])((1?\\d?\\d)([\\.,]5)?(-(1?\\d?\\d)([\\.,]5)?)?)([ -](jarige|jarig|jaar|jr))(?!\\w)",
         "pre_pseudo": ["sinds", "vanaf", "controle", "policontrole", "gedurende", "de", "over", "elke", "nog", "na", "al", "up", "ongeveer", "<"],
         "post_pseudo": ["geleden", "na", "naar", "nadien", "aanwezig", "getrouwd", "gestopt", "gerookt", "gebruikt", "gestaakt"],
@@ -487,11 +485,9 @@
       }
     },
     "bsn": {
-      "annotator_type": "custom",
+      "annotator_type": "deduce.annotator.BsnAnnotator",
       "group": "identifiers",
       "args": {
-        "module": "deduce.annotator",
-        "class": "BsnAnnotator",
         "bsn_regexp": "(?<!\\d)(\\d{9})(?!\\d)",
         "capture_group": 1,
         "priority": 100,
@@ -499,7 +495,7 @@
       }
     },
     "identifier": {
-      "annotator_type": "regexp",
+      "annotator_type": "docdeid.process.RegexpAnnotator",
       "group": "identifiers",
       "args": {
         "regexp_pattern": "\\d{7,}",
@@ -507,11 +503,9 @@
       }
     },
     "phone": {
-      "annotator_type": "custom",
+      "annotator_type": "deduce.annotator.PhoneNumberAnnotator",
       "group": "phone_numbers",
       "args": {
-        "module": "deduce.annotator",
-        "class": "PhoneNumberAnnotator",
         "phone_regexp": "(?<!\\d)(\\(?(0031|\\+31|0)(1[035]|2[0347]|3[03568]|4[03456]|5[0358]|6|7|88|800|91|90[069]|[1-5]\\d{2})\\)?) ?-? ?((\\d{2,4}[ -]?)+\\d{2,4})",
         "min_digits": 9,
         "max_digits": 11,
@@ -519,7 +513,7 @@
       }
     },
     "email": {
-      "annotator_type": "regexp",
+      "annotator_type": "docdeid.process.RegexpAnnotator",
       "group": "email_addresses",
       "args": {
         "regexp_pattern": "(([-a-zA-Z0-9:%._\\+~#=]{1,256})@([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(com|net|org|co|us|uk|nl|be|fr|sp|gov|nu))",
@@ -528,7 +522,7 @@
       }
     },
     "url": {
-      "annotator_type": "regexp",
+      "annotator_type": "docdeid.process.RegexpAnnotator",
       "group": "urls",
       "args": {
         "regexp_pattern": "((https?:\\/\\/(?:www\\.)?)?([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(com|net|org|co|us|uk|nl|be|fr|sp|gov|nu)(\\b)([():%_\\+.~,]*[-a-zA-Z-0-9#?&/=]+)*)",

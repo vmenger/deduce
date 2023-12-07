@@ -5,7 +5,6 @@ import itertools
 import json
 import logging
 import os
-import re
 import sys
 from pathlib import Path
 from typing import Optional, Union
@@ -20,11 +19,6 @@ from deduce.annotation_processing import (
     PersonAnnotationConverter,
     RemoveAnnotations,
 )
-from deduce.annotator import (
-    ContextAnnotator,
-    PatientNameAnnotator,
-    TokenPatternAnnotator,
-)
 from deduce.lookup_struct_loader import load_interfix_lookup, load_prefix_lookup
 from deduce.lookup_structs import get_lookup_structs, load_raw_itemsets
 from deduce.redact import DeduceRedactor
@@ -35,6 +29,7 @@ __version__ = importlib.metadata.version(__package__ or __name__)
 
 _BASE_PATH = Path(os.path.dirname(__file__)).parent
 _LOOKUP_LIST_PATH = _BASE_PATH / "deduce" / "data" / "lookup"
+_BASE_CONFIG_FILE = _BASE_PATH / "config.json"
 
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
@@ -50,23 +45,20 @@ class Deduce(dd.DocDeid):
 
     def __init__(
         self,
-        config_file: Optional[str] = None,
-        use_config_defaults: Optional[bool] = True,
+        load_base_config: bool = True,
+        config: Optional[Union[str, dict]] = None,
         lookup_data_path: Union[str, Path] = _LOOKUP_LIST_PATH,
         build_lookup_structs: bool = False,
     ) -> None:
+
         super().__init__()
 
-        self.config_file = config_file
-        self.use_config_defaults = use_config_defaults
-        self.config = self._initialize_config()
+        self.config = self._initialize_config(
+            load_base_config=load_base_config, user_config=config
+        )
 
-        self.lookup_data_path = lookup_data_path
-
-        if isinstance(lookup_data_path, Path):
-            self.lookup_data_path = Path(self.lookup_data_path)
-
-        self.tokenizers = self._initialize_tokenizer()
+        self.lookup_data_path = self._initialize_lookup_data_path(lookup_data_path)
+        self.tokenizers = {"default": self._initialize_tokenizer(self.lookup_data_path)}
 
         self.lookup_structs = get_lookup_structs(
             lookup_path=self.lookup_data_path,
@@ -75,40 +67,55 @@ class Deduce(dd.DocDeid):
             build=build_lookup_structs,
         )
 
-        self.initialize_doc_processors()
+        extras = {"tokenizer": self.tokenizers["default"], "ds": self.lookup_structs}
 
-    def _initialize_config(self) -> dict:
+        self.processors = DeduceProcessorLoader().load(
+            config=self.config, extras=extras
+        )
+
+    @staticmethod
+    def _initialize_config(
+        load_base_config: bool = True,
+        user_config: Optional[Union[str, dict]] = None,
+    ) -> frozendict:
         """
-        Initialize the config file.
+        Initialize the configuration.
 
         Returns:
             The config as a dictionary, based provided input file and default logic.
         """
 
-        if self.config_file is None and not self.use_config_defaults:
-            raise ValueError(
-                "Please specify a config file, or set use_config_defaults to True"
-            )
+        config = {}
 
-        default_config_path = Path(os.path.dirname(__file__)).parent / "config.json"
+        if load_base_config:
 
-        if self.use_config_defaults:
-            with open(default_config_path, "r", encoding="utf-8") as file:
-                config = json.load(file)
+            with open(_BASE_CONFIG_FILE, "r", encoding="utf-8") as file:
+                base_config = json.load(file)
 
-        if self.config_file is not None:
-            with open(Path(self.config_file), "r", encoding="utf-8") as file:
-                custom_config = json.load(file)
+            utils.overwrite_dict(config, base_config)
 
-            config = utils.overwrite_dict(config, custom_config)
+        if user_config is not None:
+            if isinstance(user_config, str):
+                with open(user_config, "r", encoding="utf-8") as file:
+                    user_config = json.load(file)
 
-        return config
+            utils.overwrite_dict(config, user_config)
 
-    def _initialize_tokenizer(self) -> dict:
-        """Initializes tokenizer."""
+        return frozendict(config)
+
+    @staticmethod
+    def _initialize_lookup_data_path(lookup_data_path: Union[str, Path]) -> Path:
+
+        if isinstance(lookup_data_path, str):
+            lookup_data_path = Path(lookup_data_path)
+
+        return lookup_data_path
+
+    @staticmethod
+    def _initialize_tokenizer(lookup_data_path: Path) -> dd.Tokenizer:
 
         raw_itemsets = load_raw_itemsets(
-            base_path=self.lookup_data_path,
+            base_path=lookup_data_path,
             subdirs=["names/lst_interfix", "names/lst_prefix"],
         )
 
@@ -117,46 +124,98 @@ class Deduce(dd.DocDeid):
 
         merge_terms = itertools.chain(prefix.items(), interfix.items())
 
-        return {"default": DeduceTokenizer(merge_terms=merge_terms)}
+        return DeduceTokenizer(merge_terms=merge_terms)
+
+
+class DeduceProcessorLoader:
+    @staticmethod
+    def _get_multi_token_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+
+        lookup_struct = extras["ds"][args["lookup_values"]]
+
+        if isinstance(lookup_struct, dd.ds.LookupSet):
+            args.update(
+                lookup_values=lookup_struct.items(),
+                matching_pipeline=lookup_struct.matching_pipeline,
+                tokenizer=extras["tokenizer]"],
+            )
+        elif isinstance(lookup_struct, dd.ds.LookupTrie):
+            args.update(trie=lookup_struct)
+            del args["lookup_values"]
+        else:
+            raise ValueError(
+                f"Don't know how to present lookup structure with type "
+                f"{type(lookup_struct)} to MultiTokenLookupAnnotator"
+            )
+
+        return dd.process.MultiTokenLookupAnnotator(**args)
 
     @staticmethod
-    def _initialize_annotators(
-        annotator_cnfg: dict,
-        lookup_structs: dd.ds.DsCollection,
-        tokenizer: dd.tokenizer.Tokenizer,
+    def _get_annotator_group(
+        group_name: Optional[str], annotators: dd.process.DocProcessorGroup
     ) -> dd.process.DocProcessorGroup:
-        """Initializes annotators."""
 
-        extras = {
-            "ds": lookup_structs,
-            "lookup_structs": lookup_structs,
-            "tokenizer": tokenizer,
+        if group_name is None:
+            group = annotators  # top level
+        elif group_name in annotators.get_names(recursive=False):
+            group = annotators[group_name]
+        else:
+            group = dd.process.DocProcessorGroup()
+            annotators.add_processor(group_name, group)
+
+        return group
+
+    def _load_annotators(
+        self, config: dict, extras: dict
+    ) -> dd.process.DocProcessorGroup:
+
+        annotator_creators = {
+            "multi_token": self._get_multi_token_annotator,
         }
-        return _AnnotatorFactory().get_annotators(annotator_cnfg, extras)
 
-    def initialize_doc_processors(self) -> None:
-        """
-        Initializes document processors.
+        annotators = dd.process.DocProcessorGroup()
 
-        Need to re-run this when updating lookup sets.
-        """
+        for annotator_name, annotator_info in config.items():
 
-        config = (
-            self.config.copy()
-        )  # copy to prevent accidental overwrites, deletes, etc
+            group = self._get_annotator_group(
+                annotator_info.get("group", None), annotators=annotators
+            )
 
-        self.processors = self._initialize_annotators(
-            config["annotators"].copy(), self.lookup_structs, self.tokenizers["default"]
-        )
-        self.processors["names"].add_processor(
+            annotator_type = annotator_info["annotator_type"]
+            args = annotator_info["args"]
+
+            if annotator_type in annotator_creators:
+                annotator = annotator_creators[annotator_type](args, extras)
+            else:
+                elems = annotator_type.split(".")
+                module_name = ".".join(elems[:-1])
+                class_name = elems[-1]
+
+                cls = utils.class_for_name(
+                    module_name=module_name, class_name=class_name
+                )
+
+                annotator = utils.initialize_class(cls, args, extras)
+
+            group.add_processor(annotator_name, annotator)
+
+        return annotators
+
+    def _load_name_processors(self, name_group: dd.process.DocProcessorGroup) -> None:
+
+        name_group.add_processor(
             "person_annotation_converter", PersonAnnotationConverter()
         )
 
-        self.processors["locations"].add_processor(
+    def _load_location_processors(
+        self, location_group: dd.process.DocProcessorGroup
+    ) -> None:
+
+        location_group.add_processor(
             "remove_street_tags", RemoveAnnotations(tags=["straat"])
         )
 
-        self.processors["locations"].add_processor(
+        location_group.add_processor(
             "clean_street_tags",
             CleanAnnotationTag(
                 tag_map={
@@ -166,8 +225,12 @@ class Deduce(dd.DocDeid):
             ),
         )
 
-        sort_by_attrs = self.config["resolve_overlap_strategy"]["attributes"]
-        sort_by_ascending = self.config["resolve_overlap_strategy"]["ascending"]
+    def _load_post_processors(
+        self, config: dict, post_group: dd.process.DocProcessorGroup
+    ) -> None:
+
+        sort_by_attrs = config["resolve_overlap_strategy"]["attributes"]
+        sort_by_ascending = config["resolve_overlap_strategy"]["ascending"]
 
         sort_by = []
         sort_by_callbacks = {}
@@ -178,9 +241,6 @@ class Deduce(dd.DocDeid):
 
         sort_by = tuple(sort_by)
         sort_by_callbacks = frozendict(sort_by_callbacks)
-
-        post_group = dd.process.DocProcessorGroup()
-        self.processors.add_processor("post_processing", post_group)
 
         post_group.add_processor(
             "overlap_resolver",
@@ -204,104 +264,19 @@ class Deduce(dd.DocDeid):
             ),
         )
 
+    def load(self, config: dict, extras: dict) -> dd.process.DocProcessorGroup:
 
-class _AnnotatorFactory:  # pylint: disable=R0903
-    """Responsible for creating annotators, based on config."""
+        processors = self._load_annotators(config=config["annotators"], extras=extras)
 
-    def __init__(self) -> None:
-        self.annotator_creators = {
-            "token_pattern": self._get_token_pattern_annotator,
-            "annotation_context": self._get_context_annotator,
-            "patient_name": self._get_patient_name_annotator,
-            "regexp": self._get_regexp_annotator,
-            "multi_token": self._get_multi_token_annotator,
-            "custom": self._get_custom_annotator,
-        }
-
-    @staticmethod
-    def _get_token_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-        return TokenPatternAnnotator(**args, ds=extras["ds"])
-
-    @staticmethod
-    def _get_context_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-        return ContextAnnotator(**args, ds=extras["ds"])
-
-    @staticmethod
-    def _get_patient_name_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-        return PatientNameAnnotator(**args, tokenizer=extras["tokenizer"])
-
-    @staticmethod
-    def _get_regexp_annotator(
-        args: dict, extras: dict  # pylint: disable=W0613
-    ) -> dd.process.Annotator:
-        args["regexp_pattern"] = re.compile(args["regexp_pattern"])
-        return dd.process.RegexpAnnotator(**args)
-
-    @staticmethod
-    def _get_multi_token_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-
-        if isinstance(args["lookup_values"], str):
-
-            lookup_struct = extras["lookup_structs"][args["lookup_values"]]
-
-            if isinstance(lookup_struct, dd.ds.LookupSet):
-                args["lookup_values"] = lookup_struct.items()
-                args["matching_pipeline"] = lookup_struct.matching_pipeline
-            elif isinstance(lookup_struct, dd.ds.LookupTrie):
-                del args["lookup_values"]
-                args["trie"] = lookup_struct
-            else:
-                raise ValueError(
-                    "Don't know how to present lookup structure with type "
-                    "{type(lookup_struct)} to MultiTokenLookupAnnotator"
-                )
-
-        return dd.process.MultiTokenLookupAnnotator(
-            **args, tokenizer=extras["tokenizer"]
+        self._load_name_processors(
+            name_group=processors["names"],
         )
 
-    @staticmethod
-    def _get_custom_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-        return utils.import_and_initialize(args=args, extras=extras)
+        self._load_location_processors(location_group=processors["locations"])
 
-    def get_annotators(
-        self, annotator_cnfg: dict, extras: dict
-    ) -> dd.process.DocProcessorGroup:
-        """
-        Get the annotators, requested in the annotator config.
+        post_group = dd.process.DocProcessorGroup()
+        processors.add_processor("post_processing", post_group)
 
-        Args:
-            annotator_cnfg: A dictionary containing configuration on which annotators
-            to initialize.
-            extras: Any additional objects passed to pattern or annotator init,
-            if present.
+        self._load_post_processors(config=config, post_group=post_group)
 
-        Returns:
-            A DocProcessorGroup containing the initialized annotators specified
-            in the config dict.
-        """
-
-        annotators = dd.process.DocProcessorGroup()
-
-        for annotator_name, annotator_info in annotator_cnfg.items():
-            if annotator_info["annotator_type"] not in self.annotator_creators:
-                raise ValueError(
-                    f"Unexpected annotator_type {annotator_info['annotator_type']}"
-                )
-
-            group = annotators
-
-            if "group" in annotator_info:
-                if annotator_info["group"] not in annotators.get_names(recursive=False):
-                    annotators.add_processor(
-                        annotator_info["group"], dd.process.DocProcessorGroup()
-                    )
-
-                group = annotators[annotator_info["group"]]
-
-            annotator = self.annotator_creators[annotator_info["annotator_type"]](
-                annotator_info["args"], extras
-            )
-            group.add_processor(annotator_name, annotator)
-
-        return annotators
+        return processors
