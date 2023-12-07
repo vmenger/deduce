@@ -29,7 +29,7 @@ __version__ = importlib.metadata.version(__package__ or __name__)
 
 _BASE_PATH = Path(os.path.dirname(__file__)).parent
 _LOOKUP_LIST_PATH = _BASE_PATH / "deduce" / "data" / "lookup"
-_BASE_CONFIG_FILE = _BASE_PATH / "config.json"
+_BASE_CONFIG_FILE = _BASE_PATH / "base_config.json"
 
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
