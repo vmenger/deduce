@@ -60,11 +60,11 @@ class TestDeduce:
         doc = model.deidentify(text, metadata=metadata)
 
         expected_deidentified = (
-            "betreft: <PATIENT>, bsn <BSN-1>, patnr <ID-1>. De patient <PATIENT> is "
-            "<LEEFTIJD-1> jaar oud en woonachtig in <LOCATIE-1>. Hij werd op "
-            "<DATUM-1> door arts <PERSOON-1> ontslagen van de kliniek van het "
-            "<INSTELLING-1>. Voor nazorg kan hij worden bereikt via <EMAIL-1> "
-            "of <TELEFOONNUMMER-1>."
+            "betreft: [PATIENT], bsn [BSN-1], patnr [ID-1]. De patient [PATIENT] is "
+            "[LEEFTIJD-1] jaar oud en woonachtig in [LOCATIE-1]. Hij werd op "
+            "[DATUM-1] door arts [PERSOON-1] ontslagen van de kliniek van het "
+            "[INSTELLING-1]. Voor nazorg kan hij worden bereikt via [EMAIL-1] "
+            "of [TELEFOONNUMMER-1]."
         )
 
         assert doc.deidentified_text == expected_deidentified

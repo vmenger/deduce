@@ -10,8 +10,8 @@
       false
     ]
   },
-  "redactor_open_char": "<",
-  "redactor_close_char": ">",
+  "redactor_open_char": "[",
+  "redactor_close_char": "]",
   "annotators": {
     "prefix_with_initial": {
       "annotator_type": "deduce.annotator.TokenPatternAnnotator",
