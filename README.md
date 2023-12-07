@@ -1,7 +1,6 @@
 # deduce
 
 [![tests](https://github.com/vmenger/deduce/actions/workflows/test.yml/badge.svg)](https://github.com/vmenger/deduce/actions/workflows/test.yml)
-[![coverage](https://coveralls.io/repos/github/vmenger/deduce/badge.svg)](https://coveralls.io/github/vmenger/deduce?branch=master)
 [![build](https://github.com/vmenger/deduce/actions/workflows/build.yml/badge.svg)](https://github.com/vmenger/deduce/actions/workflows/build.yml)
 [![documentation](https://readthedocs.org/projects/deduce/badge/?version=latest)](https://deduce.readthedocs.io/en/latest/?badge=latest)
 ![pypi version](https://img.shields.io/pypi/v/deduce)
