@@ -147,7 +147,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
         Sequentially match a pattern against a specified start_token.
 
         Args:
-            doc: The document that is being processed.
+            text: The original document text.
             pattern: The pattern to match.
             start_token: The start token to match.
             direction: The direction to match, choice of "left" or "right".

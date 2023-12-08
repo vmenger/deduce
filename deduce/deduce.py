@@ -127,7 +127,9 @@ class Deduce(dd.DocDeid):
         return DeduceTokenizer(merge_terms=merge_terms)
 
 
-class DeduceProcessorLoader:
+class DeduceProcessorLoader:  # pylint: disable=R0903
+    """TODO."""
+
     @staticmethod
     def _get_multi_token_annotator(args: dict, extras: dict) -> dd.process.Annotator:
 
@@ -228,6 +230,7 @@ class DeduceProcessorLoader:
     def _load_post_processors(
         self, config: dict, post_group: dd.process.DocProcessorGroup
     ) -> None:
+        """TODO."""
 
         sort_by_attrs = config["resolve_overlap_strategy"]["attributes"]
         sort_by_ascending = config["resolve_overlap_strategy"]["ascending"]
@@ -264,7 +267,8 @@ class DeduceProcessorLoader:
             ),
         )
 
-    def load(self, config: dict, extras: dict) -> dd.process.DocProcessorGroup:
+    def load(self, config: frozendict, extras: dict) -> dd.process.DocProcessorGroup:
+        """TODO."""
 
         processors = self._load_annotators(config=config["annotators"], extras=extras)
 

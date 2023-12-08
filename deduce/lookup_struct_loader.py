@@ -80,6 +80,7 @@ def load_whitelist_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
 def load_eponymous_disease_lookup(
     raw_itemsets: dict[str, set[str]], tokenizer: Tokenizer
 ) -> dd.ds.LookupTrie:
+    """TODO."""
 
     epo_disease = dd.ds.LookupSet()
     epo_disease.add_items_from_iterable(raw_itemsets["eponymous_disease"])

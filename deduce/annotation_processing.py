@@ -56,6 +56,7 @@ class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
 
 
 def map_tag_to_prio(tag: str) -> int:
+    """TODO."""
 
     if "pseudo" in tag:
         return 0
