@@ -23,7 +23,7 @@ from deduce.lookup_struct_loader import (
     load_surname_lookup,
     load_whitelist_lookup,
 )
-from deduce.utils import optional_load_items, optional_load_json, str_variations
+from deduce.utils import apply_transform, optional_load_items, optional_load_json
 
 _SRC_SUBDIR = "src"
 _CACHE_SUBDIR = "cache"
@@ -44,36 +44,6 @@ _LOOKUP_TRIE_LOADERS = {
     "healthcare_institution": load_institution_lookup,
     "eponymous_disease": load_eponymous_disease_lookup,
 }
-
-
-def apply_transform(items: set[str], transform_config: dict) -> set[str]:
-    """
-    Applies a transformation to a set of items.
-
-    Args:
-        items: The input items.
-        transform_config: The transformation, including configuration (see
-        transform.json for examples).
-
-    Returns: The transformed items.
-    """
-
-    strip_lines = transform_config.get("strip_lines", True)
-    transforms = transform_config.get("transforms", {})
-
-    for _, transform in transforms.items():
-
-        to_add = []
-
-        for item in items:
-            to_add += str_variations(item, transform)
-
-        items.update(to_add)
-
-    if strip_lines:
-        items = {i.strip() for i in items}
-
-    return items
 
 
 def load_raw_itemset(path: Path) -> set[str]:

@@ -5,13 +5,13 @@ from unittest.mock import patch
 import docdeid as dd
 
 from deduce.lookup_structs import (
-    apply_transform,
     cache_lookup_structs,
     load_lookup_structs_from_cache,
     load_raw_itemset,
     load_raw_itemsets,
     validate_lookup_struct_cache,
 )
+from deduce.utils import apply_transform
 
 DATA_PATH = Path(".").cwd() / "tests" / "data" / "lookup"
 

@@ -4,28 +4,7 @@ import docdeid as dd
 from docdeid import Tokenizer
 
 from deduce.str import FilterBasedOnLookupSet, TitleCase, UpperCase, UpperCaseFirstChar
-
-
-def lookup_set_to_trie(
-    lookup_set: dd.ds.LookupSet, tokenizer: Tokenizer
-) -> dd.ds.LookupTrie:
-    """
-    Converts a LookupSet into an equivalent LookupTrie.
-
-    Args:
-        lookup_set: The input LookupSet
-        tokenizer: The tokenizer used to create sequences
-
-    Returns: A LookupTrie with the same items and matching pipeline as the
-    input LookupSet.
-    """
-
-    trie = dd.ds.LookupTrie(matching_pipeline=lookup_set.matching_pipeline)
-
-    for item in lookup_set.items():
-        trie.add_item([token.text for token in tokenizer.tokenize(item)])
-
-    return trie
+from deduce.utils import lookup_set_to_trie
 
 
 def load_common_word_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:

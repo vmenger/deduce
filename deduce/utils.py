@@ -5,6 +5,8 @@ import re
 from pathlib import Path
 from typing import Any, Optional
 
+import docdeid as dd
+from docdeid import Tokenizer
 from rapidfuzz.distance import DamerauLevenshtein
 
 
@@ -116,7 +118,7 @@ def repl_segments(s: str, matches: list[tuple]) -> list[list[str]]:
         followed by a list of options for that substring, e.g.
         (5, 8, ["Mr.", "Meester"]).
 
-    Returns: A list of options that together sgement the entire string, e.g. [["Prof.",
+    Returns: A list of options that together segement the entire string, e.g. [["Prof.",
     "Professor"], [" "], ["Meester", "Mr."], [" Lievenslaan"]].
     """
 
@@ -186,6 +188,36 @@ def str_variations(s: str, repl: dict[str, list[str]]) -> list[str]:
     return variations
 
 
+def apply_transform(items: set[str], transform_config: dict) -> set[str]:
+    """
+    Applies a transformation to a set of items.
+
+    Args:
+        items: The input items.
+        transform_config: The transformation, including configuration (see
+        transform.json for examples).
+
+    Returns: The transformed items.
+    """
+
+    strip_lines = transform_config.get("strip_lines", True)
+    transforms = transform_config.get("transforms", {})
+
+    for _, transform in transforms.items():
+
+        to_add = []
+
+        for item in items:
+            to_add += str_variations(item, transform)
+
+        items.update(to_add)
+
+    if strip_lines:
+        items = {i.strip() for i in items}
+
+    return items
+
+
 def optional_load_items(path: Path) -> Optional[set[str]]:
     """
     Load lines of a textfile, returning None if file does not exist.
@@ -222,3 +254,25 @@ def optional_load_json(path: Path) -> Optional[dict]:
         return None
 
     return data
+
+
+def lookup_set_to_trie(
+    lookup_set: dd.ds.LookupSet, tokenizer: Tokenizer
+) -> dd.ds.LookupTrie:
+    """
+    Converts a LookupSet into an equivalent LookupTrie.
+
+    Args:
+        lookup_set: The input LookupSet
+        tokenizer: The tokenizer used to create sequences
+
+    Returns: A LookupTrie with the same items and matching pipeline as the
+    input LookupSet.
+    """
+
+    trie = dd.ds.LookupTrie(matching_pipeline=lookup_set.matching_pipeline)
+
+    for item in lookup_set.items():
+        trie.add_item([token.text for token in tokenizer.tokenize(item)])
+
+    return trie
