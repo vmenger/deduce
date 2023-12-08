@@ -35,7 +35,7 @@ _BASE_CONFIG_FILE = _BASE_PATH / "base_config.json"
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 
-class Deduce(dd.DocDeid):
+class Deduce(dd.DocDeid):  # pylint: disable=R0903
     """
     Main class for de-identifiation.
 
@@ -168,7 +168,7 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
         return group
 
     def _load_annotators(
-        self, config: dict, extras: dict
+        self, config: frozendict, extras: dict
     ) -> dd.process.DocProcessorGroup:
 
         annotator_creators = {
@@ -203,15 +203,15 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
 
         return annotators
 
-    def _load_name_processors(self, name_group: dd.process.DocProcessorGroup) -> None:
+    @staticmethod
+    def _load_name_processors(name_group: dd.process.DocProcessorGroup) -> None:
 
         name_group.add_processor(
             "person_annotation_converter", PersonAnnotationConverter()
         )
 
-    def _load_location_processors(
-        self, location_group: dd.process.DocProcessorGroup
-    ) -> None:
+    @staticmethod
+    def _load_location_processors(location_group: dd.process.DocProcessorGroup) -> None:
 
         location_group.add_processor(
             "remove_street_tags", RemoveAnnotations(tags=["straat"])
@@ -227,8 +227,9 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
             ),
         )
 
+    @staticmethod
     def _load_post_processors(
-        self, config: dict, post_group: dd.process.DocProcessorGroup
+        config: frozendict, post_group: dd.process.DocProcessorGroup
     ) -> None:
         """TODO."""
 
