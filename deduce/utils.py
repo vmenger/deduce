@@ -1,4 +1,5 @@
 import importlib
+import inspect
 import json
 import re
 from pathlib import Path
@@ -61,7 +62,7 @@ def initialize_class(cls: type, args: dict, extras: dict) -> Any:
     """
 
     for arg_name, arg in extras.items():
-        if arg_name in cls.__init__.__code__.co_varnames:
+        if arg_name in inspect.signature(cls).parameters:
             args[arg_name] = arg
 
     return cls(**args)
