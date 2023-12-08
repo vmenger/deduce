@@ -112,6 +112,12 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
         if len(self.pattern) > 0 and "lookup" in self.pattern[0]:
             lookup_list = ds[self.pattern[0]["lookup"]]
+
+            if not isinstance(lookup_list, dd.ds.LookupSet):
+                raise ValueError(
+                    f"Expected a LookupSet, but got a " f"{type(lookup_list)}."
+                )
+
             self._start_words = lookup_list.items()
             self._matching_pipeline = lookup_list.matching_pipeline
 
