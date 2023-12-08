@@ -69,7 +69,7 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
 
         extras = {"tokenizer": self.tokenizers["default"], "ds": self.lookup_structs}
 
-        self.processors = DeduceProcessorLoader().load(
+        self.processors = _DeduceProcessorLoader().load(
             config=self.config, extras=extras
         )
 
@@ -127,7 +127,7 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
         return DeduceTokenizer(merge_terms=merge_terms)
 
 
-class DeduceProcessorLoader:  # pylint: disable=R0903
+class _DeduceProcessorLoader:  # pylint: disable=R0903
     """TODO."""
 
     @staticmethod
