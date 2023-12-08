@@ -1,10 +1,9 @@
-import re
 from typing import Iterable, Optional
 
 import docdeid as dd
 import regex
 
-_TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=re.I | re.M)
+_TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=regex.I | regex.M)
 
 
 class DeduceTokenizer(dd.tokenizer.Tokenizer):  # pylint: disable=R0903
