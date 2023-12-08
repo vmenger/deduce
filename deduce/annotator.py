@@ -242,7 +242,7 @@ class ContextAnnotator(TokenPatternAnnotator):
 
     def _apply_context_pattern(
         self, text: str, annotations: dd.AnnotationSet, context_pattern: dict
-    ) -> None:
+    ) -> dd.AnnotationSet:
 
         print(self.ds)
 
