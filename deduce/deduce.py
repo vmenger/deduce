@@ -43,7 +43,7 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
     in the documentation there.
     """
 
-    def __init__(
+    def __init__(  # pylint: disable=R0913
         self,
         load_base_config: bool = True,
         config: Optional[Union[str, dict]] = None,
