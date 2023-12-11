@@ -55,17 +55,6 @@ class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
         )
 
 
-def map_tag_to_prio(tag: str) -> int:
-    """TODO."""
-
-    if "pseudo" in tag:
-        return 0
-    if "patient" in tag:
-        return 1
-
-    return 2
-
-
 class PersonAnnotationConverter(dd.process.AnnotationProcessor):
     """
     Responsible for processing the annotations produced by all name annotators (regular
@@ -77,6 +66,14 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
     """
 
     def __init__(self) -> None:
+        def map_tag_to_prio(tag: str) -> int:
+            if "pseudo" in tag:
+                return 0
+            if "patient" in tag:
+                return 1
+
+            return 2
+
         self._overlap_resolver = dd.process.OverlapResolver(
             sort_by=("tag", "length"),
             sort_by_callbacks=frozendict(
