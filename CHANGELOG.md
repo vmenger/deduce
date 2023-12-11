@@ -8,32 +8,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## (unreleased)
 
 ### Added
-- speed optimizations, ~300%
-- removed false positives caused by eponymous diseases (e.g. Creutzfeldt-Jakob)
+- speed optimizations, ~250%
+- an option for pseudo-annotating, by adding an annotator that has `pseudo` in its tags
+- pseudo-annotating eponymous diseases (e.g. Creutzfeldt-Jakob)
+- `PatientNameAnnotator`, which replaces `deduce.pattern`
+- a structured way for loading and building lookup structures (lists and tries), including caching
+- `pre_match_words` for some regexp annotators, speeding up the annotating
 - option to present a user config as dict (using `config` keyword)
 
 ### Changed
-- initials now detected by lookup list, rather than pattern
 - speedup for `TokenPatternAnnotator`
 - some internals of `ContextPatternAnnotator`
-- loading of lookup structures (lists and tries), with caching
-- changed patient name patterns into `PatientNameAnnotator`
+- initials now detected by lookup list, rather than pattern
+- redactor open and close chars from `<` `>` to `[` `]`, as previous chars caused issues in html (so deidentified text now shows `[PATIENT]`, `[LOCATIE]`, etc.)
+- names of lookup structures to singular (`prefix`, rather than `prefixes`)
+- `INSTELLING` tag to `ZIEKENHUIS` and `ZORGINSTELLING`
 - refactored and simplified annotator loading, specifically the `annotator_type` config keyword now accepts references to classes (e.g `deduce.annotator.TokenPatternAnnotator`)
-- changed redactor open and close chars from `<` `>` to `[` `]`, as previous chars caused issues in html (so deidentified text now shows `[PATIENT]`, `[LOCATIE]`, etc.)
 
-### Deleted
-- `utils.any_in_text`
-- patient name patterns (`deduce.patterns`)
-- `config_file` keyword, now replaced by `config` (still accepts filenames)
+### Deprecated
+- the `config_file` keyword, now replaced by `config` which accepts both filenames and dicts
+
+### Removed
+- automated coverage reporting on coveralls.io
+- options `equal`, `is_initial`, `lowercase_lookup`, `lowercase_neg_lookup`
+- everything in `deduce.pattern`, patient patterns now replaced by `PatientNameAnnotator`
+- `utils.any_in_text` 
+
+### Fixed
+- some small additions/removals for specific lookup lists
+- smaller bugs related to overlapping matches
 
 ## 2.5.0 (2023-11-28)
 
 ### Added
 - the `RegexpPseudoAnnotator` component for filtering regexp matches based on preceding/following words
 - a `prefix_with_interfix` pattern for names, detecting e.g. `Dr. van Loon`
-
-### Fixed
-- a bug with `BsnAnnotator` with non-digit characters in regexp
 
 ### Changed
 - the age detection component, with improved logic and pseudo patterns
@@ -42,6 +51,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - removed some false positives for postal codes ending in `gr` or `ie`
 - extended the postbus pattern for `xx.xxx` format (old notation)
 - some smaller optimizations and exceptions for institution, hospital, placename, residence, medical term, first name, and last name lookup lists
+
+### Fixed
+- a bug with `BsnAnnotator` with non-digit characters in regexp
 
 ## 2.4.2 (2023-11-22)
 
@@ -119,15 +131,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - detects year-month-day format in addition to (day-month-year)
 - loading a custom config now only replaces the config options that are explicitly set, using defaults for those not included in the custom config
 
-### Fixed
-- annotations can no longer be counted as adjacent when separated by newline or tab (and will thus not be merged)
+### Deprecated
+- backwards compatibility, which was temporary added to transition from v1 to v2
 
 ### Removed
 - a separate patient identifier tag, now superseded by a generic tag
 - detection of day/month combinations for dates, as this caused many false positives (e.g. lab values, numeric scores) 
 
-### Deprecated
-- backwards compatibility, which was temporary added to transition from v1 to v2
+### Fixed
+- annotations can no longer be counted as adjacent when separated by newline or tab (and will thus not be merged)
 
 ## 2.0.3 (2023-04-06)
 
@@ -146,6 +158,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 2.0.0 (2022-12-05)
 
+### Added
+- introduced new interface for deidentification, using `Deduce()` class
+- a separate documentation page, with tutorial and migration guide
+- support for python 3.10 and 3.11
+
 ### Changed
 - major refactor that touches pretty much every line of code
 - use `docdeid` package for logic
@@ -154,12 +171,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactor tokenizer
 - refactor annotators into separate classes, using structured annotations
 - guidelines for contributing
-
-### Added
-- introduced new interface for deidentification, using `Deduce()` class
-- a separate documentation page, with tutorial and migration guide
-- support for python 3.10 and 3.11
-
 
 ### Removed
 - the `annotate_text` and `deidentify_annotations` functions
@@ -173,13 +184,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.0.8 (2021-11-29)
 
+### Added
+- warn if there are any structured annotations whose annotated text does not match the original text in the span denoted by the structured annotation
+
 ### Fixed
 - various modifications related to adding or subtracting spaces in annotated texts
 - remove the lowercasing of institutions' names
 - therefore, all structured annotations have texts matching the original text in the same span
-
-### Added
-- warn if there are any structured annotations whose annotated text does not match the original text in the span denoted by the structured annotation
 
 ## 1.0.7 (2021-11-03)
 
