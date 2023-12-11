@@ -477,7 +477,7 @@
       "group": "ages",
       "args": {
         "regexp_pattern": "(?i)(?<![\\d,\\.])((1?\\d?\\d)([\\.,]5)?(-(1?\\d?\\d)([\\.,]5)?)?)([ -](jarige|jarig|jaar|jr))(?!\\w)",
-        "pre_pseudo": ["sinds", "vanaf", "controle", "policontrole", "gedurende", "de", "over", "elke", "nog", "na", "al", "up", "ongeveer", "<"],
+        "pre_pseudo": ["sinds", "vanaf", "controle", "co", "policontrole", "gedurende", "de", "over", "elke", "nog", "na", "al", "up", "ongeveer", "<"],
         "post_pseudo": ["geleden", "na", "naar", "nadien", "aanwezig", "getrouwd", "gestopt", "gerookt", "gebruikt", "gestaakt"],
         "pre_match_words": ["jarige", "jarig", "jaar", "jr"],
         "tag": "leeftijd",
