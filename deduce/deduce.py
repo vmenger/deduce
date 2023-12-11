@@ -256,8 +256,7 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
         post_group.add_processor(
             "merge_adjacent_annotations",
             DeduceMergeAdjacentAnnotations(
-                slack_regexp=config["adjacent_annotations_slack"],
-                check_overlap=False
+                slack_regexp=config["adjacent_annotations_slack"], check_overlap=False
             ),
         )
 
