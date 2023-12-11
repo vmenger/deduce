@@ -31,7 +31,7 @@ class TestDeduce:
                     text="j.JNSEN.123@gmail.com",
                     start_char=247,
                     end_char=268,
-                    tag="email",
+                    tag="emailadres",
                 ),
                 dd.Annotation(
                     text="J. Jansen", start_char=64, end_char=73, tag="patient"
@@ -48,7 +48,7 @@ class TestDeduce:
                     text="Utrecht", start_char=106, end_char=113, tag="locatie"
                 ),
                 dd.Annotation(
-                    text="UMCU", start_char=202, end_char=206, tag="instelling"
+                    text="UMCU", start_char=202, end_char=206, tag="ziekenhuis"
                 ),
             ]
         )
@@ -63,7 +63,7 @@ class TestDeduce:
             "betreft: [PATIENT], bsn [BSN-1], patnr [ID-1]. De patient [PATIENT] is "
             "[LEEFTIJD-1] jaar oud en woonachtig in [LOCATIE-1]. Hij werd op "
             "[DATUM-1] door arts [PERSOON-1] ontslagen van de kliniek van het "
-            "[INSTELLING-1]. Voor nazorg kan hij worden bereikt via [EMAIL-1] "
+            "[ZIEKENHUIS-1]. Voor nazorg kan hij worden bereikt via [EMAILADRES-1] "
             "of [TELEFOONNUMMER-1]."
         )
 
@@ -79,8 +79,8 @@ class TestDeduce:
             "<LEEFTIJD>64</LEEFTIJD> jaar oud en woonachtig in <LOCATIE>Utrecht"
             "</LOCATIE>. Hij werd op <DATUM>10 oktober 2018</DATUM> door arts "
             "<PERSOON>Peter de Visser</PERSOON> ontslagen van de kliniek van het "
-            "<INSTELLING>UMCU</INSTELLING>. Voor nazorg kan hij worden bereikt "
-            "via <EMAIL>j.JNSEN.123@gmail.com</EMAIL> of "
+            "<ZIEKENHUIS>UMCU</ZIEKENHUIS>. Voor nazorg kan hij worden bereikt "
+            "via <EMAILADRES>j.JNSEN.123@gmail.com</EMAILADRES> of "
             "<TELEFOONNUMMER>(06)12345678</TELEFOONNUMMER>."
         )
 

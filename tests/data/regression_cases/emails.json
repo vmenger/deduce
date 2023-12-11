@@ -8,7 +8,7 @@
                     "text": "een-afdeling@prinsesmaximacentrum.nl",
                     "start_char": 0,
                     "end_char": 36,
-                    "tag": "email"
+                    "tag": "emailadres"
                 }
             ]
         },
@@ -20,7 +20,7 @@
                     "text": "poli-specialisme@umcutrecht.nl",
                     "start_char": 0,
                     "end_char": 30,
-                    "tag": "email"
+                    "tag": "emailadres"
                 }
             ]
         },
@@ -32,7 +32,7 @@
                     "text": "ditmailadres@umcutrecht.nl",
                     "start_char": 10,
                     "end_char": 36,
-                    "tag": "email"
+                    "tag": "emailadres"
                 }
             ]
         },
@@ -44,7 +44,7 @@
                     "text": "ABC@umcutrecht.nl",
                     "start_char": 0,
                     "end_char": 17,
-                    "tag": "email"
+                    "tag": "emailadres"
                 }
             ]
         },
@@ -56,7 +56,7 @@
                     "text": "Poli.Opname@umcutrecht.nl",
                     "start_char": 0,
                     "end_char": 25,
-                    "tag": "email"
+                    "tag": "emailadres"
                 }
             ]
         },
@@ -68,7 +68,7 @@
                     "text": "persoon@gmail.com",
                     "start_char": 4,
                     "end_char": 21,
-                    "tag": "email"
+                    "tag": "emailadres"
                 }
             ]
         },
@@ -80,7 +80,7 @@
                     "text": "a.b.c.naam@umcutrecht.nl",
                     "start_char": 0,
                     "end_char": 24,
-                    "tag": "email"
+                    "tag": "emailadres"
                 }
             ]
         },
@@ -92,7 +92,7 @@
                     "text": "a.b.c.naam-12@umcutrecht.nl",
                     "start_char": 0,
                     "end_char": 27,
-                    "tag": "email"
+                    "tag": "emailadres"
                 }
             ]
         },
@@ -104,7 +104,7 @@
                     "text": "A.B.C.Naam@umcutrecht.nl",
                     "start_char": 0,
                     "end_char": 24,
-                    "tag": "email"
+                    "tag": "emailadres"
                 }
             ]
         },
@@ -116,7 +116,7 @@
                     "text": "henk1993@outlook.com",
                     "start_char": 0,
                     "end_char": 20,
-                    "tag": "email"
+                    "tag": "emailadres"
                 }
             ]
         },
@@ -128,7 +128,7 @@
                     "text": "achternaam_voornaam@gmail.com",
                     "start_char": 0,
                     "end_char": 29,
-                    "tag": "email"
+                    "tag": "emailadres"
                 }
             ]
         }

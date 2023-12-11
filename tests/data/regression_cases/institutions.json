@@ -8,7 +8,7 @@
                     "text": "UMC Utrecht",
                     "start_char": 0,
                     "end_char": 11,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -20,7 +20,7 @@
                     "text": "UMC UTRECHT",
                     "start_char": 0,
                     "end_char": 11,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -32,7 +32,7 @@
                     "text": "UMCU",
                     "start_char": 0,
                     "end_char": 4,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -49,7 +49,7 @@
                     "text": "Academisch Ziekenhuis Utrecht",
                     "start_char": 0,
                     "end_char": 29,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -61,7 +61,7 @@
                     "text": "ACADEMISCH ZIEKENHUIS UTRECHT",
                     "start_char": 0,
                     "end_char": 29,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -73,7 +73,7 @@
                     "text": "AZU",
                     "start_char": 0,
                     "end_char": 3,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -85,13 +85,13 @@
                     "text": "Prinses Maxima Centrum",
                     "start_char": 0,
                     "end_char": 22,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 },
                 {
                     "text": "Maxima",
                     "start_char": 8,
                     "end_char": 14,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -103,13 +103,13 @@
                     "text": "Prinses M\u00e1xima Centrum",
                     "start_char": 0,
                     "end_char": 22,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 },
                 {
                     "text": "M\u00e1xima",
                     "start_char": 8,
                     "end_char": 14,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -121,7 +121,7 @@
                     "text": "PMC",
                     "start_char": 0,
                     "end_char": 3,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -133,7 +133,7 @@
                     "text": "Wilhelmina Kinderziekenhuis",
                     "start_char": 0,
                     "end_char": 27,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -145,7 +145,7 @@
                     "text": "WKZ",
                     "start_char": 0,
                     "end_char": 3,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -157,13 +157,13 @@
                     "text": "Militair Hospitaal",
                     "start_char": 9,
                     "end_char": 27,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 },
                 {
                     "text": "Centraal Militair Hospitaal",
                     "start_char": 0,
                     "end_char": 27,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -175,7 +175,7 @@
                     "text": "CMH",
                     "start_char": 0,
                     "end_char": 3,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -187,13 +187,13 @@
                     "text": "Meander Medisch Centrum",
                     "start_char": 0,
                     "end_char": 23,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 },
                 {
                     "text": "Meander",
                     "start_char": 0,
                     "end_char": 7,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -205,8 +205,15 @@
                     "text": "Meander",
                     "start_char": 0,
                     "end_char": 7,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
+                },
+                                {
+                    "text": "Meander",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "zorginstelling"
                 }
+
             ]
         },
         {
@@ -217,7 +224,7 @@
                     "text": "MMC",
                     "start_char": 0,
                     "end_char": 3,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -229,13 +236,13 @@
                     "text": "Antoniusziekenhuis",
                     "start_char": 5,
                     "end_char": 23,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 },
                 {
                     "text": "Sint Antoniusziekenhuis",
                     "start_char": 0,
                     "end_char": 23,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -247,7 +254,7 @@
                     "text": "Antonius",
                     "start_char": 5,
                     "end_char": 13,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -259,7 +266,7 @@
                     "text": "Antonius",
                     "start_char": 4,
                     "end_char": 12,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -291,7 +298,7 @@
                     "text": "Isala",
                     "start_char": 0,
                     "end_char": 5,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -303,7 +310,7 @@
                     "text": "Isala ziekenhuis",
                     "start_char": 0,
                     "end_char": 16,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -315,7 +322,7 @@
                     "text": "Isala kliniek",
                     "start_char": 0,
                     "end_char": 13,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -327,7 +334,7 @@
                     "text": "Erasmus Medisch Centrum",
                     "start_char": 0,
                     "end_char": 23,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -339,7 +346,7 @@
                     "text": "Erasmus MC",
                     "start_char": 0,
                     "end_char": 10,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -351,13 +358,13 @@
                     "text": "Lange Land Ziekenhuis",
                     "start_char": 4,
                     "end_char": 25,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 },
                 {
                     "text": "Het Lange Land Ziekenhuis",
                     "start_char": 0,
                     "end_char": 25,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -369,13 +376,13 @@
                     "text": "'t Lange Land Ziekenhuis",
                     "start_char": 0,
                     "end_char": 24,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 },
                 {
                     "text": "Lange Land Ziekenhuis",
                     "start_char": 3,
                     "end_char": 24,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -387,7 +394,7 @@
                     "text": "Academisch Ziekenhuis Nymegen",
                     "start_char": 0,
                     "end_char": 29,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -399,7 +406,7 @@
                     "text": "Alryne Ziekenhuis",
                     "start_char": 0,
                     "end_char": 17,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -411,13 +418,13 @@
                     "text": "Canisius-Wilhelmina Ziekenhuis",
                     "start_char": 0,
                     "end_char": 30,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 },
                 {
                     "text": "Wilhelmina Ziekenhuis",
                     "start_char": 9,
                     "end_char": 30,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -429,13 +436,13 @@
                     "text": "Canisius Wilhelmina Ziekenhuis",
                     "start_char": 0,
                     "end_char": 30,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 },
                 {
                     "text": "Wilhelmina Ziekenhuis",
                     "start_char": 9,
                     "end_char": 30,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -447,7 +454,7 @@
                     "text": "P.W. Janssen Ziekenhuis",
                     "start_char": 0,
                     "end_char": 23,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -459,7 +466,7 @@
                     "text": "PW Janssen Ziekenhuis",
                     "start_char": 0,
                     "end_char": 21,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -471,7 +478,7 @@
                     "text": "UMCU",
                     "start_char": 26,
                     "end_char": 30,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -483,7 +490,7 @@
                     "text": "UMCU",
                     "start_char": 3,
                     "end_char": 7,
-                    "tag": "instelling"
+                    "tag": "ziekenhuis"
                 }
             ]
         },
@@ -500,13 +507,13 @@
                     "text": "De Hoogstraat",
                     "start_char": 0,
                     "end_char": 13,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 },
                 {
                     "text": "Hoogstraat",
                     "start_char": 3,
                     "end_char": 13,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -518,7 +525,7 @@
                     "text": "Hoogstraat",
                     "start_char": 0,
                     "end_char": 10,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -530,13 +537,13 @@
                     "text": "De Hoogstraat",
                     "start_char": 0,
                     "end_char": 13,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 },
                 {
                     "text": "Hoogstraat",
                     "start_char": 3,
                     "end_char": 13,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -548,7 +555,7 @@
                     "text": "Altrecht",
                     "start_char": 0,
                     "end_char": 8,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -560,7 +567,7 @@
                     "text": "Altrecht Bipolair",
                     "start_char": 0,
                     "end_char": 17,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -572,7 +579,7 @@
                     "text": "Cant\u00e9 praktijk voor Pedagogiek en Psychologie",
                     "start_char": 0,
                     "end_char": 45,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -584,7 +591,7 @@
                     "text": "Cante praktijk voor Pedagogiek en Psychologie",
                     "start_char": 0,
                     "end_char": 45,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -596,7 +603,7 @@
                     "text": "Careyn",
                     "start_char": 0,
                     "end_char": 6,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -608,7 +615,7 @@
                     "text": "Careijn",
                     "start_char": 0,
                     "end_char": 7,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -655,7 +662,7 @@
                     "text": "Compas Huisartsenpraktijk",
                     "start_char": 0,
                     "end_char": 25,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -667,7 +674,7 @@
                     "text": "Compas huisartsenpraktijk",
                     "start_char": 0,
                     "end_char": 25,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -679,7 +686,7 @@
                     "text": "Compas Huisartspraktijk",
                     "start_char": 0,
                     "end_char": 23,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -691,7 +698,7 @@
                     "text": "Compas huisartspraktijk",
                     "start_char": 0,
                     "end_char": 23,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -703,7 +710,7 @@
                     "text": "Zon en Schild",
                     "start_char": 0,
                     "end_char": 13,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -715,7 +722,7 @@
                     "text": "Daan & Van Ardenne Huisartsen",
                     "start_char": 0,
                     "end_char": 29,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -727,7 +734,7 @@
                     "text": "Daan en Van Ardenne Huisartsen",
                     "start_char": 0,
                     "end_char": 30,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -739,7 +746,7 @@
                     "text": "De Kind- en Jeugdspecialist",
                     "start_char": 0,
                     "end_char": 27,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -751,7 +758,7 @@
                     "text": "De Kind en Jeugdspecialist",
                     "start_char": 0,
                     "end_char": 26,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -763,7 +770,7 @@
                     "text": "De Koperhorst",
                     "start_char": 0,
                     "end_char": 13,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -775,7 +782,7 @@
                     "text": "de Koperhorst",
                     "start_char": 0,
                     "end_char": 13,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -787,7 +794,7 @@
                     "text": "Altrecht",
                     "start_char": 22,
                     "end_char": 30,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         },
@@ -799,7 +806,7 @@
                     "text": "Altrecht",
                     "start_char": 4,
                     "end_char": 12,
-                    "tag": "instelling"
+                    "tag": "zorginstelling"
                 }
             ]
         }
