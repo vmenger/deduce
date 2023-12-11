@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import sys
+import warnings
 from pathlib import Path
 from typing import Optional, Union
 
@@ -33,6 +34,7 @@ _BASE_CONFIG_FILE = _BASE_PATH / "base_config.json"
 
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+warnings.simplefilter(action="default")
 
 
 class Deduce(dd.DocDeid):  # pylint: disable=R0903
@@ -47,11 +49,22 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
         self,
         load_base_config: bool = True,
         config: Optional[Union[str, dict]] = None,
+        config_file: Optional[str] = None,
         lookup_data_path: Union[str, Path] = _LOOKUP_LIST_PATH,
         build_lookup_structs: bool = False,
     ) -> None:
 
         super().__init__()
+
+        if config_file is not None:
+
+            warnings.warn(
+                "The config_file keyword is deprecated, please use config "
+                "instead, which accepts both filenames and dictionaries.",
+                DeprecationWarning,
+            )
+
+            config = config_file
 
         self.config = self._initialize_config(
             load_base_config=load_base_config, user_config=config
