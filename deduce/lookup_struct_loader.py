@@ -63,6 +63,7 @@ def load_eponymous_disease_lookup(
 
     epo_disease = dd.ds.LookupSet()
     epo_disease.add_items_from_iterable(raw_itemsets["eponymous_disease"])
+    epo_disease.add_items_from_self(cleaning_pipeline=[dd.str.ReplaceNonAsciiCharacters()])
 
     return lookup_set_to_trie(epo_disease, tokenizer)
 
