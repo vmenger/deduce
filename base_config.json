@@ -476,10 +476,10 @@
       "annotator_type": "deduce.annotator.RegexpPseudoAnnotator",
       "group": "ages",
       "args": {
-        "regexp_pattern": "(?i)(?<![\\d,\\.])((1?\\d?\\d)([\\.,]5)?(-(1?\\d?\\d)([\\.,]5)?)?)([ -](jarige|jarig|jaar|jr))(?!\\w)",
-        "pre_pseudo": ["sinds", "vanaf", "controle", "co", "policontrole", "gedurende", "de", "over", "elke", "nog", "na", "al", "up", "ongeveer", "<"],
-        "post_pseudo": ["geleden", "na", "naar", "nadien", "aanwezig", "getrouwd", "gestopt", "gerookt", "gebruikt", "gestaakt"],
-        "pre_match_words": ["jarige", "jarig", "jaar", "jr"],
+        "regexp_pattern": "(?i)(?<![\\d,\\.])((1?\\d?\\d)([\\.,]5)?(-(1?\\d?\\d)([\\.,]5)?)?)([ -](jaar|jarig|jarige|jr))(?!\\w)",
+        "pre_pseudo": ["<", "al", "co", "controle", "de", "elke", "gedurende", "na", "nog", "ongeveer", "over", "policontrole", "sinds", "up", "vanaf"],
+        "post_pseudo": ["aanwezig", "gebruikt", "geleden", "gerookt", "gestaakt", "gestopt", "getrouwd", "na", "naar", "nadien"],
+        "pre_match_words": ["jaar", "jarig", "jarige", "jr"],
         "tag": "leeftijd",
         "capturing_group": 1
       }
@@ -516,18 +516,18 @@
       "annotator_type": "docdeid.process.RegexpAnnotator",
       "group": "email_addresses",
       "args": {
-        "regexp_pattern": "(([-a-zA-Z0-9:%._\\+~#=]{1,256})@([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(com|net|org|co|us|uk|nl|be|fr|sp|gov|nu))",
+        "regexp_pattern": "(([-a-zA-Z0-9:%._\\+~#=]{1,256})@([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(be|co|com|fr|gov|net|nl|nu|org|sp|uk|us))",
         "tag": "emailadres",
-        "pre_match_words": ["com", "net", "org", "co", "us", "uk", "nl", "be", "fr", "sp", "gov", "nu"]
+        "pre_match_words": ["be", "co", "com", "fr", "gov", "net", "nl", "nu", "org", "sp", "uk", "us"]
       }
     },
     "url": {
       "annotator_type": "docdeid.process.RegexpAnnotator",
       "group": "urls",
       "args": {
-        "regexp_pattern": "((https?:\\/\\/(?:www\\.)?)?([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(com|net|org|co|us|uk|nl|be|fr|sp|gov|nu)(\\b)([():%_\\+.~,]*[-a-zA-Z-0-9#?&/=]+)*)",
+        "regexp_pattern": "((https?:\\/\\/(?:www\\.)?)?([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(be|co|com|fr|gov|net|nl|nu|org|sp|uk|us)(\\b)([():%_\\+.~,]*[-a-zA-Z-0-9#?&/=]+)*)",
         "tag": "url",
-        "pre_match_words": ["com", "net", "org", "co", "us", "uk", "nl", "be", "fr", "sp", "gov", "nu"]
+        "pre_match_words": ["be", "co", "com", "fr", "gov", "net", "nl", "nu", "org", "sp", "uk", "us"]
       }
     }
   }
