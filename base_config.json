@@ -408,7 +408,7 @@
       }
     },
     "postbus": {
-      "annotator_type": "docdeid.process.RegexpAnnotator",
+      "annotator_type-": "docdeid.process.RegexpAnnotator",
       "group": "locations",
       "args": {
         "regexp_pattern": "([Pp]ostbus\\s\\d{1,5}(\\.\\d{2,4})?)",
@@ -422,7 +422,7 @@
       "args": {
         "lookup_values": "hospital",
         "overlapping": true,
-        "tag": "instelling"
+        "tag": "ziekenhuis"
       }
     },
     "institution": {
@@ -431,7 +431,7 @@
       "args": {
         "lookup_values": "healthcare_institution",
         "overlapping": true,
-        "tag": "instelling"
+        "tag": "zorginstelling"
       }
     },
     "date_dmy_1": {
@@ -517,7 +517,7 @@
       "group": "email_addresses",
       "args": {
         "regexp_pattern": "(([-a-zA-Z0-9:%._\\+~#=]{1,256})@([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(com|net|org|co|us|uk|nl|be|fr|sp|gov|nu))",
-        "tag": "email",
+        "tag": "emailadres",
         "pre_match_words": ["com", "net", "org", "co", "us", "uk", "nl", "be", "fr", "sp", "gov", "nu"]
       }
     },
