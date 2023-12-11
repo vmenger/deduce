@@ -3,6 +3,8 @@ import docdeid as dd
 import warnings
 
 
+warnings.simplefilter(action="default")
+
 class DeprecatedDsCollection(dd.ds.DsCollection):
 
     def __init__(self, deprecated_items: dict, *args, **kwargs):
@@ -23,7 +25,8 @@ class DeprecatedDsCollection(dd.ds.DsCollection):
 
                 warnings.warn(f"The lookup structure with key {key} is no longer "
                               f"included in Deduce. If it was a list with exceptions, "
-                              f"it is now automatically included in the normal list.")
+                              f"it is now automatically included in the normal list.",
+                              DeprecationWarning)
 
                 return self.deprecated_lists[key]
 
@@ -34,3 +37,5 @@ class DeprecatedDsCollection(dd.ds.DsCollection):
                               f"code/config", DeprecationWarning)
 
                 return super().__getitem__(new_key)
+
+        return super().__getitem__(key)

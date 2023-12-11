@@ -10,7 +10,7 @@ from typing import Optional
 import docdeid as dd
 from docdeid.tokenizer import Tokenizer
 
-from depr import DeprecatedDsCollection
+from deduce.depr import DeprecatedDsCollection
 
 from deduce.data.lookup.src import all_lists
 from deduce.lookup_struct_loader import (
