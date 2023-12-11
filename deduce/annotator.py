@@ -244,8 +244,6 @@ class ContextAnnotator(TokenPatternAnnotator):
         self, text: str, annotations: dd.AnnotationSet, context_pattern: dict
     ) -> dd.AnnotationSet:
 
-        print(self.ds)
-
         direction = context_pattern["direction"]
         skip = set(context_pattern.get("skip", []))
 
