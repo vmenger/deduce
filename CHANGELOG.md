@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - automated coverage reporting on coveralls.io
-- options `equal`, `is_initial`, `lowercase_lookup`, `lowercase_neg_lookup`
+- options `is_initial`, `lowercase_lookup`, `lowercase_neg_lookup` for token patterns
 - everything in `deduce.pattern`, patient patterns now replaced by `PatientNameAnnotator`
 - `utils.any_in_text` 
 

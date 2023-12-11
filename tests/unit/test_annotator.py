@@ -87,6 +87,11 @@ def token(text: str):
 
 
 class TestPatternPositionMatcher:
+
+    def test_equal(self):
+        assert _PatternPositionMatcher.match({"equal": "test"}, token=token("test"))
+        assert not _PatternPositionMatcher.match({"equal": "_"}, token=token("test"))
+
     def test_re_match(self):
         assert _PatternPositionMatcher.match({"re_match": "[a-z]"}, token=token("abc"))
         assert _PatternPositionMatcher.match(
