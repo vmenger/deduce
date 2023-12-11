@@ -516,18 +516,18 @@
       "annotator_type": "docdeid.process.RegexpAnnotator",
       "group": "email_addresses",
       "args": {
-        "regexp_pattern": "(([-a-zA-Z0-9:%._\\+~#=]{1,256})@([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(be|co|com|fr|gov|net|nl|nu|org|sp|uk|us))",
+        "regexp_pattern": "(([-a-zA-Z0-9:%._\\+~#=]{1,256})@([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(com|net|org|co|us|uk|nl|be|fr|sp|gov|nu))",
         "tag": "emailadres",
-        "pre_match_words": ["be", "co", "com", "fr", "gov", "net", "nl", "nu", "org", "sp", "uk", "us"]
+        "pre_match_words": ["com", "net", "org", "co", "us", "uk", "nl", "be", "fr", "sp", "gov", "nu"]
       }
     },
     "url": {
       "annotator_type": "docdeid.process.RegexpAnnotator",
       "group": "urls",
       "args": {
-        "regexp_pattern": "((https?:\\/\\/(?:www\\.)?)?([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(be|co|com|fr|gov|net|nl|nu|org|sp|uk|us)(\\b)([():%_\\+.~,]*[-a-zA-Z-0-9#?&/=]+)*)",
+        "regexp_pattern": "((https?:\\/\\/(?:www\\.)?)?([-a-zA-Z0-9:%._\\+~#=]{1,256})(\\.)(com|net|org|co|us|uk|nl|be|fr|sp|gov|nu)(\\b)([():%_\\+.~,]*[-a-zA-Z-0-9#?&/=]+)*)",
         "tag": "url",
-        "pre_match_words": ["be", "co", "com", "fr", "gov", "net", "nl", "nu", "org", "sp", "uk", "us"]
+        "pre_match_words": ["com", "net", "org", "co", "us", "uk", "nl", "be", "fr", "sp", "gov", "nu"]
       }
     }
   }
