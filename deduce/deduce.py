@@ -13,7 +13,7 @@ import docdeid as dd
 from frozendict import frozendict
 
 from deduce import utils
-from deduce.annotation_processing import (
+from deduce.annotation_processor import (
     CleanAnnotationTag,
     DeduceMergeAdjacentAnnotations,
     PersonAnnotationConverter,
@@ -21,7 +21,7 @@ from deduce.annotation_processing import (
 )
 from deduce.lookup_struct_loader import load_interfix_lookup, load_prefix_lookup
 from deduce.lookup_structs import get_lookup_structs, load_raw_itemsets
-from deduce.redact import DeduceRedactor
+from deduce.redactor import DeduceRedactor
 from deduce.tokenizer import DeduceTokenizer
 
 __version__ = importlib.metadata.version(__package__ or __name__)

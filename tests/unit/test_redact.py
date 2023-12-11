@@ -1,6 +1,6 @@
 import docdeid as dd
 
-from deduce.redact import DeduceRedactor
+from deduce.redactor import DeduceRedactor
 
 
 class TestDeduceRedactor:
