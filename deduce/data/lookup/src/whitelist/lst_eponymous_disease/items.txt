@@ -202,7 +202,6 @@ Stokes-Adams
 Sturge-Weber
 Tatton-Brown-Rahman
 Tay-Sachs
-Tay-Sachs
 Temple-Baraitser
 Treacher Collins
 Unverricht-Lundborg

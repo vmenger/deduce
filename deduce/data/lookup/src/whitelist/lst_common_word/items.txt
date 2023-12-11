@@ -185,7 +185,6 @@ drinken
 drogen
 dromen
 droog
-droog
 druk
 dubbel
 duits
@@ -271,7 +270,6 @@ gevaar
 gevaarlijk
 gevangenis
 geven
-geven
 gevolg
 gewicht
 gewoon
@@ -307,7 +305,6 @@ haast
 hal
 halen
 half
-hallo
 hallo
 hamer
 hand
@@ -500,7 +497,6 @@ maken
 makkelijk
 mama
 man
-man
 mand
 manier
 map
@@ -521,7 +517,6 @@ mensen
 mes
 met
 meubel
-mevrouw
 mevrouw
 middel
 midden
@@ -626,7 +621,6 @@ opleiding
 opnemen
 oranje
 orde
-oud
 oud
 ouder
 over
@@ -947,7 +941,6 @@ vrijdag
 vrijheid
 vroeg
 vroeger
-vrouw
 vrouw
 vrouwe
 vullen

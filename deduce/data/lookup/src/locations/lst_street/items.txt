@@ -104,7 +104,6 @@
 11e Laan
 12 Septemberstraat
 1213-Laan
-1213-Laan
 126e Wingweg
 12e Laan
 12e Septemberlaan
@@ -124,7 +123,6 @@
 18 Septemberplein
 18e Wyk
 18e Laan
-1940-45-Laan
 1940-45-Laan
 19e Wyk
 1e Achterholtsweg
@@ -353,7 +351,6 @@
 20 Septemberplein
 24 Bunder
 24 Oktoberplein
-24e Laan
 24e Laan
 25 Juni Straat
 25 Junistraat
@@ -61345,7 +61342,6 @@ Karel Simmelinkstraat
 Karel Slabbaertstraat
 Karel V Laan
 Karel V Straat
-Karel V Laan
 Karel V-Straat
 Karel V-Laan
 Karel Wiersmastraat
@@ -66702,7 +66698,6 @@ Koning Willem Alexanderstraat
 Koning Willem I Straat
 Koning Willem I-Laan
 Koning Willem I-Park
-Koning Willem I-Laan
 Koning Willem II Plein
 Koning Willem II Straat
 Koning Willem II-Straat
@@ -135732,10 +135727,8 @@ Willem II-Laan
 Willem II-passage
 Willem III Laan
 Willem III Straat
-Willem III Laan
 Willem III-Laan
 Willem III-Straat
-Willem III-Laan
 Willem Idenburglaan
 Willem Idenburgpad
 Willem J. Kolfflaan
