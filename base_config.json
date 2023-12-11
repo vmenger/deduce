@@ -408,7 +408,7 @@
       }
     },
     "postbus": {
-      "annotator_type-": "docdeid.process.RegexpAnnotator",
+      "annotator_type": "docdeid.process.RegexpAnnotator",
       "group": "locations",
       "args": {
         "regexp_pattern": "([Pp]ostbus\\s\\d{1,5}(\\.\\d{2,4})?)",
