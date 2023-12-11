@@ -45,8 +45,6 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
 
         func, value = next(iter(pattern_position.items()))
 
-        if func == "equal":
-            return kwargs.get("token").text == value
         if func == "re_match":
             return re.match(value, kwargs.get("token").text) is not None
         if func == "is_initials":
@@ -64,10 +62,6 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
             return kwargs.get("token").text in kwargs.get("ds")[value]
         if func == "neg_lookup":
             return kwargs.get("token").text not in kwargs.get("ds")[value]
-        if func == "lowercase_lookup":
-            return kwargs.get("token").text.lower() in kwargs.get("ds")[value]
-        if func == "lowercase_neg_lookup":
-            return kwargs.get("token").text.lower() not in kwargs.get("ds")[value]
         if func == "and":
             return all(
                 _PatternPositionMatcher.match(pattern_position=x, **kwargs)

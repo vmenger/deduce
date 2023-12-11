@@ -87,10 +87,6 @@ def token(text: str):
 
 
 class TestPatternPositionMatcher:
-    def test_equal(self):
-        assert _PatternPositionMatcher.match({"equal": "test"}, token=token("test"))
-        assert not _PatternPositionMatcher.match({"equal": "_"}, token=token("test"))
-
     def test_re_match(self):
         assert _PatternPositionMatcher.match({"re_match": "[a-z]"}, token=token("abc"))
         assert _PatternPositionMatcher.match(
@@ -102,6 +98,23 @@ class TestPatternPositionMatcher:
         )
         assert not _PatternPositionMatcher.match(
             {"re_match": "[a-z]"}, token=token("123abc")
+        )
+
+    def test_is_initials(self):
+
+        assert _PatternPositionMatcher.match({"is_initials": True}, token=token("A"))
+        assert _PatternPositionMatcher.match({"is_initials": True}, token=token("AB"))
+        assert _PatternPositionMatcher.match({"is_initials": True}, token=token("ABC"))
+        assert _PatternPositionMatcher.match({"is_initials": True}, token=token("ABCD"))
+        assert not _PatternPositionMatcher.match(
+            {"is_initials": True}, token=token("ABCDE")
+        )
+        assert not _PatternPositionMatcher.match({"is_initials": True}, token=token(""))
+        assert not _PatternPositionMatcher.match(
+            {"is_initials": True}, token=token("abcd")
+        )
+        assert not _PatternPositionMatcher.match(
+            {"is_initials": True}, token=token("abcde")
         )
 
     def test_match_like_name(self):
@@ -154,28 +167,6 @@ class TestPatternPositionMatcher:
         )
         assert _PatternPositionMatcher.match(
             {"neg_lookup": "surnames"}, token=token("smit"), ds=ds
-        )
-
-    def test_match_lowercase_lookup(self, ds):
-        assert _PatternPositionMatcher.match(
-            {"lowercase_lookup": "first_names"}, token=token("Pieter"), ds=ds
-        )
-        assert _PatternPositionMatcher.match(
-            {"lowercase_lookup": "first_names"}, token=token("pieter"), ds=ds
-        )
-        assert not _PatternPositionMatcher.match(
-            {"lowercase_lookup": "first_names"}, token=token("smit"), ds=ds
-        )
-
-    def test_match_lowercase_neg_lookup(self, ds):
-        assert _PatternPositionMatcher.match(
-            {"lowercase_neg_lookup": "first_names"}, token=token("Andries"), ds=ds
-        )
-        assert _PatternPositionMatcher.match(
-            {"lowercase_neg_lookup": "first_names"}, token=token("andries"), ds=ds
-        )
-        assert not _PatternPositionMatcher.match(
-            {"lowercase_neg_lookup": "first_names"}, token=token("pieter"), ds=ds
         )
 
     def test_match_and(self):
