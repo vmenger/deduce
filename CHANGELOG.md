@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Deprecated
 - the `config_file` keyword, now replaced by `config` which accepts both filenames and dicts
+- old lookup list names, e.g. `prefixes` now replaced by `prefix`
 
 ### Removed
 - automated coverage reporting on coveralls.io

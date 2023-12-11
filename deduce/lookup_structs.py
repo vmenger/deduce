@@ -10,6 +10,8 @@ from typing import Optional
 import docdeid as dd
 from docdeid.tokenizer import Tokenizer
 
+from depr import DeprecatedDsCollection
+
 from deduce.data.lookup.src import all_lists
 from deduce.lookup_struct_loader import (
     load_eponymous_disease_lookup,
@@ -228,7 +230,21 @@ def get_lookup_structs(
         "explicitly triggered with Deduce(build_lookup_structs=True)."
     )
 
-    lookup_structs = dd.ds.DsCollection()
+    lookup_structs = DeprecatedDsCollection(
+        deprecated_items={
+            "prefixes": 'prefix',
+            "first_names": 'first_name',
+            "first_name_exceptions": None,
+            "interfixes": 'interfix',
+            "interfix_surnames": 'interfix_surname',
+            "surnames": 'surname',
+            "surname_exceptions": None,
+            "streets": 'street',
+            "placenames": 'placename',
+            "hospitals": 'hospital',
+            "healthcare_institutions": 'healthcare_institution',
+        }
+    )
     base_items = load_raw_itemsets(base_path=lookup_path, subdirs=all_lists)
 
     defaults = (
