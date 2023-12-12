@@ -63,8 +63,12 @@ def initialize_class(cls: type, args: dict, extras: dict) -> Any:
         An instantiated class, with the relevant argumetns and extras.
     """
 
+    cls_params = inspect.signature(cls).parameters
+
     for arg_name, arg in extras.items():
-        if arg_name in inspect.signature(cls).parameters:
+
+        if arg_name in cls_params:
+
             args[arg_name] = arg
 
     return cls(**args)
