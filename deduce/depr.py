@@ -23,7 +23,7 @@ class DeprecatedDsCollection(dd.ds.DsCollection):
             if new_key is None:
 
                 warnings.warn(
-                    f"The lookup structure with key {key} is no longer "
+                    f"The lookup structure '{key}' is no longer "
                     f"included in Deduce. If it was a list with exceptions, "
                     f"it is now automatically included in the normal list.",
                     DeprecationWarning,
@@ -32,8 +32,8 @@ class DeprecatedDsCollection(dd.ds.DsCollection):
                 return self.deprecated_lists[key]
 
             warnings.warn(
-                f"The lookup structure with key {key} has been replaced "
-                f"with {new_key}, pleace replace it accordingly in your "
+                f"The lookup structure '{key}' has been renamed to "
+                f"'{new_key}', pleace replace it accordingly in your "
                 f"code/config",
                 DeprecationWarning,
             )
