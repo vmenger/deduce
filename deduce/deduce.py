@@ -257,17 +257,26 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
         return utils.initialize_class(cls, args, extras)
 
     @staticmethod
-    def _get_annotator_group(
-        group_name: Optional[str], annotators: dd.process.DocProcessorGroup
+    def _get_or_create_annotator_group(
+        group_name: Optional[str], processors: dd.process.DocProcessorGroup
     ) -> dd.process.DocProcessorGroup:
 
         if group_name is None:
-            group = annotators  # top level
-        elif group_name in annotators.get_names(recursive=False):
-            group = annotators[group_name]
+            group = processors  # top level
+        elif group_name in processors.get_names(recursive=False):
+            existing_group = processors[group_name]
+
+            if not isinstance(existing_group, dd.process.DocProcessorGroup):
+                raise RuntimeError(
+                    f"processor with name {group_name} already exists, "
+                    f"but is no group"
+                )
+
+            group = existing_group
+
         else:
             group = dd.process.DocProcessorGroup()
-            annotators.add_processor(group_name, group)
+            processors.add_processor(group_name, group)
 
         return group
 
@@ -288,8 +297,8 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
 
         for annotator_name, annotator_info in config.items():
 
-            group = self._get_annotator_group(
-                annotator_info.get("group", None), annotators=annotators
+            group = self._get_or_create_annotator_group(
+                annotator_info.get("group", None), processors=annotators
             )
 
             annotator_type = annotator_info["annotator_type"]
@@ -372,10 +381,16 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
         processors = self._load_annotators(config=config["annotators"], extras=extras)
 
         self._load_name_processors(
-            name_group=processors["names"],
+            name_group=self._get_or_create_annotator_group(
+                group_name="names", processors=processors
+            )
         )
 
-        self._load_location_processors(location_group=processors["locations"])
+        self._load_location_processors(
+            location_group=self._get_or_create_annotator_group(
+                group_name="locations", processors=processors
+            )
+        )
 
         post_group = dd.process.DocProcessorGroup()
         processors.add_processor("post_processing", post_group)

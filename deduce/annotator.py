@@ -132,7 +132,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
                     "no lookup structures provided."
                 )
 
-            lookup_list = ds[self.pattern[0]["lookup"]]
+            lookup_list = self.ds[self.pattern[0]["lookup"]]
 
             if not isinstance(lookup_list, dd.ds.LookupSet):
                 raise ValueError(

@@ -1,4 +1,5 @@
 # pylint: disable=R0801
+# type: ignore
 
 from typing import Optional
 
