@@ -11,13 +11,11 @@ from deduce.lookup_structs import (
     load_raw_itemsets,
     validate_lookup_struct_cache,
 )
-from deduce.utils import apply_transform
 
 DATA_PATH = Path(".").cwd() / "tests" / "data" / "lookup"
 
 
 class TestLookupStruct:
-
     def test_load_raw_itemset(self):
 
         raw_itemset = load_raw_itemset(DATA_PATH / "src" / "lst_test")

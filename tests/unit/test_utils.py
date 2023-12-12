@@ -228,7 +228,6 @@ class TestStrVariations:
         assert transformed_items == {"den Burg", " Burg", "Rotterdam"}
 
 
-
 class TestOptionalLoad:
     def test_optional_load_items(self):
 
