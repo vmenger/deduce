@@ -1,9 +1,13 @@
+from pathlib import Path
+
+import docdeid as dd
 import pytest
 
 from deduce import utils
+from deduce.annotator import TokenPatternAnnotator
 
 
-class TestUtils:
+class TestStrMatch:
     def test_str_match(self):
         assert utils.str_match("a", "a")
         assert utils.str_match("willem", "willem")
@@ -21,6 +25,50 @@ class TestUtils:
         assert not utils.str_match("a", "abc", max_edit_distance=1)
         assert not utils.str_match("willem", "wilhelm", max_edit_distance=1)
         assert not utils.str_match("willem", "klaas", max_edit_distance=1)
+
+
+class TestClassForName:
+    def test_class_for_name(self):
+        assert (
+            utils.class_for_name(
+                module_name="deduce.annotator", class_name="TokenPatternAnnotator"
+            )
+            == TokenPatternAnnotator
+        )
+
+
+class TestInitializeClass:
+    def test_initialize_class(self):
+
+        cls = TokenPatternAnnotator
+
+        tag = "_"
+        pattern = [{"key": "value"}]
+
+        annotator = utils.initialize_class(
+            cls, args={"tag": tag, "pattern": pattern}, extras={}
+        )
+
+        assert annotator.tag == tag
+        assert annotator.pattern == pattern
+
+    def test_initialize_class_with_extras(self):
+
+        cls = TokenPatternAnnotator
+
+        tag = "_"
+        pattern = [{"key": "value"}]
+        ds = dd.ds.DsCollection()
+
+        annotator = utils.initialize_class(
+            cls,
+            args={"tag": tag, "pattern": pattern},
+            extras={"ds": ds, "unused_argument": "_"},
+        )
+
+        assert annotator.tag == tag
+        assert annotator.pattern == pattern
+        assert annotator.ds is ds
 
 
 class TestOverwriteDict:
@@ -42,6 +90,17 @@ class TestOverwriteDict:
             "a": 1,
             "b": {"c": 2, "d": 4},
         }
+
+
+class TestHasOverlap:
+    def test_has_overlap(self):
+
+        assert not utils.has_overlap([])
+        assert not utils.has_overlap([(0, 10)])
+        assert utils.has_overlap([(0, 10), (5, 15)])
+        assert not utils.has_overlap([(0, 10), (10, 15)])
+        assert not utils.has_overlap([(0, 10), (15, 25)])
+        assert not utils.has_overlap([(15, 25), (0, 10)])
 
 
 class TestStrVariations:
@@ -139,3 +198,39 @@ class TestStrVariations:
         variations = utils.str_variations(s, repl)
 
         assert variations == ["Van Bevanstraat", "van Bevanstraat"]
+
+    def test_apply_transform(self):
+
+        s = {"Prof. Lieflantlaan"}
+        repl = {"Prof.": ["Prof.", "Professor"]}
+
+        transform_config = {"transforms": {"prefix": repl}}
+        variations = utils.apply_transform(s, transform_config)
+
+        assert variations == {"Prof. Lieflantlaan", "Professor Lieflantlaan"}
+
+
+class TestOptionalLoad:
+    def test_optional_load_items(self):
+
+        path = Path("tests/data/lookup/src/lst_test_nested/items.txt")
+
+        assert utils.optional_load_items(path) == {"a", "b"}
+
+    def test_optional_load_items_nonexisting(self):
+
+        path = Path("tests/data/non/existing/file.txt")
+
+        assert utils.optional_load_items(path) is None
+
+    def test_optional_load_json(self):
+
+        path = Path("tests/data/small.json")
+
+        assert utils.optional_load_json(path) == {"test": True}
+
+    def test_optional_load_json_nonexisting(self):
+
+        path = Path("tests/data/non/existing/file.json")
+
+        assert utils.optional_load_json(path) is None
