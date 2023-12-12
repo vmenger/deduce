@@ -107,6 +107,12 @@ class TokenPatternAnnotator(dd.process.Annotator):
         self._matching_pipeline = None
 
         if len(self.pattern) > 0 and "lookup" in self.pattern[0]:
+
+            if self.ds is None:
+                raise RuntimeError("Created pattern with lookup in "
+                                   "TokenPatternAnnotator, but no lookup structures "
+                                   "provided.")
+
             lookup_list = ds[self.pattern[0]["lookup"]]
 
             if not isinstance(lookup_list, dd.ds.LookupSet):

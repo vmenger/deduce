@@ -21,14 +21,14 @@ class DeduceTokenizer(dd.tokenizer.Tokenizer):  # pylint: disable=R0903
         super().__init__()
 
         self._pattern = _TOKENIZER_PATTERN
-        self._trie = None
+        self._trie: Optional[dd.ds.LookupTrie] = None
 
-        self._start_words = set()
+        self._start_words: set[str] = set()
 
         if merge_terms is not None:
             self._init_merge_structures(merge_terms=merge_terms)
 
-    def _init_merge_structures(self, merge_terms: Optional[Iterable]) -> None:
+    def _init_merge_structures(self, merge_terms: Iterable) -> None:
         """
         Initializes the merge structures.
 
@@ -77,6 +77,9 @@ class DeduceTokenizer(dd.tokenizer.Tokenizer):  # pylint: disable=R0903
         Returns:
             A list of tokens, with merge_terms joined in single tokens.
         """
+
+        if self._trie is None:
+            return tokens
 
         tokens_text = [token.text for token in tokens]
         tokens_merged = []

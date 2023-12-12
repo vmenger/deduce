@@ -257,11 +257,11 @@ def get_lookup_structs(
         lookup_set.add_items_from_iterable(base_items[name])
         lookup_structs[name] = lookup_set
 
-    for name, init_function in _LOOKUP_SET_LOADERS.items():
-        lookup_structs[name] = init_function(base_items)
+    for name, set_init_function in _LOOKUP_SET_LOADERS.items():
+        lookup_structs[name] = set_init_function(base_items)
 
-    for name, init_function in _LOOKUP_TRIE_LOADERS.items():
-        lookup_structs[name] = init_function(base_items, tokenizer)
+    for name, trie_init_function in _LOOKUP_TRIE_LOADERS.items():
+        lookup_structs[name] = trie_init_function(base_items, tokenizer)
 
     if save_cache:
         cache_lookup_structs(
