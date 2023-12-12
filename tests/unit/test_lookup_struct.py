@@ -17,23 +17,6 @@ DATA_PATH = Path(".").cwd() / "tests" / "data" / "lookup"
 
 
 class TestLookupStruct:
-    def test_apply_transform(self):
-
-        items = {"den Burg", "Rotterdam"}
-        transform = {"transforms": {"name": {"den": ["den", ""]}}}
-
-        transformed_items = apply_transform(items, transform)
-
-        assert transformed_items == {"den Burg", "Burg", "Rotterdam"}
-
-    def test_apply_transform_no_strip_lines(self):
-
-        items = {"den Burg", "Rotterdam"}
-        transform = {"transforms": {"name": {"den": ["den", ""]}}, "strip_lines": False}
-
-        transformed_items = apply_transform(items, transform)
-
-        assert transformed_items == {"den Burg", " Burg", "Rotterdam"}
 
     def test_load_raw_itemset(self):
 

@@ -209,6 +209,25 @@ class TestStrVariations:
 
         assert variations == {"Prof. Lieflantlaan", "Professor Lieflantlaan"}
 
+    def test_apply_transform2(self):
+
+        items = {"den Burg", "Rotterdam"}
+        transform = {"transforms": {"name": {"den": ["den", ""]}}}
+
+        transformed_items = utils.apply_transform(items, transform)
+
+        assert transformed_items == {"den Burg", "Burg", "Rotterdam"}
+
+    def test_apply_transform_no_strip_lines(self):
+
+        items = {"den Burg", "Rotterdam"}
+        transform = {"transforms": {"name": {"den": ["den", ""]}}, "strip_lines": False}
+
+        transformed_items = utils.apply_transform(items, transform)
+
+        assert transformed_items == {"den Burg", " Burg", "Rotterdam"}
+
+
 
 class TestOptionalLoad:
     def test_optional_load_items(self):
