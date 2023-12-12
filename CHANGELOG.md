@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - speed optimizations, ~250%
-- an option for pseudo-annotating, by adding an annotator that has `pseudo` in its tags
 - pseudo-annotating eponymous diseases (e.g. Creutzfeldt-Jakob)
 - `PatientNameAnnotator`, which replaces `deduce.pattern`
 - a structured way for loading and building lookup structures (lists and tries), including caching
