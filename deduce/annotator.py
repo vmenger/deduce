@@ -1,4 +1,5 @@
 import re
+import warnings
 from typing import Literal, Optional
 
 import docdeid as dd
@@ -6,6 +7,8 @@ from docdeid import Annotation, Document, Tokenizer
 from docdeid.process import RegexpAnnotator
 
 from deduce.utils import str_match
+
+warnings.simplefilter(action="default")
 
 _DIRECTION_MAP = {
     "left": {
@@ -49,6 +52,21 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
             return kwargs.get("token").text == value
         if func == "re_match":
             return re.match(value, kwargs.get("token").text) is not None
+        if func == "is_initial":
+
+            warnings.warn(
+                "is_initial matcher pattern is deprecated and will be removed "
+                "in a future version",
+                DeprecationWarning,
+            )
+
+            return (
+                (
+                    len(kwargs.get("token").text) == 1
+                    and kwargs.get("token").text[0].isupper()
+                )
+                or kwargs.get("token").text in {"Ch", "Chr", "Ph", "Th"}
+            ) == value
         if func == "is_initials":
             return (
                 len(kwargs.get("token").text) <= 4
@@ -109,9 +127,10 @@ class TokenPatternAnnotator(dd.process.Annotator):
         if len(self.pattern) > 0 and "lookup" in self.pattern[0]:
 
             if self.ds is None:
-                raise RuntimeError("Created pattern with lookup in "
-                                   "TokenPatternAnnotator, but no lookup structures "
-                                   "provided.")
+                raise RuntimeError(
+                    "Created pattern with lookup in TokenPatternAnnotator, but "
+                    "no lookup structures provided."
+                )
 
             lookup_list = ds[self.pattern[0]["lookup"]]
 
