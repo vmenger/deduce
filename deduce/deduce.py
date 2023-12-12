@@ -8,7 +8,7 @@ import os
 import sys
 import warnings
 from pathlib import Path
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 import docdeid as dd
 from frozendict import frozendict
@@ -98,7 +98,7 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
             The config as a dictionary, based provided input file and default logic.
         """
 
-        config = {}
+        config: dict[str, Any] = {}
 
         if load_base_config:
 
@@ -110,9 +110,9 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
         if user_config is not None:
             if isinstance(user_config, str):
                 with open(user_config, "r", encoding="utf-8") as file:
-                    user_config = json.load(file)
+                    user_config_dict = json.load(file)
 
-            utils.overwrite_dict(config, user_config)
+            utils.overwrite_dict(config, user_config_dict)
 
         return frozendict(config)
 
@@ -256,13 +256,10 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
             sort_by.append(attr)
             sort_by_callbacks[attr] = (lambda x: x) if ascending else (lambda y: -y)
 
-        sort_by = tuple(sort_by)
-        sort_by_callbacks = frozendict(sort_by_callbacks)
-
         post_group.add_processor(
             "overlap_resolver",
             dd.process.OverlapResolver(
-                sort_by=sort_by, sort_by_callbacks=sort_by_callbacks
+                sort_by=tuple(sort_by), sort_by_callbacks=frozendict(sort_by_callbacks)
             ),
         )
 
