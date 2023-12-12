@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any, Optional, Union
 
 import docdeid as dd
+from deprecated import deprecated
 from frozendict import frozendict
 
 from deduce import utils
@@ -20,6 +21,7 @@ from deduce.annotation_processor import (
     PersonAnnotationConverter,
     RemoveAnnotations,
 )
+from deduce.annotator import ContextAnnotator, TokenPatternAnnotator
 from deduce.lookup_struct_loader import load_interfix_lookup, load_prefix_lookup
 from deduce.lookup_structs import get_lookup_structs, load_raw_itemsets
 from deduce.redactor import DeduceRedactor
@@ -166,6 +168,95 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
         return dd.process.MultiTokenLookupAnnotator(**args)
 
     @staticmethod
+    @deprecated(
+        "The token_pattern annotatortype is deprecated and will be removed in "
+        "a future version. Please set annotator_type field to "
+        "deduce.annotator.TokenPatternAnnotator. See "
+        "https://github.com/vmenger/deduce/blob/main/base_config.json for "
+        "examples."
+    )
+    def _get_token_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+
+        return TokenPatternAnnotator(**args, ds=extras["ds"])
+
+    @staticmethod
+    @deprecated(
+        "The dd_token_pattern annotatortype is deprecated and will be removed "
+        "in a future version. For patient name patterns, please use "
+        "deduce.annotator.PatientNameAnnotator. For other patterns, please "
+        "switch to deduce.annotator.TokenPatternAnnotator. See "
+        "https://github.com/vmenger/deduce/blob/main/base_config.json for "
+        "examples."
+    )
+    def _get_dd_token_pattern_annotator(
+        args: dict, extras: dict
+    ) -> dd.process.Annotator:
+
+        pattern_args = args.pop("pattern")
+        module = pattern_args.pop("module")
+        cls = pattern_args.pop("class")
+        cls = utils.class_for_name(module, cls)
+
+        pattern = utils.initialize_class(cls, args=pattern_args, extras=extras)
+
+        return dd.process.TokenPatternAnnotator(pattern=pattern)
+
+    @staticmethod
+    @deprecated(
+        "The annotation_context annotatortype is deprecated and will be "
+        "removed in a future version. Please set annotator_type field to "
+        "deduce.annotator.ContextAnnotator. See "
+        "https://github.com/vmenger/deduce/blob/main/base_config.json for "
+        "examples."
+    )
+    def _get_context_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+
+        return ContextAnnotator(**args, ds=extras["ds"])
+
+    @staticmethod
+    @deprecated(
+        "The custom annotatortype is deprecated and will be removed in a "
+        "future version. Please set annotator_type field to module.class "
+        "directly, and remove module and class from args. See "
+        "https://github.com/vmenger/deduce/blob/main/base_config.json for "
+        "examples."
+    )
+    def _get_custom_annotator(args: dict, extras: dict) -> dd.process.Annotator:
+
+        module = args.pop("module")
+        cls = args.pop("class")
+
+        cls = utils.class_for_name(module, cls)
+        return utils.initialize_class(cls, args=args, extras=extras)
+
+    @staticmethod
+    @deprecated(
+        "The regexp annotatortype is deprecated and will be removed in a future "
+        "version. Please set annotator_type field to "
+        "deduce.annotator.ContextAnnotator. See "
+        "https://github.com/vmenger/deduce/blob/main/base_config.json for "
+        "examples.",
+    )
+    def _get_regexp_annotator(
+        args: dict, extras: dict  # pylint: disable=W0613
+    ) -> dd.process.Annotator:
+
+        return dd.process.RegexpAnnotator(**args)
+
+    @staticmethod
+    def _get_annotator_from_class(
+        annotator_type: str, args: dict, extras: dict
+    ) -> dd.process.Annotator:
+
+        elems = annotator_type.split(".")
+        module_name = ".".join(elems[:-1])
+        class_name = elems[-1]
+
+        cls = utils.class_for_name(module_name=module_name, class_name=class_name)
+
+        return utils.initialize_class(cls, args, extras)
+
+    @staticmethod
     def _get_annotator_group(
         group_name: Optional[str], annotators: dd.process.DocProcessorGroup
     ) -> dd.process.DocProcessorGroup:
@@ -186,6 +277,11 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
 
         annotator_creators = {
             "multi_token": self._get_multi_token_annotator,
+            "token_pattern": self._get_token_pattern_annotator,
+            "dd_token_pattern": self._get_dd_token_pattern_annotator,
+            "annotation_context": self._get_context_annotator,
+            "regexp": self._get_regexp_annotator,
+            "custom": self._get_custom_annotator,
         }
 
         annotators = dd.process.DocProcessorGroup()
@@ -202,15 +298,7 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
             if annotator_type in annotator_creators:
                 annotator = annotator_creators[annotator_type](args, extras)
             else:
-                elems = annotator_type.split(".")
-                module_name = ".".join(elems[:-1])
-                class_name = elems[-1]
-
-                cls = utils.class_for_name(
-                    module_name=module_name, class_name=class_name
-                )
-
-                annotator = utils.initialize_class(cls, args, extras)
+                annotator = self._get_annotator_from_class(annotator_type, args, extras)
 
             group.add_processor(annotator_name, annotator)
 
