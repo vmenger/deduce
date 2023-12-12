@@ -112,9 +112,9 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
         if user_config is not None:
             if isinstance(user_config, str):
                 with open(user_config, "r", encoding="utf-8") as file:
-                    user_config_dict = json.load(file)
+                    user_config = json.load(file)
 
-            utils.overwrite_dict(config, user_config_dict)
+            utils.overwrite_dict(config, user_config)
 
         return frozendict(config)
 
