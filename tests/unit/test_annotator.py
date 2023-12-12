@@ -86,7 +86,7 @@ def token(text: str):
     return dd.Token(text=text, start_char=0, end_char=len(text))
 
 
-class TestPatternPositionMatcher:
+class TestPositionMatcher:
     def test_equal(self):
         assert _PatternPositionMatcher.match({"equal": "test"}, token=token("test"))
         assert not _PatternPositionMatcher.match({"equal": "_"}, token=token("test"))
