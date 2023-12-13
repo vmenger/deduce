@@ -1,3 +1,5 @@
+"""Contains components for annotating."""
+
 import re
 import warnings
 from typing import Literal, Optional
@@ -247,7 +249,8 @@ class ContextAnnotator(TokenPatternAnnotator):
     Extends existing annotations to the left or right, based on specified patterns.
 
     Args:
-        iterative: Whether the extension process should recurse, or stop after one
+        ds: Any datastructures, that can be used for lookup or other logic
+        iterative: Whether the extension process should repeat, or stop after one
         iteration.
     """
 
@@ -310,6 +313,18 @@ class ContextAnnotator(TokenPatternAnnotator):
         return annotations
 
     def _annotate(self, text: str, annotations: dd.AnnotationSet) -> dd.AnnotationSet:
+        """
+        Does the annotation, by calling _apply_context_pattern, and then optionally
+        recursing. Also keeps track of the (un)changed annotations, so they are not
+        repeatedly processed.
+
+        Args:
+            text: The input text.
+            annotations: The input annotations.
+
+        Returns:
+            An extended set of annotations, based on the patterns provided.
+        """
 
         original_annotations = annotations.copy()
 
@@ -346,7 +361,14 @@ class ContextAnnotator(TokenPatternAnnotator):
 
 
 class PatientNameAnnotator(dd.process.Annotator):
-    """Annotates Patient names, based on information present in document metadata."""
+    """
+    Annotates patient names, based on information present in document metadata. This
+    class implements logic for detecting first name(s), initials and surnames.
+
+    Args:
+        tokenizer: A tokenizer, that is used for breaking up the patient surname
+            into multiple tokens.
+    """
 
     def __init__(self, tokenizer: Tokenizer, *args, **kwargs) -> None:
 
@@ -397,7 +419,7 @@ class PatientNameAnnotator(dd.process.Annotator):
         return None
 
     def next_with_skip(self, token: dd.Token) -> Optional[dd.Token]:
-        """Find the next token, while skipping some punctuation."""
+        """Find the next token, while skipping certain punctuation."""
 
         while True:
             token = token.next()
@@ -437,6 +459,14 @@ class PatientNameAnnotator(dd.process.Annotator):
                 return None  # end of tokens
 
     def annotate(self, doc: Document) -> list[Annotation]:
+        """
+        Annotates the document, based on the patient metadata.
+
+        Args:
+            doc: The input document.
+
+        Returns: A document with any relevant Annotations added.
+        """
 
         if doc.metadata is None or doc.metadata["patient"] is None:
             return []
@@ -486,11 +516,13 @@ class PatientNameAnnotator(dd.process.Annotator):
 class RegexpPseudoAnnotator(RegexpAnnotator):
     """
     Regexp annotator that filters out matches preceded or followed by certain terms.
-    Currently matches on sequential alhpa characters preceding or following the match.
+    Currently matches on sequential alpha characters preceding or following the match.
+    This annotator does not depend on any tokenizer.
 
-    pre_pseudo: A list of strings that invalidate a match when preceding it
-    post_pseudo: A list of strings that invalidate a match when following it
-    lowercase: Whether to match lowercase
+    Args:
+        pre_pseudo: A list of strings that invalidate a match when preceding it
+        post_pseudo: A list of strings that invalidate a match when following it
+        lowercase: Whether to match lowercase
     """
 
     def __init__(
@@ -594,7 +626,17 @@ class RegexpPseudoAnnotator(RegexpAnnotator):
 
 
 class BsnAnnotator(dd.process.Annotator):
-    """Annotates BSN nummers."""
+    """
+    Annotates Burgerservicenummer (BSN), according to the elfproef logic.
+    See also: https://nl.wikipedia.org/wiki/Burgerservicenummer
+
+    Args:
+        bsn_regexp: A regexp to match potential BSN nummers. The simplest form could be
+            9-digit numbers, but matches with periods or other punctutation can also be
+            accepted. Any non-digit characters are removed from the match before
+            the elfproef is applied.
+        capture_group: The regexp capture group to consider.
+    """
 
     def __init__(
         self, bsn_regexp: str, *args, capture_group: int = 0, **kwargs
@@ -642,7 +684,15 @@ class BsnAnnotator(dd.process.Annotator):
 
 
 class PhoneNumberAnnotator(dd.process.Annotator):
-    """Annotates phone numbers."""
+    """
+    Annotates phone numbers, based on a regexp and min and max number of digits.
+    Additionally employs some logic like detecting parentheses and hyphens.
+
+    Args:
+        phone_regexp: The regexp to detect phone numbers.
+        min_digits: The minimum number of digits that need to be present.
+        max_digits: The maximum number of digits that need to be present.
+    """
 
     def __init__(
         self,

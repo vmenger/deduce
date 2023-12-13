@@ -1,3 +1,5 @@
+"""Contains components for processing AnnotationSet."""
+
 import docdeid as dd
 from docdeid import AnnotationSet
 from frozendict import frozendict
@@ -60,9 +62,10 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
     Responsible for processing the annotations produced by all name annotators (regular
     and context-based).
 
-    Resolves overlap between them, and then maps the tags to either "patient" or
-    "persoon", based on whether "patient" is in the tag (e.g. voornaam_patient =>
-    patient, achternaam_onbekend => persoon).
+    Any overlap with annotations that are  contain "pseudo" in their tag are removed, as
+    are those annotations. Then resolves overlap between remaining annotations, and maps
+    the tags to either "patient" or "persoon", based on whether "patient" is in the tag
+    (e.g. voornaam_patient => patient, achternaam_onbekend => persoon).
     """
 
     def __init__(self) -> None:

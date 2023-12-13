@@ -52,12 +52,13 @@ def load_raw_itemset(path: Path) -> set[str]:
     Load the raw items from a lookup list. This works by loading the data in items.txt,
     removing the data in exceptions.txt (if any), and then applying the transformations
     in transform_config.json (if any). If there are nested lookup lists, they will be
-    loaded and all treated as items.
+    loaded and treated as if they are on items.txt.
 
     Args:
         path: The path.
 
-    Returns: The raw items, as a set of strings.
+    Returns:
+        The raw items, as a set of strings.
     """
 
     items = optional_load_items(path / "items.txt")
@@ -97,8 +98,9 @@ def load_raw_itemsets(base_path: Path, subdirs: list[str]) -> dict[str, set[str]
         base_path: The base path containing the lists.
         subdirs: The lists to load.
 
-    Returns: The raw itemsetes, represented as a dictionary mapping the name of the
-    lookup list to a set of strings.
+    Returns:
+        The raw itemsetes, represented as a dictionary mapping the name of the
+        lookup list to a set of strings.
     """
 
     lists = {}
@@ -123,7 +125,8 @@ def validate_lookup_struct_cache(
         base_path: The base path to check for changed files.
         deduce_version: The current deduce version.
 
-    Returns: True when the lookup structure data is valid, False otherwise.
+    Returns:
+        True when the lookup structure data is valid, False otherwise.
     """
 
     if cache["deduce_version"] != deduce_version:
@@ -152,7 +155,8 @@ def load_lookup_structs_from_cache(
         base_path: The base path where to look for the cache.
         deduce_version: The current deduce version, used to validate.
 
-    Returns: A DsCollection if present and valid, None otherwise.
+    Returns:
+        A DsCollection if present and valid, None otherwise.
     """
 
     cache_file = base_path / _CACHE_SUBDIR / _CACHE_FILE
@@ -244,6 +248,7 @@ def get_lookup_structs(
             "healthcare_institutions": "healthcare_institution",
         }
     )
+
     base_items = load_raw_itemsets(base_path=lookup_path, subdirs=all_lists)
 
     defaults = (

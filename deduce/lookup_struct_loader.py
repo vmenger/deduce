@@ -34,7 +34,6 @@ def load_whitelist_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
     Load whitelist LookupSet.
 
     Composed of medical terms, top 1000 frequent words (except surnames), and stopwords.
-    Returns:
     """
     medical_term = dd.ds.LookupSet()
 
@@ -59,8 +58,7 @@ def load_whitelist_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
 def load_eponymous_disease_lookup(
     raw_itemsets: dict[str, set[str]], tokenizer: Tokenizer
 ) -> dd.ds.LookupTrie:
-    """TODO."""
-
+    """Loads eponymous disease LookupTrie (e.g. Henoch-Schonlein)."""
     epo_disease = dd.ds.LookupSet()
     epo_disease.add_items_from_iterable(raw_itemsets["eponymous_disease"])
     epo_disease.add_items_from_self(
@@ -71,7 +69,7 @@ def load_eponymous_disease_lookup(
 
 
 def load_prefix_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
-    """Load prefix LookupSet (e.g. 'dr', 'mw')"""
+    """Load prefix LookupSet (e.g. 'dr', 'mw')."""
 
     prefix = dd.ds.LookupSet()
 
@@ -106,7 +104,7 @@ def load_first_name_lookup(
 
 
 def load_interfix_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
-    """Load interfix LookupSet ('van der', etc.)"""
+    """Load interfix LookupSet ('van der', etc.)."""
 
     interfix = dd.ds.LookupSet()
 

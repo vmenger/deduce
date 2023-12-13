@@ -1,3 +1,5 @@
+"""Contains deprecated components or functionality for backwards compatibility."""
+
 import warnings
 
 import docdeid as dd

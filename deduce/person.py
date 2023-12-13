@@ -9,8 +9,7 @@ class Person:
     """
     Contains information on a person.
 
-    Usable in a document metadata, where annotators can access it for more accurate
-    annotation.
+    Usable in a document metadata, where annotators can access it for annotation.
     """
 
     first_names: Optional[list[str]] = None

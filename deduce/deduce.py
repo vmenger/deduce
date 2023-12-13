@@ -43,8 +43,24 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
     """
     Main class for de-identifiation.
 
-    Inherits from ``docdeid.DocDeid``, and as such, most information is available
-    in the documentation there.
+    Inherits from ``docdeid.DocDeid``, and as such, most information on deidentifying
+    text with a Deduce object is available there.
+
+    Args:
+        load_base_config: Whether or not to load the base config that is packaged with
+            deduce. This loads some sensible defaults, although further customization
+            is always recommended.
+        config: A specific user config, either as a dict, or pointing to a `json` file.
+            When `load_base_config` is set to `True`, only settings defined in `config`
+            are overwritten, and other defaults are kept. When `load_base_config` is
+            set to `False`, no defaults are loaded and only configuration from `config`
+            is applied.
+        looup_data_path: The path to look for lookup data, by default included in
+            the package. If you want to make changes to source files, it's recommended
+            to copy the source data and pointing deduce to this folder with this
+            argument.
+        build_lookup_structs: Will always reload and rebuild lookup structs rather than
+            using the cache when this is set to `True`.
     """
 
     def __init__(  # pylint: disable=R0913
@@ -143,7 +159,8 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
 
 
 class _DeduceProcessorLoader:  # pylint: disable=R0903
-    """TODO."""
+    """Responsible for loading all processors that Deduce should use, based on config
+    and deduce logic."""
 
     @staticmethod
     def _get_multi_token_annotator(args: dict, extras: dict) -> dd.process.Annotator:
@@ -376,7 +393,18 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
         )
 
     def load(self, config: frozendict, extras: dict) -> dd.process.DocProcessorGroup:
-        """TODO."""
+        """
+        Loads all processors. Loads annotators from config, and then adds document
+        processors based on logic that is internal to this class.
+
+        Args:
+            config: The config.
+            extras: Any extras that should be passed to annotators/annotation processors
+            as keyword arguments, e.g. tokenizers or datastructures.
+
+        Returns:
+            A docprocessorgroup containing all annotators/processors.
+        """
 
         processors = self._load_annotators(config=config["annotators"], extras=extras)
 

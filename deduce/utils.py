@@ -3,7 +3,7 @@ import inspect
 import json
 import re
 from pathlib import Path
-from typing import Any, Optional
+from typing import Optional
 
 import docdeid as dd
 from docdeid import Tokenizer
@@ -12,7 +12,7 @@ from rapidfuzz.distance import DamerauLevenshtein
 
 def str_match(str_1: str, str_2: str, max_edit_distance: Optional[int] = None) -> bool:
     """
-    Match two strings.
+    Match two strings, potentially in a fuzzy way.
 
     Args:
         str_1: The first string.
@@ -32,7 +32,7 @@ def str_match(str_1: str, str_2: str, max_edit_distance: Optional[int] = None) -
     return str_1 == str_2
 
 
-def class_for_name(module_name: str, class_name: str) -> Any:
+def class_for_name(module_name: str, class_name: str) -> type:
     """
     Will import and return the class by name.
 
@@ -48,7 +48,7 @@ def class_for_name(module_name: str, class_name: str) -> Any:
     return getattr(module, class_name)
 
 
-def initialize_class(cls: type, args: dict, extras: dict) -> Any:
+def initialize_class(cls: type, args: dict, extras: dict) -> object:
     """
     Initialize a class. Any arguments in args are passed to the class initializer. Any
     items in extras are passed to the class initializer if they are present.
@@ -60,7 +60,7 @@ def initialize_class(cls: type, args: dict, extras: dict) -> Any:
         Will be checked against the class.
 
     Returns:
-        An instantiated class, with the relevant argumetns and extras.
+        An instantiated class, with the relevant arguments and extras.
     """
 
     cls_params = inspect.signature(cls).parameters
@@ -119,11 +119,12 @@ def repl_segments(s: str, matches: list[tuple]) -> list[list[str]]:
     Args:
         s: The input string.
         matches: A list of matches, consisting of a tuple with start- and end char,
-        followed by a list of options for that substring, e.g.
-        (5, 8, ["Mr.", "Meester"]).
+            followed by a list of options for that substring, e.g.
+            (5, 8, ["Mr.", "Meester"]).
 
-    Returns: A list of options that together segement the entire string, e.g. [["Prof.",
-    "Professor"], [" "], ["Meester", "Mr."], [" Lievenslaan"]].
+    Returns:
+        A list of options that together segement the entire string, e.g. [["Prof.",
+        "Professor"], [" "], ["Meester", "Mr."], [" Lievenslaan"]].
     """
 
     if len(matches) == 0:
@@ -224,7 +225,7 @@ def apply_transform(items: set[str], transform_config: dict) -> set[str]:
 
 def optional_load_items(path: Path) -> Optional[set[str]]:
     """
-    Load lines of a textfile, returning None if file does not exist.
+    Load items (lines) from a textfile, returning None if file does not exist.
 
     Args:
         path: The full path to the file.
