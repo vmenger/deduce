@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - names of lookup structures to singular (`prefix`, rather than `prefixes`)
 - `INSTELLING` tag to `ZIEKENHUIS` and `ZORGINSTELLING`
 - refactored and simplified annotator loading, specifically the `annotator_type` config keyword now accepts references to classes (e.g `deduce.annotator.TokenPatternAnnotator`)
+- renamed `interfix_with_capital` annotator to `interfix_with_name` 
 
 ### Deprecated
 - the `config_file` keyword, now replaced by `config` which accepts both filenames and dicts

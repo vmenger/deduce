@@ -101,7 +101,7 @@
         ]
       }
     },
-    "initial_with_capital": {
+    "initial_with_name": {
       "annotator_type": "deduce.annotator.TokenPatternAnnotator",
       "group": "names",
       "args": {
