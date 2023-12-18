@@ -13,7 +13,7 @@
 
 <!-- start include in docs -->
 
-> Deduce 2.0.0 has been released! It includes a 10x speedup, and way more features for customizing and tailoring. Some small changes are needed to keep going from version 1, read more about it here: [docs/migrating-to-v2](https://deduce.readthedocs.io/en/latest/migrating.html)
+> Deduce 3.0.0 is out! It is way more accurate, and faster too. It's fully backward compatible, but some functionality is scheduled for removal, read more about it here: [docs/migrating-to-v3](https://deduce.readthedocs.io/en/latest/migrating.html)
 
 De-identify clinial text written in Dutch using `deduce`, a rule-based de-identification method for Dutch clinical text.
 
