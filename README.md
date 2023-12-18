@@ -14,24 +14,24 @@
 <!-- start include in docs -->
 
 * :sparkles: Remove sensitive information from clinical text written in Dutch
-* :mag: Rule based logic for detecting e.g. names, locations, institutions, identifiers, phone numbers and urls
+* :mag: Rule based logic for detecting e.g. names, locations, institutions, identifiers, phone numbers
 * :triangular_ruler: Useful out of the box, but customization higly recommended
 * :seedling: Originally validated in [Menger et al. (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365), but further optimized since
 
-> :high_brightness: Deduce is useful out of the box, but please validate and customize on your own data before using it in a critical environment. Remember that de-identification is almost never perfect, and that clinical text often contains other specific details that can link it to a specific person. Be aware that de-identification should primarily be viewed as a way to mitigate risk of identificaiton, rather than a way to obtain anonymous data.
+> :exclamation: Deduce is useful out of the box, but please validate and customize on your own data before using it in a critical environment. Remember that de-identification is almost never perfect, and that clinical text often contains other specific details that can link it to a specific person. Be aware that de-identification should primarily be viewed as a way to mitigate risk of identification, rather than a way to obtain anonymous data.
 
 Currently, `deduce` can remove the following types of Protected Health Information (PHI):
 
-* Person names, including prefixes and initials
-* Geographical locations smaller than a country
-* Names of hospitals and healthcare institutions
-* Dates (combinations of day, month and year)
-* Ages
-* BSN numbers
-* Identifiers (7+ digits without a specific format, e.g. patient identifiers, AGB, BIG)
-* Telephone numbers
-* E-mail addresses 
-* URLs
+* :bust_in_silhouette: person names, including prefixes and initials
+* :earth_americas: geographical locations smaller than a country
+* :hospital: names of hospitals and healthcare institutions
+* :calendar: dates (combinations of day, month and year)
+* :birthday: ages
+* :1234: BSN numbers
+* :1234: identifiers (7+ digits without a specific format, e.g. patient identifiers, AGB, BIG)
+* :phone: phone numbers
+* :e-mail: e-mail addresses 
+* :link: URLs
 
 ## Citing
 
@@ -90,12 +90,12 @@ AnnotationSet({
 
 print(doc.deidentified_text)
 
-"""betreft: <PERSOON-1>, bsn <BSN-1>, patnr <ID-1>. De <PERSOON-1> is <LEEFTIJD-1> jaar oud en woonachtig in 
-<LOCATIE-1>. Hij werd op <DATUM-1> door arts <PERSOON-2> ontslagen van de kliniek van het <INSTELLING-1>. 
-Voor nazorg kan hij worden bereikt via <EMAIL-1> of <TELEFOONNUMMER-1>."""
+"""betreft: [PERSOON-1], bsn [BSN-1], patnr [ID-1]. De [PERSOON-1] is [LEEFTIJD-1] jaar oud en woonachtig in 
+[LOCATIE-1]. Hij werd op [DATUM-1] door arts [PERSOON-2] ontslagen van de kliniek van het [INSTELLING-1]. 
+Voor nazorg kan hij worden bereikt via [EMAIL-1] of [TELEFOONNUMMER-1]."""
 ```
 
-Aditionally, if the names of the patient are known, they may be added as `metadata`, where they will be picked up by `deduce`:
+Additionally, if the names of the patient are known, they may be added as `metadata`, where they will be picked up by `deduce`:
 
 ```python
 from deduce.person import Person
@@ -105,12 +105,12 @@ doc = deduce.deidentify(text, metadata={'patient': patient})
 
 print (doc.deidentified_text)
 
-"""betreft: <PATIENT>, bsn <BSN-1>, patnr <ID-1>. De <PATIENT> is <LEEFTIJD-1> jaar oud en woonachtig in 
-<LOCATIE-1>. Hij werd op <DATUM-1> door arts <PERSOON-2> ontslagen van de kliniek van het <INSTELLING-1>. 
-Voor nazorg kan hij worden bereikt via <EMAIL-1> of <TELEFOONNUMMER-1>."""
+"""betreft: [PATIENT], bsn [BSN-1], patnr [ID-1]. De [PATIENT] is [LEEFTIJD-1] jaar oud en woonachtig in 
+[LOCATIE-1]. Hij werd op [DATUM-1] door arts [PERSOON-2] ontslagen van de kliniek van het [INSTELLING-1]. 
+Voor nazorg kan hij worden bereikt via [EMAIL-1] of [TELEFOONNUMMER-1]."""
 ```
 
-As you can see, adding known names keeps references to `<PATIENT>` in text. It also increases recall, as not all known names are contained in the lookup lists. 
+As you can see, adding known names keeps references to `[PATIENT]` in text. It also increases recall, as not all known names are contained in the lookup lists. 
 
 <!-- end getting started -->
 
