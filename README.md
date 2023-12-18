@@ -14,9 +14,11 @@
 <!-- start include in docs -->
 
 * :sparkles: Remove sensitive information from clinical text written in Dutch
-* :mag: Rule based logic for detecting names, locations, institutions, dates, ages, identifiers, phone numbers and email/urls
+* :mag: Rule based logic for detecting e.g. names, locations, institutions, identifiers, phone numbers and urls
 * :triangular_ruler: Useful out of the box, but customization higly recommended
 * :seedling: Originally validated in [Menger et al. (2017)](http://www.sciencedirect.com/science/article/pii/S0736585316307365), but further optimized since
+
+> :high_brightness: Deduce is useful out of the box, but please validate and customize on your own data before using it in a critical environment. Remember that de-identification is almost never perfect, and that clinical text often contains other specific details that can link it to a specific person. Be aware that de-identification should primarily be viewed as a way to mitigate risk of identificaiton, rather than a way to obtain anonymous data.
 
 Currently, `deduce` can remove the following types of Protected Health Information (PHI):
 
@@ -30,8 +32,6 @@ Currently, `deduce` can remove the following types of Protected Health Informati
 * Telephone numbers
 * E-mail addresses 
 * URLs
-
-> :warning: Deduce is useful out of the box, but please validate and customize on your own data before using it in a critical environment. Remember that de-identification is almost never perfect, and that clinical text often contains other specific details that can link it to a specific person. Be aware that de-identification should primarily be viewed as a way to mitigate risk of identificaiton, rather than a way to obtain anonymous data.  
 
 ## Citing
 
@@ -141,4 +141,4 @@ For setting up the dev environment and contributing guidelines, see: [docs/contr
 
 ## License
 
-This project is licensed under the GNU LGPLv3 license - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE.md](LICENSE.md) file for details
