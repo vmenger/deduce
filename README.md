@@ -31,7 +31,7 @@ Currently, `deduce` can remove the following types of Protected Health Informati
 * E-mail addresses 
 * URLs
 
-> :warning: Deduce is useful out of the box, but please validate and customize on your own data before using it in a critical environment. Remember that de-identification is almost never perfect, and that clinical text often contains other specific details that can link it to a specific person. Be aware that de-identification should primarily be viewed as a way to migigate risk of identificaiton, rather than a way to obtain anonymous data.  
+> :warning: Deduce is useful out of the box, but please validate and customize on your own data before using it in a critical environment. Remember that de-identification is almost never perfect, and that clinical text often contains other specific details that can link it to a specific person. Be aware that de-identification should primarily be viewed as a way to mitigate risk of identificaiton, rather than a way to obtain anonymous data.  
 
 ## Citing
 
@@ -127,9 +127,7 @@ Detailed versioning information is accessible in the [changelog](CHANGELOG.md).
 
 ## Documentation
 
-A more extensive tutorial on using, configuring and modifying `deduce` is available at: [docs/tutorial](https://deduce.readthedocs.io/en/latest/tutorial.html) 
-
-Basic documentation and API are available at: [docs](https://deduce.readthedocs.io/en/latest/)
+All documentation, including a more extensive tutorial on using, configuring and modifying `deduce`, and its API, is available at: [docs/tutorial](https://deduce.readthedocs.io/en/latest/) 
 
 ## Contributing
 
