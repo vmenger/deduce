@@ -184,6 +184,15 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
 
         return dd.process.MultiTokenLookupAnnotator(**args)
 
+    @deprecated(
+        "The multi_token annotatortype is deprecated and will be removed in a "
+        "future version. Please set annotator_type field to "
+        "docdeid.process.MultiTokenAnnotator. See "
+        "https://github.com/vmenger/deduce/blob/main/base_config.json for examples."
+    )
+    def _get_multi_token_annotator_old(self, *args, **kwargs) -> dd.process.Annotator:
+        return self._get_multi_token_annotator(*args, **kwargs)
+
     @staticmethod
     @deprecated(
         "The token_pattern annotatortype is deprecated and will be removed in "
@@ -302,7 +311,8 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
     ) -> dd.process.DocProcessorGroup:
 
         annotator_creators = {
-            "multi_token": self._get_multi_token_annotator,
+            "docdeid.process.MultiTokenAnnotator": self._get_multi_token_annotator,
+            "multi_token": self._get_multi_token_annotator_old,
             "token_pattern": self._get_token_pattern_annotator,
             "dd_token_pattern": self._get_dd_token_pattern_annotator,
             "annotation_context": self._get_context_annotator,

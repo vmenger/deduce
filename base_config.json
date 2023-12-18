@@ -147,7 +147,7 @@
       }
     },
     "first_name_lookup": {
-      "annotator_type": "multi_token",
+      "annotator_type": "docdeid.process.MultiTokenAnnotator",
       "group": "names",
       "args": {
         "tag": "voornaam",
@@ -156,7 +156,7 @@
       }
     },
     "surname_lookup": {
-      "annotator_type": "multi_token",
+      "annotator_type": "docdeid.process.MultiTokenAnnotator",
       "group": "names",
       "args": {
         "tag": "achternaam",
@@ -307,7 +307,7 @@
       }
     },
     "eponymous_disease": {
-      "annotator_type": "multi_token",
+      "annotator_type": "docdeid.process.MultiTokenAnnotator",
       "group": "names",
       "args": {
         "lookup_values": "eponymous_disease",
@@ -316,7 +316,7 @@
       }
     },
     "placename": {
-      "annotator_type": "multi_token",
+      "annotator_type": "docdeid.process.MultiTokenAnnotator",
       "group": "locations",
       "args": {
         "lookup_values": "placename",
@@ -338,7 +338,7 @@
       }
     },
     "street_lookup": {
-      "annotator_type": "multi_token",
+      "annotator_type": "docdeid.process.MultiTokenAnnotator",
       "group": "locations",
       "args": {
         "lookup_values": "street",
@@ -417,7 +417,7 @@
       }
     },
     "hospital": {
-      "annotator_type": "multi_token",
+      "annotator_type": "docdeid.process.MultiTokenAnnotator",
       "group": "institutions",
       "args": {
         "lookup_values": "hospital",
@@ -426,7 +426,7 @@
       }
     },
     "institution": {
-      "annotator_type": "multi_token",
+      "annotator_type": "docdeid.process.MultiTokenAnnotator",
       "group": "institutions",
       "args": {
         "lookup_values": "healthcare_institution",
