@@ -311,7 +311,7 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
     ) -> dd.process.DocProcessorGroup:
 
         annotator_creators = {
-            "docdeid.process.MultiTokenLookupAnnotator": self._get_multi_token_annotator,
+            "docdeid.process.MultiTokenLookupAnnotator": self._get_multi_token_annotator,  # noqa: E501, pylint: disable=C0301
             "multi_token": self._get_multi_token_annotator_old,
             "token_pattern": self._get_token_pattern_annotator,
             "dd_token_pattern": self._get_dd_token_pattern_annotator,
