@@ -13,22 +13,28 @@ Before starting, some things to consider:
 * This project uses poetry for package management. Install it with ```pip install poetry```
 * Set up the environment is easy, just use ```poetry install```
 * The makefile contains some useful commands when developing:
-  * `make test` runs the tests (including coverage)
   * `make format` formats the package code
   * `make lint` runs the linters (check the output)
   * `make clean` removes build/test artifacts, etc
 * And for docs:
   * `make build-docs` builds the docs
-  * `make clean-docs` removes docs build
+
+## Runing the tests
+
+```bash
+pytest .
+```
 
 ## PR checlist
 
 * Verify that tests are passing
 * Verify that tests are updated/added according to changes
 * Run the formatters (`make format`)
-* Run the linters (`make lint`) and check the output for anything preventable
+* Run the linters (`make lint`)
 * Add a section to the changelog
 * Add a description to your PR
+
+If all the steps above are followed, this ensures a quick review and release of your contribution. 
 
 ## Releasing
 * Readthedocs has a webhook connected to pushes on the main branch. It will trigger and update automatically. 
