@@ -10,6 +10,7 @@ lint:
 build-docs:
 	sphinx-apidoc --module-first --force --templatedir=docs/templates -o docs/source/api deduce
 	sphinx-build docs/source docs/_build/html -c docs/
+	python docs/emojize.py docs/_build/html
 
 clean:
 	rm -rf .coverage
