@@ -6,11 +6,9 @@ from frozendict import frozendict
 
 
 class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
-    """
-    Merge adjacent tags, according to deduce logic: adjacent annotations with mixed
-    patient/person tags are replaced with a patient annotation, in other cases
-    only annotations with equal tags are considered adjacent.
-    """
+    """Merge adjacent tags, according to deduce logic: adjacent annotations with mixed
+    patient/person tags are replaced with a patient annotation, in other cases only
+    annotations with equal tags are considered adjacent."""
 
     def _tags_match(self, left_tag: str, right_tag: str) -> bool:
         """
