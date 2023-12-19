@@ -27,7 +27,7 @@ The `Annotator` is responsible for tagging pieces of information in the text as 
 |                 | interfix_with_name   | `deduce.annotator.TokenPatternAnnotator`    | Matches an interfix followed by something that resembles a name                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 |                 | initial_with_name    | `deduce.annotator.TokenPatternAnnotator`    | Matches an initial followed by something that resembles a name                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 |                 | initial_interfix     | `deduce.annotator.TokenPatternAnnotator`    | Matches an initial followed by an interfix and something that resembles a name                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-|                 | first_name_lookup    | `docdeid.process.MultiTokenLookupAnnotator` | Lookup based on first names Voornamenbank (Meertens Instituut)                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+|                 | first_name_lookup    | `docdeid.process.MultiTokenLookupAnnotator` | Lookup based on first names from Voornamenbank (Meertens Instituut)                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 |                 | surname_lookup       | `docdeid.process.MultiTokenLookupAnnotator` | Lookup based on surnames from Familienamenbank (Meertens Instituut)                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 |                 | patient_name         | `deduce.annotator.PatientNameAnnotator`     | Custom logic to match patient name, if supplied in document metadata                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 |                 | name_context         | `deduce.annotator.ContextAnnotator`         | Matches names based on annotations found above, with the following context patterns:  `interfix_right`: An interfix and something that resembles a name, when preceded by a detected initial or name `initial_left`: An initial, when followed by a detected initial, name or interfix `naam_left`: Something that resembles a name, when followed by a name `naam_right`: Something that resembles a name, when preceded by a name `prefix_left`: A prefix, when followed by a prefix, initial, name or interfix |
@@ -64,7 +64,7 @@ In addition to annotators, a `docdeid` de-identifier contains annotation process
 | clean_street_tags           | locations       | Cleans up street tags, e.g. straat+huisnummer -> locatie                                              |
 | overlap_resolver            | post_processing | Makes sure overlap among annotations is resolved.                                                     |
 | merge_adjacent_annotations  | post_processing | If there are any adjacent annotations with the same tag, they are merged into a single annotation.    |
-| redactor                    | post_processing | Takes care of replacing the annotated PHIs with `<TAG>` (e.g. `<LOCATION-1>`, `<DATE-2>`)             |
+| redactor                    | post_processing | Takes care of replacing the annotated PHIs with `[TAG]` (e.g. `[LOCATION-1]`, `[DATE-2]`)             |
 
 ### Lookup sets
 
@@ -115,22 +115,22 @@ Note that you will now miss out on any updates to the base config that are packa
 
 ### Using `disabled` keyword to disable components
 
-It's possible to disable specific (groups of) annotators or processors when deidentifying a text. For example, to apply all annotators, except those in the dates group: 
+It's possible to disable specific (groups of) annotators or processors when deidentifying a text. For example, to apply all annotators, except those in the identifiers group: 
 
 ```python
 from deduce import Deduce
 
 deduce = Deduce()
-deduce.deidentify(text, disabled={'dates'})
+deduce.deidentify(text, disabled={'identifiers'})
 ```
 
-Or, to disable one specific URL annotator in the URLs group, but keeping the other URL patterns:
+Or, to disable one specific date annotator in the dates group, but keeping the other date patterns:
 
 ```python
 from deduce import Deduce
 
 deduce = Deduce()
-deduce.deidentify("text", disabled={'urls_1'})
+deduce.deidentify("text", disabled={'date_dmy_1'})
 ```
 
 ### Using `enabled` keyword
@@ -225,7 +225,7 @@ deduce.lookup_structs['institutions'].add_items_from_iterable(["verzorgingstehui
 
 Full documentation on sets and tries, and how to modify them, is available in the [docdeid API](https://docdeid.readthedocs.io/en/latest/api/docdeid.ds.html#docdeid.ds.lookup.LookupSet).
 
-Larger changes may also be made by copying the source files and modifying them directly, by pointing deduce to the directory with modified sources:
+Larger changes may also be made by copying the source files and modifying them directly, by pointing `deduce` to the directory with modified sources:
 
 ```python
 from deduce import Deduce
@@ -233,4 +233,4 @@ from deduce import Deduce
 deduce = Deduce(lookup_data_path="/my/path")
 ```
 
-It's important to copy the directory, or your changes will be overwritten with the next `deduce` update. Currently, there is no additional documentation available on how to structure and transform the lookup items in the directory, other than inspecting the pre-packaged files. Also remember that any updates to lookup values in next releases of Deduce will not be applied if `deduce` loads items from a copy.
+It's important to copy the directory, or your changes will be overwritten with the next `deduce` update. Currently, there is no additional documentation available on how to structure and transform the lookup items in the directory, other than inspecting the pre-packaged files. Also remember that any updates to lookup values in next releases of Deduce will not be applied if `deduce` loads items from a copy, differences need to be tracked manually with each release.
