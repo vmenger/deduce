@@ -1,0 +1,136 @@
+{
+    "examples": [
+        {
+            "id": 0,
+            "text": "een-afdeling@prinsesmaximacentrum.nl",
+            "annotations": [
+                {
+                    "text": "een-afdeling@prinsesmaximacentrum.nl",
+                    "start_char": 0,
+                    "end_char": 36,
+                    "tag": "emailadres"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "text": "poli-specialisme@umcutrecht.nl",
+            "annotations": [
+                {
+                    "text": "poli-specialisme@umcutrecht.nl",
+                    "start_char": 0,
+                    "end_char": 30,
+                    "tag": "emailadres"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "text": "Mail naar ditmailadres@umcutrecht.nl",
+            "annotations": [
+                {
+                    "text": "ditmailadres@umcutrecht.nl",
+                    "start_char": 10,
+                    "end_char": 36,
+                    "tag": "emailadres"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "text": "ABC@umcutrecht.nl",
+            "annotations": [
+                {
+                    "text": "ABC@umcutrecht.nl",
+                    "start_char": 0,
+                    "end_char": 17,
+                    "tag": "emailadres"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "text": "Poli.Opname@umcutrecht.nl",
+            "annotations": [
+                {
+                    "text": "Poli.Opname@umcutrecht.nl",
+                    "start_char": 0,
+                    "end_char": 25,
+                    "tag": "emailadres"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "text": "Van persoon@gmail.com een e-mail ontvangen",
+            "annotations": [
+                {
+                    "text": "persoon@gmail.com",
+                    "start_char": 4,
+                    "end_char": 21,
+                    "tag": "emailadres"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "text": "a.b.c.naam@umcutrecht.nl",
+            "annotations": [
+                {
+                    "text": "a.b.c.naam@umcutrecht.nl",
+                    "start_char": 0,
+                    "end_char": 24,
+                    "tag": "emailadres"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "text": "a.b.c.naam-12@umcutrecht.nl",
+            "annotations": [
+                {
+                    "text": "a.b.c.naam-12@umcutrecht.nl",
+                    "start_char": 0,
+                    "end_char": 27,
+                    "tag": "emailadres"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "text": "A.B.C.Naam@umcutrecht.nl",
+            "annotations": [
+                {
+                    "text": "A.B.C.Naam@umcutrecht.nl",
+                    "start_char": 0,
+                    "end_char": 24,
+                    "tag": "emailadres"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "text": "henk1993@outlook.com",
+            "annotations": [
+                {
+                    "text": "henk1993@outlook.com",
+                    "start_char": 0,
+                    "end_char": 20,
+                    "tag": "emailadres"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "text": "achternaam_voornaam@gmail.com",
+            "annotations": [
+                {
+                    "text": "achternaam_voornaam@gmail.com",
+                    "start_char": 0,
+                    "end_char": 29,
+                    "tag": "emailadres"
+                }
+            ]
+        }
+    ]
+}

@@ -1,28 +1,18 @@
 import importlib
+import inspect
+import json
 import re
-from typing import Any, Optional
+from pathlib import Path
+from typing import Optional
 
+import docdeid as dd
+from docdeid import Tokenizer
 from rapidfuzz.distance import DamerauLevenshtein
-
-
-def any_in_text(match_list: list[str], term: str) -> bool:
-    """
-    Check if any of the strings in matchlist are in the term.
-
-    Args:
-        match_list: A list of strings to match.
-        term: A string to match against.
-
-    Returns:
-        ``True`` if any of the terms in match list are contained in the term,
-        ``False`` otherwise.
-    """
-    return any(m in term for m in match_list)
 
 
 def str_match(str_1: str, str_2: str, max_edit_distance: Optional[int] = None) -> bool:
     """
-    Match two strings.
+    Match two strings, potentially in a fuzzy way.
 
     Args:
         str_1: The first string.
@@ -42,7 +32,7 @@ def str_match(str_1: str, str_2: str, max_edit_distance: Optional[int] = None) -
     return str_1 == str_2
 
 
-def class_for_name(module_name: str, class_name: str) -> Any:
+def class_for_name(module_name: str, class_name: str) -> type:
     """
     Will import and return the class by name.
 
@@ -58,26 +48,27 @@ def class_for_name(module_name: str, class_name: str) -> Any:
     return getattr(module, class_name)
 
 
-def import_and_initialize(args: dict, extras: dict) -> Any:
+def initialize_class(cls: type, args: dict, extras: dict) -> object:
     """
-    Import and initialize a module as defined in the args config. This dictionary should
-    contain a ``module`` and ``class`` key, which is imported. Any other arguments in
-    args are passed to the class initializer. Any items in extras are passed to the
-    class initializer if they are present.
+    Initialize a class. Any arguments in args are passed to the class initializer. Any
+    items in extras are passed to the class initializer if they are present.
 
     Args:
+        cls: The class to initialze.
         args: The arguments to pass to the initalizer.
         extras: A superset of arguments that should be passed to the initializer.
         Will be checked against the class.
 
     Returns:
-        An instantiated class, with the relevant argumetns and extras.
+        An instantiated class, with the relevant arguments and extras.
     """
 
-    cls = class_for_name(args.pop("module"), args.pop("class"))
+    cls_params = inspect.signature(cls).parameters
 
     for arg_name, arg in extras.items():
-        if arg_name in cls.__init__.__code__.co_varnames:
+
+        if arg_name in cls_params:
+
             args[arg_name] = arg
 
     return cls(**args)
@@ -128,11 +119,12 @@ def repl_segments(s: str, matches: list[tuple]) -> list[list[str]]:
     Args:
         s: The input string.
         matches: A list of matches, consisting of a tuple with start- and end char,
-        followed by a list of options for that substring, e.g.
-        (5, 8, ["Mr.", "Meester"]).
+            followed by a list of options for that substring, e.g.
+            (5, 8, ["Mr.", "Meester"]).
 
-    Returns: A list of options that together sgement the entire string, e.g. [["Prof.",
-    "Professor"], [" "], ["Meester", "Mr."], [" Lievenslaan"]].
+    Returns:
+        A list of options that together segement the entire string, e.g. [["Prof.",
+        "Professor"], [" "], ["Meester", "Mr."], [" Lievenslaan"]].
     """
 
     if len(matches) == 0:
@@ -199,3 +191,93 @@ def str_variations(s: str, repl: dict[str, list[str]]) -> list[str]:
         variations = new_variations
 
     return variations
+
+
+def apply_transform(items: set[str], transform_config: dict) -> set[str]:
+    """
+    Applies a transformation to a set of items.
+
+    Args:
+        items: The input items.
+        transform_config: The transformation, including configuration (see
+        transform.json for examples).
+
+    Returns: The transformed items.
+    """
+
+    strip_lines = transform_config.get("strip_lines", True)
+    transforms = transform_config.get("transforms", {})
+
+    for _, transform in transforms.items():
+
+        to_add = []
+
+        for item in items:
+            to_add += str_variations(item, transform)
+
+        items.update(to_add)
+
+    if strip_lines:
+        items = {i.strip() for i in items}
+
+    return items
+
+
+def optional_load_items(path: Path) -> Optional[set[str]]:
+    """
+    Load items (lines) from a textfile, returning None if file does not exist.
+
+    Args:
+        path: The full path to the file.
+
+    Returns: The lines of the file as a set if the file exists, None otherwise.
+    """
+
+    try:
+        with open(path, "r", encoding="utf-8") as file:
+            items = {line.strip() for line in file.readlines()}
+    except FileNotFoundError:
+        return None
+
+    return items
+
+
+def optional_load_json(path: Path) -> Optional[dict]:
+    """
+    Load json, returning None if file does not exist.
+
+    Args:
+        path: The full path to the file.
+
+    Returns: The json data as a dict if the file exists, None otherwise.
+    """
+
+    try:
+        with open(path, "r", encoding="utf-8") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        return None
+
+    return data
+
+
+def lookup_set_to_trie(
+    lookup_set: dd.ds.LookupSet, tokenizer: Tokenizer
+) -> dd.ds.LookupTrie:
+    """
+    Converts a LookupSet into an equivalent LookupTrie.
+
+    Args:
+        lookup_set: The input LookupSet
+        tokenizer: The tokenizer used to create sequences
+
+    Returns: A LookupTrie with the same items and matching pipeline as the
+    input LookupSet.
+    """
+
+    trie = dd.ds.LookupTrie(matching_pipeline=lookup_set.matching_pipeline)
+
+    for item in lookup_set.items():
+        trie.add_item([token.text for token in tokenizer.tokenize(item)])
+
+    return trie

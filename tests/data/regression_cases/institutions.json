@@ -1,0 +1,814 @@
+{
+    "examples": [
+        {
+            "id": 0,
+            "text": "UMC Utrecht",
+            "annotations": [
+                {
+                    "text": "UMC Utrecht",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "text": "UMC UTRECHT",
+            "annotations": [
+                {
+                    "text": "UMC UTRECHT",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "text": "UMCU",
+            "annotations": [
+                {
+                    "text": "UMCU",
+                    "start_char": 0,
+                    "end_char": 4,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "text": "Utrecht",
+            "annotations": []
+        },
+        {
+            "id": 4,
+            "text": "Academisch Ziekenhuis Utrecht",
+            "annotations": [
+                {
+                    "text": "Academisch Ziekenhuis Utrecht",
+                    "start_char": 0,
+                    "end_char": 29,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "text": "ACADEMISCH ZIEKENHUIS UTRECHT",
+            "annotations": [
+                {
+                    "text": "ACADEMISCH ZIEKENHUIS UTRECHT",
+                    "start_char": 0,
+                    "end_char": 29,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "text": "AZU",
+            "annotations": [
+                {
+                    "text": "AZU",
+                    "start_char": 0,
+                    "end_char": 3,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "text": "Prinses Maxima Centrum",
+            "annotations": [
+                {
+                    "text": "Prinses Maxima Centrum",
+                    "start_char": 0,
+                    "end_char": 22,
+                    "tag": "ziekenhuis"
+                },
+                {
+                    "text": "Maxima",
+                    "start_char": 8,
+                    "end_char": 14,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "text": "Prinses M\u00e1xima Centrum",
+            "annotations": [
+                {
+                    "text": "Prinses M\u00e1xima Centrum",
+                    "start_char": 0,
+                    "end_char": 22,
+                    "tag": "ziekenhuis"
+                },
+                {
+                    "text": "M\u00e1xima",
+                    "start_char": 8,
+                    "end_char": 14,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "text": "PMC",
+            "annotations": [
+                {
+                    "text": "PMC",
+                    "start_char": 0,
+                    "end_char": 3,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "text": "Wilhelmina Kinderziekenhuis",
+            "annotations": [
+                {
+                    "text": "Wilhelmina Kinderziekenhuis",
+                    "start_char": 0,
+                    "end_char": 27,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "text": "WKZ",
+            "annotations": [
+                {
+                    "text": "WKZ",
+                    "start_char": 0,
+                    "end_char": 3,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "text": "Centraal Militair Hospitaal",
+            "annotations": [
+                {
+                    "text": "Militair Hospitaal",
+                    "start_char": 9,
+                    "end_char": 27,
+                    "tag": "ziekenhuis"
+                },
+                {
+                    "text": "Centraal Militair Hospitaal",
+                    "start_char": 0,
+                    "end_char": 27,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "text": "CMH",
+            "annotations": [
+                {
+                    "text": "CMH",
+                    "start_char": 0,
+                    "end_char": 3,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "text": "Meander Medisch Centrum",
+            "annotations": [
+                {
+                    "text": "Meander Medisch Centrum",
+                    "start_char": 0,
+                    "end_char": 23,
+                    "tag": "ziekenhuis"
+                },
+                {
+                    "text": "Meander",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "text": "Meander",
+            "annotations": [
+                {
+                    "text": "Meander",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "ziekenhuis"
+                },
+                                {
+                    "text": "Meander",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "zorginstelling"
+                }
+
+            ]
+        },
+        {
+            "id": 16,
+            "text": "MMC",
+            "annotations": [
+                {
+                    "text": "MMC",
+                    "start_char": 0,
+                    "end_char": 3,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 17,
+            "text": "Sint Antoniusziekenhuis",
+            "annotations": [
+                {
+                    "text": "Antoniusziekenhuis",
+                    "start_char": 5,
+                    "end_char": 23,
+                    "tag": "ziekenhuis"
+                },
+                {
+                    "text": "Sint Antoniusziekenhuis",
+                    "start_char": 0,
+                    "end_char": 23,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "text": "Sint Antonius",
+            "annotations": [
+                {
+                    "text": "Antonius",
+                    "start_char": 5,
+                    "end_char": 13,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "text": "St. Antonius",
+            "annotations": [
+                {
+                    "text": "Antonius",
+                    "start_char": 4,
+                    "end_char": 12,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 20,
+            "text": "Ziekenhuis",
+            "annotations": []
+        },
+        {
+            "id": 21,
+            "text": "Centrum",
+            "annotations": []
+        },
+        {
+            "id": 22,
+            "text": "Medisch Centrum",
+            "annotations": []
+        },
+        {
+            "id": 23,
+            "text": "Zkh",
+            "annotations": []
+        },
+        {
+            "id": 24,
+            "text": "Isala",
+            "annotations": [
+                {
+                    "text": "Isala",
+                    "start_char": 0,
+                    "end_char": 5,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 25,
+            "text": "Isala ziekenhuis",
+            "annotations": [
+                {
+                    "text": "Isala ziekenhuis",
+                    "start_char": 0,
+                    "end_char": 16,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 26,
+            "text": "Isala kliniek",
+            "annotations": [
+                {
+                    "text": "Isala kliniek",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 27,
+            "text": "Erasmus Medisch Centrum",
+            "annotations": [
+                {
+                    "text": "Erasmus Medisch Centrum",
+                    "start_char": 0,
+                    "end_char": 23,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 28,
+            "text": "Erasmus MC",
+            "annotations": [
+                {
+                    "text": "Erasmus MC",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 29,
+            "text": "Het Lange Land Ziekenhuis",
+            "annotations": [
+                {
+                    "text": "Lange Land Ziekenhuis",
+                    "start_char": 4,
+                    "end_char": 25,
+                    "tag": "ziekenhuis"
+                },
+                {
+                    "text": "Het Lange Land Ziekenhuis",
+                    "start_char": 0,
+                    "end_char": 25,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 30,
+            "text": "'t Lange Land Ziekenhuis",
+            "annotations": [
+                {
+                    "text": "'t Lange Land Ziekenhuis",
+                    "start_char": 0,
+                    "end_char": 24,
+                    "tag": "ziekenhuis"
+                },
+                {
+                    "text": "Lange Land Ziekenhuis",
+                    "start_char": 3,
+                    "end_char": 24,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 31,
+            "text": "Academisch Ziekenhuis Nymegen",
+            "annotations": [
+                {
+                    "text": "Academisch Ziekenhuis Nymegen",
+                    "start_char": 0,
+                    "end_char": 29,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 32,
+            "text": "Alryne Ziekenhuis",
+            "annotations": [
+                {
+                    "text": "Alryne Ziekenhuis",
+                    "start_char": 0,
+                    "end_char": 17,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 33,
+            "text": "Canisius-Wilhelmina Ziekenhuis",
+            "annotations": [
+                {
+                    "text": "Canisius-Wilhelmina Ziekenhuis",
+                    "start_char": 0,
+                    "end_char": 30,
+                    "tag": "ziekenhuis"
+                },
+                {
+                    "text": "Wilhelmina Ziekenhuis",
+                    "start_char": 9,
+                    "end_char": 30,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 34,
+            "text": "Canisius Wilhelmina Ziekenhuis",
+            "annotations": [
+                {
+                    "text": "Canisius Wilhelmina Ziekenhuis",
+                    "start_char": 0,
+                    "end_char": 30,
+                    "tag": "ziekenhuis"
+                },
+                {
+                    "text": "Wilhelmina Ziekenhuis",
+                    "start_char": 9,
+                    "end_char": 30,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 35,
+            "text": "P.W. Janssen Ziekenhuis",
+            "annotations": [
+                {
+                    "text": "P.W. Janssen Ziekenhuis",
+                    "start_char": 0,
+                    "end_char": 23,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 36,
+            "text": "PW Janssen Ziekenhuis",
+            "annotations": [
+                {
+                    "text": "PW Janssen Ziekenhuis",
+                    "start_char": 0,
+                    "end_char": 21,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 37,
+            "text": "patient verwezen door het UMCU",
+            "annotations": [
+                {
+                    "text": "UMCU",
+                    "start_char": 26,
+                    "end_char": 30,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 38,
+            "text": "in UMCU eerder behandeld",
+            "annotations": [
+                {
+                    "text": "UMCU",
+                    "start_char": 3,
+                    "end_char": 7,
+                    "tag": "ziekenhuis"
+                }
+            ]
+        },
+        {
+            "id": 39,
+            "text": "MCH",
+            "annotations": []
+        },
+        {
+            "id": 40,
+            "text": "De Hoogstraat",
+            "annotations": [
+                {
+                    "text": "De Hoogstraat",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "zorginstelling"
+                },
+                {
+                    "text": "Hoogstraat",
+                    "start_char": 3,
+                    "end_char": 13,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 41,
+            "text": "Hoogstraat",
+            "annotations": [
+                {
+                    "text": "Hoogstraat",
+                    "start_char": 0,
+                    "end_char": 10,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 42,
+            "text": "De Hoogstraat Revalidatiecentrum",
+            "annotations": [
+                {
+                    "text": "De Hoogstraat",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "zorginstelling"
+                },
+                {
+                    "text": "Hoogstraat",
+                    "start_char": 3,
+                    "end_char": 13,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 43,
+            "text": "Altrecht",
+            "annotations": [
+                {
+                    "text": "Altrecht",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 44,
+            "text": "Altrecht Bipolair",
+            "annotations": [
+                {
+                    "text": "Altrecht Bipolair",
+                    "start_char": 0,
+                    "end_char": 17,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 45,
+            "text": "Cant\u00e9 praktijk voor Pedagogiek en Psychologie",
+            "annotations": [
+                {
+                    "text": "Cant\u00e9 praktijk voor Pedagogiek en Psychologie",
+                    "start_char": 0,
+                    "end_char": 45,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 46,
+            "text": "Cante praktijk voor Pedagogiek en Psychologie",
+            "annotations": [
+                {
+                    "text": "Cante praktijk voor Pedagogiek en Psychologie",
+                    "start_char": 0,
+                    "end_char": 45,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 47,
+            "text": "Careyn",
+            "annotations": [
+                {
+                    "text": "Careyn",
+                    "start_char": 0,
+                    "end_char": 6,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 48,
+            "text": "Careijn",
+            "annotations": [
+                {
+                    "text": "Careijn",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 49,
+            "text": "Aanzien",
+            "annotations": []
+        },
+        {
+            "id": 50,
+            "text": "Focus",
+            "annotations": []
+        },
+        {
+            "id": 51,
+            "text": "De Haven",
+            "annotations": []
+        },
+        {
+            "id": 52,
+            "text": "De Clinique",
+            "annotations": []
+        },
+        {
+            "id": 53,
+            "text": "Meeting",
+            "annotations": []
+        },
+        {
+            "id": 54,
+            "text": "Perspectief",
+            "annotations": []
+        },
+        {
+            "id": 55,
+            "text": "De verloskundige",
+            "annotations": []
+        },
+        {
+            "id": 56,
+            "text": "Compas Huisartsenpraktijk",
+            "annotations": [
+                {
+                    "text": "Compas Huisartsenpraktijk",
+                    "start_char": 0,
+                    "end_char": 25,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 57,
+            "text": "Compas huisartsenpraktijk",
+            "annotations": [
+                {
+                    "text": "Compas huisartsenpraktijk",
+                    "start_char": 0,
+                    "end_char": 25,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 58,
+            "text": "Compas Huisartspraktijk",
+            "annotations": [
+                {
+                    "text": "Compas Huisartspraktijk",
+                    "start_char": 0,
+                    "end_char": 23,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 59,
+            "text": "Compas huisartspraktijk",
+            "annotations": [
+                {
+                    "text": "Compas huisartspraktijk",
+                    "start_char": 0,
+                    "end_char": 23,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 60,
+            "text": "Zon en Schild",
+            "annotations": [
+                {
+                    "text": "Zon en Schild",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 61,
+            "text": "Daan & Van Ardenne Huisartsen",
+            "annotations": [
+                {
+                    "text": "Daan & Van Ardenne Huisartsen",
+                    "start_char": 0,
+                    "end_char": 29,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 62,
+            "text": "Daan en Van Ardenne Huisartsen",
+            "annotations": [
+                {
+                    "text": "Daan en Van Ardenne Huisartsen",
+                    "start_char": 0,
+                    "end_char": 30,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 63,
+            "text": "De Kind- en Jeugdspecialist",
+            "annotations": [
+                {
+                    "text": "De Kind- en Jeugdspecialist",
+                    "start_char": 0,
+                    "end_char": 27,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 64,
+            "text": "De Kind en Jeugdspecialist",
+            "annotations": [
+                {
+                    "text": "De Kind en Jeugdspecialist",
+                    "start_char": 0,
+                    "end_char": 26,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 65,
+            "text": "De Koperhorst",
+            "annotations": [
+                {
+                    "text": "De Koperhorst",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 66,
+            "text": "de Koperhorst",
+            "annotations": [
+                {
+                    "text": "de Koperhorst",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 67,
+            "text": "patient verwezen door Altrecht",
+            "annotations": [
+                {
+                    "text": "Altrecht",
+                    "start_char": 22,
+                    "end_char": 30,
+                    "tag": "zorginstelling"
+                }
+            ]
+        },
+        {
+            "id": 68,
+            "text": "bij Altrecht eerder behandeld",
+            "annotations": [
+                {
+                    "text": "Altrecht",
+                    "start_char": 4,
+                    "end_char": 12,
+                    "tag": "zorginstelling"
+                }
+            ]
+        }
+    ]
+}

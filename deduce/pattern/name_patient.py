@@ -1,10 +1,20 @@
+# pylint: disable=R0801
+# type: ignore
+
 from typing import Optional
 
 import docdeid as dd
+from deprecated import deprecated
 
 from deduce.utils import str_match
 
+DEPR_MESSAGE = (
+    "Detection of names from metadata has moved to "
+    "deduce.annotator.PersonNameAnnotator"
+)
 
+
+@deprecated(DEPR_MESSAGE)
 class PersonFirstNamePattern(dd.TokenPattern):
     """Matches the token against all of the patients first names as defined in
     the "patient" Person in the document metadata, with a max edit distance of
@@ -27,6 +37,7 @@ class PersonFirstNamePattern(dd.TokenPattern):
         return None
 
 
+@deprecated(DEPR_MESSAGE)
 class PersonInitialFromNamePattern(dd.TokenPattern):
     """
     Matches the first characters of the patients first names, as defined in the
@@ -54,6 +65,7 @@ class PersonInitialFromNamePattern(dd.TokenPattern):
         return None
 
 
+@deprecated(DEPR_MESSAGE)
 class PersonInitialsPattern(dd.TokenPattern):
     """Matches the patients initials, as defined in the "patient" Person in the document
     metadata."""

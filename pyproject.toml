@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "deduce"
-version = "2.5.0"
+version = "3.0.0"
 description = "Deduce: de-identification method for Dutch medical text"
 authors = ["Vincent Menger <vmenger@protonmail.com>"]
 maintainers = ["Vincent Menger <vmenger@protonmail.com>"]
@@ -19,7 +19,7 @@ classifiers = [
     "Topic :: Text Processing",
     "Topic :: Text Processing :: Linguistic",
 ]
-include = ["deduce-data/lookup_lists/**/*", "config.json"]
+include = ["config.json"]
 
 [tool.sphinx]
 author = "Vincent Menger"
@@ -27,8 +27,10 @@ author = "Vincent Menger"
 [tool.poetry.dependencies]
 python = "^3.9"
 rapidfuzz = "^2.11.1"
-docdeid = "0.1.10"
+docdeid = "1.0.0"
 regex = "^2022.9.13"
+frozendict = "^2.3.10"
+deprecated = "^1.2.14"
 
 [tool.poetry.group.dev]
 optional = false
@@ -49,6 +51,7 @@ toml = "^0.10.2"
 sphinx = "^5.3.0"
 myst-parser = "^0.18.1"
 karma-sphinx-theme = "^0.0.8"
+emoji = "^2.9.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

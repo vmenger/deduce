@@ -1,0 +1,712 @@
+{
+  "transforms": {
+    "prefix": {
+      "\\bAbraham\\b": [
+        "Abraham",
+        "Abr.",
+        "abr."
+      ],
+      "\\bAdmiraal\\b": [
+        "Admiraal",
+        "Adm.",
+        "adm."
+      ],
+      "\\bAlbert\\b": [
+        "Albert",
+        "Alb.",
+        "alb."
+      ],
+      "\\bBurgemeester\\b": [
+        "Burgemeester",
+        "Burg.",
+        "burg."
+      ],
+      "\\bChris\\b": [
+        "Chris",
+        "Chr.",
+        "chr."
+      ],
+      "\\bCommissaris\\b": [
+        "Commissaris",
+        "Comm.",
+        "comm."
+      ],
+      "\\bDominee\\b": [
+        "Dominee",
+        "Ds.",
+        "ds."
+      ],
+      "\\bDoctor\\b": [
+        "Doctor",
+        "Dr.",
+        "dr."
+      ],
+      "\\bDokter\\b": [
+        "Dokter",
+        "Dr.",
+        "dr."
+      ],
+      "\\bDoctorandus\\b": [
+        "Doctorandus",
+        "Drs.",
+        "drs."
+      ],
+      "\\bFamilie\\b": [
+        "Familie",
+        "Fam.",
+        "fam."
+      ],
+      "\\bGebroeders\\b": [
+        "Gebroeders",
+        "Gebr.",
+        "gebr.",
+        "Gebrs.",
+        "gebrs."
+      ],
+      "\\bGeneraal\\b": [
+        "Generaal",
+        "Gen.",
+        "gen."
+      ],
+      "\\bHertog\\b": [
+        "Hertog",
+        "Hert.",
+        "hert."
+      ],
+      "\\bIngenieur\\b": [
+        "Ingenieur",
+        "Ir.",
+        "ir.",
+        "Ing.",
+        "ing."
+      ],
+      "\\bJacobus\\b": [
+        "Jacobus",
+        "Jac.",
+        "jac."
+      ],
+      "\\bJacob\\b": [
+        "Jacobus",
+        "Jac.",
+        "jac."
+      ],
+      "\\bJacqueline\\b": [
+        "Jacqueline",
+        "Jacq.",
+        "jacq."
+      ],
+      "\\bJonkhkeer\\b": [
+        "Jonkhkeer",
+        "Jhr.",
+        "jhr."
+      ],
+      "\\bJonkvrouw\\b": [
+        "Jonkvrouw",
+        "Jkvr.",
+        "jkvr."
+      ],
+      "\\bJohan\\b": [
+        "Johan",
+        "Joh.",
+        "joh."
+      ],
+      "\\bKardinaal\\b": [
+        "Kardinaal",
+        "Kard.",
+        "kard."
+      ],
+      "\\bKolonel\\b": [
+        "Kolonel",
+        "Kol.",
+        "kol."
+      ],
+      "\\bKoningin\\b": [
+        "Koningin",
+        "Kon.",
+        "kon."
+      ],
+      "\\bKoning\\b": [
+        "Koning",
+        "Kon.",
+        "kon."
+      ],
+      "\\bMajoor\\b": [
+        "Majoor",
+        "Maj.",
+        "maj."
+      ],
+      "\\bMevrouw\\b": [
+        "Mevrouw",
+        "Mevr.",
+        "mevr."
+      ],
+      "\\bMinister\\b": [
+        "Minister",
+        "Min.",
+        "min."
+      ],
+      "\\bMeester\\b": [
+        "Meester",
+        "Mr.",
+        "mr."
+      ],
+      "\\bMonseigneur\\b": [
+        "Monseigneur",
+        "Mgr.",
+        "mgr."
+      ],
+      "\\bPrinses\\b": [
+        "Prinses",
+        "Pr.",
+        "pr."
+      ],
+      "\\bProfessor\\b": [
+        "Professor",
+        "Prof.",
+        "prof."
+      ],
+      "\\bRector\\b": [
+        "Rector",
+        "Rect.",
+        "rect."
+      ],
+      "\\bSecretaris\\b": [
+        "Secretaris",
+        "Secr.",
+        "secr."
+      ],
+      "\\bSenior\\b": [
+        "Senior",
+        "Sr.",
+        "sr."
+      ],
+      "\\bSint\\b": [
+        "Sint",
+        "sint",
+        "St.",
+        "st."
+      ],
+      "\\bTheo\\b": [
+        "Theo",
+        "Th.",
+        "th."
+      ],
+      "\\bVeldmaarschalk\\b": [
+        "Veldmaarschalk",
+        "Veldm.",
+        "Veldm"
+      ],
+      "\\bVicaris\\b": [
+        "Vicaris",
+        "Vic.",
+        "vic."
+      ],
+      "\\bZuster\\b": [
+        "Zuster",
+        "Zr.",
+        "zr."
+      ]
+    },
+    "prop": {
+      "\\baan\\b": [
+        "Aan",
+        "aan"
+      ],
+      "\\bachter\\b": [
+        "Achter",
+        "achter"
+      ],
+      "\\band\\b": [
+        "And",
+        "and"
+      ],
+      "\\bbie\\b": [
+        "Bie",
+        "bie"
+      ],
+      "\\bbij\\b": [
+        "Bij",
+        "bij"
+      ],
+      "\\bbinnenzijde\\b": [
+        "Binnenzijde",
+        "binnenzijde",
+        "BZ",
+        "Bz",
+        "bz"
+      ],
+      "\\bbuitenzijde\\b": [
+        "Buitenzijde",
+        "buitenzijde",
+        "BZ",
+        "Bz",
+        "bz"
+      ],
+      "\\bda\\b": [
+        "Da",
+        "da"
+      ],
+      "\\bde\\b": [
+        "De",
+        "de"
+      ],
+      "\\bdel\\b": [
+        "Del",
+        "del"
+      ],
+      "\\bden\\b": [
+        "Den",
+        "den"
+      ],
+      "\\bder\\b": [
+        "Der",
+        "der"
+      ],
+      "\\bdes\\b": [
+        "Des",
+        "des"
+      ],
+      "\\bdi\\b": [
+        "Di",
+        "di"
+      ],
+      "\\bdie\\b": [
+        "Die",
+        "die"
+      ],
+      "\\bdoor\\b": [
+        "Door",
+        "door"
+      ],
+      "\\bdu\\b": [
+        "Du",
+        "du"
+      ],
+      "\\bein\\b": [
+        "Ein",
+        "ein"
+      ],
+      "\\ben\\b": [
+        "En",
+        "en"
+      ],
+      "\\bfan\\b": [
+        "Fan",
+        "fan"
+      ],
+      "\\bge\\b": [
+        "Ge",
+        "ge"
+      ],
+      "\\bgen\\b": [
+        "Gen",
+        "gen"
+      ],
+      "\\bhet\\b": [
+        "Het",
+        "het",
+        "'T",
+        "'t",
+        "`T",
+        "`t",
+        "T",
+        "t"
+      ],
+      "\\bin\\b": [
+        "In",
+        "in"
+      ],
+      "\\bis\\b": [
+        "Is",
+        "is"
+      ],
+      "\\bit\\b": [
+        "It",
+        "it",
+        "Het",
+        "het",
+        "'T",
+        "'t",
+        "`T",
+        "`t",
+        "T",
+        "t"
+      ],
+      "\\bla\\b": [
+        "La",
+        "la"
+      ],
+      "\\blangs\\b": [
+        "Langs",
+        "langs"
+      ],
+      "\\ble\\b": [
+        "Le",
+        "le"
+      ],
+      "\\bnaar\\b": [
+        "Naar",
+        "naar"
+      ],
+      "\\bnabij\\b": [
+        "Nabij",
+        "nabij"
+      ],
+      "\\boan\\b": [
+        "Oan",
+        "oan"
+      ],
+      "\\bof\\b": [
+        "Of",
+        "of"
+      ],
+      "\\bom\\b": [
+        "Om",
+        "om"
+      ],
+      "\\bonder\\b": [
+        "Onder",
+        "onder"
+      ],
+      "\\bop\\b": [
+        "Op",
+        "op"
+      ],
+      "\\bover\\b": [
+        "Over",
+        "over"
+      ],
+      "\\bsur\\b": [
+        "Sur",
+        "sur"
+      ],
+      "\\bte\\b": [
+        "Te",
+        "te"
+      ],
+      "\\bten\\b": [
+        "Ten",
+        "ten"
+      ],
+      "\\bter\\b": [
+        "Ter",
+        "ter"
+      ],
+      "\\btot\\b": [
+        "Tot",
+        "tot"
+      ],
+      "\\btusschen\\b": [
+        "Tusschen",
+        "tusschen"
+      ],
+      "\\btussen\\b": [
+        "Tussen",
+        "tussen"
+      ],
+      "\\but\\b": [
+        "Ut",
+        "ut"
+      ],
+      "\\buten\\b": [
+        "Uten",
+        "uten"
+      ],
+      "\\bvan\\b": [
+        "Van",
+        "van",
+        "v.",
+        "V."
+      ],
+      "\\bvon\\b": [
+        "Von",
+        "von"
+      ],
+      "\\bvoor\\b": [
+        "Voor",
+        "voor"
+      ]
+    },
+    "windrichting": {
+      "\\bNoord$": [
+        "Noord",
+        "noord",
+        "N"
+      ],
+      "\\bOost$": [
+        "Oost",
+        "oost",
+        "O"
+      ],
+      "\\bZuid$": [
+        "Zuid",
+        "zuid",
+        "Z"
+      ],
+      "\\bWest$": [
+        "West",
+        "west",
+        "W"
+      ],
+      "NZ$": [
+        "N.Z.",
+        "N.z.",
+        "n.z.",
+        "Noordzijde",
+        "noordzijde",
+        ""
+      ],
+      "OZ$": [
+        "O.Z.",
+        "O.z.",
+        "o.z.",
+        "Oostzijde",
+        "oostzijde",
+        ""
+      ],
+      "ZZ$": [
+        "Z.Z.",
+        "Z.z.",
+        "z.z.",
+        "Zuidzijde",
+        "zuidzijde",
+        ""
+      ],
+      "WZ$": [
+        "W.Z.",
+        "W.z.",
+        "w.z.",
+        "Westzijde",
+        "westzijde",
+        ""
+      ],
+      "NO$": [
+        "N.O.",
+        "N.o.",
+        "n.o.",
+        ""
+      ],
+      "NW$": [
+        "N.W.",
+        "N.w.",
+        "n.w.",
+        ""
+      ],
+      "ZO$": [
+        "Z.O.",
+        "Z.o.",
+        "z.o.",
+        ""
+      ],
+      "ZW$": [
+        "Z.W.",
+        "Z.w.",
+        "z.w.",
+        ""
+      ]
+    },
+    "suffix": {
+      "dreef$": [
+        "dreef",
+        "drf"
+      ],
+      "gracht$": [
+        "gracht",
+        "gr"
+      ],
+      "hof$": [
+        "hof",
+        "hf"
+      ],
+      "laan$": [
+        "laan",
+        "ln"
+      ],
+      "markt$": [
+        "markt",
+        "mrkt"
+      ],
+      "pad$": [
+        "pad",
+        "pd"
+      ],
+      "park$": [
+        "park",
+        "prk"
+      ],
+      "plantsoen$": [
+        "plantsoen",
+        "plnts",
+        "pltsn"
+      ],
+      "plein$": [
+        "plein",
+        "pln"
+      ],
+      "singel$": [
+        "singel",
+        "sngl"
+      ],
+      "steeg$": [
+        "steeg",
+        "stg",
+        "st"
+      ],
+      "straat$": [
+        "straat",
+        "str"
+      ],
+      "weg$": [
+        "weg",
+        "wg"
+      ]
+    },
+    "loc": {
+      "\\bAcker\\b": [
+        "Acker",
+        "acker"
+      ],
+      "\\bAkker\\b": [
+        "Akker",
+        "akker"
+      ],
+      "\\bBoulevard\\b": [
+        "Boulevard",
+        "boulevard"
+      ],
+      "\\bDijk\\b": [
+        "Dijk",
+        "dijk"
+      ],
+      "\\bDreef\\b": [
+        "Dreef",
+        "dreef"
+      ],
+      "\\bDwarsweg\\b": [
+        "Dwarsweg",
+        "dwarsweg"
+      ],
+      "\\bDyk\\b": [
+        "Dyk",
+        "dyk"
+      ],
+      "\\bErf\\b": [
+        "Erf",
+        "erf"
+      ],
+      "\\bHeide\\b": [
+        "Heide",
+        "heide"
+      ],
+      "\\bHof\\b": [
+        "Hof",
+        "hof"
+      ],
+      "\\bKade\\b": [
+        "Kade",
+        "kade"
+      ],
+      "\\bKanaal\\b": [
+        "Kanaal",
+        "kanaal"
+      ],
+      "\\bLaan\\b": [
+        "Laan",
+        "laan"
+      ],
+      "\\bPad\\b": [
+        "Pad",
+        "pad"
+      ],
+      "\\bPark\\b": [
+        "Park",
+        "park"
+      ],
+      "\\bPlantsoen\\b": [
+        "Plantsoen",
+        "plantsoen"
+      ],
+      "\\bPlein\\b": [
+        "Plein",
+        "plein"
+      ],
+      "\\bReed\\b": [
+        "Reed",
+        "reed"
+      ],
+      "\\bRotonde\\b": [
+        "Rotonde",
+        "rotonde"
+      ],
+      "\\bSloot\\b": [
+        "Sloot",
+        "sloot"
+      ],
+      "\\bSluis\\b": [
+        "Sluis",
+        "sluis"
+      ],
+      "\\bSteeg\\b": [
+        "Steeg",
+        "steeg"
+      ],
+      "\\bStraat\\b": [
+        "Straat",
+        "straat"
+      ],
+      "\\bTunnel\\b": [
+        "Tunnel",
+        "tunnel"
+      ],
+      "\\bWal\\b": [
+        "Wal",
+        "wal"
+      ],
+      "\\bWeg\\b": [
+        "Weg",
+        "weg"
+      ],
+      "\\bWei\\b": [
+        "Wei",
+        "wei"
+      ],
+      "\\bWijk\\b": [
+        "Wijk",
+        "wijk"
+      ],
+      "\\bVen\\b": [
+        "Ven",
+        "ven"
+      ]
+    },
+    "punct": {
+      "\\.": [
+        ".",
+        ""
+      ],
+      "-": [
+        "-",
+        "",
+        " "
+      ]
+    },
+    "spelling": {
+      "y": [
+        "y",
+        "ij"
+      ],
+      "Y": [
+        "Y",
+        "IJ"
+      ],
+      "ij": [
+        "ij",
+        "y"
+      ],
+      "IJ": [
+        "IJ",
+        "Y"
+      ]
+    }
+  }
+}

@@ -1,13 +1,12 @@
-import re
 from typing import Iterable, Optional
 
 import docdeid as dd
 import regex
 
-_TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=re.I | re.M)
+_TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=regex.I | regex.M)
 
 
-class DeduceTokenizer(dd.tokenize.Tokenizer):  # pylint: disable=R0903
+class DeduceTokenizer(dd.tokenizer.Tokenizer):  # pylint: disable=R0903
     """
     Tokenizes text, where a token is any sequence of alphanumeric characters (case
     insensitive), a single newline/tab character, or a single special character. It does
@@ -22,19 +21,32 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):  # pylint: disable=R0903
         super().__init__()
 
         self._pattern = _TOKENIZER_PATTERN
-        self._trie = None
+        self._trie: Optional[dd.ds.LookupTrie] = None
+
+        self._start_words: set[str] = set()
 
         if merge_terms is not None:
-            trie = dd.ds.LookupTrie()
+            self._init_merge_structures(merge_terms=merge_terms)
 
-            for term in merge_terms:
-                tokens = [token.text for token in self._split_text(text=term)]
-                trie.add_item(tokens)
+    def _init_merge_structures(self, merge_terms: Iterable) -> None:
+        """
+        Initializes the merge structures.
 
-            self._trie = trie
+        Args:
+            merge_terms: The provided terms that should be merged into a single token.
+        """
+
+        trie = dd.ds.LookupTrie()
+
+        for term in merge_terms:
+            tokens = [token.text for token in self._split_text(text=term)]
+            trie.add_item(tokens)
+            self._start_words.add(tokens[0])
+
+        self._trie = trie
 
     @staticmethod
-    def _join_tokens(text: str, tokens: list[dd.tokenize.Token]) -> dd.tokenize.Token:
+    def _join_tokens(text: str, tokens: list[dd.tokenizer.Token]) -> dd.tokenizer.Token:
         """
         Join a list of tokens into a single token. Does this by creating a new token,
         that ranges from the first token start char to the last token end char.
@@ -54,8 +66,8 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):  # pylint: disable=R0903
         )
 
     def _merge(
-        self, text: str, tokens: list[dd.tokenize.Token]
-    ) -> list[dd.tokenize.Token]:
+        self, text: str, tokens: list[dd.tokenizer.Token]
+    ) -> list[dd.tokenizer.Token]:
         """
         Merge a list of tokens based on the trie.
 
@@ -66,13 +78,22 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):  # pylint: disable=R0903
             A list of tokens, with merge_terms joined in single tokens.
         """
 
+        if self._trie is None:
+            return tokens
+
         tokens_text = [token.text for token in tokens]
         tokens_merged = []
         i = 0
 
         while i < len(tokens):
+
+            if tokens_text[i] not in self._start_words:
+                tokens_merged.append(tokens[i])
+                i += 1
+                continue
+
             longest_matching_prefix = self._trie.longest_matching_prefix(
-                tokens_text[i:]
+                tokens_text, start_i=i
             )
 
             if longest_matching_prefix is None:
@@ -88,7 +109,7 @@ class DeduceTokenizer(dd.tokenize.Tokenizer):  # pylint: disable=R0903
 
         return tokens_merged
 
-    def _split_text(self, text: str) -> list[dd.tokenize.Token]:
+    def _split_text(self, text: str) -> list[dd.tokenizer.Token]:
         """
         Split text, based on the regexp pattern.
 

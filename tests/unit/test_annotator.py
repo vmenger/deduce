@@ -1,4 +1,5 @@
 import re
+from unittest.mock import patch
 
 import docdeid as dd
 import pytest
@@ -6,12 +7,15 @@ import pytest
 from deduce.annotator import (
     BsnAnnotator,
     ContextAnnotator,
+    PatientNameAnnotator,
     PhoneNumberAnnotator,
     RegexpPseudoAnnotator,
     TokenPatternAnnotator,
     _PatternPositionMatcher,
 )
+from deduce.person import Person
 from deduce.tokenizer import DeduceTokenizer
+from tests.helpers import linked_tokens
 
 
 @pytest.fixture
@@ -31,19 +35,24 @@ def ds():
 
 
 @pytest.fixture
-def regexp_pseudo_doc():
+def tokenizer():
+    return DeduceTokenizer()
+
+
+@pytest.fixture
+def regexp_pseudo_doc(tokenizer):
 
     return dd.Document(
         text="De patient is Na 12 jaar gestopt met medicijnen.",
-        tokenizers={"default": DeduceTokenizer()},
+        tokenizers={"default": tokenizer},
     )
 
 
 @pytest.fixture
-def pattern_doc():
+def pattern_doc(tokenizer):
     return dd.Document(
         text="De man heet Andries Meijer-Heerma, voornaam Andries.",
-        tokenizers={"default": DeduceTokenizer()},
+        tokenizers={"default": tokenizer},
     )
 
 
@@ -68,11 +77,16 @@ def phone_number_doc():
     )
 
 
+@pytest.fixture
+def surname_pattern():
+    return linked_tokens(["Van der", "Heide", "-", "Ginkel"])
+
+
 def token(text: str):
     return dd.Token(text=text, start_char=0, end_char=len(text))
 
 
-class TestPatternPositionMatcher:
+class TestPositionMatcher:
     def test_equal(self):
         assert _PatternPositionMatcher.match({"equal": "test"}, token=token("test"))
         assert not _PatternPositionMatcher.match({"equal": "_"}, token=token("test"))
@@ -90,17 +104,22 @@ class TestPatternPositionMatcher:
             {"re_match": "[a-z]"}, token=token("123abc")
         )
 
-    def test_match_is_initial(self):
-        pattern_position = {"is_initial": True}
+    def test_is_initials(self):
 
-        assert _PatternPositionMatcher.match(pattern_position, token=token("A"))
-        assert _PatternPositionMatcher.match(pattern_position, token=token("Ch"))
-        assert _PatternPositionMatcher.match(pattern_position, token=token("Chr"))
-        assert _PatternPositionMatcher.match(pattern_position, token=token("Ph"))
-        assert _PatternPositionMatcher.match(pattern_position, token=token("Th"))
-        assert not _PatternPositionMatcher.match(pattern_position, token=token("a"))
-        assert not _PatternPositionMatcher.match(pattern_position, token=token("Ah"))
-        assert not _PatternPositionMatcher.match(pattern_position, token=token("Abcd"))
+        assert _PatternPositionMatcher.match({"is_initials": True}, token=token("A"))
+        assert _PatternPositionMatcher.match({"is_initials": True}, token=token("AB"))
+        assert _PatternPositionMatcher.match({"is_initials": True}, token=token("ABC"))
+        assert _PatternPositionMatcher.match({"is_initials": True}, token=token("ABCD"))
+        assert not _PatternPositionMatcher.match(
+            {"is_initials": True}, token=token("ABCDE")
+        )
+        assert not _PatternPositionMatcher.match({"is_initials": True}, token=token(""))
+        assert not _PatternPositionMatcher.match(
+            {"is_initials": True}, token=token("abcd")
+        )
+        assert not _PatternPositionMatcher.match(
+            {"is_initials": True}, token=token("abcde")
+        )
 
     def test_match_like_name(self):
         pattern_position = {"like_name": True}
@@ -154,28 +173,6 @@ class TestPatternPositionMatcher:
             {"neg_lookup": "surnames"}, token=token("smit"), ds=ds
         )
 
-    def test_match_lowercase_lookup(self, ds):
-        assert _PatternPositionMatcher.match(
-            {"lowercase_lookup": "first_names"}, token=token("Pieter"), ds=ds
-        )
-        assert _PatternPositionMatcher.match(
-            {"lowercase_lookup": "first_names"}, token=token("pieter"), ds=ds
-        )
-        assert not _PatternPositionMatcher.match(
-            {"lowercase_lookup": "first_names"}, token=token("smit"), ds=ds
-        )
-
-    def test_match_lowercase_neg_lookup(self, ds):
-        assert _PatternPositionMatcher.match(
-            {"lowercase_neg_lookup": "first_names"}, token=token("Andries"), ds=ds
-        )
-        assert _PatternPositionMatcher.match(
-            {"lowercase_neg_lookup": "first_names"}, token=token("andries"), ds=ds
-        )
-        assert not _PatternPositionMatcher.match(
-            {"lowercase_neg_lookup": "first_names"}, token=token("pieter"), ds=ds
-        )
-
     def test_match_and(self):
         assert _PatternPositionMatcher.match(
             {"and": [{"equal": "Abcd"}, {"like_name": True}]},
@@ -216,11 +213,13 @@ class TestTokenPatternAnnotator:
         tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
 
         assert tpa._match_sequence(
-            pattern_doc, start_token=pattern_doc.get_tokens()[3], pattern=pattern
+            pattern_doc.text, start_token=pattern_doc.get_tokens()[3], pattern=pattern
         ) == dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="_")
         assert (
             tpa._match_sequence(
-                pattern_doc, start_token=pattern_doc.get_tokens()[7], pattern=pattern
+                pattern_doc.text,
+                start_token=pattern_doc.get_tokens()[7],
+                pattern=pattern,
             )
             is None
         )
@@ -231,7 +230,7 @@ class TestTokenPatternAnnotator:
         tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
 
         assert tpa._match_sequence(
-            pattern_doc,
+            pattern_doc.text,
             start_token=pattern_doc.get_tokens()[4],
             pattern=pattern,
             direction="left",
@@ -239,7 +238,7 @@ class TestTokenPatternAnnotator:
 
         assert (
             tpa._match_sequence(
-                pattern_doc,
+                pattern_doc.text,
                 start_token=pattern_doc.get_tokens()[8],
                 direction="left",
                 pattern=pattern,
@@ -253,17 +252,17 @@ class TestTokenPatternAnnotator:
         tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
 
         assert tpa._match_sequence(
-            pattern_doc,
+            pattern_doc.text,
             start_token=pattern_doc.get_tokens()[4],
             pattern=pattern,
             skip={"-"},
         ) == dd.Annotation(text="Meijer-Heerma", start_char=20, end_char=33, tag="_")
         assert (
             tpa._match_sequence(
-                pattern_doc,
+                pattern_doc.text,
                 start_token=pattern_doc.get_tokens()[4],
                 pattern=pattern,
-                skip=[],
+                skip=set(),
             )
             is None
         )
@@ -296,7 +295,7 @@ class TestContextAnnotator:
         )
 
         assert annotator._apply_context_pattern(
-            pattern_doc,
+            pattern_doc.text,
             annotations,
             {
                 "pattern": [{"like_name": True}],
@@ -332,7 +331,7 @@ class TestContextAnnotator:
         )
 
         assert annotator._apply_context_pattern(
-            pattern_doc,
+            pattern_doc.text,
             annotations,
             {
                 "pattern": [{"like_name": True}],
@@ -368,7 +367,7 @@ class TestContextAnnotator:
         )
 
         assert annotator._apply_context_pattern(
-            pattern_doc,
+            pattern_doc.text,
             annotations,
             {
                 "pattern": [{"like_name": True}],
@@ -420,7 +419,7 @@ class TestContextAnnotator:
             ]
         )
 
-        assert annotator._annotate(pattern_doc, annotations) == dd.AnnotationSet(
+        assert annotator._annotate(pattern_doc.text, annotations) == dd.AnnotationSet(
             {
                 dd.Annotation(
                     text="Andries Meijer-Heerma",
@@ -437,7 +436,7 @@ class TestContextAnnotator:
                 "pattern": [{"like_name": True}],
                 "direction": "right",
                 "skip": ["-"],
-                "pre_tag": "naam",
+                "pre_tag": ["naam", "voornaam"],
                 "tag": "{tag}+naam",
             }
         ]
@@ -457,7 +456,7 @@ class TestContextAnnotator:
             ]
         )
 
-        assert annotator._annotate(pattern_doc, annotations) == dd.AnnotationSet(
+        assert annotator._annotate(pattern_doc.text, annotations) == dd.AnnotationSet(
             {
                 dd.Annotation(
                     text="Andries Meijer-Heerma",
@@ -467,6 +466,287 @@ class TestContextAnnotator:
                 )
             }
         )
+
+
+class TestPatientNameAnnotator:
+    def test_match_first_name_multiple(self, tokenizer):
+
+        metadata = {"patient": Person(first_names=["Jan", "Adriaan"])}
+        tokens = linked_tokens(["Jan", "Adriaan"])
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text="_", metadata=metadata)
+
+        assert ann._match_first_names(doc=doc, token=tokens[0]) == (
+            tokens[0],
+            tokens[0],
+        )
+
+        assert ann._match_first_names(doc=doc, token=tokens[1]) == (
+            tokens[1],
+            tokens[1],
+        )
+
+    def test_match_first_name_fuzzy(self, tokenizer):
+
+        metadata = {"patient": Person(first_names=["Adriaan"])}
+        tokens = linked_tokens(["Adriana"])
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text="_", metadata=metadata)
+
+        assert ann._match_first_names(doc=doc, token=tokens[0]) == (
+            tokens[0],
+            tokens[0],
+        )
+
+    def test_match_first_name_fuzzy_short(self, tokenizer):
+
+        metadata = {"patient": Person(first_names=["Jan"])}
+        tokens = linked_tokens(["Dan"])
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text="_", metadata=metadata)
+
+        assert ann._match_first_names(doc=doc, token=tokens[0]) is None
+
+    def test_match_initial_from_name(self, tokenizer):
+
+        metadata = {"patient": Person(first_names=["Jan", "Adriaan"])}
+        tokens = linked_tokens(["A", "J"])
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text="_", metadata=metadata)
+
+        assert ann._match_initial_from_name(doc=doc, token=tokens[0]) == (
+            tokens[0],
+            tokens[0],
+        )
+
+        assert ann._match_initial_from_name(doc=doc, token=tokens[1]) == (
+            tokens[1],
+            tokens[1],
+        )
+
+    def test_match_initial_from_name_with_period(self, tokenizer):
+
+        metadata = {"patient": Person(first_names=["Jan", "Adriaan"])}
+        tokens = linked_tokens(["J", ".", "A", "."])
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text="_", metadata=metadata)
+
+        assert ann._match_initial_from_name(doc=doc, token=tokens[0]) == (
+            tokens[0],
+            tokens[1],
+        )
+
+        assert ann._match_initial_from_name(doc=doc, token=tokens[2]) == (
+            tokens[2],
+            tokens[3],
+        )
+
+    def test_match_initial_from_name_no_match(self, tokenizer):
+
+        metadata = {"patient": Person(first_names=["Jan", "Adriaan"])}
+        tokens = linked_tokens(["F", "T"])
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text="_", metadata=metadata)
+
+        assert ann._match_initial_from_name(doc=doc, token=tokens[0]) is None
+        assert ann._match_initial_from_name(doc=doc, token=tokens[1]) is None
+
+    def test_match_initials(self, tokenizer):
+
+        metadata = {"patient": Person(initials="AFTH")}
+        tokens = linked_tokens(["AFTH", "THFA"])
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text="_", metadata=metadata)
+
+        assert ann._match_initials(doc=doc, token=tokens[0]) == (tokens[0], tokens[0])
+        assert ann._match_initials(doc=doc, token=tokens[1]) is None
+
+    def test_match_surname_equal(self, tokenizer, surname_pattern):
+
+        metadata = {"surname_pattern": surname_pattern}
+        tokens = linked_tokens(["Van der", "Heide", "-", "Ginkel", "is", "de", "naam"])
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text="_", metadata=metadata)
+
+        with patch.object(tokenizer, "tokenize", return_value=surname_pattern):
+
+            assert ann._match_surname(doc=doc, token=tokens[0]) == (
+                tokens[0],
+                tokens[3],
+            )
+
+    def test_match_surname_longer_than_tokens(self, tokenizer, surname_pattern):
+
+        metadata = {"surname_pattern": surname_pattern}
+        tokens = linked_tokens(["Van der", "Heide"])
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text="_", metadata=metadata)
+
+        with patch.object(tokenizer, "tokenize", return_value=surname_pattern):
+
+            assert ann._match_surname(doc=doc, token=tokens[0]) is None
+
+    def test_match_surname_fuzzy(self, tokenizer, surname_pattern):
+
+        metadata = {"surname_pattern": surname_pattern}
+        tokens = linked_tokens(["Van der", "Heijde", "-", "Ginkle", "is", "de", "naam"])
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text="_", metadata=metadata)
+
+        with patch.object(tokenizer, "tokenize", return_value=surname_pattern):
+
+            assert ann._match_surname(doc=doc, token=tokens[0]) == (
+                tokens[0],
+                tokens[3],
+            )
+
+    def test_match_surname_unequal_first(self, tokenizer, surname_pattern):
+
+        metadata = {"surname_pattern": surname_pattern}
+        tokens = linked_tokens(["v/der", "Heide", "-", "Ginkel", "is", "de", "naam"])
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text="_", metadata=metadata)
+
+        with patch.object(tokenizer, "tokenize", return_value=surname_pattern):
+
+            assert ann._match_surname(doc=doc, token=tokens[0]) is None
+
+    def test_match_surname_unequal_first_fuzzy(self, tokenizer, surname_pattern):
+
+        metadata = {"surname_pattern": surname_pattern}
+        tokens = linked_tokens(["Van den", "Heide", "-", "Ginkel", "is", "de", "naam"])
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text="_", metadata=metadata)
+
+        with patch.object(tokenizer, "tokenize", return_value=surname_pattern):
+
+            assert ann._match_surname(doc=doc, token=tokens[0]) == (
+                tokens[0],
+                tokens[3],
+            )
+
+    def test_annotate_first_name(self, tokenizer):
+
+        metadata = {
+            "patient": Person(
+                first_names=["Jan", "Johan"], initials="JJ", surname="Jansen"
+            )
+        }
+        text = "De patient heet Jan"
+        tokens = tokenizer.tokenize(text)
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text=text, metadata=metadata)
+
+        with patch.object(doc, "get_tokens", return_value=tokens):
+            with patch.object(
+                tokenizer, "tokenize", return_value=linked_tokens(["Jansen"])
+            ):
+                annotations = ann.annotate(doc)
+
+        assert annotations == [
+            dd.Annotation(
+                text="Jan",
+                start_char=16,
+                end_char=19,
+                tag="voornaam_patient",
+            )
+        ]
+
+    def test_annotate_initials_from_name(self, tokenizer):
+
+        metadata = {
+            "patient": Person(
+                first_names=["Jan", "Johan"], initials="JJ", surname="Jansen"
+            )
+        }
+        text = "De patient heet JJ"
+        tokens = tokenizer.tokenize(text)
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text=text, metadata=metadata)
+
+        with patch.object(doc, "get_tokens", return_value=tokens):
+            with patch.object(
+                tokenizer, "tokenize", return_value=linked_tokens(["Jansen"])
+            ):
+                annotations = ann.annotate(doc)
+
+        assert annotations == [
+            dd.Annotation(
+                text="JJ",
+                start_char=16,
+                end_char=18,
+                tag="initiaal_patient",
+            )
+        ]
+
+    def test_annotate_initial(self, tokenizer):
+
+        metadata = {
+            "patient": Person(
+                first_names=["Jan", "Johan"], initials="JJ", surname="Jansen"
+            )
+        }
+        text = "De patient heet J."
+        tokens = tokenizer.tokenize(text)
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text=text, metadata=metadata)
+
+        with patch.object(doc, "get_tokens", return_value=tokens):
+            with patch.object(
+                tokenizer, "tokenize", return_value=linked_tokens(["Jansen"])
+            ):
+                annotations = ann.annotate(doc)
+
+        assert annotations == [
+            dd.Annotation(
+                text="J.",
+                start_char=16,
+                end_char=18,
+                tag="initiaal_patient",
+            )
+        ]
+
+    def test_annotate_surname(self, tokenizer):
+
+        metadata = {
+            "patient": Person(
+                first_names=["Jan", "Johan"], initials="JJ", surname="Jansen"
+            )
+        }
+        text = "De patient heet Jansen"
+        tokens = tokenizer.tokenize(text)
+
+        ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
+        doc = dd.Document(text=text, metadata=metadata)
+
+        with patch.object(doc, "get_tokens", return_value=tokens):
+            with patch.object(
+                tokenizer, "tokenize", return_value=linked_tokens(["Jansen"])
+            ):
+                annotations = ann.annotate(doc)
+
+        assert annotations == [
+            dd.Annotation(
+                text="Jansen",
+                start_char=16,
+                end_char=22,
+                tag="achternaam_patient",
+            )
+        ]
 
 
 class TestRegexpPseudoAnnotator:
