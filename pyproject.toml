@@ -19,7 +19,7 @@ classifiers = [
     "Topic :: Text Processing",
     "Topic :: Text Processing :: Linguistic",
 ]
-include = ["config.json"]
+include = ["base_config.json"]
 
 [tool.sphinx]
 author = "Vincent Menger"
