@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 3.0.1 (2023-12-20)
+
+### Fixed
+- a bug with packaging `base_config.json`
+
 ## 3.0.0 (2023-12-20)
 
 ### Added
@@ -28,12 +33,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Deprecated
 - the `config_file` keyword, now replaced by `config` which accepts both filenames and dicts
 - old lookup list names, e.g. `prefixes` now replaced by `prefix`
-- annotator types 'custom', 'regexp', 'token_pattern', 'dd_token_pattern' and 'annotation_context', all replaced by setting class directly as annotator_type 
+- annotator types `custom`, `regexp`, `token_pattern`, `dd_token_pattern` and `annotation_context`, all replaced by setting class directly as `annotator_type` 
+- everything in `deduce.pattern`, patient patterns now replaced by `PatientNameAnnotator`
 
 ### Removed
 - automated coverage reporting on coveralls.io
 - options `lowercase_lookup`, `lowercase_neg_lookup` for token patterns
-- everything in `deduce.pattern`, patient patterns now replaced by `PatientNameAnnotator`
 - `utils.any_in_text` 
 
 ### Fixed
