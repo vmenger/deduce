@@ -10,6 +10,7 @@
       false
     ]
   },
+  "recall_boost": false,
   "redactor_open_char": "[",
   "redactor_close_char": "]",
   "annotators": {
@@ -152,7 +153,13 @@
       "args": {
         "tag": "voornaam",
         "overlapping": true,
-        "lookup_values": "first_name"
+        "lookup_values": "first_name",
+        "recall_boost": {
+          "expander": "docdeid.str.expander.MinimumLengthExpander",
+          "args":{
+            "min_len": 4
+          }
+        }
       }
     },
     "surname_lookup": {
@@ -161,7 +168,10 @@
       "args": {
         "tag": "achternaam",
         "overlapping": true,
-        "lookup_values": "surname"
+        "lookup_values": "surname",
+        "recall_boost": {
+          "recall_boost_type": "docdeid.str.expander.MinimumLengthExpander"  
+        }
       }
     },
     "patient_name": {
