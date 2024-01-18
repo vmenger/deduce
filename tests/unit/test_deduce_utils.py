@@ -36,7 +36,8 @@ class TestDeduceUtils:
             if isinstance(processor, MultiTokenLookupAnnotator):
                 assert processor.expander is not None
 
-        # lowercased version of a first name in text would not be detected without recall boost
+        # lowercased version of a first name in text
+        # This would not be detected without recall boost
         result = real_deduce.deidentify("Mijn naam is lydia")
         assert result.deidentified_text == "Mijn naam is [PERSOON-1]"
         # test minimum length requirement
