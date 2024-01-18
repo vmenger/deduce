@@ -2,6 +2,7 @@
 
 import re
 import warnings
+from re import Pattern
 from typing import Literal, Optional
 
 import docdeid as dd
@@ -606,6 +607,27 @@ class RegexpPseudoAnnotator(RegexpAnnotator):
 
         return (previous_word not in self.pre_pseudo) and (
             next_word not in self.post_pseudo
+        )
+
+
+class RegexpAnnotatorPrematchReplacement(RegexpAnnotator):
+    def __init__(
+        self,
+        regexp_pattern: Pattern | str,
+        *args,
+        capturing_group: int = 0,
+        pre_match_words: list[str] | None = None,
+        **kwargs,
+    ) -> None:
+        regexp_pattern = regexp_pattern.replace(
+            "pre_match_words", "|".join(pre_match_words)
+        )
+        super().__init__(
+            regexp_pattern,
+            *args,
+            capturing_group=capturing_group,
+            pre_match_words=pre_match_words,
+            **kwargs,
         )
 
 

@@ -455,20 +455,20 @@
       "args": {
         "regexp_pattern": "(?<!\\d)(([1-9]|0[1-9]|[12][0-9]|3[01])(?P<sep>[-/. ])([1-9]|0[1-9]|1[012])(?P=sep)((19|20|['`])?\\d{2}))(?!\\d)",
         "tag": "datum",
-        "capturing_group": 1
-      },
-      "recall_boost_config": {
-        "recall_boost_type": "argument_replacement",
-        "args":{
-          "regexp_pattern": "(?<!\\d)(([1-9]|0[1-9]|[12][0-9]|3[01])(?P<sep>[-/. ])([1-9]|0[1-9]|1[012])((?P=sep)((19|20|['`])?\\d{2}))?|([1-9]|0[1-9]|1[012])([-/. ])((19|20|['`])\\d{2}))(?!\\d)"
+        "capturing_group": 1,
+        "recall_boost_config": {
+          "recall_boost_type": "argument_replacement",
+          "args":{
+            "regexp_pattern": "(?<![-./\\d])(([1-9]|0[1-9]|[12][0-9]|3[01])(?P<sep>[-/. ])([1-9]|0[1-9]|1[012])((?P=sep)((19|20|['`])?\\d{2}))?|([1-9]|0[1-9]|1[012])([-/. ])((19|20|['`])\\d{2}))(?![-./\\d])"
+          }
         }
       }
     },
     "date_dmy_2": {
-      "annotator_type": "docdeid.process.RegexpAnnotator",
+      "annotator_type": "deduce.annotator.RegexpAnnotatorPrematchReplacement",
       "group": "dates",
       "args": {
-        "regexp_pattern": "(?i)(?<!\\d)(([1-9]|0[1-9]|[12][0-9]|3[01])[-/. ]{,2}(januari|jan|februari|feb|maart|mrt|april|apr|mei|juni|jun|juli|jul|augustus|aug|september|sep|sept|oktober|okt|november|nov|december|dec)[-/. ]((19|20|['`])?\\d{2}))(?!\\d)",
+        "regexp_pattern": "(?i)(?<!\\d)(([1-9]|0[1-9]|[12][0-9]|3[01])[-/. ]{,2}(pre_match_words)[-/. ]((19|20|['`])?\\d{2}))(?!\\d)",
         "tag": "datum",
         "capturing_group": 1,
         "pre_match_words": ["januari", "jan", "februari", "feb", "maart", "mrt", "april", "apr", "mei", "juni", "jun", "juli", "jul", "augustus", "aug", "september", "sep", "sept", "oktober", "okt", "november", "nov", "december", "dec"]

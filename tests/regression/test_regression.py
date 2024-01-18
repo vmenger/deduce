@@ -21,9 +21,12 @@ def regression_test(
     failures = set()
 
     for example in examples:
+        add_recall_booster_annotations(example, model)
+
         trues = AnnotationSet(
             Annotation(**annotation) for annotation in example["annotations"]
         )
+
         preds = model.deidentify(text=example["text"], enabled=enabled).annotations
 
         try:
@@ -32,6 +35,14 @@ def regression_test(
             failures.add(example["id"])
 
     assert failures == known_failures
+
+
+def add_recall_booster_annotations(example, model):
+    if not model.config["use_recall_boost"]:
+        return
+    recall_booster_annotations = example.get("recall_booster_annotations", [])
+    example["annotations"] += recall_booster_annotations
+    example["annotations"].sort(key=lambda x: x["start_char"])
 
 
 def annotators_from_group(model: Deduce, group: str) -> set[str]:

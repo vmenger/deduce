@@ -589,6 +589,19 @@
                     "tag": "datum"
                 }
             ]
+        },
+        {
+            "id": 57,
+            "text": "12/2023",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "12/2023",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "datum"
+                }
+            ]
         }
     ]
 }
