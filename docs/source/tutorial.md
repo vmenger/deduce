@@ -234,3 +234,11 @@ deduce = Deduce(lookup_data_path="/my/path")
 ```
 
 It's important to copy the directory, or your changes will be overwritten with the next `deduce` update. Currently, there is no additional documentation available on how to structure and transform the lookup items in the directory, other than inspecting the pre-packaged files. Also remember that any updates to lookup values in next releases of Deduce will not be applied if `deduce` loads items from a copy, differences need to be tracked manually with each release.
+
+### recall booster
+For rule based systems the trade-off between precision and recall is a well known problem. In order to increase recall, `deduce` has a `recall_boost` option, which can be turned on in the `base_config.json` by setting `use_recall_boost` to `true`.  The resulting changes are listed in the table below.
+
+| **Annotator** | **Change** |
+| --- | --- |
+| first_name_lookup | Matches also first names occurring in lowercase if they exceed the minimum length specified in the config |
+| surname_lookup | Matches also surnames occurring in lowercase if they exceed the minimum length specified in the config |
