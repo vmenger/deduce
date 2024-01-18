@@ -67,6 +67,13 @@ class TestRegression:
             enabled=annotators_from_group(model, "dates"),
         )
 
+    def test_regression_date_recall_booster(self, model_with_recall_boost):
+        regression_test(
+            model=model_with_recall_boost,
+            examples_file="tests/data/regression_cases/dates.json",
+            enabled=annotators_from_group(model_with_recall_boost, "dates"),
+        )
+
     def test_regression_age(self, model):
         regression_test(
             model=model,
