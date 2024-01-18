@@ -302,7 +302,7 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
     def _add_recall_booster_arguments(
         recall_boost_config: dict, processor_args: dict
     ) -> None:
-        """Adds recall booster arguments to processor arguments"""
+        """Adds recall booster arguments to processor arguments."""
         if recall_boost_config["recall_boost_type"].endswith("MinimumLengthExpander"):
             str_processors = recall_boost_config["args"]["str_processors"]
             str_processors = [
