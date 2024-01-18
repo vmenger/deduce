@@ -15,7 +15,6 @@ class TestDeduceUtils:
         assert expansions == {"expansion test", "Expansion Test"}
 
     def test_recall_booster_in_config(self):
-        print("Hellow")
         base_config = dict(Deduce._initialize_config())
         base_config["use_recall_boost"] = True
         # remove annotators that do not have a recall boost config

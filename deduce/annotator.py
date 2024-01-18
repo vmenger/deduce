@@ -55,7 +55,6 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
         if func == "re_match":
             return re.match(value, kwargs.get("token").text) is not None
         if func == "is_initial":
-
             warnings.warn(
                 "is_initial matcher pattern is deprecated and will be removed "
                 "in a future version",
@@ -127,7 +126,6 @@ class TokenPatternAnnotator(dd.process.Annotator):
         self._matching_pipeline = None
 
         if len(self.pattern) > 0 and "lookup" in self.pattern[0]:
-
             if self.ds is None:
                 raise RuntimeError(
                     "Created pattern with lookup in TokenPatternAnnotator, but "
@@ -141,6 +139,8 @@ class TokenPatternAnnotator(dd.process.Annotator):
                     f"Expected a LookupSet, but got a " f"{type(lookup_list)}."
                 )
 
+            # doesn't this assume that the used lookup list is always the first element in the pattern?
+            # nope -> it only checks pattern position 0
             self._start_words = lookup_list.items()
             self._matching_pipeline = lookup_list.matching_pipeline
 
@@ -189,6 +189,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
         end_token = start_token
 
         for pattern_position in pattern:
+            # this is the point where an expander can be used in the recall boost setting.
             if current_token is None or not _PatternPositionMatcher.match(
                 pattern_position=pattern_position, token=current_token, ds=self.ds
             ):
@@ -227,13 +228,13 @@ class TokenPatternAnnotator(dd.process.Annotator):
         tokens = doc.get_tokens()
 
         if self._start_words is not None:
+            # add expander here in recall booster setting.
             tokens = tokens.token_lookup(
                 lookup_values=self._start_words,
                 matching_pipeline=self._matching_pipeline,
             )
 
         for token in tokens:
-
             annotation = self._match_sequence(
                 doc.text, self.pattern, token, direction="right", skip=self.skip
             )
@@ -267,12 +268,10 @@ class ContextAnnotator(TokenPatternAnnotator):
     def _apply_context_pattern(
         self, text: str, annotations: dd.AnnotationSet, context_pattern: dict
     ) -> dd.AnnotationSet:
-
         direction = context_pattern["direction"]
         skip = set(context_pattern.get("skip", []))
 
         for annotation in annotations.copy():
-
             tag = list(_DIRECTION_MAP[direction]["order"](annotation.tag.split("+")))[
                 -1
             ]
@@ -334,7 +333,6 @@ class ContextAnnotator(TokenPatternAnnotator):
             )
 
         if self.iterative:
-
             changed = dd.AnnotationSet(annotations.difference(original_annotations))
             annotations = dd.AnnotationSet(
                 annotations.intersection(original_annotations)
@@ -371,7 +369,6 @@ class PatientNameAnnotator(dd.process.Annotator):
     """
 
     def __init__(self, tokenizer: Tokenizer, *args, **kwargs) -> None:
-
         self.tokenizer = tokenizer
         self.skip = [".", "-", " "]
 
@@ -381,9 +378,7 @@ class PatientNameAnnotator(dd.process.Annotator):
     def _match_first_names(
         doc: dd.Document, token: dd.Token
     ) -> Optional[tuple[dd.Token, dd.Token]]:
-
         for first_name in doc.metadata["patient"].first_names:
-
             if str_match(token.text, first_name) or (
                 len(token.text) > 3
                 and str_match(token.text, first_name, max_edit_distance=1)
@@ -396,7 +391,6 @@ class PatientNameAnnotator(dd.process.Annotator):
     def _match_initial_from_name(
         doc: dd.Document, token: dd.Token
     ) -> Optional[tuple[dd.Token, dd.Token]]:
-
         for _, first_name in enumerate(doc.metadata["patient"].first_names):
             if str_match(token.text, first_name[0]):
                 next_token = token.next()
@@ -412,7 +406,6 @@ class PatientNameAnnotator(dd.process.Annotator):
     def _match_initials(
         doc: dd.Document, token: dd.Token
     ) -> Optional[tuple[dd.Token, dd.Token]]:
-
         if str_match(token.text, doc.metadata["patient"].initials):
             return token, token
 
@@ -432,7 +425,6 @@ class PatientNameAnnotator(dd.process.Annotator):
     def _match_surname(
         self, doc: dd.Document, token: dd.Token
     ) -> Optional[tuple[dd.Token, dd.Token]]:
-
         if doc.metadata["surname_pattern"] is None:
             doc.metadata["surname_pattern"] = self.tokenizer.tokenize(
                 doc.metadata["patient"].surname
@@ -488,9 +480,7 @@ class PatientNameAnnotator(dd.process.Annotator):
         annotations = []
 
         for token in doc.get_tokens():
-
             for matcher, tag in matchers:
-
                 match = matcher(doc, token)
 
                 if match is None:
@@ -533,7 +523,6 @@ class RegexpPseudoAnnotator(RegexpAnnotator):
         lowercase: bool = True,
         **kwargs,
     ) -> None:
-
         self.pre_pseudo = set(pre_pseudo or [])
         self.post_pseudo = set(post_pseudo or [])
         self.lowercase = lowercase
@@ -568,7 +557,6 @@ class RegexpPseudoAnnotator(RegexpAnnotator):
         result = ""
 
         for ch in text[::-1]:
-
             if not self._is_word_char(ch):
                 break
 
@@ -591,7 +579,6 @@ class RegexpPseudoAnnotator(RegexpAnnotator):
         result = ""
 
         for ch in text:
-
             if not self._is_word_char(ch):
                 break
 
@@ -663,7 +650,6 @@ class BsnAnnotator(dd.process.Annotator):
         annotations = []
 
         for match in self.bsn_regexp.finditer(doc.text):
-
             text = match.group(self.capture_group)
             digits = re.sub(r"\D", "", text)
 
