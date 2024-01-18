@@ -299,6 +299,7 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
 
         return processors
 
+    @staticmethod
     def _add_recall_booster_arguments(
         recall_boost_config: dict, processor_args: dict
     ) -> None:
