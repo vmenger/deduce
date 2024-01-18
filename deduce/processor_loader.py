@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional, Type
 
 import docdeid as dd
 from deprecated import deprecated
@@ -42,7 +42,7 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
         if "recall_boost_config" in args:
             # if recall boost should be used according to config
             if extras.get("use_recall_boost"):
-                # instantiate recall boost shizzle here -> is an expansion class in that case? Has to be?
+                # instantiate recall boost
                 recall_boost_config = args["recall_boost_config"]
                 DeduceProcessorLoader._add_recall_booster_arguments(
                     recall_boost_config, args
@@ -133,7 +133,7 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
         return dd.process.RegexpAnnotator(**args)
 
     @staticmethod
-    def _get_class_from_string(class_name: str):
+    def _get_class_from_string(class_name: str) -> Type[Any]:
         elems = class_name.split(".")
         module_name = ".".join(elems[:-1])
         class_name = elems[-1]
@@ -299,8 +299,8 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
 
         return processors
 
-    def _add_recall_booster_arguments(recall_boost_config, processor_args):
-        """Adds recall booster arguments to processor arguments."""
+    def _add_recall_booster_arguments(recall_boost_config: dict, processor_args: dict):
+        """Adds recall booster arguments to processor arguments"""
         if recall_boost_config["recall_boost_type"].endswith("MinimumLengthExpander"):
             str_processors = recall_boost_config["args"]["str_processors"]
             str_processors = [

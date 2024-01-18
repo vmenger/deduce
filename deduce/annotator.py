@@ -139,8 +139,6 @@ class TokenPatternAnnotator(dd.process.Annotator):
                     f"Expected a LookupSet, but got a " f"{type(lookup_list)}."
                 )
 
-            # doesn't this assume that the used lookup list is always the first element in the pattern?
-            # nope -> it only checks pattern position 0
             self._start_words = lookup_list.items()
             self._matching_pipeline = lookup_list.matching_pipeline
 
@@ -189,7 +187,6 @@ class TokenPatternAnnotator(dd.process.Annotator):
         end_token = start_token
 
         for pattern_position in pattern:
-            # this is the point where an expander can be used in the recall boost setting.
             if current_token is None or not _PatternPositionMatcher.match(
                 pattern_position=pattern_position, token=current_token, ds=self.ds
             ):
