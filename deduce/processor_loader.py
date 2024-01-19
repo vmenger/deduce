@@ -153,9 +153,13 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
             )
 
     @staticmethod
-    def _handle_recall_booster(extras, processor_args):
-        """Checks if recall boost is turned on in config and annotator has a recall
-        boost config. If so, adds recall booster arguments to processor args."""
+    def _handle_recall_booster(extras: dict, processor_args: dict) -> None:
+        """
+        Checks if recall boost is turned on in config and annotator has a recall boost
+        config.
+
+        If so, adds recall booster arguments to processor args.
+        """
         # if recall boost config available for this annotator
         if "recall_boost_config" in processor_args:
             # if recall boost should be used according to config

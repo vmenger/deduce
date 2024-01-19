@@ -52,7 +52,6 @@ def get_class_from_name(module_name: str, class_name: str) -> type:
     Returns:
         The class.
     """
-    ## Add recall booster config handling here, move recall booster argument handling here from Deduce
     module = importlib.import_module(module_name)
     return getattr(module, class_name)
 
