@@ -611,6 +611,9 @@ class RegexpPseudoAnnotator(RegexpAnnotator):
 
 
 class RegexpAnnotatorPrematchReplacement(RegexpAnnotator):
+    """replaces the keyword pre_match_words with a join of the
+    pre_match_words list"""
+
     def __init__(
         self,
         regexp_pattern: Pattern | str,
@@ -619,6 +622,10 @@ class RegexpAnnotatorPrematchReplacement(RegexpAnnotator):
         pre_match_words: list[str] | None = None,
         **kwargs,
     ) -> None:
+        if pre_match_words is None:
+            raise ValueError(
+                "pre_match_words cannot be None when using this regex annotator"
+            )
         pre_match_words.sort(key=len, reverse=True)
         regexp_pattern = regexp_pattern.replace(
             "pre_match_words", "|".join(pre_match_words)

@@ -33,6 +33,14 @@ def str_match(str_1: str, str_2: str, max_edit_distance: Optional[int] = None) -
 
 
 def get_class_from_string(class_name: str) -> type:
+    """Returns a class from a single string representation.
+
+    Args:
+        class_name (str): class representation: "deduce.annotator.Annotator"
+
+    Returns:
+        type: uninstantiated class
+    """
     elems = class_name.split(".")
     module_name = ".".join(elems[:-1])
     class_name = elems[-1]
