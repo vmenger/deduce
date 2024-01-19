@@ -28,9 +28,9 @@ class TestStrMatch:
 
 
 class TestClassForName:
-    def test_class_for_name(self):
+    def test_class_from_name(self):
         assert (
-            utils.class_for_name(
+            utils.get_class_from_name(
                 module_name="deduce.annotator", class_name="TokenPatternAnnotator"
             )
             == TokenPatternAnnotator
@@ -39,7 +39,6 @@ class TestClassForName:
 
 class TestInitializeClass:
     def test_initialize_class(self):
-
         cls = TokenPatternAnnotator
 
         tag = "_"
@@ -53,7 +52,6 @@ class TestInitializeClass:
         assert annotator.pattern == pattern
 
     def test_initialize_class_with_extras(self):
-
         cls = TokenPatternAnnotator
 
         tag = "_"
@@ -94,7 +92,6 @@ class TestOverwriteDict:
 
 class TestHasOverlap:
     def test_has_overlap(self):
-
         assert not utils.has_overlap([])
         assert not utils.has_overlap([(0, 10)])
         assert utils.has_overlap([(0, 10), (5, 15)])
@@ -105,7 +102,6 @@ class TestHasOverlap:
 
 class TestStrVariations:
     def test_has_overlap(self):
-
         assert utils.has_overlap([(0, 10), (5, 14)])
         assert utils.has_overlap([(0, 10), (9, 15)])
         assert utils.has_overlap([(9, 15), (5, 10)])
@@ -115,7 +111,6 @@ class TestStrVariations:
         assert not utils.has_overlap([(0, 10, True), (10, 10, False)])
 
     def test_repl_none(self):
-
         s = "Prof. Lieflantlaan"
         matches = []
 
@@ -124,7 +119,6 @@ class TestStrVariations:
         assert segments == [["Prof. Lieflantlaan"]]
 
     def test_repl_segments_single_to_single(self):
-
         s = "Prof. Lieflantlaan"
         matches = [(0, 5, ["Prof."])]
 
@@ -133,7 +127,6 @@ class TestStrVariations:
         assert segments == [["Prof."], [" Lieflantlaan"]]
 
     def test_repl_segments_single_to_multiple(self):
-
         s = "Prof. Lieflantlaan"
         matches = [(0, 5, ["Prof.", "Professor"])]
 
@@ -142,7 +135,6 @@ class TestStrVariations:
         assert segments == [["Prof.", "Professor"], [" Lieflantlaan"]]
 
     def test_repl_segments_multiple_to_multiple(self):
-
         s = "Prof. Lieflantlaan"
         matches = [(0, 5, ["Prof.", "Professor"]), (14, 18, ["laan", "ln"])]
 
@@ -151,7 +143,6 @@ class TestStrVariations:
         assert segments == [["Prof.", "Professor"], [" Lieflant"], ["laan", "ln"]]
 
     def test_str_variations_no_matches(self):
-
         s = "Prof. Lieflantlaan"
         repl = {}
 
@@ -160,7 +151,6 @@ class TestStrVariations:
         assert variations == [s]
 
     def test_str_variations_overlap(self):
-
         s = "Prof. Lieflantlaan"
         repl = {"laan": ["laan", "ln"], "lantlaan": ["lantlaan", "lantln"]}
 
@@ -168,7 +158,6 @@ class TestStrVariations:
             _ = utils.str_variations(s, repl)
 
     def test_str_variations_one_match(self):
-
         s = "Prof. Lieflantlaan"
         repl = {"Prof.": ["Prof.", "Professor"]}
 
@@ -177,7 +166,6 @@ class TestStrVariations:
         assert variations == ["Prof. Lieflantlaan", "Professor Lieflantlaan"]
 
     def test_str_variations_multiple_matches(self):
-
         s = "Prof. Lieflantlaan"
         repl = {"Prof.": ["Prof.", "Professor"], "laan": ["laan", "ln"]}
 
@@ -191,7 +179,6 @@ class TestStrVariations:
         ]
 
     def test_str_variations_regexp(self):
-
         s = "van Bevanstraat"
         repl = {"^van": ["Van", "van"]}
 
@@ -200,7 +187,6 @@ class TestStrVariations:
         assert variations == ["Van Bevanstraat", "van Bevanstraat"]
 
     def test_apply_transform(self):
-
         s = {"Prof. Lieflantlaan"}
         repl = {"Prof.": ["Prof.", "Professor"]}
 
@@ -210,7 +196,6 @@ class TestStrVariations:
         assert variations == {"Prof. Lieflantlaan", "Professor Lieflantlaan"}
 
     def test_apply_transform2(self):
-
         items = {"den Burg", "Rotterdam"}
         transform = {"transforms": {"name": {"den": ["den", ""]}}}
 
@@ -219,7 +204,6 @@ class TestStrVariations:
         assert transformed_items == {"den Burg", "Burg", "Rotterdam"}
 
     def test_apply_transform_no_strip_lines(self):
-
         items = {"den Burg", "Rotterdam"}
         transform = {"transforms": {"name": {"den": ["den", ""]}}, "strip_lines": False}
 
@@ -230,25 +214,21 @@ class TestStrVariations:
 
 class TestOptionalLoad:
     def test_optional_load_items(self):
-
         path = Path("tests/data/lookup/src/lst_test_nested/items.txt")
 
         assert utils.optional_load_items(path) == {"a", "b"}
 
     def test_optional_load_items_nonexisting(self):
-
         path = Path("tests/data/non/existing/file.txt")
 
         assert utils.optional_load_items(path) is None
 
     def test_optional_load_json(self):
-
         path = Path("tests/data/small.json")
 
         assert utils.optional_load_json(path) == {"test": True}
 
     def test_optional_load_json_nonexisting(self):
-
         path = Path("tests/data/non/existing/file.json")
 
         assert utils.optional_load_json(path) is None

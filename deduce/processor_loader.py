@@ -77,7 +77,7 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
         pattern_args = args.pop("pattern")
         module = pattern_args.pop("module")
         cls = pattern_args.pop("class")
-        cls = utils.class_for_name(module, cls)
+        cls = utils.get_class_from_name(module, cls)
 
         pattern = utils.initialize_class(cls, args=pattern_args, extras=extras)
 
@@ -106,7 +106,7 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
         module = args.pop("module")
         cls = args.pop("class")
 
-        cls = utils.class_for_name(module, cls)
+        cls = utils.get_class_from_name(module, cls)
         return utils.initialize_class(cls, args=args, extras=extras)
 
     @staticmethod
@@ -214,8 +214,6 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
         annotators = dd.process.DocProcessorGroup()
 
         for annotator_name, annotator_info in config.items():
-            if annotator_name == "date_dmy_1":
-                x = 2
             group = self._get_or_create_annotator_group(
                 annotator_info.get("group", None), processors=annotators
             )

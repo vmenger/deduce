@@ -619,6 +619,7 @@ class RegexpAnnotatorPrematchReplacement(RegexpAnnotator):
         pre_match_words: list[str] | None = None,
         **kwargs,
     ) -> None:
+        pre_match_words.sort(key=len, reverse=True)
         regexp_pattern = regexp_pattern.replace(
             "pre_match_words", "|".join(pre_match_words)
         )
