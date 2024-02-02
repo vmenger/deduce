@@ -110,8 +110,10 @@ print (doc.deidentified_text)
 Voor nazorg kan hij worden bereikt via [EMAIL-1] of [TELEFOONNUMMER-1]."""
 ```
 
-As you can see, adding known names keeps references to `[PATIENT]` in text. It also increases recall, as not all known names are contained in the lookup lists. 
+As you can see, adding known names keeps references to `[PATIENT]` in text. It also increases recall, as not all known names are contained in the lookup lists.
 
+A final configuration option that is easy to leverage is the `recall_boost`. It can be turned on in the `base_config.json` by setting `use_recall_boost` to `true`. This will increase recall by adding a few more rules, but it will also increase the number of false positives. It will for instance tag dates with only two elements (e.g. day and year), allow for lowercasenames in the multilookup annotator and so on. For a complete overview of the changes it makes see 
+[docs/tutorial](https://deduce.readthedocs.io/en/latest/) under recall boost.
 <!-- end getting started -->
 
 ## Versions

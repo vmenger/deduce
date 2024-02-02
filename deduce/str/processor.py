@@ -25,6 +25,16 @@ class TitleCase(StringModifier):
         return item.title()
 
 
+class LengthDependentTitleCase(StringModifier):
+    """Titlecase string."""
+
+    def __init__(self, min_len: int = 4) -> None:
+        self.min_len = min_len
+
+    def process(self, item: str) -> str:
+        return item.title() if len(item) >= self.min_len else item
+
+
 class TakeLastToken(StringModifier):
     """Take the last token, split by string."""
 
