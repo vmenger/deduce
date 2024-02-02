@@ -246,3 +246,6 @@ For rule based systems the trade-off between precision and recall is a well know
 | date_dmy_2 | matches dates in dmy format, e.g. 01 jan 2012. The recall booster setting allows for a day followed by month or month followed by year as well. the year criterium is stronger for month-year so only 2 digits without punctuation is not allowed, while that is ok if all three elements are present. also the prefix and postfix criteria differ slightly, so it will still tag `jan-2012` in `34-jan-2012`. |
 | date_ymd_1 | matches dates in ymd format, e.g. 2012-01-01. The recall booster setting allows for a year followed by month or month followed by day as well. The year criterium is already strong for this setting. This annotator will also tag year only elements between 1900 and 2029. If a year is surrounded by spaces (in e.g. `2012 jan 5`) this will tag a duplicate, but the length criterium will resolve this within deduce before returning the final annotations.
 | date_ymd_2 | matches dates in ymd format, e.g. `2012 januari 01`. The recall booster setting allows for a year followed by month or month followed by day as well. The year criterium is already strong for this setting. This annotator will also tag a mention of only a month, this can cause duplicates but the length criterium will resolve this within deduce |
+
+
+will add more here YAAAAY
