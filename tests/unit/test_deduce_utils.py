@@ -1,19 +1,9 @@
 from docdeid.process.annotator import MultiTokenLookupAnnotator
 
 from deduce.deduce import Deduce
-from deduce.processor_loader import DeduceProcessorLoader
-from deduce.str.processor import TitleCase
 
 
 class TestDeduceUtils:
-    def test_deduce_class_loader(self):
-        expansion_str_modifiers = [TitleCase()]
-        recall_boost_type = "docdeid.str.expander.MinimumLengthExpander"
-        expander = DeduceProcessorLoader._get_class_from_string(recall_boost_type)
-        expander = expander(expansion_str_modifiers, min_length=4)
-        expansions = expander.expand_item("expansion test")
-        assert expansions == {"expansion test", "Expansion Test"}
-
     def test_recall_booster_in_config(self):
         base_config = dict(Deduce._initialize_config())
         base_config["use_recall_boost"] = True
