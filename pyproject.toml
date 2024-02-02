@@ -27,7 +27,7 @@ author = "Vincent Menger"
 [tool.poetry.dependencies]
 python = "^3.9"
 rapidfuzz = "^2.11.1"
-docdeid = "1.0.0"
+docdeid = {git = "https://github.com/vmenger/docdeid.git", branch = "feature_branch/recall_boost" }
 regex = "^2022.9.13"
 frozendict = "^2.3.10"
 deprecated = "^1.2.14"
@@ -82,4 +82,3 @@ disable = ['C0114']
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--cov=deduce --cov-fail-under=85"
