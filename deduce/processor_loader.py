@@ -1,4 +1,5 @@
 from typing import Optional
+from typing import Any, Optional, Type
 
 import docdeid as dd
 from deprecated import deprecated
@@ -37,6 +38,7 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
                 f"Don't know how to present lookup structure with type "
                 f"{type(lookup_struct)} to MultiTokenLookupAnnotator"
             )
+
 
         DeduceProcessorLoader._handle_recall_booster(extras, args)
 
@@ -105,7 +107,6 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
     def _get_custom_annotator(args: dict, extras: dict) -> dd.process.Annotator:
         module = args.pop("module")
         cls = args.pop("class")
-
         cls = utils.get_class_from_name(module, cls)
         return utils.initialize_class(cls, args=args, extras=extras)
 
@@ -177,6 +178,7 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
     ) -> dd.process.Annotator:
         cls = utils.get_class_from_string(annotator_type)
         DeduceProcessorLoader._handle_recall_booster(extras, args)
+
         return utils.initialize_class(cls, args, extras)
 
     @staticmethod
@@ -328,3 +330,4 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
         self._load_post_processors(config=config, post_group=post_group)
 
         return processors
+

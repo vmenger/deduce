@@ -1,6 +1,6 @@
 # Tutorial
 
-`deduce` is a rule-based de-identification method for clinical text written in Dutch, which finds and removes information in one or more categories of interest (e.g. person names, names of institutions, locations). In principle, `deduce` can work 'out of the box', however, based on both scientific research and personal experience, `deduce` is unlikely to remove all sensitive information when no effort goes into some customization. This tutorial should help you reach that goal. Along with basic steps to get started and highlights of some features, further in this tutorial, we describe how to tailor `deduce` to your specific data. 
+`deduce` is a rule-based de-identification method for clinical text written in Dutch. It finds and removes information in one or more categories of interest (e.g. person names, names of institutions, locations). In principle, `deduce` can work 'out of the box', however, based on both scientific research and personal experience, `deduce` is unlikely to remove all sensitive information when no effort goes into some customization. This tutorial should help you reach that goal. Along with basic steps to get started and highlights of some features, further in this tutorial, we describe how to tailor `deduce` to your specific data. 
 
 It's useful to note that from version `2.0.0`, `deduce` is built using `docdeid`([docs](https://docdeid.readthedocs.io/en/latest/), [GitHub](https://github.com/vmenger/docdeid)), a small framework that helps build de-identifiers. Before you start customizing `deduce`, checking the `docdeid` docs will probably make it easier still.  
 
@@ -247,5 +247,3 @@ For rule based systems the trade-off between precision and recall is a well know
 | date_ymd_1 | matches dates in ymd format, e.g. 2012-01-01. The recall booster setting allows for a year followed by month or month followed by day as well. The year criterium is already strong for this setting. This annotator will also tag year only elements between 1900 and 2029. If a year is surrounded by spaces (in e.g. `2012 jan 5`) this will tag a duplicate, but the length criterium will resolve this within deduce before returning the final annotations.
 | date_ymd_2 | matches dates in ymd format, e.g. `2012 januari 01`. The recall booster setting allows for a year followed by month or month followed by day as well. The year criterium is already strong for this setting. This annotator will also tag a mention of only a month, this can cause duplicates but the length criterium will resolve this within deduce |
 
-
-will add more here YAAAAY
