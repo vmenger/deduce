@@ -819,8 +819,9 @@ class PhoneNumberAnnotator(dd.process.Annotator):
 
 class TargetWordTokenPatternAnnotator(TokenPatternAnnotator):
     """
-    Annotates based on token patterns like the TokenPatternAnnotator. However in this
-    annotator target words have to be provided to target the pattern matching, and the
+    Annotates based on token patterns like the TokenPatternAnnotator. However, in this
+    annotator target words ore obligatory to target the pattern matching, the target word
+    is allowed at any pattern position (rather than only start word) and the
     annotation can be a subset of the matched sequence of tokens.
 
     Arguments:
