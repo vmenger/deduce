@@ -3,12 +3,13 @@
 import re
 import warnings
 from re import Pattern
-from typing import Literal, Optional
+from typing import Literal, Optional, Tuple
 
 import docdeid as dd
 from docdeid import Annotation, Document, Tokenizer
 from docdeid.process import RegexpAnnotator
 
+from deduce.str.processor import TitleCase
 from deduce.utils import str_match
 
 warnings.simplefilter(action="default")
@@ -25,6 +26,9 @@ _DIRECTION_MAP = {
         "start_token": lambda annotation: annotation.end_token,
     },
 }
+
+
+title_caser = TitleCase()
 
 
 class _PatternPositionMatcher:  # pylint: disable=R0903
@@ -51,6 +55,7 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
 
         func, value = next(iter(pattern_position.items()))
 
+        # String matching functions
         if func == "equal":
             return kwargs.get("token").text == value
         if func == "re_match":
@@ -61,7 +66,6 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
                 "in a future version",
                 DeprecationWarning,
             )
-
             return (
                 (
                     len(kwargs.get("token").text) == 1
@@ -80,10 +84,25 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
                 and kwargs.get("token").text.istitle()
                 and not any(ch.isdigit() for ch in kwargs.get("token").text)
             ) == value
+
+        # Lookup functions
         if func == "lookup":
-            return kwargs.get("token").text in kwargs.get("ds")[value]
+            lookup_value, used_ds = _PatternPositionMatcher.get_lookup_values(
+                kwargs, value
+            )
+            return lookup_value in used_ds
+        if func == "title_case_lookup":
+            lookup_value, used_ds = _PatternPositionMatcher.get_lookup_values(
+                kwargs, value, title_caser
+            )
+            return lookup_value in used_ds
         if func == "neg_lookup":
-            return kwargs.get("token").text not in kwargs.get("ds")[value]
+            lookup_value, used_ds = _PatternPositionMatcher.get_lookup_values(
+                kwargs, value
+            )
+            return lookup_value not in used_ds
+
+        # Combination functions
         if func == "and":
             return all(
                 _PatternPositionMatcher.match(pattern_position=x, **kwargs)
@@ -97,18 +116,37 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
 
         raise NotImplementedError(f"No known logic for pattern {func}")
 
+    @staticmethod
+    def get_lookup_values(
+        kwargs,
+        value: str,
+        processor: dd.str.StringModifier = None,
+    ) -> Tuple[str | list[str], dd.ds.lookup.LookupStructure]:
+        """Get the lookup value for a token given the lookup structure."""
+        used_ds = kwargs.get("ds")[value]
+        text = kwargs.get("token").text
+        text = processor.process(text) if processor else text
+        if isinstance(used_ds, dd.ds.lookup.LookupTrie):
+            lookup_value = [text]
+        else:
+            lookup_value = text
+        return lookup_value, used_ds
+
 
 class TokenPatternAnnotator(dd.process.Annotator):
     """
     Annotates based on token patterns, which should be provided as a list of dicts. Each
     position in the list denotes a token position, e.g.: [{'is_initial': True},
     {'like_name': True}] matches sequences of two tokens, where the first one is an
-    initial, and the second one is like a name.
+    initial, and the second one is like a name. The entire sequence is annotated.
+    If the first token is a lookup, these are located first and the pattern is
+    subsequently matched.
 
     Arguments:
         pattern: The pattern
         ds: Any datastructures, that can be used for lookup or other logic
         skip: Any string values that should be skipped in matching (e.g. periods)
+        use_start_words: Whether to use the start words speedup for matching
     """
 
     def __init__(
@@ -117,16 +155,17 @@ class TokenPatternAnnotator(dd.process.Annotator):
         *args,
         ds: Optional[dd.ds.DsCollection] = None,
         skip: Optional[list[str]] = None,
+        use_start_words: Optional[bool] = True,
         **kwargs,
     ) -> None:
         self.pattern = pattern
-        self.ds = ds
         self.skip = set(skip or [])
 
         self._start_words = None
         self._matching_pipeline = None
+        self.ds = ds
 
-        if len(self.pattern) > 0 and "lookup" in self.pattern[0]:
+        if use_start_words and len(self.pattern) > 0 and "lookup" in self.pattern[0]:
             if self.ds is None:
                 raise RuntimeError(
                     "Created pattern with lookup in TokenPatternAnnotator, but "
@@ -159,7 +198,6 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
     def _match_sequence(  # pylint: disable=R0913
         self,
-        text: str,
         pattern: list[dict],
         start_token: dd.tokenizer.Token,
         direction: Literal["left", "right"] = "right",
@@ -169,7 +207,6 @@ class TokenPatternAnnotator(dd.process.Annotator):
         Sequentially match a pattern against a specified start_token.
 
         Args:
-            text: The original document text.
             pattern: The pattern to match.
             start_token: The start token to match.
             direction: The direction to match, choice of "left" or "right".
@@ -179,13 +216,14 @@ class TokenPatternAnnotator(dd.process.Annotator):
               An Annotation if matching is possible, None otherwise.
         """
 
+        # why is this not self.skip???
         skip = skip or set()
 
         attr = _DIRECTION_MAP[direction]["attr"]
         pattern = _DIRECTION_MAP[direction]["order"](pattern)
 
+        match_tokens = []
         current_token = start_token
-        end_token = start_token
 
         for pattern_position in pattern:
             if current_token is None or not _PatternPositionMatcher.match(
@@ -193,22 +231,13 @@ class TokenPatternAnnotator(dd.process.Annotator):
             ):
                 return None
 
-            end_token = current_token
+            match_tokens.append(current_token)
             current_token = self._get_chained_token(current_token, attr, skip)
 
-        start_token, end_token = _DIRECTION_MAP[direction]["order"](
-            (start_token, end_token)
-        )
+        # reverse result if neccessary
+        match_tokens = list(_DIRECTION_MAP[direction]["order"](match_tokens))
 
-        return dd.Annotation(
-            text=text[start_token.start_char : end_token.end_char],
-            start_char=start_token.start_char,
-            end_char=end_token.end_char,
-            tag=self.tag,
-            priority=self.priority,
-            start_token=start_token,
-            end_token=end_token,
-        )
+        return match_tokens
 
     def annotate(self, doc: dd.Document) -> list[dd.Annotation]:
         """
@@ -233,14 +262,31 @@ class TokenPatternAnnotator(dd.process.Annotator):
             )
 
         for token in tokens:
-            annotation = self._match_sequence(
-                doc.text, self.pattern, token, direction="right", skip=self.skip
+            sequence_match = self._match_sequence(
+                self.pattern, token, direction="right", skip=self.skip
+            )
+            if not sequence_match:
+                continue
+            start_token = sequence_match[0]
+            end_token = sequence_match[-1]
+            annotations.append(
+                self._create_annotation(doc.text, start_token, end_token)
             )
 
-            if annotation is not None:
-                annotations.append(annotation)
-
         return annotations
+
+    def _create_annotation(
+        self, text: str, start_token: dd.Token, end_token: dd.Token
+    ) -> dd.Annotation:
+        return dd.Annotation(
+            text=text[start_token.start_char : end_token.end_char],
+            start_char=start_token.start_char,
+            end_char=end_token.end_char,
+            tag=self.tag,
+            priority=self.priority,
+            start_token=start_token,
+            end_token=end_token,
+        )
 
 
 class ContextAnnotator(TokenPatternAnnotator):
@@ -281,31 +327,35 @@ class ContextAnnotator(TokenPatternAnnotator):
             start_token = self._get_chained_token(
                 _DIRECTION_MAP[direction]["start_token"](annotation), attr, skip
             )
-            new_annotation = self._match_sequence(
-                text,
+            sequence_match = self._match_sequence(
                 context_pattern["pattern"],
                 start_token,
                 direction=direction,
                 skip=skip,
             )
+            if not sequence_match:
+                continue
 
-            if new_annotation:
-                left_ann, right_ann = _DIRECTION_MAP[direction]["order"](
-                    (annotation, new_annotation)
-                )
+            new_annotation = self._create_annotation(
+                text, sequence_match[0], sequence_match[-1]
+            )
 
-                merged_annotation = dd.Annotation(
-                    text=text[left_ann.start_char : right_ann.end_char],
-                    start_char=left_ann.start_char,
-                    end_char=right_ann.end_char,
-                    start_token=left_ann.start_token,
-                    end_token=right_ann.end_token,
-                    tag=context_pattern["tag"].format(tag=annotation.tag),
-                    priority=annotation.priority,
-                )
+            left_ann, right_ann = _DIRECTION_MAP[direction]["order"](
+                (annotation, new_annotation)
+            )
 
-                annotations.remove(annotation)
-                annotations.add(merged_annotation)
+            merged_annotation = dd.Annotation(
+                text=text[left_ann.start_char : right_ann.end_char],
+                start_char=left_ann.start_char,
+                end_char=right_ann.end_char,
+                start_token=left_ann.start_token,
+                end_token=right_ann.end_token,
+                tag=context_pattern["tag"].format(tag=annotation.tag),
+                priority=annotation.priority,
+            )
+
+            annotations.remove(annotation)
+            annotations.add(merged_annotation)
 
         return annotations
 
@@ -763,5 +813,139 @@ class PhoneNumberAnnotator(dd.process.Annotator):
                         priority=self.priority,
                     )
                 )
+
+        return annotations
+
+
+class TargetWordTokenPatternAnnotator(TokenPatternAnnotator):
+    """
+    Annotates based on token patterns like the TokenPatternAnnotator. However in this
+    annotator target words have to be provided to target the pattern matching, and the
+    annotation can be a subset of the matched sequence of tokens.
+
+    Arguments:
+        pattern: The pattern
+        ds: Any datastructures, that can be used for lookup or other logic
+        skip: Any string values that should be skipped in matching (e.g. periods)
+        target_words_lookup: The name in ds of the target words
+        annotate_pattern_indices: The indices of the pattern to annotate
+    """
+
+    def __init__(
+        self,
+        pattern: list[dict],
+        target_words_lookup: str,
+        annotate_pattern_indices: list[int],
+        ds: dd.ds.DsCollection,
+        *args,
+        skip: Optional[list[str]] = None,
+        **kwargs,
+    ) -> None:
+        super().__init__(
+            pattern=pattern, *args, ds=ds, use_start_words=False, skip=skip, **kwargs
+        )
+
+        self.window_target = target_words_lookup
+        self.annotation_start_index = min(annotate_pattern_indices)
+        self.annotation_end_index = max(annotate_pattern_indices)
+
+        # verify correctness of target window and pattern lookups against ds
+        pattern_lookups = self.get_pattern_lookups(self.pattern)
+        if self.window_target not in pattern_lookups:
+            raise ValueError(f"window_target {self.window_target} not found in pattern")
+        for pattern_lookup in pattern_lookups.keys():
+            if pattern_lookup not in ds:
+                raise ValueError(f"lookup {pattern_lookup} not found in ds")
+
+        # Initialize target words
+        if not isinstance(self.ds[self.window_target], dd.ds.LookupSet):
+            raise ValueError(
+                f"Expected a LookupSet, but got a "
+                f"{type(self.ds[self.window_target])}."
+            )
+        self._target_words = self.ds[self.window_target].items()
+        self._matching_pipeline = self.ds[self.window_target].matching_pipeline
+
+        # Initialize shift wrt target word
+        self._shift = -pattern_lookups[self.window_target]
+
+    def get_pattern_lookups(self, pattern: list[dict]):
+        # check for {"lookup": "value"} values in pattern
+        result_dict = {}
+        for i, pattern_position in enumerate(pattern):
+            assert len(pattern_position) == 1
+            key, value = next(iter(pattern_position.items()))
+            # Extend to title case lookup?
+            if key == "lookup":
+                if value in result_dict:
+                    raise ValueError(f"lookup {value} used multiple times in pattern")
+                result_dict[value] = i
+            # handle nested patterns
+            elif isinstance(value, list):
+                d = self.get_pattern_lookups(value)
+                for lookup_name in d.keys():
+                    if lookup_name in result_dict:
+                        raise ValueError(
+                            f"lookup {value} used multiple times in pattern"
+                        )
+                    result_dict[lookup_name] = i
+
+        return result_dict
+
+    def get_start_index(self, tokens: dd.tokenizer.TokenList, target_token: dd.Token):
+        i = 0
+        target_index = tokens.token_index(target_token)
+        while i < abs(self._shift):
+            if self._shift > 0:
+                target_index += 1
+            else:
+                target_index -= 1
+            if target_index < 0 or target_index >= len(tokens):
+                return None
+            if tokens[target_index].text not in self.skip:
+                i += 1
+        return target_index
+
+    def annotate(self, doc: dd.Document) -> list[dd.Annotation]:
+        """
+        Annotate the document, by matching the pattern against start positions wrt target words.
+
+        Args:
+            doc: The document being processed.
+
+        Returns:
+            A list of Annotations.
+        """
+
+        annotations = []
+        tokens = doc.get_tokens()
+
+        target_tokens = tokens.token_lookup(
+            lookup_values=self._target_words,
+            matching_pipeline=self._matching_pipeline,
+        )
+
+        for target_token in target_tokens:
+            start_index = self.get_start_index(tokens, target_token)
+            if start_index is None:
+                continue
+            tokens.token_index(target_token) + self._shift
+            if start_index < 0:
+                continue
+
+            sequence_match = self._match_sequence(
+                self.pattern,
+                tokens[start_index],
+                direction="right",
+                skip=self.skip,
+            )
+            if not sequence_match:
+                continue
+
+            start_token = sequence_match[self.annotation_start_index]
+            end_token = sequence_match[self.annotation_end_index]
+            annotations.append(
+                self._create_annotation(doc.text, start_token, end_token)
+            )
 
         return annotations

@@ -57,6 +57,13 @@ class TestRegression:
             enabled=annotators_from_group(model, "names"),
         )
 
+    def test_regression_name_patient_environment(self, model):
+        regression_test(
+            model=model,
+            examples_file="tests/data/regression_cases/names_patient_environment.json",
+            enabled=annotators_from_group(model, "names"),
+        )
+
     def test_regression_location(self, model):
         regression_test(
             model=model,

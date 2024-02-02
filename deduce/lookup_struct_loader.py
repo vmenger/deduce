@@ -103,6 +103,20 @@ def load_first_name_lookup(
     return lookup_set_to_trie(first_name, tokenizer)
 
 
+def load_patient_environment_lookup(
+    raw_itemsets: dict[str, set[str]],
+) -> dd.ds.LookupSet:
+    """Load patient environment LookupSet."""
+
+    patient_environment = dd.ds.LookupSet()
+
+    patient_environment.add_items_from_iterable(raw_itemsets["patient_environment"])
+    patient_environment.add_items_from_self(cleaning_pipeline=[UpperCaseFirstChar()])
+    # add doctor prefixes here later
+
+    return patient_environment
+
+
 def load_interfix_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
     """Load interfix LookupSet ('van der', etc.)."""
 

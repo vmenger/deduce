@@ -186,6 +186,69 @@
         "tag": "_"
       }
     },
+    "patient_environment1": {
+      "annotator_type": "deduce.annotator.TargetWordTokenPatternAnnotator",
+      "group": "names",
+      "args": {
+        "tag": "naam",
+        "skip": ["(", ")", "zijn", "haar"],
+        "target_words_lookup": "patient_environment",
+        "annotate_pattern_indices": [1],
+        "pattern": [
+          {
+            "lookup": "patient_environment"
+          },
+          {
+            "or": [
+              {
+                "like_name": true
+              },
+              {
+                "title_case_lookup": "first_name"
+              },
+              {
+                "title_case_lookup": "interfix_surname"
+              },
+              {
+                "title_case_lookup": "surname"
+              }
+            ]
+          }
+          
+        ]
+      }
+    },
+    "patient_environment2": {
+      "annotator_type": "deduce.annotator.TargetWordTokenPatternAnnotator",
+      "group": "names",
+      "args": {
+        "tag": "naam",
+        "skip": ["(", ")", "zijn", "haar"],
+        "target_words_lookup": "patient_environment",
+        "annotate_pattern_indices": [0],
+        "pattern": [
+          {
+            "or": [
+              {
+                "like_name": true
+              },
+              {
+                "title_case_lookup": "first_name"
+              },
+              {
+                "title_case_lookup": "interfix_surname"
+              },
+              {
+                "title_case_lookup": "surname"
+              }
+            ]
+          },
+          {
+            "lookup": "patient_environment"
+          }
+        ]
+      }
+    },
     "name_context": {
       "annotator_type": "deduce.annotator.ContextAnnotator",
       "group": "names",
