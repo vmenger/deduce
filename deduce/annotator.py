@@ -2,7 +2,6 @@
 
 import re
 import warnings
-from re import Pattern
 from typing import Literal, Optional
 
 import docdeid as dd
@@ -616,7 +615,7 @@ class RegexpAnnotatorPrematchReplacement(RegexpAnnotator):
 
     def __init__(
         self,
-        regexp_pattern: Pattern | str,
+        regexp_pattern: str,
         *args,
         capturing_group: int = 0,
         pre_match_words: list[str] | None = None,
