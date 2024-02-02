@@ -240,5 +240,5 @@ For rule based systems the trade-off between precision and recall is a well know
 
 | **Annotator** | **Change** |
 | --- | --- |
-| first_name_lookup | Matches also first names occurring in lowercase if they exceed the minimum length specified in the config |
-| surname_lookup | Matches also surnames occurring in lowercase if they exceed the minimum length specified in the config |
+| first_name_lookup | Matches also first names occurring in lowercase if they exceed the minimum length specified in the annotator config |
+| surname_lookup | Matches also surnames occurring in lowercase if they exceed the minimum length specified in the annotator config |
