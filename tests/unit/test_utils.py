@@ -27,7 +27,7 @@ class TestStrMatch:
         assert not utils.str_match("willem", "klaas", max_edit_distance=1)
 
 
-class TestClassForName:
+class TestClassFromName:
     def test_class_from_name(self):
         assert (
             utils.get_class_from_name(
