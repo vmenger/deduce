@@ -160,6 +160,14 @@
                     "end_char": 10,
                     "tag": "datum"
                 }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "2011",
+                    "start_char": 6,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
             ]
         },
         {
@@ -172,6 +180,20 @@
                     "end_char": 15,
                     "tag": "datum"
                 }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "2019",
+                    "start_char": 11,
+                    "end_char": 15,
+                    "tag": "datum"
+                },
+                {
+                    "text": "augustus",
+                    "start_char": 2,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
             ]
         },
         {
@@ -182,6 +204,20 @@
                     "text": "17 mei 2011",
                     "start_char": 0,
                     "end_char": 11,
+                    "tag": "datum"
+                }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "2011",
+                    "start_char": 7,
+                    "end_char": 11,
+                    "tag": "datum"
+                },
+                {
+                    "text": "mei",
+                    "start_char": 3,
+                    "end_char": 6,
                     "tag": "datum"
                 }
             ]
@@ -208,6 +244,20 @@
                     "end_char": 10,
                     "tag": "datum"
                 }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "'11",
+                    "start_char": 7,
+                    "end_char": 10,
+                    "tag": "datum"
+                },
+                {
+                    "text": "mei",
+                    "start_char": 3,
+                    "end_char": 6,
+                    "tag": "datum"
+                }
             ]
         },
         {
@@ -220,6 +270,19 @@
                     "end_char": 10,
                     "tag": "datum"
                 }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "2012",
+                    "start_char": 6,
+                    "end_char": 10,
+                    "tag": "datum"
+                },
+                {
+                    "text": "aug",
+                    "start_char": 2,
+                    "end_char": 5,
+                    "tag": "datum"}
             ]
         },
         {
@@ -230,6 +293,20 @@
                     "text": "4 jan 1999",
                     "start_char": 0,
                     "end_char": 10,
+                    "tag": "datum"
+                }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "1999",
+                    "start_char": 6,
+                    "end_char": 10,
+                    "tag": "datum"
+                },
+                {
+                    "text": "jan",
+                    "start_char": 2,
+                    "end_char": 5,
                     "tag": "datum"
                 }
             ]
@@ -244,6 +321,20 @@
                     "end_char": 10,
                     "tag": "datum"
                 }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "1999",
+                    "start_char": 6,
+                    "end_char": 10,
+                    "tag": "datum"
+                },
+                {
+                    "text": "JAN",
+                    "start_char": 2,
+                    "end_char": 5,
+                    "tag": "datum"
+                }
             ]
         },
         {
@@ -256,12 +347,46 @@
                     "end_char": 15,
                     "tag": "datum"
                 }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "2018",
+                    "start_char": 11,
+                    "end_char": 15,
+                    "tag": "datum"
+                },
+                {
+                    "text": "AUGUSTUS",
+                    "start_char": 2,
+                    "end_char": 10,
+                    "tag": "datum"
+                }
             ]
         },
         {
             "id": 25,
             "text": "38 augustus 2018",
-            "annotations": []
+            "annotations": [],
+            "recall_booster_annotations": [
+                {
+                    "text": "augustus 2018",
+                    "start_char": 3,
+                    "end_char": 16,
+                    "tag": "datum"
+                },
+                {
+                    "text": "2018",
+                    "start_char": 12,
+                    "end_char": 16,
+                    "tag": "datum"
+                },
+                {
+                    "text": "augustus",
+                    "start_char": 3,
+                    "end_char": 11,
+                    "tag": "datum"
+                }
+            ]
         },
         {
             "id": 26,
@@ -285,12 +410,40 @@
                     "end_char": 12,
                     "tag": "datum"
                 }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "1928",
+                    "start_char": 8,
+                    "end_char": 12,
+                    "tag": "datum"
+                },
+                {
+                    "text": "jan",
+                    "start_char": 4,
+                    "end_char": 7,
+                    "tag": "datum"
+                }
             ]
         },
         {
             "id": 28,
             "text": "1- AUGUSTUS 20181966-07-24",
-            "annotations": []
+            "annotations": [],
+            "recall_booster_annotations": [
+                {
+                    "text": "1- AUGUSTUS",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "datum"
+                },
+                {
+                    "text": "AUGUSTUS",
+                    "start_char": 3,
+                    "end_char": 11,
+                    "tag": "datum"
+                }
+            ]
         },
         {
             "id": 29,
@@ -457,6 +610,14 @@
                     "end_char": 15,
                     "tag": "datum"
                 }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "2019",
+                    "start_char": 0,
+                    "end_char": 4,
+                    "tag": "datum"
+                }
             ]
         },
         {
@@ -467,6 +628,14 @@
                     "text": "2011 mei 17",
                     "start_char": 0,
                     "end_char": 11,
+                    "tag": "datum"
+                }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "2011",
+                    "start_char": 0,
+                    "end_char": 4,
                     "tag": "datum"
                 }
             ]
@@ -499,6 +668,14 @@
                     "end_char": 10,
                     "tag": "datum"
                 }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "'11",
+                    "start_char": 0,
+                    "end_char": 3,
+                    "tag": "datum"
+                }
             ]
         },
         {
@@ -509,6 +686,14 @@
                     "text": "2012 aug 1",
                     "start_char": 0,
                     "end_char": 10,
+                    "tag": "datum"
+                }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "2012",
+                    "start_char": 0,
+                    "end_char": 4,
                     "tag": "datum"
                 }
             ]
@@ -523,6 +708,14 @@
                     "end_char": 10,
                     "tag": "datum"
                 }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "1999",
+                    "start_char": 0,
+                    "end_char": 4,
+                    "tag": "datum"
+                }
             ]
         },
         {
@@ -533,6 +726,14 @@
                     "text": "1999 JAN 4",
                     "start_char": 0,
                     "end_char": 10,
+                    "tag": "datum"
+                }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "1999",
+                    "start_char": 0,
+                    "end_char": 4,
                     "tag": "datum"
                 }
             ]
@@ -547,12 +748,34 @@
                     "end_char": 15,
                     "tag": "datum"
                 }
+            ],
+            "recall_booster_annotations": [
+                {
+                    "text": "2018",
+                    "start_char": 0,
+                    "end_char": 4,
+                    "tag": "datum"
+                }
             ]
         },
         {
             "id": 53,
             "text": "2018 augustus 38",
-            "annotations": []
+            "annotations": [],
+            "recall_booster_annotations": [
+                {
+                    "text": "2018 augustus",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "datum"
+                },
+                {
+                    "text": "2018",
+                    "start_char": 0,
+                    "end_char": 4,
+                    "tag": "datum"
+                }
+            ]
         },
         {
             "id": 54,
@@ -589,6 +812,206 @@
                     "tag": "datum"
                 }
             ]
+        },
+        {
+            "id": 57,
+            "text": "12/2023",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "12/2023",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 58,
+            "text": "12 februari",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "12 februari",
+                    "start_char": 0,
+                    "end_char": 11,
+                    "tag": "datum"
+                },
+                {
+                    "text": "februari",
+                    "start_char": 3,
+                    "end_char": 11,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 59,
+            "text": "08-12",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "08-12",
+                    "start_char": 0,
+                    "end_char": 5,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 60,
+            "text": "sept 2018",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "sept 2018",
+                    "start_char": 0,
+                    "end_char": 9,
+                    "tag": "datum"
+                },
+                {
+                    "text": "2018",
+                    "start_char": 5,
+                    "end_char": 9,
+                    "tag": "datum"
+                },
+                {
+                    "text": "sept",
+                    "start_char": 0,
+                    "end_char": 4,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 61,
+            "text": "2018/09",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "2018/09",
+                    "start_char": 0,
+                    "end_char": 7,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 62,
+            "text": "08/29",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "08/29",
+                    "start_char": 0,
+                    "end_char": 5,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 63,
+            "text": "augustus 1987",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "augustus 1987",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "datum"
+                },
+                {
+                    "text": "1987",
+                    "start_char": 9,
+                    "end_char": 13,
+                    "tag": "datum"
+                },
+                {
+                    "text": "augustus",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 64,
+            "text": "2012 augustus",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "2012 augustus",
+                    "start_char": 0,
+                    "end_char": 13,
+                    "tag": "datum"
+                },
+                {
+                    "text": "2012",
+                    "start_char": 0,
+                    "end_char": 4,
+                    "tag": "datum"}
+
+            ]
+        },
+        {
+            "id": 65,
+            "text": "1987",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "1987",
+                    "start_char": 0,
+                    "end_char": 4,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 66,
+            "text": "augustus",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "augustus",
+                    "start_char": 0,
+                    "end_char": 8,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 67,
+            "text": "sep",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "sep",
+                    "start_char": 0,
+                    "end_char": 3,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 68,
+            "text": "2080",
+            "annotations":[]
+        },
+        {
+            "id": 69,
+            "text": "1899",
+            "annotations":[]
+        },
+        {
+            "id": 70,
+            "text": "Dat maakt het onoverzichtelijk",
+            "annotations":[]
+        },
+        {
+            "id": 71,
+            "text": "Aan jullie kant",
+            "annotations":[]
         }
+
     ]
 }

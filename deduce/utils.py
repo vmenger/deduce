@@ -32,7 +32,24 @@ def str_match(str_1: str, str_2: str, max_edit_distance: Optional[int] = None) -
     return str_1 == str_2
 
 
-def class_for_name(module_name: str, class_name: str) -> type:
+def get_class_from_string(class_name: str) -> type:
+    """Returns a class from a single string representation.
+
+    Args:
+        class_name (str): class representation: "deduce.annotator.Annotator"
+
+    Returns:
+        type: uninstantiated class
+    """
+    elems = class_name.split(".")
+    module_name = ".".join(elems[:-1])
+    class_name = elems[-1]
+
+    cls = get_class_from_name(module_name=module_name, class_name=class_name)
+    return cls
+
+
+def get_class_from_name(module_name: str, class_name: str) -> type:
     """
     Will import and return the class by name.
 
@@ -43,7 +60,6 @@ def class_for_name(module_name: str, class_name: str) -> type:
     Returns:
         The class.
     """
-
     module = importlib.import_module(module_name)
     return getattr(module, class_name)
 
@@ -62,13 +78,10 @@ def initialize_class(cls: type, args: dict, extras: dict) -> object:
     Returns:
         An instantiated class, with the relevant arguments and extras.
     """
-
     cls_params = inspect.signature(cls).parameters
 
     for arg_name, arg in extras.items():
-
         if arg_name in cls_params:
-
             args[arg_name] = arg
 
     return cls(**args)
@@ -209,7 +222,6 @@ def apply_transform(items: set[str], transform_config: dict) -> set[str]:
     transforms = transform_config.get("transforms", {})
 
     for _, transform in transforms.items():
-
         to_add = []
 
         for item in items:

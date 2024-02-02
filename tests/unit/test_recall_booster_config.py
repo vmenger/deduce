@@ -3,7 +3,7 @@ from docdeid.process.annotator import MultiTokenLookupAnnotator
 from deduce.deduce import Deduce
 
 
-class TestDeduceUtils:
+class TestRecallBoosterConfig:
     def test_recall_booster_in_config(self):
         base_config = dict(Deduce._initialize_config())
         base_config["use_recall_boost"] = True

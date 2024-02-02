@@ -609,6 +609,31 @@ class RegexpPseudoAnnotator(RegexpAnnotator):
         )
 
 
+class RegexpAnnotatorPrematchReplacement(RegexpAnnotator):
+    """replaces the keyword pre_match_words with a join of the
+    pre_match_words list"""
+
+    def __init__(
+        self,
+        regexp_pattern: str,
+        pre_match_words: list[str],
+        *args,
+        capturing_group: int = 0,
+        **kwargs,
+    ) -> None:
+        pre_match_words.sort(key=len, reverse=True)
+        regexp_pattern = regexp_pattern.replace(
+            "pre_match_words", "|".join(pre_match_words)
+        )
+        super().__init__(
+            regexp_pattern,
+            *args,
+            capturing_group=capturing_group,
+            pre_match_words=pre_match_words,
+            **kwargs,
+        )
+
+
 class BsnAnnotator(dd.process.Annotator):
     """
     Annotates Burgerservicenummer (BSN), according to the elfproef logic.

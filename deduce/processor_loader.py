@@ -1,3 +1,4 @@
+from typing import Optional
 from typing import Any, Optional, Type
 
 import docdeid as dd
@@ -38,16 +39,8 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
                 f"{type(lookup_struct)} to MultiTokenLookupAnnotator"
             )
 
-        # if recall boost config available for this annotator
-        if "recall_boost_config" in args:
-            # if recall boost should be used according to config
-            if extras.get("use_recall_boost"):
-                # instantiate recall boost
-                recall_boost_config = args["recall_boost_config"]
-                DeduceProcessorLoader._add_recall_booster_arguments(
-                    recall_boost_config, args
-                )
-            del args["recall_boost_config"]
+
+        DeduceProcessorLoader._handle_recall_booster(extras, args)
 
         return dd.process.MultiTokenLookupAnnotator(**args)
 
@@ -86,7 +79,7 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
         pattern_args = args.pop("pattern")
         module = pattern_args.pop("module")
         cls = pattern_args.pop("class")
-        cls = utils.class_for_name(module, cls)
+        cls = utils.get_class_from_name(module, cls)
 
         pattern = utils.initialize_class(cls, args=pattern_args, extras=extras)
 
@@ -114,8 +107,7 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
     def _get_custom_annotator(args: dict, extras: dict) -> dd.process.Annotator:
         module = args.pop("module")
         cls = args.pop("class")
-
-        cls = utils.class_for_name(module, cls)
+        cls = utils.get_class_from_name(module, cls)
         return utils.initialize_class(cls, args=args, extras=extras)
 
     @staticmethod
@@ -130,22 +122,62 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
         args: dict,
         extras: dict,  # pylint: disable=W0613
     ) -> dd.process.Annotator:
+        DeduceProcessorLoader._handle_recall_booster(extras, args)
         return dd.process.RegexpAnnotator(**args)
 
     @staticmethod
-    def _get_class_from_string(class_name: str) -> Type[Any]:
-        elems = class_name.split(".")
-        module_name = ".".join(elems[:-1])
-        class_name = elems[-1]
+    def _add_recall_booster_arguments(
+        recall_boost_config: dict, processor_args: dict
+    ) -> None:
+        """Adds recall booster arguments to processor arguments."""
+        recall_boost_type = recall_boost_config["recall_boost_type"]
+        if recall_boost_type.endswith("MinimumLengthExpander"):
+            str_processors = recall_boost_config["args"]["str_processors"]
+            str_processors = [utils.get_class_from_string(p)() for p in str_processors]
+            expander = utils.get_class_from_string(recall_boost_type)
+            expander = expander(
+                str_processors,
+                min_length=recall_boost_config["args"]["min_len"],
+            )
+            processor_args["expander"] = expander
+        elif recall_boost_type == "argument_replacement":
+            for key, value in recall_boost_config["args"].items():
+                if key not in processor_args:
+                    raise ValueError(
+                        "argument_replacement is only possible \
+                        for args that exist in processor arguments"
+                    )
+                processor_args[key] = value
+        else:
+            raise ValueError(
+                f"Unknown recall boost type {recall_boost_config['recall_boost_type']}"
+            )
 
-        cls = utils.class_for_name(module_name=module_name, class_name=class_name)
-        return cls
+    @staticmethod
+    def _handle_recall_booster(extras: dict, processor_args: dict) -> None:
+        """
+        Checks if recall boost is turned on in config and annotator has a recall boost
+        config.
+
+        If so, adds recall booster arguments to processor args.
+        """
+        # if recall boost config available for this annotator
+        if "recall_boost_config" in processor_args:
+            # if recall boost should be used according to config
+            if extras.get("use_recall_boost"):
+                # instantiate recall boost
+                recall_boost_config = processor_args["recall_boost_config"]
+                DeduceProcessorLoader._add_recall_booster_arguments(
+                    recall_boost_config, processor_args
+                )
+            del processor_args["recall_boost_config"]
 
     @staticmethod
     def _get_annotator_from_class(
         annotator_type: str, args: dict, extras: dict
     ) -> dd.process.Annotator:
-        cls = DeduceProcessorLoader._get_class_from_string(annotator_type)
+        cls = utils.get_class_from_string(annotator_type)
+        DeduceProcessorLoader._handle_recall_booster(extras, args)
 
         return utils.initialize_class(cls, args, extras)
 
@@ -299,26 +331,3 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
 
         return processors
 
-    @staticmethod
-    def _add_recall_booster_arguments(
-        recall_boost_config: dict, processor_args: dict
-    ) -> None:
-        """Adds recall booster arguments to processor arguments."""
-        if recall_boost_config["recall_boost_type"].endswith("MinimumLengthExpander"):
-            str_processors = recall_boost_config["args"]["str_processors"]
-            str_processors = [
-                DeduceProcessorLoader._get_class_from_string(p)()
-                for p in str_processors
-            ]
-            expander = DeduceProcessorLoader._get_class_from_string(
-                recall_boost_config["recall_boost_type"]
-            )
-            expander = expander(
-                str_processors,
-                min_length=recall_boost_config["args"]["min_len"],
-            )
-            processor_args["expander"] = expander
-        else:
-            raise ValueError(
-                f"Unknown recall boost type {recall_boost_config['recall_boost_type']}"
-            )

@@ -21,9 +21,12 @@ def regression_test(
     failures = set()
 
     for example in examples:
+        add_recall_booster_annotations(example, model)
+
         trues = AnnotationSet(
             Annotation(**annotation) for annotation in example["annotations"]
         )
+
         preds = model.deidentify(text=example["text"], enabled=enabled).annotations
 
         try:
@@ -32,6 +35,14 @@ def regression_test(
             failures.add(example["id"])
 
     assert failures == known_failures
+
+
+def add_recall_booster_annotations(example, model):
+    if not model.config["use_recall_boost"]:
+        return
+    recall_booster_annotations = example.get("recall_booster_annotations", [])
+    example["annotations"] += recall_booster_annotations
+    example["annotations"].sort(key=lambda x: x["start_char"])
 
 
 def annotators_from_group(model: Deduce, group: str) -> set[str]:
@@ -65,6 +76,13 @@ class TestRegression:
             model=model,
             examples_file="tests/data/regression_cases/dates.json",
             enabled=annotators_from_group(model, "dates"),
+        )
+
+    def test_regression_date_recall_booster(self, model_with_recall_boost):
+        regression_test(
+            model=model_with_recall_boost,
+            examples_file="tests/data/regression_cases/dates.json",
+            enabled=annotators_from_group(model_with_recall_boost, "dates"),
         )
 
     def test_regression_age(self, model):
