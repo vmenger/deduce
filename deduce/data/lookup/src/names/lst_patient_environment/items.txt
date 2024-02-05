@@ -10,3 +10,13 @@ partner
 contactpersoon
 man
 vrouw
+vader
+moeder
+opa
+oma
+grootvader
+grootmoeder
+vriend
+vriendin
+tante
+oom
