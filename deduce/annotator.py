@@ -3,7 +3,7 @@
 import re
 import warnings
 from re import Pattern
-from typing import Literal, Optional, Tuple
+from typing import Literal, Optional, Tuple, Union
 
 import docdeid as dd
 from docdeid import Annotation, Document, Tokenizer
@@ -121,7 +121,7 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
         kwargs,
         value: str,
         processor: dd.str.StringModifier = None,
-    ) -> Tuple[str | list[str], dd.ds.lookup.LookupStructure]:
+    ) -> Tuple[Union[str, list[str]], dd.ds.lookup.LookupStructure]:
         """Get the lookup value for a token given the lookup structure."""
         used_ds = kwargs.get("ds")[value]
         text = kwargs.get("token").text
@@ -666,10 +666,10 @@ class RegexpAnnotatorPrematchReplacement(RegexpAnnotator):
 
     def __init__(
         self,
-        regexp_pattern: Pattern | str,
+        regexp_pattern: Union[Pattern, str],
         *args,
         capturing_group: int = 0,
-        pre_match_words: list[str] | None = None,
+        pre_match_words: list[str] = None,
         **kwargs,
     ) -> None:
         if pre_match_words is None:
