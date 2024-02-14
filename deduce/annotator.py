@@ -165,7 +165,11 @@ class TokenPatternAnnotator(dd.process.Annotator):
         self._matching_pipeline = None
         self.ds = ds
 
+<<<<<<< HEAD
         if use_start_words and len(self.pattern) > 0 and "lookup" in self.pattern[0]:
+=======
+        if len(self.pattern) > 0 and "lookup" in self.pattern[0]:
+>>>>>>> feature_branch/recall_boost
             if self.ds is None:
                 raise RuntimeError(
                     "Created pattern with lookup in TokenPatternAnnotator, but "
@@ -262,6 +266,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
             )
 
         for token in tokens:
+<<<<<<< HEAD
             sequence_match = self._match_sequence(
                 self.pattern, token, direction="right", skip=self.skip
             )
@@ -271,6 +276,10 @@ class TokenPatternAnnotator(dd.process.Annotator):
             end_token = sequence_match[-1]
             annotations.append(
                 self._create_annotation(doc.text, start_token, end_token)
+=======
+            annotation = self._match_sequence(
+                doc.text, self.pattern, token, direction="right", skip=self.skip
+>>>>>>> feature_branch/recall_boost
             )
 
         return annotations
@@ -666,6 +675,7 @@ class RegexpAnnotatorPrematchReplacement(RegexpAnnotator):
 
     def __init__(
         self,
+<<<<<<< HEAD
         regexp_pattern: Pattern | str,
         *args,
         capturing_group: int = 0,
@@ -676,6 +686,14 @@ class RegexpAnnotatorPrematchReplacement(RegexpAnnotator):
             raise ValueError(
                 "pre_match_words cannot be None when using this regex annotator"
             )
+=======
+        regexp_pattern: str,
+        pre_match_words: list[str],
+        *args,
+        capturing_group: int = 0,
+        **kwargs,
+    ) -> None:
+>>>>>>> feature_branch/recall_boost
         pre_match_words.sort(key=len, reverse=True)
         regexp_pattern = regexp_pattern.replace(
             "pre_match_words", "|".join(pre_match_words)

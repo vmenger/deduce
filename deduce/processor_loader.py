@@ -37,7 +37,6 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
                 f"Don't know how to present lookup structure with type "
                 f"{type(lookup_struct)} to MultiTokenLookupAnnotator"
             )
-
         DeduceProcessorLoader._handle_recall_booster(extras, args)
 
         return dd.process.MultiTokenLookupAnnotator(**args)
