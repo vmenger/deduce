@@ -1238,18 +1238,6 @@
                     "tag": "locatie"
                 }
             ]
-        },
-        {
-            "id": 112,
-            "text": "in Leiden zijn er veel studenten",
-            "annotations": [
-                {
-                    "text": "Leiden",
-                    "start_char": 3,
-                    "end_char": 9,
-                    "tag": "locatie"
-                }
-            ]
         }
     ]
 }
