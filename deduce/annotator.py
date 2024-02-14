@@ -165,11 +165,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
         self._matching_pipeline = None
         self.ds = ds
 
-<<<<<<< HEAD
         if use_start_words and len(self.pattern) > 0 and "lookup" in self.pattern[0]:
-=======
-        if len(self.pattern) > 0 and "lookup" in self.pattern[0]:
->>>>>>> feature_branch/recall_boost
             if self.ds is None:
                 raise RuntimeError(
                     "Created pattern with lookup in TokenPatternAnnotator, but "
