@@ -1250,6 +1250,20 @@
                     "tag": "locatie"
                 }
             ]
+        },
+        {
+            "id": 113,
+            "text": "in Den Bosch staat een ziekenhuis",
+            "annotations": [
+                {
+                    "text": "Den Bosch",
+                    "start_char": 3,
+                    "end_char": 12,
+                    "tag": "locatie"
+                }
+            ]
         }
+
+        
     ]
 }
