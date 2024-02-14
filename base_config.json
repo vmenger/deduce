@@ -223,7 +223,7 @@
       "group": "names",
       "args": {
         "tag": "naam",
-        "skip": ["(", ")", "zijn", "haar"],
+        "skip": ["(", ")", "zijn", "haar", "hun"],
         "target_words_lookup": "patient_environment",
         "annotate_pattern_indices": [0],
         "pattern": [
