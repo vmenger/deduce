@@ -40,6 +40,18 @@
             "id": 3,
             "text": "vandaag met zoon gesproken",
             "annotations": []
+        },
+        {
+            "id": 4,
+            "text": "ze hebben het verteld aan everdien (hun dochter)",
+            "annotations": [
+                {
+                    "text": "everdien",
+                    "start_char": 26,
+                    "end_char": 34,
+                    "tag": "persoon"
+                }
+            ]
         }
     ]
 }
