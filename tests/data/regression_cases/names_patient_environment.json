@@ -1,0 +1,57 @@
+{
+    "examples": [
+        {
+            "id": 0,
+            "text": "de zoon (erwin)",
+            "annotations": [
+                {
+                    "text": "erwin",
+                    "start_char": 9,
+                    "end_char": 14,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "text": "Mcflutsieflutsie (haar man)",
+            "annotations": [
+                {
+                    "text": "Mcflutsieflutsie",
+                    "start_char": 0,
+                    "end_char": 16,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "text": "haar kleindochter marieke",
+            "annotations": [
+                {
+                    "text": "marieke",
+                    "start_char": 18,
+                    "end_char": 25,
+                    "tag": "persoon"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "text": "vandaag met zoon gesproken",
+            "annotations": []
+        },
+        {
+            "id": 4,
+            "text": "ze hebben het verteld aan everdien (hun dochter)",
+            "annotations": [
+                {
+                    "text": "everdien",
+                    "start_char": 26,
+                    "end_char": 34,
+                    "tag": "persoon"
+                }
+            ]
+        }
+    ]
+}

@@ -23,6 +23,9 @@ def regression_test(
     for example in examples:
         add_recall_booster_annotations(example, model)
 
+        if example["id"] == 112:
+            x = 2
+
         trues = AnnotationSet(
             Annotation(**annotation) for annotation in example["annotations"]
         )
@@ -54,6 +57,13 @@ class TestRegression:
         regression_test(
             model=model,
             examples_file="tests/data/regression_cases/names.json",
+            enabled=annotators_from_group(model, "names"),
+        )
+
+    def test_regression_name_patient_environment(self, model):
+        regression_test(
+            model=model,
+            examples_file="tests/data/regression_cases/names_patient_environment.json",
             enabled=annotators_from_group(model, "names"),
         )
 

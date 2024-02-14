@@ -18,6 +18,7 @@ from deduce.lookup_struct_loader import (
     load_hospital_lookup,
     load_institution_lookup,
     load_interfix_lookup,
+    load_patient_environment_lookup,
     load_placename_lookup,
     load_prefix_lookup,
     load_street_lookup,
@@ -34,6 +35,7 @@ _LOOKUP_SET_LOADERS = {
     "prefix": load_prefix_lookup,
     "interfix": load_interfix_lookup,
     "whitelist": load_whitelist_lookup,
+    "patient_environment": load_patient_environment_lookup,
 }
 
 _LOOKUP_TRIE_LOADERS = {
@@ -67,7 +69,6 @@ def load_raw_itemset(path: Path) -> set[str]:
     sub_list_dirs = list(path.glob("lst_*"))
 
     if items is None:
-
         if len(sub_list_dirs) == 0:
             raise RuntimeError(
                 f"Cannot import lookup list {path}, did not find "
@@ -135,7 +136,6 @@ def validate_lookup_struct_cache(
     src_path = base_path / _SRC_SUBDIR
 
     for file in src_path.glob("**"):
-
         if datetime.fromtimestamp(os.stat(file).st_mtime) > datetime.fromisoformat(
             cache["saved_datetime"]
         ):
@@ -220,7 +220,6 @@ def get_lookup_structs(
     """
 
     if not build:
-
         lookup_structs = load_lookup_structs_from_cache(lookup_path, deduce_version)
 
         if lookup_structs is not None:

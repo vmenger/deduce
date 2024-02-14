@@ -10,6 +10,7 @@ all_lists = [
     "names/lst_interfix_surname",
     "names/lst_prefix",
     "names/lst_surname",
+    "names/lst_patient_environment",
     "whitelist/lst_common_word",
     "whitelist/lst_eponymous_disease",
     "whitelist/lst_medical_term",
