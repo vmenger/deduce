@@ -1238,6 +1238,32 @@
                     "tag": "locatie"
                 }
             ]
+        },
+        {
+            "id": 112,
+            "text": "in Leiden zijn er veel studenten",
+            "annotations": [
+                {
+                    "text": "Leiden",
+                    "start_char": 3,
+                    "end_char": 9,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 113,
+            "text": "in Den Bosch staat een ziekenhuis",
+            "annotations": [
+                {
+                    "text": "Den Bosch",
+                    "start_char": 3,
+                    "end_char": 12,
+                    "tag": "locatie"
+                }
+            ]
         }
+
+        
     ]
 }
