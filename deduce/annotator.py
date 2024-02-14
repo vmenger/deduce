@@ -5,7 +5,6 @@ import warnings
 from re import Pattern
 from typing import Literal, Optional, Tuple, Union
 
-
 import docdeid as dd
 from docdeid import Annotation, Document, Tokenizer
 from docdeid.process import RegexpAnnotator
