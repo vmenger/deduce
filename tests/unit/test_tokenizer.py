@@ -63,7 +63,6 @@ class TestTokenizer:
 
         assert tokenizer._split_text(text=text) == expected_tokens
 
-
     def test_split_newline(self):
         tokenizer = DeduceTokenizer()
         text = "regel 1 \n gevolgd door regel 2"
