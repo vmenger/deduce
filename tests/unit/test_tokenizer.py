@@ -47,6 +47,23 @@ class TestTokenizer:
 
         assert tokenizer._split_text(text=text) == expected_tokens
 
+    def test_split_multiple_spaces(self):
+        tokenizer = DeduceTokenizer()
+        text = "Pieter van der Zee     Bergen Op  Zoom"
+        expected_tokens = [
+            dd.Token(text="Pieter", start_char=0, end_char=6),
+            dd.Token(text="van", start_char=7, end_char=10),
+            dd.Token(text="der", start_char=11, end_char=14),
+            dd.Token(text="Zee", start_char=15, end_char=18),
+            dd.Token(text="     ", start_char=18, end_char=23),
+            dd.Token(text="Bergen", start_char=23, end_char=29),
+            dd.Token(text="Op", start_char=30, end_char=32),
+            dd.Token(text="Zoom", start_char=34, end_char=38),
+        ]
+
+        assert tokenizer._split_text(text=text) == expected_tokens
+
+
     def test_split_newline(self):
         tokenizer = DeduceTokenizer()
         text = "regel 1 \n gevolgd door regel 2"

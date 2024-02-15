@@ -3,7 +3,7 @@ from typing import Iterable, Optional
 import docdeid as dd
 import regex
 
-_TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]|.(?<! )", flags=regex.I | regex.M)
+_TOKENIZER_PATTERN = regex.compile(r"\w+|[\n\r\t]| {4,}|[^ ]", flags=regex.I | regex.M)
 
 
 class DeduceTokenizer(dd.tokenizer.Tokenizer):  # pylint: disable=R0903
