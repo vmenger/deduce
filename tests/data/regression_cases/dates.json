@@ -1011,6 +1011,19 @@
             "id": 71,
             "text": "Aan jullie kant",
             "annotations":[]
+        },
+        {
+            "id": 72,
+            "text": "onderzoek eind september.",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "september",
+                    "start_char": 15,
+                    "end_char": 24,
+                    "tag": "datum"
+                }
+            ]
         }
 
     ]

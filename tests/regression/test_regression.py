@@ -35,6 +35,7 @@ def regression_test(
         try:
             assert trues == preds
         except AssertionError:
+            print(preds)
             failures.add(example["id"])
 
     assert failures == known_failures
