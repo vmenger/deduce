@@ -84,12 +84,16 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
 
             config = config_file
 
+        logging.info('Going to init config.')
         self.config = self._initialize_config(
             load_base_config=load_base_config, user_config=config
         )
 
         self.lookup_data_path = self._initialize_lookup_data_path(lookup_data_path)
+
+        logging.info('Going to init tokenizers.')
         self.tokenizers = {"default": self._initialize_tokenizer(self.lookup_data_path)}
+        logging.debug('Done initing tokenizers.')
 
         self.lookup_structs = get_lookup_structs(
             lookup_path=self.lookup_data_path,
@@ -97,9 +101,11 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
             deduce_version=__version__,
             build=build_lookup_structs,
         )
+        logging.info('Done loading lookup structs.')
 
         extras = {"tokenizer": self.tokenizers["default"], "ds": self.lookup_structs}
 
+        logging.info('Going to load the Deduce processor.')
         self.processors = _DeduceProcessorLoader().load(
             config=self.config, extras=extras
         )
