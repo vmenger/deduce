@@ -7,6 +7,18 @@
 ![license](https://img.shields.io/github/license/vmenger/deduce)
 [![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+# About this fork
+
+This is Matěj Korvas's fork of the original Deduce tool, available at 
+https://github.com/vmenger/deduce, forked on 2024-02-29. The latest version 
+available here has some extra or different functionality on top of the 
+original tool -- which is maybe obvious but the license requires me to 
+state it clearly.
+
+Use at your own risk.
+
+Original Readme documentation follows.
+
 # deduce
 
 > Deduce 3.0.0 is out! It is way more accurate, and faster too. It's fully backward compatible, but some functionality is scheduled for removal, read more about it here: [docs/migrating-to-v3](https://deduce.readthedocs.io/en/latest/migrating.html)
