@@ -145,7 +145,7 @@ def load_street_lookup(
 ) -> dd.ds.LookupTrie:
     """Load street LookupTrie."""
 
-    street = dd.ds.LookupSet()
+    street = dd.ds.LookupSet(matching_pipeline=[dd.str.LowercaseTail()])
 
     street.add_items_from_iterable(
         raw_itemsets["street"],
