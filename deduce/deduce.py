@@ -29,6 +29,7 @@ from deduce.tokenizer import DeduceTokenizer
 
 __version__ = importlib.metadata.version(__package__ or __name__)
 
+from deduce.utils import ensure_path
 
 _BASE_PATH = Path(os.path.dirname(__file__)).parent
 _LOOKUP_LIST_PATH = _BASE_PATH / "deduce" / "data" / "lookup"
@@ -59,8 +60,10 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
             the package. If you want to make changes to source files, it's recommended
             to copy the source data and pointing deduce to this folder with this
             argument.
-        build_lookup_structs: Will always reload and rebuild lookup structs rather than
-            using the cache when this is set to `True`.
+        build_lookup_structs: Will always reload and rebuild lookup structs
+            rather than using the cache when this is set to `True`.
+        save_lookup_structs: Should the lookup structures be pickled (cached)
+            upon loading? Default: `True`.
     """
 
     def __init__(  # pylint: disable=R0913
@@ -90,10 +93,11 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
             load_base_config=load_base_config, user_config=config
         )
 
-        self.lookup_data_path = self._initialize_lookup_data_path(lookup_data_path)
+        self.lookup_data_path = ensure_path(lookup_data_path)
 
         logging.info('Going to init tokenizers.')
-        self.tokenizers = {"default": self._initialize_tokenizer(self.lookup_data_path)}
+        self.tokenizers = {
+            "default": self._initialize_tokenizer(self.lookup_data_path)}
         logging.debug('Done initing tokenizers.')
 
         self.lookup_structs = get_lookup_structs(
@@ -105,7 +109,8 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
         )
         logging.info('Done loading lookup structs.')
 
-        extras = {"tokenizer": self.tokenizers["default"], "ds": self.lookup_structs}
+        extras = {"tokenizer": self.tokenizers["default"],
+                  "ds": self.lookup_structs}
 
         logging.info('Going to load the Deduce processor.')
         self.processors = _DeduceProcessorLoader().load(
@@ -141,14 +146,6 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
             utils.overwrite_dict(config, user_config)
 
         return frozendict(config)
-
-    @staticmethod
-    def _initialize_lookup_data_path(lookup_data_path: Union[str, Path]) -> Path:
-
-        if isinstance(lookup_data_path, str):
-            lookup_data_path = Path(lookup_data_path)
-
-        return lookup_data_path
 
     @staticmethod
     def _initialize_tokenizer(lookup_data_path: Path) -> dd.Tokenizer:

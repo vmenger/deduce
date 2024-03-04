@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import docdeid as dd
 import pytest
 

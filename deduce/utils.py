@@ -3,7 +3,7 @@ import inspect
 import json
 import re
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 
 import docdeid as dd
 from docdeid import Tokenizer
@@ -281,3 +281,10 @@ def lookup_set_to_trie(
         trie.add_item([token.text for token in tokenizer.tokenize(item)])
 
     return trie
+
+
+def ensure_path(path_or_str: Union[str, Path]) -> Path:
+    """\
+    Casts the argument as a `Path` if it's not a `Path` already.
+    """
+    return path_or_str if isinstance(path_or_str, Path) else Path(path_or_str)
