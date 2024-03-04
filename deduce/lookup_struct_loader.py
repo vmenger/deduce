@@ -152,6 +152,7 @@ def load_street_lookup(
         cleaning_pipeline=[
             dd.str.StripString(),
             dd.str.FilterByLength(min_len=4),
+            dd.str.LowercaseTail(),
         ],
     )
 
