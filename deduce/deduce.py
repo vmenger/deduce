@@ -41,7 +41,7 @@ warnings.simplefilter(action="default")
 
 class Deduce(dd.DocDeid):  # pylint: disable=R0903
     """
-    Main class for de-identifiation.
+    Main class for de-identification.
 
     Inherits from ``docdeid.DocDeid``, and as such, most information on deidentifying
     text with a Deduce object is available there.
@@ -55,7 +55,7 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
             are overwritten, and other defaults are kept. When `load_base_config` is
             set to `False`, no defaults are loaded and only configuration from `config`
             is applied.
-        looup_data_path: The path to look for lookup data, by default included in
+        lookup_data_path: The path to look for lookup data, by default included in
             the package. If you want to make changes to source files, it's recommended
             to copy the source data and pointing deduce to this folder with this
             argument.
@@ -70,6 +70,7 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
         config_file: Optional[str] = None,
         lookup_data_path: Union[str, Path] = _LOOKUP_LIST_PATH,
         build_lookup_structs: bool = False,
+        save_lookup_structs: bool = True,
     ) -> None:
 
         super().__init__()
@@ -100,6 +101,7 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
             tokenizer=self.tokenizers["default"],
             deduce_version=__version__,
             build=build_lookup_structs,
+            save_cache=save_lookup_structs,
         )
         logging.info('Done loading lookup structs.')
 
@@ -177,6 +179,7 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
             args.update(
                 lookup_values=lookup_struct.items(),
                 matching_pipeline=lookup_struct.matching_pipeline,
+                # XXX Sure the trailing "]" is intentional?
                 tokenizer=extras["tokenizer]"],
             )
         elif isinstance(lookup_struct, dd.ds.LookupTrie):
