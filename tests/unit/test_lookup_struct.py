@@ -1,4 +1,6 @@
 import io
+
+from os.path import dirname, realpath
 from pathlib import Path
 from unittest.mock import patch
 
@@ -12,7 +14,8 @@ from deduce.lookup_structs import (
     validate_lookup_struct_cache,
 )
 
-DATA_PATH = Path(".").cwd() / "tests" / "data" / "lookup"
+_TESTS_DIR = dirname(dirname(realpath(__file__)))
+DATA_PATH = Path(_TESTS_DIR) / "data" / "lookup"
 
 
 class TestLookupStruct:
