@@ -1,4 +1,7 @@
+import pytest
+
 import docdeid as dd
+from deduce import Deduce
 
 from deduce.person import Person
 
@@ -8,6 +11,12 @@ text = (
     "Peter de Visser ontslagen van de kliniek van het UMCU. Voor nazorg kan hij "
     "worden bereikt via j.JNSEN.123@gmail.com of (06)12345678."
 )
+
+
+@pytest.fixture
+def model(shared_datadir):
+    return Deduce(save_lookup_structs=False,
+                  lookup_data_path=shared_datadir / "lookup")
 
 
 class TestDeduce:
