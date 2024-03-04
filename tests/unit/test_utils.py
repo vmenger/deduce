@@ -229,26 +229,27 @@ class TestStrVariations:
 
 
 class TestOptionalLoad:
-    def test_optional_load_items(self):
+    def test_optional_load_items(self, shared_datadir):
 
-        path = Path("tests/data/lookup/src/lst_test_nested/items.txt")
+        path = (shared_datadir /
+                "lookup" / "src" / "lst_test_nested" / "items.txt")
 
         assert utils.optional_load_items(path) == {"a", "b"}
 
-    def test_optional_load_items_nonexisting(self):
+    def test_optional_load_items_nonexisting(self, shared_datadir):
 
-        path = Path("tests/data/non/existing/file.txt")
+        path = shared_datadir / "non" / "existing" / "file.txt"
 
         assert utils.optional_load_items(path) is None
 
-    def test_optional_load_json(self):
+    def test_optional_load_json(self, shared_datadir):
 
-        path = Path("tests/data/small.json")
+        path = shared_datadir / "small.json"
 
         assert utils.optional_load_json(path) == {"test": True}
 
-    def test_optional_load_json_nonexisting(self):
+    def test_optional_load_json_nonexisting(self, shared_datadir):
 
-        path = Path("tests/data/non/existing/file.json")
+        path = shared_datadir / "non" / "existing" / "file.json"
 
         assert utils.optional_load_json(path) is None

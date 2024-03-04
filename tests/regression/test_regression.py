@@ -39,65 +39,65 @@ def annotators_from_group(model: Deduce, group: str) -> set[str]:
 
 
 class TestRegression:
-    def test_regression_name(self, model):
+    def test_regression_name(self, model, shared_datadir):
         regression_test(
             model=model,
-            examples_file="tests/data/regression_cases/names.json",
+            examples_file=shared_datadir / "names.json",
             enabled=annotators_from_group(model, "names"),
         )
 
-    def test_regression_location(self, model):
+    def test_regression_location(self, model, shared_datadir):
         regression_test(
             model=model,
-            examples_file="tests/data/regression_cases/locations.json",
+            examples_file=shared_datadir / "locations.json",
             enabled=annotators_from_group(model, "locations"),
         )
 
-    def test_regression_institution(self, model):
+    def test_regression_institution(self, model, shared_datadir):
         regression_test(
             model=model,
-            examples_file="tests/data/regression_cases/institutions.json",
+            examples_file=shared_datadir / "institutions.json",
             enabled=annotators_from_group(model, "institutions"),
         )
 
-    def test_regression_date(self, model):
+    def test_regression_date(self, model, shared_datadir):
         regression_test(
             model=model,
-            examples_file="tests/data/regression_cases/dates.json",
+            examples_file=shared_datadir / "dates.json",
             enabled=annotators_from_group(model, "dates"),
         )
 
-    def test_regression_age(self, model):
+    def test_regression_age(self, model, shared_datadir):
         regression_test(
             model=model,
-            examples_file="tests/data/regression_cases/ages.json",
+            examples_file=shared_datadir / "ages.json",
             enabled=annotators_from_group(model, "ages"),
         )
 
-    def test_regression_identifier(self, model):
+    def test_regression_identifier(self, model, shared_datadir):
         regression_test(
             model=model,
-            examples_file="tests/data/regression_cases/identifiers.json",
+            examples_file=shared_datadir / "identifiers.json",
             enabled=annotators_from_group(model, "identifiers"),
         )
 
-    def test_regression_phone(self, model):
+    def test_regression_phone(self, model, shared_datadir):
         regression_test(
             model=model,
-            examples_file="tests/data/regression_cases/phone_numbers.json",
+            examples_file=shared_datadir / "phone_numbers.json",
             enabled=annotators_from_group(model, "phone_numbers"),
         )
 
-    def test_regression_email(self, model):
+    def test_regression_email(self, model, shared_datadir):
         regression_test(
             model=model,
-            examples_file="tests/data/regression_cases/emails.json",
+            examples_file=shared_datadir / "emails.json",
             enabled=annotators_from_group(model, "email_addresses"),
         )
 
-    def test_regression_url(self, model):
+    def test_regression_url(self, model, shared_datadir):
         regression_test(
             model=model,
-            examples_file="tests/data/regression_cases/urls.json",
+            examples_file=shared_datadir / "urls.json",
             enabled=annotators_from_group(model, "urls"),
         )
