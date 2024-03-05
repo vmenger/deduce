@@ -178,6 +178,32 @@
         "iterative": true,
         "pattern": [
           {
+            "name": "patient_left",
+            "direction": "left",
+            "pre_tag": [
+              "achternaam_patient"
+            ],
+            "tag": "voornaam_patient+achternaam_patient",
+            "pattern": [
+              {
+                "lookup": "patient.first_names"
+              }
+            ]
+          },
+          {
+            "name": "patient_right",
+            "direction": "right",
+            "pre_tag": [
+              "voornaam_patient"
+            ],
+            "tag": "voornaam_patient+achternaam_patient",
+            "pattern": [
+              {
+                "lookup": "patient.surname"
+              }
+            ]
+          },
+          {
             "name": "interfix_right",
             "direction": "right",
             "pre_tag": [
@@ -295,11 +321,7 @@
             "skip": ["."],
             "pattern": [
               {
-                "and": [
-                  {
-                    "lookup": "prefix"
-                  }
-                ]
+                  "lookup": "prefix"
               }
             ]
           }

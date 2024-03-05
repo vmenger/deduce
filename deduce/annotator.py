@@ -2,7 +2,7 @@
 
 import re
 import warnings
-from typing import Literal, Optional
+from typing import Literal, Optional, Any
 
 import docdeid as dd
 from docdeid import Annotation, Document, Tokenizer
@@ -81,9 +81,9 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
                 and not any(ch.isdigit() for ch in kwargs.get("token").text)
             ) == value
         if func == "lookup":
-            return kwargs.get("token").text in kwargs.get("ds")[value]
+            return cls._lookup(value, **kwargs)
         if func == "neg_lookup":
-            return kwargs.get("token").text not in kwargs.get("ds")[value]
+            return not cls._lookup(value, **kwargs)
         if func == "and":
             return all(
                 _PatternPositionMatcher.match(pattern_position=x, **kwargs)
@@ -96,6 +96,21 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
             )
 
         raise NotImplementedError(f"No known logic for pattern {func}")
+
+    @classmethod
+    def _lookup(cls, ent_type: str, **kwargs) -> bool:
+        token = kwargs.get("token").text
+        if '.' in ent_type:
+            meta_key, meta_attr = ent_type.split('.', 1)
+            try:
+                meta_val = getattr(kwargs['metadata'][meta_key], meta_attr)
+            except (TypeError, KeyError, AttributeError):
+                return False
+            else:
+                return (token == meta_val if isinstance(meta_val, str)
+                        else token in meta_val)
+        else:
+            return token in kwargs.get("ds")[ent_type]
 
 
 class TokenPatternAnnotator(dd.process.Annotator):
@@ -158,14 +173,14 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
         return token
 
-    def _match_sequence(  # pylint: disable=R0913
-        self,
-        text: str,
-        pattern: list[dict],
-        start_token: dd.tokenizer.Token,
-        direction: Literal["left", "right"] = "right",
-        skip: Optional[set[str]] = None,
-    ) -> Optional[dd.Annotation]:
+    def _match_sequence(self,
+                        text: str,
+                        pattern: list[dict],
+                        start_token: dd.tokenizer.Token,
+                        direction: Literal["left", "right"] = "right",
+                        skip: Optional[set[str]] = None,
+                        metadata: Optional[dict[str, Any]]=None) \
+            -> Optional[dd.Annotation]:
         """
         Sequentially match a pattern against a specified start_token.
 
@@ -175,6 +190,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
             start_token: The start token to match.
             direction: The direction to match, choice of "left" or "right".
             skip: Any string values that should be skipped in matching.
+            metadata: Document metadata (like the patient name).
 
         Returns:
               An Annotation if matching is possible, None otherwise.
@@ -190,7 +206,10 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
         for pattern_position in pattern:
             if current_token is None or not _PatternPositionMatcher.match(
-                pattern_position=pattern_position, token=current_token, ds=self.ds
+                pattern_position=pattern_position,
+                token=current_token,
+                ds=self.ds,
+                metadata=metadata,
             ):
                 return None
 
@@ -235,8 +254,8 @@ class TokenPatternAnnotator(dd.process.Annotator):
         for token in tokens:
 
             annotation = self._match_sequence(
-                doc.text, self.pattern, token, direction="right", skip=self.skip
-            )
+                doc.text, self.pattern, token,
+                direction="right", skip=self.skip)
 
             if annotation is not None:
                 annotations.append(annotation)
@@ -264,9 +283,12 @@ class ContextAnnotator(TokenPatternAnnotator):
         self.iterative = iterative
         super().__init__(*args, **kwargs, ds=ds, tag="_")
 
-    def _apply_context_pattern(
-        self, text: str, annotations: dd.AnnotationSet, context_pattern: dict
-    ) -> dd.AnnotationSet:
+    def _apply_context_pattern(self,
+                               text: str,
+                               annotations: dd.AnnotationSet,
+                               context_pattern: dict,
+                               metadata: Optional[dict[str, Any]]=None) \
+            -> dd.AnnotationSet:
 
         direction = context_pattern["direction"]
         skip = set(context_pattern.get("skip", []))
@@ -285,12 +307,8 @@ class ContextAnnotator(TokenPatternAnnotator):
                 _DIRECTION_MAP[direction]["start_token"](annotation), attr, skip
             )
             new_annotation = self._match_sequence(
-                text,
-                context_pattern["pattern"],
-                start_token,
-                direction=direction,
-                skip=skip,
-            )
+                text, context_pattern["pattern"], start_token,
+                direction=direction, skip=skip, metadata=metadata)
 
             if new_annotation:
                 left_ann, right_ann = _DIRECTION_MAP[direction]["order"](
@@ -312,7 +330,8 @@ class ContextAnnotator(TokenPatternAnnotator):
 
         return annotations
 
-    def _annotate(self, text: str, annotations: dd.AnnotationSet) -> dd.AnnotationSet:
+    def _annotate(self, text: str, annotations: dd.AnnotationSet,
+                  metadata=None) -> dd.AnnotationSet:
         """
         Does the annotation, by calling _apply_context_pattern, and then optionally
         recursing. Also keeps track of the (un)changed annotations, so they are not
@@ -321,6 +340,7 @@ class ContextAnnotator(TokenPatternAnnotator):
         Args:
             text: The input text.
             annotations: The input annotations.
+            metadata: Document metadata (like the patient name).
 
         Returns:
             An extended set of annotations, based on the patterns provided.
@@ -330,8 +350,7 @@ class ContextAnnotator(TokenPatternAnnotator):
 
         for context_pattern in self.pattern:
             annotations = self._apply_context_pattern(
-                text, annotations, context_pattern
-            )
+                text, annotations, context_pattern, metadata)
 
         if self.iterative:
 
@@ -356,7 +375,8 @@ class ContextAnnotator(TokenPatternAnnotator):
             An empty list, as annotations are modified and not added.
         """
 
-        doc.annotations = self._annotate(doc.text, doc.annotations)
+        doc.annotations = self._annotate(
+            doc.text, doc.annotations, doc.metadata)
         return []
 
 

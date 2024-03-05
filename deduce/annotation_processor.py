@@ -56,13 +56,15 @@ class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
 
 class PersonAnnotationConverter(dd.process.AnnotationProcessor):
     """
-    Responsible for processing the annotations produced by all name annotators (regular
-    and context-based).
+    Responsible for processing the annotations produced by all name annotators
+    (regular and context-based).
 
-    Any overlap with annotations that are  contain "pseudo" in their tag are removed, as
-    are those annotations. Then resolves overlap between remaining annotations, and maps
-    the tags to either "patient" or "persoon", based on whether "patient" is in the tag
-    (e.g. voornaam_patient => patient, achternaam_onbekend => persoon).
+    Any overlap with annotations that contain "pseudo" in their tag is removed,
+    as are those annotations. Then resolves overlap between remaining
+    annotations, and maps the tags to either "patient" or "persoon", based on
+    whether "patient" is in all constituent tags
+    (e.g. voornaam_patient+achternaam_patient => patient,
+     achternaam_onbekend => persoon).
     """
 
     def __init__(self) -> None:
@@ -89,16 +91,19 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
             annotations, text=text
         )
 
-        return dd.AnnotationSet(
+        real_annos = (anno for anno in new_annotations
+                      if "pseudo" not in anno.tag and anno.text.strip())
+        with_patient = (
             dd.Annotation(
-                text=annotation.text,
-                start_char=annotation.start_char,
-                end_char=annotation.end_char,
-                tag="patient" if "patient" in annotation.tag else "persoon",
+                text=anno.text,
+                start_char=anno.start_char,
+                end_char=anno.end_char,
+                tag="patient" if all(
+                    "patient" in subtag for subtag in anno.tag.split('+')
+                ) else "persoon",
             )
-            for annotation in new_annotations
-            if ("pseudo" not in annotation.tag and len(annotation.text.strip()) != 0)
-        )
+            for anno in real_annos)
+        return dd.AnnotationSet(with_patient)
 
 
 class RemoveAnnotations(dd.process.AnnotationProcessor):
