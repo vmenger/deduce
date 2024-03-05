@@ -213,6 +213,23 @@ def apply_transform(items: set[str], transform_config: dict) -> set[str]:
         to_add = []
 
         for item in items:
+            # FIXME Why _add_ the result of `str_variations` rather than
+            #   replace the original item? In most cases, manual effort was
+            #   exerted to include also the original string in
+            #   the replacements, however some transformations do not include
+            #   it (e.g. for "(?<=\\()Ut(?=\\))", the surrounding parens are
+            #   always dropped). I guess that these transformations do not
+            #   include the original version because it's supposed to be
+            #   dropped. Or if the original version ("(Ut)" in this case) was
+            #   supposed to be kept, by not including it explicitly yet
+            #   _adding_ all variations to the set of terms, the net effect is
+            #   that just all _other_ transformations within the string will
+            #   be excluded in the version that keeps the original "(Ut)".
+            #
+            #   We should either avoid combining the result of `str_variations`
+            #   with the original set, `{item}`, or _always_ apply the void
+            #   transformation so as to save effort in writing
+            #   the `transform.json` configs and prevent subtle bugs.
             to_add += str_variations(item, transform)
 
         items.update(to_add)
