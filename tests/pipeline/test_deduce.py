@@ -10,12 +10,19 @@ text = (
     "jaar oud en woonachtig in Utrecht, IJSWEG 10r. Hij werd op 10 oktober 2018 door arts "
     "Peter de Visser ontslagen van de kliniek van het UMCU. Voor nazorg kan hij "
     "worden bereikt via j.JNSEN.123@gmail.com of (06)12345678."
+    # FIXME "aan de" is joined to one token (due to "lst_interfix/items.txt"),
+    #   preventing "de Quervain ziekte" from matching. Furthermore, when I
+    #   managed to get this term censored, the "aan" word was censored, too.
+    #   Use a simple whitespace/punctuation-based tokenizer for that annotator
+    #   to fix this issue.
+    # " De patient lijdt aan de Quervain ziekte."
 )
 
 
 @pytest.fixture
 def model(shared_datadir):
     return Deduce(save_lookup_structs=False,
+                  build_lookup_structs=True,
                   lookup_data_path=shared_datadir / "lookup")
 
 
@@ -93,6 +100,7 @@ class TestDeduce:
             "<ZIEKENHUIS>UMCU</ZIEKENHUIS>. Voor nazorg kan hij worden "
             "bereikt via <EMAILADRES>j.JNSEN.123@gmail.com</EMAILADRES> of "
             "<TELEFOONNUMMER>(06)12345678</TELEFOONNUMMER>."
+            # " De patient lijdt aan de Quervain ziekte."
         )
 
         assert dd.utils.annotate_intext(doc) == expected_intext_annotated
