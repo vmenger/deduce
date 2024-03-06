@@ -140,7 +140,7 @@ class RemoveAnnotations(dd.process.AnnotationProcessor):
 
 
 class CleanAnnotationTag(dd.process.AnnotationProcessor):
-    """Cleans annotation tags based on the corresponding mapping."""
+    """Renames tags using a mapping."""
 
     def __init__(self, tag_map: dict[str, str]) -> None:
         self.tag_map = tag_map

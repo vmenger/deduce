@@ -65,8 +65,8 @@ def initialize_class(cls: type, args: dict, extras: dict) -> object:
     items in extras are passed to the class initializer if they are present.
 
     Args:
-        cls: The class to initialze.
-        args: The arguments to pass to the initalizer.
+        cls: The class to initialize.
+        args: The arguments to pass to the initializer.
         extras: A superset of arguments that should be passed to the initializer.
         Will be checked against the class.
 
