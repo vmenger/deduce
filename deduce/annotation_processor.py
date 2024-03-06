@@ -6,9 +6,16 @@ from frozendict import frozendict
 
 
 class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
-    """Merge adjacent tags, according to deduce logic: adjacent annotations with mixed
-    patient/person tags are replaced with a patient annotation, in other cases only
-    annotations with equal tags are considered adjacent."""
+    """\
+    Merges adjacent tags, according to Deduce logic:
+
+        - adjacent annotations with mixed patient/person tags are replaced
+          with the "persoon" annotation;
+        - adjacent annotations with patient tags of which one is the surname
+          are replaced with the "patient" annotation; and
+        - adjacent annotations with other patient tags are replaced with
+          the "part_of_patient" annotation.
+    """
 
     def _tags_match(self, left_tag: str, right_tag: str) -> bool:
         """
@@ -23,10 +30,14 @@ class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
             ``True`` if tags match, ``False`` otherwise.
         """
 
-        return (left_tag == right_tag) or {left_tag, right_tag} == {
-            "patient",
-            "persoon",
-        }
+        patient_part = [tag.endswith('_patient')
+                        for tag in (left_tag, right_tag)]
+        # FIXME Ideally, we should be first looking for a `*_patient` tag in
+        #  both directions and only failing that, merge with an adjacent
+        #  "persoon" tag.
+        return (left_tag == right_tag or
+                all(patient_part) or
+                (patient_part[0] and right_tag == "persoon"))
 
     def _adjacent_annotations_replacement(
         self,
@@ -42,10 +53,14 @@ class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
         In other cases, the tags are always equal.
         """
 
-        if left_annotation.tag != right_annotation.tag:
-            replacement_tag = "persoon"
-        else:
-            replacement_tag = left_annotation.tag
+        ltag = left_annotation.tag
+        rtag = right_annotation.tag
+        replacement_tag = (
+            ltag if ltag == rtag else
+            "persoon" if rtag == "persoon" else
+            "patient" if any(tag.startswith("achternaam") for tag in
+                             (ltag, rtag)) else
+            "part_of_patient")
 
         return dd.Annotation(
             text=text[left_annotation.start_char:right_annotation.end_char],
@@ -99,12 +114,17 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
                 text=anno.text,
                 start_char=anno.start_char,
                 end_char=anno.end_char,
-                tag="patient" if all(
-                    "patient" in subtag for subtag in anno.tag.split('+')
-                ) else "persoon",
+                tag=PersonAnnotationConverter._resolve_tag(anno.tag)
             )
             for anno in real_annos)
         return dd.AnnotationSet(with_patient)
+
+    @classmethod
+    def _resolve_tag(cls, tag: str) -> str:
+        if '+' not in tag:
+            return tag
+        return ('patient' if all('patient' in part for part in tag.split('+'))
+                else 'persoon')
 
 
 class RemoveAnnotations(dd.process.AnnotationProcessor):

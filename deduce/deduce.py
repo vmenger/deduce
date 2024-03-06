@@ -401,6 +401,21 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
         )
 
         post_group.add_processor(
+            "patient_cleaner",
+            CleanAnnotationTag(
+                tag_map={
+                    "voornaam_patient": "patient",
+                    "initiaal_patient": "patient",
+                    "achternaam_patient": "patient",
+                    "part_of_patient": "persoon",
+                    # TODO We should probably merge this new "person"
+                    #  annotation with neighbouring annotations in yet another
+                    #  postprocessing step.
+                }
+            ),
+        )
+
+        post_group.add_processor(
             "redactor",
             DeduceRedactor(
                 open_char=config["redactor_open_char"],
