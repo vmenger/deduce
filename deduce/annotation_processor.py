@@ -37,17 +37,18 @@ class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
         """
         Replace two annotations that have equal tags with a new annotation.
 
-        If one of the two annotations has the patient tag, the new annotation will also
-        be tagged patient. In other cases, the tags are already equal.
+        If one of the two annotations has the "patient" tag (and the other is
+        either "patient" or "persoon"), the other annotation will be used.
+        In other cases, the tags are always equal.
         """
 
         if left_annotation.tag != right_annotation.tag:
-            replacement_tag = "patient"
+            replacement_tag = "persoon"
         else:
             replacement_tag = left_annotation.tag
 
         return dd.Annotation(
-            text=text[left_annotation.start_char : right_annotation.end_char],
+            text=text[left_annotation.start_char:right_annotation.end_char],
             start_char=left_annotation.start_char,
             end_char=right_annotation.end_char,
             tag=replacement_tag,
