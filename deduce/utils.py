@@ -9,8 +9,16 @@ import docdeid as dd
 from docdeid import Tokenizer
 from rapidfuzz.distance import DamerauLevenshtein
 
+from docdeid.str import LowercaseTail
 
-def str_match(str_1: str, str_2: str, max_edit_distance: Optional[int] = None) -> bool:
+
+_TITLECASER = LowercaseTail()
+
+
+def str_match(str_1: str, str_2: str,
+              max_edit_distance: Optional[int] = None,
+              titlecase: bool = True,
+              ) -> bool:
     """
     Match two strings, potentially in a fuzzy way.
 
@@ -23,13 +31,16 @@ def str_match(str_1: str, str_2: str, max_edit_distance: Optional[int] = None) -
     Returns:
         ``True`` if the strings match, ``False`` otherwise.
     """
+    norm_1, norm_2 = ((_TITLECASER.process(str_1), _TITLECASER.process(str_2))
+                      if titlecase
+                      else (str_1, str_2))
     if max_edit_distance is not None:
         return (
-            DamerauLevenshtein.distance(str_1, str_2, score_cutoff=max_edit_distance)
+            DamerauLevenshtein.distance(norm_1, norm_2, score_cutoff=max_edit_distance)
             <= max_edit_distance
         )
 
-    return str_1 == str_2
+    return norm_1 == norm_2
 
 
 def class_for_name(module_name: str, class_name: str) -> type:
