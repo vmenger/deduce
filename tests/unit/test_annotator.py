@@ -1,4 +1,5 @@
 import re
+from collections import defaultdict
 from unittest.mock import patch
 
 import docdeid as dd
@@ -213,13 +214,16 @@ class TestTokenPatternAnnotator:
         tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
 
         assert tpa._match_sequence(
-            pattern_doc.text, start_token=pattern_doc.get_tokens()[3], pattern=pattern
+            pattern_doc.text, start_token=pattern_doc.get_tokens()[3],
+            pattern=pattern,
+            annos_by_token=defaultdict(list),
         ) == dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="_")
         assert (
             tpa._match_sequence(
                 pattern_doc.text,
                 start_token=pattern_doc.get_tokens()[7],
                 pattern=pattern,
+                annos_by_token=defaultdict(list),
             )
             is None
         )
@@ -233,6 +237,7 @@ class TestTokenPatternAnnotator:
             pattern_doc.text,
             start_token=pattern_doc.get_tokens()[4],
             pattern=pattern,
+            annos_by_token=defaultdict(list),
             direction="left",
         ) == dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="_")
 
@@ -240,6 +245,7 @@ class TestTokenPatternAnnotator:
             tpa._match_sequence(
                 pattern_doc.text,
                 start_token=pattern_doc.get_tokens()[8],
+                annos_by_token=defaultdict(list),
                 direction="left",
                 pattern=pattern,
             )
@@ -255,6 +261,7 @@ class TestTokenPatternAnnotator:
             pattern_doc.text,
             start_token=pattern_doc.get_tokens()[4],
             pattern=pattern,
+            annos_by_token=defaultdict(list),
             skip={"-"},
         ) == dd.Annotation(text="Meijer-Heerma", start_char=20, end_char=33, tag="_")
         assert (
@@ -262,6 +269,7 @@ class TestTokenPatternAnnotator:
                 pattern_doc.text,
                 start_token=pattern_doc.get_tokens()[4],
                 pattern=pattern,
+                annos_by_token=defaultdict(list),
                 skip=set(),
             )
             is None
@@ -297,6 +305,7 @@ class TestContextAnnotator:
         assert annotator._apply_context_pattern(
             pattern_doc.text,
             annotations,
+            {},
             {
                 "pattern": [{"like_name": True}],
                 "direction": "right",
@@ -333,6 +342,7 @@ class TestContextAnnotator:
         assert annotator._apply_context_pattern(
             pattern_doc.text,
             annotations,
+            {},
             {
                 "pattern": [{"like_name": True}],
                 "direction": "left",
@@ -369,6 +379,7 @@ class TestContextAnnotator:
         assert annotator._apply_context_pattern(
             pattern_doc.text,
             annotations,
+            {},
             {
                 "pattern": [{"like_name": True}],
                 "direction": "right",
@@ -419,7 +430,11 @@ class TestContextAnnotator:
             ]
         )
 
-        assert annotator._annotate(pattern_doc.text, annotations) == dd.AnnotationSet(
+        assert annotator._annotate(
+            pattern_doc.text,
+            annotations,
+            {},
+        ) == dd.AnnotationSet(
             {
                 dd.Annotation(
                     text="Andries Meijer-Heerma",
@@ -456,7 +471,11 @@ class TestContextAnnotator:
             ]
         )
 
-        assert annotator._annotate(pattern_doc.text, annotations) == dd.AnnotationSet(
+        assert annotator._annotate(
+            pattern_doc.text,
+            annotations,
+            {},
+        ) == dd.AnnotationSet(
             {
                 dd.Annotation(
                     text="Andries Meijer-Heerma",

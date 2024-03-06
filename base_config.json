@@ -186,7 +186,7 @@
             "tag": "voornaam_patient+achternaam_patient",
             "pattern": [
               {
-                "lookup": "patient.first_names"
+                "tag": "vornaam_patient"
               }
             ]
           },
@@ -199,7 +199,7 @@
             "tag": "voornaam_patient+achternaam_patient",
             "pattern": [
               {
-                "lookup": "patient.surname"
+                "tag": "achternaam_patient"
               }
             ]
           },
