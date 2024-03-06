@@ -122,7 +122,7 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
     @classmethod
     def _resolve_tag(cls, tag: str) -> str:
         if '+' not in tag:
-            return tag
+            return tag if 'patient' in tag else 'persoon'
         return ('patient' if all('patient' in part for part in tag.split('+'))
                 else 'persoon')
 
