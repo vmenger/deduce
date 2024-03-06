@@ -130,3 +130,17 @@ class TestDeduce:
         )
 
         assert dd.utils.annotate_intext(doc) == expected_intext_annotated
+
+    def test_patient_2(self, model):
+        metadata = {"patient": Person(first_names=["Jan"], surname="Jansen")}
+        doc = ("Lorem ipsum JANSEN sit amet, Peter Jansen adipiscing elit. "
+               "Curabitur J. Jansen sapien, J. P. Jansen a vestibulum quis, "
+               "facilisis vel J Jansen. Jan de Visser iaculis gravida nulla. "
+               "Etiam quis Jan van den Jansen.")
+        want = ("Lorem ipsum [PATIENT] sit amet, [PERSOON-1] adipiscing elit. "
+                "Curabitur [PATIENT] sapien, [PERSOON-2] a vestibulum quis, "
+                "facilisis vel [PATIENT]. [PERSOON-3] iaculis gravida nulla. "
+                "Etiam quis [PERSOON-4].")
+
+        deid = model.deidentify(doc, metadata=metadata)
+        assert deid.deidentified_text == want
