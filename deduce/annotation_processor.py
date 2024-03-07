@@ -87,13 +87,20 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
     """
 
     def __init__(self) -> None:
-        def map_tag_to_prio(tag: str) -> int:
-            if "pseudo" in tag:
-                return 0
-            if "patient" in tag:
-                return 1
+        def map_tag_to_prio(tag: str) -> (int, int, int):
+            """
+            Maps from the tag of a mention to its priority. The lower, the higher
+            priority.
 
-            return 2
+            The return value is a tuple of:
+              1. Is this a pseudo tag? If it is, it's a priority.
+              2. How many subtags does the tag have? The more, the higher priority.
+              3. Is this a patient tag? If it is, it's a priority.
+            """
+            is_pseudo = "pseudo" in tag
+            num_subtags = tag.count("+") + 1
+            is_patient = tag.count("patient") == num_subtags
+            return (-int(is_pseudo), -num_subtags, -int(is_patient))
 
         self._overlap_resolver = dd.process.OverlapResolver(
             sort_by=("tag", "length"),
