@@ -7,7 +7,7 @@ from collections.abc import Iterable, Mapping
 from typing import Any, Literal, Optional
 
 import docdeid as dd
-from docdeid import Annotation, Document, Tokenizer, TokenList
+from docdeid import Annotation, Document, Tokenizer, TokenList, MetaData
 from docdeid.process import RegexpAnnotator
 
 from deduce.utils import str_match
@@ -285,7 +285,9 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
     @classmethod
     def _index_by_token(
-        cls, annotations, token_lists
+        cls,
+        annotations: Iterable[dd.Annotation],
+        token_lists: Mapping[str, TokenList],
     ) -> defaultdict[str, set[dd.Annotation]]:
         """Assigns existing annotations to tokens."""
         annos_by_token = defaultdict(set)
@@ -385,7 +387,7 @@ class ContextAnnotator(TokenPatternAnnotator):
         text: str,
         annotations: dd.AnnotationSet,
         token_lists: Mapping[str, TokenList],
-        metadata=None,
+        metadata: MetaData = None,
     ) -> dd.AnnotationSet:
         """
         Does the annotation, by calling _apply_context_pattern, and then optionally

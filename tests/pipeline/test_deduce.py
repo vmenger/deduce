@@ -6,8 +6,8 @@ from deduce.person import Person
 
 text = (
     "betreft: Jan Jansen, bsn 111222333, patnr 000334433. De patient J. Jansen is 64 "
-    "jaar oud en woonachtig in Utrecht, IJSWEG 10r. Hij werd op 10 oktober 2018 door arts "
-    "Peter de Visser ontslagen van de kliniek van het UMCU. Voor nazorg kan hij "
+    "jaar oud en woonachtig in Utrecht, IJSWEG 10r. Hij werd op 10 oktober 2018 door "
+    "arts Peter de Visser ontslagen van de kliniek van het UMCU. Voor nazorg kan hij "
     "worden bereikt via j.JNSEN.123@gmail.com of (06)12345678. "
     "Vader, Peter Jansen, 104 jr, woont ook in Utrecht. Met collegiale groeten, "
     "Jan de Visser."
