@@ -214,7 +214,8 @@ class TestTokenPatternAnnotator:
         tpa = TokenPatternAnnotator(pattern=[{}], ds=ds, tag="_")
 
         assert tpa._match_sequence(
-            pattern_doc.text, start_token=pattern_doc.get_tokens()[3],
+            pattern_doc.text,
+            start_token=pattern_doc.get_tokens()[3],
             pattern=pattern,
             annos_by_token=defaultdict(list),
         ) == dd.Annotation(text="Andries Meijer", start_char=12, end_char=26, tag="_")

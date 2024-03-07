@@ -91,10 +91,12 @@ class TestPersonAnnotationConverter:
 
         expected_annotations = dd.AnnotationSet(
             [
-                dd.Annotation(text="Jan", start_char=0, end_char=3,
-                              tag="voornaam_patient"),
-                dd.Annotation(text="Jansen", start_char=4, end_char=10,
-                              tag="achternaam_patient"),
+                dd.Annotation(
+                    text="Jan", start_char=0, end_char=3, tag="voornaam_patient"
+                ),
+                dd.Annotation(
+                    text="Jansen", start_char=4, end_char=10, tag="achternaam_patient"
+                ),
             ]
         )
 
@@ -116,8 +118,11 @@ class TestPersonAnnotationConverter:
         )
 
         expected_annotations = dd.AnnotationSet(
-            [dd.Annotation(text="Jan Jansen", start_char=0, end_char=10,
-                           tag="naam_patient")]
+            [
+                dd.Annotation(
+                    text="Jan Jansen", start_char=0, end_char=10, tag="naam_patient"
+                )
+            ]
         )
 
         assert proc.process_annotations(annotations, text) == expected_annotations
@@ -139,10 +144,10 @@ class TestPersonAnnotationConverter:
 
         expected_annotations = dd.AnnotationSet(
             [
-                dd.Annotation(text="Jan", start_char=0, end_char=3,
-                              tag="voornaam_patient"),
-                dd.Annotation(text="Jansen", start_char=4, end_char=10,
-                              tag="persoon"),
+                dd.Annotation(
+                    text="Jan", start_char=0, end_char=3, tag="voornaam_patient"
+                ),
+                dd.Annotation(text="Jansen", start_char=4, end_char=10, tag="persoon"),
             ]
         )
 
@@ -165,10 +170,10 @@ class TestPersonAnnotationConverter:
 
         expected_annotations = dd.AnnotationSet(
             [
-                dd.Annotation(text="Jan", start_char=0, end_char=3,
-                              tag="voornaam_patient"),
-                dd.Annotation(text=" Jansen", start_char=3, end_char=10,
-                              tag="persoon"),
+                dd.Annotation(
+                    text="Jan", start_char=0, end_char=3, tag="voornaam_patient"
+                ),
+                dd.Annotation(text=" Jansen", start_char=3, end_char=10, tag="persoon"),
             ]
         )
 

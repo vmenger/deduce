@@ -4,7 +4,7 @@ import re
 import warnings
 from collections import defaultdict
 from collections.abc import Iterable, Mapping
-from typing import Literal, Optional, Any
+from typing import Any, Literal, Optional
 
 import docdeid as dd
 from docdeid import Annotation, Document, Tokenizer, TokenList
@@ -105,15 +105,18 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
     @classmethod
     def _lookup(cls, ent_type: str, **kwargs) -> bool:
         token = kwargs.get("token").text
-        if '.' in ent_type:
-            meta_key, meta_attr = ent_type.split('.', 1)
+        if "." in ent_type:
+            meta_key, meta_attr = ent_type.split(".", 1)
             try:
-                meta_val = getattr(kwargs['metadata'][meta_key], meta_attr)
+                meta_val = getattr(kwargs["metadata"][meta_key], meta_attr)
             except (TypeError, KeyError, AttributeError):
                 return False
             else:
-                return (token == meta_val if isinstance(meta_val, str)
-                        else token in meta_val)
+                return (
+                    token == meta_val
+                    if isinstance(meta_val, str)
+                    else token in meta_val
+                )
         else:
             return token in kwargs.get("ds")[ent_type]
 
@@ -178,17 +181,16 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
         return token
 
-    def _match_sequence(self,
-                        text: str,
-                        pattern: list[dict],
-                        start_token: dd.tokenizer.Token,
-                        annos_by_token: defaultdict[dd.tokenizer.Token,
-                                                    Iterable[dd.Annotation]],
-                        direction: Literal["left", "right"] = "right",
-                        skip: Optional[set[str]] = None,
-                        metadata: Optional[dict[str, Any]] = None,
-                        ) \
-            -> Optional[dd.Annotation]:
+    def _match_sequence(
+        self,
+        text: str,
+        pattern: list[dict],
+        start_token: dd.tokenizer.Token,
+        annos_by_token: defaultdict[dd.tokenizer.Token, Iterable[dd.Annotation]],
+        direction: Literal["left", "right"] = "right",
+        skip: Optional[set[str]] = None,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> Optional[dd.Annotation]:
         """
         Sequentially match a pattern against a specified start_token.
 
@@ -262,13 +264,19 @@ class TokenPatternAnnotator(dd.process.Annotator):
             )
 
         annos_by_token = TokenPatternAnnotator._index_by_token(
-            doc.annotations, doc.token_lists)
+            doc.annotations, doc.token_lists
+        )
 
         for token in tokens:
 
             annotation = self._match_sequence(
-                doc.text, self.pattern, token, annos_by_token,
-                direction="right", skip=self.skip)
+                doc.text,
+                self.pattern,
+                token,
+                annos_by_token,
+                direction="right",
+                skip=self.skip,
+            )
 
             if annotation is not None:
                 annotations.append(annotation)
@@ -276,11 +284,10 @@ class TokenPatternAnnotator(dd.process.Annotator):
         return annotations
 
     @classmethod
-    def _index_by_token(cls, annotations, token_lists) \
-            -> defaultdict[str, set[dd.Annotation]]:
-        """\
-        Assigns existing annotations to tokens.
-        """
+    def _index_by_token(
+        cls, annotations, token_lists
+    ) -> defaultdict[str, set[dd.Annotation]]:
+        """Assigns existing annotations to tokens."""
         annos_by_token = defaultdict(set)
         for token_list in token_lists.values():
             # TODO Improve efficiency, simplify.
@@ -316,17 +323,19 @@ class ContextAnnotator(TokenPatternAnnotator):
         self.iterative = iterative
         super().__init__(*args, **kwargs, ds=ds, tag="_")
 
-    def _apply_context_pattern(self, text: str, annotations: dd.AnnotationSet,
-                               token_lists: Mapping[str, TokenList],
-                               context_pattern: dict,
-                               metadata: Optional[dict[str, Any]] = None) \
-            -> dd.AnnotationSet:
+    def _apply_context_pattern(
+        self,
+        text: str,
+        annotations: dd.AnnotationSet,
+        token_lists: Mapping[str, TokenList],
+        context_pattern: dict,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dd.AnnotationSet:
 
         direction = context_pattern["direction"]
         skip = set(context_pattern.get("skip", []))
 
-        annos_by_token = TokenPatternAnnotator._index_by_token(annotations,
-                                                               token_lists)
+        annos_by_token = TokenPatternAnnotator._index_by_token(annotations, token_lists)
 
         for annotation in annotations.copy():
 
@@ -342,8 +351,14 @@ class ContextAnnotator(TokenPatternAnnotator):
                 _DIRECTION_MAP[direction]["start_token"](annotation), attr, skip
             )
             new_annotation = self._match_sequence(
-                text, context_pattern["pattern"], start_token, annos_by_token,
-                direction=direction, skip=skip, metadata=metadata)
+                text,
+                context_pattern["pattern"],
+                start_token,
+                annos_by_token,
+                direction=direction,
+                skip=skip,
+                metadata=metadata,
+            )
 
             if new_annotation:
                 left_ann, right_ann = _DIRECTION_MAP[direction]["order"](
@@ -365,13 +380,17 @@ class ContextAnnotator(TokenPatternAnnotator):
 
         return annotations
 
-    def _annotate(self, text: str, annotations: dd.AnnotationSet,
-                  token_lists: Mapping[str, TokenList],
-                  metadata=None) -> dd.AnnotationSet:
+    def _annotate(
+        self,
+        text: str,
+        annotations: dd.AnnotationSet,
+        token_lists: Mapping[str, TokenList],
+        metadata=None,
+    ) -> dd.AnnotationSet:
         """
-        Does the annotation, by calling _apply_context_pattern, and then
-        optionally recursing. Also keeps track of the (un)changed annotations,
-        so they are not repeatedly processed.
+        Does the annotation, by calling _apply_context_pattern, and then optionally
+        recursing. Also keeps track of the (un)changed annotations, so they are not
+        repeatedly processed.
 
         Args:
             text: The input text.
@@ -387,17 +406,16 @@ class ContextAnnotator(TokenPatternAnnotator):
         original_annotations = annotations.copy()
 
         for context_pattern in self.pattern:
-            annotations = self._apply_context_pattern(text, annotations,
-                                                      token_lists,
-                                                      context_pattern,
-                                                      metadata)
+            annotations = self._apply_context_pattern(
+                text, annotations, token_lists, context_pattern, metadata
+            )
 
         if self.iterative:
 
-            changed = dd.AnnotationSet(
-                annotations.difference(original_annotations))
+            changed = dd.AnnotationSet(annotations.difference(original_annotations))
             annotations = dd.AnnotationSet(
-                annotations.intersection(original_annotations))
+                annotations.intersection(original_annotations)
+            )
 
             if changed:
                 annotations.update(self._annotate(text, changed, token_lists))
@@ -415,8 +433,9 @@ class ContextAnnotator(TokenPatternAnnotator):
             An empty list, as annotations are modified and not added.
         """
 
-        doc.annotations = self._annotate(doc.text, doc.annotations,
-                                         doc.token_lists, doc.metadata)
+        doc.annotations = self._annotate(
+            doc.text, doc.annotations, doc.token_lists, doc.metadata
+        )
         return []
 
 

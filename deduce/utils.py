@@ -7,18 +7,18 @@ from typing import Optional, Union
 
 import docdeid as dd
 from docdeid import Tokenizer
-from rapidfuzz.distance import DamerauLevenshtein
-
 from docdeid.str import LowercaseTail
-
+from rapidfuzz.distance import DamerauLevenshtein
 
 _TITLECASER = LowercaseTail()
 
 
-def str_match(str_1: str, str_2: str,
-              max_edit_distance: Optional[int] = None,
-              titlecase: bool = True,
-              ) -> bool:
+def str_match(
+    str_1: str,
+    str_2: str,
+    max_edit_distance: Optional[int] = None,
+    titlecase: bool = True,
+) -> bool:
     """
     Match two strings, potentially in a fuzzy way.
 
@@ -31,9 +31,11 @@ def str_match(str_1: str, str_2: str,
     Returns:
         ``True`` if the strings match, ``False`` otherwise.
     """
-    norm_1, norm_2 = ((_TITLECASER.process(str_1), _TITLECASER.process(str_2))
-                      if titlecase
-                      else (str_1, str_2))
+    norm_1, norm_2 = (
+        (_TITLECASER.process(str_1), _TITLECASER.process(str_2))
+        if titlecase
+        else (str_1, str_2)
+    )
     if max_edit_distance is not None:
         return (
             DamerauLevenshtein.distance(norm_1, norm_2, score_cutoff=max_edit_distance)
@@ -312,7 +314,5 @@ def lookup_set_to_trie(
 
 
 def ensure_path(path_or_str: Union[str, Path]) -> Path:
-    """\
-    Casts the argument as a `Path` if it's not a `Path` already.
-    """
+    """Casts the argument as a `Path` if it's not a `Path` already."""
     return path_or_str if isinstance(path_or_str, Path) else Path(path_or_str)

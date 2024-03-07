@@ -229,8 +229,7 @@ class TestStrVariations:
 class TestOptionalLoad:
     def test_optional_load_items(self, shared_datadir):
 
-        path = (shared_datadir /
-                "lookup" / "src" / "lst_test_nested" / "items.txt")
+        path = shared_datadir / "lookup" / "src" / "lst_test_nested" / "items.txt"
 
         assert utils.optional_load_items(path) == {"a", "b"}
 

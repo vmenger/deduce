@@ -2,7 +2,6 @@ import json
 from typing import Optional
 
 import pytest
-
 from docdeid import Annotation, AnnotationSet
 
 from deduce import Deduce
@@ -13,10 +12,11 @@ def model(shared_datadir):
     # FIXME Sorry, due to the design decision of pytest-datadir to create a new copy
     #   of `shared_datadir` for every test, we cannot reuse this fixture
     #   for all tests in this module or package.
-    return Deduce(build_lookup_structs=True,
-                  save_lookup_structs=False,
-                  lookup_data_path=shared_datadir / "lookup")
-
+    return Deduce(
+        build_lookup_structs=True,
+        save_lookup_structs=False,
+        lookup_data_path=shared_datadir / "lookup",
+    )
 
 
 def regression_test(

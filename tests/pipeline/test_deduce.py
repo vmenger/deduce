@@ -1,8 +1,7 @@
+import docdeid as dd
 import pytest
 
-import docdeid as dd
 from deduce import Deduce
-
 from deduce.person import Person
 
 text = (
@@ -23,9 +22,11 @@ text = (
 
 @pytest.fixture
 def model(shared_datadir):
-    return Deduce(save_lookup_structs=False,
-                  build_lookup_structs=True,
-                  lookup_data_path=shared_datadir / "lookup")
+    return Deduce(
+        save_lookup_structs=False,
+        build_lookup_structs=True,
+        lookup_data_path=shared_datadir / "lookup",
+    )
 
 
 class TestDeduce:
@@ -50,39 +51,25 @@ class TestDeduce:
                 end_char=280,
                 tag="emailadres",
             ),
-            dd.Annotation(
-                text="J. Jansen", start_char=64, end_char=73, tag="patient"
-            ),
-            dd.Annotation(
-                text="Jan Jansen", start_char=9, end_char=19, tag="patient"
-            ),
+            dd.Annotation(text="J. Jansen", start_char=64, end_char=73, tag="patient"),
+            dd.Annotation(text="Jan Jansen", start_char=9, end_char=19, tag="patient"),
             dd.Annotation(
                 text="10 oktober 2018", start_char=139, end_char=154, tag="datum"
             ),
             dd.Annotation(text="64", start_char=77, end_char=79, tag="leeftijd"),
             dd.Annotation(text="000334433", start_char=42, end_char=51, tag="id"),
-            dd.Annotation(
-                text="Utrecht", start_char=106, end_char=113, tag="locatie"
-            ),
+            dd.Annotation(text="Utrecht", start_char=106, end_char=113, tag="locatie"),
             dd.Annotation(
                 text="IJSWEG 10r", start_char=115, end_char=125, tag="locatie"
             ),
+            dd.Annotation(text="UMCU", start_char=214, end_char=218, tag="ziekenhuis"),
             dd.Annotation(
-                text="UMCU", start_char=214, end_char=218, tag="ziekenhuis"
+                text="Peter Jansen", start_char=305, end_char=317, tag="persoon"
             ),
+            dd.Annotation(text="104", start_char=319, end_char=322, tag="leeftijd"),
+            dd.Annotation(text="Utrecht", start_char=340, end_char=347, tag="locatie"),
             dd.Annotation(
-                text="Peter Jansen", start_char=305, end_char=317,
-                tag="persoon"
-            ),
-            dd.Annotation(
-                text="104", start_char=319, end_char=322, tag="leeftijd"
-            ),
-            dd.Annotation(
-                text="Utrecht", start_char=340, end_char=347, tag="locatie"
-            ),
-            dd.Annotation(
-                text="Jan de Visser", start_char=373, end_char=386,
-                tag="persoon"
+                text="Jan de Visser", start_char=373, end_char=386, tag="persoon"
             ),
         }
 
@@ -133,14 +120,18 @@ class TestDeduce:
 
     def test_patient_2(self, model):
         metadata = {"patient": Person(first_names=["Jan"], surname="Jansen")}
-        doc = ("Lorem ipsum JANSEN sit amet, Peter Jansen adipiscing elit. "
-               "Curabitur J. Jansen sapien, J. P. Jansen a vestibulum quis, "
-               "facilisis vel J Jansen. Jan de Visser iaculis gravida nulla. "
-               "Etiam quis Jan van den Jansen.")
-        want = ("Lorem ipsum [PATIENT] sit amet, [PERSOON-1] adipiscing elit. "
-                "Curabitur [PATIENT] sapien, [PERSOON-2] a vestibulum quis, "
-                "facilisis vel [PATIENT]. [PERSOON-3] iaculis gravida nulla. "
-                "Etiam quis [PERSOON-4].")
+        doc = (
+            "Lorem ipsum JANSEN sit amet, Peter Jansen adipiscing elit. "
+            "Curabitur J. Jansen sapien, J. P. Jansen a vestibulum quis, "
+            "facilisis vel J Jansen. Jan de Visser iaculis gravida nulla. "
+            "Etiam quis Jan van den Jansen."
+        )
+        want = (
+            "Lorem ipsum [PATIENT] sit amet, [PERSOON-1] adipiscing elit. "
+            "Curabitur [PATIENT] sapien, [PERSOON-2] a vestibulum quis, "
+            "facilisis vel [PATIENT]. [PERSOON-3] iaculis gravida nulla. "
+            "Etiam quis [PERSOON-4]."
+        )
 
         deid = model.deidentify(doc, metadata=metadata)
         assert deid.deidentified_text == want

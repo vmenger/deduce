@@ -1,5 +1,4 @@
 import io
-
 from unittest.mock import patch
 
 import docdeid as dd
@@ -16,8 +15,7 @@ from deduce.lookup_structs import (
 class TestLookupStruct:
     def test_load_raw_itemset(self, shared_datadir):
 
-        raw_itemset = load_raw_itemset(
-            shared_datadir / "lookup" / "src" / "lst_test")
+        raw_itemset = load_raw_itemset(shared_datadir / "lookup" / "src" / "lst_test")
 
         assert len(raw_itemset) == 5
         assert "de Vries" in raw_itemset
@@ -30,15 +28,15 @@ class TestLookupStruct:
     def test_load_raw_itemset_nested(self, shared_datadir):
 
         raw_itemset = load_raw_itemset(
-            shared_datadir / "lookup" / "src" / "lst_test_nested")
+            shared_datadir / "lookup" / "src" / "lst_test_nested"
+        )
 
         assert raw_itemset == {"a", "b", "c", "d"}
 
     def test_load_raw_itemsets(self, shared_datadir):
 
         raw_itemsets = load_raw_itemsets(
-            base_path=shared_datadir / "lookup",
-            subdirs=["lst_test", "lst_test_nested"]
+            base_path=shared_datadir / "lookup", subdirs=["lst_test", "lst_test_nested"]
         )
 
         assert "test" in raw_itemsets
@@ -62,7 +60,7 @@ class TestLookupStruct:
                 assert validate_lookup_struct_cache(
                     cache=cache,
                     base_path=shared_datadir / "lookup",
-                    deduce_version="2.5.0"
+                    deduce_version="2.5.0",
                 )
 
     def test_validate_lookup_struct_cache_file_changes(self, shared_datadir):
@@ -81,40 +79,34 @@ class TestLookupStruct:
                 assert not validate_lookup_struct_cache(
                     cache=cache,
                     base_path=shared_datadir / "lookup",
-                    deduce_version="2.5.0"
+                    deduce_version="2.5.0",
                 )
 
-    @patch("deduce.lookup_structs.validate_lookup_struct_cache",
-           return_value=True)
+    @patch("deduce.lookup_structs.validate_lookup_struct_cache", return_value=True)
     def test_load_lookup_structs_from_cache(self, _, shared_datadir):
 
         ds_collection = load_lookup_structs_from_cache(
-            base_path=shared_datadir / "lookup",
-            deduce_version="_"
+            base_path=shared_datadir / "lookup", deduce_version="_"
         )
 
         assert len(ds_collection) == 2
         assert "test" in ds_collection
         assert "test_nested" in ds_collection
 
-    @patch("deduce.lookup_structs.validate_lookup_struct_cache",
-           return_value=True)
+    @patch("deduce.lookup_structs.validate_lookup_struct_cache", return_value=True)
     def test_load_lookup_structs_from_cache_nofile(self, _, shared_datadir):
 
         ds_collection = load_lookup_structs_from_cache(
-            base_path=shared_datadir / "non_existing_dir",
-            deduce_version="_"
+            base_path=shared_datadir / "non_existing_dir", deduce_version="_"
         )
 
         assert ds_collection is None
 
-    @patch("deduce.lookup_structs.validate_lookup_struct_cache",
-           return_value=False)
+    @patch("deduce.lookup_structs.validate_lookup_struct_cache", return_value=False)
     def test_load_lookup_structs_from_cache_invalid(self, _, shared_datadir):
 
         ds_collection = load_lookup_structs_from_cache(
-            base_path=shared_datadir / "lookup",
-            deduce_version="_"
+            base_path=shared_datadir / "lookup", deduce_version="_"
         )
 
         assert ds_collection is None
