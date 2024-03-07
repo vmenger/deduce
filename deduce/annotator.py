@@ -7,7 +7,7 @@ from collections.abc import Iterable, Mapping
 from typing import Any, Literal, Optional
 
 import docdeid as dd
-from docdeid import Annotation, Document, Tokenizer, TokenList, MetaData
+from docdeid import Annotation, Document, MetaData, Tokenizer, TokenList
 from docdeid.process import RegexpAnnotator
 
 from deduce.utils import str_match
