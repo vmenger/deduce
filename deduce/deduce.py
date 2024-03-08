@@ -10,9 +10,11 @@ import warnings
 from pathlib import Path
 from typing import Any, Optional, Union
 
-import docdeid as dd
 from deprecated import deprecated
 from frozendict import frozendict
+
+import docdeid as dd
+from docdeid.ds import LookupSet, LookupTrie
 
 from deduce import utils
 from deduce.annotation_processor import (
@@ -29,7 +31,6 @@ from deduce.tokenizer import DeduceTokenizer
 
 __version__ = importlib.metadata.version(__package__ or __name__)
 
-from docdeid.ds import LookupSet, LookupTrie
 
 from deduce.utils import ensure_path
 
@@ -181,6 +182,7 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
                 # This indicates an error in the code, not in configuration, as
                 # the "tokenizer" key is always added to `extras` where `extras` is
                 # defined -- in `Deduce.__init__`.
+                # pylint: disable=W0707
                 raise ValueError(
                     "When constructing a MultiTokenLookupAnnotator from a LookupSet, "
                     "a tokenizer must be given."

@@ -136,7 +136,7 @@ def repl_segments(s: str, matches: list[tuple]) -> list[list[str]]:
             (5, 8, ["Mr.", "Meester"]).
 
     Returns:
-        A list of options that together segement the entire string, e.g. [["Prof.",
+        A list of options that together segment the entire string, e.g. [["Prof.",
         "Professor"], [" "], ["Meester", "Mr."], [" Lievenslaan"]].
     """
 

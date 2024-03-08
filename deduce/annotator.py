@@ -117,7 +117,7 @@ class _PatternPositionMatcher:  # pylint: disable=R0903
                     if isinstance(meta_val, str)
                     else token in meta_val
                 )
-        else:
+        else:  # pylint: disable=R1705
             return token in kwargs.get("ds")[ent_type]
 
 
@@ -283,6 +283,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
         return annotations
 
+    # TODO Test.
     @classmethod
     def _index_by_token(
         cls,
@@ -382,45 +383,37 @@ class ContextAnnotator(TokenPatternAnnotator):
 
         return annotations
 
-    def _annotate(
-        self,
-        text: str,
-        annotations: dd.AnnotationSet,
-        token_lists: Mapping[str, TokenList],
-        metadata: MetaData = None,
-    ) -> dd.AnnotationSet:
+    def _get_annotations(self, doc: Document) -> dd.AnnotationSet:
         """
-        Does the annotation, by calling _apply_context_pattern, and then optionally
-        recursing. Also keeps track of the (un)changed annotations, so they are not
-        repeatedly processed.
+        Computes the annotation for `doc` and returns it.
+
+        Does this by calling _apply_context_pattern and then optionally recursing.
+        Also keeps track of the (un)changed annotations, so they are not repeatedly
+        processed.
 
         Args:
-            text: The input text.
-            annotations: The input annotations.
-            token_lists: Token lists available in this pipeline, indexed by
-                         the tokenizer name.
-            metadata: Document metadata (like the patient name).
+            doc: The input document.
 
         Returns:
             An extended set of annotations, based on the patterns provided.
         """
 
-        original_annotations = annotations.copy()
+        annotations = doc.annotations.copy()
 
         for context_pattern in self.pattern:
             annotations = self._apply_context_pattern(
-                text, annotations, token_lists, context_pattern, metadata
+                doc.text, annotations, doc.token_lists, context_pattern, doc.metadata
             )
 
         if self.iterative:
 
-            changed = dd.AnnotationSet(annotations.difference(original_annotations))
+            changed = dd.AnnotationSet(annotations.difference(doc.annotations))
             annotations = dd.AnnotationSet(
-                annotations.intersection(original_annotations)
+                annotations.intersection(doc.annotations)
             )
 
             if changed:
-                annotations.update(self._annotate(text, changed, token_lists))
+                annotations.update(self._get_annotations(doc))
 
         return annotations
 
@@ -435,9 +428,7 @@ class ContextAnnotator(TokenPatternAnnotator):
             An empty list, as annotations are modified and not added.
         """
 
-        doc.annotations = self._annotate(
-            doc.text, doc.annotations, doc.token_lists, doc.metadata
-        )
+        doc.annotations = self._get_annotations(doc)
         return []
 
 
