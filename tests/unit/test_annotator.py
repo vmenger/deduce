@@ -13,6 +13,7 @@ from deduce.annotator import (
     PhoneNumberAnnotator,
     RegexpPseudoAnnotator
 )
+from docdeid.direction import Direction
 from docdeid.process.annotator import (
     as_token_pattern,
     _PatternPositionMatcher,
@@ -237,7 +238,8 @@ class TestContextAnnotator:
             pattern_doc,
             ContextPattern("voornaam",
                            "{tag}+naam",
-                           SequencePattern("right", set(),
+                           SequencePattern(Direction.RIGHT,
+                                           set(),
                                            [as_token_pattern({"like_name": True})])),
             annotations,
         ) == dd.AnnotationSet(
@@ -271,7 +273,8 @@ class TestContextAnnotator:
             pattern_doc,
             ContextPattern("achternaam",
                            "naam+{tag}",
-                           SequencePattern("left", set(),
+                           SequencePattern(Direction.LEFT,
+                                           set(),
                                            [as_token_pattern({"like_name": True})])),
             annotations,
         ) == dd.AnnotationSet(
@@ -305,7 +308,8 @@ class TestContextAnnotator:
             pattern_doc,
             ContextPattern("achternaam",
                            "{tag}+naam",
-                           SequencePattern("right", {"-"},
+                           SequencePattern(Direction.RIGHT,
+                                           {"-"},
                                            [as_token_pattern({"like_name": True})])),
             annotations,
         ) == dd.AnnotationSet(

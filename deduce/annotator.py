@@ -8,12 +8,15 @@ from dataclasses import dataclass
 from typing import Optional
 
 import docdeid as dd
-from docdeid import Annotation, Document, Token, Tokenizer
-from docdeid.process import _DIRECTION_MAP, Annotator, RegexpAnnotator
-
 from deduce.utils import str_match
-from docdeid.process.annotator import SequencePattern, SequenceAnnotator, \
-    as_token_pattern
+from docdeid import Annotation, Document, Token, Tokenizer
+from docdeid.direction import Direction
+from docdeid.process import Annotator, RegexpAnnotator
+from docdeid.process.annotator import (
+    as_token_pattern,
+    SequenceAnnotator,
+    SequencePattern,
+)
 
 warnings.simplefilter(action="default")
 
@@ -51,9 +54,10 @@ class ContextAnnotator(Annotator):
         self._patterns = [
             ContextPattern(pat['pre_tag'],
                            pat['tag'],
-                           SequencePattern(pat.get('direction', "right"),
-                                           set(pat.get('skip', ())),
-                                           list(map(as_token_pattern, pat['pattern']))))
+                           SequencePattern(
+                               Direction.from_string(pat.get('direction', "right")),
+                               set(pat.get('skip', ())),
+                               list(map(as_token_pattern, pat['pattern']))))
             for pat in pattern
         ]
         super().__init__(*args, **kwargs, tag='_')  # XXX Not sure why exactly '_'.
@@ -82,18 +86,22 @@ class ContextAnnotator(Annotator):
         doc: Document,
         annos_by_token: defaultdict[str, Iterable[Annotation]],
     ) -> Annotation:
-        direction = context_pattern.seq_pattern.direction
-        skip = context_pattern.seq_pattern.skip
 
-        tag = list(_DIRECTION_MAP[direction]["order"](annotation.tag.split("+")))[-1]
+        dir_ = context_pattern.seq_pattern.direction
+        tag = list(dir_.iter(annotation.tag.split("+")))[-1]
 
         if tag not in context_pattern.pre_tag:
             return annotation
 
-        attr = _DIRECTION_MAP[direction]["attr"]
-        start_token = SequenceAnnotator._get_chained_token(
-            _DIRECTION_MAP[direction]["start_token"](annotation), attr, skip
-        )
+        anno_start = (annotation.end_token if dir_ is Direction.RIGHT else
+                      annotation.start_token)
+        skip = context_pattern.seq_pattern.skip
+        tokens = (token for token in anno_start.iter_to(dir_)
+                  if token.text not in skip)
+        try:
+            start_token = next(tokens)
+        except StopIteration:
+            return annotation
 
         new_annotation = self._match_sequence(doc,
                                               context_pattern.seq_pattern,
@@ -104,9 +112,7 @@ class ContextAnnotator(Annotator):
         if not new_annotation:
             return annotation
 
-        left_ann, right_ann = _DIRECTION_MAP[direction]["order"](
-            (annotation, new_annotation)
-        )
+        left_ann, right_ann = dir_.iter((annotation, new_annotation))
 
         return Annotation(
             text=doc.text[left_ann.start_char : right_ann.end_char],
