@@ -2,7 +2,8 @@ import docdeid as dd
 import pytest
 
 from deduce import utils
-from deduce.annotator import TokenPatternAnnotator
+from docdeid.process.annotator import SequenceAnnotator
+from deduce.annotator import BsnAnnotator
 
 
 class TestStrMatch:
@@ -28,17 +29,17 @@ class TestStrMatch:
 class TestClassForName:
     def test_class_for_name(self):
         assert (
-            utils.class_for_name(
-                module_name="deduce.annotator", class_name="TokenPatternAnnotator"
+                utils.class_for_name(
+                module_name="deduce.annotator", class_name="BsnAnnotator"
             )
-            == TokenPatternAnnotator
+                == BsnAnnotator
         )
 
 
 class TestInitializeClass:
     def test_initialize_class(self):
 
-        cls = TokenPatternAnnotator
+        cls = SequenceAnnotator
 
         tag = "_"
         pattern = [{"key": "value"}]
@@ -52,7 +53,7 @@ class TestInitializeClass:
 
     def test_initialize_class_with_extras(self):
 
-        cls = TokenPatternAnnotator
+        cls = SequenceAnnotator
 
         tag = "_"
         pattern = [{"key": "value"}]
@@ -66,7 +67,7 @@ class TestInitializeClass:
 
         assert annotator.tag == tag
         assert annotator.pattern == pattern
-        assert annotator.ds is ds
+        assert annotator.dicts is ds
 
 
 class TestOverwriteDict:

@@ -14,7 +14,7 @@
   "redactor_close_char": "]",
   "annotators": {
     "prefix_with_initial": {
-      "annotator_type": "deduce.annotator.TokenPatternAnnotator",
+      "annotator_type": "docdeid.process.SequenceAnnotator",
       "group": "names",
       "args": {
         "tag": "prefix+initiaal",
@@ -37,7 +37,7 @@
       }
     },
     "prefix_with_interfix": {
-      "annotator_type": "deduce.annotator.TokenPatternAnnotator",
+      "annotator_type": "docdeid.process.SequenceAnnotator",
       "group": "names",
       "args": {
         "tag": "prefix+interfix+naam",
@@ -56,7 +56,7 @@
       }
     },
     "prefix_with_name": {
-      "annotator_type": "deduce.annotator.TokenPatternAnnotator",
+      "annotator_type": "docdeid.process.SequenceAnnotator",
       "group": "names",
       "args": {
         "tag": "prefix+naam",
@@ -79,7 +79,7 @@
       }
     },
     "interfix_with_name": {
-      "annotator_type": "deduce.annotator.TokenPatternAnnotator",
+      "annotator_type": "docdeid.process.SequenceAnnotator",
       "group": "names",
       "args": {
         "tag": "interfix+achternaam",
@@ -102,7 +102,7 @@
       }
     },
     "initial_with_name": {
-      "annotator_type": "deduce.annotator.TokenPatternAnnotator",
+      "annotator_type": "docdeid.process.SequenceAnnotator",
       "group": "names",
       "args": {
         "tag": "initiaal+naam",
@@ -128,7 +128,7 @@
       }
     },
     "initial_interfix": {
-      "annotator_type": "deduce.annotator.TokenPatternAnnotator",
+      "annotator_type": "docdeid.process.SequenceAnnotator",
       "group": "names",
       "args": {
         "tag": "initiaal+interfix+naam",
@@ -347,7 +347,7 @@
       }
     },
     "street_pattern": {
-      "annotator_type": "deduce.annotator.TokenPatternAnnotator",
+      "annotator_type": "docdeid.process.SequenceAnnotator",
       "group": "locations",
       "args": {
         "pattern": [

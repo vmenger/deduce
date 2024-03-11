@@ -10,11 +10,11 @@ import warnings
 from pathlib import Path
 from typing import Any, Optional, Union
 
-from deprecated import deprecated
-from frozendict import frozendict
-
 import docdeid as dd
+from deprecated import deprecated
+
 from docdeid.ds import LookupSet, LookupTrie
+from frozendict import frozendict
 
 from deduce import utils
 from deduce.annotation_processor import (
@@ -23,7 +23,8 @@ from deduce.annotation_processor import (
     PersonAnnotationConverter,
     RemoveAnnotations,
 )
-from deduce.annotator import ContextAnnotator, TokenPatternAnnotator
+from deduce.annotator import ContextAnnotator
+from docdeid.process.annotator import SequenceAnnotator, TokenPatternAnnotator
 from deduce.lookup_struct_loader import load_interfix_lookup, load_prefix_lookup
 from deduce.lookup_structs import get_lookup_structs, load_raw_itemsets
 from deduce.redactor import DeduceRedactor
@@ -212,20 +213,20 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
     @deprecated(
         "The token_pattern annotatortype is deprecated and will be removed in "
         "a future version. Please set annotator_type field to "
-        "deduce.annotator.TokenPatternAnnotator. See "
+        "docdeid.process.SequenceAnnotator. See "
         "https://github.com/vmenger/deduce/blob/main/base_config.json for "
         "examples."
     )
     def _get_token_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
 
-        return TokenPatternAnnotator(**args, ds=extras["ds"])
+        return SequenceAnnotator(**args, ds=extras["ds"])
 
     @staticmethod
     @deprecated(
         "The dd_token_pattern annotatortype is deprecated and will be removed "
         "in a future version. For patient name patterns, please use "
         "deduce.annotator.PatientNameAnnotator. For other patterns, please "
-        "switch to deduce.annotator.TokenPatternAnnotator. See "
+        "switch to docdeid.process.SequenceAnnotator. See "
         "https://github.com/vmenger/deduce/blob/main/base_config.json for "
         "examples."
     )
@@ -240,7 +241,7 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
 
         pattern = utils.initialize_class(cls, args=pattern_args, extras=extras)
 
-        return dd.process.TokenPatternAnnotator(pattern=pattern)
+        return TokenPatternAnnotator(pattern=pattern)
 
     @staticmethod
     @deprecated(
