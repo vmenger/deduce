@@ -304,15 +304,14 @@ class TestContextAnnotator:
         )
 
         assert annotator._apply_context_pattern(
-            pattern_doc.text,
-            annotations,
-            {},
+            pattern_doc,
             {
                 "pattern": [{"like_name": True}],
                 "direction": "right",
                 "pre_tag": "voornaam",
                 "tag": "{tag}+naam",
             },
+            annotations,
         ) == dd.AnnotationSet(
             [
                 dd.Annotation(
@@ -341,15 +340,14 @@ class TestContextAnnotator:
         )
 
         assert annotator._apply_context_pattern(
-            pattern_doc.text,
-            annotations,
-            {},
+            pattern_doc,
             {
                 "pattern": [{"like_name": True}],
                 "direction": "left",
                 "pre_tag": "achternaam",
                 "tag": "naam+{tag}",
             },
+            annotations,
         ) == dd.AnnotationSet(
             [
                 dd.Annotation(
@@ -378,9 +376,7 @@ class TestContextAnnotator:
         )
 
         assert annotator._apply_context_pattern(
-            pattern_doc.text,
-            annotations,
-            {},
+            pattern_doc,
             {
                 "pattern": [{"like_name": True}],
                 "direction": "right",
@@ -388,6 +384,7 @@ class TestContextAnnotator:
                 "pre_tag": "achternaam",
                 "tag": "{tag}+naam",
             },
+            annotations,
         ) == dd.AnnotationSet(
             [
                 dd.Annotation(
@@ -431,8 +428,7 @@ class TestContextAnnotator:
             ]
         )
 
-        assert (annotator._get_annotations(pattern_doc) ==
-                dd.AnnotationSet(
+        assert annotator._get_annotations(pattern_doc) == dd.AnnotationSet(
             {
                 dd.Annotation(
                     text="Andries Meijer-Heerma",
@@ -441,7 +437,7 @@ class TestContextAnnotator:
                     tag="voornaam+naam+naam",
                 )
             }
-        ))
+        )
 
     def test_annotate_iterative(self, pattern_doc):
         pattern = [
@@ -469,8 +465,7 @@ class TestContextAnnotator:
             ]
         )
 
-        assert (annotator._get_annotations(pattern_doc) ==
-                dd.AnnotationSet(
+        assert annotator._get_annotations(pattern_doc) == dd.AnnotationSet(
             {
                 dd.Annotation(
                     text="Andries Meijer-Heerma",
@@ -479,7 +474,7 @@ class TestContextAnnotator:
                     tag="voornaam+naam+naam",
                 )
             }
-        ))
+        )
 
 
 class TestPatientNameAnnotator:

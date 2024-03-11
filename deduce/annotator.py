@@ -7,7 +7,7 @@ from collections.abc import Iterable, Mapping
 from typing import Any, Literal, Optional
 
 import docdeid as dd
-from docdeid import Annotation, Document, MetaData, Tokenizer, TokenList
+from docdeid import Annotation, Document, Token, Tokenizer, TokenList
 from docdeid.process import RegexpAnnotator
 
 from deduce.utils import str_match
@@ -170,9 +170,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
         super().__init__(*args, **kwargs)
 
     @staticmethod
-    def _get_chained_token(
-        token: dd.Token, attr: str, skip: set[str]
-    ) -> Optional[dd.Token]:
+    def _get_chained_token(token: Token, attr: str, skip: set[str]) -> Optional[Token]:
         while True:
             token = getattr(token, attr)()
 
@@ -185,12 +183,12 @@ class TokenPatternAnnotator(dd.process.Annotator):
         self,
         text: str,
         pattern: list[dict],
-        start_token: dd.tokenizer.Token,
-        annos_by_token: defaultdict[dd.tokenizer.Token, Iterable[dd.Annotation]],
+        start_token: Token,
+        annos_by_token: defaultdict[Token, Iterable[Annotation]],
         direction: Literal["left", "right"] = "right",
         skip: Optional[set[str]] = None,
         metadata: Optional[dict[str, Any]] = None,
-    ) -> Optional[dd.Annotation]:
+    ) -> Optional[Annotation]:
         """
         Sequentially match a pattern against a specified start_token.
 
@@ -226,13 +224,15 @@ class TokenPatternAnnotator(dd.process.Annotator):
                 return None
 
             end_token = current_token
-            current_token = self._get_chained_token(current_token, attr, skip)
+            current_token = TokenPatternAnnotator._get_chained_token(
+                current_token, attr, skip
+            )
 
         start_token, end_token = _DIRECTION_MAP[direction]["order"](
             (start_token, end_token)
         )
 
-        return dd.Annotation(
+        return Annotation(
             text=text[start_token.start_char : end_token.end_char],
             start_char=start_token.start_char,
             end_char=end_token.end_char,
@@ -242,7 +242,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
             end_token=end_token,
         )
 
-    def annotate(self, doc: dd.Document) -> list[dd.Annotation]:
+    def annotate(self, doc: Document) -> list[Annotation]:
         """
         Annotate the document, by matching the pattern against all tokens.
 
@@ -287,9 +287,9 @@ class TokenPatternAnnotator(dd.process.Annotator):
     @classmethod
     def _index_by_token(
         cls,
-        annotations: Iterable[dd.Annotation],
+        annotations: Iterable[Annotation],
         token_lists: Mapping[str, TokenList],
-    ) -> defaultdict[str, set[dd.Annotation]]:
+    ) -> defaultdict[Token, set[Annotation]]:
         """Assigns existing annotations to tokens."""
         annos_by_token = defaultdict(set)
         for token_list in token_lists.values():
@@ -328,62 +328,70 @@ class ContextAnnotator(TokenPatternAnnotator):
 
     def _apply_context_pattern(
         self,
-        text: str,
-        annotations: dd.AnnotationSet,
-        token_lists: Mapping[str, TokenList],
+        doc: Document,
         context_pattern: dict,
-        metadata: Optional[dict[str, Any]] = None,
+        orig_annos: Optional[dd.AnnotationSet] = None,
     ) -> dd.AnnotationSet:
 
+        # TODO Maybe we should index all annotations here, not just the `new` ones.
+        annos_by_token = TokenPatternAnnotator._index_by_token(
+            orig_annos, doc.token_lists
+        )
+
+        return dd.AnnotationSet(
+            self._maybe_merge_anno(anno, context_pattern, doc, annos_by_token)
+            for anno in orig_annos
+        )
+
+    def _maybe_merge_anno(
+        self,
+        annotation: Annotation,
+        context_pattern: dict,
+        doc: Document,
+        annos_by_token: defaultdict[str, Iterable[Annotation]],
+    ) -> Annotation:
         direction = context_pattern["direction"]
         skip = set(context_pattern.get("skip", []))
 
-        annos_by_token = TokenPatternAnnotator._index_by_token(annotations, token_lists)
+        tag = list(_DIRECTION_MAP[direction]["order"](annotation.tag.split("+")))[-1]
 
-        for annotation in annotations.copy():
+        if tag not in context_pattern["pre_tag"]:
+            return annotation
 
-            tag = list(_DIRECTION_MAP[direction]["order"](annotation.tag.split("+")))[
-                -1
-            ]
+        attr = _DIRECTION_MAP[direction]["attr"]
+        start_token = TokenPatternAnnotator._get_chained_token(
+            _DIRECTION_MAP[direction]["start_token"](annotation), attr, skip
+        )
+        new_annotation = self._match_sequence(
+            doc.text,
+            context_pattern["pattern"],
+            start_token,
+            annos_by_token,
+            direction=direction,
+            skip=skip,
+            metadata=doc.metadata,
+        )
 
-            if tag not in context_pattern["pre_tag"]:
-                continue
+        if not new_annotation:
+            return annotation
 
-            attr = _DIRECTION_MAP[direction]["attr"]
-            start_token = self._get_chained_token(
-                _DIRECTION_MAP[direction]["start_token"](annotation), attr, skip
-            )
-            new_annotation = self._match_sequence(
-                text,
-                context_pattern["pattern"],
-                start_token,
-                annos_by_token,
-                direction=direction,
-                skip=skip,
-                metadata=metadata,
-            )
+        left_ann, right_ann = _DIRECTION_MAP[direction]["order"](
+            (annotation, new_annotation)
+        )
 
-            if new_annotation:
-                left_ann, right_ann = _DIRECTION_MAP[direction]["order"](
-                    (annotation, new_annotation)
-                )
+        return Annotation(
+            text=doc.text[left_ann.start_char : right_ann.end_char],
+            start_char=left_ann.start_char,
+            end_char=right_ann.end_char,
+            start_token=left_ann.start_token,
+            end_token=right_ann.end_token,
+            tag=context_pattern["tag"].format(tag=annotation.tag),
+            priority=annotation.priority,
+        )
 
-                merged_annotation = dd.Annotation(
-                    text=text[left_ann.start_char : right_ann.end_char],
-                    start_char=left_ann.start_char,
-                    end_char=right_ann.end_char,
-                    start_token=left_ann.start_token,
-                    end_token=right_ann.end_token,
-                    tag=context_pattern["tag"].format(tag=annotation.tag),
-                    priority=annotation.priority,
-                )
-
-                annotations.remove(annotation)
-                annotations.add(merged_annotation)
-
-        return annotations
-
-    def _get_annotations(self, doc: Document) -> dd.AnnotationSet:
+    def _get_annotations(
+        self, doc: Document, orig_annos: Optional[dd.AnnotationSet] = None
+    ) -> dd.AnnotationSet:
         """
         Computes the annotation for `doc` and returns it.
 
@@ -393,31 +401,30 @@ class ContextAnnotator(TokenPatternAnnotator):
 
         Args:
             doc: The input document.
+            orig_annos: Current set of annotations. If `None`, `doc.annotations` will
+                        be consulted.
 
         Returns:
             An extended set of annotations, based on the patterns provided.
         """
 
-        annotations = doc.annotations.copy()
+        if orig_annos is None:
+            orig_annos = doc.annotations
+        annotations = orig_annos.copy()
 
         for context_pattern in self.pattern:
-            annotations = self._apply_context_pattern(
-                doc.text, annotations, doc.token_lists, context_pattern, doc.metadata
-            )
+            annotations = self._apply_context_pattern(doc, context_pattern, annotations)
 
-        if self.iterative:
-
-            changed = dd.AnnotationSet(annotations.difference(doc.annotations))
+        if self.iterative and (new := dd.AnnotationSet(annotations - orig_annos)):
+            # XXX Are we sure that other annotations than `new` don't matter anymore
+            #  to the operation of the `_get_annotations` method?
             annotations = dd.AnnotationSet(
-                annotations.intersection(doc.annotations)
+                (annotations - new) | self._get_annotations(doc, new)
             )
-
-            if changed:
-                annotations.update(self._get_annotations(doc))
 
         return annotations
 
-    def annotate(self, doc: dd.Document) -> list[dd.Annotation]:
+    def annotate(self, doc: Document) -> list[Annotation]:
         """
         Wrapper for annotating.
 
@@ -451,8 +458,8 @@ class PatientNameAnnotator(dd.process.Annotator):
 
     @staticmethod
     def _match_first_names(
-        doc: dd.Document, token: dd.Token
-    ) -> Optional[tuple[dd.Token, dd.Token]]:
+        doc: Document, token: Token
+    ) -> Optional[tuple[Token, Token]]:
 
         for first_name in doc.metadata["patient"].first_names:
 
@@ -466,8 +473,8 @@ class PatientNameAnnotator(dd.process.Annotator):
 
     @staticmethod
     def _match_initial_from_name(
-        doc: dd.Document, token: dd.Token
-    ) -> Optional[tuple[dd.Token, dd.Token]]:
+        doc: Document, token: Token
+    ) -> Optional[tuple[Token, Token]]:
 
         for _, first_name in enumerate(doc.metadata["patient"].first_names):
             if str_match(token.text, first_name[0]):
@@ -481,16 +488,14 @@ class PatientNameAnnotator(dd.process.Annotator):
         return None
 
     @staticmethod
-    def _match_initials(
-        doc: dd.Document, token: dd.Token
-    ) -> Optional[tuple[dd.Token, dd.Token]]:
+    def _match_initials(doc: Document, token: Token) -> Optional[tuple[Token, Token]]:
 
         if str_match(token.text, doc.metadata["patient"].initials):
             return token, token
 
         return None
 
-    def next_with_skip(self, token: dd.Token) -> Optional[dd.Token]:
+    def next_with_skip(self, token: Token) -> Optional[Token]:
         """Find the next token, while skipping certain punctuation."""
 
         while True:
@@ -502,8 +507,8 @@ class PatientNameAnnotator(dd.process.Annotator):
         return token
 
     def _match_surname(
-        self, doc: dd.Document, token: dd.Token
-    ) -> Optional[tuple[dd.Token, dd.Token]]:
+        self, doc: Document, token: Token
+    ) -> Optional[tuple[Token, Token]]:
 
         if doc.metadata["surname_pattern"] is None:
             doc.metadata["surname_pattern"] = self.tokenizer.tokenize(
@@ -571,7 +576,7 @@ class PatientNameAnnotator(dd.process.Annotator):
                 start_token, end_token = match
 
                 annotations.append(
-                    dd.Annotation(
+                    Annotation(
                         text=doc.text[start_token.start_char : end_token.end_char],
                         start_char=start_token.start_char,
                         end_char=end_token.end_char,
@@ -758,7 +763,7 @@ class BsnAnnotator(dd.process.Annotator):
 class PhoneNumberAnnotator(dd.process.Annotator):
     """
     Annotates phone numbers, based on a regexp and min and max number of digits.
-    Additionally employs some logic like detecting parentheses and hyphens.
+    Additionally, employs some logic like detecting parentheses and hyphens.
 
     Args:
         phone_regexp: The regexp to detect phone numbers.
