@@ -5,6 +5,7 @@ import warnings
 from collections import defaultdict
 from collections.abc import Iterable
 from dataclasses import dataclass
+from itertools import islice
 from typing import Optional
 
 import docdeid as dd
@@ -91,13 +92,14 @@ class ContextAnnotator(Annotator):
         if tag not in context_pattern.pre_tag:
             return annotation
 
-        anno_start = (annotation.end_token if dir_ is Direction.RIGHT else
-                      annotation.start_token)
+        last_anno_token = (annotation.end_token if dir_ is Direction.RIGHT else
+                           annotation.start_token)
         skip = context_pattern.seq_pattern.skip
-        tokens = (token for token in anno_start.iter_to(dir_)
-                  if token.text not in skip)
+        following_tokens = islice(last_anno_token.iter_to(dir_), 1, None)
+        nonskip_tokens = (token for token in following_tokens
+                          if token.text not in skip)
         try:
-            start_token = next(tokens)
+            start_token = next(nonskip_tokens)
         except StopIteration:
             return annotation
 
@@ -143,7 +145,7 @@ class ContextAnnotator(Annotator):
 
         if orig_annos is None:
             orig_annos = doc.annotations
-        annotations = orig_annos.copy()
+        annotations = dd.AnnotationSet(orig_annos.copy())
 
         for context_pattern in self._patterns:
             annotations = self._apply_context_pattern(doc, context_pattern, annotations)
