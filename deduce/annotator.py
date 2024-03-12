@@ -7,7 +7,7 @@ from typing import Literal, Optional, Tuple, Union
 
 import docdeid as dd
 from docdeid import Annotation, Document, Tokenizer
-from docdeid.process import RegexpAnnotator
+from docdeid.process import MultiTokenLookupAnnotator, RegexpAnnotator
 
 from deduce.str.processor import TitleCase
 from deduce.utils import str_match
@@ -950,3 +950,10 @@ class TargetWordTokenPatternAnnotator(TokenPatternAnnotator):
             )
 
         return annotations
+
+
+class TitleCaseLookupAnnotator(MultiTokenLookupAnnotator):
+    # Replace the expander with a argument in docdeid (lookup/LookupTrie/longest_matching_prefix) of an additional matching pipeline
+    # then multi token lookup can be used for title case lookup, with additional commonword checking??
+    # This will remove the slowdown and i have no need for the expander elsewhere
+    pass
