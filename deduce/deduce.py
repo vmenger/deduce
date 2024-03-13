@@ -88,14 +88,16 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
             build=build_lookup_structs,
         )
 
-        extras = {
+        self.annotator_load_extras = {
             "tokenizer": self.tokenizers["default"],
             "ds": self.lookup_structs,
             "use_recall_boost": self.config["use_recall_boost"],
         }
 
-        loader = DeduceProcessorLoader()
-        self.processors = loader.load(config=self.config, extras=extras)
+        self.annotator_loader = DeduceProcessorLoader()
+        self.processors = self.annotator_loader.load(
+            config=self.config, extras=self.annotator_load_extras
+        )
 
     @staticmethod
     def _initialize_config(
