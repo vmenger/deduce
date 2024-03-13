@@ -208,6 +208,17 @@ def annotate(doc: dd.Document):
 
 Updating the builtin lookup sets and tries is a very useful and straightforward way to tailor `deduce`. Changes can be made directly from the `Deduce.lookup_structs` attribute, as such: 
 
+
+!!!!!!!!!!!!
+Update this -> the functionality does not work anymore -> first_name is in a LookupTrie structure after init, which only has add_item(), no from_iterable.
+Also since start_words etc. are used one must reload the annotators after adding stuff to the lookup_structs for changes to take effect.
+``` python
+deduce.processors = deduce.annotator_loader.load(
+        config=deduce.config, extras=deduce.annotator_load_extras
+    )
+```
+!!!!!!!!!!!!
+
 ```python
 from deduce import Deduce
 

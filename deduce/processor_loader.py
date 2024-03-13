@@ -22,24 +22,25 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
     @staticmethod
     def _get_multi_token_annotator(args: dict, extras: dict) -> dd.process.Annotator:
         lookup_struct = extras["ds"][args["lookup_values"]]
+        init_args = {k: v for k, v in args.items()}
 
         if isinstance(lookup_struct, dd.ds.LookupSet):
-            args.update(
+            init_args.update(
                 lookup_values=lookup_struct.items(),
                 matching_pipeline=lookup_struct.matching_pipeline,
                 tokenizer=extras["tokenizer]"],
             )
         elif isinstance(lookup_struct, dd.ds.LookupTrie):
-            args.update(trie=lookup_struct)
-            del args["lookup_values"]
+            init_args.update(trie=lookup_struct)
+            del init_args["lookup_values"]
         else:
             raise ValueError(
                 f"Don't know how to present lookup structure with type "
                 f"{type(lookup_struct)} to MultiTokenLookupAnnotator"
             )
-        DeduceProcessorLoader._handle_recall_booster(extras, args)
+        DeduceProcessorLoader._handle_recall_booster(extras, init_args)
 
-        return dd.process.MultiTokenLookupAnnotator(**args)
+        return dd.process.MultiTokenLookupAnnotator(**init_args)
 
     @deprecated(
         "The multi_token annotatortype is deprecated and will be removed in a "
