@@ -23,9 +23,6 @@ def regression_test(
     for example in examples:
         add_recall_booster_annotations(example, model)
 
-        if example["id"] == 112:
-            x = 2
-
         trues = AnnotationSet(
             Annotation(**annotation) for annotation in example["annotations"]
         )
@@ -35,7 +32,6 @@ def regression_test(
         try:
             assert trues == preds
         except AssertionError:
-            print(preds)
             failures.add(example["id"])
 
     assert failures == known_failures

@@ -1024,6 +1024,79 @@
                     "tag": "datum"
                 }
             ]
+        },
+        {
+            "id": 73,
+            "text": "geboortedatum is 01-01-1990.",
+            "annotations":[ {
+                "text": "01-01-1990",
+                "start_char": 17,
+                "end_char": 27,
+                "tag": "datum"
+            }],
+            "recall_booster_annotations": []
+        },
+        {
+            "id": 74,
+            "text": "geboortedatum is 1990-07-25.",
+            "annotations":[{
+                "text": "1990-07-25",
+                "start_char": 17,
+                "end_char": 27,
+                "tag": "datum"
+            }],
+            "recall_booster_annotations": []
+        },
+        {
+            "id": 75,
+            "text": "geboortemaand is 01-1990.",
+            "annotations":[],
+            "recall_booster_annotations": [{
+                "text": "01-1990",
+                "start_char": 17,
+                "end_char": 24,
+                "tag": "datum"
+            }
+            ]
+        },
+        {
+            "id": 76,
+            "text": "geboortemaand is 1975-10.",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "1975-10",
+                    "start_char": 17,
+                    "end_char": 24,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 77,
+            "text": "geboortedatum is 25/08.",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "25/08",
+                    "start_char": 17,
+                    "end_char": 22,
+                    "tag": "datum"
+                }
+            ]
+        },
+        {
+            "id": 78,
+            "text": "geboortedatum is 08/25.",
+            "annotations":[],
+            "recall_booster_annotations": [
+                {
+                    "text": "08/25",
+                    "start_char": 17,
+                    "end_char": 22,
+                    "tag": "datum"
+                }
+            ]
         }
 
     ]
