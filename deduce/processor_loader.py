@@ -28,7 +28,7 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
             init_args.update(
                 lookup_values=lookup_struct.items(),
                 matching_pipeline=lookup_struct.matching_pipeline,
-                tokenizer=extras["tokenizer]"],
+                tokenizer=extras["tokenizer"],
             )
         elif isinstance(lookup_struct, dd.ds.LookupTrie):
             init_args.update(trie=lookup_struct)

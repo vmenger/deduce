@@ -7,7 +7,8 @@ from typing import Literal, Optional, Tuple, Union
 
 import docdeid as dd
 from docdeid import Annotation, Document, Tokenizer
-from docdeid.process import MultiTokenLookupAnnotator, RegexpAnnotator
+from docdeid.ds.lookup import LookupTrie
+from docdeid.process import Annotator, MultiTokenLookupAnnotator, RegexpAnnotator
 
 from deduce.str.processor import TitleCase
 from deduce.utils import str_match
@@ -952,8 +953,37 @@ class TargetWordTokenPatternAnnotator(TokenPatternAnnotator):
         return annotations
 
 
-class TitleCaseLookupAnnotator(MultiTokenLookupAnnotator):
+class LowerCaseLookupAnnotator(Annotator):
     # Replace the expander with a argument in docdeid (lookup/LookupTrie/longest_matching_prefix) of an additional matching pipeline
     # then multi token lookup can be used for title case lookup, with additional commonword checking??
     # This will remove the slowdown and i have no need for the expander elsewhere
-    pass
+
+    # This one will tag both lowercase (through applying titlecasing to tokens) as normal titlecased occurrences of
+    # whatever is in the lookup trie. This can therefore replace the multitokelookupannotator when you want tag both
+    # additionally we can perform checks on the matched lowercase occurrences to filter out false positives
+
+    def __init__(self, lookup_trie: LookupTrie, *args, min_len=None, **kwargs) -> None:
+        self.multitoken_lookup = MultiTokenLookupAnnotator(
+            trie=lookup_trie, *args, **kwargs
+        )
+        # set matching pipeline after initialization, because it is taken from
+        # lookup_trie otherwise. and i want to reuse the lookup_trie resource
+        # since i don't want to duplicate the values in there.
+        self.multitoken_lookup._matching_pipeline = [TitleCase()]
+        self.min_lowercase_len = min_len
+
+    def annotate(self, doc: dd.Document) -> list[dd.Annotation]:
+        annotations = self.multitoken_lookup.annotate(doc)
+
+        filtered_annotations = []
+        for a in annotations:
+            # let the checking for lowercasing begin
+            if a.text.islower():
+                if self.min_lowercase_len and len(a.text) < self.min_lowercase_len:
+                    continue
+                prev_token = a.start_token.previous()
+                if prev_token.text in ["de", "het", "een"]:
+                    continue
+            filtered_annotations.append(a)
+
+        return filtered_annotations

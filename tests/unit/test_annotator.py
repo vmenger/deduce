@@ -1,4 +1,5 @@
 import re
+from typing import List, Tuple
 from unittest.mock import patch
 
 import docdeid as dd
@@ -7,6 +8,7 @@ import pytest
 from deduce.annotator import (
     BsnAnnotator,
     ContextAnnotator,
+    LowerCaseLookupAnnotator,
     PatientNameAnnotator,
     PhoneNumberAnnotator,
     RegexpPseudoAnnotator,
@@ -41,6 +43,38 @@ def ds():
 @pytest.fixture
 def tokenizer():
     return DeduceTokenizer()
+
+
+@pytest.fixture
+def lookuptrie_ds(tokenizer):
+    ds = dd.ds.DsCollection()
+
+    first_names = ["Annemarie Femke", "Femke", "Everdina", "Eva", "Emma"]
+    ds["first_names"] = dd.ds.LookupTrie()
+    [
+        ds["first_names"].add_item([t.text for t in tokenizer.tokenize(dn)])
+        for dn in first_names
+    ]
+
+    last_names = [
+        "Denderode Everdingen",
+        "Schellekens",
+        "St' Stevensberg",
+        "Bakker",
+    ]
+    ds["last_names"] = dd.ds.LookupTrie()
+    [
+        ds["last_names"].add_item([t.text for t in tokenizer.tokenize(dn)])
+        for dn in last_names
+    ]
+
+    locations = ["Den Haag", "Everdingen", "Groenlo", "Den bosch"]
+    ds["locations"] = dd.ds.LookupTrie()
+    [
+        ds["locations"].add_item([t.text for t in tokenizer.tokenize(dn)])
+        for dn in locations
+    ]
+    return ds
 
 
 @pytest.fixture
@@ -911,3 +945,50 @@ class TestPhoneNumberAnnotator:
         ]
 
         assert annotations == expected_annotations
+
+
+class TestLowerCaseLookupAnnotator:
+    def apply_annotator(
+        self, annotator: LowerCaseLookupAnnotator, cases: List[Tuple[dd.Document, int]]
+    ):
+        for c, expected_nr_ann in cases:
+            annotations = annotator.annotate(c)
+            assert len(annotations) == expected_nr_ann
+
+    def test_firstname(self, lookuptrie_ds, tokenizer):
+        cases = [
+            ("Femke gaat even langs", 1),
+            ("ze is al vaker bij everdina geweest", 1),
+        ]
+        annotator = LowerCaseLookupAnnotator(lookuptrie_ds["first_names"], "first_name")
+        cases = [
+            (dd.Document(c, tokenizers={"default": tokenizer}), n) for c, n in cases
+        ]
+        self.apply_annotator(annotator, cases)
+
+    def test_surname(self, lookuptrie_ds, tokenizer):
+        cases = [
+            ("haar man heet schellekens maar die naam vond ze niet mooi", 1),
+            ("komt regelmatig bij st' stevensberg", 1),
+            ("achternaam: bakker", 1),
+            ("gaat graag naar de bakker", 0),
+            ("bij denderode everdingen langs geweest", 1),
+        ]
+        annotator = LowerCaseLookupAnnotator(lookuptrie_ds["last_names"], "last_name")
+        cases = [
+            (dd.Document(c, tokenizers={"default": tokenizer}), n) for c, n in cases
+        ]
+        self.apply_annotator(annotator, cases)
+
+    def test_minimum_length(self, lookuptrie_ds, tokenizer):
+        cases = [
+            ("Eva gaat even langs", 1),
+            ("ze is al vaker bij eva geweest", 0),
+        ]
+        annotator = LowerCaseLookupAnnotator(
+            lookuptrie_ds["first_names"], "first_name", min_len=4
+        )
+        cases = [
+            (dd.Document(c, tokenizers={"default": tokenizer}), n) for c, n in cases
+        ]
+        self.apply_annotator(annotator, cases)
