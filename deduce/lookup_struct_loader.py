@@ -64,6 +64,7 @@ def load_verb_tenses(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
     verb_tenses = dd.ds.LookupSet()
     verb_tenses.add_items_from_iterable(
         raw_itemsets["verb_tenses"],
+        cleaning_pipeline=[dd.str.FilterByLength(min_len=2)],
     )
     return verb_tenses
 

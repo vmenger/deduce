@@ -155,10 +155,9 @@
         "overlapping": true,
         "lookup_values": "first_name",
         "recall_boost_config": {
-          "recall_boost_type": "docdeid.str.expander.MinimumLengthExpander",
+          "recall_boost_type": "lowercase_annotator",
           "args":{
-            "min_len": 4,
-            "str_processors": ["deduce.str.processor.TitleCase"]
+            "min_len": 4
           }
         }
       }
@@ -171,10 +170,9 @@
         "overlapping": true,
         "lookup_values": "surname",
         "recall_boost_config": {
-          "recall_boost_type": "docdeid.str.expander.MinimumLengthExpander",
+          "recall_boost_type": "lowercase_annotator",
           "args": {
-            "min_len": 4,
-            "str_processors": ["deduce.str.processor.TitleCase"]
+            "min_len": 4
           }  
         }
       }

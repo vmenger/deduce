@@ -15,4 +15,5 @@ all_lists = [
     "whitelist/lst_eponymous_disease",
     "whitelist/lst_medical_term",
     "whitelist/lst_stop_word",
+    "whitelist/lst_verb_tenses",
 ]

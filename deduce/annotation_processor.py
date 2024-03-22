@@ -95,6 +95,7 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
                 start_char=annotation.start_char,
                 end_char=annotation.end_char,
                 tag="patient" if "patient" in annotation.tag else "persoon",
+                source=annotation.source,
             )
             for annotation in new_annotations
             if ("pseudo" not in annotation.tag and len(annotation.text.strip()) != 0)
@@ -135,6 +136,7 @@ class CleanAnnotationTag(dd.process.AnnotationProcessor):
                         end_token=annotation.end_token,
                         tag=self.tag_map[annotation.tag],
                         priority=annotation.priority,
+                        source=annotation.source,
                     )
                 )
             else:

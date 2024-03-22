@@ -1,5 +1,3 @@
-from docdeid.process.annotator import MultiTokenLookupAnnotator
-
 from deduce.deduce import Deduce
 
 
@@ -16,15 +14,10 @@ class TestRecallBoosterConfig:
         config_annotator_names = set(base_config["annotators"].keys())
         real_deduce = Deduce(load_base_config=False, config=base_config)
 
-        processor_names, processors = zip(
-            *((n, p) for n, p in real_deduce.processors.iter_doc_processors() if p)
-        )
+        processor_names = real_deduce.processors.get_names()
         assert all(
             config_name in processor_names for config_name in config_annotator_names
         )
-        for processor in processors:
-            if isinstance(processor, MultiTokenLookupAnnotator):
-                assert processor.expander is not None
 
         # lowercased version of a first name in text
         # This would not be detected without recall boost

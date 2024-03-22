@@ -11,7 +11,11 @@ from deduce.annotation_processor import (
     PersonAnnotationConverter,
     RemoveAnnotations,
 )
-from deduce.annotator import ContextAnnotator, TokenPatternAnnotator
+from deduce.annotator import (
+    ContextAnnotator,
+    LowerCaseLookupAnnotator,
+    TokenPatternAnnotator,
+)
 from deduce.redactor import DeduceRedactor
 
 
@@ -38,7 +42,12 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
                 f"Don't know how to present lookup structure with type "
                 f"{type(lookup_struct)} to MultiTokenLookupAnnotator"
             )
-        DeduceProcessorLoader._handle_recall_booster(extras, init_args)
+        use_recall_boost = DeduceProcessorLoader._handle_recall_booster(
+            extras, init_args
+        )
+        if use_recall_boost:
+            init_args["verb_tenses"] = extras["ds"]["verb_conjugations"]
+            return LowerCaseLookupAnnotator(**init_args)
 
         return dd.process.MultiTokenLookupAnnotator(**init_args)
 
@@ -130,15 +139,9 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
     ) -> None:
         """Adds recall booster arguments to processor arguments."""
         recall_boost_type = recall_boost_config["recall_boost_type"]
-        if recall_boost_type.endswith("MinimumLengthExpander"):
-            str_processors = recall_boost_config["args"]["str_processors"]
-            str_processors = [utils.get_class_from_string(p)() for p in str_processors]
-            expander = utils.get_class_from_string(recall_boost_type)
-            expander = expander(
-                str_processors,
-                min_length=recall_boost_config["args"]["min_len"],
-            )
-            processor_args["expander"] = expander
+        if recall_boost_type == "lowercase_annotator":
+            for key, val in recall_boost_config["args"].items():
+                processor_args[key] = val
         elif recall_boost_type == "argument_replacement":
             for key, value in recall_boost_config["args"].items():
                 if key not in processor_args:
@@ -153,7 +156,7 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
             )
 
     @staticmethod
-    def _handle_recall_booster(extras: dict, processor_args: dict) -> None:
+    def _handle_recall_booster(extras: dict, processor_args: dict) -> bool:
         """
         Checks if recall boost is turned on in config and annotator has a recall boost
         config.
@@ -169,7 +172,10 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
                 DeduceProcessorLoader._add_recall_booster_arguments(
                     recall_boost_config, processor_args
                 )
+                del processor_args["recall_boost_config"]
+                return True
             del processor_args["recall_boost_config"]
+        return False
 
     @staticmethod
     def _get_annotator_from_class(
@@ -230,6 +236,7 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
             else:
                 annotator = self._get_annotator_from_class(annotator_type, args, extras)
 
+            annotator.name = annotator_name
             group.add_processor(annotator_name, annotator)
 
         return annotators

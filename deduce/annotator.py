@@ -256,7 +256,6 @@ class TokenPatternAnnotator(dd.process.Annotator):
         tokens = doc.get_tokens()
 
         if self._start_words is not None:
-            # add expander here in recall booster setting.
             tokens = tokens.token_lookup(
                 lookup_values=self._start_words,
                 matching_pipeline=self._matching_pipeline,
@@ -954,28 +953,40 @@ class TargetWordTokenPatternAnnotator(TokenPatternAnnotator):
 
 
 class LowerCaseLookupAnnotator(Annotator):
-    # Replace the expander with a argument in docdeid (lookup/LookupTrie/longest_matching_prefix) of an additional matching pipeline
-    # then multi token lookup can be used for title case lookup, with additional commonword checking??
-    # This will remove the slowdown and i have no need for the expander elsewhere
+    """
+    Annotate the document, using a MultiTokenLookupAnnotator but with a titlecasing
+    matching pipeline. Additionally, lowercase occurrences are checked for being og
+    the provided minimal length, not being a listed common verb and not being preceded
+    by a article.
 
-    # This one will tag both lowercase (through applying titlecasing to tokens) as normal titlecased occurrences of
-    # whatever is in the lookup trie. This can therefore replace the multitokelookupannotator when you want tag both
-    # additionally we can perform checks on the matched lowercase occurrences to filter out false positives
+    Args:
+        doc: The document being processed.
+
+    Returns:
+        A list of Annotations.
+    """
 
     def __init__(
         self,
-        lookup_trie: LookupTrie,
-        verb_tenses: LookupSet,
         *args,
+        trie: LookupTrie = None,
+        verb_tenses: LookupSet = None,
         min_len=None,
         **kwargs,
     ) -> None:
+        if verb_tenses is None or trie is None:
+            raise ValueError(
+                "Both verb_tenses and lookup_trie should be provided to LowerCaseLookupAnnotator"
+            )
+        if not isinstance(trie, LookupTrie):
+            raise ValueError(
+                "lookup_values should be a LookupTrie for LowerCaseLookupAnnotator"
+            )
+
         self.min_lowercase_len = min_len
         self.verb_exceptions = verb_tenses
 
-        self.multitoken_lookup = MultiTokenLookupAnnotator(
-            trie=lookup_trie, *args, **kwargs
-        )
+        self.multitoken_lookup = MultiTokenLookupAnnotator(trie=trie, *args, **kwargs)
         # set matching pipeline after initialization, because it is taken from
         # lookup_trie otherwise. and i want to reuse the lookup_trie resource
         # since i don't want to duplicate the values in there.
