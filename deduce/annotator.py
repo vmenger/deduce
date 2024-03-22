@@ -7,7 +7,7 @@ from typing import Literal, Optional, Tuple, Union
 
 import docdeid as dd
 from docdeid import Annotation, Document, Tokenizer
-from docdeid.ds.lookup import LookupTrie
+from docdeid.ds.lookup import LookupSet, LookupTrie
 from docdeid.process import Annotator, MultiTokenLookupAnnotator, RegexpAnnotator
 
 from deduce.str.processor import TitleCase
@@ -962,7 +962,17 @@ class LowerCaseLookupAnnotator(Annotator):
     # whatever is in the lookup trie. This can therefore replace the multitokelookupannotator when you want tag both
     # additionally we can perform checks on the matched lowercase occurrences to filter out false positives
 
-    def __init__(self, lookup_trie: LookupTrie, *args, min_len=None, **kwargs) -> None:
+    def __init__(
+        self,
+        lookup_trie: LookupTrie,
+        verb_tenses: LookupSet,
+        *args,
+        min_len=None,
+        **kwargs,
+    ) -> None:
+        self.min_lowercase_len = min_len
+        self.verb_exceptions = verb_tenses
+
         self.multitoken_lookup = MultiTokenLookupAnnotator(
             trie=lookup_trie, *args, **kwargs
         )
@@ -970,7 +980,6 @@ class LowerCaseLookupAnnotator(Annotator):
         # lookup_trie otherwise. and i want to reuse the lookup_trie resource
         # since i don't want to duplicate the values in there.
         self.multitoken_lookup._matching_pipeline = [TitleCase()]
-        self.min_lowercase_len = min_len
 
     def annotate(self, doc: dd.Document) -> list[dd.Annotation]:
         annotations = self.multitoken_lookup.annotate(doc)
@@ -980,6 +989,8 @@ class LowerCaseLookupAnnotator(Annotator):
             # let the checking for lowercasing begin
             if a.text.islower():
                 if self.min_lowercase_len and len(a.text) < self.min_lowercase_len:
+                    continue
+                if a.text in self.verb_exceptions:
                     continue
                 prev_token = a.start_token.previous()
                 if prev_token.text in ["de", "het", "een"]:

@@ -55,6 +55,19 @@ def load_whitelist_lookup(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
     return whitelist
 
 
+def load_verb_tenses(raw_itemsets: dict[str, set[str]]) -> dd.ds.LookupSet:
+    """
+    Load verb tenses.
+
+    Composed of conjugations of commonly used dutch verbs
+    """
+    verb_tenses = dd.ds.LookupSet()
+    verb_tenses.add_items_from_iterable(
+        raw_itemsets["verb_tenses"],
+    )
+    return verb_tenses
+
+
 def load_eponymous_disease_lookup(
     raw_itemsets: dict[str, set[str]], tokenizer: Tokenizer
 ) -> dd.ds.LookupTrie:

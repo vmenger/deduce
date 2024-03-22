@@ -68,12 +68,18 @@ def lookuptrie_ds(tokenizer):
         for dn in last_names
     ]
 
-    locations = ["Den Haag", "Everdingen", "Groenlo", "Den bosch"]
+    locations = ["Den Haag", "Everdingen", "Groenlo", "Den Bosch", "Worden"]
     ds["locations"] = dd.ds.LookupTrie()
     [
         ds["locations"].add_item([t.text for t in tokenizer.tokenize(dn)])
         for dn in locations
     ]
+
+    ds["verb_tenses"] = dd.ds.LookupSet()
+    ds["verb_tenses"].add_items_from_iterable(
+        ["was", "is", "zijn", "wordt", "werd", "worden"]
+    )
+
     return ds
 
 
@@ -960,7 +966,9 @@ class TestLowerCaseLookupAnnotator:
             ("Femke gaat even langs", 1),
             ("ze is al vaker bij everdina geweest", 1),
         ]
-        annotator = LowerCaseLookupAnnotator(lookuptrie_ds["first_names"], "first_name")
+        annotator = LowerCaseLookupAnnotator(
+            lookuptrie_ds["first_names"], lookuptrie_ds["verb_tenses"], tag="first_name"
+        )
         cases = [
             (dd.Document(c, tokenizers={"default": tokenizer}), n) for c, n in cases
         ]
@@ -974,7 +982,25 @@ class TestLowerCaseLookupAnnotator:
             ("gaat graag naar de bakker", 0),
             ("bij denderode everdingen langs geweest", 1),
         ]
-        annotator = LowerCaseLookupAnnotator(lookuptrie_ds["last_names"], "last_name")
+        annotator = LowerCaseLookupAnnotator(
+            lookuptrie_ds["last_names"], lookuptrie_ds["verb_tenses"], tag="last_name"
+        )
+        cases = [
+            (dd.Document(c, tokenizers={"default": tokenizer}), n) for c, n in cases
+        ]
+        self.apply_annotator(annotator, cases)
+
+    def test_location(self, lookuptrie_ds, tokenizer):
+        cases = [
+            ("in den haag", 1),
+            ("bij everdingen", 1),
+            ("woont in groenlo", 1),
+            ("stad is den bosch", 1),
+            ("de groenlo is goed", 0),
+        ]
+        annotator = LowerCaseLookupAnnotator(
+            lookuptrie_ds["locations"], lookuptrie_ds["verb_tenses"], tag="location"
+        )
         cases = [
             (dd.Document(c, tokenizers={"default": tokenizer}), n) for c, n in cases
         ]
@@ -986,7 +1012,23 @@ class TestLowerCaseLookupAnnotator:
             ("ze is al vaker bij eva geweest", 0),
         ]
         annotator = LowerCaseLookupAnnotator(
-            lookuptrie_ds["first_names"], "first_name", min_len=4
+            lookuptrie_ds["first_names"],
+            lookuptrie_ds["verb_tenses"],
+            tag="first_name",
+            min_len=4,
+        )
+        cases = [
+            (dd.Document(c, tokenizers={"default": tokenizer}), n) for c, n in cases
+        ]
+        self.apply_annotator(annotator, cases)
+
+    def test_verb_skipping(self, lookuptrie_ds, tokenizer):
+        cases = [
+            ("Ik woon in Worden", 1),
+            ("we worden wel vaker gebeld", 0),
+        ]
+        annotator = LowerCaseLookupAnnotator(
+            lookuptrie_ds["locations"], lookuptrie_ds["verb_tenses"], tag="first_name"
         )
         cases = [
             (dd.Document(c, tokenizers={"default": tokenizer}), n) for c, n in cases
