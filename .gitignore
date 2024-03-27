@@ -124,7 +124,6 @@ ENV/
 # mypy
 .mypy_cache/
 
+# ide
 .idea
-
-#vscode
-.vscode/
+.vscode
