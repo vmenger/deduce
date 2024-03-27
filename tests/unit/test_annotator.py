@@ -965,6 +965,7 @@ class TestLowerCaseLookupAnnotator:
         cases = [
             ("Femke gaat even langs", 1),
             ("ze is al vaker bij everdina geweest", 1),
+            ("emma komt op bezoek", 1),
         ]
         annotator = LowerCaseLookupAnnotator(
             trie=lookuptrie_ds["first_names"],

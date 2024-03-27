@@ -1004,7 +1004,7 @@ class LowerCaseLookupAnnotator(Annotator):
                 if a.text in self.verb_exceptions:
                     continue
                 prev_token = a.start_token.previous()
-                if prev_token.text in ["de", "het", "een"]:
+                if prev_token and prev_token.text in ["de", "het", "een"]:
                     continue
             filtered_annotations.append(a)
 
