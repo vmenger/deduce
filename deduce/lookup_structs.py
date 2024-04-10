@@ -13,6 +13,7 @@ from docdeid.tokenizer import Tokenizer
 from deduce.data.lookup.src import all_lists
 from deduce.depr import DeprecatedDsCollection
 from deduce.lookup_struct_loader import (
+    load_dictionary_names,
     load_eponymous_disease_lookup,
     load_first_name_lookup,
     load_hospital_lookup,
@@ -23,7 +24,7 @@ from deduce.lookup_struct_loader import (
     load_prefix_lookup,
     load_street_lookup,
     load_surname_lookup,
-    load_verb_tenses,
+    load_verb_conjugations,
     load_whitelist_lookup,
 )
 from deduce.utils import apply_transform, optional_load_items, optional_load_json
@@ -37,7 +38,8 @@ _LOOKUP_SET_LOADERS = {
     "interfix": load_interfix_lookup,
     "whitelist": load_whitelist_lookup,
     "patient_environment": load_patient_environment_lookup,
-    "verb_conjugations": load_verb_tenses,
+    "verb_conjugations": load_verb_conjugations,
+    "dictionary_names": load_dictionary_names,
 }
 
 _LOOKUP_TRIE_LOADERS = {

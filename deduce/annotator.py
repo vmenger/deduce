@@ -970,13 +970,14 @@ class LowerCaseLookupAnnotator(Annotator):
         self,
         *args,
         trie: LookupTrie = None,
-        verb_tenses: LookupSet = None,
+        verb_conjugations: LookupSet = None,
+        dictionary_names: LookupSet = None,
         min_len=None,
         **kwargs,
     ) -> None:
-        if verb_tenses is None or trie is None:
+        if any(elem is None for elem in [trie, verb_conjugations, dictionary_names]):
             raise ValueError(
-                "Both verb_tenses and lookup_trie should be provided to LowerCaseLookupAnnotator"
+                "Both verb_conjugations, dictionary names and lookup_trie should be provided to LowerCaseLookupAnnotator"
             )
         if not isinstance(trie, LookupTrie):
             raise ValueError(
@@ -984,7 +985,8 @@ class LowerCaseLookupAnnotator(Annotator):
             )
 
         self.min_lowercase_len = min_len
-        self.verb_exceptions = verb_tenses
+        self.verb_exceptions = verb_conjugations
+        self.dictionary_names = dictionary_names
 
         self.multitoken_lookup = MultiTokenLookupAnnotator(trie=trie, *args, **kwargs)
         # set matching pipeline after initialization, because it is taken from
@@ -1002,6 +1004,8 @@ class LowerCaseLookupAnnotator(Annotator):
                 if self.min_lowercase_len and len(a.text) < self.min_lowercase_len:
                     continue
                 if a.text in self.verb_exceptions:
+                    continue
+                if a.text in self.dictionary_names:
                     continue
                 prev_token = a.start_token.previous()
                 if prev_token and prev_token.text in ["de", "het", "een"]:
