@@ -7,6 +7,7 @@ afrikaanse
 albanees
 albanese
 albanie
+albanië
 algerije
 algerijns
 algerijnse
@@ -14,6 +15,7 @@ ambonees
 amerika
 amerikaans
 amerikaans samoa
+amerikaans-samoa
 amerikaanse
 amerikaanse maagdeneilanden
 andorra
@@ -31,19 +33,22 @@ arabisch
 argentijns
 argentijnse
 argentinie
+argentinië
 armeens
 armeense
 armenie
+armenië
 aruba
 australie
 australisch
 australische
+australië
 azerbeidzjaans
 azerbeidzjaanse
 azerbeidzjan
-azie
 aziatisch
 aziatische
+azie
 bahama's
 bahamaans
 bahamaanse
@@ -59,6 +64,7 @@ belarussische
 belgie
 belgisch
 belgische
+belgië
 belizaans
 belizaanse
 belize
@@ -76,12 +82,14 @@ bolivia
 boliviaans
 boliviaanse
 bosnie herzegovina
+bosnië-herzegovina
 botswaans
 botswaanse
 botswana
 braziliaans
 braziliaanse
 brazilie
+brazilië
 brits
 brits territorium in de indische oceaan
 britse maagdeneilanden
@@ -109,6 +117,7 @@ caribisch nederland
 centraal afrikaans
 centraal afrikaanse
 centraal afrikaanse republiek
+centraal-afrikaanse republiek
 chileens
 chileense
 chili
@@ -133,6 +142,7 @@ cuba
 cubaans
 cubaanse
 curacao
+curaçao
 cyprisch
 cyprische
 cyprus
@@ -158,6 +168,7 @@ el salvador
 equatoriaal guinea
 equatoriaal guines
 equatoriaal guinese
+equatoriaal-guinea
 eritrea
 eritres
 eritrese
@@ -167,13 +178,16 @@ estland
 ethiopie
 ethiopisch
 ethiopische
+ethiopië
 europa
 europees
 europeesch
 europese
 faeroer
+faeröer
 falklandeilanden
 federale republiek joegoslavie
+federale republiek joegoslavië
 fiji
 fijisch
 fijische
@@ -187,6 +201,8 @@ frankrijk
 frans
 frans guyana
 frans polynesie
+frans-guyana
+frans-polynesië
 franse
 gabon
 gabones
@@ -197,6 +213,7 @@ gambiaanse
 georgie
 georgisch
 georgische
+georgië
 ghana
 ghanes
 ghanese
@@ -217,6 +234,7 @@ guinee
 guinee bissau
 guinee bissaus
 guinee bissause
+guinee-bissau
 guines
 guinese
 guyaans
@@ -225,6 +243,7 @@ guyana
 haiti
 haitiaans
 haitiaanse
+haïti
 hindoestaans
 hindoestaanse
 honduras
@@ -247,6 +266,7 @@ indiase
 indonesie
 indonesisch
 indonesische
+indonesië
 iraaks
 iraakse
 iraans
@@ -256,9 +276,11 @@ iran
 israel
 israelisch
 israelische
+israël
 italiaans
 italiaanse
 italie
+italië
 ivoorkust
 ivoriaans
 ivoriaanse
@@ -274,12 +296,15 @@ jemenitische
 joegoslavie
 joegoslavisch
 joegoslavische
+joegoslavië
 jordaans
 jordaanse
 jordanie
+jordanië
 kaapverdie
 kaapverdisch
 kaapverdische
+kaapverdië
 kameroen
 kameroens
 kameroense
@@ -297,6 +322,7 @@ kenyaanse
 kirgizie
 kirgizisch
 kirgizische
+kirgizië
 kiribati
 kiribatisch
 kiribatische
@@ -313,6 +339,7 @@ kosovo
 kroatie
 kroatisch
 kroatische
+kroatië
 lankaans
 laos
 laotiaans
@@ -336,6 +363,7 @@ liberiaanse
 libie
 libisch
 libische
+libië
 liechtenstein
 liechtensteins
 liechtensteinse
@@ -350,6 +378,7 @@ macau
 macedonie
 macedonisch
 macedonische
+macedonië
 madagaskar
 malagassisch
 malagassische
@@ -362,6 +391,7 @@ maldivische
 maleisie
 maleisisch
 maleisische
+maleisië
 mali
 malines
 malinese
@@ -379,6 +409,7 @@ martinique
 mauritaans
 mauritaanse
 mauritanie
+mauritanië
 mauritiaans
 mauritiaanse
 mauritius
@@ -389,15 +420,18 @@ mexico
 micronesie
 micronesisch
 micronesische
+micronesië
 moldavie
 moldavisch
 moldavische
+moldavië
 monaco
 monegaskisch
 monegaskische
 mongolie
 mongolisch
 mongolische
+mongolië
 montenegrijns
 montenegrijnse
 montenegro
@@ -411,6 +445,7 @@ myanmarese
 namibie
 namibisch
 namibische
+namibië
 nauru
 nauruaans
 nauruaanse
@@ -427,6 +462,8 @@ nieuw guines
 nieuw zeeland
 nieuw zeelands
 nieuw zeelandse
+nieuw-caledonië
+nieuw-zeeland
 niger
 nigeres
 nigerese
@@ -442,6 +479,7 @@ noord jemenitische
 noord korea
 noord koreaans
 noord koreaanse
+noord-korea
 noordelijke marianen
 noors
 noorse
@@ -451,6 +489,7 @@ oeganda
 oekraiens
 oekraiense
 oekraine
+oekraïne
 oezbeeks
 oezbeekse
 oezbekistan
@@ -473,6 +512,7 @@ panames
 panamese
 papoea nieuw guinea
 papoea nieuw guinese
+papoea-nieuw-guinea
 paraguay
 paraguayaans
 paraguayaanse
@@ -494,6 +534,7 @@ ricaans
 roemeens
 roemeense
 roemenie
+roemenië
 rusland
 rusland (oud)
 russisch
@@ -501,6 +542,7 @@ russische
 rwanda
 rwandes
 rwandese
+réunion
 saint kitts en nevis
 saint luciaans
 saint luciaanse
@@ -518,9 +560,11 @@ san marines
 san marinese
 san marino
 sao tome en principe
+sao tomé en principe
 saoedi arabie
 saoedi arabisch
 saoedi arabische
+saoedi-arabië
 senegal
 senegales
 senegalese
@@ -528,6 +572,8 @@ servie
 servie en montenegro
 servisch
 servische
+servië
+servië en montenegro
 seychellen
 seychels
 seychelse
@@ -540,9 +586,11 @@ singaporese
 sint helena
 sint lucia
 sint maarten
+sint-helena
 sloveens
 sloveense
 slovenie
+slovenië
 slowaaks
 slowaakse
 slowakije
@@ -552,7 +600,9 @@ soedanese
 somalie unie
 somalisch
 somalische
+somalië-unie
 sovjet unie
+sovjet-unie
 spaans
 spaanse
 spanje
@@ -568,6 +618,7 @@ swazische
 syrie
 syrisch
 syrische
+syrië
 tadzjieks
 tadzjiekse
 tadzjikistan
@@ -585,6 +636,7 @@ togo
 togoles
 togolese
 tokelau eilanden
+tokelau-eilanden
 tonga
 tongaans
 tongaanse
@@ -595,18 +647,22 @@ tsjadische
 tsjechie
 tsjechisch
 tsjechische
+tsjechië
 tsjecho slowaaks
 tsjecho slowaakse
 tsjecho slowakije
+tsjecho-slowakije
 tunesie
 tunesisch
 tunesische
+tunesië
 turkije
 turkmeens
 turkmeense
 turkmenistan
 turks
 turks en caicoseilanden
+turks- en caicoseilanden
 turkse
 tuvalu
 tuvaluaans
@@ -637,6 +693,7 @@ wallis en futuna
 west samoaans
 west samoaanse
 wit rusland
+wit-rusland
 zaires
 zairese
 zambia
@@ -661,6 +718,9 @@ zuid koreaanse
 zuid soedan
 zuid soedanees
 zuid soedanese
+zuid-afrika
+zuid-korea
+zuid-soedan
 zweden
 zweeds
 zweedse
