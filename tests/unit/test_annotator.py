@@ -56,16 +56,20 @@ def lookuptrie_ds(tokenizer):
         for dn in first_names
     ]
 
-    last_names = [
+    surnames = [
         "Denderode Everdingen",
         "Schellekens",
         "St' Stevensberg",
         "Bakker",
+        "Kandelaar",
+        "Broek",
+        "Gordijn",
+        "Honing",
     ]
-    ds["last_names"] = dd.ds.LookupTrie()
+    ds["surnames"] = dd.ds.LookupTrie()
     [
-        ds["last_names"].add_item([t.text for t in tokenizer.tokenize(dn)])
-        for dn in last_names
+        ds["surnames"].add_item([t.text for t in tokenizer.tokenize(dn)])
+        for dn in surnames
     ]
 
     locations = ["Den Haag", "Everdingen", "Groenlo", "Den Bosch", "Worden"]
@@ -75,9 +79,13 @@ def lookuptrie_ds(tokenizer):
         for dn in locations
     ]
 
-    ds["verb_tenses"] = dd.ds.LookupSet()
-    ds["verb_tenses"].add_items_from_iterable(
+    ds["verb_conjugations"] = dd.ds.LookupSet()
+    ds["verb_conjugations"].add_items_from_iterable(
         ["was", "is", "zijn", "wordt", "werd", "worden"]
+    )
+    ds["dictionary_names"] = dd.ds.LookupSet()
+    ds["dictionary_names"].add_items_from_iterable(
+        ["goede", "gordijn", "honing", "kandelaar", "broek"]
     )
 
     return ds
@@ -969,7 +977,8 @@ class TestLowerCaseLookupAnnotator:
         ]
         annotator = LowerCaseLookupAnnotator(
             trie=lookuptrie_ds["first_names"],
-            verb_tenses=lookuptrie_ds["verb_tenses"],
+            verb_conjugations=lookuptrie_ds["verb_conjugations"],
+            dictionary_names=lookuptrie_ds["dictionary_names"],
             tag="first_name",
         )
         cases = [
@@ -986,9 +995,10 @@ class TestLowerCaseLookupAnnotator:
             ("bij denderode everdingen langs geweest", 1),
         ]
         annotator = LowerCaseLookupAnnotator(
-            trie=lookuptrie_ds["last_names"],
-            verb_tenses=lookuptrie_ds["verb_tenses"],
-            tag="last_name",
+            trie=lookuptrie_ds["surnames"],
+            verb_conjugations=lookuptrie_ds["verb_conjugations"],
+            dictionary_names=lookuptrie_ds["dictionary_names"],
+            tag="surname",
         )
         cases = [
             (dd.Document(c, tokenizers={"default": tokenizer}), n) for c, n in cases
@@ -1005,7 +1015,8 @@ class TestLowerCaseLookupAnnotator:
         ]
         annotator = LowerCaseLookupAnnotator(
             trie=lookuptrie_ds["locations"],
-            verb_tenses=lookuptrie_ds["verb_tenses"],
+            verb_conjugations=lookuptrie_ds["verb_conjugations"],
+            dictionary_names=lookuptrie_ds["dictionary_names"],
             tag="location",
         )
         cases = [
@@ -1020,7 +1031,8 @@ class TestLowerCaseLookupAnnotator:
         ]
         annotator = LowerCaseLookupAnnotator(
             trie=lookuptrie_ds["first_names"],
-            verb_tenses=lookuptrie_ds["verb_tenses"],
+            verb_conjugations=lookuptrie_ds["verb_conjugations"],
+            dictionary_names=lookuptrie_ds["dictionary_names"],
             tag="first_name",
             min_len=4,
         )
@@ -1036,8 +1048,30 @@ class TestLowerCaseLookupAnnotator:
         ]
         annotator = LowerCaseLookupAnnotator(
             trie=lookuptrie_ds["locations"],
-            verb_tenses=lookuptrie_ds["verb_tenses"],
-            tag="first_name",
+            verb_conjugations=lookuptrie_ds["verb_conjugations"],
+            dictionary_names=lookuptrie_ds["dictionary_names"],
+            tag="location",
+        )
+        cases = [
+            (dd.Document(c, tokenizers={"default": tokenizer}), n) for c, n in cases
+        ]
+        self.apply_annotator(annotator, cases)
+
+    def test_dictionary_names(self, lookuptrie_ds, tokenizer):
+        cases = [
+            ("mw wou haar broek niet aan", 0),
+            ("de kat klom in het gordijn", 0),
+            ("dhr drinkt thee met honing", 0),
+            ("we hebben Kandelaar al vaker gebeld", 1),
+            ("madame Broek is vaak vrolijk", 1),
+            ("vandaag bij Gordijn langs geweest", 1),
+            ("Honing was blij vandaag", 1),
+        ]
+        annotator = LowerCaseLookupAnnotator(
+            trie=lookuptrie_ds["surnames"],
+            verb_conjugations=lookuptrie_ds["verb_conjugations"],
+            dictionary_names=lookuptrie_ds["dictionary_names"],
+            tag="surname",
         )
         cases = [
             (dd.Document(c, tokenizers={"default": tokenizer}), n) for c, n in cases

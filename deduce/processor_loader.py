@@ -46,7 +46,8 @@ class DeduceProcessorLoader:  # pylint: disable=R0903
             extras, init_args
         )
         if use_recall_boost:
-            init_args["verb_tenses"] = extras["ds"]["verb_conjugations"]
+            init_args["verb_conjugations"] = extras["ds"]["verb_conjugations"]
+            init_args["dictionary_names"] = extras["ds"]["dictionary_names"]
             return LowerCaseLookupAnnotator(**init_args)
 
         return dd.process.MultiTokenLookupAnnotator(**init_args)

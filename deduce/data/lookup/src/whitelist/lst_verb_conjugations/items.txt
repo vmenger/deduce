@@ -12,6 +12,12 @@ beginnen
 begint
 begon
 begonnen
+behandel
+behandeld
+behandelde
+behandelden
+behandelen
+behandelt
 behoor
 behoorde
 behoorden
@@ -24,6 +30,12 @@ berekende
 berekenden
 berekenen
 berekent
+besprak
+bespraken
+bespreek
+bespreekt
+bespreken
+besproken
 beten
 bijt
 bijten
@@ -121,6 +133,7 @@ gepast
 gepraat
 gereden
 gerend
+gerold
 geschenen
 geschreeuwd
 geschreven
@@ -155,8 +168,10 @@ gezeten
 gezien
 gezocht
 gezongen
+gezorgd
 gezwegen
 gezwommen
+geïnformeerd
 ging
 gingen
 haal
@@ -189,6 +204,11 @@ hingen
 houd
 houden
 houdt
+informeer
+informeerde
+informeerden
+informeert
+informeren
 is
 kan
 keek
@@ -275,9 +295,9 @@ maakten
 mag
 maken
 merkop
-merktop
-merkteop
 merktenop
+merkteop
+merktop
 mis
 missen
 mist
@@ -295,6 +315,8 @@ namen
 neem
 neemt
 nemen
+omgerold
+omrollen
 ontbrak
 ontbraken
 ontbreek
@@ -313,6 +335,12 @@ openen
 opent
 opgemerkt
 opmerken
+overleg
+overlegd
+overlegde
+overlegden
+overleggen
+overlegt
 pak
 pakken
 pakt
@@ -321,9 +349,9 @@ pakten
 pas
 passen
 past
-Pastparticiple:geweten
 paste
 pasten
+Pastparticiple:geweten
 praat
 praatte
 praatten
@@ -338,6 +366,15 @@ rent
 rijd
 rijden
 rijdt
+rol
+rol om
+rolde
+rolde om
+rolden
+rolden om
+rollen
+rolt
+rolt om
 scheen
 schenen
 schijn
@@ -535,6 +572,11 @@ zoeken
 zoekt
 zong
 zongen
+zorg
+zorgde
+zorgden
+zorgen
+zorgt
 zweeg
 zwegen
 zwem
