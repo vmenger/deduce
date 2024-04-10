@@ -34,3 +34,7 @@ broers
 broertjes
 buurman
 buurvrouw
+buren
+peetoom
+peetante
+zwager
