@@ -19,10 +19,10 @@ amerikaans-samoa
 amerikaanse
 amerikaanse maagdeneilanden
 andorra
-andorres
+andorrees
 andorrese
 angola
-angoles
+angolees
 angolese
 anguilla
 antarctica
@@ -132,7 +132,7 @@ comoren
 comores
 comorese
 congo
-congo (democratische republiek)
+democratische republiek congo
 congolees
 cookeilanden
 costa rica
