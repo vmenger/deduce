@@ -1,0 +1,40 @@
+{
+    "examples": [
+        {
+            "id": 0,
+            "text": "Congo",
+            "annotations": [
+                {
+                    "text": "Congo",
+                    "start_char": 0,
+                    "end_char": 5,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "text": "Bosnie herzegovina",
+            "annotations": [
+                {
+                    "text": "Bosnie herzegovina",
+                    "start_char": 0,
+                    "end_char": 18,
+                    "tag": "locatie"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "text": "Bosnië-herzegovina",
+            "annotations": [
+                {
+                    "text": "Bosnië-herzegovina",
+                    "start_char": 0,
+                    "end_char": 18,
+                    "tag": "locatie"
+                }
+            ]
+        }
+    ]
+}

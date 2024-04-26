@@ -126,3 +126,10 @@ class TestRegression:
             examples_file="tests/data/regression_cases/urls.json",
             enabled=annotators_from_group(model, "urls"),
         )
+
+    def test_regression_nationalities_and_countries(self, model):
+        regression_test(
+            model=model,
+            examples_file="tests/data/regression_cases/countries_and_nationalities.json",
+            enabled=annotators_from_group(model, "locations"),
+        )
