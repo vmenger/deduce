@@ -8,8 +8,8 @@ from pathlib import Path
 from typing import Optional
 
 import docdeid as dd
-from docdeid.tokenizer import Tokenizer
 from docdeid.ds import DsCollection
+from docdeid.tokenizer import Tokenizer
 
 from deduce.data.lookup.src import all_lists
 from deduce.lookup_struct_loader import (
