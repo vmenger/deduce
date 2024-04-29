@@ -30,7 +30,6 @@ rapidfuzz = "^2.11.1"
 docdeid = "1.0.0"
 regex = "^2022.9.13"
 frozendict = "^2.3.10"
-deprecated = "^1.2.14"
 
 [tool.poetry.group.dev]
 optional = false

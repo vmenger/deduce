@@ -11,7 +11,6 @@ from pathlib import Path
 from typing import Any, Optional, Union
 
 import docdeid as dd
-from deprecated import deprecated
 from frozendict import frozendict
 
 from deduce import utils
@@ -67,22 +66,11 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
         self,
         load_base_config: bool = True,
         config: Optional[Union[str, dict]] = None,
-        config_file: Optional[str] = None,
         lookup_data_path: Union[str, Path] = _LOOKUP_LIST_PATH,
         build_lookup_structs: bool = False,
     ) -> None:
 
         super().__init__()
-
-        if config_file is not None:
-
-            warnings.warn(
-                "The config_file keyword is deprecated, please use config "
-                "instead, which accepts both filenames and dictionaries.",
-                DeprecationWarning,
-            )
-
-            config = config_file
 
         self.config = self._initialize_config(
             load_base_config=load_base_config, user_config=config
@@ -184,91 +172,6 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
 
         return dd.process.MultiTokenLookupAnnotator(**args)
 
-    @deprecated(
-        "The multi_token annotatortype is deprecated and will be removed in a "
-        "future version. Please set annotator_type field to "
-        "docdeid.process.MultiTokenAnnotator. See "
-        "https://github.com/vmenger/deduce/blob/main/base_config.json for examples."
-    )
-    def _get_multi_token_annotator_old(self, *args, **kwargs) -> dd.process.Annotator:
-        return self._get_multi_token_annotator(*args, **kwargs)
-
-    @staticmethod
-    @deprecated(
-        "The token_pattern annotatortype is deprecated and will be removed in "
-        "a future version. Please set annotator_type field to "
-        "deduce.annotator.TokenPatternAnnotator. See "
-        "https://github.com/vmenger/deduce/blob/main/base_config.json for "
-        "examples."
-    )
-    def _get_token_pattern_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-
-        return TokenPatternAnnotator(**args, ds=extras["ds"])
-
-    @staticmethod
-    @deprecated(
-        "The dd_token_pattern annotatortype is deprecated and will be removed "
-        "in a future version. For patient name patterns, please use "
-        "deduce.annotator.PatientNameAnnotator. For other patterns, please "
-        "switch to deduce.annotator.TokenPatternAnnotator. See "
-        "https://github.com/vmenger/deduce/blob/main/base_config.json for "
-        "examples."
-    )
-    def _get_dd_token_pattern_annotator(
-        args: dict, extras: dict
-    ) -> dd.process.Annotator:
-
-        pattern_args = args.pop("pattern")
-        module = pattern_args.pop("module")
-        cls = pattern_args.pop("class")
-        cls = utils.class_for_name(module, cls)
-
-        pattern = utils.initialize_class(cls, args=pattern_args, extras=extras)
-
-        return dd.process.TokenPatternAnnotator(pattern=pattern)
-
-    @staticmethod
-    @deprecated(
-        "The annotation_context annotatortype is deprecated and will be "
-        "removed in a future version. Please set annotator_type field to "
-        "deduce.annotator.ContextAnnotator. See "
-        "https://github.com/vmenger/deduce/blob/main/base_config.json for "
-        "examples."
-    )
-    def _get_context_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-
-        return ContextAnnotator(**args, ds=extras["ds"])
-
-    @staticmethod
-    @deprecated(
-        "The custom annotatortype is deprecated and will be removed in a "
-        "future version. Please set annotator_type field to module.class "
-        "directly, and remove module and class from args. See "
-        "https://github.com/vmenger/deduce/blob/main/base_config.json for "
-        "examples."
-    )
-    def _get_custom_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-
-        module = args.pop("module")
-        cls = args.pop("class")
-
-        cls = utils.class_for_name(module, cls)
-        return utils.initialize_class(cls, args=args, extras=extras)
-
-    @staticmethod
-    @deprecated(
-        "The regexp annotatortype is deprecated and will be removed in a future "
-        "version. Please set annotator_type field to "
-        "deduce.annotator.ContextAnnotator. See "
-        "https://github.com/vmenger/deduce/blob/main/base_config.json for "
-        "examples.",
-    )
-    def _get_regexp_annotator(
-        args: dict, extras: dict  # pylint: disable=W0613
-    ) -> dd.process.Annotator:
-
-        return dd.process.RegexpAnnotator(**args)
-
     @staticmethod
     def _get_annotator_from_class(
         annotator_type: str, args: dict, extras: dict
@@ -312,12 +215,6 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
 
         annotator_creators = {
             "docdeid.process.MultiTokenLookupAnnotator": self._get_multi_token_annotator,  # noqa: E501, pylint: disable=C0301
-            "multi_token": self._get_multi_token_annotator_old,
-            "token_pattern": self._get_token_pattern_annotator,
-            "dd_token_pattern": self._get_dd_token_pattern_annotator,
-            "annotation_context": self._get_context_annotator,
-            "regexp": self._get_regexp_annotator,
-            "custom": self._get_custom_annotator,
         }
 
         annotators = dd.process.DocProcessorGroup()
