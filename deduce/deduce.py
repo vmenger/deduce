@@ -20,7 +20,6 @@ from deduce.annotation_processor import (
     PersonAnnotationConverter,
     RemoveAnnotations,
 )
-from deduce.annotator import ContextAnnotator, TokenPatternAnnotator
 from deduce.lookup_struct_loader import load_interfix_lookup, load_prefix_lookup
 from deduce.lookup_structs import get_lookup_structs, load_raw_itemsets
 from deduce.redactor import DeduceRedactor
