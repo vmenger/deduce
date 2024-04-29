@@ -1,729 +1,729 @@
-afghaans
-afghaanse
-afghanistan
-afrika
-afrikaans
-afrikaanse
-albanees
-albanese
-albanie
-albanië
-algerije
-algerijns
-algerijnse
-ambonees
-amerika
-amerikaans
-amerikaans samoa
-amerikaans-samoa
-amerikaanse
-amerikaanse maagdeneilanden
-andorra
-andorrees
-andorrese
-angola
-angolees
-angolese
-anguilla
-antarctica
-antigua en barbuda
-antiliaans
-antilliaans
-arabisch
-argentijns
-argentijnse
-argentinie
-argentinië
-armeens
-armeense
-armenie
-armenië
-aruba
-australie
-australisch
-australische
-australië
-azerbeidzjaans
-azerbeidzjaanse
-azerbeidzjan
-aziatisch
-aziatische
-azie
-bahama's
-bahamaans
-bahamaanse
-bahrein
-bahreins
-bahreinse
-bangladesh
-barbadaans
-barbadaanse
-barbados
-belarussisch
-belarussische
-belgie
-belgisch
-belgische
-belgië
-belizaans
-belizaanse
-belize
-bengales
-bengalese
-benin
-benins
-beninse
-bermuda
-bhutaans
-bhutaanse
-bhutan
-bissaus
-bolivia
-boliviaans
-boliviaanse
-bosnie herzegovina
-bosnië-herzegovina
-botswaans
-botswaanse
-botswana
-braziliaans
-braziliaanse
-brazilie
-brazilië
-brits
-brits territorium in de indische oceaan
-britse maagdeneilanden
-brunei
-bruneis
-bruneise
-bulgaars
-bulgaarse
-bulgarije
-burkina faso
-burkines
-burkinese
-burmaans
-burmaanse
-burundes
-burundese
-burundi
-cambodja
-cambodjaans
-cambodjaanse
-canada
-canades
-canadese
-caribisch nederland
-centraal afrikaans
-centraal afrikaanse
-centraal afrikaanse republiek
-centraal-afrikaanse republiek
-chileens
-chileense
-chili
-china
-chinees
-chines
-chinese
-colombia
-colombiaans
-colombiaanse
-comoren
-comores
-comorese
-congo
-democratische republiek congo
-congolees
-cookeilanden
-costa rica
-costa ricaans
-costa ricaanse
-cuba
-cubaans
-cubaanse
-curacao
-curaçao
-cyprisch
-cyprische
-cyprus
-deens
-deense
-denemarken
-djibouti
-djiboutiaans
-djiboutiaanse
-dominica
-dominicaans
-dominicaanse
-dominicaanse republiek
-duits
-duitsland
-ecuador
-ecuadoraans
-ecuadoraanse
-egypte
-egyptisch
-egyptische
-el salvador
-equatoriaal guinea
-equatoriaal guines
-equatoriaal guinese
-equatoriaal-guinea
-eritrea
-eritres
-eritrese
-estisch
-estische
-estland
-ethiopie
-ethiopisch
-ethiopische
-ethiopië
-europa
-europees
-europeesch
-europese
-faeroer
-faeröer
-falklandeilanden
-federale republiek joegoslavie
-federale republiek joegoslavië
-fiji
-fijisch
-fijische
-filipijnen
-filipijns
-filipijnse
-finland
-fins
-finse
-frankrijk
-frans
-frans guyana
-frans polynesie
-frans-guyana
-frans-polynesië
-franse
-gabon
-gabones
-gabonese
-gambia
-gambiaans
-gambiaanse
-georgie
-georgisch
-georgische
-georgië
-ghana
-ghanes
-ghanese
-gibraltar
-grenada
-grenadaans
-grenadaanse
-griekenland
-grieks
-griekse
-groenland
-guadeloupe
-guam
-guatemala
-guatemalaans
-guatemalaanse
-guinee
-guinee bissau
-guinee bissaus
-guinee bissause
-guinee-bissau
-guines
-guinese
-guyaans
-guyaanse
-guyana
-haiti
-haitiaans
-haitiaanse
-haïti
-hindoestaans
-hindoestaanse
-honduras
-hondures
-hondurese
-hongaars
-hongaarse
-hongarije
-hongkong
-ierland
-iers
-ierse
-ijsland
-ijslands
-ijslandse
-india
-indiaas
-indias
-indiase
-indonesie
-indonesisch
-indonesische
-indonesië
-iraaks
-iraakse
-iraans
-iraanse
-irak
-iran
-israel
-israelisch
-israelische
-israël
-italiaans
-italiaanse
-italie
-italië
-ivoorkust
-ivoriaans
-ivoriaanse
-jamaica
-jamaicaans
-jamaicaanse
-japan
-japans
-japanse
-jemen
-jemenitisch
-jemenitische
-joegoslavie
-joegoslavisch
-joegoslavische
-joegoslavië
-jordaans
-jordaanse
-jordanie
-jordanië
-kaapverdie
-kaapverdisch
-kaapverdische
-kaapverdië
-kameroen
-kameroens
-kameroense
-kanaaleilanden
-katar
-kaukasisch
-kaukasische
-kaukasisisch
-kazachs
-kazachse
-kazachstan
-kenia
-kenyaans
-kenyaanse
-kirgizie
-kirgizisch
-kirgizische
-kirgizië
-kiribati
-kiribatisch
-kiribatische
-koerdisch
-koeweit
-koeweits
-koeweitse
-korea
-koreaans
-koreaanse
-kosovaars
-kosovaarse
-kosovo
-kroatie
-kroatisch
-kroatische
-kroatië
-lankaans
-laos
-laotiaans
-laotiaanse
-latijns amerika
-latijns amerikaans
-latijns amerikaanse
-leoons
-lesothaans
-lesothaanse
-lesotho
-letland
-lets
-letse
-libanes
-libanese
-libanon
-liberia
-liberiaans
-liberiaanse
-libie
-libisch
-libische
-libië
-liechtenstein
-liechtensteins
-liechtensteinse
-litouwen
-litouws
-litouwse
-luciaans
-luxemburg
-luxemburgs
-luxemburgse
-macau
-macedonie
-macedonisch
-macedonische
-macedonië
-madagaskar
-malagassisch
-malagassische
-malawi
-malawisch
-malawische
-maldiven
-maldivisch
-maldivische
-maleisie
-maleisisch
-maleisische
-maleisië
-mali
-malines
-malinese
-malta
-maltes
-maltese
-marines
-marokkaans
-marokkaanse
-marokko
-marshalleilanden
-marshalleilands
-marshalleilandse
-martinique
-mauritaans
-mauritaanse
-mauritanie
-mauritanië
-mauritiaans
-mauritiaanse
-mauritius
-mayotte
-mexicaans
-mexicaanse
-mexico
-micronesie
-micronesisch
-micronesische
-micronesië
-moldavie
-moldavisch
-moldavische
-moldavië
-monaco
-monegaskisch
-monegaskische
-mongolie
-mongolisch
-mongolische
-mongolië
-montenegrijns
-montenegrijnse
-montenegro
-montserrat
-mozambikaans
-mozambikaanse
-mozambique
-myanmar
-myanmares
-myanmarese
-namibie
-namibisch
-namibische
-namibië
-nauru
-nauruaans
-nauruaanse
-nederlands
-nederlandse
-nepal
-nepales
-nepalese
-nicaragua
-nicaraguaans
-nicaraguaanse
-nieuw caledonie
-nieuw guines
-nieuw zeeland
-nieuw zeelands
-nieuw zeelandse
-nieuw-caledonië
-nieuw-zeeland
-niger
-nigeres
-nigerese
-nigeria
-nigeriaans
-nigeriaanse
-niue
-noord afrikaans
-noord afrikaanse
-noord amerikaans
-noord jemenitisch
-noord jemenitische
-noord korea
-noord koreaans
-noord koreaanse
-noord-korea
-noordelijke marianen
-noors
-noorse
-noorwegen
-norfolk
-oeganda
-oekraiens
-oekraiense
-oekraine
-oekraïne
-oezbeeks
-oezbeekse
-oezbekistan
-omaans
-omaanse
-oman
-oost duits
-oost duitse
-oostenrijk
-oostenrijks
-oostenrijkse
-pakistaans
-pakistaanse
-pakistan
-palau
-palaus
-palause
-panama
-panames
-panamese
-papoea nieuw guinea
-papoea nieuw guinese
-papoea-nieuw-guinea
-paraguay
-paraguayaans
-paraguayaanse
-peru
-peruaans
-peruaanse
-pitcairneilanden
-polen
-pools
-poolse
-portugal
-portuges
-portugese
-puerto rico
-qatares
-qatarese
-reunion
-ricaans
-roemeens
-roemeense
-roemenie
-roemenië
-rusland
-rusland (oud)
-russisch
-russische
-rwanda
-rwandes
-rwandese
-réunion
-saint kitts en nevis
-saint luciaans
-saint luciaanse
-saint pierre en miquelon
-saint vincent en de grenadines
-salomonseilanden
-salomonseilands
-salomonseilandse
-salvadoraans
-salvadoraanse
-samoa
-samoaans
-samoaanse
-san marines
-san marinese
-san marino
-sao tome en principe
-sao tomé en principe
-saoedi arabie
-saoedi arabisch
-saoedi arabische
-saoedi-arabië
-senegal
-senegales
-senegalese
-servie
-servie en montenegro
-servisch
-servische
-servië
-servië en montenegro
-seychellen
-seychels
-seychelse
-sierra leone
-sierra leoons
-sierra leoonse
-singapore
-singapores
-singaporese
-sint helena
-sint lucia
-sint maarten
-sint-helena
-sloveens
-sloveense
-slovenie
-slovenië
-slowaaks
-slowaakse
-slowakije
-soedan
-soedanes
-soedanese
-somalie unie
-somalisch
-somalische
-somalië-unie
-sovjet unie
-sovjet-unie
-spaans
-spaanse
-spanje
-sri lanka
-sri lankaans
-sri lankaanse
-surinaams
-surinaamse
-suriname
-swaziland
-swazisch
-swazische
-syrie
-syrisch
-syrische
-syrië
-tadzjieks
-tadzjiekse
-tadzjikistan
-taiwan
-taiwanes
-taiwanese
-tanzania
-tanzaniaans
-tanzaniaanse
-thailand
-thais
-thaise
-timor leste
-togo
-togoles
-togolese
-tokelau eilanden
-tokelau-eilanden
-tonga
-tongaans
-tongaanse
-trinidad en tobago
-tsjaad
-tsjadisch
-tsjadische
-tsjechie
-tsjechisch
-tsjechische
-tsjechië
-tsjecho slowaaks
-tsjecho slowaakse
-tsjecho slowakije
-tsjecho-slowakije
-tunesie
-tunesisch
-tunesische
-tunesië
-turkije
-turkmeens
-turkmeense
-turkmenistan
-turks
-turks en caicoseilanden
-turks- en caicoseilanden
-turkse
-tuvalu
-tuvaluaans
-tuvaluaanse
-ugandes
-ugandese
-uruguay
-uruguayaans
-uruguayaanse
-vanuatu
-vanuatuaans
-vanuatuaanse
-vaticaans
-vaticaanse
-vaticaanstad
-venezolaans
-venezolaanse
-venezuela
-verenigd koninkrijk
-verenigde arabische emiraten
-verenigde staten van amerika
-verre eilanden van de verenigde staten
-vietnam
-vietnamees
-vietnames
-vietnamese
-wallis en futuna
-west samoaans
-west samoaanse
-wit rusland
-wit-rusland
-zaires
-zairese
-zambia
-zambiaans
-zambiaanse
-zeelands
-zeelandse
-zimbabwaans
-zimbabwaanse
-zimbabwe
-zuid afrika
-zuid afrikaans
-zuid afrikaanse
-zuid amerika
-zuid amerikaans
-zuid amerikaanse
-zuid jemenitisch
-zuid jemenitische
-zuid korea
-zuid koreaans
-zuid koreaanse
-zuid soedan
-zuid soedanees
-zuid soedanese
-zuid-afrika
-zuid-korea
-zuid-soedan
-zweden
-zweeds
-zweedse
-zwitserland
-zwitsers
-zwitserse
+Afghaans
+Afghaanse
+Afghanistan
+Afrika
+Afrikaans
+Afrikaanse
+Albanees
+Albanese
+Albanie
+Albanië
+Algerije
+Algerijns
+Algerijnse
+Ambonees
+Amerika
+Amerikaans
+Amerikaans samoa
+Amerikaans-samoa
+Amerikaanse
+Amerikaanse maagdeneilanden
+Andorra
+Andorrees
+Andorrese
+Angola
+Angolees
+Angolese
+Anguilla
+Antarctica
+Antigua en barbuda
+Antiliaans
+Antilliaans
+Arabisch
+Argentijns
+Argentijnse
+Argentinie
+Argentinië
+Armeens
+Armeense
+Armenie
+Armenië
+Aruba
+Australie
+Australisch
+Australische
+Australië
+Azerbeidzjaans
+Azerbeidzjaanse
+Azerbeidzjan
+Aziatisch
+Aziatische
+Azie
+Bahama's
+Bahamaans
+Bahamaanse
+Bahrein
+Bahreins
+Bahreinse
+Bangladesh
+Barbadaans
+Barbadaanse
+Barbados
+Belarussisch
+Belarussische
+Belgie
+Belgisch
+Belgische
+België
+Belizaans
+Belizaanse
+Belize
+Bengales
+Bengalese
+Benin
+Benins
+Beninse
+Bermuda
+Bhutaans
+Bhutaanse
+Bhutan
+Bissaus
+Bolivia
+Boliviaans
+Boliviaanse
+Bosnie herzegovina
+Bosnië-herzegovina
+Botswaans
+Botswaanse
+Botswana
+Braziliaans
+Braziliaanse
+Brazilie
+Brazilië
+Brits
+Brits territorium in de indische oceaan
+Britse maagdeneilanden
+Brunei
+Bruneis
+Bruneise
+Bulgaars
+Bulgaarse
+Bulgarije
+Burkina faso
+Burkines
+Burkinese
+Burmaans
+Burmaanse
+Burundes
+Burundese
+Burundi
+Cambodja
+Cambodjaans
+Cambodjaanse
+Canada
+Canades
+Canadese
+Caribisch nederland
+Centraal afrikaans
+Centraal afrikaanse
+Centraal afrikaanse republiek
+Centraal-afrikaanse republiek
+Chileens
+Chileense
+Chili
+China
+Chinees
+Chines
+Chinese
+Colombia
+Colombiaans
+Colombiaanse
+Comoren
+Comores
+Comorese
+Congo
+Democratische republiek congo
+Congolees
+Cookeilanden
+Costa rica
+Costa ricaans
+Costa ricaanse
+Cuba
+Cubaans
+Cubaanse
+Curacao
+Curaçao
+Cyprisch
+Cyprische
+Cyprus
+Deens
+Deense
+Denemarken
+Djibouti
+Djiboutiaans
+Djiboutiaanse
+Dominica
+Dominicaans
+Dominicaanse
+Dominicaanse republiek
+Duits
+Duitsland
+Ecuador
+Ecuadoraans
+Ecuadoraanse
+Egypte
+Egyptisch
+Egyptische
+El salvador
+Equatoriaal guinea
+Equatoriaal guines
+Equatoriaal guinese
+Equatoriaal-guinea
+Eritrea
+Eritres
+Eritrese
+Estisch
+Estische
+Estland
+Ethiopie
+Ethiopisch
+Ethiopische
+Ethiopië
+Europa
+Europees
+Europeesch
+Europese
+Faeroer
+Faeröer
+Falklandeilanden
+Federale republiek joegoslavie
+Federale republiek joegoslavië
+Fiji
+Fijisch
+Fijische
+Filipijnen
+Filipijns
+Filipijnse
+Finland
+Fins
+Finse
+Frankrijk
+Frans
+Frans guyana
+Frans polynesie
+Frans-guyana
+Frans-polynesië
+Franse
+Gabon
+Gabones
+Gabonese
+Gambia
+Gambiaans
+Gambiaanse
+Georgie
+Georgisch
+Georgische
+Georgië
+Ghana
+Ghanes
+Ghanese
+Gibraltar
+Grenada
+Grenadaans
+Grenadaanse
+Griekenland
+Grieks
+Griekse
+Groenland
+Guadeloupe
+Guam
+Guatemala
+Guatemalaans
+Guatemalaanse
+Guinee
+Guinee bissau
+Guinee bissaus
+Guinee bissause
+Guinee-bissau
+Guines
+Guinese
+Guyaans
+Guyaanse
+Guyana
+Haiti
+Haitiaans
+Haitiaanse
+Haïti
+Hindoestaans
+Hindoestaanse
+Honduras
+Hondures
+Hondurese
+Hongaars
+Hongaarse
+Hongarije
+Hongkong
+Ierland
+Iers
+Ierse
+Ijsland
+Ijslands
+Ijslandse
+India
+Indiaas
+Indias
+Indiase
+Indonesie
+Indonesisch
+Indonesische
+Indonesië
+Iraaks
+Iraakse
+Iraans
+Iraanse
+Irak
+Iran
+Israel
+Israelisch
+Israelische
+Israël
+Italiaans
+Italiaanse
+Italie
+Italië
+Ivoorkust
+Ivoriaans
+Ivoriaanse
+Jamaica
+Jamaicaans
+Jamaicaanse
+Japan
+Japans
+Japanse
+Jemen
+Jemenitisch
+Jemenitische
+Joegoslavie
+Joegoslavisch
+Joegoslavische
+Joegoslavië
+Jordaans
+Jordaanse
+Jordanie
+Jordanië
+Kaapverdie
+Kaapverdisch
+Kaapverdische
+Kaapverdië
+Kameroen
+Kameroens
+Kameroense
+Kanaaleilanden
+Katar
+Kaukasisch
+Kaukasische
+Kaukasisisch
+Kazachs
+Kazachse
+Kazachstan
+Kenia
+Kenyaans
+Kenyaanse
+Kirgizie
+Kirgizisch
+Kirgizische
+Kirgizië
+Kiribati
+Kiribatisch
+Kiribatische
+Koerdisch
+Koeweit
+Koeweits
+Koeweitse
+Korea
+Koreaans
+Koreaanse
+Kosovaars
+Kosovaarse
+Kosovo
+Kroatie
+Kroatisch
+Kroatische
+Kroatië
+Lankaans
+Laos
+Laotiaans
+Laotiaanse
+Latijns amerika
+Latijns amerikaans
+Latijns amerikaanse
+Leoons
+Lesothaans
+Lesothaanse
+Lesotho
+Letland
+Lets
+Letse
+Libanes
+Libanese
+Libanon
+Liberia
+Liberiaans
+Liberiaanse
+Libie
+Libisch
+Libische
+Libië
+Liechtenstein
+Liechtensteins
+Liechtensteinse
+Litouwen
+Litouws
+Litouwse
+Luciaans
+Luxemburg
+Luxemburgs
+Luxemburgse
+Macau
+Macedonie
+Macedonisch
+Macedonische
+Macedonië
+Madagaskar
+Malagassisch
+Malagassische
+Malawi
+Malawisch
+Malawische
+Maldiven
+Maldivisch
+Maldivische
+Maleisie
+Maleisisch
+Maleisische
+Maleisië
+Mali
+Malines
+Malinese
+Malta
+Maltes
+Maltese
+Marines
+Marokkaans
+Marokkaanse
+Marokko
+Marshalleilanden
+Marshalleilands
+Marshalleilandse
+Martinique
+Mauritaans
+Mauritaanse
+Mauritanie
+Mauritanië
+Mauritiaans
+Mauritiaanse
+Mauritius
+Mayotte
+Mexicaans
+Mexicaanse
+Mexico
+Micronesie
+Micronesisch
+Micronesische
+Micronesië
+Moldavie
+Moldavisch
+Moldavische
+Moldavië
+Monaco
+Monegaskisch
+Monegaskische
+Mongolie
+Mongolisch
+Mongolische
+Mongolië
+Montenegrijns
+Montenegrijnse
+Montenegro
+Montserrat
+Mozambikaans
+Mozambikaanse
+Mozambique
+Myanmar
+Myanmares
+Myanmarese
+Namibie
+Namibisch
+Namibische
+Namibië
+Nauru
+Nauruaans
+Nauruaanse
+Nederlands
+Nederlandse
+Nepal
+Nepales
+Nepalese
+Nicaragua
+Nicaraguaans
+Nicaraguaanse
+Nieuw caledonie
+Nieuw guines
+Nieuw zeeland
+Nieuw zeelands
+Nieuw zeelandse
+Nieuw-caledonië
+Nieuw-zeeland
+Niger
+Nigeres
+Nigerese
+Nigeria
+Nigeriaans
+Nigeriaanse
+Niue
+Noord afrikaans
+Noord afrikaanse
+Noord amerikaans
+Noord jemenitisch
+Noord jemenitische
+Noord korea
+Noord koreaans
+Noord koreaanse
+Noord-korea
+Noordelijke marianen
+Noors
+Noorse
+Noorwegen
+Norfolk
+Oeganda
+Oekraiens
+Oekraiense
+Oekraine
+Oekraïne
+Oezbeeks
+Oezbeekse
+Oezbekistan
+Omaans
+Omaanse
+Oman
+Oost duits
+Oost duitse
+Oostenrijk
+Oostenrijks
+Oostenrijkse
+Pakistaans
+Pakistaanse
+Pakistan
+Palau
+Palaus
+Palause
+Panama
+Panames
+Panamese
+Papoea nieuw guinea
+Papoea nieuw guinese
+Papoea-nieuw-guinea
+Paraguay
+Paraguayaans
+Paraguayaanse
+Peru
+Peruaans
+Peruaanse
+Pitcairneilanden
+Polen
+Pools
+Poolse
+Portugal
+Portuges
+Portugese
+Puerto rico
+Qatares
+Qatarese
+Reunion
+Ricaans
+Roemeens
+Roemeense
+Roemenie
+Roemenië
+Rusland
+Rusland (oud)
+Russisch
+Russische
+Rwanda
+Rwandes
+Rwandese
+Réunion
+Saint kitts en nevis
+Saint luciaans
+Saint luciaanse
+Saint pierre en miquelon
+Saint vincent en de grenadines
+Salomonseilanden
+Salomonseilands
+Salomonseilandse
+Salvadoraans
+Salvadoraanse
+Samoa
+Samoaans
+Samoaanse
+San marines
+San marinese
+San marino
+Sao tome en principe
+Sao tomé en principe
+Saoedi arabie
+Saoedi arabisch
+Saoedi arabische
+Saoedi-arabië
+Senegal
+Senegales
+Senegalese
+Servie
+Servie en montenegro
+Servisch
+Servische
+Servië
+Servië en montenegro
+Seychellen
+Seychels
+Seychelse
+Sierra leone
+Sierra leoons
+Sierra leoonse
+Singapore
+Singapores
+Singaporese
+Sint helena
+Sint lucia
+Sint maarten
+Sint-helena
+Sloveens
+Sloveense
+Slovenie
+Slovenië
+Slowaaks
+Slowaakse
+Slowakije
+Soedan
+Soedanes
+Soedanese
+Somalie unie
+Somalisch
+Somalische
+Somalië-unie
+Sovjet unie
+Sovjet-unie
+Spaans
+Spaanse
+Spanje
+Sri lanka
+Sri lankaans
+Sri lankaanse
+Surinaams
+Surinaamse
+Suriname
+Swaziland
+Swazisch
+Swazische
+Syrie
+Syrisch
+Syrische
+Syrië
+Tadzjieks
+Tadzjiekse
+Tadzjikistan
+Taiwan
+Taiwanes
+Taiwanese
+Tanzania
+Tanzaniaans
+Tanzaniaanse
+Thailand
+Thais
+Thaise
+Timor leste
+Togo
+Togoles
+Togolese
+Tokelau eilanden
+Tokelau-eilanden
+Tonga
+Tongaans
+Tongaanse
+Trinidad en tobago
+Tsjaad
+Tsjadisch
+Tsjadische
+Tsjechie
+Tsjechisch
+Tsjechische
+Tsjechië
+Tsjecho slowaaks
+Tsjecho slowaakse
+Tsjecho slowakije
+Tsjecho-slowakije
+Tunesie
+Tunesisch
+Tunesische
+Tunesië
+Turkije
+Turkmeens
+Turkmeense
+Turkmenistan
+Turks
+Turks en caicoseilanden
+Turks- en caicoseilanden
+Turkse
+Tuvalu
+Tuvaluaans
+Tuvaluaanse
+Ugandes
+Ugandese
+Uruguay
+Uruguayaans
+Uruguayaanse
+Vanuatu
+Vanuatuaans
+Vanuatuaanse
+Vaticaans
+Vaticaanse
+Vaticaanstad
+Venezolaans
+Venezolaanse
+Venezuela
+Verenigd koninkrijk
+Verenigde arabische emiraten
+Verenigde staten van amerika
+Verre eilanden van de verenigde staten
+Vietnam
+Vietnamees
+Vietnames
+Vietnamese
+Wallis en futuna
+West samoaans
+West samoaanse
+Wit rusland
+Wit-rusland
+Zaires
+Zairese
+Zambia
+Zambiaans
+Zambiaanse
+Zeelands
+Zeelandse
+Zimbabwaans
+Zimbabwaanse
+Zimbabwe
+Zuid afrika
+Zuid afrikaans
+Zuid afrikaanse
+Zuid amerika
+Zuid amerikaans
+Zuid amerikaanse
+Zuid jemenitisch
+Zuid jemenitische
+Zuid korea
+Zuid koreaans
+Zuid koreaanse
+Zuid soedan
+Zuid soedanees
+Zuid soedanese
+Zuid-afrika
+Zuid-korea
+Zuid-soedan
+Zweden
+Zweeds
+Zweedse
+Zwitserland
+Zwitsers
+Zwitserse
