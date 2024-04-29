@@ -6,7 +6,6 @@ import json
 import logging
 import os
 import sys
-import warnings
 from pathlib import Path
 from typing import Any, Optional, Union
 
@@ -34,7 +33,6 @@ _BASE_CONFIG_FILE = _BASE_PATH / "base_config.json"
 
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-warnings.simplefilter(action="default")
 
 
 class Deduce(dd.DocDeid):  # pylint: disable=R0903
