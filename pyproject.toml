@@ -26,7 +26,7 @@ author = "Vincent Menger"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-rapidfuzz = "^2.11.1"
+rapidfuzz = "3.9.3"
 docdeid = {git = "https://github.com/vmenger/docdeid.git", branch = "lowercase_processing_new_take"}
 regex = "^2022.9.13"
 frozendict = "^2.3.10"
