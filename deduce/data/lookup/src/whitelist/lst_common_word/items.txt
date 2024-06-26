@@ -8040,3 +8040,9 @@ gebeurde
 vervelende
 aankomst
 ingewikkelde
+dhr
+meneer
+mevr
+mevrouw
+mr
+mw
