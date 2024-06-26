@@ -52,6 +52,16 @@
                     "tag": "persoon"
                 }
             ]
+        },
+        {
+            "id": 5,
+            "text": "dat zijn vrouw wel langs komt",
+            "annotations": []
+        },
+        {
+            "id": 6,
+            "text": "dat is wel zijn vrouw",
+            "annotations": []
         }
     ]
 }

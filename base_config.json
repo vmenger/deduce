@@ -197,22 +197,31 @@
             "lookup": "patient_environment"
           },
           {
-            "or": [
+            "and": [
               {
-                "like_name": true
+                "or": [
+                  {
+                    "like_name": true
+                  },
+                  {
+                    "title_case_lookup": "first_name"
+                  },
+                  {
+                    "title_case_lookup": "interfix_surname"
+                  },
+                  {
+                    "title_case_lookup": "surname"
+                  }
+                ]
               },
               {
-                "title_case_lookup": "first_name"
+                "neg_lookup": "whitelist"
               },
               {
-                "title_case_lookup": "interfix_surname"
-              },
-              {
-                "title_case_lookup": "surname"
+                "neg_lookup": "prefix"
               }
-            ]
+            ]  
           }
-          
         ]
       }
     },
@@ -226,20 +235,30 @@
         "annotate_pattern_indices": [0],
         "pattern": [
           {
-            "or": [
+            "and": [
               {
-                "like_name": true
+                "or": [
+                  {
+                    "like_name": true
+                  },
+                  {
+                    "title_case_lookup": "first_name"
+                  },
+                  {
+                    "title_case_lookup": "interfix_surname"
+                  },
+                  {
+                    "title_case_lookup": "surname"
+                  }
+                ]
               },
               {
-                "title_case_lookup": "first_name"
+                "neg_lookup": "whitelist"
               },
               {
-                "title_case_lookup": "interfix_surname"
-              },
-              {
-                "title_case_lookup": "surname"
+                "neg_lookup": "prefix"
               }
-            ]
+            ]  
           },
           {
             "lookup": "patient_environment"
