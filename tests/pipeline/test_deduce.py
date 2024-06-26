@@ -85,3 +85,11 @@ class TestDeduce:
         )
 
         assert dd.utils.annotate_intext(doc) == expected_intext_annotated
+
+    def test_overlap_resolver(self, model):
+        # This sentence gets 2 annotations: 'Brabant' and 'Noord Brabant'
+        # if folded correctly only Noord Brabant will remain
+        text = "Komt oorspronkelijk uit Noord Brabant"
+        doc = model.deidentify(text)
+        assert len(doc.annotations) == 1
+        assert doc.annotations.pop().text == "Noord Brabant"

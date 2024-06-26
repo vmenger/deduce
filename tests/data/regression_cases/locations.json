@@ -294,6 +294,12 @@
                     "start_char": 0,
                     "end_char": 13,
                     "tag": "locatie"
+                },
+                {
+                    "text": "Brabant",
+                    "start_char": 6,
+                    "end_char": 13,
+                    "tag": "locatie"
                 }
             ]
         },
@@ -304,6 +310,12 @@
                 {
                     "text": "Noord-Brabant",
                     "start_char": 0,
+                    "end_char": 13,
+                    "tag": "locatie"
+                },
+                {
+                    "text": "Brabant",
+                    "start_char": 6,
                     "end_char": 13,
                     "tag": "locatie"
                 }
