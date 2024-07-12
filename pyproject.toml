@@ -26,6 +26,7 @@ author = "Vincent Menger"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+docdeid = "1.0.0"
 rapidfuzz = "^2.11.1"
 regex = "^2022.9.13"
 frozendict = "^2.3.10"
