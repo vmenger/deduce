@@ -6,11 +6,11 @@ import json
 import logging
 import os
 import sys
+import warnings
 from pathlib import Path
 from typing import Any, Optional, Union
 
 import docdeid as dd
-from deprecated import deprecated
 
 from docdeid.ds import LookupSet, LookupTrie
 from frozendict import frozendict
@@ -56,6 +56,8 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
             are overwritten, and other defaults are kept. When `load_base_config` is
             set to `False`, no defaults are loaded and only configuration from `config`
             is applied.
+        config_file: (Deprecated!) Same as `config` but it's expected to be a `str`
+            holding the path to the config JSON file.
         lookup_data_path: The path to look for lookup data, by default included in
             the package. If you want to make changes to source files, it's recommended
             to copy the source data and pointing deduce to this folder with this
