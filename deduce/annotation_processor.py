@@ -6,9 +6,16 @@ from frozendict import frozendict
 
 
 class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
-    """Merge adjacent tags, according to deduce logic: adjacent annotations with mixed
-    patient/person tags are replaced with a patient annotation, in other cases only
-    annotations with equal tags are considered adjacent."""
+    """
+    Merges adjacent tags, according to Deduce logic:
+
+    - adjacent annotations with mixed patient/person tags are replaced
+      with the "persoon" annotation;
+    - adjacent annotations with patient tags of which one is the surname
+      are replaced with the "patient" annotation; and
+    - adjacent annotations with other patient tags are replaced with
+      the "part_of_patient" annotation.
+    """
 
     def _tags_match(self, left_tag: str, right_tag: str) -> bool:
         """
@@ -23,10 +30,15 @@ class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
             ``True`` if tags match, ``False`` otherwise.
         """
 
-        return (left_tag == right_tag) or {left_tag, right_tag} == {
-            "patient",
-            "persoon",
-        }
+        patient_part = [tag.endswith("_patient") for tag in (left_tag, right_tag)]
+        # FIXME Ideally, we should be first looking for a `*_patient` tag in
+        #  both directions and only failing that, merge with an adjacent
+        #  "persoon" tag.
+        return (
+            left_tag == right_tag
+            or all(patient_part)
+            or (patient_part[0] and right_tag == "persoon")
+        )
 
     def _adjacent_annotations_replacement(
         self,
@@ -37,14 +49,22 @@ class DeduceMergeAdjacentAnnotations(dd.process.MergeAdjacentAnnotations):
         """
         Replace two annotations that have equal tags with a new annotation.
 
-        If one of the two annotations has the patient tag, the new annotation will also
-        be tagged patient. In other cases, the tags are already equal.
+        If one of the two annotations has the "patient" tag (and the other is either
+        "patient" or "persoon"), the other annotation will be used. In other cases, the
+        tags are always equal.
         """
 
-        if left_annotation.tag != right_annotation.tag:
-            replacement_tag = "patient"
-        else:
-            replacement_tag = left_annotation.tag
+        ltag = left_annotation.tag
+        rtag = right_annotation.tag
+        replacement_tag = (
+            ltag
+            if ltag == rtag
+            else "persoon"
+            if rtag == "persoon"
+            else "patient"
+            if any(tag.startswith("achternaam") for tag in (ltag, rtag))
+            else "part_of_patient"
+        )
 
         return dd.Annotation(
             text=text[left_annotation.start_char : right_annotation.end_char],
@@ -59,20 +79,28 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
     Responsible for processing the annotations produced by all name annotators (regular
     and context-based).
 
-    Any overlap with annotations that are  contain "pseudo" in their tag are removed, as
-    are those annotations. Then resolves overlap between remaining annotations, and maps
-    the tags to either "patient" or "persoon", based on whether "patient" is in the tag
-    (e.g. voornaam_patient => patient, achternaam_onbekend => persoon).
+    Any overlap with annotations that contain "pseudo" in their tag is removed, as are
+    those annotations. Then resolves overlap between remaining annotations, and maps the
+    tags to either "patient" or "persoon", based on whether "patient" is in all
+    constituent tags (e.g. voornaam_patient+achternaam_patient => patient,
+    achternaam_onbekend => persoon).
     """
 
     def __init__(self) -> None:
-        def map_tag_to_prio(tag: str) -> int:
-            if "pseudo" in tag:
-                return 0
-            if "patient" in tag:
-                return 1
+        def map_tag_to_prio(tag: str) -> (int, int, int):
+            """
+            Maps from the tag of a mention to its priority. The lower, the higher
+            priority.
 
-            return 2
+            The return value is a tuple of:
+              1. Is this a pseudo tag? If it is, it's a priority.
+              2. How many subtags does the tag have? The more, the higher priority.
+              3. Is this a patient tag? If it is, it's a priority.
+            """
+            is_pseudo = "pseudo" in tag
+            num_subtags = tag.count("+") + 1
+            is_patient = tag.count("patient") == num_subtags
+            return (-int(is_pseudo), -num_subtags, -int(is_patient))
 
         self._overlap_resolver = dd.process.OverlapResolver(
             sort_by=("tag", "length"),
@@ -89,15 +117,30 @@ class PersonAnnotationConverter(dd.process.AnnotationProcessor):
             annotations, text=text
         )
 
-        return dd.AnnotationSet(
+        real_annos = (
+            anno
+            for anno in new_annotations
+            if "pseudo" not in anno.tag and anno.text.strip()
+        )
+        with_patient = (
             dd.Annotation(
-                text=annotation.text,
-                start_char=annotation.start_char,
-                end_char=annotation.end_char,
-                tag="patient" if "patient" in annotation.tag else "persoon",
+                text=anno.text,
+                start_char=anno.start_char,
+                end_char=anno.end_char,
+                tag=PersonAnnotationConverter._resolve_tag(anno.tag),
             )
-            for annotation in new_annotations
-            if ("pseudo" not in annotation.tag and len(annotation.text.strip()) != 0)
+            for anno in real_annos
+        )
+        return dd.AnnotationSet(with_patient)
+
+    @classmethod
+    def _resolve_tag(cls, tag: str) -> str:
+        if "+" not in tag:
+            return tag if "patient" in tag else "persoon"
+        return (
+            "patient"
+            if all("patient" in part for part in tag.split("+"))
+            else "persoon"
         )
 
 
@@ -114,7 +157,7 @@ class RemoveAnnotations(dd.process.AnnotationProcessor):
 
 
 class CleanAnnotationTag(dd.process.AnnotationProcessor):
-    """Cleans annotation tags based on the corresponding mapping."""
+    """Renames tags using a mapping."""
 
     def __init__(self, tag_map: dict[str, str]) -> None:
         self.tag_map = tag_map

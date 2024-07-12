@@ -1,0 +1,51 @@
+{
+  "transforms": {
+    "instelling": {
+      "Huisartsenpraktijk": [
+        "Huisartsenpraktijk",
+        "huisartsenpraktijk",
+        "Huisartspraktijk",
+        "huisartspraktijk"
+      ]
+    },
+    "prefix": {
+      "\\bDe\\b": [
+        "De",
+        "de"
+      ]
+    },
+    "punct": {
+      "\\.": [
+        ".",
+        ""
+      ],
+      "-": [
+        "-",
+        "",
+        " "
+      ],
+      " & ": [
+        " & ",
+        " en "
+      ]
+    },
+    "spell": {
+      "y": [
+        "y",
+        "ij"
+      ],
+      "Y": [
+        "Y",
+        "IJ"
+      ],
+      "ij": [
+        "ij",
+        "y"
+      ],
+      "IJ": [
+        "IJ",
+        "Y"
+      ]
+    }
+  }
+}

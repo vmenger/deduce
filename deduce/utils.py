@@ -3,14 +3,22 @@ import inspect
 import json
 import re
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 
 import docdeid as dd
 from docdeid import Tokenizer
+from docdeid.str import LowercaseTail
 from rapidfuzz.distance import DamerauLevenshtein
 
+_TITLECASER = LowercaseTail()
 
-def str_match(str_1: str, str_2: str, max_edit_distance: Optional[int] = None) -> bool:
+
+def str_match(
+    str_1: str,
+    str_2: str,
+    max_edit_distance: Optional[int] = None,
+    titlecase: bool = True,
+) -> bool:
     """
     Match two strings, potentially in a fuzzy way.
 
@@ -23,13 +31,18 @@ def str_match(str_1: str, str_2: str, max_edit_distance: Optional[int] = None) -
     Returns:
         ``True`` if the strings match, ``False`` otherwise.
     """
+    norm_1, norm_2 = (
+        (_TITLECASER.process(str_1), _TITLECASER.process(str_2))
+        if titlecase
+        else (str_1, str_2)
+    )
     if max_edit_distance is not None:
         return (
-            DamerauLevenshtein.distance(str_1, str_2, score_cutoff=max_edit_distance)
+            DamerauLevenshtein.distance(norm_1, norm_2, score_cutoff=max_edit_distance)
             <= max_edit_distance
         )
 
-    return str_1 == str_2
+    return norm_1 == norm_2
 
 
 def class_for_name(module_name: str, class_name: str) -> type:
@@ -54,8 +67,8 @@ def initialize_class(cls: type, args: dict, extras: dict) -> object:
     items in extras are passed to the class initializer if they are present.
 
     Args:
-        cls: The class to initialze.
-        args: The arguments to pass to the initalizer.
+        cls: The class to initialize.
+        args: The arguments to pass to the initializer.
         extras: A superset of arguments that should be passed to the initializer.
         Will be checked against the class.
 
@@ -123,7 +136,7 @@ def repl_segments(s: str, matches: list[tuple]) -> list[list[str]]:
             (5, 8, ["Mr.", "Meester"]).
 
     Returns:
-        A list of options that together segement the entire string, e.g. [["Prof.",
+        A list of options that together segment the entire string, e.g. [["Prof.",
         "Professor"], [" "], ["Meester", "Mr."], [" Lievenslaan"]].
     """
 
@@ -213,6 +226,23 @@ def apply_transform(items: set[str], transform_config: dict) -> set[str]:
         to_add = []
 
         for item in items:
+            # FIXME Why _add_ the result of `str_variations` rather than
+            #   replace the original item? In most cases, manual effort was
+            #   exerted to include also the original string in
+            #   the replacements, however some transformations do not include
+            #   it (e.g. for "(?<=\\()Ut(?=\\))", the surrounding parens are
+            #   always dropped). I guess that these transformations do not
+            #   include the original version because it's supposed to be
+            #   dropped. Or if the original version ("(Ut)" in this case) was
+            #   supposed to be kept, by not including it explicitly yet
+            #   _adding_ all variations to the set of terms, the net effect is
+            #   that just all _other_ transformations within the string will
+            #   be excluded in the version that keeps the original "(Ut)".
+            #
+            #   We should either avoid combining the result of `str_variations`
+            #   with the original set, `{item}`, or _always_ apply the void
+            #   transformation so as to save effort in writing
+            #   the `transform.json` configs and prevent subtle bugs.
             to_add += str_variations(item, transform)
 
         items.update(to_add)
@@ -281,3 +311,8 @@ def lookup_set_to_trie(
         trie.add_item([token.text for token in tokenizer.tokenize(item)])
 
     return trie
+
+
+def ensure_path(path_or_str: Union[str, Path]) -> Path:
+    """Casts the argument as a `Path` if it's not a `Path` already."""
+    return path_or_str if isinstance(path_or_str, Path) else Path(path_or_str)
