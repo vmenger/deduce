@@ -102,7 +102,7 @@ def load_raw_itemsets(base_path: Path, subdirs: list[str]) -> dict[str, set[str]
         subdirs: The lists to load.
 
     Returns:
-        The raw itemsetes, represented as a dictionary mapping the name of the
+        The raw itemsets, represented as a dictionary mapping the name of the
         lookup list to a set of strings.
     """
 

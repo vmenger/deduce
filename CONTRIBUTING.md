@@ -22,7 +22,7 @@ Before starting, some things to consider:
 ## Running the tests
 
 ```bash
-pytest .
+poetry run pytest .
 ```
 
 ## PR checklist
