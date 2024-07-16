@@ -201,7 +201,7 @@ def cache_lookup_structs(
         pickle.dump(cache, file)
 
 
-def get_lookup_structs(
+def get_lookup_structs(  # pylint: disable=R0913
     lookup_path: Path,
     cache_path: Path,
     tokenizer: Tokenizer,
