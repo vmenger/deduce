@@ -185,13 +185,17 @@ def cache_lookup_structs(
         deduce_version: The current deduce version.
     """
 
-    cache_file = cache_path / _CACHE_SUBDIR / _CACHE_FILE
+    cache_path = cache_path / _CACHE_SUBDIR
+    cache_file = cache_path / _CACHE_FILE
 
     cache = {
         "deduce_version": deduce_version,
         "saved_datetime": str(datetime.now()),
         "lookup_structs": lookup_structs,
     }
+
+    if not cache_path.exists():
+        os.makedirs(cache_path)
 
     with open(cache_file, "wb") as file:
         pickle.dump(cache, file)
