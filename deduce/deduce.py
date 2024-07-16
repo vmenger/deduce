@@ -55,6 +55,9 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
             the package. If you want to make changes to source files, it's recommended
             to copy the source data and pointing deduce to this folder with this
             argument.
+        cache_path: The path to store cache files. This is used to store lookup
+            structures, and is used to speed up loading times. By default, this is
+            the same as the lookup list path.
         build_lookup_structs: Will always reload and rebuild lookup structs rather than
             using the cache when this is set to `True`.
     """
@@ -64,20 +67,22 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
         load_base_config: bool = True,
         config: Optional[Union[str, dict]] = None,
         lookup_data_path: Union[str, Path] = _LOOKUP_LIST_PATH,
+        cache_path: Optional[Union[str, Path]] = _LOOKUP_LIST_PATH,
         build_lookup_structs: bool = False,
     ) -> None:
-
         super().__init__()
 
         self.config = self._initialize_config(
             load_base_config=load_base_config, user_config=config
         )
 
-        self.lookup_data_path = self._initialize_lookup_data_path(lookup_data_path)
+        self.lookup_data_path = self._initialize_path_or_str(lookup_data_path)
+        self.cache_path = self._initialize_path_or_str(cache_path)
         self.tokenizers = {"default": self._initialize_tokenizer(self.lookup_data_path)}
 
         self.lookup_structs = get_lookup_structs(
             lookup_path=self.lookup_data_path,
+            cache_path=self.cache_path,
             tokenizer=self.tokenizers["default"],
             deduce_version=__version__,
             build=build_lookup_structs,
@@ -104,7 +109,6 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
         config: dict[str, Any] = {}
 
         if load_base_config:
-
             with open(_BASE_CONFIG_FILE, "r", encoding="utf-8") as file:
                 base_config = json.load(file)
 
@@ -120,16 +124,14 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
         return frozendict(config)
 
     @staticmethod
-    def _initialize_lookup_data_path(lookup_data_path: Union[str, Path]) -> Path:
+    def _initialize_path_or_str(path: Union[str, Path]) -> Path:
+        if isinstance(path, str):
+            path = Path(path)
 
-        if isinstance(lookup_data_path, str):
-            lookup_data_path = Path(lookup_data_path)
-
-        return lookup_data_path
+        return path
 
     @staticmethod
     def _initialize_tokenizer(lookup_data_path: Path) -> dd.Tokenizer:
-
         raw_itemsets = load_raw_itemsets(
             base_path=lookup_data_path,
             subdirs=["names/lst_interfix", "names/lst_prefix"],
@@ -149,7 +151,6 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
 
     @staticmethod
     def _get_multi_token_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-
         lookup_struct = extras["ds"][args["lookup_values"]]
 
         if isinstance(lookup_struct, dd.ds.LookupSet):
@@ -173,7 +174,6 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
     def _get_annotator_from_class(
         annotator_type: str, args: dict, extras: dict
     ) -> dd.process.Annotator:
-
         elems = annotator_type.split(".")
         module_name = ".".join(elems[:-1])
         class_name = elems[-1]
@@ -186,7 +186,6 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
     def _get_or_create_annotator_group(
         group_name: Optional[str], processors: dd.process.DocProcessorGroup
     ) -> dd.process.DocProcessorGroup:
-
         if group_name is None:
             group = processors  # top level
         elif group_name in processors.get_names(recursive=False):
@@ -209,7 +208,6 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
     def _load_annotators(
         self, config: frozendict, extras: dict
     ) -> dd.process.DocProcessorGroup:
-
         annotator_creators = {
             "docdeid.process.MultiTokenLookupAnnotator": self._get_multi_token_annotator,  # noqa: E501, pylint: disable=C0301
         }
@@ -217,7 +215,6 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
         annotators = dd.process.DocProcessorGroup()
 
         for annotator_name, annotator_info in config.items():
-
             group = self._get_or_create_annotator_group(
                 annotator_info.get("group", None), processors=annotators
             )
@@ -236,14 +233,12 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
 
     @staticmethod
     def _load_name_processors(name_group: dd.process.DocProcessorGroup) -> None:
-
         name_group.add_processor(
             "person_annotation_converter", PersonAnnotationConverter()
         )
 
     @staticmethod
     def _load_location_processors(location_group: dd.process.DocProcessorGroup) -> None:
-
         location_group.add_processor(
             "remove_street_tags", RemoveAnnotations(tags=["straat"])
         )

@@ -67,7 +67,6 @@ def load_raw_itemset(path: Path) -> set[str]:
     sub_list_dirs = list(path.glob("lst_*"))
 
     if items is None:
-
         if len(sub_list_dirs) == 0:
             raise RuntimeError(
                 f"Cannot import lookup list {path}, did not find "
@@ -135,7 +134,6 @@ def validate_lookup_struct_cache(
     src_path = base_path / _SRC_SUBDIR
 
     for file in src_path.glob("**"):
-
         if datetime.fromtimestamp(os.stat(file).st_mtime) > datetime.fromisoformat(
             cache["saved_datetime"]
         ):
@@ -145,21 +143,21 @@ def validate_lookup_struct_cache(
 
 
 def load_lookup_structs_from_cache(
-    base_path: Path, deduce_version: str
+    cache_path: Path, deduce_version: str
 ) -> Optional[dd.ds.DsCollection]:
     """
     Loads lookup struct data from cache. Returns None when no cache is present, or when
     it's invalid.
 
     Args:
-        base_path: The base path where to look for the cache.
+        cache_base_path: The base path where to look for the cache.
         deduce_version: The current deduce version, used to validate.
 
     Returns:
         A DsCollection if present and valid, None otherwise.
     """
 
-    cache_file = base_path / _CACHE_SUBDIR / _CACHE_FILE
+    cache_file = cache_path / _CACHE_SUBDIR / _CACHE_FILE
 
     try:
         with open(cache_file, "rb") as file:
@@ -168,7 +166,7 @@ def load_lookup_structs_from_cache(
         return None
 
     if validate_lookup_struct_cache(
-        cache=cache, base_path=base_path, deduce_version=deduce_version
+        cache=cache, base_path=cache_path, deduce_version=deduce_version
     ):
         return cache["lookup_structs"]
 
@@ -176,18 +174,19 @@ def load_lookup_structs_from_cache(
 
 
 def cache_lookup_structs(
-    lookup_structs: dd.ds.DsCollection, base_path: Path, deduce_version: str
+    lookup_structs: dd.ds.DsCollection, cache_path: Path, deduce_version: str
 ) -> None:
     """
     Saves lookup structs to cache, along with some metadata.
 
     Args:
         lookup_structs: The lookup structures to cache.
-        base_path: The base path for lookup structures.
+        cache_base_path: The base path for lookup structures.
         deduce_version: The current deduce version.
     """
 
-    cache_file = base_path / _CACHE_SUBDIR / _CACHE_FILE
+    cache_path = cache_path / _CACHE_SUBDIR
+    cache_file = cache_path / _CACHE_FILE
 
     cache = {
         "deduce_version": deduce_version,
@@ -195,12 +194,16 @@ def cache_lookup_structs(
         "lookup_structs": lookup_structs,
     }
 
+    if not cache_path.exists():
+        os.makedirs(cache_path)
+
     with open(cache_file, "wb") as file:
         pickle.dump(cache, file)
 
 
-def get_lookup_structs(
+def get_lookup_structs(  # pylint: disable=R0913
     lookup_path: Path,
+    cache_path: Path,
     tokenizer: Tokenizer,
     deduce_version: str,
     build: bool = False,
@@ -210,6 +213,7 @@ def get_lookup_structs(
     Loads all lookup structures, and handles caching.
     Args:
         lookup_path: The base path for lookup sets.
+        case_base_path: The base path for the cache.
         tokenizer: The tokenizer, used to create sequences for LookupTrie
         deduce_version: The current deduce version, used to validate cache.
         build: Whether to do a full build, even when cache is present and valid.
@@ -220,8 +224,9 @@ def get_lookup_structs(
     """
 
     if not build:
-
-        lookup_structs = load_lookup_structs_from_cache(lookup_path, deduce_version)
+        lookup_structs = load_lookup_structs_from_cache(
+            cache_path=cache_path, deduce_version=deduce_version
+        )
 
         if lookup_structs is not None:
             return lookup_structs
@@ -257,7 +262,7 @@ def get_lookup_structs(
     if save_cache:
         cache_lookup_structs(
             lookup_structs=lookup_structs,
-            base_path=lookup_path,
+            cache_path=cache_path,
             deduce_version=deduce_version,
         )
 

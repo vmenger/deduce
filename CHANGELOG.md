@@ -5,9 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## (unreleased)
+## 3.0.3 (2023-07-16)
+
+### Added
+
+- A cache_path option, to define the path for saving/loading the lookup structure cache. You should use this if your install directory is not writable.
 
 ### Removed
+
 - the `config_file` keyword, now replaced by `config` which accepts both filenames and dicts
 - old lookup list names, e.g. `prefixes` now replaced by `prefix`
 - annotator types `custom`, `regexp`, `token_pattern`, `dd_token_pattern` and `annotation_context`, all replaced by setting class directly as `annotator_type` 
