@@ -154,7 +154,8 @@ class ContextAnnotator(Annotator):
             # XXX Are we sure that other annotations than `new` don't matter anymore
             #  to the operation of the `_get_annotations` method?
             annotations = dd.AnnotationSet(
-                (annotations - new) | self._get_annotations(doc, new)
+                (annotations - new) |
+                self._get_annotations(doc, dd.AnnotationSet(annotations | new))
             )
 
         return annotations
