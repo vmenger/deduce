@@ -86,7 +86,7 @@ class TestLookupStruct:
     def test_load_lookup_structs_from_cache(self, _, shared_datadir):
 
         ds_collection = load_lookup_structs_from_cache(
-            base_path=shared_datadir / "lookup", deduce_version="_"
+            cache_path=shared_datadir / "lookup", deduce_version="_"
         )
 
         assert len(ds_collection) == 2
@@ -97,7 +97,7 @@ class TestLookupStruct:
     def test_load_lookup_structs_from_cache_nofile(self, _, shared_datadir):
 
         ds_collection = load_lookup_structs_from_cache(
-            base_path=shared_datadir / "non_existing_dir", deduce_version="_"
+            cache_path=shared_datadir / "non_existing_dir", deduce_version="_"
         )
 
         assert ds_collection is None
@@ -106,7 +106,7 @@ class TestLookupStruct:
     def test_load_lookup_structs_from_cache_invalid(self, _, shared_datadir):
 
         ds_collection = load_lookup_structs_from_cache(
-            base_path=shared_datadir / "lookup", deduce_version="_"
+            cache_path=shared_datadir / "lookup", deduce_version="_"
         )
 
         assert ds_collection is None
@@ -117,7 +117,7 @@ class TestLookupStruct:
 
         cache_lookup_structs(
             lookup_structs=dd.ds.DsCollection(),
-            base_path=shared_datadir / "lookup",
+            cache_path=shared_datadir / "lookup",
             deduce_version="2.5.0",
         )
 
