@@ -58,7 +58,7 @@ class ContextAnnotator(Annotator):
                            SequencePattern(
                                Direction.from_string(pat.get('direction', "right")),
                                set(pat.get('skip', ())),
-                               list(map(as_token_pattern, pat['pattern']))))
+                               [as_token_pattern(it) for it in pat['pattern']]))
             for pat in pattern
         ]
         super().__init__(*args, **kwargs, tag='_')  # XXX Not sure why exactly '_'.
