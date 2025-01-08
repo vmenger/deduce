@@ -6,10 +6,13 @@ import json
 import logging
 import os
 import sys
+import warnings
 from pathlib import Path
 from typing import Any, Optional, Union
 
 import docdeid as dd
+
+from docdeid.ds import LookupSet, LookupTrie
 from frozendict import frozendict
 
 from deduce import utils
@@ -27,6 +30,8 @@ from deduce.tokenizer import DeduceTokenizer
 __version__ = importlib.metadata.version(__package__ or __name__)
 
 
+from deduce.utils import ensure_path
+
 _BASE_PATH = Path(os.path.dirname(__file__)).parent
 _LOOKUP_LIST_PATH = _BASE_PATH / "deduce" / "data" / "lookup"
 _BASE_CONFIG_FILE = _BASE_PATH / "base_config.json"
@@ -37,7 +42,7 @@ logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 class Deduce(dd.DocDeid):  # pylint: disable=R0903
     """
-    Main class for de-identifiation.
+    Main class for de-identification.
 
     Inherits from ``docdeid.DocDeid``, and as such, most information on deidentifying
     text with a Deduce object is available there.
@@ -51,7 +56,9 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
             are overwritten, and other defaults are kept. When `load_base_config` is
             set to `False`, no defaults are loaded and only configuration from `config`
             is applied.
-        looup_data_path: The path to look for lookup data, by default included in
+        config_file: (Deprecated!) Same as `config` but it's expected to be a `str`
+            holding the path to the config JSON file.
+        lookup_data_path: The path to look for lookup data, by default included in
             the package. If you want to make changes to source files, it's recommended
             to copy the source data and pointing deduce to this folder with this
             argument.
@@ -60,25 +67,43 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
             the same as the lookup list path.
         build_lookup_structs: Will always reload and rebuild lookup structs rather than
             using the cache when this is set to `True`.
+        save_lookup_structs: Should the lookup structures be pickled (cached)
+            upon loading? Default: `True`.
     """
 
     def __init__(  # pylint: disable=R0913
         self,
         load_base_config: bool = True,
         config: Optional[Union[str, dict]] = None,
+        config_file: Optional[str] = None,
         lookup_data_path: Union[str, Path] = _LOOKUP_LIST_PATH,
         cache_path: Optional[Union[str, Path]] = _LOOKUP_LIST_PATH,
         build_lookup_structs: bool = False,
+        save_lookup_structs: bool = True,
     ) -> None:
         super().__init__()
 
+        if config_file is not None:
+
+            warnings.warn(
+                "The config_file keyword is deprecated, please use config "
+                "instead, which accepts both filenames and dictionaries.",
+                DeprecationWarning,
+            )
+
+            config = config_file
+
+        logging.info("Going to init config.")
         self.config = self._initialize_config(
             load_base_config=load_base_config, user_config=config
         )
 
-        self.lookup_data_path = self._initialize_path_or_str(lookup_data_path)
-        self.cache_path = self._initialize_path_or_str(cache_path)
+        self.lookup_data_path = ensure_path(lookup_data_path)
+        self.cache_path = ensure_path(cache_path)
+
+        logging.info("Going to init tokenizers.")
         self.tokenizers = {"default": self._initialize_tokenizer(self.lookup_data_path)}
+        logging.debug("Done initing tokenizers.")
 
         self.lookup_structs = get_lookup_structs(
             lookup_path=self.lookup_data_path,
@@ -86,10 +111,13 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
             tokenizer=self.tokenizers["default"],
             deduce_version=__version__,
             build=build_lookup_structs,
+            save_cache=save_lookup_structs,
         )
+        logging.info("Done loading lookup structs.")
 
         extras = {"tokenizer": self.tokenizers["default"], "ds": self.lookup_structs}
 
+        logging.info("Going to load the Deduce processor.")
         self.processors = _DeduceProcessorLoader().load(
             config=self.config, extras=extras
         )
@@ -124,13 +152,6 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
         return frozendict(config)
 
     @staticmethod
-    def _initialize_path_or_str(path: Union[str, Path]) -> Path:
-        if isinstance(path, str):
-            path = Path(path)
-
-        return path
-
-    @staticmethod
     def _initialize_tokenizer(lookup_data_path: Path) -> dd.Tokenizer:
         raw_itemsets = load_raw_itemsets(
             base_path=lookup_data_path,
@@ -151,24 +172,32 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
 
     @staticmethod
     def _get_multi_token_annotator(args: dict, extras: dict) -> dd.process.Annotator:
-        lookup_struct = extras["ds"][args["lookup_values"]]
+        lookup_struct = extras["ds"][args.pop("lookup_values")]
 
-        if isinstance(lookup_struct, dd.ds.LookupSet):
-            args.update(
-                lookup_values=lookup_struct.items(),
+        if isinstance(lookup_struct, LookupTrie):
+            return dd.process.MultiTokenTrieAnnotator(trie=lookup_struct, **args)
+        elif isinstance(lookup_struct, LookupSet):
+            try:
+                tokenizer = args["tokenizer"]
+            except KeyError:
+                # This indicates an error in the code, not in configuration, as
+                # the "tokenizer" key is always added to `extras` where `extras` is
+                # defined -- in `Deduce.__init__`.
+                # pylint: disable=W0707
+                raise ValueError(
+                    "When constructing a MultiTokenLookupAnnotator from a LookupSet, "
+                    "a tokenizer must be given."
+                )
+
+            return dd.process.MultiTokenLookupAnnotator(
+                lookup_values=lookup_struct,
                 matching_pipeline=lookup_struct.matching_pipeline,
-                tokenizer=extras["tokenizer]"],
-            )
-        elif isinstance(lookup_struct, dd.ds.LookupTrie):
-            args.update(trie=lookup_struct)
-            del args["lookup_values"]
+                tokenizer=tokenizer)
         else:
             raise ValueError(
                 f"Don't know how to present lookup structure with type "
                 f"{type(lookup_struct)} to MultiTokenLookupAnnotator"
             )
-
-        return dd.process.MultiTokenLookupAnnotator(**args)
 
     @staticmethod
     def _get_annotator_from_class(
@@ -280,6 +309,21 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
             "merge_adjacent_annotations",
             DeduceMergeAdjacentAnnotations(
                 slack_regexp=config["adjacent_annotations_slack"], check_overlap=False
+            ),
+        )
+
+        post_group.add_processor(
+            "patient_cleaner",
+            CleanAnnotationTag(
+                tag_map={
+                    "voornaam_patient": "patient",
+                    "initiaal_patient": "patient",
+                    "achternaam_patient": "patient",
+                    "part_of_patient": "persoon",
+                    # TODO We should probably merge this new "person"
+                    #  annotation with neighbouring annotations in yet another
+                    #  postprocessing step.
+                }
             ),
         )
 

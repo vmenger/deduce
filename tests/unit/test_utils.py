@@ -1,10 +1,9 @@
-from pathlib import Path
-
 import docdeid as dd
 import pytest
 
 from deduce import utils
-from deduce.annotator import TokenPatternAnnotator
+from docdeid.process.annotator import SequenceAnnotator
+from deduce.annotator import BsnAnnotator
 
 
 class TestStrMatch:
@@ -30,17 +29,17 @@ class TestStrMatch:
 class TestClassForName:
     def test_class_for_name(self):
         assert (
-            utils.class_for_name(
-                module_name="deduce.annotator", class_name="TokenPatternAnnotator"
+                utils.class_for_name(
+                module_name="deduce.annotator", class_name="BsnAnnotator"
             )
-            == TokenPatternAnnotator
+                == BsnAnnotator
         )
 
 
 class TestInitializeClass:
     def test_initialize_class(self):
 
-        cls = TokenPatternAnnotator
+        cls = SequenceAnnotator
 
         tag = "_"
         pattern = [{"key": "value"}]
@@ -54,7 +53,7 @@ class TestInitializeClass:
 
     def test_initialize_class_with_extras(self):
 
-        cls = TokenPatternAnnotator
+        cls = SequenceAnnotator
 
         tag = "_"
         pattern = [{"key": "value"}]
@@ -229,26 +228,26 @@ class TestStrVariations:
 
 
 class TestOptionalLoad:
-    def test_optional_load_items(self):
+    def test_optional_load_items(self, shared_datadir):
 
-        path = Path("tests/data/lookup/src/lst_test_nested/items.txt")
+        path = shared_datadir / "lookup" / "src" / "lst_test_nested" / "items.txt"
 
         assert utils.optional_load_items(path) == {"a", "b"}
 
-    def test_optional_load_items_nonexisting(self):
+    def test_optional_load_items_nonexisting(self, shared_datadir):
 
-        path = Path("tests/data/non/existing/file.txt")
+        path = shared_datadir / "non" / "existing" / "file.txt"
 
         assert utils.optional_load_items(path) is None
 
-    def test_optional_load_json(self):
+    def test_optional_load_json(self, shared_datadir):
 
-        path = Path("tests/data/small.json")
+        path = shared_datadir / "small.json"
 
         assert utils.optional_load_json(path) == {"test": True}
 
-    def test_optional_load_json_nonexisting(self):
+    def test_optional_load_json_nonexisting(self, shared_datadir):
 
-        path = Path("tests/data/non/existing/file.json")
+        path = shared_datadir / "non" / "existing" / "file.json"
 
         assert utils.optional_load_json(path) is None

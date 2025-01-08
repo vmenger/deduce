@@ -14,16 +14,23 @@ class TestDeduceMergeAdjacent:
 
         assert proc._tags_match("a", "a")
         assert proc._tags_match("huisnummer", "huisnummer")
+
+        # XXX Dubious behaviour:
         assert proc._tags_match("patient", "patient")
+
         assert proc._tags_match("persoon", "persoon")
-        assert proc._tags_match("patient", "persoon")
-        assert proc._tags_match("persoon", "patient")
+        assert proc._tags_match("initiaal_patient", "persoon")
+        assert proc._tags_match("initiaal_patient", "name_patient")
 
         assert not proc._tags_match("a", "b")
         assert not proc._tags_match("patient", "huisnummer")
         assert not proc._tags_match("huisnummer", "patient")
         assert not proc._tags_match("persoon", "huisnummer")
         assert not proc._tags_match("huisnummer", "persoon")
+        assert not proc._tags_match("patient", "persoon")
+        assert not proc._tags_match("persoon", "patient")
+        assert not proc._tags_match("name_patient", "patient")
+        assert not proc._tags_match("persoon", "initiaal_patient")
 
     def test_annotation_replacement_equal_tags(self):
         proc = DeduceMergeAdjacentAnnotations()
@@ -84,8 +91,12 @@ class TestPersonAnnotationConverter:
 
         expected_annotations = dd.AnnotationSet(
             [
-                dd.Annotation(text="Jan", start_char=0, end_char=3, tag="patient"),
-                dd.Annotation(text="Jansen", start_char=4, end_char=10, tag="patient"),
+                dd.Annotation(
+                    text="Jan", start_char=0, end_char=3, tag="voornaam_patient"
+                ),
+                dd.Annotation(
+                    text="Jansen", start_char=4, end_char=10, tag="achternaam_patient"
+                ),
             ]
         )
 
@@ -107,7 +118,11 @@ class TestPersonAnnotationConverter:
         )
 
         expected_annotations = dd.AnnotationSet(
-            [dd.Annotation(text="Jan Jansen", start_char=0, end_char=10, tag="patient")]
+            [
+                dd.Annotation(
+                    text="Jan Jansen", start_char=0, end_char=10, tag="naam_patient"
+                )
+            ]
         )
 
         assert proc.process_annotations(annotations, text) == expected_annotations
@@ -129,7 +144,9 @@ class TestPersonAnnotationConverter:
 
         expected_annotations = dd.AnnotationSet(
             [
-                dd.Annotation(text="Jan", start_char=0, end_char=3, tag="patient"),
+                dd.Annotation(
+                    text="Jan", start_char=0, end_char=3, tag="voornaam_patient"
+                ),
                 dd.Annotation(text="Jansen", start_char=4, end_char=10, tag="persoon"),
             ]
         )
@@ -153,7 +170,9 @@ class TestPersonAnnotationConverter:
 
         expected_annotations = dd.AnnotationSet(
             [
-                dd.Annotation(text="Jan", start_char=0, end_char=3, tag="patient"),
+                dd.Annotation(
+                    text="Jan", start_char=0, end_char=3, tag="voornaam_patient"
+                ),
                 dd.Annotation(text=" Jansen", start_char=3, end_char=10, tag="persoon"),
             ]
         )

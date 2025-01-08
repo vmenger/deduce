@@ -61,6 +61,7 @@ def load_raw_itemset(path: Path) -> set[str]:
         The raw items, as a set of strings.
     """
 
+    logging.info("Loading itemset %s...", path)
     items = optional_load_items(path / "items.txt")
     exceptions = optional_load_items(path / "exceptions.txt")
 
@@ -84,8 +85,10 @@ def load_raw_itemset(path: Path) -> set[str]:
     transform_config = optional_load_json(path / "transform.json")
 
     if transform_config is not None:
+        logging.info("Applying transformation to %s...", path)
         items = apply_transform(items, transform_config)
 
+    logging.info("Done loading %s.", path)
     return items
 
 
@@ -98,7 +101,7 @@ def load_raw_itemsets(base_path: Path, subdirs: list[str]) -> dict[str, set[str]
         subdirs: The lists to load.
 
     Returns:
-        The raw itemsetes, represented as a dictionary mapping the name of the
+        The raw itemsets, represented as a dictionary mapping the name of the
         lookup list to a set of strings.
     """
 
@@ -223,12 +226,14 @@ def get_lookup_structs(  # pylint: disable=R0913
 
     """
 
+    logging.debug("lookup_path = %s", lookup_path)
     if not build:
         lookup_structs = load_lookup_structs_from_cache(
             cache_path=cache_path, deduce_version=deduce_version
         )
 
         if lookup_structs is not None:
+            logging.info("Loaded lookup structs from the cache.")
             return lookup_structs
 
     logging.info(
@@ -249,16 +254,20 @@ def get_lookup_structs(  # pylint: disable=R0913
     )
 
     for name in defaults:
+        logging.info("Adding the %s defaults...", name)
         lookup_set = dd.ds.LookupSet()
         lookup_set.add_items_from_iterable(base_items[name])
         lookup_structs[name] = lookup_set
 
     for name, set_init_function in _LOOKUP_SET_LOADERS.items():
+        logging.info("Initing the %s set...", name)
         lookup_structs[name] = set_init_function(base_items)
 
     for name, trie_init_function in _LOOKUP_TRIE_LOADERS.items():
+        logging.info("Initing the %s trie...", name)
         lookup_structs[name] = trie_init_function(base_items, tokenizer)
 
+    logging.info("Going to cache lookup structs.")
     if save_cache:
         cache_lookup_structs(
             lookup_structs=lookup_structs,

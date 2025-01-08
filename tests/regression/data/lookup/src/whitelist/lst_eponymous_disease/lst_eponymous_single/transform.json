@@ -1,0 +1,22 @@
+{
+  "transforms": {
+    "ziekte_1": {
+      " ziekte$": [
+        " ziekte",
+        "' ziekte",
+        "'s ziekte"
+      ]
+    },
+    "ziekte_2": {
+      "ziekte": [
+        "ziekte",
+        "syndroom",
+        "afwijking",
+        "tumor",
+        "reactie",
+        "complex",
+        "aandoening"
+      ]
+    }
+  }
+}
