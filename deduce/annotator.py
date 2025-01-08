@@ -71,7 +71,7 @@ class ContextAnnotator(Annotator):
     ) -> dd.AnnotationSet:
 
         # TODO Maybe we should index all annotations here, not just the `new` ones.
-        annos_by_token = orig_annos.annos_by_token(doc)
+        annos_by_token = doc.annos_by_token(orig_annos)
 
         return dd.AnnotationSet(
             self._maybe_merge_anno(anno, context_pattern, doc, annos_by_token)
