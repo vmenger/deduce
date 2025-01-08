@@ -175,7 +175,7 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
         lookup_struct = extras["ds"][args.pop("lookup_values")]
 
         if isinstance(lookup_struct, LookupTrie):
-            lookup_trie = lookup_struct
+            return dd.process.MultiTokenTrieAnnotator(trie=lookup_struct, **args)
         elif isinstance(lookup_struct, LookupSet):
             try:
                 tokenizer = args["tokenizer"]
@@ -189,16 +189,15 @@ class _DeduceProcessorLoader:  # pylint: disable=R0903
                     "a tokenizer must be given."
                 )
 
-            lookup_trie = LookupTrie(matching_pipeline=lookup_struct.matching_pipeline)
-            for phrase in filter(None, map(tokenizer.tokenize, lookup_struct)):
-                lookup_trie.add_item([token.text for token in phrase])
+            return dd.process.MultiTokenLookupAnnotator(
+                lookup_values=lookup_struct,
+                matching_pipeline=lookup_struct.matching_pipeline,
+                tokenizer=tokenizer)
         else:
             raise ValueError(
                 f"Don't know how to present lookup structure with type "
                 f"{type(lookup_struct)} to MultiTokenLookupAnnotator"
             )
-
-        return dd.process.MultiTokenLookupAnnotator(trie=lookup_trie, **args)
 
     @staticmethod
     def _get_annotator_from_class(
