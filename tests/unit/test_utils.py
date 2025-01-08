@@ -67,7 +67,7 @@ class TestInitializeClass:
 
         assert annotator.tag == tag
         assert annotator.pattern == pattern
-        assert annotator.dicts is ds
+        assert annotator.ds is ds
 
 
 class TestOverwriteDict:
