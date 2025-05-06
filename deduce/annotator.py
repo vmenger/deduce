@@ -143,7 +143,7 @@ class TokenPatternAnnotator(dd.process.Annotator):
 
         return token
 
-    def _match_sequence(  # pylint: disable=R0913
+    def _match_sequence(  # pylint: disable=R0913, R0917
         self,
         text: str,
         pattern: list[dict],
