@@ -62,7 +62,7 @@ class Deduce(dd.DocDeid):  # pylint: disable=R0903
             using the cache when this is set to `True`.
     """
 
-    def __init__(  # pylint: disable=R0913
+    def __init__(  # pylint: disable=R0913, R0917
         self,
         load_base_config: bool = True,
         config: Optional[Union[str, dict]] = None,
