@@ -66,9 +66,7 @@ def initialize_class(cls: type, args: dict, extras: dict) -> object:
     cls_params = inspect.signature(cls).parameters
 
     for arg_name, arg in extras.items():
-
         if arg_name in cls_params:
-
             args[arg_name] = arg
 
     return cls(**args)
@@ -209,7 +207,6 @@ def apply_transform(items: set[str], transform_config: dict) -> set[str]:
     transforms = transform_config.get("transforms", {})
 
     for _, transform in transforms.items():
-
         to_add = []
 
         for item in items:

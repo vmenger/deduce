@@ -20,11 +20,9 @@ def emojize_all(s: str) -> str:
 
 
 if __name__ == "__main__":
-
     dir = argv[1]
 
     for file in glob.glob(dir + "/*.html"):
-
         with open(file, "r") as f:
             html = f.readlines()
 
