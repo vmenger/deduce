@@ -69,6 +69,7 @@ black = true
 pre-summary-newline = true
 
 [tool.flake8]
+exclude= ['.venv']
 max-line-length = 88
 extend-ignore = ['E203', 'ANN101', 'ANN102', 'ANN002', 'ANN003', 'DC100']
 per-file-ignores = [
