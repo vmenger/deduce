@@ -86,7 +86,6 @@ class DeduceTokenizer(dd.tokenizer.Tokenizer):  # pylint: disable=R0903
         i = 0
 
         while i < len(tokens):
-
             if tokens_text[i] not in self._start_words:
                 tokens_merged.append(tokens[i])
                 i += 1

@@ -41,7 +41,6 @@ def tokenizer():
 
 @pytest.fixture
 def regexp_pseudo_doc(tokenizer):
-
     return dd.Document(
         text="De patient is Na 12 jaar gestopt met medicijnen.",
         tokenizers={"default": tokenizer},
@@ -105,7 +104,6 @@ class TestPositionMatcher:
         )
 
     def test_is_initials(self):
-
         assert _PatternPositionMatcher.match({"is_initials": True}, token=token("A"))
         assert _PatternPositionMatcher.match({"is_initials": True}, token=token("AB"))
         assert _PatternPositionMatcher.match({"is_initials": True}, token=token("ABC"))
@@ -470,7 +468,6 @@ class TestContextAnnotator:
 
 class TestPatientNameAnnotator:
     def test_match_first_name_multiple(self, tokenizer):
-
         metadata = {"patient": Person(first_names=["Jan", "Adriaan"])}
         tokens = linked_tokens(["Jan", "Adriaan"])
         ann = PatientNameAnnotator(tokenizer=tokenizer, tag="_")
@@ -487,7 +484,6 @@ class TestPatientNameAnnotator:
         )
 
     def test_match_first_name_fuzzy(self, tokenizer):
-
         metadata = {"patient": Person(first_names=["Adriaan"])}
         tokens = linked_tokens(["Adriana"])
 
@@ -500,7 +496,6 @@ class TestPatientNameAnnotator:
         )
 
     def test_match_first_name_fuzzy_short(self, tokenizer):
-
         metadata = {"patient": Person(first_names=["Jan"])}
         tokens = linked_tokens(["Dan"])
 
@@ -510,7 +505,6 @@ class TestPatientNameAnnotator:
         assert ann._match_first_names(doc=doc, token=tokens[0]) is None
 
     def test_match_initial_from_name(self, tokenizer):
-
         metadata = {"patient": Person(first_names=["Jan", "Adriaan"])}
         tokens = linked_tokens(["A", "J"])
 
@@ -528,7 +522,6 @@ class TestPatientNameAnnotator:
         )
 
     def test_match_initial_from_name_with_period(self, tokenizer):
-
         metadata = {"patient": Person(first_names=["Jan", "Adriaan"])}
         tokens = linked_tokens(["J", ".", "A", "."])
 
@@ -546,7 +539,6 @@ class TestPatientNameAnnotator:
         )
 
     def test_match_initial_from_name_no_match(self, tokenizer):
-
         metadata = {"patient": Person(first_names=["Jan", "Adriaan"])}
         tokens = linked_tokens(["F", "T"])
 
@@ -557,7 +549,6 @@ class TestPatientNameAnnotator:
         assert ann._match_initial_from_name(doc=doc, token=tokens[1]) is None
 
     def test_match_initials(self, tokenizer):
-
         metadata = {"patient": Person(initials="AFTH")}
         tokens = linked_tokens(["AFTH", "THFA"])
 
@@ -568,7 +559,6 @@ class TestPatientNameAnnotator:
         assert ann._match_initials(doc=doc, token=tokens[1]) is None
 
     def test_match_surname_equal(self, tokenizer, surname_pattern):
-
         metadata = {"surname_pattern": surname_pattern}
         tokens = linked_tokens(["Van der", "Heide", "-", "Ginkel", "is", "de", "naam"])
 
@@ -576,14 +566,12 @@ class TestPatientNameAnnotator:
         doc = dd.Document(text="_", metadata=metadata)
 
         with patch.object(tokenizer, "tokenize", return_value=surname_pattern):
-
             assert ann._match_surname(doc=doc, token=tokens[0]) == (
                 tokens[0],
                 tokens[3],
             )
 
     def test_match_surname_longer_than_tokens(self, tokenizer, surname_pattern):
-
         metadata = {"surname_pattern": surname_pattern}
         tokens = linked_tokens(["Van der", "Heide"])
 
@@ -591,11 +579,9 @@ class TestPatientNameAnnotator:
         doc = dd.Document(text="_", metadata=metadata)
 
         with patch.object(tokenizer, "tokenize", return_value=surname_pattern):
-
             assert ann._match_surname(doc=doc, token=tokens[0]) is None
 
     def test_match_surname_fuzzy(self, tokenizer, surname_pattern):
-
         metadata = {"surname_pattern": surname_pattern}
         tokens = linked_tokens(["Van der", "Heijde", "-", "Ginkle", "is", "de", "naam"])
 
@@ -603,14 +589,12 @@ class TestPatientNameAnnotator:
         doc = dd.Document(text="_", metadata=metadata)
 
         with patch.object(tokenizer, "tokenize", return_value=surname_pattern):
-
             assert ann._match_surname(doc=doc, token=tokens[0]) == (
                 tokens[0],
                 tokens[3],
             )
 
     def test_match_surname_unequal_first(self, tokenizer, surname_pattern):
-
         metadata = {"surname_pattern": surname_pattern}
         tokens = linked_tokens(["v/der", "Heide", "-", "Ginkel", "is", "de", "naam"])
 
@@ -618,11 +602,9 @@ class TestPatientNameAnnotator:
         doc = dd.Document(text="_", metadata=metadata)
 
         with patch.object(tokenizer, "tokenize", return_value=surname_pattern):
-
             assert ann._match_surname(doc=doc, token=tokens[0]) is None
 
     def test_match_surname_unequal_first_fuzzy(self, tokenizer, surname_pattern):
-
         metadata = {"surname_pattern": surname_pattern}
         tokens = linked_tokens(["Van den", "Heide", "-", "Ginkel", "is", "de", "naam"])
 
@@ -630,14 +612,12 @@ class TestPatientNameAnnotator:
         doc = dd.Document(text="_", metadata=metadata)
 
         with patch.object(tokenizer, "tokenize", return_value=surname_pattern):
-
             assert ann._match_surname(doc=doc, token=tokens[0]) == (
                 tokens[0],
                 tokens[3],
             )
 
     def test_annotate_first_name(self, tokenizer):
-
         metadata = {
             "patient": Person(
                 first_names=["Jan", "Johan"], initials="JJ", surname="Jansen"
@@ -665,7 +645,6 @@ class TestPatientNameAnnotator:
         ]
 
     def test_annotate_initials_from_name(self, tokenizer):
-
         metadata = {
             "patient": Person(
                 first_names=["Jan", "Johan"], initials="JJ", surname="Jansen"
@@ -693,7 +672,6 @@ class TestPatientNameAnnotator:
         ]
 
     def test_annotate_initial(self, tokenizer):
-
         metadata = {
             "patient": Person(
                 first_names=["Jan", "Johan"], initials="JJ", surname="Jansen"
@@ -721,7 +699,6 @@ class TestPatientNameAnnotator:
         ]
 
     def test_annotate_surname(self, tokenizer):
-
         metadata = {
             "patient": Person(
                 first_names=["Jan", "Johan"], initials="JJ", surname="Jansen"
@@ -751,7 +728,6 @@ class TestPatientNameAnnotator:
 
 class TestRegexpPseudoAnnotator:
     def test_is_word_char(self):
-
         assert RegexpPseudoAnnotator._is_word_char("a")
         assert RegexpPseudoAnnotator._is_word_char("abc")
         assert not RegexpPseudoAnnotator._is_word_char("123")
@@ -760,7 +736,6 @@ class TestRegexpPseudoAnnotator:
         assert not RegexpPseudoAnnotator._is_word_char(".")
 
     def test_get_previous_word(self):
-
         r = RegexpPseudoAnnotator(regexp_pattern="_", tag="_")
 
         assert r._get_previous_word(0, "12 jaar") == ""
@@ -770,7 +745,6 @@ class TestRegexpPseudoAnnotator:
         assert r._get_previous_word(11, "patient is 12 jaar)") == "is"
 
     def test_get_next(self):
-
         r = RegexpPseudoAnnotator(regexp_pattern="_", tag="_")
 
         assert r._get_next_word(7, "12 jaar") == ""
@@ -779,7 +753,6 @@ class TestRegexpPseudoAnnotator:
         assert r._get_next_word(7, "12 jaar geleden geopereerd") == "geleden"
 
     def test_validate_match(self, regexp_pseudo_doc):
-
         r = RegexpPseudoAnnotator(regexp_pattern="_", tag="_")
         pattern = re.compile(r"\d+ jaar")
 
@@ -788,7 +761,6 @@ class TestRegexpPseudoAnnotator:
         assert r._validate_match(match, regexp_pseudo_doc)
 
     def test_validate_match_pre(self, regexp_pseudo_doc):
-
         r = RegexpPseudoAnnotator(
             regexp_pattern="_", tag="_", pre_pseudo=["sinds", "al", "vanaf"]
         )
@@ -799,7 +771,6 @@ class TestRegexpPseudoAnnotator:
         assert r._validate_match(match, regexp_pseudo_doc)
 
     def test_validate_match_post(self, regexp_pseudo_doc):
-
         r = RegexpPseudoAnnotator(
             regexp_pattern="_", tag="_", post_pseudo=["geleden", "getrouwd", "gestopt"]
         )
@@ -810,7 +781,6 @@ class TestRegexpPseudoAnnotator:
         assert not r._validate_match(match, regexp_pseudo_doc)
 
     def test_validate_match_lower(self, regexp_pseudo_doc):
-
         r = RegexpPseudoAnnotator(
             regexp_pattern="_", tag="_", pre_pseudo=["na"], lowercase=True
         )

@@ -161,7 +161,6 @@ class TestPersonAnnotationConverter:
         assert proc.process_annotations(annotations, text) == expected_annotations
 
     def test_pseudo(self):
-
         proc = PersonAnnotationConverter()
         text = "Henoch Schonlein"
 
@@ -182,7 +181,6 @@ class TestPersonAnnotationConverter:
 
 class TestRemoveAnnotations:
     def test_remove_annotations(self):
-
         ra = RemoveAnnotations(tags=["voornaam_patient", "nonexisting_tag"])
 
         annotations = dd.AnnotationSet(
@@ -209,7 +207,6 @@ class TestRemoveAnnotations:
 
 class TestCleanAnnotationTag:
     def test_remove_annotations(self):
-
         cat = CleanAnnotationTag(
             tag_map={"voornaam_patient": "voornaam", "nonexistent": "test"}
         )
