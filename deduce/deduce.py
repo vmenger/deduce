@@ -4,7 +4,6 @@ import importlib.metadata
 import itertools
 import json
 import logging
-import os
 import sys
 from pathlib import Path
 from typing import Any, Optional, Union
@@ -27,8 +26,8 @@ from deduce.tokenizer import DeduceTokenizer
 __version__ = importlib.metadata.version(__package__ or __name__)
 
 
-_BASE_PATH = Path(os.path.dirname(__file__)).parent
-_LOOKUP_LIST_PATH = _BASE_PATH / "deduce" / "data" / "lookup"
+_BASE_PATH = Path(__file__).parent
+_LOOKUP_LIST_PATH = _BASE_PATH / "data" / "lookup"
 _BASE_CONFIG_FILE = _BASE_PATH / "base_config.json"
 
 
