@@ -107,7 +107,7 @@ print (doc.deidentified_text)
 
 """betreft: [PATIENT], bsn [BSN-1], patnr [ID-1]. De [PATIENT] is [LEEFTIJD-1] jaar oud en woonachtig in 
 [LOCATIE-1]. Hij werd op [DATUM-1] door arts [PERSOON-2] ontslagen van de kliniek van het [INSTELLING-1]. 
-Voor nazorg kan hij worden bereikt via [EMAIL-1] of [TELEFOONNUMMER-1]."""
+Voor nazorg kan hij worden bereikt via [EMAIL-1] danwel [TELEFOONNUMMER-1]."""
 ```
 
 As you can see, adding known names keeps references to `[PATIENT]` in text. It also increases recall, as not all known names are contained in the lookup lists.
