@@ -17,10 +17,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up Python 3.12.6
+    - name: Set up Python 3.14.3
       uses: actions/setup-python@v4
       with:
-        python-version: "3.12.6"
+        python-version: "3.14.3"
 
     - name: Install Poetry
       uses: snok/install-poetry@v1
