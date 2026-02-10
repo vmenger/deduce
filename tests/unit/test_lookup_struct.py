@@ -118,4 +118,4 @@ class TestLookupStruct:
             deduce_version="2.5.0",
         )
 
-        assert mock_pickle_dump.called_once()
+        mock_pickle_dump.assert_called_once()
