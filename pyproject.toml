@@ -28,7 +28,7 @@ author = "Vincent Menger"
 python = "^3.9"
 rapidfuzz = "^3.13.0"
 docdeid = "1.0.1"
-regex = "^2024.11.6"
+regex = ">=2024.11.6"
 frozendict = "^2.4.6"
 
 [tool.poetry.group.dev]
